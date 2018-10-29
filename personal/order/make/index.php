@@ -2,6 +2,8 @@
 	require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 	$APPLICATION->SetTitle("Оформление заказа");
 	global $USER;
+
+
 	$steps = array("Контактные данные" , "Получение", "Оплата", "Подтвеждение заказа");
 	
 	if($_GET["step"] == 2)
@@ -16,6 +18,9 @@
 	}
 	if($_POST["change_step"])
 		$_SESSION["order_step"] = $_POST["change_step"];
+
+	if(!$USER->IsAuthorized())
+		$_SESSION["order_step"] = 1;
 ?>
 	<link rel="stylesheet" type="text/css" href="/personal/order/make/js/style.css"></link>
 	<script src="https://api-maps.yandex.ru/2.1/?lang=ru-RU" type="text/javascript"></script>

@@ -191,6 +191,18 @@ $(document).ready(function()
 			var placemark = new ymaps.Placemark([MAP_ITEMS[index]["X"], MAP_ITEMS[index]["Y"]], {balloonContentHeader: MAP_ITEMS[index]["CONTENT1"] , balloonContentBody: MAP_ITEMS[index]["CONTENT2"] , balloonContentFooter : MAP_ITEMS[index]["CONTENT3"]} , {preset: 'islands#icon',iconColor: '#FF0000'});
 			myMap.geoObjects.add(placemark);
 			placemark.balloon.open();
+			setTimeout(function()
+		    {
+				$(".pp_form").submit(function(e)
+				{
+					$(".pp_form").submit(function(e)
+					{
+						var url = $("input[name='to-cart-action']").val();
+						if(url)
+							$.post(url);
+					});
+				});
+		    },1000);
 		}
 	});
 
@@ -230,6 +242,15 @@ $(document).ready(function()
 				if(title == ititle)
 				{
 					$(this).find(".name").children("a").trigger("click");
+					setTimeout(function()
+					{
+						$(".pp_form").submit(function(e)
+						{
+							var url = $("input[name='to-cart-action']").val();
+							if(url)
+								$.post(url);
+						});
+					},1000);
 				}
 			});
 		}

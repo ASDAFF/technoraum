@@ -1,6 +1,5 @@
 <?
 	require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
-	
 	if($_POST["change_dmethod"])
 		$_SESSION["change_dmethod"] = $_POST["change_dmethod"];
 	if($_POST["dil_address"])

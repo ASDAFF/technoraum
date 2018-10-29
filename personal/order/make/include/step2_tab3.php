@@ -39,19 +39,30 @@
 	$width = 0;
 	$height = 0;
 	$length = 0;
-	
-	foreach($arBasketItems as $item)
+
+	if(!empty($_SESSION["product-weight"]) && !empty($_SESSION["product-size"]))
 	{
-		$ID = $item["PRODUCT_ID"];
-		$ar_res = CCatalogProduct::GetByID($ID);
-		
-		$weight += $ar_res["WEIGHT"] * $item["QUANTITY"];
-		$width 	+= $ar_res["WIDTH"] * $item["QUANTITY"];
-		$height += $ar_res["HEIGHT"] * $item["QUANTITY"];
-		$length += $ar_res["LENGTH"] * $item["QUANTITY"];
+		$weight = $_SESSION["product-weight"];
+		$length = $_SESSION["product-size"]["l"];
+		$width = $_SESSION["product-size"]["w"];
+		$height = $_SESSION["product-size"]["h"];
+		$size = (($length / 10) * ($width / 10) * ($height / 10)) / 1000000;
 	}
-	$weight = $weight / 1000;
-	$size = (($length / 10) * ($width / 10) * ($height / 10)) / 1000000;
+	else
+	{
+		foreach($arBasketItems as $item)
+		{
+			$ID = $item["PRODUCT_ID"];
+			$ar_res = CCatalogProduct::GetByID($ID);
+			
+			$weight += $ar_res["WEIGHT"] * $item["QUANTITY"];
+			$width 	+= $ar_res["WIDTH"] * $item["QUANTITY"];
+			$height += $ar_res["HEIGHT"] * $item["QUANTITY"];
+			$length += $ar_res["LENGTH"] * $item["QUANTITY"];
+		}
+		$weight = $weight / 1000;
+		$size = (($length / 10) * ($width / 10) * ($height / 10)) / 1000000;
+	}
 ?>
 <script src="/personal/order/make/js/jquery-1.7.2.min.js" type="text/javascript"></script>
 <script src="/personal/order/make/js/jquery-ui-1.8.21.custom.min.js" type="text/javascript"></script>

@@ -53,6 +53,17 @@ while ($arItems = $dbBasketItems->Fetch())
 {
     $arBasketItems[] = $arItems;
 }
+
+	global $curr_weight;
+	global $curr_width;
+	global $curr_legnth;
+	global $curr_height;
+
+	$curr_weight = $arResult["CATALOG_WEIGHT"];
+	$curr_width = $arResult["CATALOG_WIDTH"];
+	$curr_length = $arResult["CATALOG_LENGTH"];
+	$curr_height = $arResult["CATALOG_HEIGHT"];
+
 ?> 
 <style>
 	.card_page_specs span.in_store{background: url(/bitrix/templates/TechnoRaum/img/green_check.png) no-repeat 0 4px}
@@ -168,6 +179,7 @@ while ($arItems = $dbBasketItems->Fetch())
 			$url .= "?action=BUY&id=".$arResult["ID"];
 
 			?>
+			<input type="hidden" name="to-cart-action" value="<?=$url?>" />
 			<div class="button_wrap">
 				<?
 					$h = 0;
@@ -181,7 +193,7 @@ while ($arItems = $dbBasketItems->Fetch())
 					}
 					if($h == 0)
 					{
-				?><a class="button add_to_cart_button" href="<?=$url?>">Добавить в корзину</a><?
+						?><a class="button add_to_cart_button" href="<?=$url?>">Добавить в корзину</a><?
 					}
 					else
 					{
@@ -271,23 +283,30 @@ while ($arItems = $dbBasketItems->Fetch())
 				<div>Когда можно забрать</div>
 			</div>
 			<div class="row">
-				<div><a style="text-decoration:none" href="#ordc"><span>Самовывоз из магазина</span></a></div>
+				<div><a style="text-decoration:none" class="card-scroll" data-id="1" href="#ordc"><span>Самовывоз из магазина</span></a></div>
 				<div>Бесплатно</div>
 				<div>|</div>
 				<div><a class="fancy" href="#callback2_popup">Уточнить у менеджера</a></div>
 			</div>
 			<div class="row">
-				<div><a style="text-decoration:none" href="#ordc"><span>Самовывоз из пункта выдачи</span></a></div>
+				<div><a style="text-decoration:none" class="card-scroll" data-id="2" href="#ordc"><span>Самовывоз из пункта выдачи</span></a></div>
 				<div>Бесплатно</div>
 				<div>|</div>
 				<div><a class="fancy" href="#callback2_popup">Уточнить у менеджера</a></div>
 			</div>
-			<div class="row">
-				<div><a style="text-decoration:none" href="#ordc"><span>Доставка до двери</span></a></div>
-				<div></div>
-				<div>|</div>
-				<div><a class="fancy" href="#callback2_popup">Уточнить у менеджера</a></div>
-			</div>
+			<?
+				if(!empty($curr_weight) && !empty($curr_width) && !empty($curr_length) && !empty($curr_height))
+				{
+					?>
+						<div class="row">
+							<div><a style="text-decoration:none" class="card-scroll" data-id="3" href="#ordc"><span>Доставка до двери</span></a></div>
+							<div></div>
+							<div>|</div>
+							<div><a class="fancy" href="#callback2_popup">Уточнить у менеджера</a></div>
+						</div>
+					<?
+				}
+			?>
 		</div>
 
 	</div>
@@ -421,6 +440,7 @@ while ($arItems = $dbBasketItems->Fetch())
 <div style="clear:both"></div>
 <style>
 	.order_container input[type='submit']{display:none}
+	.pp_form input[type='submit']{display:block}
 	#cdek{display:block}
 	#cdek input[type='submit']{display:block}
 	#dil_form .address_form{display:none !important}
@@ -430,7 +450,15 @@ while ($arItems = $dbBasketItems->Fetch())
 	<script src="https://api-maps.yandex.ru/2.1/?lang=ru-RU" type="text/javascript"></script>
 	<script src="/personal/order/make/js/order.js" type="text/javascript"></script>
 <?
-	$tabs = array("Самовывоз из магазина" , "Самовывоз из пункта выдачи", "Доставка до двери");
+
+	if(!empty($curr_weight) && !empty($curr_width) && !empty($curr_length) && !empty($curr_height))
+		$tabs = array("Самовывоз из магазина" , "Самовывоз из пункта выдачи", "Доставка до двери");
+	else
+		$tabs = array("Самовывоз из магазина" , "Самовывоз из пункта выдачи");
+
+	$_SESSION["product-weight"] = str_replace(" " , "" , $curr_weight / 1000);
+	$_SESSION["product-size"] = array("l" => $curr_length , "w" => $curr_width, "h" => $curr_height);
+
 	$_SESSION["city"] = $_SESSION["ALTASIB_GEOBASE_CODE"]["CITY"]["NAME"];
 ?>
 <form class="step_form" id="step2_form">
@@ -439,7 +467,7 @@ while ($arItems = $dbBasketItems->Fetch())
 		for($i=1;$i<=count($tabs);$i++)
 		{
 			?>
-				<div data-id="<?=$i?>" class="tab<?=$i?> tab <? if($i == 1) echo 'active'; ?>"><a tab-id="<?=$i?>"><?=$tabs[$i-1]?></a></div>
+				<div data-id="<?=$i?>" class="tab<?=$i?> tab<? if($i == 1) echo ' active'?>"><a tab-id="<?=$i?>"><?=$tabs[$i-1]?></a></div>
 			<?
 		}
 	?>
