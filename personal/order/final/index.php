@@ -14,7 +14,7 @@ $APPLICATION->SetTitle("Заказы");
 	.the_content_section table{margin-bottom:0}
 	.the_content_section{margin-bottom:0}
 	br{display:none}
-	input[type='submit']{margin-top:15px;text-shadow:none;width: 160px;  height: 58px;line-height: 54px;max-width:100%;background:#feee35;display:block;font-size:16px;color:#111;text-transform:none;text-align:center;text-decoration:none;border: solid 2px #feee35;-moz-border-radius: 0px;-webkit-border-radius: 0px;border-radius: 0px;-moz-transition:all 0.6s;-webkit-transition:all 0.6s;transition:all 0.6s;}
+	input[type='submit']{margin-top:15px;text-shadow:none;line-height: 54px;max-width:100%;background:#feee35;display:block;font-size:16px;color:#111;text-transform:none;text-align:center;text-decoration:none;border: solid 2px #feee35;-moz-border-radius: 0px;-webkit-border-radius: 0px;border-radius: 0px;-moz-transition:all 0.6s;-webkit-transition:all 0.6s;transition:all 0.6s;}
 	input[type='submit']:hover{background:#fffb7e}
 	@media(min-width:1000px){.contacts_page_wrap .sale_order_full_table td{width:100% !important}}
 </style>
