@@ -158,17 +158,22 @@
 			$order_error = 1;
 			break;
 	}
-	
 
-	if($_POST["paym"] == 1)
-	{
-		$_SESSION["PAYMENT"] = 5;
-		$line3 = "Оплата наличными или банковской картой";
-	}
-	else
-	{
-		$_SESSION["PAYMENT"] = 8;
-		$line3 = "Онлайн оплата";
+	switch($_POST["paym"]){
+		case 1:
+			$_SESSION["PAYMENT"] = 5;
+			$line3 = "Оплата наличными или банковской картой";
+			break;
+
+		case 2:
+			$_SESSION["PAYMENT"] = 8;
+			$line3 = "Онлайн оплата";
+			break;
+
+		case 3:
+			$_SESSION["PAYMENT"] = 10;
+			$line3 = "Банковской картой";
+			break;
 	}
 ?>
 <p class="main_title m">Данные заказа</p>

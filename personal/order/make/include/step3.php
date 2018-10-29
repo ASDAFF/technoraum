@@ -29,7 +29,7 @@
 		<div class="radio-btn btn1 <? if($_SESSION["paym"] == 1) echo "check"; ?>" data-id="1">
 			<div></div>
 		</div>
-		<div class="name" style="display:flex;padding-left:15px">
+		<div class="name" style="display:inline-block;padding-left:15px">
 			<span>Оплата наличными или картой при получении</span>
 		</div>
 	</div>
@@ -37,18 +37,30 @@
 		<div class="radio-btn btn1 <? if($_SESSION["paym"] == 2) echo "check"; ?>" data-id="2">
 			<div></div>
 		</div>
-		<div class="name" style="display:flex;padding-left:15px">
+		<div class="name" style="display:inline-block;padding-left:15px">
 			<span>Онлайн оплата</span>
 		</div>
+		<div class="pay_methods">
+			<img src="/personal/order/make/img/pay4.png" />
+			<img src="/personal/order/make/img/pay5.png" />
+			<img src="/personal/order/make/img/pay6.png" />
+		</div>
 	</div>
-	<div class="pay_methods">
-		<img src="/personal/order/make/img/pay1.png" />
-		<img src="/personal/order/make/img/pay2.png" />
-		<img src="/personal/order/make/img/pay3.png" />
-		<img src="/personal/order/make/img/pay4.png" />
-		<img src="/personal/order/make/img/pay5.png" />
-		<img src="/personal/order/make/img/pay6.png" />
+	<div class="row">
+		<div class="radio-btn btn1 <? if($_SESSION["paym"] == 3) echo "check"; ?>" data-id="3">
+			<div></div>
+		</div>
+		<div class="name" style="display:inline-block;padding-left:15px">
+			<span>Банковской картой</span>
+		</div>
+		<div class="pay_methods">
+			<img src="/personal/order/make/img/pay1.png" />
+			<img src="/personal/order/make/img/pay2.png" />
+			<img src="/personal/order/make/img/pay3.png" />
+			<img src="/personal/order/make/img/pay7.png" />
+		</div>
 	</div>
+
 	<input type="submit" value="Перейти к подтверждению заказа" />
 	<input required type="text" name="paym" value="<?=$_SESSION["paym"]?>" style="position:absolute;top:0;left:0;opacity:0;z-index:-1"/>
 	<a href="/personal/order/make/?step=2" class="back-click">Вернутся к выбору способа получения</a>
