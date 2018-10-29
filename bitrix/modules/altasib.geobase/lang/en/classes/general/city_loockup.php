@@ -1,0 +1,2 @@
+<?
+$MESS['ALTASIB_GEOBASE_LUP_DESC'] = 'Determination of the country, the region and the city with the help of the module <a href="http://marketplace.1c-bitrix.ru/solutions/altasib.geobase">altasib.geobase</a>. Configure sources can be in the <a href="/bitrix/admin/settings.php?mid=altasib.geobase&tabControl_active_tab=edit2">options module</a>.';

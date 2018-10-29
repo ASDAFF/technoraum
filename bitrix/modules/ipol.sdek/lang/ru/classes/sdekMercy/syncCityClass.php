@@ -1,0 +1,268 @@
+<?
+$MESS ['IPOLSDEK_RK_1'] = "ÀÄÛÃÅ";
+$MESS ['IPOLSDEK_RV_1'] = "ÀÄÛÃÅß";
+
+$MESS ['IPOLSDEK_RK_2'] = "ÁÀØÊÎÐÒÎÑÒÀÍ";
+$MESS ['IPOLSDEK_RV_2'] = "ÁÀØÊÎÐÒÎÑÒÀÍ";
+
+$MESS ['IPOLSDEK_RK_3'] = "ÁÓÐßÒ";
+$MESS ['IPOLSDEK_RV_3'] = "ÁÓÐßÒÈß";
+
+$MESS ['IPOLSDEK_RK_4'] = "ÀËÒÀÉ";
+$MESS ['IPOLSDEK_RV_4'] = "ÀËÒÀÉ";
+
+$MESS ['IPOLSDEK_RK_5'] = "ÄÀÃÅÑÒÀÍ";
+$MESS ['IPOLSDEK_RV_5'] = "ÄÀÃÅÑÒÀÍ";
+
+$MESS ['IPOLSDEK_RK_6'] = "ÈÍÃÓØÅÒ";
+$MESS ['IPOLSDEK_RV_6'] = "ÈÍÃÓØÅÒÈß";
+
+$MESS ['IPOLSDEK_RK_7'] = "ÊÀÁÀÐÄÈÍ";
+$MESS ['IPOLSDEK_RV_7'] = "ÊÀÁÀÐÄÈÍÎ-ÁÀËÊÀÐÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_8'] = "ÊÀËÌÛÊ";
+$MESS ['IPOLSDEK_RV_8'] = "ÊÀËÌÛÊÈß";
+
+$MESS ['IPOLSDEK_RK_9'] = "ÊÀÐÀ×ÀÅÂ";
+$MESS ['IPOLSDEK_RV_9'] = "ÊÀÐÀ×ÀÅÂÎ-×ÅÐÊÅÑÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_10'] = "ÊÀÐÅË";
+$MESS ['IPOLSDEK_RV_10'] = "ÊÀÐÅËÈß";
+
+$MESS ['IPOLSDEK_RK_11'] = "ÊÎÌÈ";
+$MESS ['IPOLSDEK_RV_11'] = "ÊÎÌÈ";
+
+$MESS ['IPOLSDEK_RK_12'] = "ÌÀÐÈÉ";
+$MESS ['IPOLSDEK_RV_12'] = "ÌÀÐÈÉ ÝË";
+
+$MESS ['IPOLSDEK_RK_13'] = "ÌÎÐÄÎÂ";
+$MESS ['IPOLSDEK_RV_13'] = "ÌÎÐÄÎÂÈß";
+
+$MESS ['IPOLSDEK_RK_14'] = "ßÊÓÒ";
+$MESS ['IPOLSDEK_RV_14'] = "ßÊÓÒÈß";
+
+$MESS ['IPOLSDEK_RK_15'] = "ÎÑÅÒÈß";
+$MESS ['IPOLSDEK_RV_15'] = "ÑÅÂÅÐÍÀß ÎÑÅÒÈß - ÀËÀÍÈß";
+
+$MESS ['IPOLSDEK_RK_16'] = "ÀËÀÍÈß";
+$MESS ['IPOLSDEK_RV_16'] = "ÑÅÂÅÐÍÀß ÎÑÅÒÈß - ÀËÀÍÈß";
+
+$MESS ['IPOLSDEK_RK_17'] = "ÒÀÒÀÐÑÒ";
+$MESS ['IPOLSDEK_RV_17'] = "ÒÀÒÀÐÑÒÀÍ";
+
+$MESS ['IPOLSDEK_RK_18'] = "ÒÛÂÀ";
+$MESS ['IPOLSDEK_RV_18'] = "ÒÛÂÀ";
+
+$MESS ['IPOLSDEK_RK_19'] = "ÓÄÌÓÐÒ";
+$MESS ['IPOLSDEK_RV_19'] = "ÓÄÌÓÐÒÈß";
+
+$MESS ['IPOLSDEK_RK_20'] = "ÕÀÊÀÑ";
+$MESS ['IPOLSDEK_RV_20'] = "ÕÀÊÀÑÈß";
+
+$MESS ['IPOLSDEK_RK_21'] = "×ÓÂÀØ";
+$MESS ['IPOLSDEK_RV_21'] = "×ÓÂÀØÈß";
+
+$MESS ['IPOLSDEK_RK_22'] = "ÊÐÀÑÍÎÄÀÐ";
+$MESS ['IPOLSDEK_RV_22'] = "ÊÐÀÑÍÎÄÀÐÑÊÈÉ";
+
+$MESS ['IPOLSDEK_RK_23'] = "ÊÐÀÑÍÎßÐ";
+$MESS ['IPOLSDEK_RV_23'] = "ÊÐÀÑÍÎßÐÑÊÈÉ";
+
+$MESS ['IPOLSDEK_RK_24'] = "ÏÐÈÌÎÐÑÊ";
+$MESS ['IPOLSDEK_RV_24'] = "ÏÐÈÌÎÐÑÊÈÉ";
+
+$MESS ['IPOLSDEK_RK_25'] = "ÑÒÀÂÐÎÏÎËÜ";
+$MESS ['IPOLSDEK_RV_25'] = "ÑÒÀÂÐÎÏÎËÜÑÊÈÉ";
+
+$MESS ['IPOLSDEK_RK_26'] = "ÕÀÁÀÐÎÂÑÊ";
+$MESS ['IPOLSDEK_RV_26'] = "ÕÀÁÀÐÎÂÑÊÈÉ";
+
+$MESS ['IPOLSDEK_RK_27'] = "ÀÐÕÀÍÃÅË";
+$MESS ['IPOLSDEK_RV_27'] = "ÀÐÕÀÍÃÅËÜÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_28'] = "ÀÑÒÐÀÕÀÍ";
+$MESS ['IPOLSDEK_RV_28'] = "ÀÑÒÐÀÕÀÍÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_29'] = "ÁÅËÃÎÐÎÄ";
+$MESS ['IPOLSDEK_RV_29'] = "ÁÅËÃÎÐÎÄÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_30'] = "ÁÐßÍÑÊ";
+$MESS ['IPOLSDEK_RV_30'] = "ÁÐßÍÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_31'] = "ÂËÀÄÈÌÈÐ";
+$MESS ['IPOLSDEK_RV_31'] = "ÂËÀÄÈÌÈÐÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_32'] = "ÂÎËÃÎÃÐÀÄ";
+$MESS ['IPOLSDEK_RV_32'] = "ÂÎËÃÎÃÐÀÄÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_33'] = "ÂÎËÎÃÎÄÑ";
+$MESS ['IPOLSDEK_RV_33'] = "ÂÎËÎÃÎÄÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_34'] = "ÂÎÐÎÍÅÆ";
+$MESS ['IPOLSDEK_RV_34'] = "ÂÎÐÎÍÅÆÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_35'] = "ÈÂÀÍÎÂ";
+$MESS ['IPOLSDEK_RV_35'] = "ÈÂÀÍÎÂÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_36'] = "ÈÐÊÓÒÑÊ";
+$MESS ['IPOLSDEK_RV_36'] = "ÈÐÊÓÒÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_37'] = "ÊÀËÈÍÈÍÃÐÀÄ";
+$MESS ['IPOLSDEK_RV_37'] = "ÊÀËÈÍÈÍÃÐÀÄÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_38'] = "ÊÀÌ×ÀÒ";
+$MESS ['IPOLSDEK_RV_38'] = "ÊÀÌ×ÀÒÊÀ";
+
+$MESS ['IPOLSDEK_RK_39'] = "ÊÅÌÅÐÎÂ";
+$MESS ['IPOLSDEK_RV_39'] = "ÊÅÌÅÐÎÂÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_40'] = "ÊÈÐÎÂ";
+$MESS ['IPOLSDEK_RV_40'] = "ÊÈÐÎÂÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_41'] = "ÊÎÑÒÐÎÌ";
+$MESS ['IPOLSDEK_RV_41'] = "ÊÎÑÒÐÎÌÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_42'] = "ÊÓÐÃÀÍ";
+$MESS ['IPOLSDEK_RV_42'] = "ÊÓÐÃÀÍÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_43'] = "ÊÓÐÑÊ";
+$MESS ['IPOLSDEK_RV_43'] = "ÊÓÐÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_44'] = "ËÅÍÈÍÃÐÀÄ";
+$MESS ['IPOLSDEK_RV_44'] = "ËÅÍÈÍÃÐÀÄÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_45'] = "ËÈÏÅÖÊ";
+$MESS ['IPOLSDEK_RV_45'] = "ËÈÏÅÖÊÀß";
+
+$MESS ['IPOLSDEK_RK_46'] = "ÌÀÃÀÄÀÍ";
+$MESS ['IPOLSDEK_RV_46'] = "ÌÀÃÀÄÀÍÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_47'] = "ÌÎÑÊ";
+$MESS ['IPOLSDEK_RV_47'] = "ÌÎÑÊÎÂÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_48'] = "ÌÓÐÌÀÍÑÊ";
+$MESS ['IPOLSDEK_RV_48'] = "ÌÓÐÌÀÍÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_49'] = "ÍÈÆÅÃÎÐÎÄ";
+$MESS ['IPOLSDEK_RV_49'] = "ÍÈÆÅÃÎÐÎÄÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_50'] = "ÍÈÆÍÅÃÎÐÎÄ";
+$MESS ['IPOLSDEK_RV_50'] = "ÍÈÆÅÃÎÐÎÄÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_51'] = "ÍÎÂÃÎÐÎÄ";
+$MESS ['IPOLSDEK_RV_51'] = "ÍÎÂÃÎÐÎÄÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_52'] = "ÍÎÂÎÑÈÁÈÐÑÊ";
+$MESS ['IPOLSDEK_RV_52'] = "ÍÎÂÎÑÈÁÈÐÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_53'] = "ÎÌÑÊ";
+$MESS ['IPOLSDEK_RV_53'] = "ÎÌÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_54'] = "ÎÐÅÍÁÓÐÃ";
+$MESS ['IPOLSDEK_RV_54'] = "ÎÐÅÍÁÓÐÃÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_55'] = "ÎÐËÎÂ";
+$MESS ['IPOLSDEK_RV_55'] = "ÎÐËÎÂÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_56'] = "ÎÐÅË";
+$MESS ['IPOLSDEK_RV_56'] = "ÎÐËÎÂÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_57'] = "ÏÅÍÇ";
+$MESS ['IPOLSDEK_RV_57'] = "ÏÅÍÇÅÍÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_58'] = "ÏÅÐÌ";
+$MESS ['IPOLSDEK_RV_58'] = "ÏÅÐÌÑÊÈÉ";
+
+$MESS ['IPOLSDEK_RK_59'] = "ÏÑÊÎÂ";
+$MESS ['IPOLSDEK_RV_59'] = "ÏÑÊÎÂÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_60'] = "ÐÎÑÒÎÂ";
+$MESS ['IPOLSDEK_RV_60'] = "ÐÎÑÒÎÂÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_61'] = "ÐßÇÀÍ";
+$MESS ['IPOLSDEK_RV_61'] = "ÐßÇÀÍÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_62'] = "ÑÀÌÀÐ";
+$MESS ['IPOLSDEK_RV_62'] = "ÑÀÌÀÐÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_63'] = "ÑÀÐÀÒÎÂ";
+$MESS ['IPOLSDEK_RV_63'] = "ÑÀÐÀÒÎÂÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_64'] = "ÑÂÅÐÄËÎÂ";
+$MESS ['IPOLSDEK_RV_64'] = "ÑÂÅÐÄËÎÂÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_65'] = "ÑÌÎËÅÍÑÊ";
+$MESS ['IPOLSDEK_RV_65'] = "ÑÌÎËÅÍÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_66'] = "ÒÎÌÑÊ";
+$MESS ['IPOLSDEK_RV_66'] = "ÒÎÌÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_67'] = "ÒÞÌÅÍ";
+$MESS ['IPOLSDEK_RV_67'] = "ÒÞÌÅÍÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_68'] = "ÓËÜßÍÎÂÑÊ";
+$MESS ['IPOLSDEK_RV_68'] = "ÓËÜßÍÎÂÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_69'] = "×ÅËßÁÈÍÑÊ";
+$MESS ['IPOLSDEK_RV_69'] = "×ÅËßÁÈÍÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_70'] = "ÇÀÁÀÉÊÀË";
+$MESS ['IPOLSDEK_RV_70'] = "ÇÀÁÀÉÊÀËÜÑÊÈÉ";
+
+$MESS ['IPOLSDEK_RK_71'] = "ßÐÎÑËÀÂ";
+$MESS ['IPOLSDEK_RV_71'] = "ßÐÎÑËÀÂÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_72'] = "ÅÂÐÅÉ";
+$MESS ['IPOLSDEK_RV_72'] = "ÅÂÐÅÉÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_73'] = "ÕÀÍÒÛ";
+$MESS ['IPOLSDEK_RV_73'] = "ÕÀÍÒÛ-ÌÀÍÑÈÉÑÊÈÉ";
+
+$MESS ['IPOLSDEK_RK_74'] = "ÞÃÐÀ";
+$MESS ['IPOLSDEK_RV_74'] = "ÕÀÍÒÛ-ÌÀÍÑÈÉÑÊÈÉ";
+
+$MESS ['IPOLSDEK_RK_75'] = "×ÓÊÎÒ";
+$MESS ['IPOLSDEK_RV_75'] = "×ÓÊÎÒÑÊÈÉ";
+
+$MESS ['IPOLSDEK_RK_76'] = "ßÌÀËÎ";
+$MESS ['IPOLSDEK_RV_76'] = "ßÌÀËÎ-ÍÅÍÅÖÊÈÉ";
+
+$MESS ['IPOLSDEK_RK_77'] = "ÍÅÍÅÖÊ";
+$MESS ['IPOLSDEK_RV_77'] = "ÍÅÍÅÖÊÈÉ";
+
+$MESS ['IPOLSDEK_RK_78'] = "ÊÐÛÌ";
+$MESS ['IPOLSDEK_RV_78'] = "ÊÐÛÌ";
+
+$MESS ['IPOLSDEK_RK_79'] = "ÑÀÕÀËÈÍ";
+$MESS ['IPOLSDEK_RV_79'] = "ÑÀÕÀËÈÍÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_80'] = "ÒÀÌÁÎÂ";
+$MESS ['IPOLSDEK_RV_80'] = "ÒÀÌÁÎÂÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_81'] = "ÒÓË";
+$MESS ['IPOLSDEK_RV_81'] = "ÒÓËÜÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_82'] = "ÒÂÅÐ";
+$MESS ['IPOLSDEK_RV_82'] = "ÒÂÅÐÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_83'] = "ÀÌÓÐ";
+$MESS ['IPOLSDEK_RV_83'] = "ÀÌÓÐÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_84'] = "×Å×";
+$MESS ['IPOLSDEK_RV_84'] = "×Å×Íß";
+
+$MESS ['IPOLSDEK_RK_85'] = "ÑÀÕÀ";
+$MESS ['IPOLSDEK_RV_85'] = "ßÊÓÒÈß";
+
+$MESS ['IPOLSDEK_RK_86'] = "ÊÀËÓ";
+$MESS ['IPOLSDEK_RV_86'] = "ÊÀËÓÆÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_87'] = "ÏÅÒÅÐÁÓÐÃ";
+$MESS ['IPOLSDEK_RV_87'] = "ËÅÍÈÍÃÐÀÄÑÊÀß";
+
+$MESS ['IPOLSDEK_RK_88'] = "ÑÅÂÀÑÒÎÏÎËÜ";
+$MESS ['IPOLSDEK_RV_88'] = "ÊÐÛÌ";
+
+$MESS ['IPOLSDEK_CHANGE_YO'] = "¸";
+$MESS ['IPOLSDEK_CHANGE_YE'] = "å";
+?>

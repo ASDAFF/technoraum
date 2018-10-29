@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Тестовый";
+$arDirProperties = Array(
+
+);
+?>

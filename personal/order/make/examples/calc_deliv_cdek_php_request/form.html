@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Расчёт стоимости доставки СДЭК</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link type="text/css" href="jquery-ui-1.8.21.custom.css" rel="stylesheet" />
+		<script src="jquery-1.7.2.min.js" type="text/javascript"></script>
+		<script src="jquery-ui-1.8.21.custom.min.js" type="text/javascript"></script>
+	<style type="text/css">
+	.ui-autocomplete-loading {
+	  background: #FFF right center no-repeat;
+	}
+	#city { width: 25em; }
+	#log { height: 200px; width: 600px; overflow: auto; }
+	</style>
+	<script type="text/javascript">
+	/**
+	 * подтягиваем список городов ajax`ом, данные jsonp в зависмости от введённых символов
+	 */
+	$(function() {
+	  $("#city").autocomplete({
+	    source: function(request,response) {
+	      $.ajax({
+	        url: "http://api.cdek.ru/city/getListByTerm/jsonp.php?callback=?",
+	        dataType: "jsonp",
+	        data: {
+	        	q: function () { return $("#city").val() },
+	        	name_startsWith: function () { return $("#city").val() }
+	        },
+	        success: function(data) {
+	          response($.map(data.geonames, function(item) {
+	            return {
+	              label: item.name,
+	              value: item.name,
+	              id: item.id
+	            }
+	          }));
+	        }
+	      });
+	    },
+	    minLength: 1,
+	    select: function(event,ui) {
+	    	//console.log("Yep!");
+	    	$('#receiverCityId').val(ui.item.id);
+	    }
+	  });
+	  
+	});
+	</script>
+	
+	</head>
+	<body>
+	<h3>Расчёт стоимости доставки СДЭК</h3>
+	Город-отправитель: Новосибирск<br />
+	<label for="city">Город-получатель: </label>
+	<div class="ui-widget" style="display: inline-block;">
+	  <input id="city" />
+	  <br />
+	</div>
+
+		<form action="action_form.php" id="cdek" method="POST" />
+			<input name="senderCityId" value="270" hidden /> <!-- Город-отправитель, Новосибирск -->
+			<input name="receiverCityId" id="receiverCityId" value="" hidden /> <!-- Город-получатель -->
+			
+			<!-- <input name="tariffId" value="137" hidden /> --> <!-- id тарифа, Посылка склад-дверь 137, требутеся авторизация, параметры authLogin и secure -->
+			<!-- <input name="tariffId" value="11" hidden /> --> <!-- id тарифа, Экспресс-лайт склад-дверь 11 -->
+			<input name="tariffList1" value="10" hidden />
+			<input name="tariffList2" value="137" hidden />
+			
+			<input name="modeId" value="3" hidden /> <!-- режим доставки, склад-дверь -->
+			<input name="dateExecute" value="2012-08-20" hidden /> <!-- Дата доставки -->
+			
+			<input name="weight1" value="50" hidden /> <!-- Вес места, кг.  -->
+			<input name="length1" value="10" hidden /> <!-- Длина места, см. -->
+			<input name="width1" value="7" hidden /> <!-- Ширина места, см. -->
+			<input name="height1" value="5" hidden /> <!-- Высота места, см. -->			
+			
+			<input name="weight2" value="0.1" hidden /> <!-- Вес места, кг.--> 
+			<input name="volume2" value="0.1" hidden /> <!-- объём места, длина*ширина*высота. -->
+
+			<input type="submit" value="Посчитать">
+		</form>
+	</body>
+	</html>

@@ -1,0 +1,995 @@
+2018-03-23 09:13:41 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-03-23 09:13:41 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-03-23 09:13:41 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=39.testovo.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=3&TYPENC=D&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.7%2CY%3Bseo%2C17.1.1%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.1%2CN%3Bsubscribe%2C17.0.1%2CN%3Bmobileapp%2C17.5.0%2CN%3Bsocialservices%2C17.5.1%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bblog%2C17.5.5%2CN%3Bfileman%2C17.5.6%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.0.1%2CN%3Bhighloadblock%2C17.0.2%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.0.1%2CN%3Bvote%2C17.5.0%2CN%3Bcurrency%2C17.5.0%2CN%3Bcatalog%2C17.5.6%2CN%3Bsale%2C17.6.2%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C17.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.5.3%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.1%2CN%3Bb24connector%2C17.0.1%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=bitrix.eshop%2Cbitrix.sitecorporate&SUPD_SRS=RU&SUPD_CMP=N
+2018-03-23 09:13:41 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-03-23 09:13:42 -  - TIME GetUpdatesList(request) 0.327 sec
+2018-03-23 09:13:42 -  - exec CUpdateClientPartner::ParseServerData
+2018-03-23 09:13:54 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-03-23 09:13:54 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-03-23 09:13:54 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=39.testovo.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=3&TYPENC=D&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.7%2CY%3Bseo%2C17.1.1%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.1%2CN%3Bsubscribe%2C17.0.1%2CN%3Bmobileapp%2C17.5.0%2CN%3Bsocialservices%2C17.5.1%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bblog%2C17.5.5%2CN%3Bfileman%2C17.5.6%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.0.1%2CN%3Bhighloadblock%2C17.0.2%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.0.1%2CN%3Bvote%2C17.5.0%2CN%3Bcurrency%2C17.5.0%2CN%3Bcatalog%2C17.5.6%2CN%3Bsale%2C17.6.2%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C17.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.5.3%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.1%2CN%3Bb24connector%2C17.0.1%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=bitrix.eshop%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-03-23 09:13:54 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-03-23 09:13:54 -  - TIME GetUpdatesList(request) 0.137 sec
+2018-03-23 09:13:54 -  - exec CUpdateClientPartner::ParseServerData
+2018-04-16 13:49:36 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-04-16 13:49:36 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-04-16 13:49:36 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=4&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.7%2CN%3Bseo%2C17.1.1%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.1%2CN%3Bsubscribe%2C17.0.1%2CN%3Bmobileapp%2C17.5.0%2CN%3Bsocialservices%2C17.5.1%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bblog%2C17.5.5%2CN%3Bfileman%2C17.5.6%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.0.1%2CN%3Bhighloadblock%2C17.0.2%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.0.1%2CN%3Bvote%2C17.5.0%2CN%3Bcurrency%2C17.5.0%2CN%3Bcatalog%2C17.5.6%2CN%3Bsale%2C17.6.2%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C17.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.5.3%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.1%2CN%3Bb24connector%2C17.0.1%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=bitrix.eshop%2Cbitrix.sitecorporate%2Cipol.sdek&SUPD_SRS=RU&SUPD_CMP=N
+2018-04-16 13:49:36 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-04-16 13:49:37 -  - TIME GetUpdatesList(request) 0.249 sec
+2018-04-16 13:49:37 -  - exec CUpdateClientPartner::ParseServerData
+2018-04-16 13:49:46 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-04-16 13:49:46 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-04-16 13:49:46 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=4&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.7%2CN%3Bseo%2C17.1.1%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.1%2CN%3Bsubscribe%2C17.0.1%2CN%3Bmobileapp%2C17.5.0%2CN%3Bsocialservices%2C17.5.1%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bblog%2C17.5.5%2CN%3Bfileman%2C17.5.6%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.0.1%2CN%3Bhighloadblock%2C17.0.2%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.0.1%2CN%3Bvote%2C17.5.0%2CN%3Bcurrency%2C17.5.0%2CN%3Bcatalog%2C17.5.6%2CN%3Bsale%2C17.6.2%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C17.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.5.3%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.1%2CN%3Bb24connector%2C17.0.1%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=ipol.sdek&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-04-16 13:49:46 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-04-16 13:49:47 -  - TIME LoadModulesUpdates(request) 0.236 sec
+2018-04-16 13:49:47 -  - exec CUpdateClientPartner::ParseServerData
+2018-04-16 13:49:47 - S - STEP
+2018-04-16 13:49:47 - LMU01 - LoadModulesUpdates-Step
+2018-04-16 13:49:47 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-04-16 13:49:47 -  - exec CUpdateClientPartner::ParseServerData
+2018-04-16 13:49:47 -  - loadFile
+2018-04-16 13:49:47 - U - RETURN
+2018-04-16 13:49:47 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-04-16 13:49:48 -  - TIME UnGzipArchive 0.096 sec
+2018-04-16 13:49:48 -  - TIME UpdateStepModules 0.112 sec
+2018-04-16 13:49:48 - UPD_SUCCESS - Updated: ipol.sdek
+2018-04-16 13:49:48 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-04-16 13:49:48 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-04-16 13:49:48 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=4&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.7%2CN%3Bseo%2C17.1.1%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.1%2CN%3Bsubscribe%2C17.0.1%2CN%3Bmobileapp%2C17.5.0%2CN%3Bsocialservices%2C17.5.1%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bblog%2C17.5.5%2CN%3Bfileman%2C17.5.6%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.0.1%2CN%3Bhighloadblock%2C17.0.2%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.0.1%2CN%3Bvote%2C17.5.0%2CN%3Bcurrency%2C17.5.0%2CN%3Bipol.sdek%2C3.3.4%2CN%3Bcatalog%2C17.5.6%2CN%3Bsale%2C17.6.2%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C17.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.5.3%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.1%2CN%3Bb24connector%2C17.0.1%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=ipol.sdek&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-04-16 13:49:48 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-04-16 13:49:48 -  - TIME LoadModulesUpdates(request) 0.206 sec
+2018-04-16 13:49:48 -  - exec CUpdateClientPartner::ParseServerData
+2018-04-16 13:49:48 - S - STEP
+2018-04-16 13:49:48 - LMU01 - LoadModulesUpdates-Step
+2018-04-16 13:49:48 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-04-16 13:49:48 -  - exec CUpdateClientPartner::ParseServerData
+2018-04-16 13:49:48 -  - loadFile
+2018-04-16 13:49:48 - U - RETURN
+2018-04-16 13:49:48 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-04-16 13:49:48 -  - TIME UnGzipArchive 0.006 sec
+2018-04-16 13:49:48 - CSURUS1 - Run updater '/bitrix/updates/update_m1523875788/ipol.sdek/updater3.4.0.php'
+2018-04-16 13:49:48 -  - TIME UpdateStepModules 0.053 sec
+2018-04-16 13:49:48 - UPD_SUCCESS - Updated: ipol.sdek (3.4.0)<br><ul><li>Добавлена возможность минимизирования страховки</li> <li>Добавлена возможность выгружать данные по НДС из торгового каталога</li> <li>Добавлена возможность не давать оформлять заказ без выбора ПВЗ</li></ul> <br> Проверьте опции в настройках модуля (Свойства товара, Ставки НДС, Оформление заказа).
+2018-04-16 13:49:49 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-04-16 13:49:49 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-04-16 13:49:49 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=4&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.7%2CN%3Bseo%2C17.1.1%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.1%2CN%3Bsubscribe%2C17.0.1%2CN%3Bmobileapp%2C17.5.0%2CN%3Bsocialservices%2C17.5.1%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bblog%2C17.5.5%2CN%3Bfileman%2C17.5.6%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.0.1%2CN%3Bhighloadblock%2C17.0.2%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.0.1%2CN%3Bvote%2C17.5.0%2CN%3Bcurrency%2C17.5.0%2CN%3Bipol.sdek%2C3.4.0%2CN%3Bcatalog%2C17.5.6%2CN%3Bsale%2C17.6.2%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C17.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.5.3%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.1%2CN%3Bb24connector%2C17.0.1%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=ipol.sdek&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-04-16 13:49:49 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-04-16 13:49:49 -  - TIME LoadModulesUpdates(request) 0.208 sec
+2018-04-16 13:49:49 -  - exec CUpdateClientPartner::ParseServerData
+2018-04-16 13:49:49 - S - STEP
+2018-04-16 13:49:49 - LMU01 - LoadModulesUpdates-Step
+2018-04-16 13:49:49 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-04-16 13:49:49 -  - exec CUpdateClientPartner::ParseServerData
+2018-04-16 13:49:49 -  - loadFile
+2018-04-16 13:49:49 - U - RETURN
+2018-04-16 13:49:49 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-04-16 13:49:49 -  - TIME UnGzipArchive 0.009 sec
+2018-04-16 13:49:49 - CSURUS1 - Run updater '/bitrix/updates/update_m1523875789/ipol.sdek/updater3.4.1.php'
+2018-04-16 13:49:49 -  - TIME UpdateStepModules 0.051 sec
+2018-04-16 13:49:49 - UPD_SUCCESS - Updated: ipol.sdek (3.4.1)<br><ul> <li>Исправлена проблема с загрузкой кнопки ПВЗ</li> <li>Исправлена проблема с сохранением выбранного тарифа</li> <li>Возможность экспорта комментария менеджера или покупателя</li> <li>Исправлена проблема определения города доставки в виджете</li> <li>Модифицировано позиционирование виджета на мобильных устройствах</li> </ul>
+2018-04-16 13:49:49 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-04-16 13:49:49 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-04-16 13:49:49 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=4&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.7%2CN%3Bseo%2C17.1.1%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.1%2CN%3Bsubscribe%2C17.0.1%2CN%3Bmobileapp%2C17.5.0%2CN%3Bsocialservices%2C17.5.1%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bblog%2C17.5.5%2CN%3Bfileman%2C17.5.6%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.0.1%2CN%3Bhighloadblock%2C17.0.2%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.0.1%2CN%3Bvote%2C17.5.0%2CN%3Bcurrency%2C17.5.0%2CN%3Bipol.sdek%2C3.4.1%2CN%3Bcatalog%2C17.5.6%2CN%3Bsale%2C17.6.2%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C17.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.5.3%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.1%2CN%3Bb24connector%2C17.0.1%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=ipol.sdek&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-04-16 13:49:49 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-04-16 13:49:50 -  - TIME LoadModulesUpdates(request) 0.256 sec
+2018-04-16 13:49:50 -  - exec CUpdateClientPartner::ParseServerData
+2018-04-16 13:49:50 - S - STEP
+2018-04-16 13:49:50 - LMU01 - LoadModulesUpdates-Step
+2018-04-16 13:49:50 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-04-16 13:49:50 -  - exec CUpdateClientPartner::ParseServerData
+2018-04-16 13:49:50 -  - loadFile
+2018-04-16 13:49:50 - U - RETURN
+2018-04-16 13:49:50 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-04-16 13:49:50 -  - TIME UnGzipArchive 0.008 sec
+2018-04-16 13:49:50 - CSURUS1 - Run updater '/bitrix/updates/update_m1523875790/ipol.sdek/updater3.5.0.php'
+2018-04-16 13:49:50 -  - TIME UpdateStepModules 0.016 sec
+2018-04-16 13:49:50 - UPD_SUCCESS - Updated: ipol.sdek (3.5.0)<br><ul> <li>Возможность задавать службам доставки город-отправитель, аккаунт для работы, страны, а также добавлять свой идентификатор для работы с событиями модуля.</li> <li>Добавлена возможность изменять приоритет расчета тарифов через события</li> <li>Учет объемного веса в выборке ПВЗ</li> <ul>
+2018-04-16 13:49:50 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-04-16 13:49:50 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-04-16 13:49:50 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=4&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.7%2CN%3Bseo%2C17.1.1%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.1%2CN%3Bsubscribe%2C17.0.1%2CN%3Bmobileapp%2C17.5.0%2CN%3Bsocialservices%2C17.5.1%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bblog%2C17.5.5%2CN%3Bfileman%2C17.5.6%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.0.1%2CN%3Bhighloadblock%2C17.0.2%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.0.1%2CN%3Bvote%2C17.5.0%2CN%3Bcurrency%2C17.5.0%2CN%3Bipol.sdek%2C3.5.0%2CN%3Bcatalog%2C17.5.6%2CN%3Bsale%2C17.6.2%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C17.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.5.3%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.1%2CN%3Bb24connector%2C17.0.1%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=ipol.sdek&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-04-16 13:49:50 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-04-16 13:49:51 -  - TIME LoadModulesUpdates(request) 0.275 sec
+2018-04-16 13:49:51 -  - exec CUpdateClientPartner::ParseServerData
+2018-04-16 13:49:51 - S - STEP
+2018-04-16 13:49:51 - LMU01 - LoadModulesUpdates-Step
+2018-04-16 13:49:51 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-04-16 13:49:51 -  - exec CUpdateClientPartner::ParseServerData
+2018-04-16 13:49:51 -  - loadFile
+2018-04-16 13:49:51 - U - RETURN
+2018-04-16 13:49:51 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-04-16 13:49:51 -  - TIME UnGzipArchive 0.01 sec
+2018-04-16 13:49:51 - CSURUS1 - Run updater '/bitrix/updates/update_m1523875791/ipol.sdek/updater3.5.1.php'
+2018-04-16 13:49:51 -  - TIME UpdateStepModules 0.019 sec
+2018-04-16 13:49:51 - UPD_SUCCESS - Updated: ipol.sdek (3.5.1)<br><ul><li>Исправлена проблема с апострофами в управлении местами</li> <li>Обновлено FAQ</li> <li>Исправлена проблема с печатью заказов</li> <li>Исправлена проблема бесконечных запросов в виджете выбора ПВЗ</li></ul>
+2018-04-16 13:49:51 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-04-16 13:49:51 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-04-16 13:49:51 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=4&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.7%2CN%3Bseo%2C17.1.1%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.1%2CN%3Bsubscribe%2C17.0.1%2CN%3Bmobileapp%2C17.5.0%2CN%3Bsocialservices%2C17.5.1%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bblog%2C17.5.5%2CN%3Bfileman%2C17.5.6%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.0.1%2CN%3Bhighloadblock%2C17.0.2%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.0.1%2CN%3Bvote%2C17.5.0%2CN%3Bcurrency%2C17.5.0%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.5.6%2CN%3Bsale%2C17.6.2%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C17.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.5.3%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.1%2CN%3Bb24connector%2C17.0.1%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=ipol.sdek&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-04-16 13:49:51 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-04-16 13:49:51 -  - TIME LoadModulesUpdates(request) 0.227 sec
+2018-04-16 13:49:51 -  - exec CUpdateClientPartner::ParseServerData
+2018-04-16 13:49:51 - STEP - Finish - NOUPDATES
+2018-04-16 13:49:51 - STEP - Finish - NOUPDATES
+2018-04-16 13:49:54 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-04-16 13:49:54 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-04-16 13:49:54 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=4&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.7%2CN%3Bseo%2C17.1.1%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.1%2CN%3Bsubscribe%2C17.0.1%2CN%3Bmobileapp%2C17.5.0%2CN%3Bsocialservices%2C17.5.1%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bblog%2C17.5.5%2CN%3Bfileman%2C17.5.6%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.0.1%2CN%3Bhighloadblock%2C17.0.2%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.0.1%2CN%3Bvote%2C17.5.0%2CN%3Bcurrency%2C17.5.0%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.5.6%2CN%3Bsale%2C17.6.2%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C17.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.5.3%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.1%2CN%3Bb24connector%2C17.0.1%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=bitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-04-16 13:49:54 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-04-16 13:49:54 -  - TIME GetUpdatesList(request) 0.225 sec
+2018-04-16 13:49:54 -  - exec CUpdateClientPartner::ParseServerData
+2018-05-04 11:42:16 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-05-04 11:42:16 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-05-04 11:42:16 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=7&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.7%2CN%3Bseo%2C17.1.1%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.1%2CN%3Bsubscribe%2C17.0.1%2CN%3Bmobileapp%2C17.5.0%2CN%3Bsocialservices%2C17.5.1%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bblog%2C17.5.5%2CN%3Bfileman%2C17.5.6%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.0.1%2CN%3Bhighloadblock%2C17.0.2%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.0.1%2CN%3Bvote%2C17.5.0%2CN%3Bcurrency%2C17.5.0%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.5.6%2CN%3Bsale%2C17.6.2%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C17.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.5.3%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.1%2CN%3Bb24connector%2C17.0.1%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=bitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-05-04 11:42:16 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-05-04 11:42:16 -  - TIME GetUpdatesList(request) 0.228 sec
+2018-05-04 11:42:16 -  - exec CUpdateClientPartner::ParseServerData
+2018-06-07 00:06:05 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-06-07 00:06:05 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-06-07 00:06:05 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=12&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=bitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-06-07 00:06:05 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-06-07 00:06:05 -  - TIME GetUpdatesList(request) 0.218 sec
+2018-06-07 00:06:05 -  - exec CUpdateClientPartner::ParseServerData
+2018-06-07 00:35:34 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-06-07 00:35:34 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-06-07 00:35:34 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=12&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=bitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-06-07 00:35:34 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-06-07 00:35:34 -  - TIME GetUpdatesList(request) 0.209 sec
+2018-06-07 00:35:34 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:00 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-08-03 11:05:00 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:05:00 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=bitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:05:00 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:05:00 -  - TIME GetUpdatesList(request) 0.292 sec
+2018-08-03 11:05:00 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:04 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-08-03 11:05:04 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:05:04 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=bitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:05:04 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:05:05 -  - TIME GetUpdatesList(request) 0.609 sec
+2018-08-03 11:05:05 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:15 -  - exec CUpdateClientPartner::ActivateCoupon
+2018-08-03 11:05:15 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:05:15 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&SUPD_SRS=RU&SUPD_CMP=N&coupon=MPX-2OKK0F4EPO-XXFFWIOS9E&query_type=coupon
+2018-08-03 11:05:15 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:05:15 -  - TIME ActivateCoupon(request) 0.196 sec
+2018-08-03 11:05:15 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:15 - UPD_SUCCESS - Coupon activated
+2018-08-03 11:05:17 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-08-03 11:05:17 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:05:17 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=bitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:05:17 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:05:17 -  - TIME GetUpdatesList(request) 0.29 sec
+2018-08-03 11:05:17 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:27 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:05:27 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:05:27 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:05:27 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:05:27 -  - TIME LoadModulesUpdates(request) 0.481 sec
+2018-08-03 11:05:27 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:27 - S - STEP
+2018-08-03 11:05:27 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:05:28 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:05:28 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:28 -  - loadFile
+2018-08-03 11:05:29 - U - RETURN
+2018-08-03 11:05:29 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:05:29 -  - TIME UnGzipArchive 0.04 sec
+2018-08-03 11:05:29 -  - TIME UpdateStepModules 0.112 sec
+2018-08-03 11:05:29 - UPD_SUCCESS - Updated: altasib.geobase
+2018-08-03 11:05:29 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:05:29 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:05:29 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.0.0%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:05:29 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:05:29 -  - TIME LoadModulesUpdates(request) 0.457 sec
+2018-08-03 11:05:29 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:29 - S - STEP
+2018-08-03 11:05:29 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:05:30 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:05:30 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:30 -  - loadFile
+2018-08-03 11:05:30 - U - RETURN
+2018-08-03 11:05:30 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:05:30 -  - TIME UnGzipArchive 0.028 sec
+2018-08-03 11:05:30 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283530/altasib.geobase/updater1.0.1.php'
+2018-08-03 11:05:31 -  - TIME UpdateStepModules 0.119 sec
+2018-08-03 11:05:31 - UPD_SUCCESS - Updated: altasib.geobase (1.0.1)<br>- Добавлена поддержка определения местоположения по городам и странам мира. - Исправлены шаблоны компонентов для работы с международной базой. - Добавлен поиск по городам и странам мира. - Добавлен интерфейс обновления международной базы с сайта maxmind.com - Исправлена работа избранных городов. - Добавлена поддержка английской локализации. - Исправлены мелкие ошибки.
+2018-08-03 11:05:31 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:05:31 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:05:31 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.0.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:05:31 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:05:31 -  - TIME LoadModulesUpdates(request) 0.359 sec
+2018-08-03 11:05:31 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:31 - S - STEP
+2018-08-03 11:05:31 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:05:31 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:05:31 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:31 -  - loadFile
+2018-08-03 11:05:31 - U - RETURN
+2018-08-03 11:05:31 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:05:31 -  - TIME UnGzipArchive 0.018 sec
+2018-08-03 11:05:31 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283531/altasib.geobase/updater1.0.2.php'
+2018-08-03 11:05:32 -  - TIME UpdateStepModules 0.084 sec
+2018-08-03 11:05:32 - UPD_SUCCESS - Updated: altasib.geobase (1.0.2)<br>- Добавлено кеширование избранных городов. - Добавлены проверки на существование таблиц. - Удалены метатеги из мобильных шаблонов, фиксировавшие масштабирование. - Незначительные улучшения и изменения.
+2018-08-03 11:05:32 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:05:32 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:05:32 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.0.2%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:05:32 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:05:32 -  - TIME LoadModulesUpdates(request) 0.304 sec
+2018-08-03 11:05:32 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:32 - S - STEP
+2018-08-03 11:05:32 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:05:32 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:05:32 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:32 -  - loadFile
+2018-08-03 11:05:32 - U - RETURN
+2018-08-03 11:05:32 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:05:32 -  - TIME UnGzipArchive 0.026 sec
+2018-08-03 11:05:32 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283532/altasib.geobase/updater1.0.3.php'
+2018-08-03 11:05:33 -  - TIME UpdateStepModules 0.142 sec
+2018-08-03 11:05:33 - UPD_SUCCESS - Updated: altasib.geobase (1.0.3)<br>- Добавлена поддержка обработчиков событий (php и js) по изменению (выбору) города. - Изменен файл опций модуля, дополнена информация для разработчика. - Используется один шаблон в компонентах для мобильной и настольной версии. - Исправлен компонент \"Получение местоположения\". - Незначительные улучшения и исправления.
+2018-08-03 11:05:33 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:05:33 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:05:33 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.0.3%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:05:33 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:05:33 -  - TIME LoadModulesUpdates(request) 0.265 sec
+2018-08-03 11:05:33 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:33 - S - STEP
+2018-08-03 11:05:33 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:05:33 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:05:33 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:33 -  - loadFile
+2018-08-03 11:05:33 - U - RETURN
+2018-08-03 11:05:33 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:05:33 -  - TIME UnGzipArchive 0.006 sec
+2018-08-03 11:05:33 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283533/altasib.geobase/updater1.1.0.php'
+2018-08-03 11:05:33 -  - TIME UpdateStepModules 0.045 sec
+2018-08-03 11:05:33 - UPD_SUCCESS - Updated: altasib.geobase (1.1.0)<br>- Поддержка технологии \"Композитный сайт\". - Небольшие исправления и улучшения.
+2018-08-03 11:05:34 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:05:34 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:05:34 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.1.0%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:05:34 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:05:34 -  - TIME LoadModulesUpdates(request) 0.419 sec
+2018-08-03 11:05:34 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:34 - S - STEP
+2018-08-03 11:05:34 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:05:34 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:05:34 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:05:34 -  - loadFile
+2018-08-03 11:05:35 - U - RETURN
+2018-08-03 11:05:35 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:05:35 -  - TIME UnGzipArchive 0.019 sec
+2018-08-03 11:05:35 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283535/altasib.geobase/updater1.1.1.php'
+2018-08-03 11:05:35 -  - TIME UpdateStepModules 0.076 sec
+2018-08-03 11:05:35 - UPD_SUCCESS - Updated: altasib.geobase (1.1.1)<br>- Обновление базы данных КЛАДР. - Небольшие доработки кода.
+2018-08-03 11:06:48 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-08-03 11:06:48 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:06:48 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.1.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase%2Cbitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:06:48 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:06:48 -  - TIME GetUpdatesList(request) 0.219 sec
+2018-08-03 11:06:48 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:06:55 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:06:55 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:06:55 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.1.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:06:55 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:06:55 -  - TIME LoadModulesUpdates(request) 0.334 sec
+2018-08-03 11:06:55 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:06:55 - S - STEP
+2018-08-03 11:06:55 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:06:55 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:06:55 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:06:55 -  - loadFile
+2018-08-03 11:06:56 - U - RETURN
+2018-08-03 11:06:56 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:06:56 -  - TIME UnGzipArchive 0.015 sec
+2018-08-03 11:06:56 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283616/altasib.geobase/updater1.1.2.php'
+2018-08-03 11:06:56 -  - TIME UpdateStepModules 0.099 sec
+2018-08-03 11:06:56 - UPD_SUCCESS - Updated: altasib.geobase (1.1.2)<br>- Исправление ошибок переопределения функций. - Небольшие доработки и улучшения кода.
+2018-08-03 11:06:56 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:06:56 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:06:57 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.1.2%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:06:57 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:06:57 -  - TIME LoadModulesUpdates(request) 0.243 sec
+2018-08-03 11:06:57 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:06:57 - S - STEP
+2018-08-03 11:06:57 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:06:57 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:06:57 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:06:57 -  - loadFile
+2018-08-03 11:06:57 - U - RETURN
+2018-08-03 11:06:57 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:06:57 -  - TIME UnGzipArchive 0.003 sec
+2018-08-03 11:06:57 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283617/altasib.geobase/updater1.1.3.php'
+2018-08-03 11:06:57 -  - TIME UpdateStepModules 0.033 sec
+2018-08-03 11:06:57 - UPD_SUCCESS - Updated: altasib.geobase (1.1.3)<br>- Доработка javascript кода, работающего на странице оформления заказа, улучшение поддержки местоположений. - Доработка файла опций.
+2018-08-03 11:06:57 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:06:57 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:06:57 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.1.3%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:06:57 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:06:57 -  - TIME LoadModulesUpdates(request) 0.233 sec
+2018-08-03 11:06:57 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:06:57 - S - STEP
+2018-08-03 11:06:57 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:06:58 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:06:58 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:06:58 -  - loadFile
+2018-08-03 11:06:58 - U - RETURN
+2018-08-03 11:06:58 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:06:58 -  - TIME UnGzipArchive 0.002 sec
+2018-08-03 11:06:58 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283618/altasib.geobase/updater1.1.4.php'
+2018-08-03 11:06:58 -  - TIME UpdateStepModules 0.079 sec
+2018-08-03 11:06:58 - UPD_SUCCESS - Updated: altasib.geobase (1.1.4)<br>- Замена устаревших функций в javascript коде, работающем на странице оформления заказа.
+2018-08-03 11:06:58 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:06:58 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:06:58 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.1.4%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:06:58 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:06:58 -  - TIME LoadModulesUpdates(request) 0.273 sec
+2018-08-03 11:06:58 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:06:58 - S - STEP
+2018-08-03 11:06:58 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:06:58 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:06:58 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:06:58 -  - loadFile
+2018-08-03 11:06:59 - U - RETURN
+2018-08-03 11:06:59 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:06:59 -  - TIME UnGzipArchive 0.001 sec
+2018-08-03 11:06:59 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283619/altasib.geobase/updater1.1.5.php'
+2018-08-03 11:06:59 -  - TIME UpdateStepModules 0.019 sec
+2018-08-03 11:06:59 - UPD_SUCCESS - Updated: altasib.geobase (1.1.5)<br>- Коррекция javascript кода модуля.
+2018-08-03 11:06:59 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:06:59 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:06:59 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.1.5%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:06:59 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:06:59 -  - TIME LoadModulesUpdates(request) 0.284 sec
+2018-08-03 11:06:59 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:06:59 - S - STEP
+2018-08-03 11:06:59 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:06:59 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:06:59 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:06:59 -  - loadFile
+2018-08-03 11:06:59 - U - RETURN
+2018-08-03 11:06:59 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:06:59 -  - TIME UnGzipArchive 0.001 sec
+2018-08-03 11:06:59 -  - TIME UpdateStepModules 0.018 sec
+2018-08-03 11:06:59 - UPD_SUCCESS - Updated: altasib.geobase (1.1.6)<br>- Добавление проверки на объявление класса распаковщика zip. - Небольшие исправления.
+2018-08-03 11:07:00 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:00 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:00 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.1.6%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:00 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:00 -  - TIME LoadModulesUpdates(request) 0.271 sec
+2018-08-03 11:07:00 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:00 - S - STEP
+2018-08-03 11:07:00 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:00 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:00 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:00 -  - loadFile
+2018-08-03 11:07:00 - U - RETURN
+2018-08-03 11:07:00 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:00 -  - TIME UnGzipArchive 0.002 sec
+2018-08-03 11:07:00 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283620/altasib.geobase/updater1.1.7.php'
+2018-08-03 11:07:00 -  - TIME UpdateStepModules 0.005 sec
+2018-08-03 11:07:00 - UPD_SUCCESS - Updated: altasib.geobase (1.1.7)<br>- Исправление шаблонов компонента \"Выбор города\".
+2018-08-03 11:07:00 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:00 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:00 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.1.7%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:00 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:01 -  - TIME LoadModulesUpdates(request) 0.49 sec
+2018-08-03 11:07:01 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:01 - S - STEP
+2018-08-03 11:07:01 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:01 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:01 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:01 -  - loadFile
+2018-08-03 11:07:01 - U - RETURN
+2018-08-03 11:07:01 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:01 -  - TIME UnGzipArchive 0.004 sec
+2018-08-03 11:07:01 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283621/altasib.geobase/updater1.1.8.php'
+2018-08-03 11:07:01 -  - TIME UpdateStepModules 0.008 sec
+2018-08-03 11:07:01 - UPD_SUCCESS - Updated: altasib.geobase (1.1.8)<br>- Добавление опции модуля для включения автоматически определенного города в список избранных городов. - Добавление опции модуля для включения/отключения показа городов мира в строке поиска.
+2018-08-03 11:07:01 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:01 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:01 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.1.8%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:01 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:02 -  - TIME LoadModulesUpdates(request) 0.454 sec
+2018-08-03 11:07:02 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:02 - S - STEP
+2018-08-03 11:07:02 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:02 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:02 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:02 -  - loadFile
+2018-08-03 11:07:02 - U - RETURN
+2018-08-03 11:07:02 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:02 -  - TIME UnGzipArchive 0.01 sec
+2018-08-03 11:07:02 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283622/altasib.geobase/updater1.2.1.php'
+2018-08-03 11:07:02 -  - TIME UpdateStepModules 0.031 sec
+2018-08-03 11:07:02 - UPD_SUCCESS - Updated: altasib.geobase (1.2.1)<br>- Добавлен функционал пользовательских полей для избранных городов с предустановленными полями: \"Телефон\", \"Ссылка\", \"Доп. информация\". - Добавлен компонент вывода дополнительных полей города. - Добавлен функционал перехода по ссылке, указанной в пользовательском поле города, при выборе этого города (включается в опциях). - Коррекция js кода модуля для страницы оформления заказа. - Незначительные изменения и улучшения.
+2018-08-03 11:07:02 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:02 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:02 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.2.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:02 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:03 -  - TIME LoadModulesUpdates(request) 0.43 sec
+2018-08-03 11:07:03 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:03 - S - STEP
+2018-08-03 11:07:03 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:03 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:03 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:03 -  - loadFile
+2018-08-03 11:07:03 - U - RETURN
+2018-08-03 11:07:03 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:03 -  - TIME UnGzipArchive 0.009 sec
+2018-08-03 11:07:03 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283623/altasib.geobase/updater1.3.0.php'
+2018-08-03 11:07:03 -  - TIME UpdateStepModules 0.026 sec
+2018-08-03 11:07:03 - UPD_SUCCESS - Updated: altasib.geobase (1.3.0)<br>- Добавлен выбор свойств местоположений для типов плательщиков магазина. - Исправлен js скрипт, работающий на странице оформления заказа, добавлена поддержка старых списочных шаблонов выбора местоположения. - Исправлен функционал модуля по сохранению пользователем города, определенного автоматически. - Сжаты картинки модуля. - Исправлен шаблон компонента altasib:geobase.select.city. - Незначительные изменения и улучшения.
+2018-08-03 11:07:03 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:03 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:03 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.3.0%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:03 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:04 -  - TIME LoadModulesUpdates(request) 0.327 sec
+2018-08-03 11:07:04 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:04 - S - STEP
+2018-08-03 11:07:04 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:04 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:04 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:04 -  - loadFile
+2018-08-03 11:07:04 - U - RETURN
+2018-08-03 11:07:04 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:04 -  - TIME UnGzipArchive 0.002 sec
+2018-08-03 11:07:04 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283624/altasib.geobase/updater1.3.1.php'
+2018-08-03 11:07:04 -  - TIME UpdateStepModules 0.052 sec
+2018-08-03 11:07:04 - UPD_SUCCESS - Updated: altasib.geobase (1.3.1)<br>- Добавлена задержка выполнения скрипта на странице оформления заказа. - Исправлено сохранение уровней доступа к модулю. - Добавлено принудительное подключение скриптов главного модуля Битрикс.
+2018-08-03 11:07:04 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:04 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:04 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.3.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:04 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:05 -  - TIME LoadModulesUpdates(request) 0.376 sec
+2018-08-03 11:07:05 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:05 - S - STEP
+2018-08-03 11:07:05 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:05 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:05 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:05 -  - loadFile
+2018-08-03 11:07:05 - U - RETURN
+2018-08-03 11:07:05 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:05 -  - TIME UnGzipArchive 0.012 sec
+2018-08-03 11:07:05 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283625/altasib.geobase/updater1.4.0.php'
+2018-08-03 11:07:05 -  - TIME UpdateStepModules 0.076 sec
+2018-08-03 11:07:05 - UPD_SUCCESS - Updated: altasib.geobase (1.4.0)<br>- Добавлена поддержка регионов России в качестве местоположений. - Добавлена опция выбора режима вывода местоположений. - Оптимизация шаблонов компонентов выбора и подтверждения местоположения. - Добавлена поддержка регионов в качестве избранных местоположений. - Небольшие исправления и улучшения.
+2018-08-03 11:07:05 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:05 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:05 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.4.0%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:05 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:06 -  - TIME LoadModulesUpdates(request) 0.295 sec
+2018-08-03 11:07:06 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:06 - S - STEP
+2018-08-03 11:07:06 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:06 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:06 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:06 -  - loadFile
+2018-08-03 11:07:06 - U - RETURN
+2018-08-03 11:07:06 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:06 -  - TIME UnGzipArchive 0.006 sec
+2018-08-03 11:07:06 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283626/altasib.geobase/updater1.5.0.php'
+2018-08-03 11:07:06 -  - TIME UpdateStepModules 0.064 sec
+2018-08-03 11:07:06 - UPD_SUCCESS - Updated: altasib.geobase (1.5.0)<br>- Добавлено событие OnAfterAutoDetectCity по автоматическому определению города после записи в сессию (куки). - Добавлена опция \"Определять автоматически город на хитах\" - запись в сессию и куки даже тогда, когда не используются компоненты модуля. - Добавлена опция \"Осуществлять перенаправление по ссылке, указанной в пользовательском поле города, при заходе на сайт посетителем, подтвердившим этот город\" - выполняется редирект на указанный в избранном городе адрес, переход запоминается на сутки. - Добавлена поддержка работы без объекта BX в файлах Javascript модуля. - Небольшие исправления и улучшения.
+2018-08-03 11:07:06 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:06 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:06 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.5.0%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:06 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:07 -  - TIME LoadModulesUpdates(request) 0.282 sec
+2018-08-03 11:07:07 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:07 - S - STEP
+2018-08-03 11:07:07 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:07 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:07 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:07 -  - loadFile
+2018-08-03 11:07:07 - U - RETURN
+2018-08-03 11:07:07 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:07 -  - TIME UnGzipArchive 0.004 sec
+2018-08-03 11:07:07 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283627/altasib.geobase/updater1.6.0.php'
+2018-08-03 11:07:07 -  - TIME UpdateStepModules 0.028 sec
+2018-08-03 11:07:07 - UPD_SUCCESS - Updated: altasib.geobase (1.6.0)<br>- Добавлена опция \"Код сайта в системе geoip.elib.ru\" для поддержки изменений в запросе к онлайн-сервису GeoIP. - Исправлена инициализация обработчиков событий в шаблонах компонентов модуля (устранен конфликт с композитной технологией). - Исправлены стили в шаблонах компонентов для корректного отображения ширины и высоты элементов.
+2018-08-03 11:07:07 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:07 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:07 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.6.0%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:07 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:07 -  - TIME LoadModulesUpdates(request) 0.344 sec
+2018-08-03 11:07:07 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:07 - S - STEP
+2018-08-03 11:07:07 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:08 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:08 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:08 -  - loadFile
+2018-08-03 11:07:08 - U - RETURN
+2018-08-03 11:07:08 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:08 -  - TIME UnGzipArchive 0.006 sec
+2018-08-03 11:07:08 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283628/altasib.geobase/updater1.7.0.php'
+2018-08-03 11:07:08 -  - TIME UpdateStepModules 0.014 sec
+2018-08-03 11:07:08 - UPD_SUCCESS - Updated: altasib.geobase (1.7.0)<br>- Добавлен функционал перезагрузки текущей страницы по выбору или подтверждению города, если разрешен редирект: опция \"Осуществлять переход по ссылке, указанной в пользовательском поле города, при выборе этого города\". - Добавлена многосайтовость в опции \"Код SID сайта в системе geoip.elib.ru\" модуля. - Разделены опции использования онлайн-сервисов ipgeobase.ru и geoip.elib.ru (geoip.top). - Исправлены js файлы шаблонов компонентов для работы страницы в iframe. - Частично минифицированы js файлы шаблонов, исправлена инициализация обработчиков. - Скорректированы стили css. - Исправлены файлы установщика модуля.
+2018-08-03 11:07:08 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:08 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:08 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.7.0%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:08 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:08 -  - TIME LoadModulesUpdates(request) 0.252 sec
+2018-08-03 11:07:08 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:08 - S - STEP
+2018-08-03 11:07:08 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:08 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:08 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:08 -  - loadFile
+2018-08-03 11:07:08 - U - RETURN
+2018-08-03 11:07:08 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:09 -  - TIME UnGzipArchive 0.004 sec
+2018-08-03 11:07:09 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283628/altasib.geobase/updater1.8.0.php'
+2018-08-03 11:07:09 -  - TIME UpdateStepModules 0.01 sec
+2018-08-03 11:07:09 - UPD_SUCCESS - Updated: altasib.geobase (1.8.0)<br>- Исправлены шаблоны компонента altasib:geobase.select.city для показа автоопределенных городов, имеющихся в списке. - Из названий городов исключено сокращение типа населенного пункта в компоненте выбора города. - Добавлена поддержка протокола https, а также исправлена работа в Safari в js скрипте модуля. - Доработаны функции поиска по местоположениям Битрикс CAltasibGeoBase::GetBXLocations() для других локализаций сайта. - Добавлена подстановка местоположения на уровне региона, если соответствующее населенному пункту местоположение не найдено. - Исправлены ошибки при сохранении региона в качестве местоположения.
+2018-08-03 11:07:09 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:09 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:09 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.8.0%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:09 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:09 -  - TIME LoadModulesUpdates(request) 0.25 sec
+2018-08-03 11:07:09 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:09 - S - STEP
+2018-08-03 11:07:09 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:09 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:09 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:09 -  - loadFile
+2018-08-03 11:07:09 - U - RETURN
+2018-08-03 11:07:09 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:09 -  - TIME UnGzipArchive 0.003 sec
+2018-08-03 11:07:09 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283629/altasib.geobase/updater1.8.1.php'
+2018-08-03 11:07:09 -  - TIME UpdateStepModules 0.077 sec
+2018-08-03 11:07:09 - UPD_SUCCESS - Updated: altasib.geobase (1.8.1)<br>- Добавлена константа NO_GEOBASE для принудительного запрета на выполнение событий модуля (необходимо для выполнения скриптов по cron). - Изменения в js скрипте для страницы оформления заказа: если поле местоположения непустое и недефолтное, подстановка отменяется. - Добавлено выполнение обработчика на ajax события в js скрипте, работающем на странице оформления заказа. - Небольшие исправления и улучшения.
+2018-08-03 11:07:10 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:10 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:10 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.8.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:10 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:10 -  - TIME LoadModulesUpdates(request) 0.314 sec
+2018-08-03 11:07:10 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:10 - S - STEP
+2018-08-03 11:07:10 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:10 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:10 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:10 -  - loadFile
+2018-08-03 11:07:10 - U - RETURN
+2018-08-03 11:07:10 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:10 -  - TIME UnGzipArchive 0.002 sec
+2018-08-03 11:07:10 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283630/altasib.geobase/updater1.8.2.php'
+2018-08-03 11:07:10 -  - TIME UpdateStepModules 0.078 sec
+2018-08-03 11:07:10 - UPD_SUCCESS - Updated: altasib.geobase (1.8.2)<br>- Доработка js скрипта для компонента bitrix:sale.order.ajax: исправлена работа для магазинов с одним типом плательщика, доработан обработчик ajax-событий. - Улучшена детекция ip-адреса хоста клиента. - Доработка функционала модуля, проверяющего наличие файлов на удаленном сервере. - Небольшие исправления и улучшения.
+2018-08-03 11:07:11 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:11 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:11 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.8.2%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:11 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:11 -  - TIME LoadModulesUpdates(request) 0.267 sec
+2018-08-03 11:07:11 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:11 - S - STEP
+2018-08-03 11:07:11 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:11 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:11 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:11 -  - loadFile
+2018-08-03 11:07:11 - U - RETURN
+2018-08-03 11:07:11 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:11 -  - TIME UnGzipArchive 0.005 sec
+2018-08-03 11:07:11 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283631/altasib.geobase/updater1.8.3.php'
+2018-08-03 11:07:11 -  - TIME UpdateStepModules 0.19 sec
+2018-08-03 11:07:11 - UPD_SUCCESS - Updated: altasib.geobase (1.8.3)<br>- Добавлен функционал редиректа на страницу с таким же относительным путем, но другим доменом (опция модуля \"Осуществлять перенаправление с сохранением относительного пути\"). - Добавлена опция \"Показывать только города, крупные поселки и районные центры из населенных пунктов в поле поиска\" для компонента выбора города. - Скорректирован вывод шаблона компонента altasib:geobase.uf.detail. - Небольшие улучшения кода.
+2018-08-03 11:07:12 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:12 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:12 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.8.3%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:12 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:12 -  - TIME LoadModulesUpdates(request) 0.244 sec
+2018-08-03 11:07:12 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:12 - S - STEP
+2018-08-03 11:07:12 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:12 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:12 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:12 -  - loadFile
+2018-08-03 11:07:12 - U - RETURN
+2018-08-03 11:07:12 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:12 -  - TIME UnGzipArchive 0.005 sec
+2018-08-03 11:07:12 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283632/altasib.geobase/updater1.8.4.php'
+2018-08-03 11:07:12 -  - TIME UpdateStepModules 0.042 sec
+2018-08-03 11:07:12 - UPD_SUCCESS - Updated: altasib.geobase (1.8.4)<br>- Добавлена опция \"В течение какого времени помнить о совершенном перенаправлении\" в настройки модуля. - Скорректирована работа перенаправлений. - Исправлена некорректная работа скрипта js с дефолтными значениями свойств заказа типа \"Местоположение\".
+2018-08-03 11:07:12 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:12 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:12 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.8.4%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:12 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:13 -  - TIME LoadModulesUpdates(request) 0.246 sec
+2018-08-03 11:07:13 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:13 - S - STEP
+2018-08-03 11:07:13 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:13 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:13 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:13 -  - loadFile
+2018-08-03 11:07:13 - U - RETURN
+2018-08-03 11:07:13 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:13 -  - TIME UnGzipArchive 0.004 sec
+2018-08-03 11:07:13 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283633/altasib.geobase/updater1.8.5.php'
+2018-08-03 11:07:13 -  - TIME UpdateStepModules 0.104 sec
+2018-08-03 11:07:13 - UPD_SUCCESS - Updated: altasib.geobase (1.8.5)<br>- В компоненте altasib:geobase.your.city добавлен параметр \"Выполнять проверку на заполненность сессии и cookies модуля\" для предотвращения многократного показа окна пользователю, подтвердившему город. - Доработан скрипт js модуля, подставляющий местоположение на странице заказа. - Скорректированы js скрипты компонентов на предмет детекции локализации. - В опциях модуля сделан показ свойств типа местоположение без привязки к профилю.
+2018-08-03 11:07:13 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:13 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:13 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.8.5%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:13 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:14 -  - TIME LoadModulesUpdates(request) 0.259 sec
+2018-08-03 11:07:14 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:14 - S - STEP
+2018-08-03 11:07:14 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:14 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:14 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:14 -  - loadFile
+2018-08-03 11:07:14 - U - RETURN
+2018-08-03 11:07:14 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:14 -  - TIME UnGzipArchive 0.003 sec
+2018-08-03 11:07:14 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283634/altasib.geobase/updater1.8.6.php'
+2018-08-03 11:07:14 -  - TIME UpdateStepModules 0.006 sec
+2018-08-03 11:07:14 - UPD_SUCCESS - Updated: altasib.geobase (1.8.6)<br>- Исправлена работа скрипта js подстановки в заказе в браузерах Yandex.браузер и мобильных. - Небольшие исправления в коде модуля и шаблонов.
+2018-08-03 11:07:14 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:14 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:14 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.8.6%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:14 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:14 -  - TIME LoadModulesUpdates(request) 0.284 sec
+2018-08-03 11:07:14 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:14 - S - STEP
+2018-08-03 11:07:14 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:15 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:15 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:15 -  - loadFile
+2018-08-03 11:07:15 - U - RETURN
+2018-08-03 11:07:15 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:15 -  - TIME UnGzipArchive 0.004 sec
+2018-08-03 11:07:15 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283635/altasib.geobase/updater1.8.7.php'
+2018-08-03 11:07:15 -  - TIME UpdateStepModules 0.01 sec
+2018-08-03 11:07:15 - UPD_SUCCESS - Updated: altasib.geobase (1.8.7)<br>- Добавлен выбор подключения jQuery версии 2 в опциях модуля. - Добавлена поддержка регистронезависимой константы кодировки сайта. - Мелкие правки.
+2018-08-03 11:07:15 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:15 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:15 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.8.7%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:15 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:15 -  - TIME LoadModulesUpdates(request) 0.284 sec
+2018-08-03 11:07:15 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:15 - S - STEP
+2018-08-03 11:07:15 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:15 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:15 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:15 -  - loadFile
+2018-08-03 11:07:15 - U - RETURN
+2018-08-03 11:07:15 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:15 -  - TIME UnGzipArchive 0.003 sec
+2018-08-03 11:07:15 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283635/altasib.geobase/updater1.8.8.php'
+2018-08-03 11:07:15 -  - TIME UpdateStepModules 0.006 sec
+2018-08-03 11:07:15 - UPD_SUCCESS - Updated: altasib.geobase (1.8.8)<br>- Добавлено распространение cookies с данными выбранного города на все поддомены. - Добавлена возможность отключить подстановку местоположения для конкретного типа плательщика в опциях модуля (значение \"не выбрано\").
+2018-08-03 11:07:16 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:16 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:16 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.8.8%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:16 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:16 -  - TIME LoadModulesUpdates(request) 0.34 sec
+2018-08-03 11:07:16 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:16 - S - STEP
+2018-08-03 11:07:16 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:16 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:16 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:16 -  - loadFile
+2018-08-03 11:07:16 - U - RETURN
+2018-08-03 11:07:16 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:16 -  - TIME UnGzipArchive 0.011 sec
+2018-08-03 11:07:16 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283636/altasib.geobase/updater1.8.9.php'
+2018-08-03 11:07:16 -  - TIME UpdateStepModules 0.068 sec
+2018-08-03 11:07:16 - UPD_SUCCESS - Updated: altasib.geobase (1.8.9)<br>- Скорректировано взаимодействие опции «Добавлять автоматически определенный город к списку избранных городов» модуля с параметром «Выводить вместо правой надписи строки \"Выберите город\" город, определенный автоматически» компонента «Выбор города». - Исправлено закрытие popup-окна «Ваш город» по нажатию клавиши «Escape». - Исправлен php код модуля, вызывавший ошибку «Лишний вывод в файлах конфигурации». Изменено кеширование избранных городов. - Исправлены ошибки js скрипта в шаблоне компонента altasib:geobase.your.city. - Исправлены ошибки определения кодировки и конвертации строк и файлов.
+2018-08-03 11:07:17 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:17 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:17 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.8.9%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:17 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:17 -  - TIME LoadModulesUpdates(request) 0.38 sec
+2018-08-03 11:07:17 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:17 - S - STEP
+2018-08-03 11:07:17 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:17 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:17 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:17 -  - loadFile
+2018-08-03 11:07:17 - U - RETURN
+2018-08-03 11:07:17 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:17 -  - TIME UnGzipArchive 0.001 sec
+2018-08-03 11:07:17 -  - TIME UpdateStepModules 0.02 sec
+2018-08-03 11:07:17 - UPD_SUCCESS - Updated: altasib.geobase (1.8.10)<br>- Замена устаревших функций в php коде.
+2018-08-03 11:07:17 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:17 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:17 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.8.10%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:17 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:18 -  - TIME LoadModulesUpdates(request) 0.289 sec
+2018-08-03 11:07:18 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:18 - S - STEP
+2018-08-03 11:07:18 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:18 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:18 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:18 -  - loadFile
+2018-08-03 11:07:18 - U - RETURN
+2018-08-03 11:07:18 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:18 -  - TIME UnGzipArchive 0.003 sec
+2018-08-03 11:07:18 -  - TIME UpdateStepModules 0.005 sec
+2018-08-03 11:07:18 - UPD_SUCCESS - Updated: altasib.geobase (1.9.0)<br>- Добавлено событие OnBeforeResultCitySearch, выполняющееся перед выводом пунктом списка выбора городов в компоненте altasib:geobase.select.city, с возможностью изменения данных. - Исправлена фильтрация населенных пунктов по опции \"Показывать только города, крупные поселки и районные центры из населенных пунктов в поле поиска\". - Мелкие исправления.
+2018-08-03 11:07:18 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:18 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:18 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.9.0%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:18 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:19 -  - TIME LoadModulesUpdates(request) 0.287 sec
+2018-08-03 11:07:19 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:19 - S - STEP
+2018-08-03 11:07:19 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:20 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:20 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:20 -  - loadFile
+2018-08-03 11:07:20 - U - RETURN
+2018-08-03 11:07:20 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:20 -  - TIME UnGzipArchive 0.005 sec
+2018-08-03 11:07:20 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283640/altasib.geobase/updater1.9.1.php'
+2018-08-03 11:07:20 -  - TIME UpdateStepModules 0.015 sec
+2018-08-03 11:07:20 - UPD_SUCCESS - Updated: altasib.geobase (1.9.1)<br>- Добавлена поддержка подстановки местоположения в новом шаблоне обновленного компонента bitrix:sale.order.ajax. - Добавлено JavaScript-событие onBeforeYourCityOpen, позволяющее запретить вывод окна с подтверждением города, а вместо этого запустить как выбор городов вообще, так и любой другой обработчик. - В шаблоне компонента altasib:geobase.select.city скорректирован вывод надписи \"Выберите город\" при пустых данных. - Небольшие правки в скриптах модуля.
+2018-08-03 11:07:20 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:20 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:20 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.9.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:20 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:20 -  - TIME LoadModulesUpdates(request) 0.396 sec
+2018-08-03 11:07:20 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:20 - S - STEP
+2018-08-03 11:07:20 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:20 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:20 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:20 -  - loadFile
+2018-08-03 11:07:21 - U - RETURN
+2018-08-03 11:07:21 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:21 -  - TIME UnGzipArchive 0.028 sec
+2018-08-03 11:07:21 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283641/altasib.geobase/updater1.9.2.php'
+2018-08-03 11:07:21 -  - TIME UpdateStepModules 0.157 sec
+2018-08-03 11:07:21 - UPD_SUCCESS - Updated: altasib.geobase (1.9.2)<br>- Добавлен параметр «Подгружать окно \"Выбор города\" со списком городов ajax-запросом» в компоненте altasib:geobase.select.city. Содержимое окна может быть помещено в конец документа, перед закрытием тега body. - Добавлено кеширование результата поиска городов в поисковой строке. - Добавлены классы кодов для полей в шаблоне компонента altasib:geobase.uf.detail. - Исправлены ошибки пространства имен при использовании базы MaxMind. - Исправлена работа функции CAltasibGeoBaseSelected::GetCurrentCityFromSelected() в обработчике событий OnAfterAutoDetectCity. - Исправлены php предупреждения. - Небольшие правки в коде модуля.
+2018-08-03 11:07:22 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:22 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:22 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.9.2%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:22 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:22 -  - TIME LoadModulesUpdates(request) 0.507 sec
+2018-08-03 11:07:22 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:22 - S - STEP
+2018-08-03 11:07:22 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:22 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:22 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:22 -  - loadFile
+2018-08-03 11:07:22 - U - RETURN
+2018-08-03 11:07:22 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:22 -  - TIME UnGzipArchive 0.007 sec
+2018-08-03 11:07:22 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283642/altasib.geobase/updater1.10.0.php'
+2018-08-03 11:07:23 -  - TIME UpdateStepModules 0.038 sec
+2018-08-03 11:07:23 - UPD_SUCCESS - Updated: altasib.geobase (1.10.0)<br>- Добавлен показ ближайшего города для избранных городов, по координатам или региону. - Поддержка запросов на новом ядре при подстановке местоположения. - Добавлено исправление раскладки клавиатуры при поиске города в строке компонента Выбор города. - Добавлено сохранение ширины и долготы для данных из MaxMind базы. - Добавлена поддержка поиска местоположений Битрикс на ядре D7, включая поиск регионов, в функции CAltasibGeoBase::GetBXLocations(). - Добавлена возможность изменения сортировки у избранных городов. - В компоненте altasib:geobase.uf.detail добавлены новые поля вывода: округ и гео-координаты, задействован вывод ближайшего избранного города.
+2018-08-03 11:07:23 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:23 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:23 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.10.0%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:23 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:23 -  - TIME LoadModulesUpdates(request) 0.297 sec
+2018-08-03 11:07:23 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:23 - S - STEP
+2018-08-03 11:07:23 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:23 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:23 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:23 -  - loadFile
+2018-08-03 11:07:23 - U - RETURN
+2018-08-03 11:07:23 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:23 -  - TIME UnGzipArchive 0.007 sec
+2018-08-03 11:07:23 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283643/altasib.geobase/updater1.11.0.php'
+2018-08-03 11:07:23 -  - TIME UpdateStepModules 0.017 sec
+2018-08-03 11:07:23 - UPD_SUCCESS - Updated: altasib.geobase (1.11.0)<br>- Добавлено распространение кук пользовательского выбора (ALTASIB_GEOBASE_CODE) на все домены системы. Данную возможность можно отключить соответствующей опцией в настройках модуля. - Добавлено js-прерывание для устаревших ajax-запросов при поиске города в окне выбора. - Исправлен показ ближайшего города для избранных городов по автоопределенным данным. - Исправлено назначение кук при заходе на сайт по IP адресу. - Скорректировано определение IP-адреса, исключаются локальные адреса. - Небольшие улучшения.
+2018-08-03 11:07:24 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:24 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:24 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.11.0%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:24 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:24 -  - TIME LoadModulesUpdates(request) 0.278 sec
+2018-08-03 11:07:24 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:24 - S - STEP
+2018-08-03 11:07:24 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:24 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:24 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:24 -  - loadFile
+2018-08-03 11:07:24 - U - RETURN
+2018-08-03 11:07:24 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:24 -  - TIME UnGzipArchive 0.007 sec
+2018-08-03 11:07:24 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283644/altasib.geobase/updater1.11.1.php'
+2018-08-03 11:07:24 -  - TIME UpdateStepModules 0.014 sec
+2018-08-03 11:07:24 - UPD_SUCCESS - Updated: altasib.geobase (1.11.1)<br>- Добавлен профиль модуля altasib.geobase в источниках определения города и страны, поддерживаемых модулем Веб-аналитики (statistic). - Добавлена опция \"Использовать установленные пользователем данные в источнике определения модуля Статистики\" для вывода в объекте CCity данных выбранного посетителем города. - При сбросе кеширования отменяется редирект по ссылке, указанной в пользовательском поле города. - Добавлена задержка появления всплывающего окна компонента \"Ваш город\".
+2018-08-03 11:07:24 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:24 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:24 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.11.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:24 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:25 -  - TIME LoadModulesUpdates(request) 0.29 sec
+2018-08-03 11:07:25 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:25 - S - STEP
+2018-08-03 11:07:25 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:25 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:25 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:25 -  - loadFile
+2018-08-03 11:07:25 - U - RETURN
+2018-08-03 11:07:25 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:25 -  - TIME UnGzipArchive 0.003 sec
+2018-08-03 11:07:25 -  - TIME UpdateStepModules 0.006 sec
+2018-08-03 11:07:25 - UPD_SUCCESS - Updated: altasib.geobase (1.11.2)<br>- Скорректирован поиск соответствия некоторых регионов между базами ipgeobase и КЛАДР. - Исправлено сохранение выбранного посетителем региона.
+2018-08-03 11:07:25 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:25 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:25 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.11.2%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:25 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:25 -  - TIME LoadModulesUpdates(request) 0.247 sec
+2018-08-03 11:07:25 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:25 - S - STEP
+2018-08-03 11:07:25 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:26 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:26 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:26 -  - loadFile
+2018-08-03 11:07:26 - U - RETURN
+2018-08-03 11:07:26 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:26 -  - TIME UnGzipArchive 0.002 sec
+2018-08-03 11:07:26 -  - TIME UpdateStepModules 0.022 sec
+2018-08-03 11:07:26 - UPD_SUCCESS - Updated: altasib.geobase (1.11.3)<br>- Добавлены проверки в функции перенаправления для исключения редиректов для POST-запросов, не поддерживающих Cookies браузеров, а также поисковых ботов. - Добавлена распечатка ключей массива $_SERVER для проверки на передачу сервером данных об IP-адресе посетителя.
+2018-08-03 11:07:26 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:26 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:26 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C1.11.3%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:26 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:26 -  - TIME LoadModulesUpdates(request) 0.307 sec
+2018-08-03 11:07:26 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:26 - S - STEP
+2018-08-03 11:07:26 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:26 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:26 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:26 -  - loadFile
+2018-08-03 11:07:27 - U - RETURN
+2018-08-03 11:07:27 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:27 -  - TIME UnGzipArchive 0.012 sec
+2018-08-03 11:07:27 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283647/altasib.geobase/updater2.0.0.php'
+2018-08-03 11:07:27 -  - TIME UpdateStepModules 0.048 sec
+2018-08-03 11:07:27 - UPD_SUCCESS - Updated: altasib.geobase (2.0.0)<br>- Обновлен дизайн всплывающих окон компонентов \"Выбор города\" и \"Ваш город\". - Добавлено компактное окно подтверждения в компоненте altasib:geobase.select.city: его показ задействуется, если не выбран город пользователем, а также включена опция \"Режим вывода окна подтверждения города\" в \"Компактное окно\" или установлен параметр \"Показывать компактное окно подтверждения\" в компоненте. - Добавлена параметр задания строки в компактном окне. - Скорректирован поиск доменов. - Добавлена поддержка редиректа у доп. поля ссылки на значение по умолчанию. - Исправлена проверка на сессию в случае многодоменной системы при выборе города. - Небольшие правки и исправления.
+2018-08-03 11:07:27 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:27 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:27 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.0.0%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:27 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:27 -  - TIME LoadModulesUpdates(request) 0.274 sec
+2018-08-03 11:07:27 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:27 - S - STEP
+2018-08-03 11:07:27 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:27 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:27 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:27 -  - loadFile
+2018-08-03 11:07:27 - U - RETURN
+2018-08-03 11:07:27 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:27 -  - TIME UnGzipArchive 0.002 sec
+2018-08-03 11:07:27 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283647/altasib.geobase/updater2.0.1.php'
+2018-08-03 11:07:27 -  - TIME UpdateStepModules 0.042 sec
+2018-08-03 11:07:27 - UPD_SUCCESS - Updated: altasib.geobase (2.0.1)<br>- Добавлена поддержка значений пользовательских полей типов список и привязка к разделам и элементам информационных блоков, в компоненте altasib:geobase.uf.detail.
+2018-08-03 11:07:28 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:28 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:28 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.0.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:28 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:28 -  - TIME LoadModulesUpdates(request) 0.222 sec
+2018-08-03 11:07:28 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:28 - S - STEP
+2018-08-03 11:07:28 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:28 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:28 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:28 -  - loadFile
+2018-08-03 11:07:28 - U - RETURN
+2018-08-03 11:07:28 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:28 -  - TIME UnGzipArchive 0.002 sec
+2018-08-03 11:07:28 -  - TIME UpdateStepModules 0.004 sec
+2018-08-03 11:07:28 - UPD_SUCCESS - Updated: altasib.geobase (2.0.3)<br>- Исправлен класс источника определения города и страны, используемый модулем Веб-аналитики (statistic). - Небольшие исправления.
+2018-08-03 11:07:28 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:28 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:28 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.0.3%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:28 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:29 -  - TIME LoadModulesUpdates(request) 0.253 sec
+2018-08-03 11:07:29 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:29 - S - STEP
+2018-08-03 11:07:29 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:29 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:29 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:29 -  - loadFile
+2018-08-03 11:07:29 - U - RETURN
+2018-08-03 11:07:29 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:29 -  - TIME UnGzipArchive 0.002 sec
+2018-08-03 11:07:29 -  - TIME UpdateStepModules 0.02 sec
+2018-08-03 11:07:29 - UPD_SUCCESS - Updated: altasib.geobase (2.0.4)<br>- Исправлен класс источника определения города и страны, используемый модулем Веб-аналитики (statistic). - Исправлена установка таблицы MaxMind. - Небольшие исправления.
+2018-08-03 11:07:29 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:29 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:29 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.0.4%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:29 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:29 -  - TIME LoadModulesUpdates(request) 0.283 sec
+2018-08-03 11:07:29 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:29 - S - STEP
+2018-08-03 11:07:29 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:30 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:30 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:30 -  - loadFile
+2018-08-03 11:07:30 - U - RETURN
+2018-08-03 11:07:30 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:30 -  - TIME UnGzipArchive 0.003 sec
+2018-08-03 11:07:30 -  - TIME UpdateStepModules 0.177 sec
+2018-08-03 11:07:30 - UPD_SUCCESS - Updated: altasib.geobase (2.0.5)<br>- Исправлено распространение кук на поддомены. - Правки с выводом окна в шаблоне компонента \"Выбор города\", если его значение не определено.
+2018-08-03 11:07:30 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:30 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:30 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.0.5%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:30 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:30 -  - TIME LoadModulesUpdates(request) 0.256 sec
+2018-08-03 11:07:30 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:30 - S - STEP
+2018-08-03 11:07:30 - LMU01 - LoadModulesUpdates-Step
+2018-08-03 11:07:31 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:31 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:31 -  - loadFile
+2018-08-03 11:07:31 - U - RETURN
+2018-08-03 11:07:31 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-08-03 11:07:31 -  - TIME UnGzipArchive 0.007 sec
+2018-08-03 11:07:31 - CSURUS1 - Run updater '/bitrix/updates/update_m1533283651/altasib.geobase/updater2.1.1.php'
+2018-08-03 11:07:31 -  - TIME UpdateStepModules 0.069 sec
+2018-08-03 11:07:31 - UPD_SUCCESS - Updated: altasib.geobase (2.1.1)<br>- Добавлен выбор цветовой схемы для компонентов выбора и подтверждения города в опциях модуля. Выбор осуществляется из предустановленных темы и схемы или вручную заданного цвета. - Небольшие правки в стилях.
+2018-08-03 11:07:31 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-08-03 11:07:31 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:31 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.1.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:31 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:31 -  - TIME LoadModulesUpdates(request) 0.216 sec
+2018-08-03 11:07:31 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:07:31 - STEP - Finish - NOUPDATES
+2018-08-03 11:07:31 - STEP - Finish - NOUPDATES
+2018-08-03 11:07:54 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-08-03 11:07:54 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:07:54 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.1.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase%2Cbitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:07:54 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:07:54 -  - TIME GetUpdatesList(request) 0.248 sec
+2018-08-03 11:07:54 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:09:11 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-08-03 11:09:11 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:09:11 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.1.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase%2Cbitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:09:11 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:09:12 -  - TIME GetUpdatesList(request) 0.219 sec
+2018-08-03 11:09:12 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:09:16 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-08-03 11:09:16 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:09:16 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.1.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase%2Cbitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:09:16 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:09:16 -  - TIME GetUpdatesList(request) 0.234 sec
+2018-08-03 11:09:16 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:09:19 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-08-03 11:09:19 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:09:19 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.1.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase%2Cbitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:09:19 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:09:19 -  - TIME GetUpdatesList(request) 0.268 sec
+2018-08-03 11:09:19 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:09:40 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-08-03 11:09:40 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:09:40 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.1.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase%2Cbitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:09:40 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:09:40 -  - TIME GetUpdatesList(request) 0.301 sec
+2018-08-03 11:09:40 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:09:59 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-08-03 11:09:59 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:09:59 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.1.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase%2Cbitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:09:59 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:09:59 -  - TIME GetUpdatesList(request) 0.222 sec
+2018-08-03 11:09:59 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:10:01 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-08-03 11:10:01 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:10:01 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.1.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase%2Cbitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:10:01 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:10:03 -  - TIME GetUpdatesList(request) 1.492 sec
+2018-08-03 11:10:03 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 11:10:42 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-08-03 11:10:42 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 11:10:42 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=18&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.1.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase%2Cbitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 11:10:42 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 11:10:43 -  - TIME GetUpdatesList(request) 0.271 sec
+2018-08-03 11:10:43 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-03 17:26:43 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-08-03 17:26:43 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-03 17:26:43 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=23&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.1.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase%2Cbitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-03 17:26:43 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-03 17:26:43 -  - TIME GetUpdatesList(request) 0.219 sec
+2018-08-03 17:26:43 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-06 09:37:02 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-08-06 09:37:02 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-06 09:37:02 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=29&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.1.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase%2Cbitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-06 09:37:02 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-06 09:37:02 -  - TIME GetUpdatesList(request) 0.419 sec
+2018-08-06 09:37:02 -  - exec CUpdateClientPartner::ParseServerData
+2018-08-06 10:58:25 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-08-06 10:58:25 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-08-06 10:58:25 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=29&TYPENC=E&CLIENT_PHPVER=5.6.30-0%2Bdeb8u1&NGINX=Y&dbv=5.6.35&instm=main%2C17.5.16%2CN%3Bseo%2C17.5.3%2CN%3Bcompression%2C16.0.0%2CN%3Bscale%2C17.5.0%2CN%3Bforum%2C17.5.3%2CN%3Bsubscribe%2C17.5.0%2CN%3Bmobileapp%2C17.5.1%2CN%3Bsocialservices%2C17.5.4%2CN%3Btranslate%2C16.0.0%2CN%3Bclouds%2C17.0.2%2CN%3Bphotogallery%2C17.0.2%2CN%3Baltasib.geobase%2C2.1.1%2CN%3Bui%2C17.5.5%2CN%3Bblog%2C17.5.8%2CN%3Bfileman%2C17.5.10%2CN%3Bperfmon%2C17.0.1%2CN%3Bbitrixcloud%2C17.5.0%2CN%3Bhighloadblock%2C17.5.0%2CN%3Babtest%2C17.5.0%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Bsearch%2C17.5.0%2CN%3Bvote%2C17.5.1%2CN%3Bcurrency%2C17.5.4%2CN%3Bipol.sdek%2C3.5.1%2CN%3Bcatalog%2C17.6.1%2CN%3Bsale%2C17.8.15%2CN%3Bsecurity%2C17.0.2%2CN%3Breport%2C18.0.3%2CN%3Beshopapp%2C16.5.0%2CN%3Bform%2C17.0.1%2CN%3Biblock%2C17.6.2%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Bstoreassist%2C16.0.1%2CN%3Bpull%2C17.5.4%2CN%3Bb24connector%2C17.5.0%2CN%3Bsender%2C17.1.4%2CN%3Bconversion%2C17.5.0%2CN&reqm=altasib.geobase%2Cbitrix.eshop%2Cipol.sdek%2Cbitrix.sitecorporate&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-08-06 10:58:25 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-08-06 10:58:25 -  - TIME GetUpdatesList(request) 0.364 sec
+2018-08-06 10:58:25 -  - exec CUpdateClientPartner::ParseServerData

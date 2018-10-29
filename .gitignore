@@ -1,0 +1,12 @@
+upload/*
+bitrix/php_interface/*
+!/bitrix/php_interface/init.php
+bitrix/.settings.php
+.idea/*
+bitrix/managed_cache/*
+bitrix/cache/*
+bitrix/stack_cache/*
+access/*
+bitrix/html_pages/*
+bitrix/backup/*
+.proclimit_510ef2d782b0edf51be35067bb530ff7/*

@@ -1,0 +1,119 @@
+[17-Sep-2018 13:34:21 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[17-Sep-2018 13:35:08 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[17-Sep-2018 14:05:52 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[17-Sep-2018 15:13:13 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[18-Sep-2018 10:28:38 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[18-Sep-2018 14:52:25 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[18-Sep-2018 14:52:55 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[18-Sep-2018 16:37:55 Europe/Moscow] PHP Fatal error:  Class 'Loader' not found in /home/t/technoraum/technoraum.ru/public_html/bitrix/templates/.default/components/bitrix/catalog/main_catalog/section.php on line 46
+[19-Sep-2018 17:15:59 Europe/Moscow] PHP Fatal error:  Class 'CalculatePriceDeliveryCdek' not found in /home/t/technoraum/technoraum.ru/public_html/personal/order/make/system.php on line 95
+[19-Sep-2018 17:15:59 Europe/Moscow] PHP Fatal error:  Class 'CalculatePriceDeliveryCdek' not found in /home/t/technoraum/technoraum.ru/public_html/personal/order/make/system.php on line 95
+[19-Sep-2018 17:15:59 Europe/Moscow] PHP Fatal error:  Class 'CalculatePriceDeliveryCdek' not found in /home/t/technoraum/technoraum.ru/public_html/personal/order/make/system.php on line 95
+[19-Sep-2018 17:17:02 Europe/Moscow] PHP Fatal error:  Class 'CalculatePriceDeliveryCdek' not found in /home/t/technoraum/technoraum.ru/public_html/personal/order/make/system.php on line 95
+[19-Sep-2018 17:17:02 Europe/Moscow] PHP Fatal error:  Class 'CalculatePriceDeliveryCdek' not found in /home/t/technoraum/technoraum.ru/public_html/personal/order/make/system.php on line 95
+[19-Sep-2018 17:17:02 Europe/Moscow] PHP Fatal error:  Class 'CalculatePriceDeliveryCdek' not found in /home/t/technoraum/technoraum.ru/public_html/personal/order/make/system.php on line 95
+[20-Sep-2018 03:29:30 Europe/Moscow] PHP Fatal error:  print_r(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/include/dbquery_error.php on line 37
+[20-Sep-2018 09:02:52 Europe/Moscow] PHP Notice:  Undefined index: senderCityId in /home/t/technoraum/technoraum.ru/public_html/personal/order/make/examples/calc_deliv_cdek_php/action_form.php on line 30
+[20-Sep-2018 09:08:00 Europe/Moscow] PHP Notice:  Undefined index: senderCityId in /home/t/technoraum/technoraum.ru/public_html/personal/order/make/examples/calc_deliv_cdek_php/action_form.php on line 30
+[20-Sep-2018 11:53:35 Europe/Moscow] PHP Notice:  Undefined index: senderCityId in /home/t/technoraum/technoraum.ru/public_html/personal/order/make/examples/calc_deliv_cdek_php/action_form.php on line 30
+[20-Sep-2018 15:08:39 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[20-Sep-2018 15:08:50 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[24-Sep-2018 22:34:11 Europe/Moscow] PHP Notice:  Undefined index: senderCityId in /home/t/technoraum/technoraum.ru/public_html/personal/order/make/examples/calc_deliv_cdek_php/action_form.php on line 30
+[24-Sep-2018 22:34:15 Europe/Moscow] PHP Notice:  Undefined index: senderCityId in /home/t/technoraum/technoraum.ru/public_html/personal/order/make/examples/calc_deliv_cdek_php/action_form.php on line 30
+[24-Sep-2018 23:21:03 Europe/Moscow] PHP Fatal error:  Class 'CalculatePriceDeliveryCdek' not found in /home/t/technoraum/technoraum.ru/public_html/personal/order/make/include/step4.php on line 123
+[25-Sep-2018 14:25:37 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[25-Sep-2018 14:59:45 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[25-Sep-2018 22:42:12 Europe/Moscow] PHP Fatal error:  Using $this when not in object context in /home/t/technoraum/technoraum.ru/public_html/bitrix/templates/TechnoRaum/header.php on line 32
+[26-Sep-2018 11:33:22 Europe/Moscow] PHP Fatal error:  Cannot break/continue 1 level in /home/t/technoraum/technoraum.ru/public_html/registration.php on line 80
+[01-Oct-2018 21:31:54 Europe/Moscow] PHP Warning:  require_once(/home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/includes/prolog_before.php): failed to open stream: No such file or directory in /home/t/technoraum/technoraum.ru/public_html/basket-popup.php on line 2
+[01-Oct-2018 21:31:54 Europe/Moscow] PHP Fatal error:  require_once(): Failed opening required '/home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/includes/prolog_before.php' (include_path='.:/usr/share/php') in /home/t/technoraum/technoraum.ru/public_html/basket-popup.php on line 2
+[01-Oct-2018 21:32:29 Europe/Moscow] PHP Warning:  require_once(/home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/includes/prolog_before.php): failed to open stream: No such file or directory in /home/t/technoraum/technoraum.ru/public_html/basket-popup.php on line 2
+[01-Oct-2018 21:32:29 Europe/Moscow] PHP Fatal error:  require_once(): Failed opening required '/home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/includes/prolog_before.php' (include_path='.:/usr/share/php') in /home/t/technoraum/technoraum.ru/public_html/basket-popup.php on line 2
+[01-Oct-2018 21:32:50 Europe/Moscow] PHP Warning:  require_once(/home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/includes/prolog_before.php): failed to open stream: No such file or directory in /home/t/technoraum/technoraum.ru/public_html/basket-popup.php on line 2
+[01-Oct-2018 21:32:50 Europe/Moscow] PHP Fatal error:  require_once(): Failed opening required '/home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/includes/prolog_before.php' (include_path='.:/usr/share/php') in /home/t/technoraum/technoraum.ru/public_html/basket-popup.php on line 2
+[01-Oct-2018 21:34:14 Europe/Moscow] PHP Warning:  require_once(/home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/includes/prolog_before.php): failed to open stream: No such file or directory in /home/t/technoraum/technoraum.ru/public_html/basket-popup.php on line 2
+[01-Oct-2018 21:34:14 Europe/Moscow] PHP Fatal error:  require_once(): Failed opening required '/home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/includes/prolog_before.php' (include_path='.:/usr/share/php') in /home/t/technoraum/technoraum.ru/public_html/basket-popup.php on line 2
+[10-Oct-2018 11:56:40 Europe/Moscow] PHP Fatal error:  print_r(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/include/dbquery_error.php on line 37
+[10-Oct-2018 17:44:23 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[11-Oct-2018 14:45:27 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[16-Oct-2018 17:06:38 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[17-Oct-2018 08:07:10 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[17-Oct-2018 08:08:54 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[17-Oct-2018 08:20:03 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 08:20:55 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 08:21:09 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 08:23:16 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 15:14:38 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[17-Oct-2018 16:27:05 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[17-Oct-2018 16:28:28 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[17-Oct-2018 16:29:29 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[17-Oct-2018 16:29:55 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[17-Oct-2018 16:29:56 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:29:57 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:29:57 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:29:57 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:29:58 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:29:58 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:30:23 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:30:26 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:30:26 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:30:27 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:30:27 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:30:37 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[17-Oct-2018 16:30:38 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:30:39 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:30:39 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:30:40 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:30:40 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:30:49 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:31:30 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:31:33 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:31:33 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:31:33 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:31:34 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:34:24 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:34:27 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:34:32 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:34:59 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:35:15 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:35:33 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:35:34 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:35:36 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:35:36 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:35:37 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:40:24 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:40:45 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:41:04 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:41:54 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:42:38 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:42:40 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:42:41 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:42:42 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:42:49 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 16:42:50 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[17-Oct-2018 17:04:06 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[17-Oct-2018 17:04:06 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[17-Oct-2018 17:04:08 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[17-Oct-2018 17:04:12 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[17-Oct-2018 17:04:26 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[17-Oct-2018 17:16:37 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[17-Oct-2018 17:16:42 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[18-Oct-2018 19:29:22 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[18-Oct-2018 19:29:23 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[18-Oct-2018 19:29:26 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[18-Oct-2018 19:29:28 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[18-Oct-2018 19:29:35 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[18-Oct-2018 19:29:38 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[19-Oct-2018 10:19:20 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[19-Oct-2018 10:19:22 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[24-Oct-2018 13:27:43 Europe/Moscow] PHP Fatal error:  Class 'CIBlockSection' not found in /home/t/technoraum/technoraum.ru/public_html/personal/order/make/include/step2_tab1.php on line 45
+[24-Oct-2018 13:38:38 Europe/Moscow] PHP Parse error:  syntax error, unexpected '$tmp' (T_VARIABLE) in /home/t/technoraum/technoraum.ru/public_html/personal/order/make/include/step2_tab1.php on line 28
+[24-Oct-2018 13:49:54 Europe/Moscow] PHP Fatal error:  Call to undefined function file_get_content() in /home/t/technoraum/technoraum.ru/public_html/personal/order/make/include/step2_tab1.php on line 29
+[24-Oct-2018 14:39:48 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[24-Oct-2018 14:39:49 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[24-Oct-2018 14:39:51 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[24-Oct-2018 14:39:53 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[24-Oct-2018 14:40:09 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[25-Oct-2018 15:20:30 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[25-Oct-2018 15:20:31 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[25-Oct-2018 15:20:33 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19

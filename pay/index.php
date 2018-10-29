@@ -1,0 +1,129 @@
+<?
+require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetTitle("Способы оплаты");
+?>Text here.... <br>
+<table border="1" cellpadding="1" cellspacing="1">
+<tbody>
+<tr>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+	<td>
+		 &nbsp;
+	</td>
+</tr>
+</tbody>
+</table>
+ <br><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
