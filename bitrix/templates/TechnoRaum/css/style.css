@@ -1,6 +1,20 @@
 * {
-margin:0;
-padding:0;
+	margin:0;
+	padding:0;
+}
+
+ol {
+	display: block;
+    list-style-type: decimal;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+
+ul > li, ol > li {
+
 }
 
 table .gift_block ul{max-width:600px}
@@ -359,8 +373,8 @@ a.ref {display:block;text-decoration:none;position:absolute;top:0;left:0;width:1
 
 .seo_section {padding:62px 0 0 0;}
 .seo_section .inner_section {}
-.seo_section h2 {display:block;font-weight:bold;font-size:32px;color:#111;line-height:40px;padding-bottom:22px;}
-.seo_section p {display:block;font-weight:300;font-size:16px;color:#111;line-height:27px;padding-bottom:27px;}
+/*.seo_section h2 {display:block;font-weight:bold;font-size:32px;color:#111;line-height:40px;padding-bottom:22px;}
+.seo_section p {display:block;font-weight:300;font-size:16px;color:#111;line-height:27px;padding-bottom:27px;}*/
 .seo_section .text_toggling_div {margin-bottom:30px;overflow:hidden;transition:all 0.4s;}
 a.read_more_toggler {line-height:24px;font-weight:bold;font-size:16px;color:#111;text-align:center;display:block;}
 a.read_more_toggler span {background:url(../img/plus.png) no-repeat 0 center;padding-left:28px;display:inline-block;text-align:left;}
@@ -1396,7 +1410,7 @@ form[name='bform'] input[type='submit']{font-weight: bold;border-color: #feee35;
 	.glav_services_div {margin-right:0;}
 	.glav_services_div:nth-child(3n+3) {margin-right:0;}
 	
-	.seo_section h2 {font-size:26px;}
+	/*.seo_section h2 {font-size:26px;}*/
 	.hl{width:45% !important;}
 	.hr{width: 55% !important;}
 	

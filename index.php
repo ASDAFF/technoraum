@@ -711,7 +711,7 @@ $APPLICATION->IncludeComponent("bitrix:catalog", "home_categories", Array(
 	</div>
 </div>
  </section><!--/middle_consult_section subscribe_section--> <section class="section seo_section">
-<div class="inner_section clearfix">
+<div class="inner_section the_content_section clearfix">
 	<? $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH."/include/seo_h2.php",Array(),Array("MODE"=>"html")); ?>
 	<div class="text_toggling_div">
 		<? $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH."/include/seo_text.php",Array(),Array("MODE"=>"html")); ?>

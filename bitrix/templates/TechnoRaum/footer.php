@@ -401,6 +401,7 @@ if($_SERVER["REQUEST_URI"] != "/")
 			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/slick-theme.css");
 			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/jquery.nouislider.min.css");
 			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/jquery.custom-scrollbar.css");
+			$APPLICATION->SetAdditionalCss('/bitrix/css/main/bootstrap.min.css');
 			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/style.css?ver=1.01");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery-1.11.0.min.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery-1.11.0.min.js");

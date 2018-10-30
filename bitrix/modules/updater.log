@@ -1830,3 +1830,9 @@
 2018-05-10 17:55:50 - STEP - Finish - NOUPDATES
 2018-05-10 17:55:50 - STEP - Finish - NOUPDATES
 2018-08-03 11:05:35 - CRUPDCF1 - Run updater '/bitrix/updates/update_m1533283535/altasib.geobase/updater1.1.1.php': CopyFiles(base, modules/altasib.geobase/base)
+2018-10-30 14:34:51 -  - exec CUpdateClient::GetUpdatesList
+2018-10-30 14:34:51 -  - exec CUpdateClient::CollectRequestData
+2018-10-30 14:34:51 -  - LICENSE_KEY=X&lang=ru&SUPD_VER=17.5.12&VERSION=17.5.16&TYPENC=E&SUPD_STS=1&SUPD_URS=0&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&CHHB=technoraum.ru&CSAB=87.236.16.39&SUID=77dfda70386e970b74105f156fcc5c25&CANGZIP=Y&CLIENT_PHPVER=5.6.30&stable=Y&NGINX=Y&rerere=Y&bitm_main=17.5.16&bitm_scale=17.5.0&bitm_pull=17.5.4&bitm_sale=17.8.15&bitm_seo=17.5.3&bitm_fileman=17.5.10&bitm_sender=17.1.4&bitm_storeassist=16.0.1&bitm_socialservices=17.5.4&bitm_forum=17.5.3&bitm_subscribe=17.5.0&bitm_form=17.0.1&bitm_highloadblock=17.5.0&bitm_report=18.0.3&bitm_compression=16.0.0&bitm_vote=17.5.1&bitm_security=17.0.2&bitm_blog=17.5.8&bitm_bitrixcloud=17.5.0&bitm_search=17.5.0&bitm_iblock=17.6.2&bitm_perfmon=17.0.1&bitm_catalog=17.6.1&bitm_b24connector=17.5.0&bitm_eshopapp=16.5.0&bitm_ui=17.5.5&bitm_abtest=17.5.0&bitm_mobileapp=17.5.1&bitm_clouds=17.0.2&bitm_translate=16.0.0&bitm_conversion=17.5.0&bitm_photogallery=17.0.2&bitm_currency=17.5.4&bitl_en=&bitl_ru=&SUPD_OFC=Small&SUPD_SRS=RU&SUPD_CMP=N&SALE_15=Y
+2018-10-30 14:34:51 -  - exec CUpdateClient::GetHTTPPage
+2018-10-30 14:34:52 -  - TIME GetUpdatesList(request) 0.935 sec
+2018-10-30 14:34:52 -  - exec CUpdateClient::ParseServerData
