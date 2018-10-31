@@ -159,6 +159,8 @@ class ProductSearchComponent extends \CBitrixComponent
 				$params['SECTION_ID'] = (int)$userOptions['SECTION_ID'];
 			if (!isset($_REQUEST['QUERY']) && (!isset($_REQUEST['mode']) || $_REQUEST['mode'] != 'list') && isset($userOptions['QUERY']))
 				$_REQUEST['QUERY'] = $userOptions['QUERY'];
+			if (!isset($_REQUEST['USE_SUBSTRING_QUERY']) && (!isset($_REQUEST['mode']) || $_REQUEST['mode'] != 'list') && isset($userOptions['USE_SUBSTRING_QUERY']))
+				$_REQUEST['USE_SUBSTRING_QUERY'] = $userOptions['USE_SUBSTRING_QUERY'];
 		}
 
 		return $params;
@@ -246,21 +248,33 @@ class ProductSearchComponent extends \CBitrixComponent
 	{
 		$arResult = array();
 		$notFound = false;
-		if (is_array($arFilter["S_ID"]) && sizeof($arFilter["S_ID"]) == 1)
+		if (isset($arFilter["S_ID"]) && is_array($arFilter["S_ID"]) && count($arFilter["S_ID"]) == 1)
 		{
 			$notFound = $arFilter['S_ID'][0] == 0;
 		}
 		if (!$notFound && !$this->isFiltering())
 		{
-			$arSectionFilter = array(
-				"IBLOCK_ID" => $arFilter["IBLOCK_ID"],
-				"=ID" => $arFilter["S_ID"],
-				"?NAME" => $arFilter["NAME"],
-				">=TIMESTAMP_X" => $arFilter["DATE_MODIFY_FROM"],
-				"<=TIMESTAMP_X" => $arFilter["DATE_MODIFY_TO"],
-				"CODE" => $arFilter["CODE"],
-				"ACTIVE" => $arFilter["ACTIVE"]
-			);
+			$arSectionFilter = [
+				"IBLOCK_ID" => $arFilter["IBLOCK_ID"]
+			];
+			if (isset($arFilter["S_ID"]))
+				$arSectionFilter["=ID"] = $arFilter["S_ID"];
+			if (isset($arFilter["NAME"]))
+			{
+				if ($arFilter['USE_SUBSTRING_QUERY'] == 'Y')
+					$arSectionFilter["%NAME"] = $arFilter["NAME"];
+				else
+					$arSectionFilter["?NAME"] = $arFilter["NAME"];
+			}
+			if (isset($arFilter["DATE_MODIFY_FROM"]))
+				$arSectionFilter[">=TIMESTAMP_X"] = $arFilter["DATE_MODIFY_FROM"];
+			if (isset($arFilter["DATE_MODIFY_TO"]))
+				$arSectionFilter["<=TIMESTAMP_X"] = $arFilter["DATE_MODIFY_TO"];
+			if (isset($arFilter["CODE"]))
+				$arSectionFilter["CODE"] = $arFilter["CODE"];
+			if (isset($arFilter["ACTIVE"]))
+				$arSectionFilter["ACTIVE"] = $arFilter["ACTIVE"];
+
 			if (isset($arFilter["CHECK_PERMISSIONS"]))
 			{
 				$arSectionFilter['CHECK_PERMISSIONS'] = $arFilter["CHECK_PERMISSIONS"];
@@ -289,24 +303,38 @@ class ProductSearchComponent extends \CBitrixComponent
 			}
 		}
 		$notFound = false;
-		if (is_array($arFilter["ID"]) && sizeof($arFilter["ID"]) == 1)
+		if (isset($arFilter["ID"]) && is_array($arFilter["ID"]) && sizeof($arFilter["ID"]) == 1)
 		{
 			$notFound = $arFilter['ID'][0] == 0;
 		}
 		if (!$notFound)
 		{
-			$arElementFilter = array(
-				"IBLOCK_ID" => $arFilter["IBLOCK_ID"],
-				"?NAME" => $arFilter["NAME"],
-				"SECTION_ID" => $arFilter["SECTION_ID"],
-				"=ID" => $arFilter["ID"],
-				">=TIMESTAMP_X" => $arFilter["DATE_MODIFY_FROM"],
-				"<=TIMESTAMP_X" => $arFilter["DATE_MODIFY_TO"],
-				"CODE" => $arFilter["CODE"],
-				"ACTIVE" => $arFilter["ACTIVE"],
-				"WF_STATUS" => $arFilter["WF_STATUS"],
-				'INCLUDE_SUBSECTIONS' => $arFilter["INCLUDE_SUBSECTIONS"]
-			);
+			$arElementFilter = [
+				"IBLOCK_ID" => $arFilter["IBLOCK_ID"]
+			];
+			if (isset($arFilter["NAME"]))
+			{
+				if ($arFilter['USE_SUBSTRING_QUERY'] == 'Y')
+					$arElementFilter["%NAME"] = $arFilter["NAME"];
+				else
+					$arElementFilter["?NAME"] = $arFilter["NAME"];
+			}
+			if (isset($arFilter["SECTION_ID"]))
+				$arElementFilter["SECTION_ID"] = $arFilter["SECTION_ID"];
+			if (isset($arFilter["ID"]))
+				$arElementFilter["=ID"] = $arFilter["ID"];
+			if (isset($arFilter["DATE_MODIFY_FROM"]))
+				$arElementFilter[">=TIMESTAMP_X"] = $arFilter["DATE_MODIFY_FROM"];
+			if (isset($arFilter["DATE_MODIFY_TO"]))
+				$arElementFilter["<=TIMESTAMP_X"] = $arFilter["DATE_MODIFY_TO"];
+			if (isset($arFilter["CODE"]))
+				$arElementFilter["CODE"] = $arFilter["CODE"];
+			if (isset($arFilter["ACTIVE"]))
+				$arElementFilter["ACTIVE"] = $arFilter["ACTIVE"];
+			if (isset($arFilter["WF_STATUS"]))
+				$arElementFilter["WF_STATUS"] = $arFilter["WF_STATUS"];
+			if (isset($arFilter["INCLUDE_SUBSECTIONS"]))
+				$arElementFilter['INCLUDE_SUBSECTIONS'] = $arFilter["INCLUDE_SUBSECTIONS"];
 
 			if(!empty($arFilter['XML_ID']))
 				$arElementFilter['XML_ID'] = $arFilter['XML_ID'];
@@ -362,7 +390,12 @@ class ProductSearchComponent extends \CBitrixComponent
 			$rsResult->NavStart();
 		}
 		else
-			$rsResult->NavStart($this->getGridOptions()->GetNavParams());
+		{
+			$navParams = $this->getGridOptions()->GetNavParams();
+			$navParams['bShowAll'] = false;
+			$rsResult->NavStart($navParams);
+			unset($navParams);
+		}
 
 		return $rsResult;
 	}
@@ -922,11 +955,16 @@ class ProductSearchComponent extends \CBitrixComponent
 				{
 					foreach ($priceIds as $id)
 					{
-						$result[$id][$index] = $this->offers[$productId][$index]['PRICES'];
+						if (!isset($this->offers[$productId][$index]['PRICES'][$id]))
+							continue;
+						if (!isset($result[$id]))
+							$result[$id] = [];
+						$result[$id][$index] = $this->offers[$productId][$index]['PRICES'][$id];
 					}
 				}
 			}
 		}
+
 		return $result;
 	}
 
@@ -1356,6 +1394,7 @@ class ProductSearchComponent extends \CBitrixComponent
 		if (!empty($_REQUEST['QUERY']))
 		{
 			$arFilter['QUERY'] = $_REQUEST['QUERY'];
+			$arFilter['USE_SUBSTRING_QUERY'] = (isset($_REQUEST['USE_SUBSTRING_QUERY']) && $_REQUEST['USE_SUBSTRING_QUERY'] == 'Y' ? 'Y' : 'N');
 			$arSearchedIds = $arSearchedSectionIds = array();
 
 			if (preg_match('#^[0-9\s]+$#', $_REQUEST['QUERY']))
@@ -1672,7 +1711,8 @@ class ProductSearchComponent extends \CBitrixComponent
 			\CUserOptions::SetOption("catalog", $this->getTableId(),
 				array('IBLOCK_ID' =>$this->getIblockId(),
 					'SECTION_ID' =>$this->getSectionId(),
-					'QUERY' => isset($_REQUEST['QUERY'])?  $_REQUEST['QUERY'] : ''
+					'QUERY' => isset($_REQUEST['QUERY'])?  $_REQUEST['QUERY'] : '',
+					'USE_SUBSTRING_QUERY' => isset($_REQUEST['USE_SUBSTRING_QUERY']) && $_REQUEST['USE_SUBSTRING_QUERY'] == 'Y' ? 'Y' : 'N'
 				),
 				false, $this->getUserId());
 		}

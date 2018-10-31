@@ -53,7 +53,7 @@ class CashboxBitrix extends Cashbox
 
 			$value = array(
 				'name' => $item['name'],
-				'price' => $item['base_price'],
+				'price' => (float)$item['base_price'],
 				'quantity' => $item['quantity'],
 				'VAT' => (int)$vat
 			);

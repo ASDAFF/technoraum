@@ -652,6 +652,7 @@
 									fieldData.QUARTERS = presetField.QUARTERS;
 									fieldData.QUARTER = presetField.QUARTER;
 									fieldData.ENABLE_TIME = presetField.ENABLE_TIME;
+									fieldData.YEARS_SWITCHER = presetField.YEARS_SWITCHER;
 								}
 
 								fieldData.VALUES = presetField.VALUES;
@@ -792,6 +793,7 @@
 		{
 			var group, dateFrom, dateTo, singleDate, line, placeholder, select, quarter, month;
 			var subTypes = this.parent.dateTypes;
+			var additionalTypes = this.parent.additionalDateTypes;
 			var subType = subTypes.NONE;
 
 			if ('SUB_TYPE' in fieldData && BX.type.isPlainObject(fieldData.SUB_TYPE))
@@ -854,7 +856,12 @@
 				group.content.push(singleDate);
 			}
 
-			if (subType === subTypes.NEXT_DAYS || subType === subTypes.PREV_DAYS)
+			if (subType === subTypes.NEXT_DAYS ||
+				subType === subTypes.PREV_DAYS ||
+				subType === additionalTypes.PREV_DAY ||
+				subType === additionalTypes.NEXT_DAY ||
+				subType === additionalTypes.MORE_THAN_DAYS_AGO ||
+				subType === additionalTypes.AFTER_DAYS)
 			{
 				singleDate = {
 					block: 'main-ui-control-field',
@@ -878,6 +885,11 @@
 
 			if (subType === subTypes.RANGE)
 			{
+				var rangeGroup = {
+					block: "main-ui-filter-range-group",
+					content: []
+				};
+
 				dateFrom = {
 					block: 'main-ui-control-field',
 					type: fieldData.TYPE,
@@ -918,9 +930,10 @@
 					}
 				};
 
-				group.content.push(dateFrom);
-				group.content.push(line);
-				group.content.push(dateTo);
+				rangeGroup.content.push(dateFrom);
+				rangeGroup.content.push(line);
+				rangeGroup.content.push(dateTo);
+				group.content.push(rangeGroup);
 			}
 
 			if (subType === subTypes.MONTH)
@@ -1125,6 +1138,64 @@
 					group.content.push(customDateField);
 					group.mix.push("main-ui-filter-custom-date-group");
 				}
+			}
+
+			if (subType !== subTypes.NONE && subType !== additionalTypes.CUSTOM_DATE && fieldData["YEARS_SWITCHER"])
+			{
+				if ('_allow_year' in fieldData.VALUES && fieldData.VALUES._allow_year)
+				{
+					var allowYear = fieldData.YEARS_SWITCHER.ITEMS.filter(function(curr) {
+						return curr.VALUE === fieldData.VALUES._allow_year;
+					});
+					allowYear = allowYear.length ? allowYear[0] : null;
+					if (allowYear)
+					{
+						fieldData.YEARS_SWITCHER.VALUE = allowYear;
+					}
+				}
+				var yearsSwitcher = this.createSelect(fieldData["YEARS_SWITCHER"]);
+
+				yearsSwitcher.classList.add("main-ui-filter-year-switcher");
+				yearsSwitcher.classList.add("main-ui-filter-with-padding");
+				yearsSwitcher.classList.remove("main-ui-filter-wield-with-label");
+				removeButton = yearsSwitcher.querySelector(".main-ui-item-icon-container");
+
+				if (removeButton)
+				{
+					BX.remove(removeButton);
+				}
+
+				dragButton = yearsSwitcher.querySelector(".main-ui-filter-icon-grab");
+
+				if (dragButton)
+				{
+					BX.remove(dragButton);
+				}
+
+				if (group.content[group.content.length-1])
+				{
+					if (BX.type.isPlainObject(group.content[group.content.length-1]))
+					{
+						if (!BX.type.isArray(group.content[group.content.length-1].mix))
+						{
+							group.content[group.content.length-1].mix = [];
+						}
+
+						group.content[group.content.length-1].mix.push("main-ui-filter-remove-margin-right")
+					}
+
+					if (BX.type.isDomNode(group.content[group.content.length-1]))
+					{
+						group.content[group.content.length-1].classList.add("main-ui-filter-remove-margin-right");
+					}
+				}
+
+				requestAnimationFrame(function() {
+					yearsSwitcher.previousElementSibling.classList.add("main-ui-filter-remove-margin-right");
+				});
+
+				group.content.push(yearsSwitcher);
+				group.mix.push("main-ui-filter-date-with-years-switcher");
 			}
 
 			return BX.decl(group);

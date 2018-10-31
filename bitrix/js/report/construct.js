@@ -2016,19 +2016,9 @@ function fillFilterColumnEvent(e, popupElem)
 
 	var cpControl = null;
 	var tipicalControl = true;
-	if (isUF && fieldType === 'enum')
-	{
-		cpControl = BX.clone(
-			BX.findChild(
-				BX('report-filter-value-control-examples-ufenums'),
-				{attr:{name:'report-filter-value-control-' + ufId + '_' + ufName}}
-			),
-			true
-		);
-	}
-	else if (isUF
-			&& (fieldType === "crm" || fieldType === "crm_status"
-				|| fieldType === "iblock_element" || fieldType === "iblock_section"))
+	if (isUF
+		&& (fieldType === 'enum' || fieldType === "crm" || fieldType === "crm_status"
+			|| fieldType === "iblock_element" || fieldType === "iblock_section"))
 	{
 		var filterFieldSelector = null;
 		if (BX.Report && BX.Report.FilterFieldSelectorManager)

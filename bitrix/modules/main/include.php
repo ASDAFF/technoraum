@@ -98,7 +98,7 @@ if(!defined("BX_COMP_MANAGED_CACHE") && COption::GetOptionString("main", "compon
 require_once($_SERVER["DOCUMENT_ROOT"].BX_ROOT."/modules/main/filter_tools.php");
 require_once($_SERVER["DOCUMENT_ROOT"].BX_ROOT."/modules/main/ajax_tools.php");
 
-/*ZDUyZmZY2QxMDg0ZTFhYmEzNmY1NDYxYWU2YjY1YWE4Y2ZjZWY=*/$GLOBALS['_____1724122518']= array(base64_decode('R2'.'V0TW9'.'kdWxlRX'.'ZlbnRz'),base64_decode('RXhlY'.'3'.'V0ZU1vZHVs'.'ZUV2ZW'.'5'.'0'.'RXg='));$GLOBALS['____1483532741']= array(base64_decode('ZGVmaW5l'),base64_decode('c3Ry'.'bG'.'Vu'),base64_decode('YmF'.'zZTY0X'.'2R'.'lY29kZQ'.'=='),base64_decode(''.'dW5'.'zZ'.'XJp'.'YWxpe'.'mU='),base64_decode('a'.'XNfYXJyYXk='),base64_decode('Y'.'291bnQ='),base64_decode(''.'aW5fYXJyYXk='),base64_decode('c2VyaWFsaXpl'),base64_decode('YmFz'.'Z'.'T'.'Y0X2VuY29kZQ'.'=='),base64_decode('c3RybG'.'V'.'u'),base64_decode('YXJ'.'yYXlf'.'a2'.'V'.'5X2V4aXN0c'.'w=='),base64_decode('aW5fYXJyY'.'Xk='),base64_decode('c3RybG'.'Vu'),base64_decode(''.'YX'.'JyYXlf'.'a2V5X2V4'.'aXN0cw=='),base64_decode(''.'b'.'W'.'V0aG9kX2V'.'4a'.'XN0cw=='),base64_decode('Y2'.'FsbF91c2V'.'yX2'.'Z1bmN'.'f'.'YXJ'.'yYXk='),base64_decode('aW5fYXJyYXk='),base64_decode('ZGVma'.'W5l'));if(!function_exists(__NAMESPACE__.'\\___552755904')){function ___552755904($_567593618){static $_1730737834= false; if($_1730737834 == false) $_1730737834=array(''.'Ql'.'VTS'.'U5FU'.'1NfRURJV'.'ElPTg'.'==','WQ='.'=','b'.'WFpbg==','fmNwZl9tYXB'.'f'.'d'.'mFsd'.'WU=','','U'.'21h'.'bG'.'w=',''.'U21hbG'.'w'.'=','bW'.'Fpb'.'g==','fmNwZ'.'l9tYXBfd'.'mFsdWU=','bWF'.'pbg'.'==','T24=','U'.'2V0'.'dGl'.'u'.'Z3NDa'.'GFuZ'.'2U=',''.'VFlQRQ==','R'.'g==','WA='.'=',''.'R'.'EFURQ==','','RkV'.'BVFVSRVM=','RVhQ'.'SVJFRA'.'==','Rk'.'VBVFV'.'SRVM=','R'.'g==',''.'R'.'U5DT0RF','WQ==');return base64_decode($_1730737834[$_567593618]);}};$GLOBALS['____1483532741'][0](___552755904(0), ___552755904(1));class CBXFeatures{ private static $_1251836927= array( "Small" => array(), "Big" => array( "CatMultiPrice", "CatMultiStore", "CatDiscountSave", "SaleAffiliate", "SaleAccounts", "SaleCCards", "SaleReports", "SaleRecurring", "CatCompleteSet", "CatMultiFactor",),); private static $_1298846165= false; private static $_1246101386= false; private static function __907820758(){ if(self::$_1298846165 == false){ self::$_1298846165= array(); foreach(self::$_1251836927 as $_1950024599 => $_1250570816){ foreach($_1250570816 as $_81418853) self::$_1298846165[$_81418853]= $_1950024599;}} if(self::$_1246101386 == false){ self::$_1246101386= array(); $_330477953= COption::GetOptionString(___552755904(2), ___552755904(3), ___552755904(4)); if($GLOBALS['____1483532741'][1]($_330477953)>(830-2*415)){ $_330477953= $GLOBALS['____1483532741'][2]($_330477953); self::$_1246101386= $GLOBALS['____1483532741'][3]($_330477953); if(!$GLOBALS['____1483532741'][4](self::$_1246101386)) self::$_1246101386= array(___552755904(5));} if($GLOBALS['____1483532741'][5](self::$_1246101386) <=(161*2-322)) self::$_1246101386= array(___552755904(6));}} public static function InitiateEditionsSettings($_1995302613){ self::__907820758(); $_574187968= array(); foreach(self::$_1251836927 as $_1950024599 => $_1250570816){ if($GLOBALS['____1483532741'][6]($_1950024599, $_1995302613)){ self::$_1246101386[]= $_1950024599;} else{ foreach($_1250570816 as $_81418853) $_574187968[]= $_81418853;}} $_1460267093= $GLOBALS['____1483532741'][7](self::$_1246101386); $_1460267093= $GLOBALS['____1483532741'][8]($_1460267093); COption::SetOptionString(___552755904(7), ___552755904(8), $_1460267093); foreach($_574187968 as $_1013410387) self::__2053409844($_1013410387, false);} public static function IsFeatureEnabled($_81418853){ if($GLOBALS['____1483532741'][9]($_81418853) <= 0) return true; self::__907820758(); if(!$GLOBALS['____1483532741'][10]($_81418853, self::$_1298846165)) return true; return $GLOBALS['____1483532741'][11](self::$_1298846165[$_81418853], self::$_1246101386);} public static function IsFeatureInstalled($_81418853){ return self::IsFeatureEnabled($_81418853);} public static function IsFeatureEditable($_81418853){ if($GLOBALS['____1483532741'][12]($_81418853) <= 0) return true; self::__907820758(); if(!$GLOBALS['____1483532741'][13]($_81418853, self::$_1298846165)) return true; return false;} private static function __2053409844($_81418853, $_1813153862){ if($GLOBALS['____1483532741'][14]("CBXFeatures", "On".$_81418853."SettingsChange")) $GLOBALS['____1483532741'][15](array("CBXFeatures", "On".$_81418853."SettingsChange"), array($_81418853, $_1813153862)); $_729386891= $GLOBALS['_____1724122518'][0](___552755904(9), ___552755904(10).$_81418853.___552755904(11)); while($_137995727= $_729386891->Fetch()) $GLOBALS['_____1724122518'][1]($_137995727, array($_81418853, $_1813153862));} public static function SetFeatureEnabled($_81418853, $_1813153862= true, $_2060851158= true){} public static function SaveFeaturesSettings($_976657829, $_587220747){} public static function GetFeaturesList(){ self::__907820758(); $_2102547620= array(); foreach(self::$_1251836927 as $_1950024599 => $_1250570816){ $_2102547620[$_1950024599]= array( ___552755904(12) => $GLOBALS['____1483532741'][16]($_1950024599, self::$_1246101386)? ___552755904(13): ___552755904(14), ___552755904(15) => ___552755904(16), ___552755904(17) => array(), ___552755904(18) => false,); foreach($_1250570816 as $_81418853) $_2102547620[$_1950024599][___552755904(19)][$_81418853]=($_2102547620[$_1950024599] == ___552755904(20));} return $_2102547620;}} $GLOBALS['____1483532741'][17](___552755904(21), ___552755904(22));/**/			//Do not remove this
+/*ZDUyZmZMjFkM2M0ZjcxYzA3M2QwM2Y2ODQ3Yzk4NDgyYzY3MDM=*/$GLOBALS['____1616206501']= array(base64_decode('ZGVm'.'aW'.'5'.'l'));if(!function_exists(__NAMESPACE__.'\\___1885581825')){function ___1885581825($_1370953560){static $_839776417= false; if($_839776417 == false) $_839776417=array('RU'.'5DT0RF','WQ==');return base64_decode($_839776417[$_1370953560]);}};class CBXFeatures{ public static function IsFeatureEnabled($_1542945987){ return true;} public static function IsFeatureEditable($_1542945987){ return true;} public static function SetFeatureEnabled($_1542945987, $_1245291292= true){} public static function SaveFeaturesSettings($_2143724293, $_516691746){} public static function GetFeaturesList(){ return array();} public static function InitiateEditionsSettings($_1238796575){} public static function ModifyFeaturesSettings($_1238796575, $_142019834){} public static function IsFeatureInstalled($_1542945987){ return true;}} $GLOBALS['____1616206501'][0](___1885581825(0), ___1885581825(1));/**/			//Do not remove this
 
 //component 2.0 template engines
 $GLOBALS["arCustomTemplateEngines"] = array();
@@ -195,6 +195,7 @@ require_once($_SERVER["DOCUMENT_ROOT"].BX_ROOT."/modules/main/classes/general/ur
 		"CAdminViewTabControl" => "interface/admin_viewtabcontrol.php",
 		"CAdminTabEngine" => "interface/admin_tabengine.php",
 		"CCaptcha" => "classes/general/captcha.php",
+		"CMpNotifications" => "classes/general/mp_notifications.php",
 
 		//deprecated
 		"CHTMLPagesCache" => "lib/composite/helper.php",
@@ -269,8 +270,10 @@ if(COption::GetOptionString("main", "check_agents", "Y")=="Y")
 //session initialization
 ini_set("session.cookie_httponly", "1");
 
-if($domain = $GLOBALS["APPLICATION"]->GetCookieDomain())
+if(($domain = \Bitrix\Main\Web\Cookie::getCookieDomain()) <> '')
+{
 	ini_set("session.cookie_domain", $domain);
+}
 
 if(COption::GetOptionString("security", "session", "N") === "Y"	&& CModule::IncludeModule("security"))
 	CSecuritySession::Init();
@@ -457,7 +460,7 @@ if(!defined("NOT_CHECK_PERMISSIONS") || NOT_CHECK_PERMISSIONS!==true)
 					//store cookies for next hit (see CMain::GetSpreadCookieHTML())
 					$GLOBALS["APPLICATION"]->StoreCookies();
 					$_SESSION['BX_ADMIN_LOAD_AUTH'] = true;
-					echo '<script type="text/javascript">window.onload=function(){top.BX.AUTHAGENT.setAuthResult(false);};</script>';
+					CMain::FinalActions('<script type="text/javascript">window.onload=function(){top.BX.AUTHAGENT.setAuthResult(false);};</script>');
 					die();
 				}
 			}
@@ -473,6 +476,13 @@ if(!defined("NOT_CHECK_PERMISSIONS") || NOT_CHECK_PERMISSIONS!==true)
 
 //logout or re-authorize the user if something importand has changed
 $GLOBALS["USER"]->CheckAuthActions();
+
+//magic short URI
+if(defined("BX_CHECK_SHORT_URI") && BX_CHECK_SHORT_URI && CBXShortUri::CheckUri())
+{
+	//local redirect inside
+	die();
+}
 
 //application password scope control
 if(($applicationID = $GLOBALS["USER"]->GetParam("APPLICATION_ID")) !== null)
@@ -553,13 +563,6 @@ if($GLOBALS["USER"]->IsAuthorized())
 
 //magic cache
 \Bitrix\Main\Composite\Engine::shouldBeEnabled();
-
-//magic short URI
-if(defined("BX_CHECK_SHORT_URI") && BX_CHECK_SHORT_URI && CBXShortUri::CheckUri())
-{
-	//local redirect inside
-	die();
-}
 
 foreach(GetModuleEvents("main", "OnBeforeProlog", true) as $arEvent)
 	ExecuteModuleEventEx($arEvent);

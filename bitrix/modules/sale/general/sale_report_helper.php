@@ -3337,7 +3337,7 @@ class CSaleReportSaleProductHelper extends CBaseSaleReportHelper
 				WHERE   b_catalog_price.PRODUCT_ID = %s
 					AND b_catalog_group.ID = '.$id.'
 					AND ( b_catalog_price.quantity_from <= 1 OR b_catalog_price.quantity_from IS NULL )
-					AND ( b_catalog_price.quantity_to >= 1 OR b_catalog_price.quantity_to IS NULL ))',
+					AND ( b_catalog_price.quantity_to >= 1 OR b_catalog_price.quantity_to IS NULL ) LIMIT 1)',
 							'ID'
 						),
 						'view_column' => array(

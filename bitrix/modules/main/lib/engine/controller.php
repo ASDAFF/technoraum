@@ -4,6 +4,7 @@ namespace Bitrix\Main\Engine;
 
 
 use Bitrix\Main\Engine\Contract\Controllerable;
+use Bitrix\Main\Engine\Response\Converter;
 use Bitrix\Main\Error;
 use Bitrix\Main\ErrorCollection;
 use Bitrix\Main\Errorable;
@@ -47,6 +48,8 @@ class Controller implements Errorable, Controllerable
 	private $scope;
 	/** @var CurrentUser */
 	private $currentUser;
+	/** @var Converter */
+	private $converter;
 	/** @var string */
 	private $filePath;
 	/** @var array */
@@ -71,6 +74,7 @@ class Controller implements Errorable, Controllerable
 		$this->errorCollection = new ErrorCollection;
 		$this->request = $request?: Context::getCurrent()->getRequest();
 		$this->configurator = new Configurator();
+		$this->converter = Converter::toJson();
 
 		$this->init();
 	}
@@ -109,7 +113,7 @@ class Controller implements Errorable, Controllerable
 		if (!$this->filePath)
 		{
 			$reflector = new \ReflectionClass($this);
-			$this->filePath = $reflector->getFileName();
+			$this->filePath = preg_replace('#[\\\/]+#', '/', $reflector->getFileName());
 		}
 
 		return $this->filePath;
@@ -121,17 +125,18 @@ class Controller implements Errorable, Controllerable
 	 *
 	 * @param string $actionName Action name. It's a relative action name without controller name.
 	 * @param array $params Parameters for creating uri.
+	 * @param bool $absolute
 	 *
 	 * @return \Bitrix\Main\Web\Uri
 	 */
-	final public function getActionUri($actionName, array $params = array())
+	final public function getActionUri($actionName, array $params = array(), $absolute = false)
 	{
 		if (strpos($this->getFilePath(), '/components/') === false)
 		{
-			return UrlManager::getInstance()->createByController($this, $actionName, $params);
+			return UrlManager::getInstance()->createByController($this, $actionName, $params, $absolute);
 		}
 
-		return UrlManager::getInstance()->createByComponentController($this, $actionName, $params);
+		return UrlManager::getInstance()->createByComponentController($this, $actionName, $params, $absolute);
 	}
 
 	/**
@@ -150,6 +155,18 @@ class Controller implements Errorable, Controllerable
 		$this->currentUser = $currentUser;
 	}
 
+	/**
+	 * Converts keys of array to camel case notation.
+	 * @see \Bitrix\Main\Engine\Response\Converter::OUTPUT_JSON_FORMAT
+	 * @param mixed $data Data.
+	 *
+	 * @return array|mixed|string
+	 */
+	public function convertKeysToCamelCase($data)
+	{
+		return $this->converter->process($data);
+	}
+	
 	/**
 	 * Returns list of all
 	 * @return array
@@ -475,10 +492,11 @@ class Controller implements Errorable, Controllerable
 	protected function getDefaultPreFilters()
 	{
 		return array(
-			new ActionFilter\Authentication,
+			new ActionFilter\Authentication(),
 			new ActionFilter\HttpMethod(
 				array(ActionFilter\HttpMethod::METHOD_GET, ActionFilter\HttpMethod::METHOD_POST)
 			),
+			new ActionFilter\Csrf(),
 		);
 	}
 
@@ -539,7 +557,56 @@ class Controller implements Errorable, Controllerable
 			$config['prefilters'][] = new ActionFilter\Csrf;
 		}
 
+		if (!empty($config['-prefilters']))
+		{
+			$config['prefilters'] = $this->removeFilters($config['prefilters'], $config['-prefilters']);
+		}
+
+		if (!empty($config['-postfilters']))
+		{
+			$config['postfilters'] = $this->removeFilters($config['postfilters'], $config['-postfilters']);
+		}
+
+		if (!empty($config['+prefilters']))
+		{
+			$config['prefilters'] = $this->appendFilters($config['prefilters'], $config['+prefilters']);
+		}
+
+		if (!empty($config['+postfilters']))
+		{
+			$config['postfilters'] = $this->appendFilters($config['postfilters'], $config['+postfilters']);
+		}
+
 		return $config;
+	}
+
+	final protected function appendFilters(array $filters, array $filtersToAppend)
+	{
+		return array_merge($filters, $filtersToAppend);
+	}
+
+	final protected function removeFilters(array $filters, array $filtersToRemove)
+	{
+		$cleanedFilters = [];
+		foreach ($filters as $filter)
+		{
+			$found = false;
+			foreach ($filtersToRemove as $filterToRemove)
+			{
+				if (is_a($filter, $filterToRemove))
+				{
+					$found = true;
+					break;
+				}
+			}
+
+			if (!$found)
+			{
+				$cleanedFilters[] = $filter;
+			}
+		}
+
+		return $cleanedFilters;
 	}
 
 	final protected function attachFilters(Action $action)
@@ -630,12 +697,12 @@ class Controller implements Errorable, Controllerable
 			return new Error($e->getMessage(), self::ERROR_REQUIRED_PARAMETER);
 		}
 
-		return new Error($e->getMessage());
+		return new Error($e->getMessage(), $e->getCode());
 	}
 
 	protected function buildErrorFromPhpError(\Error $error)
 	{
-		return new Error($error->getMessage());
+		return new Error($error->getMessage(), $error->getCode());
 	}
 
 	/**

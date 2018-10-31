@@ -1,5 +1,6 @@
 <?php
 
+use Bitrix\Main;
 use Bitrix\Main\Localization\Loc;
 
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
@@ -25,7 +26,10 @@ class MainMailConfirmComponent extends CBitrixComponent
 		$this->arParams['USER_FULL_NAME'] = static::getUserNameFormated();
 		$this->arParams['MAILBOXES'] = static::prepareMailboxes();
 
-		$this->arParams['IS_SMTP_AVAILABLE'] = \Bitrix\Main\Loader::includeModule('bitrix24') && \CBitrix24::isPortalAdmin($USER->getId());
+		$this->arParams['IS_SMTP_AVAILABLE'] = Main\ModuleManager::isModuleInstalled('bitrix24');
+		$this->arParams['IS_ADMIN'] = Main\Loader::includeModule('bitrix24')
+			? \CBitrix24::isPortalAdmin($USER->getId())
+			: $USER->isAdmin();
 
 		$this->includeComponentTemplate();
 
@@ -48,50 +52,16 @@ class MainMailConfirmComponent extends CBitrixComponent
 
 		if (\CModule::includeModule('mail'))
 		{
-			$res = \Bitrix\Mail\MailboxTable::getList(array(
-				'select' => array('NAME', 'LOGIN', 'USER_ID', 'OPTIONS'),
-				'filter' => array(
-					'=LID'    => SITE_ID,
-					'=ACTIVE' => 'Y',
-					array(
-						'LOGIC' => 'OR',
-						'=USER_ID' => $USER->getId(),
-						array(
-							'USER_ID'      => 0,
-							'=SERVER_TYPE' => 'imap',
-						),
-					),
-				),
-				'order' => array(
-					'USER_ID' => 'DESC',
-					'ID' => 'ASC',
-				),
-			));
-
-			while ($mailbox = $res->fetch())
+			foreach (\Bitrix\Mail\MailboxTable::getUserMailboxes() as $mailbox)
 			{
-				$isUserMailbox = $mailbox['USER_ID'] > 0;
-				$isCrmTracker  = !empty($mailbox['OPTIONS']['flags']) && in_array('crm_connect', (array) $mailbox['OPTIONS']['flags']);
-
-				if (!$isUserMailbox && !$isCrmTracker)
-					continue;
-
-				$mailboxEmail = null;
-				if (check_email($mailbox['NAME'], true))
-					$mailboxEmail = strtolower($mailbox['NAME']);
-				else if(check_email($mailbox['LOGIN'], true))
-					$mailboxEmail = strtolower($mailbox['LOGIN']);
-
-				if (!empty($mailboxEmail))
+				if (!empty($mailbox['EMAIL']))
 				{
-					$mailboxName = !$isUserMailbox && trim($mailbox['OPTIONS']['name'])
-						? trim($mailbox['OPTIONS']['name'])
-						: static::getUserNameFormated();
+					$mailboxName = trim($mailbox['OPTIONS']['name']) ?: static::getUserNameFormated();
 
-					$key = hash('crc32b', strtolower($mailboxName).$mailboxEmail);
+					$key = hash('crc32b', strtolower($mailboxName) . $mailbox['EMAIL']);
 					$mailboxes[$key] = array(
 						'name'  => $mailboxName,
-						'email' => $mailboxEmail,
+						'email' => $mailbox['EMAIL'],
 					);
 				}
 			}
@@ -102,7 +72,9 @@ class MainMailConfirmComponent extends CBitrixComponent
 		if (check_email($crmEmail, true))
 		{
 			$crmEmail = strtolower($crmEmail);
-			$mailboxes[hash('crc32b', $crmEmail)] = array(
+			$key = hash('crc32b', strtolower(static::getUserNameFormated()) . $crmEmail);
+
+			$mailboxes[$key] = array(
 				'name'  => static::getUserNameFormated(),
 				'email' => $crmEmail,
 			);
@@ -112,7 +84,9 @@ class MainMailConfirmComponent extends CBitrixComponent
 		if (check_email($userEmail, true))
 		{
 			$userEmail = strtolower($userEmail);
-			$mailboxes[hash('crc32b', $userEmail)] = array(
+			$key = hash('crc32b', strtolower(static::getUserNameFormated()) . $userEmail);
+
+			$mailboxes[$key] = array(
 				'name'  => static::getUserNameFormated(),
 				'email' => $userEmail,
 			);
@@ -127,19 +101,24 @@ class MainMailConfirmComponent extends CBitrixComponent
 					'IS_PUBLIC' => true,
 				),
 			),
+			'order' => array(
+				'ID' => 'ASC',
+			),
 		));
 		while ($item = $res->fetch())
 		{
-			$item['NAME']  = trim($item['NAME']);
+			$item['NAME']  = trim($item['NAME']) ?: static::getUserNameFormated();
 			$item['EMAIL'] = strtolower($item['EMAIL']);
 			$key = hash('crc32b', strtolower($item['NAME']) . $item['EMAIL']);
 
-			$mailboxes[$key] = array(
-				'id'    => $item['ID'],
-				'name'  => $item['NAME'] ?: static::getUserNameFormated(),
-				'email' => $item['EMAIL'],
-				'smtp'  => !empty($item['OPTIONS']['smtp']) ? $item['OPTIONS']['smtp'] : null,
-			);
+			if(!isset($mailboxes[$key]))
+			{
+				$mailboxes[$key] = array(
+					'id'    => $item['ID'],
+					'name'  => $item['NAME'],
+					'email' => $item['EMAIL'],
+				);
+			}
 		}
 
 		$mailboxes = array_values($mailboxes);

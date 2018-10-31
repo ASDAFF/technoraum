@@ -62,9 +62,17 @@ abstract class CReportHelper
 		return self::$ufInfo;
 	}
 
-	public static function &getUFEnumerations()
+	protected static function prepareUFEnumerations($usedUFMap = null)
 	{
-		static::prepareUFInfo();
+		if (!is_array(self::$ufEnumerations))
+		{
+			self::$ufEnumerations = array();
+		}
+	}
+
+	public static function &getUFEnumerations($usedUFMap = null)
+	{
+		static::prepareUFEnumerations($usedUFMap);
 
 		return self::$ufEnumerations;
 	}
@@ -189,6 +197,11 @@ abstract class CReportHelper
 
 		if (!empty($ufId) && !empty($ufName))
 		{
+			if (!is_array(self::$ufEnumerations) || !isset(self::$ufEnumerations[$ufId][$ufName]))
+			{
+				static::prepareUFEnumerations(array($ufId => array($ufName => true)));
+			}
+
 			if (is_array(self::$ufEnumerations) && isset(self::$ufEnumerations[$ufId][$ufName][$valueKey]['VALUE']))
 				$value = self::$ufEnumerations[$ufId][$ufName][$valueKey]['VALUE'];
 		}
@@ -1671,7 +1684,7 @@ abstract class CReportHelper
 			&& (empty($cInfo['aggr']) || $cInfo['aggr'] !== 'COUNT_DISTINCT')
 			&& !strlen($cInfo['prcnt']))
 		{
-			$v = static::getUserFieldEnumerationValue($v, $ufInfo);
+			$v = htmlspecialcharsbx(static::getUserFieldEnumerationValue($v, $ufInfo));
 		}
 		elseif ($isUF && $dataType === 'file' && !empty($v)
 			&& (empty($cInfo['aggr']) || $cInfo['aggr'] !== 'COUNT_DISTINCT')

@@ -70,7 +70,7 @@
 			this.template = parameters.template || '';
 			this.signedParamsString = parameters.signedParamsString || '';
 			this.siteId = parameters.siteId || '';
-			this.ajaxUrl = parameters.ajaxUrl || '';
+			this.ajaxUrl = this.params.AJAX_PATH || '';
 			this.templateFolder = parameters.templateFolder || '';
 
 			this.useDynamicScroll = this.params.USE_DYNAMIC_SCROLL === 'Y';
@@ -261,7 +261,7 @@
 			var border = 2, offset = 0;
 			var scrollTop = this.getDocumentScrollTop();
 			var basketPosition = BX.pos(this.getCacheNode(this.ids.basketRoot));
-			var basketScrolledToEnd = scrollTop + 400 >= basketPosition.bottom;
+			var basketScrolledToEnd = scrollTop + 200 >= basketPosition.bottom;
 
 			if (BX.util.in_array('top', this.params.TOTAL_BLOCK_DISPLAY))
 			{
@@ -284,18 +284,6 @@
 								node.style.width = node.clientWidth + border + 'px';
 								BX.addClass(node, 'basket-checkout-container-fixed');
 							}
-
-							if (basketScrolledToEnd)
-							{
-								if (!BX.hasClass(node, 'basket-checkout-container-fixed-hide'))
-								{
-									BX.addClass(node, 'basket-checkout-container-fixed-hide');
-								}
-							}
-							else if (BX.hasClass(node, 'basket-checkout-container-fixed-hide'))
-							{
-								BX.removeClass(node, 'basket-checkout-container-fixed-hide');
-							}
 						}
 						else if (BX.hasClass(node, 'basket-checkout-container-fixed'))
 						{
@@ -303,6 +291,18 @@
 
 							node.style.width = '';
 							BX.removeClass(node, 'basket-checkout-container-fixed');
+						}
+
+						if (basketScrolledToEnd)
+						{
+							if (!BX.hasClass(node, 'basket-checkout-container-fixed-hide'))
+							{
+								BX.addClass(node, 'basket-checkout-container-fixed-hide');
+							}
+						}
+						else if (BX.hasClass(node, 'basket-checkout-container-fixed-hide'))
+						{
+							BX.removeClass(node, 'basket-checkout-container-fixed-hide');
 						}
 					}
 				}
@@ -383,11 +383,6 @@
 			if (this.result.EVENT_ONCHANGE_ON_START === 'Y')
 			{
 				BX.onCustomEvent('OnBasketChange');
-			}
-
-			if (this.result.GIFTS_RELOAD)
-			{
-				// ToDo call some event for gifts reload
 			}
 		},
 

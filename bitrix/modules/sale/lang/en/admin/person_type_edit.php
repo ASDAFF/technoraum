@@ -1,4 +1,12 @@
 <?
+$MESS["SPTEN_ERROR_SAVING_PROPS_GRP"] = "Error saving property group";
+$MESS["SPTEN_ERROR_PERSON_TYPE_EXISTS"] = "Payer type with this code already exists";
+$MESS["SPTEN_CODE"] = "Code";
+$MESS["SPTEN_DOMAIN_P_TYPE"] = "Business entity type";
+$MESS["SPTEN_DOMAIN_P_TYPE_NONE"] = "Not specified";
+$MESS["SPTEN_DOMAIN_P_TYPE_I"] = "Individual";
+$MESS["SPTEN_DOMAIN_P_TYPE_E"] = "Company";
+$MESS["PROPS_GROUP_DEFAULT_NAME"] = "Order properties";
 $MESS["SPTEN_NO_PERMS2ADD"] = "You do not have enough permissions to add a new payer type";
 $MESS["SPTEN_NO_PERSON_TYPE"] = "The payer type ##ID# was not found";
 $MESS["SPTEN_ERROR_SAVING_PERSON_TYPE"] = "Error saving payer type";

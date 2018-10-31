@@ -1,4 +1,5 @@
 <?
+$MESS["ERR_NO_MODS_DOC_GENERATOR"] = "The Document Generator module requires php-xml and php-zip extensions.";
 $MESS["SC_SUBTITLE_DISK"] = "Checking the disk access";
 $MESS["SC_SUBTITLE_DISK_DESC"] = "The site scripts must have write access to site files. This is required for proper functioning of the file manager, file upload and the update system that is used to keep the site kernel up-to-date.";
 $MESS["SC_VER_ERR"] = "The PHP version is #CUR#, but #REQ# or higher is required.";
@@ -343,7 +344,7 @@ $MESS["SC_ERR_NO_VALUE"] = "There is no system record #SQL# for the table #TABLE
 $MESS["SC_ERR_FIELD_DIFFERS"] = "Table #TABLE#: the field #FIELD# \"#CUR#\" does not match the description \"#NEW#\"";
 $MESS["SC_ERR_NO_INDEX"] = "Index #INDEX# is missing from the table #TABLE#";
 $MESS["SC_ERR_NO_TABLE"] = "The table #TABLE# does not exist.";
-$MESS["SC_CHECK_TABLES_STRUCT_ERRORS"] = "There are errors in database structure (missing tables: #NO_TABLES#, missing fields: #NO_FIELDS#, different fields: #DIFF_FIELDS#, missing indexes: #NO_INDEXES#). Total issues: #VAL#. #VAL1# can be fixed right away.";
+$MESS["SC_CHECK_TABLES_STRUCT_ERRORS"] = "There are errors in database structure. Total issues: #VAL#. #VAL1# can be fixed right away.";
 $MESS["SC_CHECK_TABLES_STRUCT_ERRORS_FIX"] = "The issues have been fixed, but some fields (#VAL#) have different types. You will have to fix them manually by reviewing the website check log.";
 $MESS["SC_HELP_CHECK_PERF"] = "Server performance evaluation as provided by <a href=\"http://www.bitrixsoft.com/support/training/course/index.php?COURSE_ID=20&CHAPTER_ID=04955\">Performance Monitor</a>.
 

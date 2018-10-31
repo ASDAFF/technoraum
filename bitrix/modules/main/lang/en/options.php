@@ -1,4 +1,6 @@
 <?
+$MESS["MAIN_OPT_PROFILE"] = "User profile";
+$MESS["MAIN_OPT_PROFILE_HYSTORY"] = "Keep history of user profile field updates:";
 $MESS["MAIN_REGISTER"] = "Enable self-registration for users";
 $MESS["MAIN_EMAIL"] = "Send copies of all outgoing e-mails to:";
 $MESS["FILL_TO_MAIL_M"] = "E-mail address in caption";

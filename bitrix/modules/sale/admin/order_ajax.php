@@ -977,57 +977,40 @@ class AjaxProcessor
 
 		if ($this->request['method'] == 'save')
 		{
-			if ($payment->getField('IS_RETURN') == 'Y')
+			$res = $payment->setPaid('Y');
+			if ($strict)
 			{
-				$res = $payment->setReturn('N');
-				if (!$res->isSuccess())
-				{
-					$this->addResultError(join("\n", $res->getErrorMessages()));
-					$hasErrors = true;
-				}
-				elseif ($res->hasWarnings())
-				{
-					$this->addResultWarning(join("\n", $res->getWarningMessages()));
-					$hasErrors = true;
-				}
+				$res = $this->removeErrorsForConfirmation($res);
 			}
-			else
+
+			if (!$res->isSuccess())
 			{
-				$res = $payment->setPaid('Y');
-				if ($strict)
+				$res = $this->convertErrorsToConfirmation($res);
+
+				$setResultMessage = $res->getErrorMessages();
+				if (!empty($setResultMessage))
 				{
-					$res = $this->removeErrorsForConfirmation($res);
-				}
-
-				if (!$res->isSuccess())
-				{
-					$res = $this->convertErrorsToConfirmation($res);
-
-					$setResultMessage = $res->getErrorMessages();
-					if (!empty($setResultMessage))
-					{
-						$this->addResultError(join("\n", $setResultMessage));
-					}
-					elseif ($res->hasWarnings())
-					{
-						$existSpecialErrors = $res->get('NEED_CONFIRM');
-						if ($existSpecialErrors)
-						{
-							$this->addResultData('NEED_CONFIRM', $existSpecialErrors);
-							$this->addResultData('CONFIRM_TITLE', Loc::getMessage('SALE_ORDER_SHIP_SHIPMENT_NOTICE_TITLE'));
-							$this->addResultData('CONFIRM_MESSAGE', Loc::getMessage('SALE_ORDER_SHIP_SHIPMENT_NOTICE_MESSAGE'));
-						}
-
-						$this->addResultWarning(join("\n", $res->getWarningMessages()));
-					}
-
-					$hasErrors = true;
-
+					$this->addResultError(join("\n", $setResultMessage));
 				}
 				elseif ($res->hasWarnings())
 				{
+					$existSpecialErrors = $res->get('NEED_CONFIRM');
+					if ($existSpecialErrors)
+					{
+						$this->addResultData('NEED_CONFIRM', $existSpecialErrors);
+						$this->addResultData('CONFIRM_TITLE', Loc::getMessage('SALE_ORDER_SHIP_SHIPMENT_NOTICE_TITLE'));
+						$this->addResultData('CONFIRM_MESSAGE', Loc::getMessage('SALE_ORDER_SHIP_SHIPMENT_NOTICE_MESSAGE'));
+					}
+
 					$this->addResultWarning(join("\n", $res->getWarningMessages()));
 				}
+
+				$hasErrors = true;
+
+			}
+			elseif ($res->hasWarnings())
+			{
+				$this->addResultWarning(join("\n", $res->getWarningMessages()));
 			}
 
 			if (!$hasErrors)
@@ -3317,13 +3300,19 @@ class AjaxProcessor
 
 		if ($paymentId > 0)
 		{
-			$filter = array("PAYMENT_ID" => $paymentId);
+			$filter = array(
+				'PAYMENT_ID' => $paymentId,
+				'ENTITY_REGISTRY_TYPE' => Sale\Registry::REGISTRY_TYPE_ORDER
+			);
 			$checkData = Cashbox\CheckManager::collectInfo($filter);
 			$htmlCheckList = Sale\Helpers\Admin\Blocks\OrderPayment::buildCheckHtml($checkData);
 		}
 		else if ($shipmentId > 0)
 		{
-			$filter = array("SHIPMENT_ID" => $shipmentId);
+			$filter = array(
+				'SHIPMENT_ID' => $shipmentId,
+				'ENTITY_REGISTRY_TYPE' => Sale\Registry::REGISTRY_TYPE_ORDER
+			);
 			$checkData = Cashbox\CheckManager::collectInfo($filter);
 			$htmlCheckList = Sale\Helpers\Admin\Blocks\OrderShipment::buildCheckHtml($checkData);
 		}
@@ -3351,10 +3340,12 @@ class AjaxProcessor
 			}
 		}
 
-		$filter = array();
 		if ($check->getField('PAYMENT_ID') > 0)
 		{
-			$filter = array("PAYMENT_ID" => $check->getField('PAYMENT_ID'));
+			$filter = array(
+				'PAYMENT_ID' => $check->getField('PAYMENT_ID'),
+				'ENTITY_REGISTRY_TYPE' => Sale\Registry::REGISTRY_TYPE_ORDER
+			);
 			$checkData = Cashbox\CheckManager::collectInfo($filter);
 			$htmlCheckList = Sale\Helpers\Admin\Blocks\OrderPayment::buildCheckHtml($checkData);
 			$this->addResultData("PAYMENT_ID", $check->getField('PAYMENT_ID'));
@@ -3362,7 +3353,10 @@ class AjaxProcessor
 		}
 		elseif ($check->getField('SHIPMENT_ID') > 0)
 		{
-			$filter = array("SHIPMENT_ID" => $check->getField('SHIPMENT_ID'));
+			$filter = array(
+				'SHIPMENT_ID' => $check->getField('SHIPMENT_ID'),
+				'ENTITY_REGISTRY_TYPE' => Sale\Registry::REGISTRY_TYPE_ORDER
+			);
 			$checkData = Cashbox\CheckManager::collectInfo($filter);
 			$htmlCheckList = Sale\Helpers\Admin\Blocks\OrderShipment::buildCheckHtml($checkData);
 			$this->addResultData("SHIPMENT_ID", $check->getField('SHIPMENT_ID'));
@@ -3384,7 +3378,7 @@ class AjaxProcessor
 		$result = array();
 		$defaultSum = SaleFormatCurrency( 0, CurrencyManager::getBaseCurrency());
 
-		$checkData = CashboxCheckTable::getList(
+		$checkData = Cashbox\CheckManager::getList(
 			array(
 				'select' => array('CHECK_SUM', 'CURRENCY', 'TYPE'),
 				'filter' => $filter,

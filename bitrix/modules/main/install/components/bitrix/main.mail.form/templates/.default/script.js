@@ -16,11 +16,30 @@
 		BXMainMailForm.__forms[this.id] = this;
 	};
 
+	// id names for smart nodes
+	BXMainMailForm.quoteNodeId = 'main-mail-quote-node-content';
+	BXMainMailForm.signatureNodeId = 'main-mail-form-signature';
+
 	BXMainMailForm.__forms = {};
 
 	BXMainMailForm.getForm = function (id)
 	{
 		return BXMainMailForm.__forms[id];
+	};
+
+	BXMainMailForm.removeSenderFromPopup = function(fieldId, senderId)
+	{
+		var menu = BX.PopupMenu.getMenuById(fieldId + '-menu');
+		if (menu)
+		{
+			var item = menu.getMenuItem(senderId);
+			var input = BX(fieldId + '_value');
+			if(item && input && input.value == item.title)
+			{
+				menu.getMenuItems().slice(0, 1)[0].onItemClick();
+			}
+			menu.removeMenuItem(senderId);
+		}
 	};
 
 	BXMainMailForm.prototype.getField = function (name)
@@ -128,6 +147,48 @@
 
 		this.postForm = LHEPostForm.getHandler(this.formId+'_editor');
 		this.editor = BXHtmlEditor.Get(this.formId+'_editor');
+		this.editorInited = false;
+
+		// insert signature on change 'from' field
+		BX.addCustomEvent(this, 'MailForm::from::change', BX.proxy(function(field, signature)
+		{
+			if(!BX.type.isString(signature))
+			{
+				signature = '';
+				var currentSender;
+				var input = BX(field.fieldId+'_value');
+				if(input)
+				{
+					currentSender = input.value;
+				}
+				if(currentSender && field.params && BX.type.isArray(field.params.mailboxes) && BX.type.isNotEmptyObject(field.params.signatures))
+				{
+					for(var i in field.params.mailboxes)
+					{
+						if(field.params.mailboxes.hasOwnProperty(i))
+						{
+							if(field.params.mailboxes[i].formated === currentSender)
+							{
+								if(BX.type.isNotEmptyString(field.params.signatures[field.params.mailboxes[i].formated]))
+								{
+									signature = field.params.signatures[field.params.mailboxes[i].formated];
+								}
+								else if(BX.type.isNotEmptyString(field.params.signatures[field.params.mailboxes[i].email]))
+								{
+									signature = field.params.signatures[field.params.mailboxes[i].email];
+								}
+								else if(BX.type.isNotEmptyString(field.params.signatures['']))
+								{
+									signature = field.params.signatures[''];
+								}
+								break;
+							}
+						}
+					}
+				}
+			}
+			this.insertSignature(signature);
+		}, this));
 
 		this.initFields();
 		this.initFooter();
@@ -273,6 +334,7 @@
 
 					BX.bind(window, 'resize', positionFooter);
 					BX.bind(window, 'scroll', positionFooter);
+					BX.addCustomEvent(window, 'AutoResizeFinished', positionFooter); // OnEditorResizedAfter
 
 					positionFooter();
 				}
@@ -284,6 +346,7 @@
 
 			BX.unbind(window, 'resize', positionFooter);
 			BX.unbind(window, 'scroll', positionFooter);
+			BX.removeCustomEvent(window, 'AutoResizeFinished', positionFooter); // OnEditorResizedAfter
 
 			resetFooter();
 		};
@@ -294,6 +357,55 @@
 		if (this.formWrapper.offsetHeight > 0)
 			startMonitoring();
 	}
+
+	BXMainMailForm.prototype.insertSignature = function(signature)
+	{
+		if(this.editorInited)
+		{
+			this.editor.synchro.Sync();
+			var signatureNode = this.editor.GetIframeDoc().getElementById(BXMainMailForm.signatureNodeId);
+			if(!BX.type.isNotEmptyString(signature))
+			{
+				if(signatureNode)
+				{
+					BX.remove(signatureNode);
+				}
+				return;
+			}
+			var signatureHtml = '<br />--<br />' + signature;
+			if(signatureNode)
+			{
+				signatureNode.innerHTML = signatureHtml;
+			}
+			else
+			{
+				signatureNode = BX.create('div', {
+					attrs: {
+						id: BXMainMailForm.signatureNodeId
+					},
+					html: signatureHtml
+				});
+				var quoteNode = this.editor.GetIframeDoc().getElementById(BXMainMailForm.quoteNodeId);
+				if(quoteNode)
+				{
+					quoteNode.parentNode.insertBefore(signatureNode, quoteNode);
+				}
+				else
+				{
+					BX.append(signatureNode, this.editor.GetIframeDoc().body);
+				}
+			}
+			this.editor.synchro.FullSyncFromIframe();
+		}
+		else
+		{
+			// if editor is not inited yet - do it later
+			BX.addCustomEvent(this, 'MailForm::editor::init', BX.proxy(function()
+			{
+				this.insertSignature(signature);
+			}, this));
+		}
+	};
 
 	var BXMainMailFormField = function(form, params)
 	{
@@ -498,6 +610,7 @@
 				menu.close();
 		});
 
+		BX.onCustomEvent(field.form, 'MailForm::from::change', [field]);
 		var selector = BX.findChildByClassName(field.params.__row, 'main-mail-form-field-value-menu', true);
 		BX.bind(selector, 'click', function()
 		{
@@ -505,7 +618,8 @@
 			var apply = function(value, text)
 			{
 				input.value = value;
-				BX.adjust(selector, {html: text});
+				BX.adjust(selector, {html: BX.util.strip_tags(text)});
+				BX.onCustomEvent(field.form, 'MailForm::from::change', [field]);
 			};
 			var handler = function(event, item)
 			{
@@ -513,7 +627,7 @@
 				item.menuWindow.close();
 			};
 
-			var items = [];
+			var items = [], itemText, itemClass, itemId;
 
 			if (!field.params.required)
 			{
@@ -529,10 +643,22 @@
 			{
 				for (var i in field.params.mailboxes)
 				{
+					itemClass = null;
+					itemText = BX.util.htmlspecialchars(field.params.mailboxes[i].formated);
+					if(field.params.mailboxes[i].id && field.params.mailboxes[i].id > 0)
+					{
+						itemId = 'main-mail-popup-sender-item-' + field.params.mailboxes[i].id;
+						itemText += '<span class="delete-sender" onclick="BXMainMailConfirm.deleteSender(event, \'' + field.params.mailboxes[i].id + '\', function(){ BXMainMailForm.removeSenderFromPopup(\'' + field.fieldId + '\', \'' + itemId + '\') });">' +
+							'<img src="data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%2010%2010%22%3E%3Cpath%20fill%3D%22%23535C69%22%20fill-rule%3D%22evenodd%22%20d%3D%22M5.065%203.682L2.377.994%201.01%202.362%203.696%205.05.99%207.757l1.368%201.37%202.708-2.71%202.7%202.703%201.37-1.368-2.702-2.7%202.682-2.684L7.748%201%205.065%203.682z%22/%3E%3C/svg%3E" />' +
+							'</span>';
+						itemClass = 'menu-popup-no-icon menu-popup-right-icon';
+					}
 					items.push({
-						text: BX.util.htmlspecialchars(field.params.mailboxes[i].formated),
+						text: itemText,
 						title: field.params.mailboxes[i].formated,
-						onclick: handler
+						onclick: handler,
+						className: itemClass,
+						id: itemId
 					});
 				}
 
@@ -549,6 +675,7 @@
 						field.params.mailboxes.push({
 							email: mailbox.email,
 							name: mailbox.name,
+							id: mailbox.id,
 							formated: formated
 						});
 
@@ -594,13 +721,6 @@
 				}
 			}
 
-			item.showEmail = 'N';
-			if (field.params.email && item.email && item.email.length > 0 && item.email != item.name)
-			{
-				item = BX.clone(item);
-				item.name = item.name+' &lt;' + item.email + '&gt;';
-			}
-
 			var itemWrapper = document.createElement('SPAN');
 			itemWrapper.setAttribute('data-id', item.id);
 			BX.addClass(itemWrapper, 'main-mail-form-field-rcpt-item');
@@ -613,6 +733,13 @@
 					'value': JSON.stringify(item)
 				}
 			}));
+
+			item.showEmail = 'N';
+			if (field.params.email && item.email && item.email.length > 0 && item.email != item.name)
+			{
+				item = BX.clone(item);
+				item.name = item.name+' &lt;' + item.email + '&gt;';
+			}
 
 			BX.SocNetLogDestination.BXfpSelectCallback({
 				item: item,
@@ -686,7 +813,7 @@
 
 				more.setAttribute('title', more.getAttribute('title').replace(/-?\d+/, items.length-limit));
 				if (visible >= items.length)
-					more.style.display = 'none';
+					more.parentNode.style.display = 'none';
 			}
 		};
 
@@ -772,7 +899,7 @@
 			for (var i = 0; i < items.length; i++)
 				items[i].style.display = '';
 
-			this.style.display = 'none';
+			this.parentNode.style.display = 'none';
 
 			BX.PreventDefault(e);
 		});
@@ -787,7 +914,10 @@
 			field.params.value = '';
 
 		field.quoteNode = document.createElement('DIV');
-		field.quoteNode.innerHTML = field.params.value;
+		var quoteContentNode = document.createElement('DIV');
+		quoteContentNode.setAttribute('id', BXMainMailForm.quoteNodeId);
+		quoteContentNode.innerHTML = field.params.value;
+		field.quoteNode.appendChild(quoteContentNode);
 		field.quoteNode.__folded = field.form.options.foldQuote;
 
 		//postForm.controllerInit('hide');
@@ -834,7 +964,7 @@
 			{
 				field.quoteNode.__folded = false;
 
-				field.setValue(editor.GetContent(), {quote: true});
+				field.setValue(editor.GetContent(), {quote: true, signature: false});
 				editor.Focus(false);
 
 				var height0, height1;
@@ -921,7 +1051,9 @@
 			editor, 'OnCreateIframeAfter',
 			function ()
 			{
-				field.setValue('', {quote: true});
+				field.setValue('', {quote: true, signature: true});
+				field.form.editorInited = true;
+				BX.onCustomEvent(field.form, 'MailForm::editor::init', [field]);
 			}
 		);
 
@@ -929,7 +1061,6 @@
 		{
 			field.form.editor.CheckAndReInit();
 			field.form.editor.ResizeSceleton();
-			field.form.editor.Focus(true);
 		});
 
 		BX.addCustomEvent(field.form, 'MailForm:hide', function ()
@@ -962,6 +1093,7 @@
 				input.value = '';
 				BX.adjust(selector, {html: ''});
 			}
+			BX.onCustomEvent(field.form, 'MailForm::from::change', [field, '']);
 
 			return;
 		}
@@ -978,6 +1110,7 @@
 				{
 					input.value = value;
 					BX.adjust(selector, {html: BX.util.htmlspecialchars(value)});
+					BX.onCustomEvent(field.form, 'MailForm::from::change', [field]);
 
 					break;
 				}
@@ -1079,6 +1212,19 @@
 				}
 
 				break;
+			}
+		}
+
+		if (options && options.signature)
+		{
+			editor.synchro.Sync();
+			var signatureNode = editor.GetIframeDoc().getElementById(BXMainMailForm.signatureNodeId);
+			if (signatureNode)
+			{
+				var dummyNode = document.createElement('div');
+				dummyNode.appendChild(signatureNode.cloneNode(true));
+
+				value += dummyNode.innerHTML;
 			}
 		}
 

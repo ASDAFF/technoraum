@@ -974,9 +974,9 @@ $tabControl->BeginNextTab();
 
 	</td>
 	</tr>
-<?flush();
-
-$tabControl->BeginNextTab();?>
+<?
+$tabControl->BeginNextTab();
+?>
 	<tr>
 		<td colspan="2"><?echo GetMessage("SC_SUBTITLE_DISK_DESC");?></td>
 	</tr>
@@ -1041,8 +1041,6 @@ $tabControl->BeginNextTab();?>
 		</td>
 	</tr>
 <?
-flush();
-
 $tabControl->BeginNextTab();
 
 if(!isset($strTicketError))

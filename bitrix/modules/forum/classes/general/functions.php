@@ -304,7 +304,7 @@ class forumTextParser extends CTextParser
 		else if ($this->bMobile)
 			return "<div class='blog-post-".$marker."' title=\"".($marker == "quote" ? GetMessage("FRM_QUOTE") : GetMessage("FRM_CODE"))."\"><table class='blog".$marker."'><tr><td>";
 		else
-			return '<table class="forum-'.$marker.'"><thead><tr><th>'.($marker == "quote" ? GetMessage("FRM_QUOTE") : GetMessage("FRM_CODE")).'</th></tr></thead><tbody><tr><td>';
+			return '<div class="entry-'.$marker.'"><table class="forum-'.$marker.'"><thead><tr><th>'.($marker == "quote" ? GetMessage("FRM_QUOTE") : GetMessage("FRM_CODE")).'</th></tr></thead><tbody><tr><td>';
 	}
 
 	function convert_close_tag($marker = "quote")
@@ -325,7 +325,7 @@ class forumTextParser extends CTextParser
 		else if ($this->bMobile)
 			return "</td></tr></table></div>";
 		else
-			return "</td></tr></tbody></table>";
+			return "</td></tr></tbody></table></div>";
 
 	}
 
@@ -496,13 +496,7 @@ class forumTextParser extends CTextParser
 
 		$res = (
 			!$this->bPublic
-				? '<a class="blog-p-user-name'.$classAdditional.'" id="bp_'.$anchorId.'" href="'.CComponentEngine::MakePathFromTemplate($pathToUser, array("user_id" => $userId)).'">'.
-				(
-				!$this->bMobile
-				&& $ajaxPage
-					? '<script type="text/javascript">BX.tooltip(\''.$userId.'\', "bp_'.$anchorId.'", "'.CUtil::JSEscape($ajaxPage).'");</script>'
-					: ''
-				)
+				? '<a class="blog-p-user-name'.$classAdditional.'" id="bp_'.$anchorId.'" href="'.CComponentEngine::MakePathFromTemplate($pathToUser, array("user_id" => $userId)).'" bx-tooltip-user-id="'.(!$this->bMobile ? $userId : '').'">'
 				: ''
 			).
 			$userName.

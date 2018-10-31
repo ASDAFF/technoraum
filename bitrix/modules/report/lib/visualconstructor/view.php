@@ -9,6 +9,7 @@ use Bitrix\Report\VisualConstructor\Fields\Container;
 use Bitrix\Report\VisualConstructor\Fields\Div;
 use Bitrix\Report\VisualConstructor\Fields\Valuable\ColorPicker;
 use Bitrix\Report\VisualConstructor\Fields\Valuable\LabelField;
+use Bitrix\Report\VisualConstructor\Fields\Valuable\PreviewBlock;
 use Bitrix\Report\VisualConstructor\Fields\Valuable\TimePeriod;
 use Bitrix\Report\VisualConstructor\Handler\BaseReport;
 use Bitrix\Report\VisualConstructor\Handler\BaseWidget;
@@ -110,7 +111,7 @@ abstract class View
 	}
 
 	/**
-	 * Set Comaptible data type.
+	 * Set compatible data type.
 	 *
 	 * @param string $compatibleDataType Data type which compatible with view type.
 	 * @return void
@@ -175,7 +176,7 @@ abstract class View
 	}
 
 	/**
-	 * Find repor handler by class name and build Report handler in context of widget handler and view type.
+	 * Find report handler by class name and build Report handler in context of widget handler and view type.
 	 *
 	 * @param string $reportHandlerClassName Report handler class name.
 	 * @param BaseWidget $widgetHandler Widget handler.
@@ -220,8 +221,65 @@ abstract class View
 	 */
 	public function collectWidgetHandlerFormElements($widgetHandler)
 	{
-		$previewBlock = $widgetHandler->getConfiguration('view_type');
-		$previewBlock->setValue($this->getKey());
+		$label = new LabelField('label', 'big');
+		$label->setDefaultValue(Loc::getMessage('REPORT_WIDGET_DEFAULT_TITLE'));
+		$label->addAssets(array(
+			'js' => array('/bitrix/js/report/js/visualconstructor/fields/reporttitle.js')
+		));
+		$label->setIsDisplayLabel(false);
+
+
+		$timePeriod = new TimePeriod('time_period', $widgetHandler->getWidget()->getFilterId());
+		$timePeriod->setLabel(Loc::getMessage('REPORT_CALCULATION_PERIOD'));
+
+
+		$colorPicker = new ColorPicker('color');
+		$colorPicker->setLabel(Loc::getMessage('BACKGROUND_COLOR_OF_WIDGET'));
+		$colorPicker->setDefaultValue('#ffffff');
+
+		$previewBlockField = new PreviewBlock('view_type');
+		$previewBlockField->setWidget($widgetHandler->getWidget());
+		$previewBlockField->addJsEventListener($previewBlockField, $previewBlockField::JS_EVENT_ON_VIEW_SELECT, array(
+			'class' => 'BX.Report.VisualConstructor.FieldEventHandlers.PreviewBlock',
+			'action' => 'viewTypeSelect'
+		));
+
+		$previewBlockField->addJsEventListener($label, $label::JS_EVENT_ON_CHANGE, array(
+			'class' => 'BX.Report.VisualConstructor.FieldEventHandlers.PreviewBlock',
+			'action' => 'reloadWidgetPreview'
+		));
+		$previewBlockField->addJsEventListener($timePeriod, $timePeriod::JS_EVENT_ON_SELECT, array(
+			'class' => 'BX.Report.VisualConstructor.FieldEventHandlers.PreviewBlock',
+			'action' => 'reloadWidgetPreview'
+		));
+
+		$previewBlockField->addAssets(array(
+			'js' => array('/bitrix/js/report/js/visualconstructor/fields/previewblock.js')
+		));
+		$titleContainer = new Div();
+		$titleContainer->addClass('report-configuration-row');
+		$titleContainer->addClass('report-configuration-no-padding-bottom');
+		$titleContainer->addClass('report-configuration-row-white-background');
+		$titleContainer->addClass('report-configuration-row-margin-bottom');
+		$widgetHandler->addFormElement($titleContainer->start());
+		$widgetHandler->addFormElement($label);
+		$widgetHandler->addFormElement($colorPicker);
+		$widgetHandler->addFormElement($titleContainer->end());
+
+		$timePeriodContainer = new Div();
+		$timePeriodContainer->addClass('report-configuration-row');
+		$timePeriodContainer->addClass('report-configuration-row-white-background');
+		$widgetHandler->addFormElement($timePeriodContainer->start());
+		$widgetHandler->addFormElement($timePeriod);
+		$widgetHandler->addFormElement($timePeriodContainer->end());
+
+		$previewBlockContainer = new Div();
+		$previewBlockContainer->addClass('report-configuration-row');
+		$previewBlockContainer->addClass('report-configuration-row-margin-top-big');
+		$previewBlockContainer->addClass('report-configuration-row-white-background');
+		$widgetHandler->addFormElement($previewBlockContainer->start());
+		$widgetHandler->addFormElement($previewBlockField);
+		$widgetHandler->addFormElement($previewBlockContainer->end());
 	}
 
 	/**
@@ -337,7 +395,7 @@ abstract class View
 
 
 	/**
-	 * Method to modify Content which pass to widget view, in absoulte end.
+	 * Method to modify Content which pass to widget view, in absolute end.
 	 *
 	 * @param Widget $widget Widget entity.
 	 * @param bool $withCalculatedData Marker for calculate or no data in widget.
@@ -406,7 +464,7 @@ abstract class View
 	}
 
 	/**
-	 * Chack is $view compatible with xcurrent view type.
+	 * Check is $view compatible with current view type.
 	 *
 	 * @param View $view View entity.
 	 * @return bool

@@ -1,6 +1,9 @@
 <?php
 use Bitrix\Main\Text\HtmlFilter;
 use Bitrix\Main\Grid\Editor\Types;
+use Bitrix\Main\Grid\Panel;
+use Bitrix\Main\UI\Filter\Options;
+use Bitrix\Main\Grid\Context;
 
 class CAdminUiList extends CAdminList
 {
@@ -8,8 +11,13 @@ class CAdminUiList extends CAdminList
 	public $totalRowCount = 0;
 
 	protected $filterPresets = array();
+	protected $currentPreset = array();
 
 	private $isShownContext = false;
+	private $contextSettings = array();
+
+	/** @var CAdminUiContextMenu */
+	public $context = false;
 
 	public function AddHeaders($aParams)
 	{
@@ -36,8 +44,13 @@ class CAdminUiList extends CAdminList
 		}
 	}
 
-	public function SetNavigationParams(\CAdminUiResult $queryObject)
+	public function SetNavigationParams(\CAdminUiResult $queryObject, $params = array())
 	{
+		if ($this->isPublicMode)
+		{
+			unset($params["BASE_LINK"]);
+		}
+		$queryObject->setNavigationParams($params);
 		$this->NavText($queryObject->GetNavPrint(""));
 		$this->totalRowCount = $queryObject->NavRecordCount;
 		$this->enableNextPage = $queryObject->PAGEN < $queryObject->NavPageCount;
@@ -87,6 +100,7 @@ class CAdminUiList extends CAdminList
 			$arrays = array(&$_POST, &$_REQUEST, &$GLOBALS);
 			foreach ($arrays as $i => &$array)
 			{
+				$customFields = [];
 				if(is_array($array["FIELDS"]))
 				{
 					foreach ($array["FIELDS"] as $id => &$fields)
@@ -97,6 +111,43 @@ class CAdminUiList extends CAdminList
 							$keys = array_keys($fields);
 							foreach ($keys as $key)
 							{
+								if (preg_match("/_custom/i", $key, $match))
+								{
+									if (!is_array($arrays[$i]["FIELDS"][$id][$key]))
+									{
+										continue;
+									}
+									foreach ($arrays[$i]["FIELDS"][$id][$key] as $index => $value)
+									{
+										if (!isset($value["name"]) || !isset($value["value"]))
+										{
+											continue;
+										}
+										if (preg_match_all("/(.*?)\[(.*?)\]/", $value["name"], $listMatchKeys))
+										{
+											$listPreparedKeys = [];
+											foreach ($listMatchKeys as $matchKeys)
+											{
+												foreach ($matchKeys as $matchKey)
+												{
+													if (!is_string($matchKey) || strlen(trim($matchKey)) == 0)
+													{
+														continue;
+													}
+													if (strpos($matchKey, "[") === false && strpos($matchKey, "]") === false)
+													{
+														$listPreparedKeys[] = $matchKey;
+													}
+												}
+											}
+											$listPreparedKeys[] = $value["value"];
+											$customFields = array_replace_recursive($customFields, $this->prepareCustomKey(
+												array_shift($listPreparedKeys), $listPreparedKeys));
+										}
+									}
+									unset($arrays[$i]["FIELDS"][$id][$key]);
+								}
+
 								if(($c = substr($key, 0, 1)) == '~' || $c == '=')
 								{
 									unset($arrays[$i]["FIELDS"][$id][$key]);
@@ -105,10 +156,20 @@ class CAdminUiList extends CAdminList
 						}
 					}
 				}
+				if ($customFields)
+				{
+					$arrays[$i] = array_replace_recursive($arrays[$i], $customFields);
+				}
 			}
 			return true;
 		}
 		return false;
+	}
+
+	private function prepareCustomKey($key, array $keys)
+	{
+		return (count($keys) == 1 ? [$key => array_shift($keys)] :
+			[$key => $this->prepareCustomKey(array_shift($keys), $keys)]);
 	}
 
 	public function GroupAction()
@@ -126,6 +187,13 @@ class CAdminUiList extends CAdminList
 		if (!empty($_REQUEST["action_button_".$this->table_id]))
 		{
 			$_REQUEST["action"] = $_REQUEST["action_button_".$this->table_id];
+			$_REQUEST["action_button"] = $_REQUEST["action_button_".$this->table_id];
+		}
+
+		if (!empty($_REQUEST["bxajaxid"]))
+		{
+			global $adminSidePanelHelper;
+			$adminSidePanelHelper->setSkipResponse(true);
 		}
 
 		if ((empty($_REQUEST["action_all_rows_".$this->table_id]) ||
@@ -146,10 +214,25 @@ class CAdminUiList extends CAdminList
 
 	public function ActionDoGroup($id, $action_id, $add_params = "")
 	{
-		$postParams = array(
+		$listParams = explode("&", $add_params);
+		$addParams = array();
+		if ($listParams)
+		{
+			foreach($listParams as $param)
+			{
+				$explode = explode("=", $param);
+				if ($explode[0] && $explode[1])
+				{
+					$addParams[$explode[0]] = $explode[1];
+				}
+			}
+		}
+
+		$postParams = array_merge(array(
 			"action_button_".$this->table_id => $action_id,
 			"ID" => $id
-		);
+		), $addParams);
+
 		return $this->ActionAjaxPostGrid($postParams);
 	}
 
@@ -182,7 +265,7 @@ class CAdminUiList extends CAdminList
 
 		foreach ($filterData as $fieldId => $fieldValue)
 		{
-			if (empty($fieldValue))
+			if ((is_array($fieldValue) && empty($fieldValue)) || (is_string($fieldValue) && strlen($fieldValue) <= 0))
 			{
 				continue;
 			}
@@ -190,6 +273,10 @@ class CAdminUiList extends CAdminList
 			if (substr($fieldId, -5) == "_from")
 			{
 				$realFieldId = substr($fieldId, 0, strlen($fieldId)-5);
+				if (!array_key_exists($realFieldId, $filterable))
+				{
+					continue;
+				}
 				if (substr($realFieldId, -2) == "_1")
 				{
 					$arFilter[$realFieldId] = $fieldValue;
@@ -206,6 +293,10 @@ class CAdminUiList extends CAdminList
 			elseif (substr($fieldId, -3) == "_to")
 			{
 				$realFieldId = substr($fieldId, 0, strlen($fieldId)-3);
+				if (!array_key_exists($realFieldId, $filterable))
+				{
+					continue;
+				}
 				if (substr($realFieldId, -2) == "_1")
 				{
 					$realFieldId = substr($realFieldId, 0, strlen($realFieldId)-2);
@@ -235,6 +326,26 @@ class CAdminUiList extends CAdminList
 		}
 	}
 
+	public function hasGroupErrors()
+	{
+		return (bool)(count($this->arGroupErrors));
+	}
+
+	public function getGroupErrors()
+	{
+		$error = "";
+		foreach ($this->arGroupErrors as $groupError)
+		{
+			$error .= " ".$groupError;
+		}
+		return $error;
+	}
+
+	public function setContextSettings(array $settings)
+	{
+		$this->contextSettings = $settings;
+	}
+
 	public function AddAdminContextMenu($aContext=array(), $bShowExcel=true, $bShowSettings=true)
 	{
 		/** @global CMain $APPLICATION */
@@ -244,12 +355,23 @@ class CAdminUiList extends CAdminList
 
 		if ($bShowExcel)
 		{
-			$link = DeleteParam(array("mode"));
-			$link = $APPLICATION->GetCurPage()."?mode=excel".($link <> ""? "&".$link:"");
+			if ($this->contextSettings["pagePath"])
+			{
+				$pageParam = (!empty($_GET) ? http_build_query($_GET, "", "&") : "");
+				$pagePath = $this->contextSettings["pagePath"]."?".$pageParam;
+				$pageParams = array("mode" => "excel");
+				if ($this->isPublicMode)
+					$pageParams["public"] = "y";
+				$link = CHTTP::urlAddParams($pagePath, $pageParams);
+			}
+			else
+			{
+				$link = CHTTP::urlAddParams($APPLICATION->GetCurPageParam(), array("mode" => "excel"));
+			}
 			$aAdditionalMenu[] = array(
-				"TEXT"=>"Excel",
-				"TITLE"=>GetMessage("admin_lib_excel"),
-				"ONCLICK"=>"location.href='".htmlspecialcharsbx($link)."'",
+				"TEXT" => "Excel",
+				"TITLE" => GetMessage("admin_lib_excel"),
+				"LINK" => $link,
 				"GLOBAL_ICON"=>"adm-menu-excel",
 			);
 		}
@@ -258,106 +380,28 @@ class CAdminUiList extends CAdminList
 			$this->context = new CAdminUiContextMenu($aContext, $aAdditionalMenu);
 	}
 
-	//TODO Finalize the function so that it can create a structure of any complexity.
-	public function GetGroupAction()
+	private function GetGroupAction()
 	{
-		if (empty($this->arActions))
-		{
-			return array();
-		}
+		$actionPanelConstructor = new CAdminUiListActionPanel(
+			$this->table_id, $this->arActions, $this->arActionsParams);
 
-		$actionPanel = array();
-
-		$snippet = new Bitrix\Main\Grid\Panel\Snippet();
-
-		$actionList = array(array("NAME" => GetMessage("admin_lib_list_actions"), "VALUE" => ""));
-		$skipKey = array("edit", "delete", "for_all");
-		foreach ($this->arActions as $actionKey => $action)
-		{
-			if (in_array($actionKey, $skipKey))
-				continue;
-
-			if (is_array($action))
-			{
-				if (!empty($action["type"]))
-				{
-					switch ($action["type"])
-					{
-						case "select":
-							$actionList[] = array(
-								"NAME" => $action["lable"],
-								"VALUE" => $actionKey,
-								"ONCHANGE" => array(
-									array(
-										"ACTION" => Bitrix\Main\Grid\Panel\Actions::CREATE,
-										"DATA" => array(
-											array(
-												"TYPE" => Bitrix\Main\Grid\Panel\Types::DROPDOWN,
-												"ID" => "selected_action_{$this->table_id}",
-												"NAME" => $action["name"],
-												"ITEMS" => $action["items"]
-											)
-										)
-									)
-								)
-							);
-							break;
-					}
-				}
-			}
-			else
-			{
-				$actionList[] = array(
-					"NAME" => $action,
-					"VALUE" => $actionKey,
-					"ONCHANGE" => Bitrix\Main\Grid\Panel\Actions::RESET_CONTROLS,
-				);
-			}
-		}
-
-		$items = array();
-
-		/* Default actions */
-		if ($this->arActions["edit"])
-			$items[] = $snippet->getEditButton();
-		if ($this->arActions["delete"])
-			$items[] = $snippet->getRemoveButton();
-
-		/* Action list (select and apply button) */
-		$items[] = array(
-			"TYPE" => Bitrix\Main\Grid\Panel\Types::DROPDOWN,
-			"ID" => "base_action_select_{$this->table_id}",
-			"NAME" => "action_button_{$this->table_id}",
-			"ITEMS" => $actionList
-		);
-		$items[] = $snippet->getApplyButton(
-			array(
-				"ONCHANGE" => array(
-					array(
-						"ACTION" => Bitrix\Main\Grid\Panel\Actions::CALLBACK,
-						"DATA" => array(
-							array(
-								"JS" => "BX.adminList.SendSelected('{$this->table_id}')"
-							)
-						)
-					)
-				)
-			)
-		);
-
-		if ($this->arActions["for_all"])
-			$items[] = $snippet->getForAllCheckbox();
-
-		$actionPanel["GROUPS"][] = array("ITEMS" => $items);
-
-		return $actionPanel;
+		return $actionPanelConstructor->getActionPanel();
 	}
 
 	public function &AddRow($id = false, $arRes = Array(), $link = false, $title = false)
 	{
-		$row = new CAdminListRow($this->aHeaders, $this->table_id);
+		$row = new CAdminUiListRow($this->aHeaders, $this->table_id);
 		$row->id = $id;
 		$row->arRes = $arRes;
+		if ($this->isPublicMode)
+		{
+			$selfFolderUrl = (defined("SELF_FOLDER_URL") ? SELF_FOLDER_URL : "/bitrix/admin/");
+			$reqValue = "/".str_replace("/", "\/", $selfFolderUrl)."/i";
+			if (!empty($link) && !preg_match($reqValue, $link) && preg_match("/\.php/i", $link))
+			{
+				$link = $selfFolderUrl.$link;
+			}
+		}
 		$row->link = $link;
 		$row->title = $title;
 		$row->pList = &$this;
@@ -390,46 +434,227 @@ class CAdminUiList extends CAdminList
 	public function setFilterPresets(array $filterPresets)
 	{
 		$this->filterPresets = $filterPresets;
+		foreach ($filterPresets as $filterPreset)
+		{
+			if (!empty($filterPreset["current"]))
+			{
+				$this->currentPreset = $filterPreset;
+			}
+		}
 	}
 
-	public function DisplayFilter($filterFields)
+	public function deletePreset($presetId)
+	{
+		$options = new Options($this->table_id);
+		$options->deleteFilter($presetId);
+		$options->save();
+	}
+
+	public function DisplayFilter(array $filterFields = array())
 	{
 		global $APPLICATION;
-		$APPLICATION->SetAdditionalCSS('/bitrix/css/main/grid/webform-button.css');
-		?>
-		<div class="adm-toolbar-panel-container">
-			<div class="adm-toolbar-panel-flexible-space">
-			<?
-			$APPLICATION->includeComponent(
-				"bitrix:main.ui.filter",
-				"",
-				array(
-					"FILTER_ID" => $this->table_id,
-					"GRID_ID" => $this->table_id,
-					"FILTER" => $filterFields,
-					"FILTER_PRESETS" => $this->filterPresets,
-					"ENABLE_LABEL" => true,
-					"ENABLE_LIVE_SEARCH" => true
-				),
-				false,
-				array("HIDE_ICONS" => true)
-			);
+
+		$params = array(
+			"FILTER_ID" => $this->table_id,
+			"GRID_ID" => $this->table_id,
+			"FILTER" => $filterFields,
+			"FILTER_PRESETS" => $this->filterPresets,
+			"ENABLE_LABEL" => true,
+			"ENABLE_LIVE_SEARCH" => true
+		);
+
+		if ($this->currentPreset)
+		{
+			$options = new Options($this->table_id, $this->filterPresets);
+			$options->setFilterSettings($this->currentPreset["id"], $this->currentPreset, true, false);
+			$options->save();
+		}
+
+		if ($this->context)
+		{
+			$this->context->setFilterContextParam(true);
+		}
+
+		if ($this->isPublicMode)
+		{
+			ob_start();
 			?>
+				<div class="pagetitle-container pagetitle-flexible-space">
+					<?
+					$APPLICATION->includeComponent(
+						"bitrix:main.ui.filter",
+						"",
+						$params,
+						false,
+						array("HIDE_ICONS" => true)
+					);
+					?>
+				</div>
+			<?
+			$APPLICATION->AddViewContent("inside_pagetitle", ob_get_clean());
+		}
+		else
+		{
+			$APPLICATION->SetAdditionalCSS('/bitrix/css/main/grid/webform-button.css');
+			?>
+			<div class="adm-toolbar-panel-container">
+				<div class="adm-toolbar-panel-flexible-space">
+					<?
+					$APPLICATION->includeComponent(
+						"bitrix:main.ui.filter",
+						"",
+						$params,
+						false,
+						array("HIDE_ICONS" => true)
+					);
+					?>
+				</div>
+				<?
+				$this->ShowContext();
+				?>
 			</div>
 			<?
-			$this->ShowContext();
-			?>
-		</div>
+		}
+
+		$this->createFilterSelectorHandlers($filterFields);
+
+		?>
+		<script type="text/javascript">
+			BX.ready(function () {
+				if (!window['filter_<?=$this->table_id?>'] ||
+					!BX.is_subclass_of(window['filter_<?=$this->table_id?>'], BX.adminUiFilter))
+				{
+					window['filter_<?=$this->table_id?>'] = new BX.adminUiFilter('<?=$this->table_id?>',
+						<?=CUtil::PhpToJsObject(array())?>);
+				}
+			});
+		</script>
 		<?
+	}
+
+	private function createFilterSelectorHandlers(array $filterFields = array())
+	{
+		$selfFolderUrl = (defined("SELF_FOLDER_URL") ? SELF_FOLDER_URL : "/bitrix/admin/");
+		foreach ($filterFields as $filterField)
+		{
+			if (isset($filterField["type"]) && $filterField["type"] !== "custom_entity")
+			{
+				continue;
+			}
+
+			if (isset($filterField["selector"]) && isset($filterField["selector"]["type"]))
+			{
+				switch ($filterField["selector"]["type"])
+				{
+					case "user":
+						?>
+						<script>
+							BX.ready(function() {
+								if (!window["userFilterHandler_<?=$filterField["id"]?>"])
+								{
+									var params = {
+										filterId: "<?=$this->table_id?>",
+										fieldId: "<?=$filterField["id"]?>",
+										languageId: "<?=LANGUAGE_ID?>",
+										selfFolderUrl: "<?=$selfFolderUrl?>"
+									};
+									window["userFilterHandler_<?=$filterField["id"]?>"] =
+										new BX.adminUserFilterHandler(params);
+								}
+							});
+							if (typeof(SUVsetUserId_<?=$filterField["id"]?>) === "undefined")
+							{
+								function SUVsetUserId_<?=$filterField["id"]?>(userId)
+								{
+									if (window["userFilterHandler_<?=$filterField["id"]?>"])
+									{
+										var adminUserFilterHandler = window["userFilterHandler_<?=$filterField["id"]?>"];
+										adminUserFilterHandler.setSelected(userId);
+									}
+								}
+							}
+						</script>
+						<?
+						break;
+					case "product":
+						?>
+						<script>
+							BX.ready(function() {
+								if (!window["productFilterHandler_<?=$filterField["id"]?>"])
+								{
+									var params = {
+										filterId: "<?=$this->table_id?>",
+										fieldId: "<?=$filterField["id"]?>",
+										languageId: "<?=LANGUAGE_ID?>",
+										publicMode: "<?=($this->isPublicMode ? "Y" : "N")?>",
+										selfFolderUrl: "<?=$selfFolderUrl?>"
+									};
+									window["productFilterHandler_<?=$filterField["id"]?>"] =
+										new BX.adminProductFilterHandler(params);
+								}
+							});
+							if (typeof(FillProductFields_<?=$filterField["id"]?>) === "undefined")
+							{
+								function FillProductFields_<?=$filterField["id"]?>(product)
+								{
+									if (window["productFilterHandler_<?=$filterField["id"]?>"])
+									{
+										var adminProductFilterHandler =
+											window["productFilterHandler_<?=$filterField["id"]?>"];
+										adminProductFilterHandler.closeProductSearchDialog();
+										adminProductFilterHandler.setSelected(product["id"], product["name"]);
+									}
+								}
+							}
+						</script>
+						<?
+						break;
+				}
+			}
+		}
 	}
 
 	public function DisplayList($arParams = array())
 	{
+		$errorMessage = "";
+		foreach ($this->arFilterErrors as $error)
+			$errorMessage .= " ".$error;
+		foreach ($this->arUpdateErrors as $arError)
+			$errorMessage .= " ".$arError[0];
+		foreach ($this->arGroupErrors as $arError)
+			$errorMessage .= " ".$arError[0];
+
+		if (Context::isValidateRequest())
+		{
+			global $adminAjaxHelper;
+			if (!is_object($adminAjaxHelper))
+			{
+				require_once($_SERVER["DOCUMENT_ROOT"].BX_ROOT."/modules/main/interface/admin_lib.php");
+				$adminAjaxHelper = new CAdminAjaxHelper();
+			}
+			global $APPLICATION;
+			$APPLICATION->RestartBuffer();
+			if ($errorMessage)
+			{
+				$adminAjaxHelper->sendJsonResponse(array("messages" => array(
+					array("TYPE" => Bitrix\Main\Grid\MessageType::ERROR, "TEXT" => $errorMessage)))
+				);
+			}
+			else
+			{
+				$adminAjaxHelper->sendJsonResponse(array("messages" => array()));
+			}
+		}
+
 		global $APPLICATION;
 		$APPLICATION->SetAdditionalCSS('/bitrix/css/main/grid/webform-button.css');
 
 		foreach(GetModuleEvents("main", "OnAdminListDisplay", true) as $arEvent)
 			ExecuteModuleEventEx($arEvent, array(&$this));
+
+		echo $this->sPrologContent;
+
+		$selfFolderUrl = (defined("SELF_FOLDER_URL") ? SELF_FOLDER_URL : "/bitrix/admin/");
 
 		$this->ShowContext();
 
@@ -439,11 +664,12 @@ class CAdminUiList extends CAdminList
 			"AJAX_OPTION_JUMP" => "N",
 			"AJAX_OPTION_HISTORY" => "N",
 			"SHOW_PAGESIZE" => true,
-			"AJAX_ID" => CAjax::getComponentID('bitrix:main.ui.grid', '.default', ''),
-			"ALLOW_PIN_HEADER" => true
+			"AJAX_ID" => CAjax::getComponentID("bitrix:main.ui.grid", ".default", ""),
+			"ALLOW_PIN_HEADER" => true,
+			"ALLOW_VALIDATE" => true
 		);
 
-		$actionPanel = $this->GetGroupAction();
+		$actionPanel = $arParams["ACTION_PANEL"] ? $arParams["ACTION_PANEL"] : $this->GetGroupAction();
 		if ($actionPanel)
 		{
 			$gridParameters["ACTION_PANEL"] = $actionPanel;
@@ -457,13 +683,30 @@ class CAdminUiList extends CAdminList
 		}
 
 		$gridOptions = new Bitrix\Main\Grid\Options($gridParameters["GRID_ID"]);
+		$defaultSort = array();
+		if ($this->sort instanceof CAdminSorting)
+		{
+			$defaultSort = array("sort" => array($this->sort->getField() => $this->sort->getOrder()));
+		}
+		$sorting = $gridOptions->GetSorting($defaultSort);
+		$gridParameters["SORT"] = $sorting["sort"];
+		$gridParameters["SORT_VARS"] = $sorting["vars"];
+
 		$gridColumns = $gridOptions->getVisibleColumns();
 		if (empty($gridColumns))
 			$gridColumns = array_keys($this->aVisibleHeaders);
 
 		$gridParameters["ENABLE_NEXT_PAGE"] = $this->enableNextPage;
 		$gridParameters["TOTAL_ROWS_COUNT"] = $this->totalRowCount;
-		$gridParameters["NAV_STRING"] = $this->sNavText;
+		if ($this->sNavText)
+		{
+			$gridParameters["NAV_STRING"] = $this->sNavText;
+		}
+		else
+		{
+			$gridParameters["SHOW_PAGINATION"] = false;
+		}
+
 		$gridParameters["PAGE_SIZES"] = array(
 			array("NAME" => "5", "VALUE" => "5"),
 			array("NAME" => "10", "VALUE" => "10"),
@@ -479,24 +722,37 @@ class CAdminUiList extends CAdminList
 		{
 			$gridRow = array(
 				"id" => $row->id,
+				"actions" => $row->aActions
 			);
-			$aActions = array();
-			foreach ($row->aActions as $aAction)
-			{
-				if (!empty($aAction["LINK"]) && empty($aAction["ACTION"]))
-					$aAction["ONCLICK"] = "BX.adminPanel.Redirect([], '".$aAction["LINK"]."', event);";
-				else
-					$aAction["ONCLICK"] = $aAction["ACTION"];
-				$aActions[] = $aAction;
-			}
-			$gridRow["actions"] = $aActions;
 
-			if ($row->link)
+			if ($arParams["default_action"])
 			{
+				if ($this->isPublicMode)
+				{
+					if (!empty($row->link))
+					{
+						$row->link = str_replace("/bitrix/admin/", $selfFolderUrl, $row->link);
+					}
+				}
 				$gridRow["default_action"] = array();
-				$gridRow["default_action"]["href"] = $row->link;
+				$gridRow["default_action"]["href"] = htmlspecialcharsback($row->link);
 				if ($row->title)
 					$gridRow["default_action"]["title"] = $row->title;
+			}
+			elseif ($row->link)
+			{
+				$gridRow["default_action"] = array();
+				if ($this->isPublicMode)
+					$gridRow["default_action"]["onclick"] = "BX.adminSidePanel.onOpenPage('".$row->link."');";
+				else
+					$gridRow["default_action"]["href"] = htmlspecialcharsback($row->link);
+				if ($row->title)
+					$gridRow["default_action"]["title"] = $row->title;
+			}
+			else
+			{
+				$gridRow["default_action"] = array();
+				$gridRow["default_action"]["onclick"] = "";
 			}
 
 			foreach ($row->aFields as $fieldId => $field)
@@ -504,6 +760,13 @@ class CAdminUiList extends CAdminList
 				if (!empty($field["edit"]["type"]))
 					$this->SetHeaderEditType($fieldId, $field);
 			}
+
+			$listEditable = array();
+			foreach (array_diff_key($this->aHeaders, $row->aFields) as $fieldId => $field)
+			{
+				$listEditable[$fieldId] = false;
+			}
+
 			foreach ($gridColumns as $columnId)
 			{
 				$field = $row->aFields[$columnId];
@@ -511,34 +774,52 @@ class CAdminUiList extends CAdminList
 					$value = trim($row->arRes[$columnId]);
 				else
 					$value = $row->arRes[$columnId];
-				$gridRow["data"][$columnId] = $value;
-				switch ($field["view"]["type"])
+
+				$editValue = $value;
+				if (isset($field["edit"]["type"]))
 				{
-					case "checkbox":
-						if ($value == "Y")
-							$value = htmlspecialcharsex(GetMessage("admin_lib_list_yes"));
-						else
-							$value = htmlspecialcharsex(GetMessage("admin_lib_list_no"));
-						break;
-					case "select":
-						if ($field["edit"]["values"][$value])
-							$value = htmlspecialcharsex($field["edit"]["values"][$value]);
-						break;
-					case "file":
-						$arFile = CFile::getFileArray($value);
-						if (is_array($arFile))
-							$value = htmlspecialcharsex(CHTTP::URN2URI($arFile["SRC"]));
-						else
-							$value = "";
-						break;
-					case "html":
-						$value = $field["view"]["value"];
-						break;
-					default:
-						$value = htmlspecialcharsex($value);
-						break;
+					switch ($field["edit"]["type"])
+					{
+						case "html":
+							$editValue = $field["edit"]["value"];
+							break;
+					}
 				}
+
+				$gridRow["data"][$columnId] = $editValue;
+
+				if (isset($field["view"]["type"]))
+				{
+					switch ($field["view"]["type"])
+					{
+						case "checkbox":
+							if ($value == "Y")
+								$value = htmlspecialcharsex(GetMessage("admin_lib_list_yes"));
+							else
+								$value = htmlspecialcharsex(GetMessage("admin_lib_list_no"));
+							break;
+						case "select":
+							if ($field["edit"]["values"][$value])
+								$value = htmlspecialcharsex($field["edit"]["values"][$value]);
+							break;
+						case "file":
+							$value = $value ? CFileInput::Show("fileInput", $value, $field["view"]["showInfo"], $field["view"]["inputs"]) : "";
+							break;
+						case "html":
+							$value = (!empty(trim($field["view"]["value"])) ? $field["view"]["value"] : $value);
+							break;
+						default:
+							$value = htmlspecialcharsex($value);
+							break;
+					}
+				}
+				else
+				{
+					$value = htmlspecialcharsbx($value);
+				}
+
 				$gridRow["columns"][$columnId] = $value;
+				$gridRow["editable"] = $listEditable;
 			}
 			$gridParameters["ROWS"][] = $gridRow;
 		}
@@ -550,13 +831,6 @@ class CAdminUiList extends CAdminList
 			$gridParameters["COLUMNS"][] = $header;
 		}
 
-		$errorMessage = "";
-		foreach ($this->arFilterErrors as $error)
-			$errorMessage .= " ".$error;
-		foreach ($this->arUpdateErrors as $arError)
-			$errorMessage .= " ".$arError[0];
-		foreach ($this->arGroupErrors as $arError)
-			$errorMessage .= " ".$arError[0];
 		if ($errorMessage <> "")
 		{
 			$gridParameters["MESSAGES"] = array(
@@ -573,6 +847,21 @@ class CAdminUiList extends CAdminList
 			$gridParameters,
 			false, array("HIDE_ICONS" => "Y")
 		);
+
+		echo $this->sEpilogContent;
+
+		$arParams["publicMode"] = $this->isPublicMode;
+
+		?>
+		<script type="text/javascript">
+			if (!window['<?=$this->table_id?>'] || !BX.is_subclass_of(window['<?=$this->table_id?>'], BX.adminUiList))
+			{
+				window['<?=$this->table_id?>'] = new BX.adminUiList(
+					'<?=$this->table_id?>', <?=CUtil::PhpToJsObject($arParams)?>);
+			}
+			BX.adminChain.addItems("<?=$this->table_id?>_navchain_div");
+		</script>
+		<?
 	}
 
 	private function ShowContext()
@@ -586,6 +875,16 @@ class CAdminUiList extends CAdminList
 
 	private function SetHeaderEditType($headerId, $field)
 	{
+		if (!isset($this->aHeaders[$headerId]))
+		{
+			return;
+		}
+
+		if (isset($this->aHeaders[$headerId]["editable"]) && $this->aHeaders[$headerId]["editable"] === false)
+		{
+			return;
+		}
+
 		switch ($field["edit"]["type"])
 		{
 			case "input":
@@ -614,12 +913,496 @@ class CAdminUiList extends CAdminList
 	}
 }
 
+/**
+ * Class CAdminUiListActionPanel
+ * A class for working with group actions. Allows you to create your own group actions.
+	Example of use:
+
+	// The array for $lAdmin->AddGroupActionTable($arGroupActions, $arParamsGroupActions);
+	$arGroupActions['test_my_type'] = array('type' => 'my_type', 'name' => 'Check custom actions');
+
+	$actionPanelConstructor = new CAdminUiListActionPanel(
+	$this->table_id, $this->arActions, $this->arActionsParams);
+
+	//Set your own section
+	$actionPanelConstructor->setActionSections(["my_section" => []], ["default"]);
+	//Set your own action type
+	$actionPanelConstructor->setTypeToSectionMap(["my_type" => "my_section"]);
+	//Set handler for your type
+	$actionPanelConstructor->setHandlerToType(["my_type" => function ($actionKey, $action) {
+		$onChange = [
+			[
+				"ACTION" => Panel\Actions::CREATE,
+				"DATA" => [
+					[
+						'TYPE' => Panel\Types::CUSTOM,
+						'ID' => 'my_custom_html',
+						'VALUE' => '<b>Hello!</b>',
+					]
+				]
+			]
+		];
+		return [
+			"ID" => $actionKey,
+			"TYPE" => Bitrix\Main\Grid\Panel\Types::BUTTON,
+			"TEXT" => $action["name"],
+			"ONCHANGE" => $onChange
+		];
+	}]);
+
+	return $actionPanelConstructor->getActionPanel();
+ */
+class CAdminUiListActionPanel
+{
+	private $tableId;
+	private $inputActions;
+	private $inputActionsParams;
+
+	/**
+	 * @var Panel\Snippet
+	 */
+	private $gridSnippets;
+
+	private $actionSections = [];
+	private $mapTypesAndSections = [
+		"edit" => "default",
+		"delete" => "default",
+		"button" => "button",
+		"select" => "list",
+		"customjs" => "list",
+		"html" => "html",
+		"for_all" => "forAll"
+	];
+	private $mapTypesAndHandlers = [];
+
+	public function __construct($tableId, array $actions, array $actionsParams)
+	{
+		$this->tableId = $tableId;
+		$this->inputActions = $actions;
+		$this->inputActionsParams = $actionsParams;
+
+		$this->gridSnippets = new Panel\Snippet();
+
+		$this->actionSections = [
+			"default" => [],
+			"button" => [],
+			"list" => [
+				"TYPE" => Panel\Types::DROPDOWN,
+				"ID" => "base_action_select_{$this->tableId}",
+				"NAME" => "action_button_{$this->tableId}",
+				"ITEMS" => [
+					[
+						"NAME" => GetMessage("admin_lib_list_actions"),
+						"VALUE" => "default",
+						"ONCHANGE" => [["ACTION" => Panel\Actions::RESET_CONTROLS]]
+					]
+				]
+			],
+			"html" => [],
+			"forAll" => []
+		];
+	}
+
+	/**
+	 * The method returns an array of data of the desired format for the grid.
+	 * @return array
+	 */
+	public function getActionPanel()
+	{
+		$actionPanel = [];
+
+		$items = $this->getItems();
+
+		$actionPanel["GROUPS"][] = array("ITEMS" => $items);
+
+		return $actionPanel;
+	}
+
+	/**
+	 * The method writes a value into an array of sections.
+	 * This array is the structure of the blocks into which you place your actions.
+	 * @param array $actionSections Map sections.
+	 * @param array $listKeyForDelete List keys for delete default sections.
+		Example:
+		[
+			"default" => [
+				"TYPE" => Types::BUTTON,
+				"ID" => "button_id",
+				"CLASS" => "apply",
+				"TEXT" => "My button",
+				"ONCHANGE" => [
+					[
+						"ACTION" => Panel\Actions::CALLBACK,
+						"DATA" => [
+							[
+								"JS" => "alert('Click!');"
+							]
+						]
+					]
+				]
+			]
+	 	];
+	 */
+	public function setActionSections(array $actionSections, $listKeyForDelete = [])
+	{
+		foreach ($listKeyForDelete as $keyForDelete)
+		{
+			if (isset($this->actionSections[$keyForDelete]))
+			{
+				unset($this->actionSections[$keyForDelete]);
+			}
+		}
+
+		$this->actionSections = array_merge($this->actionSections, $actionSections);
+	}
+
+	/**
+	 * The method writes values to a map of types and partitions.
+	 * This makes it possible to place any type of action in a specific action section.
+	 * @param array $mapTypesAndSections Map of types and sections. Example ["html" => "default"].
+	 */
+	public function setTypeToSectionMap(array $mapTypesAndSections)
+	{
+		$this->mapTypesAndSections = array_merge($this->mapTypesAndSections, $mapTypesAndSections);
+	}
+
+	/**
+	 * The method writes a handler for a particular type of action. This allows you to create your own action.
+	 *
+	 * @param array $mapTypesAndHandlers Map of types and handlers.
+	 * Example:
+	 * [
+		"button" => function ($actionKey, $action) {
+			$onChange = [
+				[
+					"ACTION" => Panel\Actions::CALLBACK,
+					"DATA" => [
+						[
+							"JS" => $action["action"] ? $action["action"] :
+							"BX.adminUiList.SendSelected('{$this->tableId}')"
+						]
+					]
+				]
+			]
+			return [
+				"ID" => $actionKey,
+				"TYPE" => Bitrix\Main\Grid\Panel\Types::BUTTON,
+				"TEXT" => $action["name"],
+				"ONCHANGE" => $onChange
+			];
+		}]
+	 */
+	public function setHandlerToType(array $mapTypesAndHandlers)
+	{
+		$this->mapTypesAndHandlers = array_merge($this->mapTypesAndHandlers, $mapTypesAndHandlers);
+	}
+
+	private function getItems()
+	{
+		$items = [];
+
+		$actionSections = $this->getActionSections();
+
+		foreach ($actionSections as $actionSection)
+		{
+			if ($this->isAssociativeArray($actionSection))
+			{
+				$items[] = $actionSection;
+			}
+			else
+			{
+				foreach ($actionSection as $aSection)
+				{
+					$items[] = $aSection;
+				}
+			}
+		}
+
+		return $items;
+	}
+
+	private function getActionSections()
+	{
+		if (isset($this->inputActions["edit"]) && isset($this->actionSections[$this->mapTypesAndSections["edit"]]))
+		{
+			$this->actionSections[$this->mapTypesAndSections["edit"]][] = $this->gridSnippets->getEditButton();
+		}
+		if (isset($this->inputActions["delete"]) && isset($this->actionSections[$this->mapTypesAndSections["delete"]]))
+		{
+			$this->actionSections[$this->mapTypesAndSections["delete"]][] = $this->gridSnippets->getRemoveButton();
+		}
+
+		foreach ($this->inputActions as $actionKey => $action)
+		{
+			$this->setActionSection($this->actionSections, $actionKey, $action);
+		}
+
+		if (isset($this->inputActions["for_all"]) && isset($this->actionSections[$this->mapTypesAndSections["for_all"]]))
+		{
+			$this->actionSections[$this->mapTypesAndSections["for_all"]][] = $this->gridSnippets->getForAllCheckbox();
+		}
+
+		return $this->actionSections;
+	}
+
+	private function setActionSection(array &$actionSections, $actionKey, $action)
+	{
+		if (is_array($action))
+		{
+			if (!empty($action["type"]))
+			{
+				$type = strtolower($action["type"]);
+				$actionSection = isset($this->mapTypesAndSections[$type]) ?
+					$this->mapTypesAndSections[$type] : "list";
+
+				$method = "get".$action["type"]."ActionData";
+				if ($this->mapTypesAndHandlers[$type] && is_callable($this->mapTypesAndHandlers[$type]))
+				{
+					$actionSections[$actionSection][] = $this->mapTypesAndHandlers[$type]($actionKey, $action);
+				}
+				elseif (method_exists(__CLASS__, $method))
+				{
+					if ($actionSection == "list")
+					{
+						$actionSections["list"]["ITEMS"][] = $this->$method($actionKey, $action);
+					}
+					else
+					{
+						$actionSections[$actionSection][] = $this->$method($actionKey, $action);
+					}
+				}
+			}
+		}
+		else
+		{
+			if (!in_array($actionKey, ["edit", "delete", "for_all"]))
+			{
+				$actionSections["list"]["ITEMS"][] = [
+					"NAME" => $action,
+					"VALUE" => $actionKey,
+					"ONCHANGE" => [
+						[
+							"ACTION" => Panel\Actions::RESET_CONTROLS
+						],
+						$this->getApplyButtonCreationAction()
+					]
+				];
+			}
+		}
+	}
+
+	private function getButtonActionData($actionKey, $action)
+	{
+		$onChange = $action["action"] ? [
+			["ACTION" => Panel\Actions::CALLBACK, "DATA" => [["JS" => $action["action"]]]]] : [];
+
+		return [
+			"ID" => $actionKey,
+			"TYPE" => Bitrix\Main\Grid\Panel\Types::BUTTON,
+			"TEXT" => $action["name"],
+			"ONCHANGE" => $onChange
+		];
+	}
+
+	private function getSelectActionData($actionKey, $action)
+	{
+		$internalOnchange = [];
+		if (!empty($this->inputActionsParams["internal_select_onchange"]))
+		{
+			$internalOnchange[] = [
+				"ACTION" => Panel\Actions::CALLBACK,
+				"DATA" => [
+					["JS" => $this->inputActionsParams["internal_select_onchange"]]
+				]
+			];
+		}
+
+		/**
+			For each value of the list, you can pass a handler.
+			example client code:
+			$arGroupActions["test_section"] = array(
+				"lable" => "Test",
+				"type" => "select",
+				"name" => "test_section",
+				"items" => array(
+					array("NAME" => "One", "VALUE" => "one", "ONCHANGE" => "alert('one');"),
+					array("NAME" => "Two", "VALUE" => "two", "ONCHANGE" => "alert('two');")
+				)
+			);
+		 */
+		if (is_array($action["items"]))
+		{
+			foreach ($action["items"] as &$items)
+			{
+				if (empty($items["ONCHANGE"]))
+				{
+					$items["ONCHANGE"] = $internalOnchange;
+				}
+				else
+				{
+					$items["ONCHANGE"] = [
+						[
+							"ACTION" => Panel\Actions::CALLBACK,
+							"DATA" => [
+								["JS" => $items["ONCHANGE"]]
+							]
+						]
+					];
+				}
+			}
+		}
+
+		$onchange = [
+			[
+				"ACTION" => Panel\Actions::RESET_CONTROLS
+			],
+			[
+				"ACTION" => Panel\Actions::CREATE,
+				"DATA" => [
+					[
+						"TYPE" => Panel\Types::DROPDOWN,
+						"ID" => "selected_action_{$this->tableId}",
+						"NAME" => $action["name"],
+						"ITEMS" => $action["items"]
+					],
+					$this->gridSnippets->getApplyButton(
+						[
+							"ONCHANGE" => [
+								[
+									"ACTION" => Panel\Actions::CALLBACK,
+									"DATA" => [
+										["JS" => "BX.adminUiList.SendSelected('{$this->tableId}')"]
+									]
+								]
+							]
+						]
+					)
+				]
+			]
+		];
+
+		if (!empty($this->inputActionsParams["select_onchange"]))
+		{
+			$onchange[] = [
+				"ACTION" => Panel\Actions::CALLBACK,
+				"DATA" => [
+					["JS" => $this->inputActionsParams["select_onchange"]]
+				]
+			];
+		}
+
+		return [
+			"NAME" => $action["lable"],
+			"VALUE" => $actionKey,
+			"ONCHANGE" => $onchange
+		];
+	}
+
+	private function getCustomJsActionData($actionKey, $action)
+	{
+		return [
+			"NAME" => $action["lable"],
+			"VALUE" => $actionKey,
+			"ONCHANGE" => [
+				["ACTION" => Panel\Actions::RESET_CONTROLS],
+				$this->getApplyButtonCreationAction($action["js"])
+			]
+		];
+	}
+
+	private function getHtmlActionData($actionKey, $action)
+	{
+		return [
+			"ID" => $actionKey,
+			"TYPE" => Panel\Types::CUSTOM,
+			"VALUE" => $action["value"]
+		];
+	}
+
+	private function getApplyButtonCreationAction($jsCallback = "")
+	{
+		return [
+			"ACTION" => Panel\Actions::CREATE,
+			"DATA" => [
+				$this->gridSnippets->getApplyButton(
+					[
+						"ONCHANGE" => [
+							[
+								"ACTION" => Panel\Actions::CALLBACK,
+								"DATA" => [
+									[
+										"JS" => $jsCallback ? $jsCallback :
+											"BX.adminUiList.SendSelected('{$this->tableId}')"
+									]
+								]
+							]
+						]
+					]
+				)
+			]
+		];
+	}
+
+	private function isAssociativeArray($array)
+	{
+		if (!is_array($array) || empty($array))
+			return false;
+		return array_keys($array) !== range(0, count($array) - 1);
+	}
+}
+
+class CAdminUiListRow extends CAdminListRow
+{
+	public function addActions($aActions)
+	{
+		$listActions = array();
+		foreach ($aActions as $aAction)
+		{
+			if (isset($aAction["SEPARATOR"]))
+			{
+				continue;
+			}
+
+			if (!empty($aAction["LINK"]) && empty($aAction["ACTION"]))
+			{
+				$aAction["href"] = $aAction["LINK"];
+			}
+			else
+			{
+				if (preg_match("/BX.adminPanel.Redirect/", $aAction["ACTION"]))
+				{
+					$explode = explode("'", $aAction["ACTION"]);
+					if (!empty($explode[1]))
+						$aAction["href"] = $explode[1];
+				}
+				else
+				{
+					$aAction["ONCLICK"] = $aAction["ACTION"];
+				}
+			}
+
+			if ($this->isPublicMode)
+			{
+				if (!empty($aAction["href"]) &&
+					!preg_match("/bitrix\/admin/i", $aAction["href"]) && preg_match("/\.php/i", $aAction["href"]))
+				{
+					$aAction["href"] = "/bitrix/admin/".$aAction["href"];
+				}
+			}
+
+			$listActions[] = $aAction;
+		}
+
+		$this->aActions = $listActions;
+	}
+}
+
 class CAdminUiResult extends CAdminResult
 {
+	private $componentParams = array();
+
 	public function NavStart($nPageSize=20, $bShowAll=true, $iNumPage=false)
 	{
-		$nPageSize = $this->GetNavSize($this->table_id);
-
 		$nSize = $this->GetNavSize($this->table_id, $nPageSize);
 
 		if(!is_array($nPageSize))
@@ -636,10 +1419,16 @@ class CAdminUiResult extends CAdminResult
 
 	public function GetNavPrint($title, $show_allways=true, $StyleText="", $template_path=false, $arDeleteParam=false)
 	{
-		$gridOptions = new Bitrix\Main\Grid\Options($this->table_id);
 		$componentObject = null;
 		$this->bShowAll = false;
-		return $this->getPageNavStringEx($componentObject, "", "grid", false, null, $gridOptions->getNavParams());
+		return $this->getPageNavStringEx(
+			$componentObject,
+			"",
+			"grid",
+			false,
+			null,
+			$this->componentParams
+		);
 	}
 
 	public function GetNavSize($tableId = false, $nPageSize = 20, $listUrl = '')
@@ -649,10 +1438,23 @@ class CAdminUiResult extends CAdminResult
 		$navParams = $gridOptions->getNavParams();
 		return $navParams["nPageSize"];
 	}
+
+	public function setNavigationParams(array $params)
+	{
+		$gridOptions = new Bitrix\Main\Grid\Options($this->table_id);
+		$this->componentParams = array_merge($params, $gridOptions->getNavParams());
+	}
 }
 
 class CAdminUiContextMenu extends CAdminContextMenu
 {
+	private $isShownFilterContext = false;
+
+	public function setFilterContextParam($bool)
+	{
+		$this->isShownFilterContext = $bool;
+	}
+
 	public function Show()
 	{
 		foreach (GetModuleEvents("main", "OnAdminContextMenuShow", true) as $arEvent)
@@ -665,49 +1467,119 @@ class CAdminUiContextMenu extends CAdminContextMenu
 			return;
 		}
 
-		?>
+		\Bitrix\Main\UI\Extension::load("ui.buttons");
+		\Bitrix\Main\UI\Extension::load("ui.buttons.icons");
+
+		if ($this->isPublicMode): ob_start(); ?>
+		<div class="pagetitle-container pagetitle-align-right-container" style="padding-right: 12px;">
+		<? else: ?>
+		<? if (!$this->isShownFilterContext): ?>
+			<div class="adm-toolbar-panel-container">
+				<div class="adm-toolbar-panel-flexible-space">
+					<? $this->showBaseButton(); ?>
+				</div>
+		<? endif ?>
 		<div class="adm-toolbar-panel-align-right">
-		<?
+		<? endif;
 
-		if (!empty($this->additional_items))
-		{
-			$menuUrl = "BX.adminList.ShowMenu(this, ".HtmlFilter::encode(
-				CAdminPopup::PhpToJavaScript($this->additional_items)).");";
-			?>
-			<div class="adm-toolbar-panel-button webform-small-button webform-small-button-transparent
-				webform-cogwheel" onclick="<?=$menuUrl?>">
-				<span class="webform-button-icon"></span>
-			</div>
-			<?
-		}
+		$this->showActionButton();
 
-		if (!empty($this->items))
+		if ($this->isShownFilterContext || $this->isPublicMode)
 		{
-			$items = $this->items;
-			$firstItem = array_shift($items);
-			$menuUrl = "BX.adminList.ShowMenu(this, ".HtmlFilter::encode(
-					CAdminPopup::PhpToJavaScript($items)).");";
-			if (count($items) > 0):?>
-			<span class="webform-small-button-separate-wrap adm-toolbar-panel-button">
-				<a href="<?=HtmlFilter::encode($firstItem["LINK"])?>" class="
-					webform-small-button webform-small-button-blue">
-					<span class="webform-small-button-icon"></span>
-					<span class="webform-small-button-text"><?=HtmlFilter::encode($firstItem["TEXT"])?></span>
-				</a>
-				<span class="webform-small-button-right-part" onclick="<?=$menuUrl?>"></span>
-			</span>
-			<? else:?>
-				<a href="<?=HtmlFilter::encode($firstItem["LINK"])?>">
-					<span class="webform-small-button webform-small-button-blue bx24-top-toolbar-add
-						adm-toolbar-panel-button">
-						<?=HtmlFilter::encode($firstItem["TEXT"])?>
-					</span>
-				</a>
-			<?endif;
+			$this->showBaseButton();
 		}
 
 		?>
 		</div>
-		<?
+		<? if (!$this->isShownFilterContext && !$this->isPublicMode): ?>
+		</div>
+		<? endif;
+
+		if ($this->isPublicMode)
+		{
+			global $APPLICATION;
+			$APPLICATION->AddViewContent("inside_pagetitle", ob_get_clean());
+		}
+	}
+
+	private function showActionButton()
+	{
+		if (!empty($this->additional_items))
+		{
+			if ($this->isPublicMode)
+			{
+				$menuUrl = "BX.adminList.showPublicMenu(this, ".HtmlFilter::encode(
+					CAdminPopup::PhpToJavaScript($this->additional_items)).");";
+			}
+			else
+			{
+				$menuUrl = "BX.adminList.ShowMenu(this, ".HtmlFilter::encode(
+					CAdminPopup::PhpToJavaScript($this->additional_items)).");";
+			}
+
+			?>
+			<button class="ui-btn ui-btn-light-border ui-btn-themes ui-btn-icon-setting" onclick="
+				<?=$menuUrl?>"></button>
+			<?
+		}
+	}
+
+	private function showBaseButton()
+	{
+		if (!empty($this->items))
+		{
+			$items = $this->items;
+			$firstItem = array_shift($items);
+			if (!empty($firstItem["MENU"]))
+			{
+				$items = array_merge($items, $firstItem["MENU"]);
+			}
+			if ($this->isPublicMode)
+			{
+				$menuUrl = "BX.adminList.showPublicMenu(this, ".HtmlFilter::encode(
+					CAdminPopup::PhpToJavaScript($items)).");";
+			}
+			else
+			{
+				$menuUrl = "BX.adminList.ShowMenu(this, ".HtmlFilter::encode(
+					CAdminPopup::PhpToJavaScript($items)).");";
+			}
+			if (count($items) > 0):?>
+				<? if (!empty($firstItem["ONCLICK"])): ?>
+					<div class="ui-btn-double ui-btn-primary">
+						<button onclick="<?=HtmlFilter::encode($firstItem["ONCLICK"])?>" class="ui-btn-main">
+							<?=HtmlFilter::encode($firstItem["TEXT"])?>
+						</button>
+						<button onclick="<?=$menuUrl?>" class="ui-btn-extra"></button>
+					</div>
+				<? else: ?>
+					<? if (isset($firstItem["DISABLE"])): ?>
+						<div class="ui-btn-double ui-btn-primary">
+							<button onclick="<?=$menuUrl?>" class="ui-btn-main">
+								<?=HtmlFilter::encode($firstItem["TEXT"])?>
+							</button>
+							<button onclick="<?=$menuUrl?>" class="ui-btn-extra"></button>
+						</div>
+					<? else: ?>
+						<div class="ui-btn-double ui-btn-primary">
+							<a href="<?=HtmlFilter::encode($firstItem["LINK"])?>" class="ui-btn-main">
+								<?=HtmlFilter::encode($firstItem["TEXT"])?>
+							</a>
+							<button onclick="<?=$menuUrl?>" class="ui-btn-extra"></button>
+						</div>
+					<? endif; ?>
+				<? endif; ?>
+			<? else:?>
+				<? if (!empty($firstItem["ONCLICK"])): ?>
+					<button class="ui-btn ui-btn-primary" onclick="<?=HtmlFilter::encode($firstItem["ONCLICK"])?>">
+						<?=HtmlFilter::encode($firstItem["TEXT"])?>
+					</button>
+				<? else: ?>
+					<a class="ui-btn ui-btn-primary" href="<?=HtmlFilter::encode($firstItem["LINK"])?>">
+						<?=HtmlFilter::encode($firstItem["TEXT"])?>
+					</a>
+				<? endif; ?>
+			<?endif;
+		}
 	}
 }

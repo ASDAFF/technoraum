@@ -448,6 +448,12 @@ class CSiteCheckerTest
 
 		if ($strError)
 			return $this->Result(false,GetMessage('ERR_NO_MODS')."<br>".$strError);
+
+		if (IsModuleInstalled('intranet'))
+		{
+			if (!class_exists('DOMDocument') || !class_exists('ZipArchive'))
+				return $this->Result(null,GetMessage('ERR_NO_MODS_DOC_GENERATOR'));
+		}
 		return $this->Result(true, GetMessage("MAIN_SC_ALL_MODULES"));
 	}
 
@@ -536,7 +542,7 @@ class CSiteCheckerTest
 		list($host, $port) = explode(':',$_SERVER['HTTP_HOST']);
 		if ($host != 'localhost' && !preg_match('#^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$#',$host))
 		{
-			if (!preg_match('#^[a-z0-9\-\.]{2,192}\.(xn--)?[a-z0-9]{2,63}$#i', $host))
+			if (!preg_match('#^[a-z0-9\-\.]{1,192}\.(xn--)?[a-z0-9]{2,63}$#i', $host))
 				$strError .= GetMessage("SC_TEST_DOMAIN_VALID", array('#VAL#' => htmlspecialcharsbx($_SERVER['HTTP_HOST'])))."<br>";
 		}
 		if ($strError)
@@ -663,15 +669,15 @@ class CSiteCheckerTest
 		echo fgets($res);
 		fwrite($res, "HELO ".$domain."\r\n");
 		echo fgets($res);
-		fwrite($res, "MAIL FROM: site_checker_from@".$domain."\r\n");
+		fwrite($res, "MAIL FROM: sitecheckerfrom@".$domain."\r\n");
 		echo fgets($res);
-		fwrite($res, "RCPT TO: site_checker_to@".$domain."\r\n");
+		fwrite($res, "RCPT TO: rplsitecheckerto@".$domain."\r\n");
 		echo fgets($res);
 		fwrite($res, "DATA\r\n");
 		echo fgets($res);
 		fwrite($res, 
-		"From: site_checker_from@".$domain."\r\n".
-		"To: site_checker_to@".$domain."\r\n".
+		"From: sitecheckerfrom@".$domain."\r\n".
+		"To: rplsitecheckerto@".$domain."\r\n".
 		"Subject: Site checker mail test\r\n".
 		"Content-type: text/plain\r\n".
 		"MIME-Version: 1.0\r\n".
@@ -2298,6 +2304,9 @@ class CSiteCheckerTest
 		if ($this->arTestVars['table_charset_fail'])
 			return $this->Result(null, GetMessage('SC_TABLE_COLLATION_NA'));
 
+		$f = $DB->Query('SELECT VERSION() v')->Fetch();
+		$this->db_ver = $f['v'];
+
 		$module = '';
 		$cnt = $iCurrent = 0;
 		if ($dir = opendir($path = $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules'))
@@ -2448,7 +2457,7 @@ class CSiteCheckerTest
 				}
 			}
 
-			if (file_exists($file = str_replace('/install.sql', '/install_ft.sql', $file)))
+			if (version_compare($this->db_ver, '5.6', '>=') && file_exists($file = str_replace('/install.sql', '/install_ft.sql', $file)))
 			{
 				if (false === ($query = file_get_contents($file)))
 					return false;
@@ -2464,6 +2473,53 @@ class CSiteCheckerTest
 			foreach($arTables as $table => $sql)
 			{
 				$tmp_table = 'site_checker_'.$table;
+				$arIndexes = array();
+				$rs = $DB->Query('SHOW INDEXES FROM `'.$table.'`');
+				while($f = $rs->Fetch())
+				{
+					$column = strtolower($f['Column_name'].($f['Sub_part'] ? '('.$f['Sub_part'].')' : ''));
+					if ($arIndexes[$f['Key_name']])
+						$arIndexes[$f['Key_name']] .= ','.$column;
+					else
+						$arIndexes[$f['Key_name']] = $column;
+				}
+
+				$arIndexes_tmp = array();
+				$arFT = array();
+				$rs = $DB->Query('SHOW INDEXES FROM `'.$tmp_table.'`');
+				while($f = $rs->Fetch())
+				{
+					$column = strtolower($f['Column_name'].($f['Sub_part'] ? '('.$f['Sub_part'].')' : ''));
+					if ($arIndexes_tmp[$f['Key_name']])
+						$arIndexes_tmp[$f['Key_name']] .= ','.$column;
+					else
+						$arIndexes_tmp[$f['Key_name']] = $column;
+					if ($f['Index_type'] == 'FULLTEXT')
+						$arFT[$f['Key_name']] = true;
+				}
+
+				foreach($arIndexes_tmp as $name => $ix)
+				{
+					if (!in_array($ix,$arIndexes))
+					{
+						if($arIndexes[$name])
+						{
+							$sql = 'ALTER TABLE `'.$table.'` DROP INDEX `'.$name.'`';
+							if ($this->fix_mode)
+							{
+								if (!$DB->Query($sql, true))
+									return $this->Result(false, 'Mysql Query Error: '.$sql.' ['.$DB->db_Error.']');
+							}
+							else
+							{
+								$_SESSION['FixQueryList'][] = $sql;
+								$this->arTestVars['iError']++;
+								$this->arTestVars['iErrorAutoFix']++;
+							}
+						}
+					}
+				}
+
 				$arColumns = array();
 				$rs = $DB->Query('SHOW COLUMNS FROM `'.$table.'`');
 				while($f = $rs->Fetch())
@@ -2477,7 +2533,7 @@ class CSiteCheckerTest
 					{
 						if (($cur = TableFieldConstruct($f)) != $tmp)
 						{
-							$sql = 'ALTER TABLE `'.$table.'` MODIFY `'.$f_tmp['Field'].'` '.$tmp;
+							$sql = 'ALTER TABLE `'.$table.'` CHANGE `'.$f['Field'].'` '.$tmp;
 							if ($this->fix_mode)
 							{
 								if ($this->TableFieldCanBeAltered($f, $f_tmp))
@@ -2501,7 +2557,7 @@ class CSiteCheckerTest
 					}
 					else
 					{
-						$sql = 'ALTER TABLE `'.$table.'` ADD `'.$f_tmp['Field'].'` '.str_replace('auto_increment', '' , strtolower($tmp)); // if only Primary Key is missing we will have to pass the test twice
+						$sql = 'ALTER TABLE `'.$table.'` ADD '.preg_replace('#auto_increment#i', '' , $tmp); // if only Primary Key is missing we will have to pass the test twice
 						if ($this->fix_mode)
 						{
 							if (!$DB->Query($sql, true))
@@ -2518,39 +2574,10 @@ class CSiteCheckerTest
 					}
 				}
 
-				$arIndexes = array();
-				$rs = $DB->Query('SHOW INDEXES FROM `'.$table.'`');
-				while($f = $rs->Fetch())
-				{
-					$ix =& $arIndexes[$f['Key_name']];
-					$column = strtolower($f['Column_name'].($f['Sub_part'] ? '('.$f['Sub_part'].')' : ''));
-					if ($ix)
-						$ix .= ','.$column;
-					else
-						$ix = $column;
-				}
-
-				$arIndexes_tmp = array();
-				$arFT = array();
-				$rs = $DB->Query('SHOW INDEXES FROM `'.$tmp_table.'`');
-				while($f = $rs->Fetch())
-				{
-					$ix =& $arIndexes_tmp[$f['Key_name']];
-					$column = strtolower($f['Column_name'].($f['Sub_part'] ? '('.$f['Sub_part'].')' : ''));
-					if ($ix)
-						$ix .= ','.$column;
-					else
-						$ix = $column;
-					if ($f['Index_type'] == 'FULLTEXT')
-						$arFT[$f['Key_name']] = true;
-				}
-				unset($ix); // unlink the reference
 				foreach($arIndexes_tmp as $name => $ix)
 				{
 					if (!in_array($ix,$arIndexes))
 					{
-						while($arIndexes[$name])
-							$name .= '_sc';
 						$sql = $name == 'PRIMARY' ? 'ALTER TABLE `'.$table.'` ADD PRIMARY KEY ('.$ix.')' : 'CREATE '.($arFT[$name] ? 'FULLTEXT ' : '').'INDEX `'.$name.'` ON `'.$table.'` ('.$ix.')';
 						if ($this->fix_mode)
 						{
@@ -3008,7 +3035,8 @@ function InitPureDB()
 function TableFieldConstruct($f0)
 {
 	global $DB;
-	return $f0['Type'].($f0['Null'] == 'YES' ? ' NULL' : ' NOT NULL').($f0['Default'] === NULL ? ($f0['Null'] == 'YES' ? ' DEFAULT NULL ' : '') : ' DEFAULT '.($f0['Type'] == 'timestamp' && $f0['Default'] == 'CURRENT_TIMESTAMP' ? $f0['Default'] : '"'.$DB->ForSQL($f0['Default']).'"')).' '.$f0['Extra'];
+	$tmp = '`'.$f0['Field'].'` '.$f0['Type'].($f0['Null'] == 'YES' ? ' NULL' : ' NOT NULL').($f0['Default'] === NULL ? ($f0['Null'] == 'YES' ? ' DEFAULT NULL ' : '') : ' DEFAULT '.($f0['Type'] == 'timestamp' && $f0['Default'] == 'CURRENT_TIMESTAMP' ? $f0['Default'] : '"'.$DB->ForSQL($f0['Default']).'"')).' '.$f0['Extra'];
+	return trim($tmp);
 }
 
 function fix_link($mode = 2)

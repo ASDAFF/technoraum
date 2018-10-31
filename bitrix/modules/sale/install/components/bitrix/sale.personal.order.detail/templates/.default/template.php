@@ -104,7 +104,7 @@ else
 								<div class="col-md-4 col-sm-6 sale-order-detail-about-order-inner-container-name">
 									<div class="sale-order-detail-about-order-inner-container-name-title">
 										<?
-										$userName = $arResult["USER"]["NAME"] ." ". $arResult["USER"]["SECOND_NAME"] ." ". $arResult["USER"]["LAST_NAME"];
+										$userName = $arResult["USER_NAME"];
 										if (strlen($userName) || strlen($arResult['FIO']))
 										{
 											echo Loc::getMessage('SPOD_LIST_FIO').':';
@@ -1059,6 +1059,7 @@ else
 	$javascriptParams = array(
 		"url" => CUtil::JSEscape($this->__component->GetPath().'/ajax.php'),
 		"templateFolder" => CUtil::JSEscape($templateFolder),
+		"templateName" => $this->__component->GetTemplateName(),
 		"paymentList" => $paymentData
 	);
 	$javascriptParams = CUtil::PhpToJSObject($javascriptParams);

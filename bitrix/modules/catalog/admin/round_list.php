@@ -12,6 +12,9 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/catalog/prolog.php');
 
 Loc::loadMessages(__FILE__);
 
+$publicMode = $adminPage->publicMode;
+$selfFolderUrl = $adminPage->getSelfFolderUrl();
+
 if (!($USER->CanDoOperation('catalog_read') || $USER->CanDoOperation('catalog_group')))
 	$APPLICATION->AuthForm('');
 Loader::includeModule('catalog');
@@ -24,24 +27,35 @@ $canViewUserList = (
 	|| $USER->CanDoOperation('edit_subordinate_users')
 );
 
-$request = Main\Context::getCurrent()->getRequest();
+if ($publicMode) $canViewUserList = false;
 
 $adminListTableID = 'tbl_catalog_round_rules';
 
 $adminSort = new CAdminSorting($adminListTableID, 'ID', 'ASC');
-$adminList = new CAdminList($adminListTableID, $adminSort);
+$adminList = new CAdminUiList($adminListTableID, $adminSort);
+
+$listType = array('' => Loc::getMessage('PRICE_ROUND_LIST_FILTER_PRICE_TYPE_ANY'));
+foreach (Catalog\Helpers\Admin\Tools::getPriceTypeList(false) as $id => $title)
+	$listType[$id] = $title;
+
+$filterFields = array(
+	array(
+		"id" => "ID",
+		"name" => "ID",
+		"quickSearch" => "=",
+		"default" => true
+	),
+	array(
+		"id" => "CATALOG_GROUP_ID",
+		"name" => Loc::getMessage("PRICE_ROUND_LIST_FILTER_PRICE_TYPE"),
+		"type" => "list",
+		"items" => $listType,
+		"filterable" => "="
+	)
+);
 
 $filter = array();
-$filterFields = array(
-	'filter_price_type'
-);
-$adminList->InitFilter($filterFields);
-$filterValues = array(
-	'filter_price_type' => (isset($filter_price_type) ? $filter_price_type : '')
-);
-
-if ($filterValues['filter_price_type'] != '')
-	$filter['=CATALOG_GROUP_ID'] = $filterValues['filter_price_type'];
+$adminList->AddFilter($filterFields, $filter);
 
 $roundValues = Catalog\Helpers\Admin\RoundEdit::getPresetRoundValues(true);
 
@@ -96,7 +110,7 @@ if (!$readOnly && $adminList->EditAction())
 if (!$readOnly && ($listIds = $adminList->GroupAction()))
 {
 	$priceTypeList = array();
-	if ($request['action_target'] == 'selected')
+	if ($_REQUEST['action_target'] == 'selected')
 	{
 		$listIds = array();
 		$ruleIterator = Catalog\RoundingTable::getList(array(
@@ -114,9 +128,7 @@ if (!$readOnly && ($listIds = $adminList->GroupAction()))
 	$listIds = array_filter($listIds);
 	if (!empty($listIds))
 	{
-		$action = $request['action'];
-		if (!empty($request['action_button']))
-			$action = $request['action_button'];
+		$action = $_REQUEST['action'];
 		switch ($action)
 		{
 			case 'delete':
@@ -148,6 +160,15 @@ if (!$readOnly && ($listIds = $adminList->GroupAction()))
 		unset($action);
 	}
 	unset($listIds, $priceTypeList);
+
+	if ($adminList->hasGroupErrors())
+	{
+		$adminSidePanelHelper->sendJsonErrorResponse($adminList->getGroupErrors());
+	}
+	else
+	{
+		$adminSidePanelHelper->sendSuccessResponse();
+	}
 }
 
 $headerList = array();
@@ -215,6 +236,7 @@ $selectFields['CATALOG_GROUP_ID'] = true;
 $selectFieldsMap = array_fill_keys(array_keys($headerList), false);
 $selectFieldsMap = array_merge($selectFieldsMap, $selectFields);
 
+global $by, $order;
 if (!isset($by))
 	$by = 'ID';
 if (!isset($order))
@@ -229,76 +251,17 @@ $roundTypeList = Catalog\RoundingTable::getRoundTypes(true);
 
 $rowList = array();
 
-$usePageNavigation = true;
-$navyParams = array();
-if ($request['mode'] == 'excel')
-{
-	$usePageNavigation = false;
-}
-else
-{
-	$navyParams = CDBResult::GetNavParams(CAdminResult::GetNavSize($adminListTableID));
-	if ($navyParams['SHOW_ALL'])
-	{
-		$usePageNavigation = false;
-	}
-	else
-	{
-		$navyParams['PAGEN'] = (int)$navyParams['PAGEN'];
-		$navyParams['SIZEN'] = (int)$navyParams['SIZEN'];
-	}
-}
 $getListParams = array(
 	'select' => array_keys($selectFields),
 	'filter' => $filter,
 	'order' => array($by => $order)
 );
-if ($usePageNavigation)
-{
-	$getListParams['limit'] = $navyParams['SIZEN'];
-	$getListParams['offset'] = $navyParams['SIZEN']*($navyParams['PAGEN']-1);
-}
-$totalPages = 0;
-$totalCount = 0;
-if ($usePageNavigation)
-{
-	$countQuery = new Main\Entity\Query(Catalog\RoundingTable::getEntity());
-	$countQuery->addSelect(new Main\Entity\ExpressionField('CNT', 'COUNT(1)'));
-	$countQuery->setFilter($getListParams['filter']);
-	$totalCount = $countQuery->setLimit(null)->setOffset(null)->exec()->fetch();
-	unset($countQuery);
-	$totalCount = (int)$totalCount['CNT'];
-	if ($totalCount > 0)
-	{
-		$totalPages = ceil($totalCount/$navyParams['SIZEN']);
-		if ($navyParams['PAGEN'] > $totalPages)
-			$navyParams['PAGEN'] = $totalPages;
-		$getListParams['limit'] = $navyParams['SIZEN'];
-		$getListParams['offset'] = $navyParams['SIZEN']*($navyParams['PAGEN']-1);
-	}
-	else
-	{
-		$navyParams['PAGEN'] = 1;
-		$getListParams['limit'] = $navyParams['SIZEN'];
-		$getListParams['offset'] = 0;
-	}
-}
 
-$ruleIterator = new CAdminResult(Catalog\RoundingTable::getList($getListParams), $adminListTableID);
-if ($usePageNavigation)
-{
-	$ruleIterator->NavStart($getListParams['limit'], $navyParams['SHOW_ALL'], $navyParams['PAGEN']);
-	$ruleIterator->NavRecordCount = $totalCount;
-	$ruleIterator->NavPageCount = $totalPages;
-	$ruleIterator->NavPageNomer = $navyParams['PAGEN'];
-}
-else
-{
-	$ruleIterator->NavStart();
-}
+$ruleIterator = new CAdminUiResult(Catalog\RoundingTable::getList($getListParams), $adminListTableID);
+$ruleIterator->NavStart();
 
 CTimeZone::Disable();
-$adminList->NavText($ruleIterator->GetNavPrint(Loc::getMessage('PRICE_ROUND_LIST_MESS_NAV')));
+$adminList->SetNavigationParams($ruleIterator, array("BASE_LINK" => $selfFolderUrl."cat_round_list.php"));
 while ($rule = $ruleIterator->Fetch())
 {
 	$rule['ID'] = (int)$rule['ID'];
@@ -315,8 +278,8 @@ while ($rule = $ruleIterator->Fetch())
 			$userIds[$rule['MODIFIED_BY']] = true;
 	}
 
-	$urlEdit = 'cat_round_edit.php?ID='.$rule['ID'].'&lang='.LANGUAGE_ID.GetFilterParams('filter_');
-
+	$urlEdit = $selfFolderUrl.'cat_round_edit.php?ID='.$rule['ID'].'&lang='.LANGUAGE_ID;
+	$urlEdit = $adminSidePanelHelper->editUrlToPublicPage($urlEdit);
 	$row = &$adminList->AddRow(
 		$rule['ID'],
 		$rule,
@@ -366,7 +329,7 @@ while ($rule = $ruleIterator->Fetch())
 	$actions[] = array(
 		'ICON' => 'edit',
 		'TEXT' => (!$readOnly ? Loc::getMessage('PRICE_ROUND_LIST_CONTEXT_EDIT') : Loc::getMessage('PRICE_ROUND_LIST_CONTEXT_VIEW')),
-		'ACTION' => $adminList->ActionRedirect($urlEdit),
+		'LINK' => $urlEdit,
 		'DEFAULT' => true
 	);
 
@@ -375,10 +338,9 @@ while ($rule = $ruleIterator->Fetch())
 		$actions[] = array(
 			'ICON' => 'copy',
 			'TEXT' => Loc::getMessage('PRICE_ROUND_LIST_CONTEXT_COPY'),
-			'ACTION' => $adminList->ActionRedirect($urlEdit.'&action=copy'),
+			'LINK' => $urlEdit.'&action=copy',
 			'DEFAULT' => false,
 		);
-		$actions[] = array('SEPARATOR' => true);
 		$actions[] = array(
 			'ICON' =>'delete',
 			'TEXT' => Loc::getMessage('PRICE_ROUND_LIST_CONTEXT_DELETE'),
@@ -453,24 +415,31 @@ $adminList->AddFooter(
 	)
 );
 
-$adminList->AddGroupActionTable(
-	array(
-		'delete' => Loc::getMessage('MAIN_ADMIN_LIST_DELETE'),
-	)
-);
+if (!$readOnly)
+{
+	$adminList->AddGroupActionTable([
+		'edit' => true,
+		'delete' => true
+	]);
+}
 
 $contextMenu = array();
 if (!$readOnly)
 {
+	$addUrl = $selfFolderUrl."cat_round_edit.php?lang=".LANGUAGE_ID;
+	$addUrl = $adminSidePanelHelper->editUrlToPublicPage($addUrl);
 	$contextMenu[] = array(
 		'ICON' => 'btn_new',
 		'TEXT' => Loc::getMessage('PRICE_ROUND_LIST_MESS_NEW_RULE'),
 		'TITLE' => Loc::getMessage('PRICE_ROUND_LIST_MESS_NEW_RULE_TITLE'),
-		'LINK' => 'cat_round_edit.php?ID=0&lang='.LANGUAGE_ID.GetFilterParams('filter_')
+		'LINK' => $addUrl
 	);
 }
 if (!empty($contextMenu))
+{
+	$adminList->setContextSettings(array("pagePath" => $selfFolderUrl."cat_round_list.php"));
 	$adminList->AddAdminContextMenu($contextMenu);
+}
 
 unset($ruleEditUrl);
 
@@ -479,42 +448,6 @@ $adminList->CheckListMode();
 $APPLICATION->SetTitle(Loc::getMessage('PRICE_ROUND_LIST_TITLE'));
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_admin_after.php');
 
-?>
-<form name="find_form" method="GET" action="<?=$APPLICATION->GetCurPage();?>">
-	<?
-	$filterForm = new CAdminFilter(
-		$adminListTableID.'_filter',
-		array(
-			Loc::getMessage('PRICE_ROUND_LIST_FILTER_PRICE_TYPE')
-		)
-	);
-	$filterForm->Begin();
-	?>
-	<tr>
-		<td><? echo Loc::getMessage('PRICE_ROUND_LIST_FILTER_PRICE_TYPE'); ?>:</td>
-		<td><select name="filter_price_type">
-			<option value=""<?=($filterValues['filter_price_type'] == '' ? ' selected' : ''); ?>><?=htmlspecialcharsbx(Loc::getMessage('PRICE_ROUND_LIST_FILTER_PRICE_TYPE_ANY')); ?></option><?
-			foreach (Catalog\Helpers\Admin\Tools::getPriceTypeList(false) as $id => $title)
-			{
-				?><option value="<?=$id; ?>"<?=($filterValues['filter_price_type'] == $id ? ' selected' : ''); ?>><?=htmlspecialcharsbx($title); ?></option><?
-			}
-			unset($title, $id);
-			?></select>
-		</td>
-	</tr>
-	<?
-	$filterForm->Buttons(
-		array(
-			'table_id' => $adminListTableID,
-			'url' => $APPLICATION->GetCurPage(),
-			'form' => 'find_form'
-		)
-	);
-	$filterForm->End();
-	?>
-</form>
-<?
-
+$adminList->DisplayFilter($filterFields);
 $adminList->DisplayList();
-
 require($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/epilog_admin.php');

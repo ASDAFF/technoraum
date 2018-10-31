@@ -4,7 +4,7 @@
 //**    MODIFICATION OF THIS FILE WILL ENTAIL SITE FAILURE            **/
 //**********************************************************************/
 if (!defined("UPDATE_SYSTEM_VERSION"))
-	define("UPDATE_SYSTEM_VERSION", "17.5.12");
+	define("UPDATE_SYSTEM_VERSION", "18.1.3");
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_before.php");
 define("HELP_FILE", "marketplace/sysupdate.php");
@@ -125,6 +125,27 @@ if ($DB->type == "MYSQL")
 		{
 			$errorMessage .= "<br>".GetMessage("SUP_MYSQL_L4111", array("#VERS#" => $curMySqlVer));
 		}
+		else
+        {
+            if (strpos($curMySqlVer, "MariaDB") !== false)
+            {
+				if (IntVal($arCurMySqlVer[0]) < 10
+					|| IntVal($arCurMySqlVer[0]) == 10 && IntVal($arCurMySqlVer[1]) < 0
+					|| IntVal($arCurMySqlVer[0]) == 10 && IntVal($arCurMySqlVer[1]) == 0 && IntVal($arCurMySqlVer[2]) < 5)
+				{
+					$systemMessage .= "<br>".GetMessage("SUP_MYSQL_LM1010", array("#VERS#" => $curMySqlVer));
+				}
+            }
+            else
+            {
+				if (IntVal($arCurMySqlVer[0]) < 5
+					|| IntVal($arCurMySqlVer[0]) == 5 && IntVal($arCurMySqlVer[1]) < 6
+					|| IntVal($arCurMySqlVer[0]) == 5 && IntVal($arCurMySqlVer[1]) == 6 && IntVal($arCurMySqlVer[2]) < 0)
+				{
+					$systemMessage .= "<br>".GetMessage("SUP_MYSQL_L560", array("#VERS#" => $curMySqlVer));
+				}
+			}
+        }
 	}
 
 	$dbLangTmp = CLanguage::GetByID("ru");
@@ -176,6 +197,12 @@ if (IntVal($arCurPhpVer[0]) < 5
 	|| IntVal($arCurPhpVer[0]) == 5 && IntVal($arCurPhpVer[1]) == 6 && IntVal($arCurPhpVer[2]) < 0)
 {
 	$errorMessage .= "<br>".GetMessage("SUP_PHP_L560F", array("#VERS#" => $curPhpVer));
+}
+elseif (IntVal($arCurPhpVer[0]) < 7
+	|| IntVal($arCurPhpVer[0]) == 7 && IntVal($arCurPhpVer[1]) < 1
+	|| IntVal($arCurPhpVer[0]) == 7 && IntVal($arCurPhpVer[1]) == 1 && IntVal($arCurPhpVer[2]) < 0)
+{
+	$systemMessage .= "<br>".GetMessage("SUP_PHP_L710", array("#VERS#" => $curPhpVer));
 }
 
 if (array_key_exists("HTTP_BX_MASTER", $_SERVER) && ($_SERVER["HTTP_BX_MASTER"] != "Y"))
@@ -478,7 +505,7 @@ $tabControl->BeginNextTab();
 				}
 				$strLicenseKeyTmp = CUpdateClient::GetLicenseKey();
 				$bLicenseNotFound = strlen($strLicenseKeyTmp) <= 0 || strtolower($strLicenseKeyTmp) == "demo" || $bLicenseNotFound;
-				$bFullVersion = ($arUpdateList !== false && isset($arUpdateList["CLIENT"]) && ($arUpdateList["CLIENT"][0]["@"]["ENC_TYPE"] == "F" || $arUpdateList["CLIENT"][0]["@"]["ENC_TYPE"] == "E"));
+				$bFullVersion = ($arUpdateList !== false && isset($arUpdateList["CLIENT"]) && ($arUpdateList["CLIENT"][0]["@"]["ENC_TYPE"] == "F" || $arUpdateList["CLIENT"][0]["@"]["ENC_TYPE"] == "E" || $arUpdateList["CLIENT"][0]["@"]["ENC_TYPE"] == "T"));
 
 				if ($bLicenseNotFound  || (defined("DEMO") && DEMO == "Y" && !$bFullVersion))
 				{
@@ -1167,7 +1194,7 @@ $tabControl->BeginNextTab();
 				if (empty($errorMessage) && ($arUpdateList !== false)
 					&& defined("DEMO") && DEMO == "Y"
 					&& isset($arUpdateList["CLIENT"]) && !isset($arUpdateList["UPDATE_SYSTEM"])
-					&& ($arUpdateList["CLIENT"][0]["@"]["ENC_TYPE"] == "F" || $arUpdateList["CLIENT"][0]["@"]["ENC_TYPE"] == "E"))
+					&& ($arUpdateList["CLIENT"][0]["@"]["ENC_TYPE"] == "F" || $arUpdateList["CLIENT"][0]["@"]["ENC_TYPE"] == "E" || $arUpdateList["CLIENT"][0]["@"]["ENC_TYPE"] == "T"))
 				{
 					?>
 					<div id="upd_register_div">
@@ -1635,10 +1662,33 @@ $tabControl->BeginNextTab();
 								<?= GetMessage("SUP_SU_UPD_HINT_CHECK") ?>
 								<br><br>
 								<?
-								if ($stableVersionsOnly == "N")
-									echo GetMessage("SUP_STABLE_OFF_PROMT");
+								$m = "";
+								if ($stableVersionsOnly === "Y")
+								{
+									$m = GetMessage("SUP_STABLE_ON_PROMT");
+								}
+								elseif ($stableVersionsOnly === "N")
+								{
+									$m = GetMessage("SUP_STABLE_OFF_PROMT");
+								}
+								elseif (is_numeric($stableVersionsOnly) && isset($arUpdateList["AVAILABLE_VERSIONS"]) && is_array($arUpdateList["AVAILABLE_VERSIONS"]) && isset($arUpdateList["AVAILABLE_VERSIONS"][0]["#"]["VERSIONS"]) && is_array($arUpdateList["AVAILABLE_VERSIONS"][0]["#"]["VERSIONS"]))
+								{
+									foreach ($arUpdateList["AVAILABLE_VERSIONS"][0]["#"]["VERSIONS"] as $versions)
+									{
+										if (intval($versions["@"]["ID"]) === intval($stableVersionsOnly))
+										{
+											$m = "<b>".GetMessage("SUP_SU_UPD_HINT_CHECK_VERS", array("#NAME#" => $versions["@"]["NAME"]))."</b><br><br>";
+											$m .= (($versions["@"]["IS_STABLE"] === "Y") ? GetMessage("SUP_STABLE_ON_PROMT") : GetMessage("SUP_STABLE_OFF_PROMT"));
+											break;
+										}
+									}
+								}
 								else
-									echo GetMessage("SUP_STABLE_ON_PROMT");
+								{
+									$m = GetMessage("SUP_STABLE_ON_PROMT");
+								}
+
+								echo $m;
 								?>
 								<br><br>
 								<?= GetMessage("SUP_SU_UPD_HINT") ?>
@@ -2558,22 +2608,61 @@ $tabControl->BeginNextTab();
 						</tr>
 						<tr>
 							<td>
-										<table cellpadding="0" cellspacing="0">
-											<tr>
-												<td class="icon-new"><div class="icon icon-beta"></div></td>
-												<td>
+								<table cellpadding="0" cellspacing="0">
+									<tr>
+										<td class="icon-new"><div class="icon icon-beta"></div></td>
+										<td>
 								<?
-								if ($stableVersionsOnly == "N")
-									echo GetMessage("SUP_STABLE_OFF_PROMT");
+								$m = "";
+								if ($stableVersionsOnly === "Y")
+								{
+									$m = GetMessage("SUP_STABLE_ON_PROMT");
+								}
+								elseif ($stableVersionsOnly === "N")
+								{
+									$m = GetMessage("SUP_STABLE_OFF_PROMT");
+								}
+								elseif (is_numeric($stableVersionsOnly) && isset($arUpdateList["AVAILABLE_VERSIONS"]) && is_array($arUpdateList["AVAILABLE_VERSIONS"]) && isset($arUpdateList["AVAILABLE_VERSIONS"][0]["#"]["VERSIONS"]) && is_array($arUpdateList["AVAILABLE_VERSIONS"][0]["#"]["VERSIONS"]))
+								{
+									foreach ($arUpdateList["AVAILABLE_VERSIONS"][0]["#"]["VERSIONS"] as $versions)
+									{
+										if (intval($versions["@"]["ID"]) === intval($stableVersionsOnly))
+										{
+											$m = "<b>".GetMessage("SUP_SU_UPD_HINT_CHECK_VERS", array("#NAME#" => $versions["@"]["NAME"]))."</b><br><br>";
+											$m .= (($versions["@"]["IS_STABLE"] === "Y") ? GetMessage("SUP_STABLE_ON_PROMT") : GetMessage("SUP_STABLE_OFF_PROMT"));
+											break;
+										}
+									}
+								}
 								else
-									echo GetMessage("SUP_STABLE_ON_PROMT");
+								{
+									$m = GetMessage("SUP_STABLE_ON_PROMT");
+								}
+
+								echo $m;
 								?>
 								<br><br>
 								<?= GetMessage("SUP_SUBV_HINT") ?><br><br>
-								<input TYPE="button" ID="id_stable_btn" NAME="stable_btn" value="<?= (($stableVersionsOnly == "N") ? GetMessage("SUP_SUBV_STABB") : GetMessage("SUP_SUBV_BETB")) ?>" onclick="SwithStability()">
-												</td>
-											</tr>
-										</table>
+								<select id="id_stable_select" name="stable_select" onchange="SwithStability()">
+									<option value="Y"<?= ($stableVersionsOnly === "Y") ? " selected" : ""; ?>><?= GetMessage("SUP_SUBV_STABB") ?></option>
+									<option value="N"<?= ($stableVersionsOnly === "N") ? " selected" : ""; ?>><?= GetMessage("SUP_SUBV_BETB") ?></option>
+									<?
+									if (isset($arUpdateList["AVAILABLE_VERSIONS"]) && is_array($arUpdateList["AVAILABLE_VERSIONS"]) && isset($arUpdateList["AVAILABLE_VERSIONS"][0]["#"]["VERSIONS"]) && is_array($arUpdateList["AVAILABLE_VERSIONS"][0]["#"]["VERSIONS"]))
+									{
+										foreach ($arUpdateList["AVAILABLE_VERSIONS"][0]["#"]["VERSIONS"] as $versions)
+										{
+											?><option value="<?= intval($versions["@"]["ID"]) ?>"<?= (intval($versions["@"]["ID"]) === intval($stableVersionsOnly)) ? " selected" : "";?>><?
+												echo htmlspecialcharsbx($versions["@"]["NAME"]);
+												if ($versions["@"]["IS_STABLE"] === "N")
+													echo " (beta version)";
+											?></option><?
+										}
+									}
+									?>
+								</select>
+										</td>
+									</tr>
+								</table>
 							</td>
 						</tr>
 					</table>
@@ -2582,7 +2671,8 @@ $tabControl->BeginNextTab();
 				<!--
 				function SwithStability()
 				{
-					document.getElementById("id_stable_btn").disabled = true;
+					var sel = document.getElementById("id_stable_select");
+					sel.disabled = true;
 					ShowWaitWindow();
 
 					CHttpRequest.Action = function(result)
@@ -2596,12 +2686,12 @@ $tabControl->BeginNextTab();
 						{
 							CloseWaitWindow();
 							alert("<?= GetMessage("SUP_SUBV_ERROR") ?>: " + result);
-							document.getElementById("id_stable_btn").disabled = false;
+							sel.disabled = false;
 						}
 					}
 
 					updRand++;
-					CHttpRequest.Send('/bitrix/admin/update_system_act.php?query_type=stability&<?= bitrix_sessid_get() ?>&STABILITY=' + escape("<?= $stableVersionsOnly ?>") + "&updRand=" + updRand);
+					CHttpRequest.Send('/bitrix/admin/update_system_act.php?query_type=stability&<?= bitrix_sessid_get() ?>&STABILITY=' + escape(sel.options[sel.selectedIndex].value) + "&updRand=" + updRand);
 				}
 				//-->
 				</SCRIPT>

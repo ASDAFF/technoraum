@@ -21,7 +21,9 @@ IncludeModuleLangFile(__FILE__);
  */
 class ShipmentImport extends EntityImport
 {
-    public function __construct($parentEntityContext = null)
+	protected static $currentSettingsStores = null;
+
+	public function __construct($parentEntityContext = null)
     {
         parent::__construct($parentEntityContext);
     }
@@ -203,7 +205,9 @@ class ShipmentImport extends EntityImport
 
         if(!$this->isLoadedParentEntity() && !empty($fields['ORDER_ID']))
         {
-            $this->setParentEntity(Order::load($fields['ORDER_ID']));
+			$this->setParentEntity(
+				$this->loadParentEntity(['ID'=>$fields['ORDER_ID']])
+			);
         }
 
         if($this->isLoadedParentEntity())
@@ -249,17 +253,28 @@ class ShipmentImport extends EntityImport
         return $allQuantity;
     }
 
+	/**
+	 * @param Sale\BasketBase $basket
+	 * @param array $item
+	 * @return Sale\BasketItem
+	 */
+	protected function getBasketItemByItem(Sale\BasketBase $basket, array $item)
+	{
+		return OrderImport::getBasketItemByItem($basket, $item);
+	}
+
     /**
      * @param Shipment $shipment
-     * @param Basket $basket
+     * @param Sale\BasketBase $basket
      * @param array $params
      * @return Sale\Result
      * @throws Main\ObjectNotFoundException
      */
-    private function fillShipmentItems(Shipment $shipment, Basket $basket, array $params)
+    private function fillShipmentItems(Shipment $shipment, Sale\BasketBase $basket, array $params)
     {
         $result = new Sale\Result();
 
+        /** @var Order $order */
         $order = $basket->getOrder();
 
         $fieldsBasketItems = $params['ITEMS'];
@@ -275,11 +290,11 @@ class ShipmentImport extends EntityImport
 
                 	if($item['TYPE'] == Exchange\ImportBase::ITEM_ITEM)
                     {
-                        if($basketItem = OrderImport::getBasketItemByItem($basket, $item))
+                        if($basketItem = $this->getBasketItemByItem($basket, $item))
                         {
                             $basketItemQuantity = $this->getBasketItemQuantity($order, $basketItem);
 
-                            $shipmentItem = self::getShipmentItem($shipment, $basketItem);
+                            $shipmentItem = static::getShipmentItem($shipment, $basketItem);
 
                             $deltaQuantity = $item['QUANTITY'] - $shipmentItem->getQuantity();
 
@@ -443,7 +458,7 @@ class ShipmentImport extends EntityImport
             if(empty($basketQuantity))
                 continue;
 
-            $shipmentItem = self::getShipmentItem($shipment, $basketItem);
+            $shipmentItem = static::getShipmentItem($shipment, $basketItem);
 
             if($basketQuantity >= $needQuantity)
             {
@@ -497,7 +512,7 @@ class ShipmentImport extends EntityImport
     {
         $result = array();
 
-        $item = self::getFieldsDeliveryService($fields);
+        $item = static::getFieldsDeliveryService($fields);
         if(count($item)>0)
 		{
 			$result = array(
@@ -536,4 +551,104 @@ class ShipmentImport extends EntityImport
 
         return Exchange\EntityType::SHIPMENT;
     }
+
+	public function initFields()
+	{
+		$this->setFields(
+			array(
+				'TRAITS' => $this->getFieldsTraits(),
+				'ITEMS' => $this->getFieldsItems(),
+				'STORIES' => $this->getFieldsStories()
+			)
+		);
+	}
+
+	/**
+	 * @param Sale\BasketItem $basket
+	 * @return array
+	 */
+	protected function getAttributesItem(Sale\BasketItem $basket)
+	{
+		return OrderImport::getAttributesItem($basket);
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getFieldsItems()
+	{
+		$result = array();
+		$shipment = $this->getEntity();
+		if($shipment instanceof Shipment)
+		{
+			$order = $shipment->getParentOrder();
+			/** @var Sale\BasketItem $basket */
+			foreach ($order->getBasket() as $basket)
+			{
+				/** @var Sale\ShipmentItem $shipmentItem */
+				$shipmentItem = $shipment->getShipmentItemCollection()
+					->getItemByBasketCode($basket->getBasketCode());
+
+				if($shipmentItem !== null)
+				{
+					$itemFields = $basket->getFieldValues();
+					$itemFields['QUANTITY'] = $shipmentItem->getQuantity();
+
+					$attributes = array();
+					$attributeFields = $this->getAttributesItem($basket);
+					if(count($attributeFields)>0)
+						$attributes['ATTRIBUTES'] = $attributeFields;
+
+					$result[] = array_merge($itemFields, $attributes);
+				}
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * @return array
+	 * @internal
+	 */
+	protected function getFieldsStories()
+	{
+		$result = array();
+		$entity = $this->getEntity();
+		if($entity instanceof Shipment)
+		{
+			$shipmentItemCollection = $entity->getShipmentItemCollection();
+			if($shipmentItemCollection->count()>0)
+			{
+				/** @var Sale\ShipmentItem $shipmentItem */
+				foreach ($shipmentItemCollection as $shipmentItem)
+				{
+					$shipmentItemStoreCollection = $shipmentItem->getShipmentItemStoreCollection();
+					if ($shipmentItemStoreCollection->count()>0)
+					{
+						/** @var Sale\ShipmentItemStore $shipmentItemStore */
+						foreach ($shipmentItemStoreCollection as $shipmentItemStore)
+						{
+							$result[] = array('ID'=>$shipmentItemStore->getStoreId());
+						}
+					}
+				}
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * @param Sale\IBusinessValueProvider $entity
+	 * @return Sale\Order
+	 */
+	static protected function getBusinessValueOrderProvider(\Bitrix\Sale\IBusinessValueProvider $entity)
+	{
+		if(!($entity instanceof Shipment))
+			throw new Main\ArgumentException("entity must be instanceof Shipment");
+
+		/** @var Sale\ShipmentCollection $collection */
+		$collection = $entity->getCollection();
+
+		return $collection->getOrder();
+	}
 }

@@ -63,13 +63,13 @@ $MESS["HIDE_COUPON_TIP"] = "Wenn Sie \"Ja\" auswählen, wird das Feld für die Ein
 $MESS["SBB_PREVIEW_PICTURE"] = "Bild";
 $MESS["SBB_DETAIL_PICTURE"] = "Detailliertes Bild";
 $MESS["SBB_PREVIEW_TEXT"] = "Kurzbeschreibung";
-$MESS["SBB_COMPATIBLE_MODE"] = "Kompatibilit?tsmodus aktivieren";
+$MESS["SBB_COMPATIBLE_MODE"] = "Kompatibilitätsmodus aktivieren";
 $MESS["SBB_IMAGE_SETTINGS"] = "Bildeinstellungen";
-$MESS["SBB_ADDITIONAL_IMAGE"] = "Zus?tzliches Bild";
+$MESS["SBB_ADDITIONAL_IMAGE"] = "Zusätzliches Bild";
 $MESS["SBB_BASKET_IMAGES_SCALING"] = "Modus der Ansicht der Produktbilder";
 $MESS["SBB_ADAPTIVE"] = "Adaptiv";
 $MESS["SBB_STANDARD"] = "Standard";
-$MESS["SBB_NO_SCALE"] = "Gr??e nicht anpassen";
+$MESS["SBB_NO_SCALE"] = "Größe nicht anpassen";
 $MESS["SBB_DEFAULT"] = "Standard";
 $MESS["SBB_ANALYTICS_SETTINGS"] = "Statistikeinstellungen";
 ?>

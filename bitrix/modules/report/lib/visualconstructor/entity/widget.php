@@ -25,6 +25,9 @@ class Widget extends ConfigurableModel
 	protected $boardId;
 	protected $rowId;
 	protected $widgetClass;
+	/**
+	 * @var BaseWidget $widgetHandler.
+	 */
 	protected $widgetHandler;
 	protected $viewKey;
 	protected $ownerId = 0;
@@ -135,7 +138,7 @@ class Widget extends ConfigurableModel
 
 
 	/**
-	 * Delete widget if it is not moattern.
+	 * Delete widget if it is not pattern.
 	 *
 	 * @return bool|null
 	 */
@@ -164,7 +167,7 @@ class Widget extends ConfigurableModel
 	}
 
 	/**
-	 * Attach report hadnler to widget handler.
+	 * Attach report handler to widget handler.
 	 *
 	 * @param BaseReport $reportHandler Report handler.
 	 * @return void
@@ -193,11 +196,9 @@ class Widget extends ConfigurableModel
 			$widgetHandlerFromEvent = $widgetProvider->execute()->getFirstResult();
 			if ($widgetHandlerFromEvent)
 			{
-				/** @var BaseWidget $handler */
-				$handler = new $widgetHandlerFromEvent;
+				$this->widgetHandler = new $widgetHandlerFromEvent;
 				$this->loadAttribute('configurations');
-				$handler->fillWidget($this);
-				$this->widgetHandler = $handler;
+				$this->widgetHandler->fillWidget($this);
 			}
 		}
 
@@ -206,7 +207,7 @@ class Widget extends ConfigurableModel
 
 	/**
 	 * Setter for widget handler.
-	 * Set class name and set widget hadnler.
+	 * Set class name and set widget handler.
 	 *
 	 * @param BaseWidget $widgetHandler Widget handler.
 	 * @return void
@@ -290,7 +291,7 @@ class Widget extends ConfigurableModel
 	}
 
 	/**
-	 * Perfoerm copy of widget with copies of nested relations.
+	 * Perform copy of widget with copies of nested relations.
 	 *
 	 * @return Widget
 	 */
@@ -514,7 +515,7 @@ class Widget extends ConfigurableModel
 	}
 
 	/**
-	 * Remiove current user widget by gId.
+	 * Remove current user widget by gId.
 	 *
 	 * @param string $widgetGId Widget gId.
 	 * @return boolean
@@ -688,7 +689,7 @@ class Widget extends ConfigurableModel
 	}
 
 	/**
-	 * Attach widget to categopry.
+	 * Attach widget to category.
 	 *
 	 * @see Category.
 	 * @param string $categoryKey Category key.

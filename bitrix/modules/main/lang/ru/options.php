@@ -219,4 +219,6 @@ $MESS["MAIN_REGISTER_AGREEMENT_TITLE"] = "Настройка соглашений. <a href=\"#AGGRE
 $MESS["MAIN_REGISTER_AGREEMENT_DEFAUTL_VALUE"] = "(Выберите соглашение)";
 $MESS["MAIN_OPTIONS_PHONE_NUMBER_FORMAT"] = "Форматирование телефонных номеров";
 $MESS["MAIN_OPTIONS_PHONE_NUMBER_DEFAULT_COUNTRY"] = "Страна по умолчанию:";
+$MESS["MAIN_OPT_PROFILE"] = "Профиль пользователя";
+$MESS["MAIN_OPT_PROFILE_HYSTORY"] = "Сохранять историю изменения полей профиля пользователя:";
 ?>

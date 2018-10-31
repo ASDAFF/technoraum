@@ -10,6 +10,7 @@ use Bitrix\Report\VisualConstructor\Fields\Valuable\CustomDropDown;
 use Bitrix\Report\VisualConstructor\Fields\Valuable\BaseValuable;
 use Bitrix\Report\VisualConstructor\Fields\Valuable\DropDown;
 use Bitrix\Report\VisualConstructor\Fields\Valuable\IValuable;
+use Bitrix\Report\VisualConstructor\Helper\Category;
 use Bitrix\Report\VisualConstructor\IReportData;
 use Bitrix\Report\VisualConstructor\RuntimeProvider\CategoryProvider;
 use Bitrix\Report\VisualConstructor\RuntimeProvider\ReportProvider;
@@ -57,7 +58,7 @@ abstract class BaseReport extends BaseHandler implements IReportData
 	}
 
 	/**
-	 * Collecting form elements for configuratyion form.
+	 * Collecting form elements for configuration form.
 	 *
 	 * @return void
 	 */
@@ -337,12 +338,13 @@ abstract class BaseReport extends BaseHandler implements IReportData
 		}
 		$this->setReport($report);
 		$this->setConfigurations($report->getConfigurations());
+		$this->getCollectedFormElements();
 		$this->fillFormElementsValues();
 	}
 
 	private function fillFormElementsValues()
 	{
-		$formElements = $this->getCollectedFormElements();
+		$formElements = $this->getFormElements();
 		$configurations = $this->getConfigurations();
 		if (!empty($configurations))
 		{
@@ -408,7 +410,7 @@ abstract class BaseReport extends BaseHandler implements IReportData
 		$categories->addRelation('children');
 		$categories->addRelation('parent');
 		$categories  = $categories->execute()->getResults();
-		$options = \Bitrix\Report\VisualConstructor\Helper\Category::getOptionsTree($categories);
+		$options = Category::getOptionsTree($categories);
 		$selectField->addOptions($options);
 
 		$selectField->setValue($this->getCategoryKey());
@@ -416,8 +418,8 @@ abstract class BaseReport extends BaseHandler implements IReportData
 	}
 
 	/**
-	 * Build repoert handler select drop down.
-	 * Collect all report hadnler sin selected category.
+	 * Build report handler select drop down.
+	 * Collect all report handler sin selected category.
 	 *
 	 * @param string $categoryKey Category key.
 	 * @return CustomDropDown
@@ -526,19 +528,6 @@ abstract class BaseReport extends BaseHandler implements IReportData
 		}
 	}
 
-	/**
-	 * Called every time when calculate some report result before passing some concrete handler.
-	 * Such us getMultipleData or getSingleData.
-	 * Here you can get result of configuration fields of report, if report in widget you can get configurations of widget.
-	 * Don't  miss set Calculated data.
-	 * @see BaseReport::setCalculatedData($calculatedData).
-	 * @return void
-	 */
-	public function prepare()
-	{
-		// TODO: Implement prepare() method.
-	}
-
 
 	/**
 	 *
@@ -549,4 +538,5 @@ abstract class BaseReport extends BaseHandler implements IReportData
 	{
 		return array();
 	}
+
 }

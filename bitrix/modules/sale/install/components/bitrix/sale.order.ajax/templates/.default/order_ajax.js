@@ -68,6 +68,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 		isMobile: BX.browser.IsMobile(),
 		isHttps: window.location.protocol === "https:",
 		orderSaveAllowed: false,
+		socServiceHiddenNode: false,
 
 		/**
 		 * Initialization of sale.order.ajax component js
@@ -2905,14 +2906,16 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 			if (socServiceHiddenNode)
 			{
+				if (this.socServiceHiddenNode === false)
+				{
+					this.socServiceHiddenNode = socServiceHiddenNode.innerHTML;
+					BX.remove(socServiceHiddenNode);
+				}
+
 				nodes.push(BX.create('DIV', {
-						props: {className: 'bx-authform-social'},
-						children: [
-							BX.create('H3', {props: {className: 'bx-title'}, text: BX.message('SOA_DO_SOC_SERV')}),
-							socServiceHiddenNode.cloneNode(true)
-						]
-					})
-				);
+					props: {className: 'bx-authform-social'},
+					html: '<h3 class="bx-title">' + BX.message('SOA_DO_SOC_SERV') + '</h3>' + this.socServiceHiddenNode,
+				}));
 				nodes.push(BX.create('hr', {props: {className: 'bxe-light'}}));
 			}
 
@@ -3443,11 +3446,13 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 				logoNode.setAttribute('style', 'background-image: url(' + logotype + ');');
 			}
 
-			if (data.DETAIL_PAGE_URL && data.DETAIL_PAGE_URL.length)
+			if (this.params.HIDE_DETAIL_PAGE_URL !== 'Y' && data.DETAIL_PAGE_URL && data.DETAIL_PAGE_URL.length)
+			{
 				logoNode = BX.create('A', {
 					props: {href: data.DETAIL_PAGE_URL},
 					children: [logoNode]
 				});
+			}
 
 			return BX.create('DIV', {
 				props: {className: 'bx-soa-item-img-block'},
@@ -3462,8 +3467,10 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 				props = data.PROPS || [],
 				propsNodes = [];
 
-			if (data.DETAIL_PAGE_URL && data.DETAIL_PAGE_URL.length)
+			if (this.params.HIDE_DETAIL_PAGE_URL !== 'Y' && data.DETAIL_PAGE_URL && data.DETAIL_PAGE_URL.length)
+			{
 				titleHtml = '<a href="' + data.DETAIL_PAGE_URL + '">' + titleHtml + '</a>';
+			}
 
 			if (this.options.showPropsInBasket && props.length)
 			{
@@ -3878,6 +3885,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 											if (newCoupon && newCoupon.value)
 											{
 												this.sendRequest('enterCoupon', newCoupon.value);
+												newCoupon.value = '';
 											}
 										}, this)
 									}
@@ -4008,25 +4016,22 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			return BX.create('DIV', {
 				props: {className: 'bx-soa-coupon-label'},
 				children: active
-					? [BX.create('LABEL', {attr: {'for': 'coupon'}, html: this.params.MESS_USE_COUPON + ':'})]
+					? [BX.create('LABEL', {html: this.params.MESS_USE_COUPON + ':'})]
 					: [this.params.MESS_COUPON + ':']
 			});
 		},
 
 		addCoupon: function(coupon)
 		{
-			var couponListNodes = this.orderBlockNode.querySelectorAll('.bx-soa-coupon:not(.bx-soa-coupon-item-fixed) .bx-soa-coupon-item'),
-				couponInput = BX('coupon'), i;
+			var couponListNodes = this.orderBlockNode.querySelectorAll('.bx-soa-coupon:not(.bx-soa-coupon-item-fixed) .bx-soa-coupon-item');
 
-			for (i = 0; i < couponListNodes.length; i++)
+			for (var i = 0; i < couponListNodes.length; i++)
 			{
-				if (couponListNodes[i].querySelector('[data-coupon="' + BX.util.htmlspecialchars(coupon) + '"'))
+				if (couponListNodes[i].querySelector('[data-coupon="' + BX.util.htmlspecialchars(coupon) + '"]'))
 					break;
 
 				couponListNodes[i].appendChild(this.getCouponNode({text: coupon}, true, 'bx-soa-coupon-item-danger'));
 			}
-
-			couponInput && (couponInput.value = '');
 		},
 
 		removeCoupon: function(coupon)
@@ -4188,10 +4193,12 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 			locationString = this.getLocationString(this.regionHiddenBlockNode);
 			if (locationProperty && locationString.length)
-				addedHtml += '<strong>' + BX.util.htmlspecialchars(locationProperty.NAME) + ':</strong> ' + locationString + '<br>';
+				addedHtml += '<strong>' + BX.util.htmlspecialchars(locationProperty.NAME) + ':</strong> '
+					+ BX.util.htmlspecialchars(locationString) + '<br>';
 
 			if (zipProperty && zipValue.length)
-				addedHtml += '<strong>' + BX.util.htmlspecialchars(zipProperty.NAME) + ':</strong> ' + zipValue;
+				addedHtml += '<strong>' + BX.util.htmlspecialchars(zipProperty.NAME) + ':</strong> '
+					+ BX.util.htmlspecialchars(zipValue);
 
 			node.innerHTML += addedHtml;
 
@@ -4278,7 +4285,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			{
 				this.regionBlockNotEmpty = true;
 
-				labelHtml = '<label class="bx-soa-custom-label" for="soa-property-' + locationId + '">'
+				labelHtml = '<label class="bx-soa-custom-label" for="soa-property-' + parseInt(locationId) + '">'
 					+ (currentProperty.REQUIRED == 'Y' ? '<span class="bx-authform-starrequired">*</span> ' : '')
 					+ BX.util.htmlspecialchars(currentProperty.NAME)
 					+ (currentProperty.DESCRIPTION.length ? ' <small>(' + BX.util.htmlspecialchars(currentProperty.DESCRIPTION) + ')</small>' : '')
@@ -4590,12 +4597,15 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 				i, label, options = [],
 				profileChangeInput, input;
 
-			if (profilesLength && this.params.ALLOW_USER_PROFILES === 'Y')
+			if (profilesLength)
 			{
-				this.regionBlockNotEmpty = true;
-
-				if (profilesLength > 1 || this.params.ALLOW_NEW_PROFILE === 'Y')
+				if (
+					this.params.ALLOW_USER_PROFILES === 'Y'
+					&& (profilesLength > 1 || this.params.ALLOW_NEW_PROFILE === 'Y')
+				)
 				{
+					this.regionBlockNotEmpty = true;
+
 					label = BX.create('LABEL', {props: {className: 'bx-soa-custom-label'}, html: this.params.MESS_SELECT_PROFILE});
 
 					for (i in this.result.USER_PROFILES)
@@ -4640,7 +4650,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 					node.appendChild(
 						BX.create('DIV', {
-							props: {className: "form-group bx-soa-location-input-container"},
+							props: {className: 'form-group bx-soa-location-input-container'},
 							children: [label, profileChangeInput, input]
 						})
 					);
@@ -4658,7 +4668,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 								BX.create('INPUT', {
 									props: {
 										name: 'PROFILE_ID',
-										type: "hidden",
+										type: 'hidden',
 										value: this.result.USER_PROFILES[i].ID}
 								})
 							);
@@ -5942,10 +5952,13 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			{
 				currentProperty = this.locations[locationId][0].coordinates;
 
-				if (parseFloat(currentProperty.LONGITUDE) != 0 && parseFloat(currentProperty.LATITUDE) != 0)
+				var long = parseFloat(currentProperty.LONGITUDE),
+					lat = parseFloat(currentProperty.LATITUDE);
+
+				if (!isNaN(long) && !isNaN(lat) && long != 0 && lat != 0)
 				{
-					data.lat = parseFloat(currentProperty.LATITUDE);
-					data.lon = parseFloat(currentProperty.LONGITUDE);
+					data.lon = long;
+					data.lat = lat;
 				}
 			}
 
@@ -6404,7 +6417,12 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 				this.editPropsItems(propsNode);
 				showPropMap && this.editPropsMap(propsNode);
-				this.editPropsComment(propsNode);
+
+				if (this.params.HIDE_ORDER_DESCRIPTION !== 'Y')
+				{
+					this.editPropsComment(propsNode);
+				}
+
 				propsContent.appendChild(propsNode);
 				this.getBlockFooter(propsContent);
 
@@ -7495,14 +7513,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 				if (value.length > 0 && arProperty.PATTERN && arProperty.PATTERN.length)
 				{
-					var pattern = arProperty.PATTERN;
-					var clearPattern = pattern.substr(1, pattern.lastIndexOf(pattern[0]) - 1);
-					if (clearPattern && clearPattern.length)
-					{
-						pattern = clearPattern;
-					}
-
-					re = new RegExp(pattern);
+					re = new RegExp(arProperty.PATTERN);
 					if (!re.test(value))
 						errors.push(field + ' ' + BX.message('SOA_INVALID_PATTERN'));
 				}

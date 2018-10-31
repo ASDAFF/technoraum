@@ -1,4 +1,6 @@
 <?
+$MESS["MAIN_MENU_PROFILE_HISTORY"] = "Profile History";
+$MESS["MAIN_MENU_PROFILE_HISTORY_TITLE"] = "User profile update log";
 $MESS["MAIN_MENU_PHP"] = "PHP command line";
 $MESS["MAIN_MENU_PHP_ALT"] = "Run arbitrary PHP commands at server";
 $MESS["MAIN_MENU_MANAG"] = "Manage users";

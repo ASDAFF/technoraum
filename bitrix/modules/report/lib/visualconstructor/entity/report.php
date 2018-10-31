@@ -18,6 +18,7 @@ class Report extends ConfigurableModel
 	protected $gId;
 	protected $widgetId;
 	protected $reportClassName;
+	/** @var BaseReport $reportHandler */
 	protected $reportHandler;
 	protected $weight = 0;
 
@@ -159,12 +160,10 @@ class Report extends ConfigurableModel
 			$reportHandlerFromEvent = ReportProvider::getReportHandlerByClassName($this->reportClassName);
 			if ($reportHandlerFromEvent)
 			{
-				/** @var BaseReport $handler */
-				$handler = new $reportHandlerFromEvent;
-				$handler->setView($this->getWidget()->getWidgetHandler()->getView());
+				$this->reportHandler = new $reportHandlerFromEvent;
+				$this->reportHandler->setView($this->getWidget()->getWidgetHandler()->getView());
 				$this->loadAttribute('configurations');
-				$handler->fillReport($this);
-				$this->reportHandler = $handler;
+				$this->reportHandler->fillReport($this);
 			}
 			else
 			{
@@ -179,7 +178,7 @@ class Report extends ConfigurableModel
 	}
 
 	/**
-	 * Setter for report hadnler.
+	 * Setter for report handler.
 	 *
 	 * @param BaseReport $handler Report handler.
 	 * @return void

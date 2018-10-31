@@ -424,9 +424,10 @@
 		},
 		preparePost : function(data, prepareForm)
 		{
+			var siteId = (BX.message.SITE_ID ? BX.message("SITE_ID") : "");
 			if (prepareForm === true && this.params["uploadFormData"] == "Y" && !this.post)
 			{
-				var post2 = {data : {"AJAX_POST" : "Y", SITE_ID : BX.message("SITE_ID"), USER_ID : BX.message("USER_ID")}, filesCount : 0, size : 10};
+				var post2 = {data : {"AJAX_POST" : "Y", SITE_ID : siteId, USER_ID : BX.message("USER_ID")}, filesCount : 0, size : 10};
 				post2 = (this.form ? BX.UploaderUtils.FormToArray(this.form, post2) : post2);
 				if (!!post2.data[this.params["filesInputName"]])
 				{
@@ -452,7 +453,7 @@
 				post2.size = BX.UploaderUtils.sizeof(post2.data);
 				this.post = post2;
 			}
-			var post = (prepareForm === true && this.params["uploadFormData"] == "Y" ? this.post : {data : {"AJAX_POST" : "Y", SITE_ID : BX.message("SITE_ID"), USER_ID : BX.message("USER_ID")}, filesCount : 0, size : 10}), size = 0;
+			var post = (prepareForm === true && this.params["uploadFormData"] == "Y" ? this.post : {data : {"AJAX_POST" : "Y", SITE_ID : siteId, USER_ID : BX.message("USER_ID")}, filesCount : 0, size : 10}), size = 0;
 			post.data["sessid"] = BX.bitrix_sessid();
 			post.size += (6 + BX.bitrix_sessid().length);
 			if (data)

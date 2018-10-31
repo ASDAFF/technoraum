@@ -221,7 +221,7 @@
 						for (ii = 0; ii < attachments.length; ii++)
 						{
 							file = attachments[ii];
-							if (!file["propertyName"] && file["base64"]) // I am sorry
+							if (!file["propertyName"] && (!file["disk"] || file["base64"])) // I am sorry
 							{
 								file["propertyName"] = this.propertyName;
 								files.push(file);

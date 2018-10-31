@@ -545,7 +545,7 @@ class CCatalogProductAvailable extends CCatalogStepOperations
 			'SEPARATE_SKU_MODE' => (string)Main\Config\Option::get('catalog', 'show_catalog_tab_with_offers') == 'Y',
 			'CHECK_AVAILABLE' => true,
 			'CHECK_SKU_PRICES' => true,
-			'CHECK_SETS' => \CBXFeatures::IsFeatureEnabled('CatCompleteSet'),
+			'CHECK_SETS' => Catalog\Config\Feature::isProductSetsEnabled(),
 			'CHECK_MEASURE_RATIO' => false,
 			'UPDATE_ONLY' => false
 		);
@@ -1324,7 +1324,7 @@ class CCatalogProductSettings extends CCatalogProductAvailable
 		}
 		unset($catalogId);
 
-		if (CBXFeatures::IsFeatureEnabled('CatCompleteSet'))
+		if (Catalog\Config\Feature::isProductSetsEnabled())
 			static::addSetDescription($result);
 
 		return $result;
@@ -1433,32 +1433,51 @@ class CCatalogProductSettings extends CCatalogProductAvailable
 
 class CCatalogIblockReindex extends CCatalogProductAvailable
 {
+	const NOTIFY_ID = 'CATALOG_REINDEX';
+
 	public function __construct($sessID, $maxExecutionTime, $maxOperationCounter)
 	{
 		parent::__construct($sessID, $maxExecutionTime, $maxOperationCounter);
 	}
 
+	public static function removeNotify()
+	{
+		// old message from 16.0
+		$iterator = \CAdminNotify::GetList([], ['MODULE_ID' => 'catalog', 'TAG' => 'CATALOG_16']);
+		while ($row = $iterator->Fetch())
+		{
+			\CAdminNotify::Delete($row['ID']);
+		}
+
+		$iterator = \CAdminNotify::GetList([], ['MODULE_ID' => 'catalog', 'TAG' => self::NOTIFY_ID]);
+		while ($row = $iterator->Fetch())
+		{
+			\CAdminNotify::Delete($row['ID']);
+		}
+		unset($row, $iterator);
+	}
+
 	public static function showNotify()
 	{
-		$notifyId = 'CATALOG_16'; // old message from 16.0
-		$iterator = \CAdminNotify::GetList(array(), array('MODULE_ID' => 'catalog', 'TAG' => $notifyId));
-		$row = $iterator->Fetch();
-		if (!empty($row))
-			\CAdminNotify::Delete($row['ID']);
+		self::removeNotify();
 
-		$notifyId = 'CATALOG_REINDEX';
-		$iterator = \CAdminNotify::GetList(array(), array('MODULE_ID' => 'catalog', 'TAG' => $notifyId));
-		$row = $iterator->Fetch();
-		if (!empty($row))
-			\CAdminNotify::Delete($row['ID']);
-		unset($row, $iterator);
+		$catalogData = Catalog\CatalogIblockTable::getList([
+			'select' => ['CNT'],
+			'runtime' => [
+				new Main\Entity\ExpressionField('CNT', 'COUNT(*)')
+			]
+		])->fetch();
+		$catalogCount = (isset($catalogData['CNT']) ? (int)$catalogData['CNT'] : 0);
+		unset($catalogData);
+		if ($catalogCount == 0)
+			return;
 
 		$defaultLang = '';
-		$messages = array();
-		$iterator = Main\Localization\LanguageTable::getList(array(
-			'select' => array('ID', 'DEF'),
-			'filter' => array('=ACTIVE' => 'Y')
-		));
+		$messages = [];
+		$iterator = Main\Localization\LanguageTable::getList([
+			'select' => ['ID', 'DEF'],
+			'filter' => ['=ACTIVE' => 'Y']
+		]);
 		while ($row = $iterator->fetch())
 		{
 			if ($defaultLang == '')
@@ -1472,7 +1491,7 @@ class CCatalogIblockReindex extends CCatalogProductAvailable
 			);
 			$messages[$languageId] = Loc::getMessage(
 				'BX_CATALOG_REINDEX_NOTIFY',
-				array('#LINK#' => '/bitrix/admin/settings.php?lang='.$languageId.'&mid=catalog&mid_menu=1'),
+				['#LINK#' => '/bitrix/admin/settings.php?lang='.$languageId.'&mid=catalog&mid_menu=1'],
 				$languageId
 			);
 		}
@@ -1481,14 +1500,14 @@ class CCatalogIblockReindex extends CCatalogProductAvailable
 		if (empty($messages))
 			return;
 
-		\CAdminNotify::Add(array(
+		\CAdminNotify::Add([
 			'MODULE_ID' => 'catalog',
-			'TAG' => $notifyId,
+			'TAG' => self::NOTIFY_ID,
 			'ENABLE_CLOSE' => 'Y',
 			'NOTIFY_TYPE' => \CAdminNotify::TYPE_NORMAL,
 			'MESSAGE' => $messages[$defaultLang],
 			'LANG' => $messages
-		));
+		]);
 	}
 
 	public static function execAgent()

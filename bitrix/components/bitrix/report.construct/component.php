@@ -80,8 +80,6 @@ try
 	$ownerId = call_user_func(array($arParams['REPORT_HELPER_CLASS'], 'getOwnerId'));
 	$entityName = call_user_func(array($arParams['REPORT_HELPER_CLASS'], 'getEntityName'));
 	$entityFields = call_user_func(array($arParams['REPORT_HELPER_CLASS'], 'getColumnList'));
-	$arResult['ufEnumerations'] = call_user_func(array($arParams['REPORT_HELPER_CLASS'], 'getUFEnumerations'));
-
 	// customize entity
 	$initEntity = clone Entity\Base::getInstance($entityName);
 	call_user_func(array($arParams['REPORT_HELPER_CLASS'], 'setRuntimeFields'), $initEntity, '');

@@ -453,3 +453,12 @@
 	padding: 0 10px;
 	cursor: pointer;
 }
+
+.menu-popup-right-icon {
+	padding-right: 14px;
+}
+.menu-popup-item .delete-sender {
+	position: absolute;
+	right: 14px;
+	top: 1px;
+}

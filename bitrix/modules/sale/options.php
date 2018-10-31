@@ -9,6 +9,7 @@ use Bitrix\Main\Loader;
 use Bitrix\Main\SiteTable;
 use Bitrix\Main\Config\Option;
 use Bitrix\Sale\Cashbox;
+use Bitrix\Sale\Registry;
 use Bitrix\Sale\SalesZone;
 use Bitrix\Sale;
 use Bitrix\Main\Localization\Loc;
@@ -28,37 +29,6 @@ Loader::includeModule('currency');
 
 $lpEnabled = CSaleLocation::isLocationProEnabled();
 $lMigrated = CSaleLocation::isLocationProMigrated();
-
-function checkAccountNumberValue($templateType, $number_data, $number_prefix)
-{
-	$res = true;
-
-	switch ($templateType)
-	{
-		case 'NUMBER':
-
-			if (strlen($number_data) <= 0
-				|| strlen($number_data) > 7
-				|| !preg_match('/^[0-9]+$/', $number_data)
-				|| intval($number_data) < intval(COption::GetOptionString("sale", "account_number_data", ""))
-				)
-				$res = false;
-
-			break;
-
-		case 'PREFIX':
-
-			if (strlen($number_prefix) <= 0
-				|| strlen($number_prefix) > 7
-				|| preg_match('/[^a-zA-Z0-9_-]/', $number_prefix)
-				)
-				$res = false;
-
-			break;
-	}
-
-	return $res;
-}
 
 $siteList = array();
 $siteIterator = SiteTable::getList(array(
@@ -121,26 +91,12 @@ $arAllOptions =
 		);
 
 $arOrderFlags = array("P" => GetMessage("SMO_PAYMENT_FLAG"), "C" => GetMessage("SMO_CANCEL_FLAG"), "D" => GetMessage("SMO_DELIVERY_FLAG"));
-
-$arAccountNumberDefaultTemplates = array(
-	"" => GetMessage("SALE_ACCOUNT_NUMBER_TEMPLATE_0"),
-	"NUMBER" => GetMessage("SALE_ACCOUNT_NUMBER_TEMPLATE_1"),
-	"PREFIX" => GetMessage("SALE_ACCOUNT_NUMBER_TEMPLATE_2"),
-	"RANDOM" => GetMessage("SALE_ACCOUNT_NUMBER_TEMPLATE_3"),
-	"USER" => GetMessage("SALE_ACCOUNT_NUMBER_TEMPLATE_4"),
-	"DATE" => GetMessage("SALE_ACCOUNT_NUMBER_TEMPLATE_5"),
-);
-
-$arAccountNumberCustomHandlers = array();
-foreach(GetModuleEvents("sale", "OnBuildAccountNumberTemplateList", true) as $arEvent)
+$numeratorForOrdersId = '';
+$numeratorsOrderType = Main\Numerator\Numerator::getOneByType(Registry::REGISTRY_TYPE_ORDER);
+if ($numeratorsOrderType)
 {
-	$arRes = ExecuteModuleEventEx($arEvent, array());
-	if (isset($arRes["CODE"]) && isset($arRes["NAME"]))
-		$arAccountNumberCustomHandlers[$arRes["CODE"]] = $arRes["NAME"];
+	$numeratorForOrdersId = $numeratorsOrderType['id'];
 }
-
-$arAccountNumberTemplates = array_merge($arAccountNumberDefaultTemplates, $arAccountNumberCustomHandlers);
-
 $aTabs = array(
 	array("DIV" => "edit1", "TAB" => GetMessage("MAIN_TAB_SET"), "ICON" => "sale_settings", "TITLE" => GetMessage("MAIN_TAB_TITLE_SET")),
 	array("DIV" => "edit7", "TAB" => GetMessage("SALE_TAB_WEIGHT"), "ICON" => "sale_settings", "TITLE" => GetMessage("SALE_TAB_WEIGHT_TITLE")),
@@ -154,18 +110,29 @@ $aTabs[] = array("DIV" => "edit3", "TAB" => GetMessage("SALE_TAB_3"), "ICON" => 
 $aTabs[] = array("DIV" => "edit4", "TAB" => GetMessage("MAIN_TAB_RIGHTS"), "ICON" => "sale_settings", "TITLE" => GetMessage("MAIN_TAB_TITLE_RIGHTS"));
 $aTabs[] = array("DIV" => "edit8", "TAB" => GetMessage("SALE_TAB_AUTO"), "ICON" => "sale_settings", "TITLE" => GetMessage("SALE_TAB_AUTO_TITLE"));
 $aTabs[] = array("DIV" => "edit9", "TAB" => GetMessage("SALE_TAB_ARCHIVE"), "ICON" => "sale_settings", "TITLE" => GetMessage("SALE_TAB_ARCHIVE_TITLE"));
-
+$aTabs[] = array("DIV" => "edit10", "TAB" => GetMessage("SALE_TAB_ORDER_NUMERATOR_TEMPLATE"), "ICON" => "sale_settings", "TITLE" => GetMessage("SALE_TAB_ORDER_NUMERATOR_TEMPLATE_TITLE"));
 $tabControl = new CAdminTabControl("tabControl", $aTabs);
 
 $strWarning = "";
+function addNumeratorErrorToWarningString($_numeratorResult)
+{
+	$numeratorWarningsString = '';
+	foreach ($_numeratorResult->getErrors() as $error)
+	{
+		$numeratorWarningsString = $error->getMessage() . '<br>';
+	}
+	return $numeratorWarningsString;
+}
 if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($Update) > 0 && $SALE_RIGHT == "W" && check_bitrix_sessid())
 {
-	if (!checkAccountNumberValue($_POST["account_number_template"], $_POST["account_number_number"], $_POST["account_number_prefix"]))
+	if (isset($_POST['hideNumeratorSettings']) && $_POST['hideNumeratorSettings'] != "Y")
 	{
-		if ($_POST["account_number_template"] == "PREFIX")
-			$strWarning = GetMessage("SALE_ACCOUNT_NUMBER_PREFIX_WARNING", array("#PREFIX#" => $_POST["account_number_prefix"]));
-		elseif ($_POST["account_number_template"] == "NUMBER")
-			$strWarning = GetMessage("SALE_ACCOUNT_NUMBER_NUMBER_WARNING", array("#NUMBER#" => $_POST["account_number_number"]));
+		$numerator = Main\Numerator\Numerator::create();
+		$validationResult = $numerator->setConfig($_POST);
+		if (!$validationResult->isSuccess())
+		{
+			$strWarning .= addNumeratorErrorToWarningString($validationResult);
+		}
 	}
 	else
 	{
@@ -490,47 +457,40 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($Update) > 0 && $SALE_RIGHT =
 		}
 		COption::SetOptionString("sale", "order_list_fields", $saveValue);
 
-		// account number generation algorithm
-		if (isset($_POST["account_number_template"]))
+		// account number generation - via numerator
+		if (isset($_POST['hideNumeratorSettings']) && $_POST['hideNumeratorSettings'] == "Y")
 		{
-			if (array_key_exists($_POST["account_number_template"], $arAccountNumberDefaultTemplates))
+			if ($numeratorForOrdersId)
 			{
-				switch ($_POST["account_number_template"])
+				Main\Numerator\Numerator::delete($numeratorForOrdersId);
+			}
+		}
+		else
+		{
+			if ($numeratorForOrdersId)
+			{
+				$numeratorUpdateResult = Main\Numerator\Numerator::update($numeratorForOrdersId, $_POST);
+				if (!$numeratorUpdateResult->isSuccess())
 				{
-					case 'NUMBER':
-						COption::SetOptionString("sale", "account_number_template", "NUMBER");
-						COption::SetOptionString("sale", "account_number_data", intval($_POST["account_number_number"]));
-						break;
-
-					case 'PREFIX':
-						COption::SetOptionString("sale", "account_number_template", "PREFIX");
-						COption::SetOptionString("sale", "account_number_data", $_POST["account_number_prefix"]);
-						break;
-
-					case 'RANDOM':
-						COption::SetOptionString("sale", "account_number_template", "RANDOM");
-						COption::SetOptionString("sale", "account_number_data", intval($_POST["account_number_random_length"]));
-						break;
-
-					case 'USER':
-						COption::SetOptionString("sale", "account_number_template", "USER");
-						COption::SetOptionString("sale", "account_number_data", "");
-						break;
-
-					case 'DATE':
-						COption::SetOptionString("sale", "account_number_template", "DATE");
-						COption::SetOptionString("sale", "account_number_data", $_POST["account_number_date_period"]);
-						break;
-
-					default:
-						COption::SetOptionString("sale", "account_number_template", "");
-						COption::SetOptionString("sale", "account_number_data", "");
-						break;
+					$strWarning .= addNumeratorErrorToWarningString($numeratorUpdateResult);
 				}
 			}
-			else // custom account number generation template
+			else
 			{
-				COption::SetOptionString("sale", "account_number_template", $_POST["account_number_template"]);
+				$numeratorOrder = Main\Numerator\Numerator::create();
+				$numeratorOrderValidationResult = $numeratorOrder->setConfig($_POST);
+				if ($numeratorOrderValidationResult->isSuccess())
+				{
+					$numeratorOrderSaveResult = $numeratorOrder->save();
+					if (!$numeratorOrderSaveResult->isSuccess())
+					{
+						$strWarning .= addNumeratorErrorToWarningString($numeratorOrderSaveResult);
+					}
+				}
+				else
+				{
+					$strWarning .= addNumeratorErrorToWarningString($numeratorOrderValidationResult);
+				}
 			}
 		}
 
@@ -950,7 +910,7 @@ $tabControl->BeginNextTab();
 		</td>
 		<td>
 			<?
-			$val = Main\Config\Option::get("sale", "value_precision", SALE_VALUE_PRECISION);
+			$val = Main\Config\Option::get("sale", "value_precision", 2);
 			?>
 			<select name="VALUE_PRECISION">
 				<option value="1"<?if ($val == "1") echo " selected";?>><?= GetMessage("SMO_VALUE_PRECISION_1") ?></option>
@@ -1046,120 +1006,6 @@ $tabControl->BeginNextTab();
 		</td>
 	</tr>
 
-	<!-- account number template settings -->
-	<tr>
-		<td>
-			<?echo GetMessage("SALE_ACCOUNT_NUMBER_TEMPLATE")?>
-		</td>
-		<td>
-			<?
-			$val = COption::GetOptionString("sale", "account_number_template", "");
-			?>
-			<select name="account_number_template" onChange="showAccountNumberAdditionalFields(this.selectedIndex)">
-				<?
-				$templateNumber = 0;
-				$ind = 0;
-				foreach($arAccountNumberTemplates as $template => $templateName)
-				{
-					?>
-					<option value="<?=$template?>"<?
-						if ($val == $template)
-						{ echo " selected"; $templateNumber = $ind; }
-					?>><?=$templateName?></option>
-					<?
-					$ind++;
-				}
-				?>
-			</select>
-		</td>
-	</tr>
-	<tr id="account_template_1" <?=($templateNumber == '1' ? '' : 'style="display:none"'); ?>>
-		<td>&nbsp;</td>
-		<td>
-			<?
-			if (strlen($account_number_number) <= 0 || strlen($strWarning) <= 0)
-				$account_number_number = ($templateNumber == 1) ? COption::GetOptionString("sale", "account_number_data", "") : "";
-			?>
-			<?=GetMessage("SALE_ACCOUNT_NUMBER_NUMBER")?>&nbsp;<input type="text" name="account_number_number" size="7" maxlength="7" value="<?=$account_number_number?>" /><br/><br/><?=GetMessage("SALE_ACCOUNT_NUMBER_NUMBER_DESC")?>
-		</td>
-	</tr>
-	<tr id="account_template_2" <?=($templateNumber == "2") ? "" : "style=\"display:none\""?>>
-		<td>&nbsp;</td>
-		<td>
-			<?
-			if (strlen($account_number_prefix) <= 0 || strlen($strWarning) <= 0)
-				$account_number_prefix = ($templateNumber == 2) ? COption::GetOptionString("sale", "account_number_data", "") : "";
-			?>
-			<?=GetMessage("SALE_ACCOUNT_NUMBER_PREFIX")?>&nbsp;<input type="text" name="account_number_prefix" size="10" maxlength="7" value="<?=$account_number_prefix?>" /><br/><br/>
-			<?=GetMessage("SALE_ACCOUNT_NUMBER_PREFIX_DESC")?>
-		</td>
-	</tr>
-	<tr id="account_template_3" <?=($templateNumber == "3") ? "" : "style=\"display:none\""?>>
-		<td>&nbsp;</td>
-		<td>
-			<?
-			$value = ($templateNumber == 3) ? COption::GetOptionString("sale", "account_number_data", "") : "";
-			?>
-			<?=GetMessage("SALE_ACCOUNT_NUMBER_RANDOM")?>
-			<select name="account_number_random_length">
-				<option value="5" <?=($value == "5") ? "selected" : "" ?>>5</option>
-				<option value="6" <?=($value == "6") ? "selected" : "" ?>>6</option>
-				<option value="7" <?=($value == "7") ? "selected" : "" ?>>7</option>
-				<option value="8" <?=($value == "8") ? "selected" : "" ?>>8</option>
-				<option value="9" <?=($value == "9") ? "selected" : "" ?>>9</option>
-				<option value="10" <?=($value == "10") ? "selected" : "" ?>>10</option>
-			</select>
-			<br/><br/>
-			<?=GetMessage("SALE_ACCOUNT_NUMBER_TEMPLATE_EXAMPLE")?>&nbsp;6B7R1, 8CB2A59X8X
-		</td>
-	</tr>
-	<tr id="account_template_4" <?=($templateNumber == "4") ? "" : "style=\"display:none\""?>>
-		<td>&nbsp;</td>
-		<td>
-			<?=GetMessage("SALE_ACCOUNT_NUMBER_TEMPLATE_EXAMPLE")?>&nbsp;1_12, 16749_2
-		</td>
-	</tr>
-	<tr id="account_template_5" <?=($templateNumber == "5") ? "" : "style=\"display:none\""?>>
-		<td>&nbsp;</td>
-		<td>
-			<?
-			$value = ($templateNumber == 5) ? COption::GetOptionString("sale", "account_number_data", "") : "";
-			?>
-			<?=GetMessage("SALE_ACCOUNT_NUMBER_DATE")?>
-			<select name="account_number_date_period" onChange="showDateExample(this.selectedIndex)">
-				<option value="day" <?=($value == "day") ? "selected" : "" ?>><?=GetMessage("SALE_ACCOUNT_NUMBER_DATE_1")?></option>
-				<option value="month" <?=($value == "month") ? "selected" : "" ?>><?=GetMessage("SALE_ACCOUNT_NUMBER_DATE_2")?></option>
-				<option value="year" <?=($value == "year") ? "selected" : "" ?>><?=GetMessage("SALE_ACCOUNT_NUMBER_DATE_3")?></option>
-			</select>
-			<br/><br/>
-			<?
-			if (!function_exists("showAccountNumberDateExample"))
-			{
-				function showAccountNumberDateExample($period)
-				{
-					switch ($period)
-					{
-						case 'day':
-							return "23042013&nbsp;/&nbsp;5";
-							break;
-						case 'month':
-							return "042013&nbsp;/&nbsp;4";
-							break;
-						case 'year':
-							return "2013&nbsp;/&nbsp;176";
-							break;
-						default:
-							return "23042013&nbsp;/&nbsp;5";
-							break;
-					}
-				}
-			}
-			?>
-			<?=GetMessage("SALE_ACCOUNT_NUMBER_TEMPLATE_EXAMPLE")?>&nbsp;<span id="account_number_date_example"><?=showAccountNumberDateExample($value)?></span>
-		</td>
-	</tr>
-	<!-- end of account number template settings -->
-
 	<!-- ps success and fail paths -->
 	<tr>
 		<td>
@@ -1218,11 +1064,33 @@ $tabControl->BeginNextTab();
 		<td><?=Main\Localization\Loc::getMessage("SALE_BASKET_REFRESH_GAP")?>:</td>
 		<td>
 			<?
-			$val = (int)Main\Config\Option::get("sale", "basket_refresh_gap", 0);
+			$refreshGapVal = (int)Main\Config\Option::get("sale", "basket_refresh_gap", 0);
 			?>
-			<input type="text" size="10" value="<?=$val?>" name="BASKET_REFRESH_GAP">
+			<input type="text" size="10" value="<?=$refreshGapVal?>" name="BASKET_REFRESH_GAP" id="basket_refresh_gap">
 		</td>
 	</tr>
+	<? if ($currentSettings['use_sale_discount_only'] !== 'Y'): ?>
+		<tr id="basket_refresh_gap_warning" <?=($refreshGapVal === 0 ? 'style="display: none;"' : '')?>>
+			<td colspan="2" align="center">
+				<div class="adm-info-message-wrap">
+					<div class="adm-info-message">
+						<div><?=GetMessage("SALE_BASKET_REFRESH_GAP_WARNING")?></div>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<script>
+			BX.bind(BX('basket_refresh_gap'), 'change', function(event){
+				var target = BX.getEventTarget(event);
+				var warning = BX('basket_refresh_gap_warning');
+
+				if (BX.type.isDomNode(target) && BX.type.isDomNode(warning))
+				{
+					warning.style.display = parseInt(target.value) === 0 ? 'none' : '';
+				}
+			});
+		</script>
+	<? endif; ?>
 	<!-- start of order guest view -->
 	<tr class="heading" id="guest_order_view_block">
 		<td colspan="2"><a name="section_guest_order_view"></a><?=GetMessage('SALE_ALLOW_GUEST_ORDER_VIEW_TITLE')?></td>
@@ -1331,6 +1199,26 @@ $tabControl->BeginNextTab();
 		<td width="60%">
 			<input type="hidden" name="use_sale_discount_only" id="use_sale_discount_only_N" value="N">
 			<input type="checkbox" name="use_sale_discount_only" id="use_sale_discount_only_Y" value="Y"<? echo ($currentSettings['use_sale_discount_only'] == 'Y' ? ' checked' : ''); ?>>
+		</td>
+	</tr>
+	<script>
+		BX.bind(BX('use_sale_discount_only_Y'), 'change', function(event){
+			var target = BX.getEventTarget(event);
+			var warning = BX('use_sale_discount_only_warning');
+
+			if (BX.type.isDomNode(target) && BX.type.isDomNode(warning))
+			{
+				warning.style.display = target.checked ? 'none' : '';
+			}
+		});
+	</script>
+	<tr id="use_sale_discount_only_warning" <?=($currentSettings['use_sale_discount_only'] === 'Y' || $refreshGapVal === 0 ? 'style="display: none;"' : '')?>>
+		<td colspan="2" align="center">
+			<div class="adm-info-message-wrap">
+				<div class="adm-info-message">
+					<div><?=GetMessage("SALE_USE_SALE_DISCOUNT_ONLY_WARNING")?></div>
+				</div>
+			</div>
 		</td>
 	</tr>
 	<tr>
@@ -1646,19 +1534,6 @@ function setWeightValue(obj)
 	}
 }
 
-function showAccountNumberAdditionalFields(templateID)
-{
-	for (var i = 1; i < 6; i++)
-	{
-		BX("account_template_" + i).style.display = 'none';
-	}
-
-	if (templateID != 0)
-	{
-		BX("account_template_" + templateID).style.display = 'table-row';
-	}
-}
-
 function showAllowGuestOrderViewPaths(target)
 {
 	var allowPaths = document.getElementsByClassName('sale_allow_guest_order_view');
@@ -1676,16 +1551,6 @@ function showAllowGuestOrderViewPaths(target)
 			}
 		}
 	}
-}
-
-function showDateExample(period)
-{
-	if (period == 0)
-		BX("account_number_date_example").innerHTML = "23042013&nbsp;/&nbsp;5";
-	if (period == 1)
-		BX("account_number_date_example").innerHTML = "042013&nbsp;/&nbsp;4";
-	if (period == 2)
-		BX("account_number_date_example").innerHTML = "2013&nbsp;/&nbsp;176";
 }
 
 function allowAutoDelivery(value)
@@ -1723,11 +1588,11 @@ function allowAutoDelivery(value)
 			<tr>
 				<td width="40%" class="adm-detail-content-cell-l"><?echo GetMessage("SMO_PAR_SITE_WEIGHT_UNIT_SALE")?></td>
 				<td width="60%" class="adm-detail-content-cell-r"><select name="weight_unit_tmp[<?=htmlspecialcharsbx($siteList[$i]["ID"])?>]" OnChange="setWeightValue(this)">
-						<option selected="selected"></option><?
+						<?
 					$arUnitList = CSaleMeasure::GetList("W");
 					foreach ($arUnitList as $key => $arM)
 					{
-						$selectedWeightUnit = COption::GetOptionString($module_id, "weight_unit", trim($siteList[$i]["ID"]));
+						$selectedWeightUnit = COption::GetOptionString($module_id, "weight_unit", GetMessage('SMO_PAR_WEIGHT_UNIT_GRAMM'), trim($siteList[$i]["ID"]));
 						?>
 						<option value="<?=floatval($arM["KOEF"])?>" <?=($selectedWeightUnit == $arM["NAME"]?"selected":"")?>><?=htmlspecialcharsbx($arM["NAME"])?></option>
 						<?
@@ -2488,6 +2353,31 @@ endfor;
 			</select>
 		</td>
 	</tr>
+	<?$tabControl->BeginNextTab();?>
+	<div class="adm-numerator-use-template-checkbox-outer">
+		<span class="adm-numerator-use-template-checkbox-title"><?= Loc::getMessage('NUMERATOR_NOT_USE_CHECKBOX_TITLE'); ?></span>
+		<div class="adm-numerator-use-template-checkbox-inner">
+			<input type="checkbox" class="adm-designed-checkbox" name="hideNumeratorSettings" id="hideNumeratorSettings"
+				   value="Y"
+				<? if ($numeratorForOrdersId==''): ?>
+					checked=""
+				<? endif; ?>>
+			<label class="adm-designed-checkbox-label" for="hideNumeratorSettings" title=""></label>
+		</div>
+	</div>
+	<?
+	$APPLICATION->IncludeComponent(
+		"bitrix:main.numerator.edit",
+		'admin',
+		[
+			"NUMERATOR_TYPE"            => 'ORDER',
+			'CSS_WRAP_CLASS'            => 'js-numerator-form',
+			"NUMERATOR_ID"              => $numeratorForOrdersId,
+			"IS_HIDE_NUMERATOR_NAME"       => true,
+			"IS_HIDE_IS_DIRECT_NUMERATION" => true,
+		]
+	);
+	?>
 <?$tabControl->Buttons();?>
 <script type="text/javascript">
 function RestoreDefaults()
@@ -2555,6 +2445,34 @@ function RestoreDefaults()
 	$systemTabControl->End();
 	?>
 <script type="text/javascript">
+	BX.ready(function(){
+		var numeratorSettingsToggle = BX('hideNumeratorSettings');
+
+		if (BX('hideNumeratorSettings').checked)
+		{
+			hideNumeratorSettings();
+		}
+		if (!!numeratorSettingsToggle)
+		{
+			BX.bind(numeratorSettingsToggle, 'click', hideNumeratorSettings);
+		}
+	});
+
+	function hideNumeratorSettings()
+	{
+		var numForm = document.querySelector('.js-numerator-form');
+		if (numForm)
+		{
+			if (numForm.style.display === 'none')
+			{
+				numForm.style.display = 'block'
+			}
+			else
+			{
+				numForm.style.display = 'none'
+			}
+		}
+	}
 
 	function toggleTrackingAuto()
 	{

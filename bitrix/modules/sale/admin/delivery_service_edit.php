@@ -13,6 +13,10 @@ use \Bitrix\Sale\Helpers\Admin\BusinessValueControl;
 Loc::loadMessages(__FILE__);
 \Bitrix\Main\Loader::includeModule('sale');
 
+$selfFolderUrl = $adminPage->getSelfFolderUrl();
+$listUrl = $selfFolderUrl."sale_delivery_service_list.php?lang=".LANGUAGE_ID;
+$listUrl = $adminSidePanelHelper->editUrlToPublicPage($listUrl);
+
 /** @var  CMain $APPLICATION */
 $saleModulePermissions = $APPLICATION->GetGroupRight("sale");
 
@@ -32,13 +36,17 @@ $isItViewProcess = $_SERVER['REQUEST_METHOD'] != "POST";
 $classNamesList = Services\Manager::getHandlersList();
 $disableButtonsFlag = false;
 $backUrlReq = !empty($_REQUEST["back_url"]) ? str_replace("mode=list", "", $_REQUEST["back_url"]) : '';
-$backUrl = urlencode($APPLICATION->GetCurPageParam("", array("mode")));
+$backUrlReq = $adminSidePanelHelper->editUrlToPublicPage($backUrlReq);
+$backUrl = $APPLICATION->GetCurPageParam("", array("mode", "back_url"));
+$backUrl = urlencode(CHTTP::urlDeleteParams($backUrl, array("IFRAME", "IFRAME_TYPE")));
 
 /*
  * Process form fields received via POST
  */
 if (($isItReloadingProcess || $isItSavingProcess) && $saleModulePermissions == "W" && check_bitrix_sessid())
 {
+	$adminSidePanelHelper->decodeUriComponent();
+
 	if(isset($_POST["ID"]))             $fields["ID"] = intval($_POST["ID"]);
 	if(isset($_POST["CODE"]))           $fields["CODE"] = trim($_POST["CODE"]);
 	if(isset($_POST["SORT"]))           $fields["SORT"] = intval($_POST["SORT"]);
@@ -72,6 +80,12 @@ if (($isItReloadingProcess || $isItSavingProcess) && $saleModulePermissions == "
 
 	$needSaveLogo = false;
 
+	$delimiter = "<br>";
+	if ($adminSidePanelHelper->isAjaxRequest())
+	{
+		$delimiter = "; ";
+	}
+
 	if(!empty($_POST["LOGOTIP_del"]) && $_POST["LOGOTIP_del"] == 'Y')
 	{
 		$fields["LOGOTIP"]["del"] = trim($_POST["LOGOTIP_del"]);
@@ -88,7 +102,7 @@ if (($isItReloadingProcess || $isItSavingProcess) && $saleModulePermissions == "
 		}
 		else
 		{
-			$srvStrError .= $imageFileError . ".<br>";
+			$srvStrError .= $imageFileError . $delimiter;
 		}
 	}
 
@@ -105,10 +119,10 @@ if (($isItReloadingProcess || $isItSavingProcess) && $saleModulePermissions == "
 	if ($isItSavingProcess)
 	{
 		if(strlen($fields["NAME"]) <=0 )
-			$srvStrError .= Loc::getMessage("SALE_DSE_ERROR_NO_NAME")."<br>";
+			$srvStrError .= Loc::getMessage("SALE_DSE_ERROR_NO_NAME").$delimiter;
 
 		if(strlen($fields["CLASS_NAME"]) <=0 )
-			$srvStrError .= Loc::getMessage("SALE_DSE_ERROR_NO_CLASS_NAME")."<br>";
+			$srvStrError .= Loc::getMessage("SALE_DSE_ERROR_NO_CLASS_NAME").$delimiter;
 
 		if($srvStrError == '')
 		{
@@ -133,7 +147,7 @@ if (($isItReloadingProcess || $isItSavingProcess) && $saleModulePermissions == "
 					$fields["PARENT_ID"] = Services\Manager::getGroupId($_POST["GROUP_NAME"]);
 
 					if($fields["PARENT_ID"] <=0)
-						$srvStrError .= Loc::getMessage("SALE_DSE_ERROR_GROUP_SAVE")."<br>";
+						$srvStrError .= Loc::getMessage("SALE_DSE_ERROR_GROUP_SAVE").$delimiter;
 				}
 
 				unset($fields["ID"]);
@@ -168,7 +182,7 @@ if (($isItReloadingProcess || $isItSavingProcess) && $saleModulePermissions == "
 					}
 					else
 					{
-						$srvStrError .= Loc::getMessage("SALE_DSE_ERROR_EDIT_DELIVERY")."<br>".implode("<br>",$res->getErrorMessages());
+						$srvStrError .= Loc::getMessage("SALE_DSE_ERROR_EDIT_DELIVERY").$delimiter.implode($delimiter,$res->getErrorMessages());
 					}
 				}
 				else
@@ -184,7 +198,7 @@ if (($isItReloadingProcess || $isItSavingProcess) && $saleModulePermissions == "
 					}
 					else
 					{
-						$srvStrError .= Loc::getMessage("SALE_DSE_ERROR_ADD_DELIVERY")."<br>".implode("<br>",$res->getErrorMessages());
+						$srvStrError .= Loc::getMessage("SALE_DSE_ERROR_ADD_DELIVERY").$delimiter.implode($delimiter,$res->getErrorMessages());
 					}
 				}
 
@@ -221,7 +235,7 @@ if (($isItReloadingProcess || $isItSavingProcess) && $saleModulePermissions == "
 					}
 
 					if(!$res->isSuccess())
-						$srvStrError .= implode("<br>\n", $res->getErrorMessages());
+						$srvStrError .= implode($delimiter, $res->getErrorMessages());
 				}
 			}
 		}
@@ -230,25 +244,32 @@ if (($isItReloadingProcess || $isItSavingProcess) && $saleModulePermissions == "
 		{
 			if (strlen($_POST["apply"]) > 0)
 			{
-				$paramsToKill = array("ID");
-
+				$paramsToKill = array();
 				if(!empty($_REQUEST["RESET_TARIF_SETTINGS"]))
 					$paramsToKill[] = "RESET_TARIF_SETTINGS";
 
-				$redirectUrl = $APPLICATION->GetCurPageParam(
-					"ID=".$ID,
-					$paramsToKill
-				);
+				$redirectUrl = $APPLICATION->GetCurPageParam("ID=".$ID, $paramsToKill);
 
 				if(isset($_REQUEST[$tabControlName."_active_tab"]))
 					$redirectUrl .= "&".$tabControlName."_active_tab=".$_REQUEST[$tabControlName."_active_tab"];
 
+				$adminSidePanelHelper->sendSuccessResponse("apply", array("reloadUrl" => $redirectUrl,
+					"ID" => $ID, $tabControlName."_active_tab" => $_REQUEST[$tabControlName."_active_tab"]));
+
+				$redirectUrl = $adminSidePanelHelper->setDefaultQueryParams($redirectUrl);
 				LocalRedirect($redirectUrl);
 			}
 			elseif(strlen($_POST["save"]) > 0)
 			{
-				LocalRedirect((!empty($backUrlReq) ? $backUrlReq : "sale_delivery_service_list.php?lang=".LANG."&filter_group=".$fields["PARENT_ID"]));
+				$adminSidePanelHelper->sendSuccessResponse("base", array("ID" => $ID));
+				$adminSidePanelHelper->localRedirect((!empty($backUrlReq) ? $backUrlReq : $listUrl));
+				LocalRedirect((!empty($backUrlReq) ? $backUrlReq : "sale_delivery_service_list.php?lang=".LANGUAGE_ID
+					."&filter_group=".$fields["PARENT_ID"]));
 			}
+		}
+		else
+		{
+			$adminSidePanelHelper->sendJsonErrorResponse($srvStrError);
 		}
 	}
 }
@@ -559,10 +580,12 @@ if($canHasProfiles)
 
 	while ($profileParams = $profilesList->NavNext(true, "f_"))
 	{
-		$actUrl = "sale_delivery_service_edit.php?lang=".LANG."&PARENT_ID=".$f_PARENT_ID."&ID=".$f_ID.'&'.$tabControl->ActiveTabParam()."&back_url=".$backUrl;
+		$actUrl = $selfFolderUrl."sale_delivery_service_edit.php?lang=".LANG."&PARENT_ID=".$f_PARENT_ID."&ID=".$f_ID.'&'.$tabControl->ActiveTabParam();
+		$actUrl = $adminSidePanelHelper->editUrlToPublicPage($actUrl)."&back_url=".$backUrl;
 		$row =& $lAdminSubServices->AddRow($f_ID, $profileParams, $actUrl, Loc::getMessage("SALE_DSE_EDIT_DESCR"));
 
-		$row->AddField("NAME", '<a href="'.$actUrl.'" class="adm-list-table-icon-link">'.
+		$atrTarget = $adminSidePanelHelper->isPublicFrame() ? 'target="_top"' : '';
+		$row->AddField("NAME", '<a '.$atrTarget.' href="'.$actUrl.'" class="adm-list-table-icon-link">'.
 				'<span class="adm-list-table-link">'.
 					$f_NAME.
 				'</span>'.
@@ -576,13 +599,34 @@ if($canHasProfiles)
 		$row->AddField("CLASS_NAME", $f_CLASS_NAME);
 
 		$arActions = Array();
-		$arActions[] = array("ICON"=>"edit", "TEXT"=>Loc::getMessage("SALE_DSE_COPY"), "ACTION"=>$lAdminSubServices->ActionRedirect("sale_delivery_service_edit.php?lang=".LANG."&ID=".$f_ID."&action=copy&back_url=".$backUrl), "DEFAULT"=>true);
-		$arActions[] = array("ICON"=>"edit", "TEXT"=>Loc::getMessage("SALE_DSE_EDIT_DESCR"), "ACTION"=>$lAdminSubServices->ActionRedirect("sale_delivery_service_edit.php?lang=".LANG."&PARENT_ID=".$f_PARENT_ID."&ID=".$f_ID."&back_url=".$backUrl), "DEFAULT"=>true);
+		$copyUrl = $selfFolderUrl."sale_delivery_service_edit.php?lang=".LANGUAGE_ID."&ID=".$f_ID."&action=copy";
+		$copyUrl = $adminSidePanelHelper->editUrlToPublicPage($copyUrl)."&back_url=".$backUrl;
+		$arActions[] = array(
+			"ICON" => "edit",
+			"TEXT" => Loc::getMessage("SALE_DSE_COPY"),
+			"LINK" => $copyUrl,
+			"DEFAULT" => true
+		);
+		$editUrl = $selfFolderUrl."sale_delivery_service_edit.php?lang=".LANGUAGE_ID."&PARENT_ID=".$f_PARENT_ID."&ID=".$f_ID;
+		$editUrl = $adminSidePanelHelper->editUrlToPublicPage($editUrl)."&back_url=".$backUrl;
+		$arActions[] = array(
+			"ICON" => "edit",
+			"TEXT" => Loc::getMessage("SALE_DSE_EDIT_DESCR"),
+			"LINK" => $editUrl,
+			"DEFAULT" => true
+		);
 
 		if ($saleModulePermissions >= "W")
 		{
+			$deleteUrl = $selfFolderUrl."sale_delivery_service_edit.php?lang=".LANGUAGE_ID."&PARENT_ID=".$fields["PARENT_ID"]."&ID=".$ID.
+				"&action=profile_delete&ID_PROF=".$f_ID;
+			$deleteUrl = $adminSidePanelHelper->editUrlToPublicPage($deleteUrl);
 			$arActions[] = array("SEPARATOR" => true);
-			$arActions[] = array("ICON"=>"delete", "TEXT"=>Loc::getMessage("SALE_DSE_DELETE"), "ACTION"=>"if(confirm('".Loc::getMessage('SALE_DSE_CONFIRM_DEL_PROFILE_MESSAGE')."')) ".$lAdminSubServices->ActionRedirect("sale_delivery_service_edit.php?lang=".LANG."&PARENT_ID=".$fields["PARENT_ID"]."&ID=".$ID."&action=profile_delete&ID_PROF=".$f_ID));
+			$arActions[] = array(
+				"ICON" => "delete",
+				"TEXT" => Loc::getMessage("SALE_DSE_DELETE"),
+				"ACTION" => "if(confirm('".Loc::getMessage('SALE_DSE_CONFIRM_DEL_PROFILE_MESSAGE')."')) ".$lAdminSubServices->ActionRedirect($deleteUrl)
+			);
 		}
 
 		$row->AddActions($arActions);
@@ -592,9 +636,12 @@ if($canHasProfiles)
 	{
 		foreach($service->getProfilesList() as $profileId => $profileName)
 		{
+			$addUrl = $selfFolderUrl."sale_delivery_service_edit.php?lang=".LANGUAGE_ID."&PARENT_ID=".$ID.
+				"&PROFILE_ID=".htmlspecialcharsbx($profileId);
+			$addUrl = $adminSidePanelHelper->editUrlToPublicPage($addUrl)."&back_url=".$backUrl;
 			$menu[] = array(
 				"TEXT" => $profileName,
-				"LINK" => "sale_delivery_service_edit.php?lang=".LANG."&PARENT_ID=".$ID."&PROFILE_ID=".htmlspecialcharsbx($profileId)."&back_url=".$backUrl,
+				"LINK" => $addUrl,
 			);
 		}
 
@@ -603,7 +650,7 @@ if($canHasProfiles)
 			$aContext = array(
 				array(
 					"TEXT" => Loc::getMessage("SALE_DSE_ADD_NEW_PROFILE"),
-					"LINK" => "sale_delivery_service_edit.php?lang=".LANG."&PARENT_ID=".$ID."&back_url=".$backUrl,
+					"LINK" => $selfFolderUrl."sale_delivery_service_edit.php?lang=".LANGUAGE_ID."&PARENT_ID=".$ID."&back_url=".$backUrl,
 					"TITLE" => Loc::getMessage("SALE_DSE_ADD_NEW_PROFILE_TITLE"),
 					"MENU" => $menu,
 					"ICON" => "btn_new"
@@ -739,9 +786,17 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_aft
 if(!empty($backUrlReq))
 	$link = $backUrlReq;
 elseif($isGroup)
-	$link = "/bitrix/admin/sale_delivery_service_edit.php?lang=".LANGUAGE_ID."&filter_class_name=".urlencode('\Bitrix\Sale\Delivery\Services\Group');
+{
+	$link = $selfFolderUrl."sale_delivery_service_edit.php?lang=".LANGUAGE_ID."&filter_class_name=".
+		urlencode('\Bitrix\Sale\Delivery\Services\Group');
+	$link = $adminSidePanelHelper->editUrlToPublicPage($link);
+}
 else
-	$link = "/bitrix/admin/sale_delivery_service_list.php?lang=".LANGUAGE_ID."&filter_group=".$fields["PARENT_ID"];
+{
+	$link = $selfFolderUrl."sale_delivery_service_list.php?lang=".LANGUAGE_ID."&filter_group=".$fields["PARENT_ID"];
+	if ($adminSidePanelHelper->isPublicSidePanel())
+		$link = $listUrl;
+}
 
 if($isGroup)
 	$linkText = Loc::getMessage("SALE_DSE_2GLIST");
@@ -763,21 +818,28 @@ if ($ID > 0 && $saleModulePermissions >= "W")
 	$aMenu[] = array("SEPARATOR" => "Y");
 
 	if($isGroup)
-		$link = "/bitrix/admin/sale_delivery_service_edit.php?lang=".LANGUAGE_ID."&CLASS_NAME=".urlencode('\Bitrix\Sale\Delivery\Services\Group');
+		$link = $selfFolderUrl."sale_delivery_service_edit.php?lang=".LANGUAGE_ID."&CLASS_NAME=".urlencode('\Bitrix\Sale\Delivery\Services\Group');
 	else
-		$link = "/bitrix/admin/sale_delivery_service_edit.php?lang=".LANGUAGE_ID."&PARENT_ID=".$fields["PARENT_ID"];
+		$link = $selfFolderUrl."sale_delivery_service_edit.php?lang=".LANGUAGE_ID."&PARENT_ID=".$fields["PARENT_ID"];
+	$link = $adminSidePanelHelper->editUrlToPublicPage($link);
 
 	$aMenu[] = array(
 		"TEXT" => $isGroup ? Loc::getMessage("SALE_DSE_NEW_GROUP") : Loc::getMessage("SALE_DSE_NEW_DELIVERY"),
 		"LINK" => $link,
 		"ICON" => "btn_new"
 	);
-
+	$deleteUrl = "".$selfFolderUrl."sale_delivery_service_list.php?lang=".LANGUAGE_ID."&filter_group=".$fields["PARENT_ID"]."&ID=".$ID."&action=delete&".bitrix_sessid_get()."#tb";
+	$buttonAction = "LINK";
+	if ($adminSidePanelHelper->isPublicFrame())
+	{
+		$deleteUrl = $listUrl."&filter_group=".$fields["PARENT_ID"]."&ID=".$ID."&action=delete&".bitrix_sessid_get()."#tb";
+		$buttonAction = "ONCLICK";
+	}
 	$aMenu[] = array(
 		"TEXT" => $isGroup ? Loc::getMessage("SALE_DSE_DELETE_GROUP") : Loc::getMessage("SALE_DSE_DELETE_DELIVERY"),
-		"LINK" => "javascript:if(confirm('".
+		$buttonAction => "javascript:if(confirm('".
 			($isGroup ? Loc::getMessage("SALE_DSE_DELETE_GROUP_CONFIRM") : Loc::getMessage("SALE_DSE_DELETE_DELIVERY_CONFIRM")).
-			"')) window.location='/bitrix/admin/sale_delivery_service_list.php?lang=".LANGUAGE_ID."&filter_group=".$fields["PARENT_ID"]."&ID=".$ID."&action=delete&".bitrix_sessid_get()."#tb';",
+			"')) top.window.location.href='".$deleteUrl."';",
 		"ICON" => "btn_delete"
 	);
 }
@@ -824,8 +886,10 @@ if(!empty($serviceMessage))
 	echo $adminMessage->Show();
 }
 
+$actionUrl = $APPLICATION->GetCurPageParam("",array("RESET_HANDLER_SETTINGS", "action"));
+$actionUrl = $adminSidePanelHelper->setDefaultQueryParams($actionUrl);
 ?>
-<form method="POST" action="<?=$APPLICATION->GetCurPageParam("",array("RESET_HANDLER_SETTINGS", "action"))?>" name="form1" enctype="multipart/form-data">
+<form method="POST" action="<?=$actionUrl?>" name="form1" enctype="multipart/form-data">
 <input type="hidden" name="lang" value="<?=LANGUAGE_ID; ?>">
 <input type="hidden" name="ID" value="<?=$ID ?>">
 <input type="hidden" name="CODE" value="<?=(isset($fields["CODE"]) ? htmlspecialcharsbx($fields["CODE"]) : "" )?>">
@@ -1017,7 +1081,7 @@ $tabControl->BeginNextTab();
 						<?$hiddensConfigHtml .= \Bitrix\Sale\Internals\Input\Manager::getEditHtml("CONFIG[".$sectionKey."][".$name."]", $params)?>
 					<?else:?>
 						<tr<?=(!empty($params['REQUIRED']) && $params['REQUIRED'] == true ? ' class= "adm-detail-required-field"' : '')?>>
-							<td width="40%" class="adm-detail-valign-top"><?=$params["NAME"]?>:</td>
+							<td width="40%" class="adm-detail-valign-top"><?=htmlspecialcharsbx($params["NAME"])?>:</td>
 							<td width="60%" class="adm-detail-valign-top">
 								<?=\Bitrix\Sale\Internals\Input\Manager::getEditHtml("CONFIG[".$sectionKey."][".$name."]", $params)?>
 							</td>
@@ -1097,12 +1161,8 @@ $tabControl->BeginNextTab();
 		<?endforeach;?>
 	<?endif;
 
-$tabControl->Buttons(
-	array(
-		"disabled" => ($disableButtonsFlag || $saleModulePermissions < "W"),
-		"back_url" => !empty($backUrlReq) ? $backUrlReq : ("/bitrix/admin/sale_delivery_service_list.php?lang=".LANGUAGE_ID)
-	)
-);
+$tabControl->Buttons(array("disabled" => ($disableButtonsFlag || $saleModulePermissions < "W"),
+	"back_url" => !empty($backUrlReq) ? $backUrlReq : ($listUrl)));
 
 $tabControl->End();
 ?>

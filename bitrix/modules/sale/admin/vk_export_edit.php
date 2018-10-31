@@ -348,19 +348,21 @@ $arrTabs = array(
 );
 //	exchange and map active tab only if active
 if ($vk->isActive() && $vk->isActiveById($exportId))
-	{
+{
 	array_unshift($arrTabs, array(
 		"DIV" => "vk_export",
 		"TAB" => Loc::getMessage("SALE_VK_TAB_EXPORT"),
 		"TITLE" => Loc::getMessage("SALE_VK_TAB_EXPORT_DESC"),
 	));
-		$arrTabs[] = array(
-			"DIV" => "vk_export_map",
-			"TAB" => Loc::getMessage("SALE_VK_TAB_MAP"),
-			"TITLE" => Loc::getMessage("SALE_VK_TAB_MAP_DESC"),
-			"ONSELECT" => "BX.Sale.VkAdmin.loadExportMap(".$exportId.")",
-		);
-	}
+	$arrTabs[] = array(
+		"DIV" => "vk_export_map",
+		"TAB" => Loc::getMessage("SALE_VK_TAB_MAP"),
+		"TITLE" => Loc::getMessage("SALE_VK_TAB_MAP_DESC"),
+	);
+	
+//	async map loading in tab
+	echo "<script>BX.Sale.VkAdmin.loadExportMap(".$exportId.");</script>";
+}
 
 $tabControl = new CAdminTabControl("tabControl", $arrTabs);
 
@@ -702,23 +704,23 @@ $tabControl->BeginNextTab();
 	</tr>
 </form>
 
-	
+
+<? if ($vk->isActive() && $vk->isActiveById($exportId)): ?>
 	<?php
 //	export MAP
 	$tabControl->BeginNextTab();
 	?>
 	<tr>
 		<td id="vk_export_map_edit_table__content">
-			<?=BeginNote()?>
-			<?=Loc::getMessage("SALE_VK_TAB_MAP_LOAD")?>
-			<?=EndNote()?>
+			<?= BeginNote() ?>
+			<?= Loc::getMessage("SALE_VK_TAB_MAP_LOAD") ?>
+			<?= EndNote() ?>
 		</td>
 	</tr>
-	
+<? endif; ?>
 <?php
 $tabControl->End();
 ?>
-<!--		</table>-->
 
 
 <? require($_SERVER["DOCUMENT_ROOT"] . BX_ROOT . "/modules/main/include/epilog_admin.php");

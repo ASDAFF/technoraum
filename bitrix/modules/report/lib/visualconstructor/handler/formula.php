@@ -24,11 +24,11 @@ class Formula extends BaseReport implements IReportSingleData
 
 	/**
 	 * Prepare/calculate data for report.
-	 * @return void
+	 * @return mixed
 	 */
 	public function prepare()
 	{
-		$this->setCalculatedData('temp data');
+		return 'temp data';
 	}
 
 	/**

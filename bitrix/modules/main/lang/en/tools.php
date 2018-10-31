@@ -1,4 +1,7 @@
 <?
+$MESS["expire_mess_timelicense1"] = "<font class=\"tablebodytext\"><font color=\"#FF0000\">Your current license has expired. This website will stop
+functioning completely in two weeks. Please contact <a href=\"mailto:sales@bitrix24.com\">Bitrix24
+Sales Department</a> immeadiately to renew your license.</font></font>";
 $MESS["TOOLS_DN"] = "days";
 $MESS["TOOLS_DAYS"] = "days";
 $MESS["TOOLS_CALENDAR"] = "Calendar";
@@ -120,7 +123,7 @@ $MESS["COUNTRY_82"] = "Cuba";
 $MESS["COUNTRY_83"] = "Kuwait";
 $MESS["COUNTRY_84"] = "Liberia";
 $MESS["COUNTRY_85"] = "Liechtenstein";
-$MESS["COUNTRY_86"] = "Luxemburg";
+$MESS["COUNTRY_86"] = "Luxembourg";
 $MESS["COUNTRY_87"] = "Mauritania";
 $MESS["COUNTRY_88"] = "Madagascar";
 $MESS["COUNTRY_89"] = "Macedonia";
@@ -427,4 +430,15 @@ $MESS["FD_YEARS_DIFF_MOD_OTHER"] = "#VALUE# years";
 $MESS["CAL_BUTTON"] = "Select";
 $MESS["CAL_TIME_SET"] = "Set time";
 $MESS["CAL_TIME"] = "Time";
+$MESS["FD_SECOND_SHORT"] = "#VALUE# s";
+$MESS["FD_MINUTE_SHORT"] = "#VALUE# m";
+$MESS["FD_HOUR_SHORT"] = "#VALUE# h";
+$MESS["FD_DAY_SHORT"] = "#VALUE# d";
+$MESS["FD_MONTH_SHORT"] = "#VALUE# mon";
+$MESS["FD_YEARS_SHORT_0"] = "#VALUE# y";
+$MESS["FD_YEARS_SHORT_1"] = "#VALUE# y";
+$MESS["FD_YEARS_SHORT_10_20"] = "#VALUE# y";
+$MESS["FD_YEARS_SHORT_MOD_1"] = "#VALUE# y";
+$MESS["FD_YEARS_SHORT_MOD_2_4"] = "#VALUE# y";
+$MESS["FD_YEARS_SHORT_MOD_OTHER"] = "#VALUE# y";
 ?>

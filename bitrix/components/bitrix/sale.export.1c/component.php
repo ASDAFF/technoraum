@@ -1,6 +1,10 @@
 <?
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 
+$instance = \Bitrix\Main\Application::getInstance();
+$context = $instance->getContext();
+$request = $context->getRequest();
+
 if(!is_array($arParams["GROUP_PERMISSIONS"]))
 	$arParams["GROUP_PERMISSIONS"] = array(1);
 if(empty($arParams["SITE_LIST"]))
@@ -188,6 +192,7 @@ else
 				$_SESSION["BX_CML2_EXPORT"]["version"] = $_GET["version"];
 			}
 		}
+		$_SESSION["BX_CML2_EXPORT"]["cmlVersion"] = doubleval($request->get('cmlVersion'));
 	}
 	elseif($_GET["mode"] == "query" || $_POST["mode"] == "query")
 	{
@@ -216,14 +221,33 @@ else
 			if(strlen($arParams["EXPORT_FINAL_ORDERS"])>0)
 			{
 				$bNextExport = false;
-				$arStatusToExport = Array();
-				$dbStatus = CSaleStatus::GetList(Array("SORT" => "ASC"), Array("LID" => LANGUAGE_ID));
-				while ($arStatus = $dbStatus->Fetch())
+				$arStatusToExport = [];
+				if (IsModuleInstalled('crm'))
 				{
-					if($arStatus["ID"] == $arParams["EXPORT_FINAL_ORDERS"])
-						$bNextExport = true;
-					if($bNextExport)
-						$arStatusToExport[] = $arStatus["ID"];
+					$statusList = CCrmStatus::GetStatus('INVOICE_STATUS');
+					foreach ($statusList as $statusId => $status)
+					{
+						if($status['STATUS_ID'] == $arParams["EXPORT_FINAL_ORDERS"])
+						{
+							$bNextExport = true;
+						}
+
+						if($bNextExport)
+						{
+							$arStatusToExport[] = $status['STATUS_ID'];
+						}
+					}
+				}
+				else
+				{
+					$dbStatus = CSaleStatus::GetList(Array("SORT" => "ASC"), Array("LID" => LANGUAGE_ID));
+					while ($arStatus = $dbStatus->Fetch())
+					{
+						if($arStatus["ID"] == $arParams["EXPORT_FINAL_ORDERS"])
+							$bNextExport = true;
+						if($bNextExport)
+							$arStatusToExport[] = $arStatus["ID"];
+					}
 				}
 
 				$arFilter["STATUS_ID"] = $arStatusToExport;
@@ -279,10 +303,25 @@ else
 		}
 
 		CTimeZone::Disable();
-		$arResultStat = $export::ExportOrders2Xml(
-			$arFilter, $nTopCount, $arParams["REPLACE_CURRENCY"], $bCrmMode, $arParams["INTERVAL"],
-			$_SESSION["BX_CML2_EXPORT"]["version"], $options
-		);
+
+		if($_SESSION["BX_CML2_EXPORT"]["cmlVersion"] >= doubleval(\Bitrix\Sale\Exchange\ExportOneCBase::SHEM_VERSION_2_10))
+		{
+			//region schema Documents or Document.Subordinate
+		    $r = $export->export(array(
+					'filter'=>$arFilter,
+					'limit'=>$arParams["INTERVAL"])
+			);
+		    echo $r->getData()[0];
+			//endregion
+        }
+        else
+        {
+            $arResultStat = $export::ExportOrders2Xml(
+                $arFilter, $nTopCount, $arParams["REPLACE_CURRENCY"], $bCrmMode, $arParams["INTERVAL"],
+                $_SESSION["BX_CML2_EXPORT"]["version"], $options
+            );
+        }
+
 		CTimeZone::Enable();
 
 		if (!$bCrmMode)
@@ -535,19 +574,43 @@ else
 			$o = new CXMLFileStream;
 
 			$o->registerElementHandler("/".GetMessage("CC_BSC1_COM_INFO"), array($loader, "elementHandler"));
-			
-			$o->registerNodeHandler("/".GetMessage("CC_BSC1_COM_INFO")."/".GetMessage("CC_BSC1_DOCUMENT"), function (CDataXML $xmlObject) use ($o, $loader)
+
+			//region schema Documents or Document.Subordinate
+			if($_SESSION["BX_CML2_EXPORT"]["cmlVersion"] >= doubleval(\Bitrix\Sale\Exchange\ExportOneCBase::SHEM_VERSION_2_10))
 			{
-				$loader->nodeHandler($xmlObject, $o);
-			});
-			
+				$o->registerNodeHandler("/".GetMessage("CC_BSC1_COM_INFO")."/".GetMessage("CC_BSC1_DOCUMENT"), function (CDataXML $xmlObject) use ($o, $loader)
+				{
+					\Bitrix\Sale\Exchange\ImportOneCSubordinateSale::configuration();
+					$loader->importer = \Bitrix\Sale\Exchange\ImportOneCSubordinateSale::getInstance();
+					$loader->nodeHandler($xmlObject, $o);
+				});
+			}
+			else
+			{
+				$o->registerNodeHandler("/".GetMessage("CC_BSC1_COM_INFO")."/".GetMessage("CC_BSC1_DOCUMENT"), function (CDataXML $xmlObject) use ($o, $loader)
+				{
+					if(CModule::IncludeModule('CRM'))
+					{
+						$loader->nodeHandlerDefaultModuleOneCCRM($xmlObject);
+					}
+					else
+                    {
+						$loader->nodeHandlerDefaultModuleOneC($xmlObject);
+                    }
+
+				});
+			}
+			//endregion
+			//region schema Contragents
 			$o->registerNodeHandler("/".GetMessage("CC_BSC1_COM_INFO")."/".GetMessage("CC_BSC1_AGENTS")."/".GetMessage("CC_BSC1_AGENT"), function (CDataXML $xmlObject) use ($o, $loader)
 			{
 				\Bitrix\Sale\Exchange\ImportOneCContragent::configuration();
-				$loader->importerContragent = new \Bitrix\Sale\Exchange\ImportOneCContragent();
+				$loader->importer = new \Bitrix\Sale\Exchange\ImportOneCContragent();
 				$loader->nodeHandler($xmlObject, $o);
 
 			});
+			//endregion
+			//region schema Package.CRM or Package.Sale
 			if(CModule::IncludeModule('CRM'))
             {
 				$o->registerNodeHandler("/".GetMessage("CC_BSC1_COM_INFO")."/".GetMessage("CC_BSC1_CONTAINER"), function (CDataXML $xmlObject) use ($o, $loader)
@@ -566,6 +629,7 @@ else
 					$loader->nodeHandler($xmlObject, $o);
 				});
             }
+            //endregion
 
 			$o->setPosition($_SESSION["BX_CML2_EXPORT"]["last_xml_entry"]);
 			if ($o->openFile($ABS_FILE_NAME))
@@ -605,27 +669,50 @@ else
 		<<?=GetMessage("CC_BSC1_DI_GENERAL")?>>
 			<<?=GetMessage("CC_BSC1_DI_STATUSES")?>>
 			<?
-			$dbStatus = CSaleStatus::GetList(array("SORT" => "ASC"), array("LID" => LANGUAGE_ID), false, false, array("ID", "NAME"));
-			while ($arStatus = $dbStatus->Fetch())
+			if(CModule::IncludeModule('CRM'))
 			{
-				?>
-				<<?=GetMessage("CC_BSC1_DI_ELEMENT")?>>
+				$dbStatus = \Bitrix\Crm\Invoice\InvoiceStatus::getList(array('order'=>array("SORT" => "ASC")));
+                while ($arStatus = $dbStatus->Fetch())
+				{
+					?>
+					<<?=GetMessage("CC_BSC1_DI_ELEMENT")?>>
+					<<?=GetMessage("CC_BSC1_DI_ID")?>><?=$arStatus["STATUS_ID"]?></<?=GetMessage("CC_BSC1_DI_ID")?>>
+					<<?=GetMessage("CC_BSC1_DI_NAME")?>><?=htmlspecialcharsbx($arStatus["NAME"])?></<?=GetMessage("CC_BSC1_DI_NAME")?>>
+					</<?=GetMessage("CC_BSC1_DI_ELEMENT")?>>
+					<?
+                }
+			}
+			else
+			{
+				$dbStatus = CSaleStatus::GetList(array("SORT" => "ASC"), array("LID" => LANGUAGE_ID), false, false, array("ID", "NAME"));
+				while ($arStatus = $dbStatus->Fetch())
+				{
+					?>
+					<<?=GetMessage("CC_BSC1_DI_ELEMENT")?>>
 					<<?=GetMessage("CC_BSC1_DI_ID")?>><?=$arStatus["ID"]?></<?=GetMessage("CC_BSC1_DI_ID")?>>
 					<<?=GetMessage("CC_BSC1_DI_NAME")?>><?=htmlspecialcharsbx($arStatus["NAME"])?></<?=GetMessage("CC_BSC1_DI_NAME")?>>
-				</<?=GetMessage("CC_BSC1_DI_ELEMENT")?>>
-				<?
+					</<?=GetMessage("CC_BSC1_DI_ELEMENT")?>>
+					<?
+				}
 			}
 			?>
 			</<?=GetMessage("CC_BSC1_DI_STATUSES")?>>
 			<<?=GetMessage("CC_BSC1_DI_PS")?>>
 			<?
-			$dbPS = CSalePaySystem::GetList(array("SORT" => "ASC"), array("ACTIVE" => "Y"));
+			$dbPS = CSalePaySystem::GetList(array("SORT" => "ASC"), array("ACTIVE" => "Y"), false, false, array('ID', 'NAME', 'ACTIVE', 'SORT', 'DESCRIPTION', 'IS_CASH'));
 			while ($arPS = $dbPS->Fetch())
 			{
-				?>
+				if(CModule::IncludeModule('CRM'))
+				    $typeId = \Bitrix\Sale\Exchange\Entity\PaymentInvoiceBase::resolveEntityTypeIdByCodeType($arPS["IS_CASH"]);
+				else
+			        $typeId = \Bitrix\Sale\Exchange\Entity\PaymentImport::resolveEntityTypeIdByCodeType($arPS["IS_CASH"]);
+
+				$typeName = \Bitrix\Sale\Exchange\EntityType::getDescription($typeId);
+			    ?>
 				<<?=GetMessage("CC_BSC1_DI_ELEMENT")?>>
 					<<?=GetMessage("CC_BSC1_DI_ID")?>><?=$arPS["ID"]?></<?=GetMessage("CC_BSC1_DI_ID")?>>
 					<<?=GetMessage("CC_BSC1_DI_NAME")?>><?=htmlspecialcharsbx($arPS["NAME"])?></<?=GetMessage("CC_BSC1_DI_NAME")?>>
+					<<?=GetMessage("CC_BSC1_DI_IS_CASH")?>><?=htmlspecialcharsbx($typeName)?></<?=GetMessage("CC_BSC1_DI_IS_CASH")?>>
 				</<?=GetMessage("CC_BSC1_DI_ELEMENT")?>>
 				<?
 			}

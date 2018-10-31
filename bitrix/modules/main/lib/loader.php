@@ -23,6 +23,12 @@ final class Loader
 	private static $arSharewareModules = array();
 
 	/**
+	 * Custom autoload paths.
+	 * @var array [namespace => path]
+	 */
+	private static $customNamespaces = [];
+
+	/**
 	 * Returned by includeSharewareModule() if module is not found
 	 */
 	const MODULE_NOT_FOUND = 0;
@@ -230,6 +236,24 @@ final class Loader
 		}
 	}
 
+	/**
+	 * Registers namespaces with custom paths.
+	 * e.g. ('Bitrix\Main\Dev', 'main', 'dev/lib')
+	 *
+	 * @param string $namespace
+	 * @param string $module
+	 * @param string $path
+	 */
+	public static function registerNamespace($namespace, $module, $path)
+	{
+		$namespace = rtrim($namespace, '\\');
+		$path = rtrim($path, '/\\');
+
+		$path = static::getDocumentRoot()."/".static::$arLoadedModulesHolders[$module]."/modules/".$module.'/'.$path;
+
+		static::$customNamespaces[$namespace] = $path;
+	}
+
 	public static function isAutoLoadClassRegistered($className)
 	{
 		$className = trim(ltrim($className, "\\"));
@@ -271,46 +295,98 @@ final class Loader
 			{
 				require_once($documentRoot.$pathInfo["file"]);
 			}
-			return;
+
+			if (class_exists($className))
+			{
+				return;
+			}
 		}
 
 		if (preg_match("#[^\\\\/a-zA-Z0-9_]#", $file))
 			return;
 
+		$tryFiles = [$file];
+
 		if (substr($file, -5) == "table")
-			$file = substr($file, 0, -5);
-
-		$file = str_replace('\\', '/', $file);
-		$arFile = explode("/", $file);
-
-		if ($arFile[0] === "bitrix")
 		{
-			array_shift($arFile);
-
-			if (empty($arFile))
-				return;
-
-			$module = array_shift($arFile);
-			if ($module == null || empty($arFile))
-				return;
-		}
-		else
-		{
-			$module1 = array_shift($arFile);
-			$module2 = array_shift($arFile);
-			if ($module1 == null || $module2 == null || empty($arFile))
-				return;
-
-			$module = $module1.".".$module2;
+			// old *Table stored in reserved files
+			$tryFiles[] = substr($file, 0, -5);
 		}
 
-		if (!isset(self::$arLoadedModulesHolders[$module]))
-			return;
+		foreach ($tryFiles as $file)
+		{
+			$file = str_replace('\\', '/', $file);
+			$arFile = explode("/", $file);
 
-		$filePath = $documentRoot."/".self::$arLoadedModulesHolders[$module]."/modules/".$module."/lib/".implode("/", $arFile).".php";
+			if ($arFile[0] === "bitrix")
+			{
+				array_shift($arFile);
 
-		if (file_exists($filePath))
-			require_once($filePath);
+				if (empty($arFile))
+					break;
+
+				$module = array_shift($arFile);
+				if ($module == null || empty($arFile))
+					break;
+			}
+			else
+			{
+				$module1 = array_shift($arFile);
+				$module2 = array_shift($arFile);
+
+				if ($module1 == null || $module2 == null || empty($arFile))
+				{
+					break;
+				}
+
+				$module = $module1.".".$module2;
+			}
+
+			if (!isset(self::$arLoadedModulesHolders[$module]))
+				break;
+
+			$filePath = $documentRoot."/".self::$arLoadedModulesHolders[$module]."/modules/".$module."/lib/".implode("/", $arFile).".php";
+
+			if (file_exists($filePath))
+			{
+				require_once $filePath;
+				break;
+			}
+			else
+			{
+				// try namespaces with custom path
+				foreach (static::$customNamespaces as $namespace => $namespacePath)
+				{
+					if (strpos($className, $namespace) === 0)
+					{
+						// found
+						$fileParts = explode("/", $file);
+
+						// cut base namespace
+						for ($i=0; $i <= substr_count($namespace, '\\'); $i++)
+						{
+							array_shift($fileParts);
+						}
+
+						// final path
+						$filePath = $namespacePath.'/'.implode("/", $fileParts).".php";
+
+						if (file_exists($filePath))
+						{
+							require_once $filePath;
+							break 2;
+						}
+					}
+				}
+			}
+		}
+
+		// still not found, check for auto-generated entity classes
+		if (!class_exists($className))
+		{
+			\Bitrix\Main\ORM\Loader::autoLoad($className);
+		}
+
 	}
 
 	/**
@@ -364,7 +440,7 @@ if (!function_exists("__autoload"))
 {
 	if (function_exists('spl_autoload_register'))
 	{
-		\spl_autoload_register('\Bitrix\Main\Loader::autoLoad');
+		\spl_autoload_register([Loader::class, 'autoLoad']);
 	}
 	else
 	{

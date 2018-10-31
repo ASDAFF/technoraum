@@ -151,6 +151,16 @@
 		return result;
 	};
 
+	BX.PhoneNumber.getValidNumberPattern = function()
+	{
+		return validPhoneNumber;
+	};
+
+	BX.PhoneNumber.getValidNumberRegex = function()
+	{
+		return new RegExp(validPhoneNumber);
+	};
+
 	BX.PhoneNumber.prototype.format = function(formatType)
 	{
 		if(this.valid)
@@ -699,10 +709,10 @@
 	// This is the minimum length of the leading digits of a phone number
 	// to guarantee the first "leading digits pattern" for a phone number format
 	// to be preemptive.
-	const MIN_LEADING_DIGITS_LENGTH = 3;
+	var MIN_LEADING_DIGITS_LENGTH = 3;
 
-	const VALID_INCOMPLETE_PHONE_NUMBER = '[' + plusChar + ']{0,1}' + '[' + validPunctuation + validDigits + ']*';
-	const VALID_INCOMPLETE_PHONE_NUMBER_PATTERN = new RegExp('^' + VALID_INCOMPLETE_PHONE_NUMBER + '$', 'i');
+	var VALID_INCOMPLETE_PHONE_NUMBER = '[' + plusChar + ']{0,1}' + '[' + validPunctuation + validDigits + ']*';
+	var VALID_INCOMPLETE_PHONE_NUMBER_PATTERN = new RegExp('^' + VALID_INCOMPLETE_PHONE_NUMBER + '$', 'i');
 
 	BX.PhoneNumber.IncompleteFormatter = function(defaultCountry)
 	{
@@ -1125,6 +1135,9 @@
 		this._selectedDigitsBeforeAction = 0;
 		this._countryBefore = '';
 
+		this.initialized = false;
+		this.initializationPromises = [];
+
 		this.init();
 		this.bindEvents();
 	};
@@ -1156,6 +1169,11 @@
 				self.inputNode.value = self.formatter.getFormattedNumber();
 			}
 			self.drawCountryFlag();
+			self.initialized = true;
+			self.initializationPromises.forEach(function(promise)
+			{
+				promise.resolve();
+			});
 			self.callbacks.initialize();
 		});
 	};
@@ -1168,6 +1186,43 @@
 		{
 			this.flagNode.addEventListener('click', this._onFlagClick.bind(this));
 		}
+	};
+
+	BX.PhoneNumber.Input.prototype.setValue = function (newValue)
+	{
+		this.waitForInitialization().then(function()
+		{
+			this.inputNode.value = this.formatter.format(newValue.toString());
+			this.callbacks.change({
+				value: this.getValue(),
+				formattedValue: this.getFormattedValue(),
+				country: this.getCountry(),
+				countryCode: this.getCountryCode()
+			});
+
+			if(this._countryBefore !== this.getCountry())
+			{
+				this.drawCountryFlag();
+				this.callbacks.countryChange({
+					country: this.getCountry(),
+					countryCode: this.getCountryCode()
+				});
+			}
+		}.bind(this));
+	};
+
+	BX.PhoneNumber.Input.prototype.waitForInitialization = function()
+	{
+		var result = new BX.Promise();
+
+		if(this.initialized)
+		{
+			result.resolve();
+			return result;
+		}
+
+		this.initializationPromises.push(result);
+		return result;
 	};
 
 	BX.PhoneNumber.Input.prototype.getValue = function()

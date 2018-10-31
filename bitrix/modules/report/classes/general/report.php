@@ -1001,11 +1001,11 @@ class CReport
 
 	public static function sqlizeFilter($filter)
 	{
-		$newFilter = array();
+		$newFilter = [];
 
 		foreach ($filter as $fId => $filterInfo)
 		{
-			$iFilterItems = array();
+			$iFilterItems = [];
 
 			foreach ($filterInfo as $key => $subFilter)
 			{
@@ -1021,14 +1021,23 @@ class CReport
 					$compare = self::$iBlockCompareVariations[$subFilter['compare']];
 					$name = $subFilter['name'];
 					$value = $subFilter['value'];
-					if ($compare === '>%')
+
+					switch ($compare)
 					{
-						$compare = '';
-						$value = $value.'%';
+						case '!':
+							$iFilterItems[] = [
+								'LOGIC' => 'OR',
+								$compare.$name => $value,
+								'='.$name => false
+							];
+							break;
+						/** @noinspection PhpMissingBreakStatementInspection */
+						case '>%':
+							$compare = '';
+							$value = $value.'%';
+						default:
+							$iFilterItems[] = [$compare.$name => $value];
 					}
-					$iFilterItems[] = array(
-						$compare.$name => $value
-					);
 				}
 				else if ($subFilter['type'] == 'filter')
 				{

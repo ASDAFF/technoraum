@@ -399,22 +399,31 @@
 	 */
 	BX.dataBase.prototype.deleteRows = function (params)
 	{
-		params.action = "delete";
-        var promise = new BX.Promise();
-        var str = this.getQuery(params);
+		var promise = new BX.Promise();
 
-        this.query(str)
-            .then(function (success)
-            {
-                success.result.tableName = params.tableName;
-                promise.fulfill(success);
-            })
-            .catch(function (error)
-            {
-                error.queryParams = params;
-                promise.reject(error);
-            }
-        );
+		params = params || {};
+		if (typeof params.success != 'function')
+		{
+			params.success = function(result, transaction){};
+		}
+		if (typeof params.fail != 'function')
+		{
+			params.fail = function(result, transaction, query){};
+		}
+
+		params.action = "delete";
+
+        this.query(
+        	this.getQuery(params)
+		).then(function (success) {
+			params.success(success.result, success.transaction);
+			success.result.tableName = params.tableName;
+			promise.fulfill(success);
+		}).catch(function (error) {
+			params.fail(error.result, error.transaction, error.query, params);
+			error.queryParams = params;
+			promise.reject(error);
+		});
 
         return promise;
 	};
@@ -917,6 +926,11 @@
 						promise.reject({result: res, transaction: tx, query: query});
 					}
 				);
+			},
+			function(error)
+			{
+				console.error('BX.dataBase.prototype.query: ', error);
+				promise.reject(null, null, null);
 			}
 		);
 		return promise;

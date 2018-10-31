@@ -754,33 +754,17 @@ EOT;
 
 	public static function getPublicText($userField)
 	{
+		$result = array();
 		static::getEnumList($userField);
-
 		$value = static::normalizeFieldValue($userField['VALUE']);
-
-		$text = '';
-		$first = true;
-		$empty = true;
-
 		foreach ($value as $res)
 		{
-			if (array_key_exists($res, $userField['USER_TYPE']['FIELDS']))
+			if (isset($userField['USER_TYPE']['FIELDS'][$res]))
 			{
-				if (!$first)
-					$text .= ', ';
-				$first = false;
-
-				$text .= $userField['USER_TYPE']['FIELDS'][$res];
-				$empty = false;
+				$result[] = $userField['USER_TYPE']['FIELDS'][$res];
 			}
 		}
-
-		if ($empty)
-		{
-			$text = static::getEmptyCaption($userField);
-		}
-
-		return $text;
+		return (!empty($result) ? implode(', ', $result) : static::getEmptyCaption($userField));
 	}
 
 	public function getPublicEdit($arUserField, $arAdditionalParameters = array())
@@ -827,8 +811,9 @@ EOT;
 
 			$result = '';
 
-			$controlNodeId = $arUserField['FIELD_NAME'].'_control';
-			$valueContainerId = $arUserField['FIELD_NAME'].'_value';
+			$suffix = strtolower(RandString(4));
+			$controlNodeId = $arUserField['FIELD_NAME'].'_control_'.$suffix;
+			$valueContainerId = $arUserField['FIELD_NAME'].'_value_'.$suffix;
 
 			$attrList = array(
 				'id' => $valueContainerId,
@@ -869,7 +854,7 @@ EOT;
 <script>
 function changeHandler_{$fieldNameJS}(controlObject, value)
 {
-	if(controlObject.params.fieldName === '{$fieldNameJS}')
+	if(controlObject.params.fieldName === '{$fieldNameJS}' && !!BX('{$valueContainerIdJS}'))
 	{
 		var currentValue = JSON.parse(controlObject.node.getAttribute('data-value'));
 

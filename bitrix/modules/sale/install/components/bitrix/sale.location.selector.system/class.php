@@ -37,6 +37,9 @@ class CBitrixLocationSelectorSystemComponent extends CBitrixLocationSelectorSear
 	private $locationsFromRequest = false;
 	private $groupsFromRequest = false;
 
+	protected $locationFlag = '';
+	protected $groupFlag = '';
+
 	/**
 	 * Function checks and prepares all the parameters passed. Everything about $arParam modification is here.
 	 * @param mixed[] $arParams List of unchecked parameters
@@ -320,6 +323,7 @@ class CBitrixLocationSelectorSystemComponent extends CBitrixLocationSelectorSear
 		else
 		{
 			$this->entityClass = $this->arParams['LINK_ENTITY_NAME'].'Table';
+
 			if(!class_exists($this->entityClass, true))
 			{
 				$this->errors['FATAL'][] = Loc::getMessage('SALE_SLSS_LINK_ENTITY_CLASS_UNKNOWN');
@@ -348,12 +352,16 @@ class CBitrixLocationSelectorSystemComponent extends CBitrixLocationSelectorSear
 			$this->useCodes = $class::getUseCodes();
 		}
 
-		// selected in request
-		if(is_array($this->arParams['SELECTED_IN_REQUEST']['L']))
-			$this->locationsFromRequest = $this->normalizeList($this->arParams['SELECTED_IN_REQUEST']['L'], !$this->useCodes);
+		$entityClass = $this->entityClass;
+		$this->locationFlag = $entityClass::DB_LOCATION_FLAG;
+		$this->groupFlag = $entityClass::DB_GROUP_FLAG;
 
-		if(is_array($this->arParams['SELECTED_IN_REQUEST']['G']))
-			$this->groupsFromRequest = $this->normalizeList($this->arParams['SELECTED_IN_REQUEST']['G'], !$this->useCodes);
+		// selected in request
+		if(is_array($this->arParams['SELECTED_IN_REQUEST'][$entityClass::DB_LOCATION_FLAG]))
+			$this->locationsFromRequest = $this->normalizeList($this->arParams['SELECTED_IN_REQUEST'][$entityClass::DB_LOCATION_FLAG], !$this->useCodes);
+
+		if(is_array($this->arParams['SELECTED_IN_REQUEST'][$entityClass::DB_GROUP_FLAG]))
+			$this->groupsFromRequest = $this->normalizeList($this->arParams['SELECTED_IN_REQUEST'][$entityClass::DB_GROUP_FLAG], !$this->useCodes);
 
 		return $result;
 	}
@@ -376,6 +384,9 @@ class CBitrixLocationSelectorSystemComponent extends CBitrixLocationSelectorSear
 
 		$this->arResult['USE_GROUPS'] = $this->useGroups;
 		$this->arResult['USE_CODES'] = $this->useCodes;
+
+		$this->arResult['DB_LOCATION_FLAG'] = $this->locationFlag;
+		$this->arResult['DB_GROUP_FLAG'] = $this->groupFlag;
 	}
 
 	protected static function processSearchRequestV2GetFinderBehaviour()

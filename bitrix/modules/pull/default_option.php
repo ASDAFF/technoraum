@@ -21,13 +21,8 @@ $pull_default_option = array(
 	'guest' => 'N',
 );
 
-if ($va = getenv('BITRIX_VA_VER'))
+if (file_exists($_SERVER["DOCUMENT_ROOT"]."/bitrix/php_interface/pull.php"))
 {
-	$pull_default_option['nginx'] = 'Y';
-	$pull_default_option['nginx_version'] = 1;
-	if (version_compare($va, '4.4', '>='))
-		$pull_default_option['nginx_version'] = 2;
-	if (version_compare($va, '7.1', '>='))
-		$pull_default_option['nginx_version'] = 3;
+	include($_SERVER["DOCUMENT_ROOT"]."/bitrix/php_interface/pull.php");
 }
 ?>

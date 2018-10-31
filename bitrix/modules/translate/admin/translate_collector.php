@@ -366,14 +366,19 @@ $tabControl->BeginNextTab();
 		<td width="60%">
 		<select name="language_id">
 			<?
-			$rsLang = CLanguage::GetList($by="sort", $order="desc");
-			while ($arLang = $rsLang->Fetch())
+			$iterator = Main\Localization\LanguageTable::getList(array(
+				'select' => array('LANGUAGE_ID', 'SORT'),
+				'filter' => array('=ACTIVE' => 'Y'),
+				'order' => array('SORT' => 'ASC')
+			));
+			while ($row = $iterator->fetch())
 			{
-				if (is_dir($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/lang/".$arLang['LANGUAGE_ID']))
-				{
-					?><option value="<?=htmlspecialcharsbx($arLang['LANGUAGE_ID']); ?>"<?if ($arLang['LANGUAGE_ID']==$language_id) echo " selected";?>><?=htmlspecialcharsbx($arLang['LANGUAGE_ID']); ?></option><?
-				}
+				if (!is_dir($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/lang/'.$row['LANGUAGE_ID']))
+					continue;
+				$row['LANGUAGE_ID'] = htmlspecialcharsbx($row['LANGUAGE_ID']);
+				?><option value="<?=$row['LANGUAGE_ID']; ?>"<?=($row['LANGUAGE_ID'] == $language_id ? ' selected' : ''); ?>><?=$row['LANGUAGE_ID']; ?></option><?
 			}
+			unset($row, $iterator);
 			?>
 		</select>
 		</td>
@@ -444,11 +449,17 @@ $tabControl->BeginNextTab();
 	<td width="60%">
 	<select name="language_id">
 		<?
-		$rsLang = CLanguage::GetList($by="sort", $order="desc");
-		while ($arLang = $rsLang->Fetch())
+		$iterator = Main\Localization\LanguageTable::getList(array(
+			'select' => array('LANGUAGE_ID', 'SORT'),
+			'filter' => array('=ACTIVE' => 'Y'),
+			'order' => array('SORT' => 'ASC')
+		));
+		while ($row = $iterator->fetch())
 		{
-			?><option value="<?=htmlspecialcharsbx($arLang['LANGUAGE_ID']); ?>"<?if ($arLang['LANGUAGE_ID']==$language_id) echo " selected";?>><?=htmlspecialcharsbx($arLang['LANGUAGE_ID']); ?></option><?
+			$row['LANGUAGE_ID'] = htmlspecialcharsbx($row['LANGUAGE_ID']);
+			?><option value="<?=$row['LANGUAGE_ID']; ?>"<?=($row['LANGUAGE_ID'] == $language_id ? ' selected' : ''); ?>><?=$row['LANGUAGE_ID']; ?></option><?
 		}
+		unset($row, $iterator);
 		?>
 	</select>
 	</td>

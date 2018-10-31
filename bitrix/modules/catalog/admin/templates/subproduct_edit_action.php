@@ -32,8 +32,9 @@ if ($USER->CanDoOperation('catalog_price'))
 	if (0 < $IBLOCK_ID && 0 < $ID)
 	{
 		$PRODUCT_ID = CIBlockElement::GetRealElement($ID);
-		$bUseStoreControl = (COption::GetOptionString('catalog','default_use_store_control') == "Y");
+		$bUseStoreControl = Catalog\Config\State::isUsedInventoryManagement();
 		$bEnableReservation = (COption::GetOptionString('catalog', 'enable_reservation') != 'N');
+		$enableQuantityRanges = Catalog\Config\Feature::isPriceQuantityRangesEnabled();
 
 		if (CIBlockElementRights::UserHasRightTo($IBLOCK_ID, $PRODUCT_ID, "element_edit_price"))
 		{
@@ -41,7 +42,10 @@ if ($USER->CanDoOperation('catalog_price'))
 
 			if ('' == $strWarning)
 			{
-				$bUseExtForm = (isset($_POST['subprice_useextform']) && 'Y' == $_POST['subprice_useextform']);
+				if ($enableQuantityRanges)
+					$bUseExtForm = (isset($_POST['subprice_useextform']) && 'Y' == $_POST['subprice_useextform']);
+				else
+					$bUseExtForm = false;
 
 				$arCatalog = CCatalog::GetByID($IBLOCK_ID);
 
@@ -294,27 +298,32 @@ if ($USER->CanDoOperation('catalog_price'))
 				$currentRatioID = 0;
 				if (isset($_POST['SUBCAT_MEASURE_RATIO_ID']))
 					$currentRatioID = (int)$_POST['SUBCAT_MEASURE_RATIO_ID'];
-				$ratioFilter = array('PRODUCT_ID' => $PRODUCT_ID);
-				if ($currentRatioID > 0)
-					$ratioFilter['ID'] = $currentRatioID;
-				$ratioIterator = CCatalogMeasureRatio::getList(
-					array(),
-					$ratioFilter,
-					false,
-					false,
-					array('ID', 'PRODUCT_ID')
-				);
-				if ($currentRatio = $ratioIterator->Fetch())
+				$ratioFilter = ['=PRODUCT_ID' => $PRODUCT_ID, '=RATIO' => $SUBCAT_MEASURE_RATIO];
+				$ratioIterator = Catalog\MeasureRatioTable::getList([
+					'select' => ['*'],
+					'filter' => $ratioFilter
+				]);
+				$currentRatio = $ratioIterator->fetch();
+				if (empty($currentRatio) && $currentRatioID > 0)
 				{
-					if ($currentRatioID <= 0)
-						$currentRatioID = $currentRatio['ID'];
+					$ratioFilter = ['=PRODUCT_ID' => $PRODUCT_ID, '=ID' => $currentRatioID];
+					$ratioIterator = Catalog\MeasureRatioTable::getList([
+						'select' => ['*'],
+						'filter' => $ratioFilter
+					]);
+					$currentRatio = $ratioIterator->fetch();
+				}
+				unset($ratioIterator, $ratioFilter);
+				if (!empty($currentRatio))
+				{
+					$currentRatioID = $currentRatio['ID'];
 					$newRatio = false;
 				}
-				unset($currentRatio, $ratioIterator, $ratioFilter);
+				unset($currentRatio);
 				if ($newRatio)
-					CCatalogMeasureRatio::add($arMeasureRatio);
+					$currentRatioID = (int)CCatalogMeasureRatio::add($arMeasureRatio);
 				else
-					CCatalogMeasureRatio::update($currentRatioID, $arMeasureRatio);
+					$currentRatioID = CCatalogMeasureRatio::update($currentRatioID, $arMeasureRatio);
 				unset($newRatio, $arMeasureRatio);
 
 				if ($currentRatioID > 0)

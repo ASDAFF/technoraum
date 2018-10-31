@@ -637,7 +637,7 @@ class CPushManager
 		}
 
 		$filter = array(
-			"UNIQUE_HASH" => array_unique($uniqueHashes)
+			"=UNIQUE_HASH" => array_unique($uniqueHashes)
 		);
 
 		if (empty($arDevices))

@@ -1247,6 +1247,10 @@ function getResultColumnDataType(&$viewColumnInfo, &$customColumnTypes = array()
 		</span>
 	</div>
 
+	<div class="filter-field filter-field-crm chfilter-field-enum">
+		<label class="filter-field-title">%TITLE% "%COMPARE%"</label>
+	</div>
+
 	<div class="filter-field filter-field-crm chfilter-field-crm">
 		<label class="filter-field-title">%TITLE% "%COMPARE%"</label>
 	</div>
@@ -1321,33 +1325,6 @@ function getResultColumnDataType(&$viewColumnInfo, &$customColumnTypes = array()
 		</script>
 	</div>
 
-</div>
-
-<!-- UF enumerations control examples -->
-<div id="report-chfilter-examples-ufenums" style="display: none;">
-	<?
-	if (is_array($arResult['ufEnumerations'])):
-		foreach ($arResult['ufEnumerations'] as $ufId => $enums):
-			foreach ($enums as $fieldKey => $enum):
-	?>
-	<div class="filter-field chfilter-field-<?=($ufId.'_'.$fieldKey)?>" callback="RTFilter_chooseBoolean">
-		<label for="" class="filter-field-title">%TITLE% "%COMPARE%"</label>
-		<select name="%NAME%" class="filter-dropdown" id="%ID%" caller="true">
-			<option value=""><?=GetMessage('REPORT_IGNORE_FILTER_VALUE')?></option>
-			<?
-			foreach ($enum as $itemId => $itemInfo):
-			?>
-			<option value="<?=$itemId?>"><?=$itemInfo['VALUE']?></option>
-			<?
-			endforeach;
-			?>
-		</select>
-	</div>
-	<?
-			endforeach;
-		endforeach;
-	endif;
-	?>
 </div>
 
 <div class="sidebar-block">
@@ -1508,8 +1485,11 @@ function getResultColumnDataType(&$viewColumnInfo, &$customColumnTypes = array()
 				foreach ($arResult['changeableFilters'] as $chFilter)
 				{
 					if (isset($chFilter['isUF']) && $chFilter['isUF'] === true && isset($chFilter['data_type'])
-						&& ($chFilter['data_type'] === 'crm' || $chFilter['data_type'] === 'crm_status'
-							|| $chFilter['data_type'] === 'iblock_element' || $chFilter['data_type'] === 'iblock_section')
+						&& ($chFilter['data_type'] === 'enum'
+							||$chFilter['data_type'] === 'crm'
+							|| $chFilter['data_type'] === 'crm_status'
+							|| $chFilter['data_type'] === 'iblock_element'
+							|| $chFilter['data_type'] === 'iblock_section')
 						&& isset($chFilter['ufId']) && isset($chFilter['ufName'])
 						&& is_array($arResult['ufInfo'][$chFilter['ufId']][$chFilter['ufName']]))
 					{
@@ -1542,39 +1522,26 @@ function getResultColumnDataType(&$viewColumnInfo, &$customColumnTypes = array()
 
 					cpControl = null;
 					fieldType = info[i].FIELD_TYPE;
-					if (info[i]['IS_UF'] && fieldType === 'enum')
-					{
-						cpControl = BX.clone(
-							BX.findChild(
-								BX('report-chfilter-examples-ufenums'),
-								{className:'chfilter-field-'+info[i]['UF_ID'] + "_" + info[i]['UF_NAME']}
-							),
-							true
-						);
-					}
-					else
-					{
-						// insert value control
-						// search in `examples-custom` by name or type
-						// then search in `examples` by type
-						cpControl = BX.clone(
-							BX.findChild(
-								BX('report-chfilter-examples-custom'),
-								{className:'chfilter-field-'+info[i].FIELD_NAME}
-							)
-							||
-							BX.findChild(
-								BX('report-chfilter-examples-custom'),
-								{className:'chfilter-field-'+fieldType}
-							)
-							||
-							BX.findChild(
-								BX('report-chfilter-examples'),
-								{className:'chfilter-field-'+fieldType}
-							),
-							true
-						);
-					}
+					// insert value control
+					// search in `examples-custom` by name or type
+					// then search in `examples` by type
+					cpControl = BX.clone(
+						BX.findChild(
+							BX('report-chfilter-examples-custom'),
+							{className: 'chfilter-field-' + info[i].FIELD_NAME}
+						)
+						||
+						BX.findChild(
+							BX('report-chfilter-examples-custom'),
+							{className: 'chfilter-field-' + fieldType}
+						)
+						||
+						BX.findChild(
+							BX('report-chfilter-examples'),
+							{className: 'chfilter-field-' + fieldType}
+						),
+						true
+					);
 
 					//global replace %ID%, %NAME%, %TITLE% and etc.
 					cpControl.innerHTML = cpControl.innerHTML.replace(/%((?!VALUE)[A-Z]+)%/gi,
@@ -1589,7 +1556,7 @@ function getResultColumnDataType(&$viewColumnInfo, &$customColumnTypes = array()
 					{
 						ufId = info[i]["UF_ID"];
 						ufName = info[i]["UF_NAME"];
-						if (fieldType === 'crm' || fieldType === 'crm_status'
+						if (fieldType === 'enum' ||fieldType === 'crm' || fieldType === 'crm_status'
 							|| fieldType === 'iblock_element' || fieldType === 'iblock_section')
 						{
 							tipicalControl = false;

@@ -309,10 +309,10 @@ Loc::loadMessages(__FILE__);
 
 		<div class="bx-ui-slss-input-pool">
 			<script type="text/html" data-template-id="bx-ui-slss-location-input">
-				<input type="hidden" name="<?=$arParams['INPUT_NAME']?>[L]" value="{{ids}}" />
+				<input type="hidden" name="<?=$arParams['INPUT_NAME']?>[<?=$arResult['DB_LOCATION_FLAG']?>]" value="{{ids}}" />
 			</script>
 			<script type="text/html" data-template-id="bx-ui-slss-group-input">
-				<input type="hidden" name="<?=$arParams['INPUT_NAME']?>[G]" value="{{ids}}" />
+				<input type="hidden" name="<?=$arParams['INPUT_NAME']?>[<?=$arResult['DB_GROUP_FLAG']?>]" value="{{ids}}" />
 			</script>
 		</div>
 

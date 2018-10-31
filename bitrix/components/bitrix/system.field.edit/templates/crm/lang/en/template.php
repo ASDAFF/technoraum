@@ -1,4 +1,5 @@
 <?
+$MESS["CRM_FF_ORDER"] = "Orders";
 $MESS["CRM_FF_LEAD"] = "Leads";
 $MESS["CRM_FF_CONTACT"] = "Contacts";
 $MESS["CRM_FF_COMPANY"] = "Companies";

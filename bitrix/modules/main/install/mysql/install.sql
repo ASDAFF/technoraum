@@ -139,6 +139,7 @@ CREATE TABLE b_group
 	ACTIVE char(1) not null default 'Y',
 	C_SORT int(18) not null default '100',
 	ANONYMOUS char(1) not null default 'N',
+	IS_SYSTEM char(1) not null default 'Y',
 	NAME varchar(255) not null,
 	DESCRIPTION varchar(255),
 	SECURITY_POLICY text,
@@ -323,6 +324,19 @@ CREATE TABLE b_file
 	HANDLER_ID VARCHAR(50),
 	EXTERNAL_ID VARCHAR(50),
 	INDEX IX_B_FILE_EXTERNAL_ID(EXTERNAL_ID),
+	PRIMARY KEY (ID)
+);
+
+CREATE TABLE b_file_preview
+(
+	ID INT(18) not null auto_increment,
+	FILE_ID INT(18) not null,
+	PREVIEW_ID INT(18),
+	PREVIEW_IMAGE_ID INT(18),
+	CREATED_AT datetime not null,
+	TOUCHED_AT datetime,
+	INDEX IX_B_FILE_PL_TOUCH(TOUCHED_AT),
+	INDEX IX_B_FILE_PL_FILE(FILE_ID),
 	PRIMARY KEY (ID)
 );
 
@@ -1243,4 +1257,61 @@ CREATE TABLE b_main_mail_sender
 	OPTIONS TEXT NULL,
 	PRIMARY KEY (ID),
 	INDEX IX_B_MAIN_MAIL_SENDER_USER_ID (USER_ID, IS_CONFIRMED, IS_PUBLIC)
+);
+
+CREATE TABLE b_main_mail_blacklist
+(
+	ID int NOT NULL auto_increment,
+	DATE_INSERT	datetime	NOT NULL,
+	CODE varchar(255)	NULL,
+	PRIMARY KEY (ID),
+	UNIQUE UK_B_MAIN_MAIL_BLACKLIST_CODE (CODE)
+);
+
+CREATE TABLE `b_numerator`
+(
+	`ID` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`NAME` VARCHAR(255) NULL DEFAULT NULL,
+	`TEMPLATE` VARCHAR(255) NULL DEFAULT NULL,
+	`TYPE` VARCHAR(50) NULL DEFAULT NULL,
+	`SETTINGS` TEXT NULL,
+	`CREATED_AT` DATETIME NULL DEFAULT NULL,
+	`CREATED_BY` INT(11) NULL DEFAULT NULL,
+	`UPDATED_AT` DATETIME NULL DEFAULT NULL,
+	`UPDATED_BY` INT(11) NULL DEFAULT NULL,
+	PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `b_numerator_sequence`
+(
+	`NUMERATOR_ID` INT(11) NOT NULL DEFAULT '0',
+	`KEY` VARCHAR(32) NOT NULL DEFAULT '0',
+	`TEXT_KEY` VARCHAR(50) NULL DEFAULT NULL,
+	`NEXT_NUMBER` INT(11) NULL DEFAULT NULL,
+	`LAST_INVOCATION_TIME` INT(11) NULL DEFAULT NULL,
+	PRIMARY KEY (`NUMERATOR_ID`, `KEY`)
+);
+
+CREATE TABLE b_user_profile_history
+(
+	ID int not null auto_increment,
+	USER_ID int not null,
+	EVENT_TYPE int,
+	DATE_INSERT datetime,
+	REMOTE_ADDR varchar(40),
+	USER_AGENT text,
+	REQUEST_URI text,
+	UPDATED_BY_ID int,
+	PRIMARY KEY (ID),
+	INDEX ix_profile_history_user(USER_ID)
+);
+
+CREATE TABLE b_user_profile_record
+(
+	ID int not null auto_increment,
+	HISTORY_ID int not null,
+	FIELD varchar(40),
+	DATA mediumtext,
+	PRIMARY KEY (ID),
+	INDEX ix_profile_record_history_field(HISTORY_ID, FIELD)
 );

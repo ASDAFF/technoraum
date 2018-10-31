@@ -2,6 +2,7 @@
 
 namespace Bitrix\Report\VisualConstructor\Views\Component;
 
+use Bitrix\Report\VisualConstructor\Config\Common;
 use Bitrix\Report\VisualConstructor\Entity\Widget;
 use Bitrix\Report\VisualConstructor\Helper\Widget as WidgetHelper;
 use Bitrix\Report\VisualConstructor\View;
@@ -54,7 +55,7 @@ abstract class Base extends View
 	}
 
 	/**
-	 * Component paremeters setter.
+	 * Component parameters setter.
 	 *
 	 * @param array $componentParameters Parameters which pass to component.
 	 * @return void
@@ -78,7 +79,7 @@ abstract class Base extends View
 
 
 	/**
-	 * Method to modify Content which pass to widget view, in absoulte end.
+	 * Method to modify Content which pass to widget view, in absolute end.
 	 *
 	 * @param Widget $widget Widget entity.
 	 * @param bool $withCalculatedData Marker for calculate or no data in widget.
@@ -88,9 +89,26 @@ abstract class Base extends View
 	{
 		$resultWidget = parent::prepareWidgetContent($widget, $withCalculatedData);
 
-		$resultWidget['content']['params']['color'] = $resultWidget['config']['color'];
+		if ($withCalculatedData)
+		{
+			$resultWidget['content']['params']['color'] = $widget->getWidgetHandler()->getFormElement('color')->getValue();
+		}
+
 		$result = $this->getCalculatedPerformedData($widget, $withCalculatedData);
 
+		if (!empty($result['data']) && static::MAX_RENDER_REPORT_COUNT > 1)
+		{
+			foreach ($result['data'] as $num => &$reportResult)
+			{
+				$reportResult['config']['color'] = $widget->getWidgetHandler()->getReportHandlers()[$num]->getFormElement('color')->getValue();
+				$reportResult['title'] = $widget->getWidgetHandler()->getReportHandlers()[$num]->getFormElement('label')->getValue();
+			}
+		}
+		elseif (!empty($result['data']))
+		{
+			$reportResult['config']['color'] = $widget->getWidgetHandler()->getReportHandlers()[0]->getFormElement('color')->getValue();
+			$reportResult['title'] = $widget->getWidgetHandler()->getReportHandlers()[0]->getFormElement('label')->getValue();
+		}
 
 		$componentResult = $this->includeComponent($this->getComponentName(), array(
 			'WIDGET' => $widget,
@@ -104,7 +122,7 @@ abstract class Base extends View
 	}
 
 	/**
-	 * Get calculated and foram,ted data.
+	 * Get calculated and format data.
 	 *
 	 * @param Widget $widget Widget Entity.
 	 * @param bool $withCalculatedData Marker for calculate or no data in widget.

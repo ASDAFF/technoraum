@@ -229,31 +229,58 @@ class CIBlockPropertyElementList
 		$arValue['VALUE'] = intval($arValue['VALUE']);
 		if (0 < $arValue['VALUE'])
 		{
+			$viewMode = '';
+			$resultKey = '';
+			if (!empty($strHTMLControlName['MODE']))
+			{
+				switch ($strHTMLControlName['MODE'])
+				{
+					case 'CSV_EXPORT':
+						$viewMode = 'CSV_EXPORT';
+						$resultKey = 'ID';
+						break;
+					case 'EXTERNAL_ID':
+						$viewMode = 'EXTERNAL_ID';
+						$resultKey = '~XML_ID';
+						break;
+					case 'SIMPLE_TEXT':
+						$viewMode = 'SIMPLE_TEXT';
+						$resultKey = '~NAME';
+						break;
+					case 'ELEMENT_TEMPLATE':
+						$viewMode = 'ELEMENT_TEMPLATE';
+						$resultKey = '~NAME';
+						break;
+				}
+			}
+
 			if (!isset($cache[$arValue['VALUE']]))
 			{
-				$arFilter = array();
-				$intIBlockID = intval($arProperty['LINK_IBLOCK_ID']);
-				if (0 < $intIBlockID) $arFilter['IBLOCK_ID'] = $intIBlockID;
+				$arFilter = [];
+				$intIBlockID = (int)$arProperty['LINK_IBLOCK_ID'];
+				if ($intIBlockID > 0)
+					$arFilter['IBLOCK_ID'] = $intIBlockID;
 				$arFilter['ID'] = $arValue['VALUE'];
-				$arFilter["ACTIVE"] = "Y";
-				$arFilter["ACTIVE_DATE"] = "Y";
-				$arFilter["CHECK_PERMISSIONS"] = "Y";
-				$rsElements = CIBlockElement::GetList(array(), $arFilter, false, false, array("ID","IBLOCK_ID","NAME","DETAIL_PAGE_URL"));
-				$cache[$arValue['VALUE']] = $rsElements->GetNext(true,false);
-			}
-			if (is_array($cache[$arValue['VALUE']]))
-			{
-				if (isset($strHTMLControlName['MODE']) && 'CSV_EXPORT' == $strHTMLControlName['MODE'])
+				if ($viewMode === '')
 				{
-					$strResult = $cache[$arValue['VALUE']]['ID'];
+					$arFilter['ACTIVE'] = 'Y';
+					$arFilter['ACTIVE_DATE'] = 'Y';
+					$arFilter['CHECK_PERMISSIONS'] = 'Y';
+					$arFilter['MIN_PERMISSION'] = 'R';
 				}
-				elseif (isset($strHTMLControlName['MODE']) && ('SIMPLE_TEXT' == $strHTMLControlName['MODE'] || 'ELEMENT_TEMPLATE' == $strHTMLControlName['MODE']))
+				$rsElements = CIBlockElement::GetList(array(), $arFilter, false, false, array("ID","IBLOCK_ID","NAME","DETAIL_PAGE_URL"));
+				$cache[$arValue['VALUE']] = $rsElements->GetNext(true, true);
+				unset($rsElements);
+			}
+			if (!empty($cache[$arValue['VALUE']]) && is_array($cache[$arValue['VALUE']]))
+			{
+				if ($viewMode !== '' && $resultKey !== '')
 				{
-					$strResult = $cache[$arValue['VALUE']]["NAME"];
+					$strResult = $cache[$arValue['VALUE']][$resultKey];
 				}
 				else
 				{
-					$strResult = '<a href="'.$cache[$arValue['VALUE']]["DETAIL_PAGE_URL"].'">'.$cache[$arValue['VALUE']]["NAME"].'</a>';;
+					$strResult = '<a href="'.$cache[$arValue['VALUE']]['DETAIL_PAGE_URL'].'">'.$cache[$arValue['VALUE']]['NAME'].'</a>';
 				}
 			}
 		}

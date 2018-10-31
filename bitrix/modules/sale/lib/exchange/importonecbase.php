@@ -8,23 +8,25 @@ use Bitrix\Main\Error;
 use Bitrix\Main\Event;
 use Bitrix\Main\Localization\Loc;
 use Bitrix\Sale\Exchange\Entity\EntityImport;
-use Bitrix\Sale\Exchange\Entity\OrderImport;
 use Bitrix\Sale\Exchange\Entity\ShipmentImport;
 use Bitrix\Sale\Exchange\Entity\UserProfileImport;
-use Bitrix\Sale\Exchange\OneC\DocumentImport;
+use Bitrix\Sale\Exchange\OneC\ConverterFactory;
+use Bitrix\Sale\Exchange\OneC\DocumentBase;
+use Bitrix\Sale\Exchange\OneC\DocumentType;
 use Bitrix\Sale\Internals\Fields;
 use Bitrix\Sale\Result;
 
 abstract class ImportOneCBase extends ImportPattern
 {
+	use LoggerTrait;
+	use BaseTrait;
+
 	const EVENT_ON_EXCHANGE_CONFIGURE_IMPORTER = 'OnExchangeConfigureImporter';
 
 	const DELIVERY_SERVICE_XMLID = 'ORDER_DELIVERY';
 
 	/** @var  Fields */
 	protected $fields;
-	/** @var  $rawData null */
-	protected $rawData;
 
 	/**
 	 * @param array $values
@@ -54,22 +56,6 @@ abstract class ImportOneCBase extends ImportPattern
 	public function getField($name)
 	{
 		return $this->fields->get($name);
-	}
-
-	/**
-	 * @param null $rawData
-	 */
-	public function setRawData($rawData)
-	{
-		$this->rawData = $rawData;
-	}
-
-	/**
-	 * @return null
-	 */
-	public function getRawData()
-	{
-		return $this->rawData;
 	}
 
 	/**
@@ -123,11 +109,9 @@ abstract class ImportOneCBase extends ImportPattern
 
 		$fieldsCriterion = $fields = &$params['TRAITS'];
 
-		$converter = OneC\Converter::getInstance($item->getOwnerTypeId());
-		$converter->loadSettings($item->getSettings());
+		$converter = ConverterFactory::create($item->getOwnerTypeId());
+		$converter::sanitizeFields($item->getEntity(), $fields, $item->getSettings());
 
-		/** @var OneC\Converter $converter*/
-		$converter->sanitizeFields($item->getEntity(), $fields);
 		$item->refreshData($fields);
 
 		$criterion = $item->getCurrentCriterion($item->getEntity());
@@ -165,7 +149,7 @@ abstract class ImportOneCBase extends ImportPattern
 		{
 			$documentTypeId = $this->resolveDocumentTypeId($raw);
 
-			$document = OneC\DocumentImportFactory::create($documentTypeId);
+			$document = $this->documentFactoryCreate($documentTypeId);
 
 			$fields = $document::prepareFieldsData($raw);
 
@@ -180,18 +164,24 @@ abstract class ImportOneCBase extends ImportPattern
 	}
 
 	/**
-	 * @param DocumentImport $document
+	 * @param DocumentBase $document
 	 * @return ImportBase
 	 */
-	protected function convertDocument(DocumentImport $document)
+	protected function convertDocument(DocumentBase $document)
 	{
-		$settings = ManagerImport::getSettingsByType($document->getOwnerEntityTypeId());
+		$entityTypeId = $this->resolveOwnerEntityTypeId($document->getTypeId());
+		$settings = ManagerImport::getSettingsByType($entityTypeId);
 
-		$convertor = OneC\Converter::getInstance($document->getOwnerEntityTypeId());
-		$convertor->loadSettings($settings);
+		$convertor = $this->converterFactoryCreate($document->getTypeId());
+		$convertor->init(
+			$settings,
+			$entityTypeId,
+			$document->getTypeId()
+		);
+
 		$fields = $convertor->resolveParams($document);
 
-		$loader = Entity\EntityImportLoaderFactory::create($document->getOwnerEntityTypeId());
+		$loader = Entity\EntityImportLoaderFactory::create($entityTypeId);
 		$loader->loadSettings($settings);
 
 		if(strlen($document->getId())>0)
@@ -202,11 +192,15 @@ abstract class ImportOneCBase extends ImportPattern
 		if(!empty($fieldsEntity['ID']))
 			$fields['TRAITS']['ID'] = $fieldsEntity['ID'];
 
-		$entityImport = ManagerImport::create($document->getOwnerEntityTypeId());
+		$entityImport = $this->entityFactoryCreate($entityTypeId);
+		ManagerImport::configure($entityImport);
+
 		$entityImport->setFields($fields);
 
 		return $entityImport;
 	}
+
+	abstract protected function resolveOwnerEntityTypeId($typeId);
 
 	/**
 	 * @param array $fields
@@ -214,7 +208,7 @@ abstract class ImportOneCBase extends ImportPattern
 	 */
 	protected function resolveDocumentTypeId(array $fields)
 	{
-		return OneC\DocumentImport::resolveDocumentTypeId($fields);
+		return OneC\DocumentBase::resolveRawDocumentTypeId($fields);
 	}
 
 	/**
@@ -226,27 +220,19 @@ abstract class ImportOneCBase extends ImportPattern
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getDirectionType()
+	{
+		return ManagerImport::getDirectionType();
+	}
+
+	/**
 	 * @param ImportBase[] $items
 	 * @return Result
 	 */
 	protected function logger(array $items)
 	{
-		$result = new Result();
-
-		foreach ($items as $item)
-		{
-			if($item->hasLogging())
-			{
-				$logger = $item->getLogger();
-
-				$logger->setField('ENTITY_ID', $item->getId());
-				$logger->setField('ENTITY_TYPE_ID', $item->getOwnerTypeId());
-				$logger->setField('XML_ID', $item->getExternalId());
-				$logger->setField('DIRECTION', ManagerImport::getDirectionType());
-
-				$logger->save();
-			}
-		}
-		return $result;
+		return $this->loggerEntities($items);
 	}
 }

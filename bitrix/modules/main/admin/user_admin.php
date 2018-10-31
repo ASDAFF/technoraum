@@ -402,6 +402,15 @@ if(($arID = $lAdmin->GroupAction()) && ($USER->CanDoOperation('edit_all_users') 
 				break;
 		}
 	}
+
+	if ($lAdmin->hasGroupErrors())
+	{
+		$adminSidePanelHelper->sendJsonErrorResponse($lAdmin->getGroupErrors());
+	}
+	else
+	{
+		$adminSidePanelHelper->sendSuccessResponse();
+	}
 }
 
 setHeaderColumn($lAdmin);
@@ -476,7 +485,7 @@ if (isset($arFilter["NAME"]))
 		foreach ($parsedNameWords as $nameWord)
 		{
 			$filterOr->where(Query::filter()
-				->whereLike($fieldId, new SqlExpression("'".trim($nameWord)."'"))
+				->whereLike($fieldId, new SqlExpression("'%".trim($nameWord)."%'"))
 			);
 		}
 	}
@@ -613,10 +622,10 @@ $lAdmin->setNavigation($nav, GetMessage("MAIN_USER_ADMIN_PAGES"), false);
 while ($userData = $result->fetch())
 {
 	$userId = $userData["ID"];
-	$row =& $lAdmin->addRow($userId, $userData);
+	$userEditUrl = "user_edit.php?lang=".LANGUAGE_ID."&ID=".$userId;
+	$row =& $lAdmin->addRow($userId, $userData, $userEditUrl);
 	$USER_FIELD_MANAGER->addUserFields($entity_id, $userData, $row);
-	$row->addViewField("ID", "<a href='user_edit.php?lang=".LANGUAGE_ID."&ID=".$userId.
-		"' title='".GetMessage("MAIN_EDIT_TITLE")."'>".$userId."</a>");
+	$row->addViewField("ID", "<a href='".$userEditUrl."' title='".GetMessage("MAIN_EDIT_TITLE")."'>".$userId."</a>");
 	$own_edit = ($USER->canDoOperation('edit_own_profile') && ($USER->getParam("USER_ID") == $userId));
 	$edit = ($USER->canDoOperation('edit_subordinate_users') || $USER->canDoOperation('edit_all_users'));
 	$can_edit = (IntVal($userId) > 1 && ($own_edit || $edit));

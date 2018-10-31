@@ -23,6 +23,7 @@
 
 		this.bigData = params.bigData || {enabled: false};
 		this.container = document.querySelector('[data-entity="' + params.container + '"]');
+		this.lazyLoadContainer = document.querySelector('[data-entity="lazy-' + params.container + '"]');
 		this.showMoreButton = null;
 		this.showMoreButtonMessage = null;
 
@@ -70,7 +71,7 @@
 				}
 				else
 				{
-					this.container.appendChild(this.showMoreButton);
+					this.lazyLoadContainer.appendChild(this.showMoreButton);
 				}
 			}
 		},

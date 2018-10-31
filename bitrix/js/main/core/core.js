@@ -83,6 +83,22 @@ if (typeof WeakMap === "undefined")
 	})();
 }
 
+if (!Object.values)
+{
+	Object.values = function values(obj)
+	{
+		var result = [];
+		for (var key in obj)
+		{
+			if(obj.hasOwnProperty(key) && obj.propertyIsEnumerable(key))
+			{
+				result.push(obj[key]);
+			}
+		}
+		return result;
+	};
+}
+
 ;(function(window){
 
 if (!!window.BX && !!window.BX.extend)
@@ -280,6 +296,7 @@ BX.extend = function(child, parent)
 	child.prototype.constructor = child;
 
 	child.superclass = parent.prototype;
+	child.prototype.superclass = parent.prototype;
 	if(parent.prototype.constructor == Object.prototype.constructor)
 	{
 		parent.prototype.constructor = parent;
@@ -488,7 +505,7 @@ BX.adjust = function(elem, data)
 		{
 			if (BX.type.isNotEmptyString(data.children[j]))
 				elem.innerHTML += data.children[j];
-			else if (BX.type.isElementNode(data.children[j]))
+			else if (BX.type.isElementNode(data.children[j]) || BX.type.isTextNode(data.children[j]))
 				elem.appendChild(data.children[j]);
 		}
 	}
@@ -503,6 +520,11 @@ BX.adjust = function(elem, data)
 	}
 
 	return elem;
+};
+
+BX.replace = function(node, newNode)
+{
+	node.parentNode.replaceChild(newNode, node);
 };
 
 BX.remove = function(ob)
@@ -1240,6 +1262,11 @@ BX.getCaretPosition = function(node)
 
 BX.setCaretPosition = function(node, pos)
 {
+	if(!BX.isNodeInDom(node) || BX.isNodeHidden(node) || node.disabled)
+	{
+		return;
+	}
+
 	if(node.setSelectionRange)
 	{
 		node.focus();
@@ -1971,7 +1998,7 @@ BX.bindDebouncedChange = function(node, fn, fnInstant, timeout, ctx)
 BX.parseJSON = function(data, context)
 {
 	var result = null;
-	if (BX.type.isString(data))
+	if (BX.type.isNotEmptyString(data))
 	{
 		try {
 			if (data.indexOf("\n") >= 0)
@@ -2630,6 +2657,31 @@ BX.util = {
 		return str;
 	},
 
+	getCssName: function(jsName)
+	{
+		if (!BX.type.isNotEmptyString(jsName))
+		{
+			return "";
+		}
+
+		return jsName.replace(/[A-Z]/g, function(match) {
+			return "-" + match.toLowerCase();
+		});
+	},
+
+	getJsName: function(cssName)
+	{
+		var regex = /\-([a-z]){1}/g;
+		if (regex.test(cssName))
+		{
+			return cssName.replace(regex, function(match, letter) {
+				return letter.toUpperCase();
+			});
+		}
+
+		return cssName;
+	},
+
 	nl2br: function(str)
 	{
 		if (!str || !str.replace)
@@ -2911,6 +2963,35 @@ BX.util = {
 		return url;
 	},
 
+	/*
+	{'param1': 'value1', 'param2': 'value2'}
+	 */
+	buildQueryString: function(params)
+	{
+		var result = '';
+		for (var key in params)
+		{
+			var value = params[key];
+			if(BX.type.isArray(value))
+			{
+				value.forEach(function(valueElement, index)
+				{
+					result += encodeURIComponent(key + "[" + index + "]") + "=" + encodeURIComponent(valueElement) + "&";
+				});
+			}
+			else
+			{
+				result += encodeURIComponent(key) + "=" + encodeURIComponent(value) + "&";
+			}
+		}
+
+		if(result.length > 0)
+		{
+			result = result.substr(0, result.length - 1);
+		}
+		return result;
+	},
+
 	even: function(digit)
 	{
 		return (parseInt(digit) % 2 == 0);
@@ -3030,31 +3111,8 @@ BX.util = {
 
 	observe: function(object, enable)
 	{
-		if (!BX.browser.IsChrome() || typeof(object) != 'object')
-			return false;
-
-		enable = enable !== false;
-
-		var observer = function(options)
-		{
-			options.forEach(function(option){
-				var groupName = option.name + ' changed';
-				console.groupCollapsed(groupName);
-				console.log('Old value: ', option.oldValue);
-				console.log('New value: ', option.object[option.name]);
-				console.groupEnd(groupName);
-			});
-		}
-		if (enable)
-		{
-			Object.observe(object, observer);
-		}
-		else
-		{
-			Object.unobserve(object, observer);
-		}
-
-		return enable;
+		console.error('BX.util.observe: function is no longer supported by browser.');
+		return false;
 	},
 
 	escapeRegExp: function(str)
@@ -3085,6 +3143,9 @@ BX.type = {
 	},
 	isDomNode: function(item) {
 		return item && typeof (item) == "object" && "nodeType" in item;
+	},
+	isTextNode: function(item) {
+		return item && typeof (item) == "object" && "nodeType" in item && item.nodeType == 3;
 	},
 	isArray: function(item) {
 		return item && Object.prototype.toString.call(item) == "[object Array]";
@@ -3136,6 +3197,24 @@ BX.type = {
 	isMapKey: function(key)
 	{
 		return key && (typeof key === "object" || typeof key === "function");
+	}
+};
+
+BX.validation = {
+	checkIfEmail: function(s)
+	{
+		var atom = "[=a-z0-9_+~'!$&*^`|#%/?{}-]";
+		return (new RegExp('^\\s*'+atom+'+(\\.'+atom+'+)*@([a-z0-9-]+\\.)+[a-z0-9-]{2,20}\\s*$', 'i')).test(s);
+	},
+	checkIfPhone: function(s)
+	{
+		var regexp = new RegExp(
+			typeof(BX.PhoneNumber) === "undefined"
+				? BX.PhoneNumber.getValidNumberPattern()
+				: '^\\s*\\+?\s*[0-9(-)\\s]+\\s*$',
+			'i'
+		);
+		return regexp.test(s);
 	}
 };
 
@@ -3758,7 +3837,11 @@ BX.setJSList = function(scripts)
 {
 	if (BX.type.isArray(scripts))
 	{
-		jsList = scripts;
+		scripts = scripts.map(function(script) {
+			return normalizeUrl(script)
+		});
+
+		jsList = jsList.concat(scripts);
 	}
 };
 
@@ -3768,11 +3851,15 @@ BX.getJSList = function()
 	return jsList;
 };
 
-BX.setCSSList = function(scripts)
+BX.setCSSList = function(cssFiles)
 {
-	if (BX.type.isArray(scripts))
+	if (BX.type.isArray(cssFiles))
 	{
-		cssList = scripts;
+		cssFiles = cssFiles.map(function(cssFile) {
+			return normalizeUrl(cssFile);
+		});
+
+		cssList = cssList.concat(cssFiles);
 	}
 };
 
@@ -5988,242 +6075,6 @@ if(typeof(BX.ParamBag) === "undefined")
 		self.initialize(params);
 		return self;
 	}
-}
-
-if(typeof(BX.Promise) === "undefined")
-{
-	BX.Promise = function(fn, ctx) // fn is future-reserved
-	{
-		this.state = null;
-		this.value = null;
-		this.reason = null;
-		this.next = null;
-		this.ctx = ctx || this;
-
-		this.onFulfilled = [];
-		this.onRejected = [];
-	};
-	BX.Promise.prototype.fulfill = function(value)
-	{
-		this.checkState();
-
-		this.value = value;
-		this.state = true;
-		this.execute();
-	};
-	BX.Promise.prototype.reject = function(reason)
-	{
-		this.checkState();
-
-		this.reason = reason;
-		this.state = false;
-		this.execute();
-	};
-	BX.Promise.prototype.then = function(onFulfilled, onRejected)
-	{
-		if(BX.type.isFunction(onFulfilled))
-		{
-			this.onFulfilled.push(onFulfilled);
-		}
-		if(BX.type.isFunction(onRejected))
-		{
-			this.onRejected.push(onRejected);
-		}
-
-		if(this.next === null)
-		{
-			this.next = new BX.Promise(null, this.ctx);
-		}
-
-		if(this.state !== null) // if promise was already resolved, execute immediately
-		{
-			this.execute();
-		}
-
-		return this.next;
-	};
-
-	BX.Promise.prototype.catch = function(onRejected)
-	{
-		if(BX.type.isFunction(onRejected))
-		{
-			this.onRejected.push(onRejected);
-		}
-
-		if(this.next === null)
-		{
-			this.next = new BX.Promise(null, this.ctx);
-		}
-
-		if(this.state !== null) // if promise was already resolved, execute immediately
-		{
-			this.execute();
-		}
-
-		return this.next;
-	};
-
-	BX.Promise.prototype.setAutoResolve = function(way, ms)
-	{
-		this.timer = setTimeout(BX.delegate(function(){
-			if(this.state === null)
-			{
-				this[way ? 'fulfill' : 'reject']();
-			}
-		}, this), ms || 15);
-	};
-	BX.Promise.prototype.cancelAutoResolve = function()
-	{
-		clearTimeout(this.timer);
-	};
-	/**
-	 * Resolve function. This function allows promise chaining, like ..then().then()...
-	 * Typical usage:
-	 *
-	 * var p = new Promise();
-	 *
-	 * p.then(function(value){
-	 *  return someValue; // next promise in the chain will be fulfilled with someValue
-	 * }).then(function(value){
-	 *
-	 *  var p1 = new Promise();
-	 *  *** some async code here, that eventually resolves p1 ***
-	 *
-	 *  return p1; // chain will resume when p1 resolved (fulfilled or rejected)
-	 * }).then(function(value){
-	 *
-	 *  // you can also do
-	 *  var e = new Error();
-	 *  throw e;
-	 *  // it will cause next promise to be rejected with e
-	 *
-	 *  return someOtherValue;
-	 * }).then(function(value){
-	 *  ...
-	 * }, function(reason){
-	 *  // promise was rejected with reason
-	 * })...;
-	 *
-	 * p.fulfill('let`s start this chain');
-	 *
-	 * @param x
-	 */
-	BX.Promise.prototype.resolve = function(x)
-	{
-		var this_ = this;
-
-		if(this === x)
-		{
-			this.reject(new TypeError('Promise cannot fulfill or reject itself')); // avoid recursion
-		}
-		// allow "pausing" promise chaining until promise x is fulfilled or rejected
-		else if(x instanceof BX.Promise)
-		{
-			x.then(function(value){
-				this_.fulfill(value);
-			}, function(reason){
-				this_.reject(reason);
-			});
-		}
-		else // auto-fulfill this promise
-		{
-			this.fulfill(x);
-		}
-	};
-	BX.Promise.prototype.execute = function()
-	{
-		if(this.state === null)
-		{
-			//then() must not be called before BX.Promise resolve() happens
-			return;
-		}
-
-		var value = undefined;
-		var reason = undefined;
-		var x = undefined;
-		var k;
-		if(this.state === true) // promise was fulfill()-ed
-		{
-			if(this.onFulfilled.length)
-			{
-				try
-				{
-					for(k = 0; k < this.onFulfilled.length; k++)
-					{
-						x = this.onFulfilled[k].apply(this.ctx, [this.value]);
-						if(typeof x != 'undefined')
-						{
-							value = x;
-						}
-					}
-				}
-				catch(e)
-				{
-					if('console' in window)
-					{
-						console.dir(e);
-					}
-					BX.debug(e);
-
-					reason = e; // reject next
-				}
-			}
-			else
-			{
-				value = this.value; // resolve next
-			}
-		}
-		else if(this.state === false) // promise was reject()-ed
-		{
-			if(this.onRejected.length)
-			{
-				try
-				{
-					for(k = 0; k < this.onRejected.length; k++)
-					{
-						x = this.onRejected[k].apply(this.ctx, [this.reason]);
-						if(typeof x != 'undefined')
-						{
-							value = x;
-						}
-					}
-				}
-				catch(e)
-				{
-					if('console' in window)
-					{
-						console.dir(e);
-					}
-					BX.debug(e);
-
-					reason = e; // reject next
-				}
-			}
-			else
-			{
-				reason = this.reason; // reject next
-			}
-		}
-
-		if(this.next !== null)
-		{
-			if(typeof reason != 'undefined')
-			{
-				this.next.reject(reason);
-			}
-			else if(typeof value != 'undefined')
-			{
-				this.next.resolve(value);
-			}
-		}
-	};
-	BX.Promise.prototype.checkState = function()
-	{
-		if(this.state !== null)
-		{
-			throw new Error('You can not do fulfill() or reject() multiple times');
-		}
-	};
 }
 
 })(window);

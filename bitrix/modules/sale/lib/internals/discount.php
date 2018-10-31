@@ -654,16 +654,14 @@ class DiscountTable extends Main\Entity\DataManager
 
 	protected static function setShortDescription(&$result, array $data)
 	{
-		if(!empty($data['SHORT_DESCRIPTION_STRUCTURE']) || empty($data['ACTIONS']))
-		{
+		if (!empty($data['SHORT_DESCRIPTION_STRUCTURE']))
 			return;
-		}
+		if (empty($data['ACTIONS']) && empty($data['ACTIONS_LIST']))
+			return;
 
 		$actionConfiguration = Actions::getActionConfiguration($data);
-		if(!$actionConfiguration)
-		{
+		if (!$actionConfiguration)
 			return;
-		}
 
 		$result['SHORT_DESCRIPTION_STRUCTURE'] = $actionConfiguration;
 	}

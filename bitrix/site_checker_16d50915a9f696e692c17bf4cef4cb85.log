@@ -1,20 +1,230 @@
-2018-Oct-30 12:33:25 Наличие необходимых модулей php (check_php_modules): Ok
+2018-Oct-31 18:34:59 Наличие необходимых модулей php (check_php_modules): Ok
 Все необходимые модули установлены
-2018-Oct-30 12:33:25 Обязательные параметры PHP (check_php_settings): Ok
+2018-Oct-31 18:34:59 Обязательные параметры PHP (check_php_settings): Ok
 Настройки правильные
-2018-Oct-30 12:33:25 Модули веб-сервера (check_security): Ok
+2018-Oct-31 18:34:59 Модули веб-сервера (check_security): Ok
 Конфликтов не выявлено
-2018-Oct-30 12:33:25 Значения переменных сервера (check_server_vars): Ok
+2018-Oct-31 18:34:59 Значения переменных сервера (check_server_vars): Ok
 Корректные
-2018-Oct-30 12:33:25 Сохранение сессии (check_session): Ok
+2018-Oct-31 18:34:59 Сохранение сессии (check_session): Ok
 50% done
-2018-Oct-30 12:33:25 Параметры настройки UTF (mbstring и константа BX_UTF) (check_mbstring): Ok
+2018-Oct-31 18:34:59 Сохранение сессии (check_session): Ok
+Успешно
+2018-Oct-31 18:34:59 Параметры настройки UTF (mbstring и константа BX_UTF) (check_mbstring): Ok
 Правильные. Сайт работает в однобайтовой кодировке
-2018-Oct-30 12:33:25 Служебные скрипты в корне сайта (check_install_scripts): Ok
+2018-Oct-31 18:34:59 Служебные скрипты в корне сайта (check_install_scripts): Ok
 Отсутствуют
-2018-Oct-30 12:33:25 Работа с сокетами (check_socket): Ok
+2018-Oct-31 18:35:00 Работа с сокетами (check_socket): Ok
 Connection to ssl://technoraum.ru:443	Success
 
 Успешно
-2018-Oct-30 12:33:25 Выполнение агентов на cron (check_bx_crontab): Warning
+2018-Oct-31 18:35:00 Выполнение агентов на cron (check_bx_crontab): Warning
 Замечание. Агенты выполняются на хитах, рекомендуется перевести выполнение агентов на cron
+2018-Oct-31 18:35:00 Параметры подключения к базе данных (check_dbconn_settings): Ok
+Успешно
+2018-Oct-31 18:35:00 Лишний вывод в файлах конфигурации (check_dbconn): Ok
+Connection to ssl://technoraum.ru:443	Success
+
+Успешно
+2018-Oct-31 18:35:00 Сохранение сессии без UserAgent (check_session_ua): Ok
+50% done
+Connection to ssl://technoraum.ru:443	Success
+
+2018-Oct-31 18:35:00 Сохранение сессии без UserAgent (check_session_ua): Ok
+Connection to ssl://technoraum.ru:443	Success
+
+Успешно
+2018-Oct-31 18:35:00 Настройки сайтов (check_sites): Ok
+Правильные
+2018-Oct-31 18:35:00 Передача объектов по ссылке (check_clone): Ok
+Успешно
+2018-Oct-31 18:35:00 Размер стека и pcre.recursion_limit (check_pcre_recursion): Ok
+Connection to ssl://technoraum.ru:443	Success
+
+Успешно
+2018-Oct-31 18:35:00 Загрузка файла (check_upload): Ok
+Connection to ssl://technoraum.ru:443	Success
+
+Успешно
+2018-Oct-31 18:35:00 Загрузка файла больше 4Мб (check_upload_big): Ok
+Connection to ssl://technoraum.ru:443	Success
+
+Успешно
+2018-Oct-31 18:35:00 Загрузка файла через php://input (check_upload_raw): Ok
+Connection to ssl://technoraum.ru:443	Success
+
+Успешно
+2018-Oct-31 18:35:01 Передача POST запроса с большим числом параметров (check_post): Ok
+Connection to ssl://technoraum.ru:443	Success
+
+Успешно
+2018-Oct-31 18:35:01 Отправка почты (check_mail): Ok
+Успешно
+2018-Oct-31 18:35:01 Отправка почтового сообщения больше 64Кб (check_mail_big): Ok
+Успешно
+2018-Oct-31 18:35:01 Проверка на наличие неотправленных сообщений (check_mail_b_event): Ok
+Успешно
+2018-Oct-31 18:35:01 Внутреннее перенаправление (функция LocalRedirect) (check_localredirect): Ok
+50% done
+Connection to ssl://technoraum.ru:443	Success
+
+2018-Oct-31 18:35:01 Внутреннее перенаправление (функция LocalRedirect) (check_localredirect): Ok
+Connection to ssl://technoraum.ru:443	Success
+
+Успешно
+2018-Oct-31 18:35:01 Фактическое ограничение памяти (check_memory_limit): Ok
+20% done
+Connection to ssl://technoraum.ru:443	Success
+
+2018-Oct-31 18:35:01 Фактическое ограничение памяти (check_memory_limit): Ok
+40% done
+Connection to ssl://technoraum.ru:443	Success
+
+2018-Oct-31 18:35:01 Фактическое ограничение памяти (check_memory_limit): Ok
+60% done
+Connection to ssl://technoraum.ru:443	Success
+
+2018-Oct-31 18:35:02 Фактическое ограничение памяти (check_memory_limit): Ok
+80% done
+Connection to ssl://technoraum.ru:443	Success
+
+2018-Oct-31 18:35:02 Фактическое ограничение памяти (check_memory_limit): Ok
+Connection to ssl://technoraum.ru:443	Success
+
+Не менее 256 М
+2018-Oct-31 18:35:02 Работа с файлами кеша (check_cache): Ok
+Успешно
+2018-Oct-31 18:35:02 Доступ к серверу обновлений (check_update): Ok
+Успешно
+2018-Oct-31 18:35:02 HTTP авторизация (check_http_auth): Ok
+Connection to ssl://technoraum.ru:443	Success
+
+Успешно
+2018-Oct-31 18:35:02 Создание и запуск файла (check_exec): Ok
+Connection to ssl://technoraum.ru:443	Success
+
+Успешно
+2018-Oct-31 18:35:03 Функция getimagesize для swf (check_getimagesize): Ok
+Успешно
+2018-Oct-31 18:35:03 Версия MySQL-сервера (check_mysql_bug_version): Ok
+Успешно
+2018-Oct-31 18:35:04 Время на БД и веб-сервере (check_mysql_time): Ok
+Успешно
+2018-Oct-31 18:35:04 Режим работы MySQL (check_mysql_mode): Ok
+Успешно
+2018-Oct-31 18:35:04 Кодировка соединения (check_mysql_connection_charset): Ok
+character_set_connection=cp1251, collation_connection=cp1251_general_ci, character_set_results=cp1251
+Успешно
+2018-Oct-31 18:35:04 Кодировка базы данных (check_mysql_db_charset): Ok
+CHARSET=cp1251, COLLATION=cp1251_general_ci
+Успешно
+2018-Oct-31 18:35:04 Кодировки таблиц в БД (check_mysql_table_charset): Ok
+Успешно
+2018-Oct-31 18:35:04 Структура базы данных (check_mysql_table_structure): Ok
+0% done
+2018-Oct-31 18:35:04 Структура базы данных (check_mysql_table_structure): Ok
+1% done
+2018-Oct-31 18:35:05 Структура базы данных (check_mysql_table_structure): Ok
+3% done
+2018-Oct-31 18:35:05 Структура базы данных (check_mysql_table_structure): Ok
+5% done
+2018-Oct-31 18:35:05 Структура базы данных (check_mysql_table_structure): Ok
+7% done
+2018-Oct-31 18:35:05 Структура базы данных (check_mysql_table_structure): Ok
+9% done
+2018-Oct-31 18:35:06 Структура базы данных (check_mysql_table_structure): Ok
+11% done
+2018-Oct-31 18:35:06 Структура базы данных (check_mysql_table_structure): Ok
+13% done
+2018-Oct-31 18:35:06 Структура базы данных (check_mysql_table_structure): Ok
+15% done
+2018-Oct-31 18:35:06 Структура базы данных (check_mysql_table_structure): Ok
+16% done
+2018-Oct-31 18:35:06 Структура базы данных (check_mysql_table_structure): Ok
+18% done
+2018-Oct-31 18:35:06 Структура базы данных (check_mysql_table_structure): Ok
+20% done
+2018-Oct-31 18:35:07 Структура базы данных (check_mysql_table_structure): Ok
+22% done
+2018-Oct-31 18:35:07 Структура базы данных (check_mysql_table_structure): Ok
+24% done
+2018-Oct-31 18:35:07 Структура базы данных (check_mysql_table_structure): Ok
+26% done
+2018-Oct-31 18:35:08 Структура базы данных (check_mysql_table_structure): Ok
+28% done
+2018-Oct-31 18:35:08 Структура базы данных (check_mysql_table_structure): Ok
+30% done
+2018-Oct-31 18:35:08 Структура базы данных (check_mysql_table_structure): Ok
+32% done
+2018-Oct-31 18:35:08 Структура базы данных (check_mysql_table_structure): Ok
+33% done
+2018-Oct-31 18:35:08 Структура базы данных (check_mysql_table_structure): Ok
+35% done
+2018-Oct-31 18:35:08 Структура базы данных (check_mysql_table_structure): Ok
+37% done
+2018-Oct-31 18:35:08 Структура базы данных (check_mysql_table_structure): Ok
+39% done
+2018-Oct-31 18:35:08 Структура базы данных (check_mysql_table_structure): Ok
+41% done
+2018-Oct-31 18:35:08 Структура базы данных (check_mysql_table_structure): Ok
+43% done
+2018-Oct-31 18:35:08 Структура базы данных (check_mysql_table_structure): Ok
+45% done
+2018-Oct-31 18:35:09 Структура базы данных (check_mysql_table_structure): Ok
+47% done
+2018-Oct-31 18:35:09 Структура базы данных (check_mysql_table_structure): Ok
+49% done
+2018-Oct-31 18:35:09 Структура базы данных (check_mysql_table_structure): Ok
+50% done
+2018-Oct-31 18:35:09 Структура базы данных (check_mysql_table_structure): Ok
+52% done
+2018-Oct-31 18:35:09 Структура базы данных (check_mysql_table_structure): Ok
+54% done
+2018-Oct-31 18:35:09 Структура базы данных (check_mysql_table_structure): Ok
+56% done
+2018-Oct-31 18:35:09 Структура базы данных (check_mysql_table_structure): Ok
+58% done
+2018-Oct-31 18:35:09 Структура базы данных (check_mysql_table_structure): Ok
+60% done
+2018-Oct-31 18:35:09 Структура базы данных (check_mysql_table_structure): Ok
+62% done
+2018-Oct-31 18:35:09 Структура базы данных (check_mysql_table_structure): Ok
+64% done
+2018-Oct-31 18:35:10 Структура базы данных (check_mysql_table_structure): Ok
+66% done
+2018-Oct-31 18:35:10 Структура базы данных (check_mysql_table_structure): Ok
+67% done
+2018-Oct-31 18:35:10 Структура базы данных (check_mysql_table_structure): Ok
+69% done
+2018-Oct-31 18:35:10 Структура базы данных (check_mysql_table_structure): Ok
+71% done
+2018-Oct-31 18:35:10 Структура базы данных (check_mysql_table_structure): Ok
+73% done
+2018-Oct-31 18:35:10 Структура базы данных (check_mysql_table_structure): Ok
+75% done
+2018-Oct-31 18:35:10 Структура базы данных (check_mysql_table_structure): Ok
+77% done
+2018-Oct-31 18:35:10 Структура базы данных (check_mysql_table_structure): Ok
+79% done
+2018-Oct-31 18:35:11 Структура базы данных (check_mysql_table_structure): Ok
+81% done
+2018-Oct-31 18:35:11 Структура базы данных (check_mysql_table_structure): Ok
+83% done
+2018-Oct-31 18:35:11 Структура базы данных (check_mysql_table_structure): Ok
+84% done
+2018-Oct-31 18:35:11 Структура базы данных (check_mysql_table_structure): Ok
+86% done
+2018-Oct-31 18:35:11 Структура базы данных (check_mysql_table_structure): Ok
+88% done
+2018-Oct-31 18:35:11 Структура базы данных (check_mysql_table_structure): Ok
+90% done
+2018-Oct-31 18:35:11 Структура базы данных (check_mysql_table_structure): Ok
+92% done
+2018-Oct-31 18:35:11 Структура базы данных (check_mysql_table_structure): Ok
+94% done
+2018-Oct-31 18:35:11 Структура базы данных (check_mysql_table_structure): Ok
+96% done
+2018-Oct-31 18:35:11 Структура базы данных (check_mysql_table_structure): Ok
+98% done
+2018-Oct-31 18:35:11 Структура базы данных (check_mysql_table_structure): Ok
+Успешно

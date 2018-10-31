@@ -2585,17 +2585,17 @@ class CAllIBlockSection
 
 	public static function getSectionCodePath($sectionId)
 	{
-		if (!array_key_exists($sectionId, self::$arSectionPathCache))
+		if (!isset(self::$arSectionPathCache[$sectionId]))
 		{
 			self::$arSectionPathCache[$sectionId] = "";
-			$res = CIBlockSection::GetNavChain(0, $sectionId, array("ID", "CODE"));
-			while ($a = $res->Fetch())
+			$res = CIBlockSection::GetNavChain(0, $sectionId, ["ID", "CODE"], true);
+			foreach ($res as $a)
 			{
 				self::$arSectionCodeCache[$a["ID"]] = rawurlencode($a["CODE"]);
 				self::$arSectionPathCache[$sectionId] .= rawurlencode($a["CODE"])."/";
 			}
+			unset($a, $res);
 			self::$arSectionPathCache[$sectionId] = rtrim(self::$arSectionPathCache[$sectionId], "/");
-
 		}
 		return self::$arSectionPathCache[$sectionId];
 	}

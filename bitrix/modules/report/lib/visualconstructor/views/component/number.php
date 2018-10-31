@@ -66,7 +66,7 @@ class Number extends Base
 
 
 	/**
-	 * Method to modify Content which pass to widget view, in absoulte end.
+	 * Method to modify Content which pass to widget view, in absolute end.
 	 * Set widget color from report color.
 	 * In interface we choose color for report, but actually change widget background color.
 	 *
@@ -78,10 +78,13 @@ class Number extends Base
 	{
 		$resultWidget = parent::prepareWidgetContent($widget, $withCalculatedData);
 
-		$result = $this->getCalculatedPerformedData($widget, $withCalculatedData);
 
-		$resultWidget['config']['color'] = $result['data']['config']['color'];
-		$resultWidget['config']['title'] = $result['data']['title'];
+		if ($withCalculatedData)
+		{
+			$resultWidget['config']['color'] = $widget->getWidgetHandler()->getReportHandlers()[0]->getFormElement('color')->getValue();
+			$resultWidget['config']['title'] = $widget->getWidgetHandler()->getReportHandlers()[0]->getFormElement('label')->getValue();
+		}
+
 
 		return $resultWidget;
 	}

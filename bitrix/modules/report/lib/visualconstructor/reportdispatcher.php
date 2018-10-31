@@ -51,7 +51,7 @@ class ReportDispatcher implements IErrorable
 			{
 				if (!Dashboard::getBoardModeIsDemo($this->getReport()->getWidget()->getBoardId()))
 				{
-					$reportHandler->prepare();
+					$reportHandler->setCalculatedData($reportHandler->prepare());
 					$getDataMethodName = Common::$reportImplementationTypesMap[$compatibleDataType]['method'];
 					$result = $reportHandler->{$getDataMethodName}();
 				}

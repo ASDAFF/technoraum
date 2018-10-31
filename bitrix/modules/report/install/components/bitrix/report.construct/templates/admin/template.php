@@ -1006,32 +1006,6 @@ AAAAElFTkSuQmCC") no-repeat scroll 0 0 transparent;
 	<? endforeach; ?>
 </div>
 
-<!-- filter value control examples for UF enumerations -->
-<div id="report-filter-value-control-examples-ufenums" style="display: none">
-	<?
-	if (is_array($arResult['ufEnumerations'])):
-		foreach ($arResult['ufEnumerations'] as $ufId => $enums):
-			foreach ($enums as $fieldKey => $enum):
-	?>
-	<span name="report-filter-value-control-<?=($ufId.'_'.$fieldKey)?>">
-		<select class="reports-filter-select" name="value">
-			<option value=""><?=GetMessage('REPORT_IGNORE_FILTER_VALUE')?></option>
-			<?
-			foreach ($enum as $itemId => $itemInfo):
-			?>
-			<option value="<?=$itemId?>"><?=$itemInfo['VALUE']?></option>
-			<?
-			endforeach;
-			?>
-		</select>
-	</span>
-	<?
-			endforeach;
-		endforeach;
-	endif;
-	?>
-</div>
-
 <!-- filter value control examples -->
 <div id="report-filter-value-control-examples" style="display: none">
 

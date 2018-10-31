@@ -51,6 +51,7 @@ $MESS["IBLOCK_XML2_BX_LIST_TYPE"] = "Ѕитрикс“ип—писка";
 $MESS["IBLOCK_XML2_BX_FILE_EXT"] = "Ѕитрикс“ипы‘айлов";
 $MESS["IBLOCK_XML2_BX_FILTER"] = "Ѕитрикс‘ильтр–азрешен";
 $MESS["IBLOCK_XML2_BX_IS_REQUIRED"] = "Ѕитриксќб€зательное";
+$MESS["IBLOCK_XML2_BX_PROPERTY_FEATURE_LIST"] = "Ѕитрикс–асширенныеѕараметры";
 $MESS["IBLOCK_XML2_CURRENCY"] = "¬алюта";
 $MESS["IBLOCK_XML2_VALUES_TYPES"] = "“ипы«начений";
 $MESS["IBLOCK_XML2_VALUES_TYPE"] = "“ип«начений";
@@ -193,4 +194,5 @@ $MESS["IBLOCK_XML2_HBLOCK_NAME_IS_INVALID"] = "Ќазвание справочника должно начин
 $MESS["IBLOCK_XML2_MODULE_CATALOG_IS_ABSENT"] = "ќтсутствует модуль \"“орговый каталог\". »мпорт торговых предложений и цен невозможен.";
 $MESS["IBLOCK_XML2_LINK"] = "—сылка";
 $MESS["IBLOCK_XML2_FULL_DESCRIPTION"] = "ѕолноеќписание";
+$MESS["IBLOCK_XML2_TEMPORARY_TABLE_EXIST_ERROR"] = "¬ременна€ таблица не существует";
 ?>

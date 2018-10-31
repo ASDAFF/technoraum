@@ -1430,7 +1430,7 @@ BX.CViewEditableElement.prototype.setDataForCommit = function(data)
 	{
 		this.dataForCommit = data;
 	}
-	else if((BX.browser.IsIE() || BX.browser.IsIE11() || /Edge\/12./i.test(navigator.userAgent)))
+	else if((BX.browser.IsIE() || BX.browser.IsIE11() || /Edge\/./i.test(navigator.userAgent)))
 	{
 		//IE and garbage collector delete all objects (from modal window). This is half-hack.
 		for(var key in arguments)
@@ -1572,7 +1572,7 @@ BX.CViewBlankElement.prototype.discardFile = function(parameters)
 	var uriToDoc = parameters.editUrl ;
 	if(this.editUrl)
 	{
-		uriToDoc = CViewerUrlHelper.getUrlDiscardFile(this.editUrl);
+		uriToDoc = CViewerUrlHelper.getUrlDiscardBlankFile(this.editUrl);
 	}
 	else
 	{
@@ -3846,10 +3846,13 @@ BX.CViewer.prototype.adjustPos = function()
 	}
 	else
 	{
-		if (!this.CONTENT_WRAP.style.height)
-			this.CONTENT_WRAP.style.height = "100px";
-		if (!this.CONTENT_WRAP.style.width)
-			this.CONTENT_WRAP.style.width = "100px";
+		if (this.CONTENT_WRAP)
+		{
+			if (!this.CONTENT_WRAP.style.height){}
+				this.CONTENT_WRAP.style.height = "100px";
+			if (!this.CONTENT_WRAP.style.width)
+				this.CONTENT_WRAP.style.width = "100px";
+		}
 
 		//this._adjustPosByElement();
 		this.getCurrent().addTimeoutId(
@@ -5434,6 +5437,13 @@ var CViewerUrlHelper = {
 	{
 		url = this.addToLinkParam(url, 'service', this.lastService);
 		url = this.addToLinkParam(url, 'document_action', 'discard');
+		return url;
+	},
+
+	getUrlDiscardBlankFile: function(url)
+	{
+		url = this.addToLinkParam(url, 'service', this.lastService);
+		url = this.addToLinkParam(url, 'document_action', 'discardBlank');
 		return url;
 	},
 

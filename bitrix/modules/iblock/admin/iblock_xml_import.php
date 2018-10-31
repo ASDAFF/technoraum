@@ -167,7 +167,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_REQUEST["Import"]=="Y")
 		{
 			$obCatalog = new CIBlockCMLImport;
 			$obCatalog->Init($NS, $WORK_DIR_NAME, true, $NS["PREVIEW"], false, true);
-			$result = $obCatalog->ImportProductSets();
+			$obCatalog->ImportProductSets();
 			$NS["STEP"]++;
 		}
 	}

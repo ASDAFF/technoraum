@@ -13,11 +13,15 @@ global $APPLICATION, $USER;
 
 $APPLICATION->RestartBuffer();
 
-$bUseAccountNumber = (COption::GetOptionString("sale", "account_number_template", "") !== "") ? true : false;
+$bUseAccountNumber = \Bitrix\Sale\Integration\Numerator\NumeratorOrder::isUsedNumeratorForOrder();
 
 $ORDER_ID = urldecode(urldecode($_REQUEST["ORDER_ID"]));
 $paymentId = isset($_REQUEST["PAYMENT_ID"]) ? $_REQUEST["PAYMENT_ID"] : '';
 $hash = isset($_REQUEST["HASH"]) ? $_REQUEST["HASH"] : null;
+
+$registry = \Bitrix\Sale\Registry::getInstance(\Bitrix\Sale\Registry::REGISTRY_TYPE_ORDER);
+/** @var \Bitrix\Sale\Order $orderClassName */
+$orderClassName = $registry->getOrderClassName();
 
 $arOrder = false;
 $checkedBySession = false;
@@ -27,16 +31,20 @@ if (!$USER->IsAuthorized() && is_array($_SESSION['SALE_ORDER_ID']) && empty($has
 
 	if ($bUseAccountNumber)
 	{
-		$dbOrder = CSaleOrder::GetList(
-			array("DATE_UPDATE" => "DESC"),
-			array(
+		$dbRes = $orderClassName::getList([
+			'filter' => [
 				"LID" => SITE_ID,
 				"ACCOUNT_NUMBER" => $ORDER_ID
-			)
-		);
-		$arOrder = $dbOrder->GetNext();
+			],
+			'order' => [
+				"DATE_UPDATE" => "DESC"
+			]
+		]);
+		$arOrder = $dbRes->fetch();
 		if ($arOrder)
+		{
 			$realOrderId = intval($arOrder["ID"]);
+		}
 	}
 	else
 	{
@@ -58,11 +66,14 @@ if ($bUseAccountNumber && !$arOrder)
 		$arFilter["USER_ID"] = intval($USER->GetID());
 	}
 
-	$dbOrder = CSaleOrder::GetList(
-		array("DATE_UPDATE" => "DESC"),
-		$arFilter
-	);
-	$arOrder = $dbOrder->GetNext();
+	$dbRes = $orderClassName::getList([
+		'filter' => $arFilter,
+		'order' => [
+			"DATE_UPDATE" => "DESC"
+		]
+	]);
+
+	$arOrder = $dbRes->fetch();
 }
 
 if (!$arOrder)
@@ -74,11 +85,14 @@ if (!$arOrder)
 	if (!$checkedBySession && empty($hash))
 		$arFilter["USER_ID"] = intval($USER->GetID());
 
-	$dbOrder = CSaleOrder::GetList(
-		array("DATE_UPDATE" => "DESC"),
-		$arFilter
-	);
-	$arOrder = $dbOrder->GetNext();
+	$dbRes = $orderClassName::getList([
+		'filter' => $arFilter,
+		'order' => [
+			"DATE_UPDATE" => "DESC"
+		]
+	]);
+
+	$arOrder = $dbRes->fetch();
 }
 
 if ($arOrder)
@@ -87,7 +101,7 @@ if ($arOrder)
 	$paymentItem = null;
 
 	/** @var \Bitrix\Sale\Order $order */
-	$order = \Bitrix\Sale\Order::load($arOrder['ID']);
+	$order = $orderClassName::load($arOrder['ID']);
 
 	if ($order)
 	{

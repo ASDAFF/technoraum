@@ -9,6 +9,7 @@ $arChildParams = array(
 	"PATH_TO_PAYMENT" => $arParams["PATH_TO_PAYMENT"],
 	"SAVE_IN_SESSION" => $arParams["SAVE_IN_SESSION"],
 	"ORDERS_PER_PAGE" => $arParams["ORDERS_PER_PAGE"],
+	"PATH_TO_CATALOG" => $arParams["PATH_TO_CATALOG"],
 	"SET_TITLE" =>$arParams["SET_TITLE"],
 	"ID" => $arResult["VARIABLES"]["ID"],
 	"NAV_TEMPLATE" => $arParams["NAV_TEMPLATE"],

@@ -1,4 +1,5 @@
 <?
+$MESS["SALE_CASHBOX_TITLE"] = "Cash Registers";
 $MESS["SALE_ORDERS"] = "Orders";
 $MESS["SALE_ORDERS_DESCR"] = "Order list";
 $MESS["SALE_REPORTS"] = "Reports";

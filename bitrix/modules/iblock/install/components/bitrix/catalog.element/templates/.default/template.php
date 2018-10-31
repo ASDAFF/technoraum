@@ -444,6 +444,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 													'bitrix:iblock.vote',
 													'stars',
 													array(
+														'CUSTOM_SITE_ID' => isset($arParams['CUSTOM_SITE_ID']) ? $arParams['CUSTOM_SITE_ID'] : null,
 														'IBLOCK_TYPE' => $arParams['IBLOCK_TYPE'],
 														'IBLOCK_ID' => $arParams['IBLOCK_ID'],
 														'ELEMENT_ID' => $arResult['ID'],
@@ -698,6 +699,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 														'bitrix:catalog.product.subscribe',
 														'',
 														array(
+															'CUSTOM_SITE_ID' => isset($arParams['CUSTOM_SITE_ID']) ? $arParams['CUSTOM_SITE_ID'] : null,
 															'PRODUCT_ID' => $arResult['ID'],
 															'BUTTON_ID' => $itemIds['SUBSCRIBE_LINK'],
 															'BUTTON_CLASS' => 'btn btn-default product-item-detail-buy-button',
@@ -762,6 +764,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 									'bitrix:catalog.set.constructor',
 									'.default',
 									array(
+										'CUSTOM_SITE_ID' => isset($arParams['CUSTOM_SITE_ID']) ? $arParams['CUSTOM_SITE_ID'] : null,
 										'IBLOCK_ID' => $arResult['OFFERS_IBLOCK'],
 										'ELEMENT_ID' => $offerId,
 										'PRICE_CODE' => $arParams['PRICE_CODE'],
@@ -791,6 +794,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 							'bitrix:catalog.set.constructor',
 							'.default',
 							array(
+								'CUSTOM_SITE_ID' => isset($arParams['CUSTOM_SITE_ID']) ? $arParams['CUSTOM_SITE_ID'] : null,
 								'IBLOCK_ID' => $arParams['IBLOCK_ID'],
 								'ELEMENT_ID' => $arResult['ID'],
 								'PRICE_CODE' => $arParams['PRICE_CODE'],
@@ -1018,6 +1022,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 						'.default',
 						array(
 							'BUTTON_ID' => $showBuyBtn ? $itemIds['BUY_LINK'] : $itemIds['ADD_BASKET_LINK'],
+							'CUSTOM_SITE_ID' => isset($arParams['CUSTOM_SITE_ID']) ? $arParams['CUSTOM_SITE_ID'] : null,
 							'POTENTIAL_PRODUCT_TO_BUY' => array(
 								'ID' => isset($arResult['ID']) ? $arResult['ID'] : null,
 								'MODULE' => isset($arResult['MODULE']) ? $arResult['MODULE'] : 'catalog',
@@ -1058,6 +1063,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 							'bitrix:sale.products.gift',
 							'.default',
 							array(
+								'CUSTOM_SITE_ID' => isset($arParams['CUSTOM_SITE_ID']) ? $arParams['CUSTOM_SITE_ID'] : null,
 								'PRODUCT_ID_VARIABLE' => $arParams['PRODUCT_ID_VARIABLE'],
 								'ACTION_VARIABLE' => $arParams['ACTION_VARIABLE'],
 
@@ -1164,6 +1170,7 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 							'bitrix:sale.gift.main.products',
 							'.default',
 							array(
+								'CUSTOM_SITE_ID' => isset($arParams['CUSTOM_SITE_ID']) ? $arParams['CUSTOM_SITE_ID'] : null,
 								'PAGE_ELEMENT_COUNT' => $arParams['GIFTS_MAIN_PRODUCT_DETAIL_PAGE_ELEMENT_COUNT'],
 								'LINE_ELEMENT_COUNT' => $arParams['GIFTS_MAIN_PRODUCT_DETAIL_PAGE_ELEMENT_COUNT'],
 								'HIDE_BLOCK_TITLE' => 'Y',
@@ -1806,7 +1813,7 @@ if ($arParams['DISPLAY_COMPARE'])
 		PRICE_TOTAL_PREFIX: '<?=GetMessageJS('CT_BCE_CATALOG_MESS_PRICE_TOTAL_PREFIX')?>',
 		RELATIVE_QUANTITY_MANY: '<?=CUtil::JSEscape($arParams['MESS_RELATIVE_QUANTITY_MANY'])?>',
 		RELATIVE_QUANTITY_FEW: '<?=CUtil::JSEscape($arParams['MESS_RELATIVE_QUANTITY_FEW'])?>',
-		SITE_ID: '<?=SITE_ID?>'
+		SITE_ID: '<?=CUtil::JSEscape($component->getSiteId())?>'
 	});
 
 	var <?=$obName?> = new JCCatalogElement(<?=CUtil::PhpToJSObject($jsParams, false, true)?>);

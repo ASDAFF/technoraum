@@ -117,6 +117,11 @@ class Helper
 		if(defined("ADMIN_SECTION") && ADMIN_SECTION === true)
 			return;
 
+		if (defined('B24CONNECTOR_SKIP') && B24CONNECTOR_SKIP === true)
+		{
+			return;
+		}
+
 		if($connection = Connection::getFields())
 		{
 			$result = '';

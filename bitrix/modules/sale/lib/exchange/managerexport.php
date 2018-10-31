@@ -4,6 +4,8 @@ namespace Bitrix\Sale\Exchange;
 
 
 
+use Bitrix\Sale\Exchange\Internals\LoggerDiag;
+
 final class ManagerExport extends ManagerBase
 {
 	/**
@@ -15,11 +17,35 @@ final class ManagerExport extends ManagerBase
 	}
 
 	/**
-	 * @param $typeId
-	 * @return ImportBase
+	 * @param ImportBase $entity
 	 */
-	static public function create($typeId)
+	static public function configure(ImportBase $entity)
 	{
-		// TODO: Implement create() method.
+		$config = static::getImportByType($entity->getOwnerTypeId());
+
+		$entity->loadSettings($config->settings);
+		$entity->loadLogger($config->logger);
+	}
+
+	/**
+	 * Add instance of this manager to collection
+	 * @param $typeId
+	 * @param ISettingsExport $settings
+	 * @return mixed
+	 * @internal
+	 */
+	static public function registerInstance($typeId, ISettingsExport $settings)
+	{
+		static::IsDefinedTypeId($typeId);
+
+		if(self::$instance[$typeId] === null)
+		{
+			$manager = new static();
+			$manager->settings = $settings;
+			$manager->logger = new LoggerDiag();
+
+			self::$instance[$typeId] = $manager;
+		}
+		return self::$instance[$typeId];
 	}
 }

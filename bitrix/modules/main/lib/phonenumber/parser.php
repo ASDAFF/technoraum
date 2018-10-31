@@ -42,7 +42,7 @@ class Parser
 
 	/**
 	 * This class is a singleton and should not be constructed directly.
-	 * @see Parser::getInstance
+	 * @see HtmlParser::getInstance
 	 */
 	protected function __construct()
 	{
@@ -150,6 +150,15 @@ class Parser
 		}
 
 		return strtoupper($defaultCountry);
+	}
+
+	/**
+	 * Return pattern string suitable to detect phone number in some string.
+	 * @return string
+	 */
+	public function getValidNumberPattern()
+	{
+		return $this->validPhoneNumber;
 	}
 
 	/**

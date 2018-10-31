@@ -1,4 +1,6 @@
 <?
+$MESS["BX_SALE_ADM_DSC_HEADER_TITLE_ACTIVE_FROM"] = "Active from";
+$MESS["BX_SALE_ADM_DSC_HEADER_TITLE_ACTIVE_TO"] = "Active until";
 $MESS["LANG_FILTER_NAME"] = "Site";
 $MESS["ERROR_UPDATE_REC"] = "Error updating the record ";
 $MESS["PERS_TYPE_ACTIVE"] = "Active";

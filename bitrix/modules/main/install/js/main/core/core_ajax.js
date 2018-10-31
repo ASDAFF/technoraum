@@ -783,9 +783,24 @@ var prepareAjaxGetParameters = function(config)
 	{
 		getParameters.mode = config.mode;
 	}
-	if (config.navigation && config.navigation.page)
+	if (config.navigation)
 	{
-		getParameters.nav = 'page-' + config.navigation.page;
+		if(config.navigation.page)
+		{
+			getParameters.nav = 'page-' + config.navigation.page;
+		}
+		if(config.navigation.size)
+		{
+			if(getParameters.nav)
+			{
+				getParameters.nav += '-';
+			}
+			else
+			{
+				getParameters.nav = '';
+			}
+			getParameters.nav += 'size-' + config.navigation.size;
+		}
 	}
 
 	return getParameters;
@@ -866,6 +881,30 @@ var buildAjaxPromiseToRestoreCsrf = function(config, withoutRestoringCsrf)
 		}
 
 		return response;
+	}).catch(function(data) {
+		var ajaxReject = new BX.Promise();
+
+		if (BX.type.isPlainObject(data) && data.status && data.hasOwnProperty('data'))
+		{
+			ajaxReject.reject(data);
+		}
+		else
+		{
+			ajaxReject.reject({
+				status: 'error',
+				data: {
+					ajaxRejectData: data
+				},
+				errors: [
+					{
+						code: 'NETWORK_ERROR',
+						message: 'Network error'
+					}
+				]
+			});
+		}
+
+		return ajaxReject;
 	});
 };
 
@@ -1144,12 +1183,21 @@ BX.ajax.prepareForm = function(obForm, data)
 		}
 
 		i = 0; length = 0;
-		var current = data, name, rest, pp;
+		var current = data, name, rest, pp, tmpKey;
 
 		while(i < _data.length)
 		{
 			var p = _data[i].name.indexOf('[');
-			if (p == -1) {
+			if (tmpKey)
+			{
+				current[_data[i].name] = {};
+				current[_data[i].name][tmpKey.replace(/\[|\]/gi, '')] = _data[i].value;
+				current = data;
+				tmpKey = null;
+				i++;
+			}
+			else if (p == -1)
+			{
 				current[_data[i].name] = _data[i].value;
 				current = data;
 				i++;
@@ -1174,6 +1222,8 @@ BX.ajax.prepareForm = function(obForm, data)
 					//No index specified - so take the next integer
 					current = current[name];
 					_data[i].name = '' + current.length;
+					if (rest.substring(pp+1).indexOf('[') === 0)
+						tmpKey = rest.substring(0, pp) + rest.substring(pp+1);
 				}
 				else
 				{

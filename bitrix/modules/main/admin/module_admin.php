@@ -205,7 +205,7 @@ foreach($arModules as $info) :
 				<input type="hidden" name="id" value="<?echo htmlspecialcharsbx($info["MODULE_ID"])?>">
 				<?=bitrix_sessid_post()?>
 				<?if($info["IsInstalled"]):?>
-					<input <?if (!$isAdmin || in_array($info["MODULE_ID"], array("fileman", "intranet", "ui"))) echo "disabled" ?> type="submit" name="uninstall" value="<?echo GetMessage("MOD_DELETE")?>">
+					<input <?if (!$isAdmin || in_array($info["MODULE_ID"], array("fileman", "intranet", "ui")) || $info["MODULE_ID"] == "rest" && IsModuleInstalled('intranet')) echo "disabled" ?> type="submit" name="uninstall" value="<?echo GetMessage("MOD_DELETE")?>">
 				<?else:?>
 					<input <?if (!$isAdmin) echo "disabled" ?> type="submit" class="adm-btn-green" name="install" value="<?echo GetMessage("MOD_INSTALL_BUTTON")?>">
 				<?endif?>

@@ -19,6 +19,10 @@ $arResult["GROUP_POLICY"] = CUser::GetGroupPolicy($arResult["ID"]);
 $arParams['SEND_INFO'] = $arParams['SEND_INFO'] == 'Y' ? 'Y' : 'N';
 $arParams['CHECK_RIGHTS'] = $arParams['CHECK_RIGHTS'] == 'Y' ? 'Y' : 'N';
 
+$arParams['EDITABLE_EXTERNAL_AUTH_ID'] = isset($arParams['EDITABLE_EXTERNAL_AUTH_ID']) && is_array($arParams['EDITABLE_EXTERNAL_AUTH_ID'])
+	? $arParams['EDITABLE_EXTERNAL_AUTH_ID']
+	: [];
+
 if(!($arParams['CHECK_RIGHTS'] == 'N' || $USER->CanDoOperation('edit_own_profile')) || $arResult["ID"]<=0)
 {
 	$APPLICATION->ShowAuthForm("");
@@ -48,21 +52,21 @@ if($_SERVER["REQUEST_METHOD"]=="POST" && ($_REQUEST["save"] <> '' || $_REQUEST["
 	{
 		$bOk = false;
 		$obUser = new CUser;
-	
+
 		$arPERSONAL_PHOTO = $_FILES["PERSONAL_PHOTO"];
 		$arWORK_LOGO = $_FILES["WORK_LOGO"];
-	
+
 		$rsUser = CUser::GetByID($arResult["ID"]);
 		$arUser = $rsUser->Fetch();
 		if($arUser)
 		{
 			$arPERSONAL_PHOTO["old_file"] = $arUser["PERSONAL_PHOTO"];
 			$arPERSONAL_PHOTO["del"] = $_REQUEST["PERSONAL_PHOTO_del"];
-	
+
 			$arWORK_LOGO["old_file"] = $arUser["WORK_LOGO"];
 			$arWORK_LOGO["del"] = $_REQUEST["WORK_LOGO_del"];
 		}
-	
+
 		$arEditFields = array(
 			"TITLE",
 			"NAME",
@@ -123,7 +127,10 @@ if($_SERVER["REQUEST_METHOD"]=="POST" && ($_REQUEST["save"] <> '' || $_REQUEST["
 			$arFields["ADMIN_NOTES"] = $_REQUEST["ADMIN_NOTES"];
 		}
 
-		if($_REQUEST["NEW_PASSWORD"] <> '' && $arUser['EXTERNAL_AUTH_ID'] == '')
+		$arResult['CAN_EDIT_PASSWORD'] = $arUser['EXTERNAL_AUTH_ID'] == ''
+			|| in_array($arUser['EXTERNAL_AUTH_ID'], $arParams['EDITABLE_EXTERNAL_AUTH_ID'], true);
+
+		if($_REQUEST["NEW_PASSWORD"] <> '' && $arResult['CAN_EDIT_PASSWORD'])
 		{
 			$arFields["PASSWORD"] = $_REQUEST["NEW_PASSWORD"];
 			$arFields["CONFIRM_PASSWORD"] = $_REQUEST["NEW_PASSWORD_CONFIRM"];
@@ -375,6 +382,8 @@ if (strlen($arResult["arBlogUser"]["AVATAR"])>0)
 	$arResult["arBlogUser"]["AVATAR_HTML"] = CFile::ShowImage($arResult["arBlogUser"]["AVATAR"], 150, 150, "border=0", "", true);
 
 $arResult["IS_ADMIN"] = $USER->IsAdmin();
+$arResult['CAN_EDIT_PASSWORD'] = $arUser['EXTERNAL_AUTH_ID'] == ''
+	|| in_array($arUser['EXTERNAL_AUTH_ID'], $arParams['EDITABLE_EXTERNAL_AUTH_ID'], true);
 
 $arCountries = GetCountryArray();
 $arResult["COUNTRY_SELECT"] = SelectBoxFromArray("PERSONAL_COUNTRY", $arCountries, $arResult["arUser"]["PERSONAL_COUNTRY"], GetMessage("USER_DONT_KNOW"));

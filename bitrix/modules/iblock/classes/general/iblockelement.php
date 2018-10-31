@@ -4086,7 +4086,7 @@ class CAllIBlockElement
 		$output = array();
 		Main\Type\Collection::normalizeArrayValuesByInt($list);
 		if (empty($list))
-			return;
+			return $output;
 		foreach ($list as $index => $id)
 		{
 			if (!empty(self::$elementIblock[$id]))
@@ -4910,6 +4910,9 @@ class CAllIBlockElement
 			}
 		}
 
+		$originalInsert = $arToInsert;
+		$additionalInsert = array();
+
 		$arOldParents = array();
 		$arNewParents = $arToInsert;
 		$bParentsChanged = false;
@@ -4937,6 +4940,8 @@ class CAllIBlockElement
 				}
 				else
 				{
+					if (isset($originalInsert[$section_id]))
+						$additionalInsert[$section_id] = $section_id;
 					$arToDelete[] = $section_id;
 				}
 			}
@@ -4950,6 +4955,12 @@ class CAllIBlockElement
 					AND ADDITIONAL_PROPERTY_ID IS NULL
 					AND IBLOCK_SECTION_ID in (".implode(", ", $arToDelete).")
 				", false, "File: ".__FILE__."<br>Line: ".__LINE__); //And this should be deleted
+			}
+
+			if (!empty($additionalInsert))
+			{
+				foreach ($additionalInsert as $index)
+					$arToInsert[$index] = $index;
 			}
 		}
 
@@ -5399,7 +5410,6 @@ class CAllIBlockElement
 		$propertiesList = array();
 		$shortProperties = array();
 		$userTypesList = array();
-		$existList = array();
 
 		$selectListMultiply = array('SORT' => SORT_ASC, 'VALUE' => SORT_STRING);
 		$selectAllMultiply = array('PROPERTY_VALUE_ID' => SORT_ASC);
@@ -5503,10 +5513,6 @@ class CAllIBlockElement
 			if (is_array($property['DEFAULT_VALUE']) || preg_match("/[;&<>\"]/", $property['DEFAULT_VALUE']))
 				$property['DEFAULT_VALUE'] = htmlspecialcharsEx($property['DEFAULT_VALUE']);
 
-			if ($property['PROPERTY_TYPE'] == Iblock\PropertyTable::TYPE_LIST)
-			{
-				$existList[] = $property['ID'];
-			}
 			$propertiesList[$code] = $property;
 			$shortProperties[$code] = (!empty($propertyFieldList)
 				? array_intersect_key($property, $propertyFieldList)
@@ -5518,29 +5524,7 @@ class CAllIBlockElement
 		if (empty($propertiesList))
 			return;
 
-		if (!empty($existList))
-		{
-			$enumList = array();
-			$enumIterator = Iblock\PropertyEnumerationTable::getList(array(
-				'select' => array('ID', 'PROPERTY_ID', 'VALUE', 'SORT', 'XML_ID'),
-				'filter' => array('PROPERTY_ID' => $existList),
-				'order' => array('PROPERTY_ID' => 'ASC', 'SORT' => 'ASC', 'VALUE' => 'ASC')
-			));
-			while ($enum = $enumIterator->fetch())
-			{
-				if (!isset($enumList[$enum['PROPERTY_ID']]))
-				{
-					$enumList[$enum['PROPERTY_ID']] = array();
-				}
-				$enumList[$enum['PROPERTY_ID']][$enum['ID']] = array(
-					'ID' => $enum['ID'],
-					'VALUE' => $enum['VALUE'],
-					'SORT' => $enum['SORT'],
-					'XML_ID' => $enum['XML_ID']
-				);
-			}
-			unset($enum, $enumIterator);
-		}
+		$enumList = array();
 
 		$valuesRes = (
 			!empty($propertyID)
@@ -5632,7 +5616,29 @@ class CAllIBlockElement
 								$selectedValues = array();
 								foreach ($value[$property['ID']] as $listKey => $listValue)
 								{
-									if (isset($enumList[$property['ID']][$listValue]))
+									if (!isset($enumList[$property['ID']][$listValue]))
+									{
+										if (!isset($enumList[$property['ID']]))
+											$enumList[$property['ID']] = [];
+										$enumList[$property['ID']][$listValue] = false;
+										$enumIterator = Iblock\PropertyEnumerationTable::getList(array(
+											'select' => array('ID', 'VALUE', 'SORT', 'XML_ID'),
+											'filter' => array('=ID' => $listValue, '=PROPERTY_ID' => $property['ID'])
+										));
+										$row = $enumIterator->fetch();
+										unset($enumIterator);
+										if (!empty($row))
+										{
+											$enumList[$property['ID']][$listValue] = array(
+												'ID' => $row['ID'],
+												'VALUE' => $row['VALUE'],
+												'SORT' => $row['SORT'],
+												'XML_ID' => $row['XML_ID']
+											);
+										}
+										unset($row);
+									}
+									if (!empty($enumList[$property['ID']][$listValue]))
 									{
 										$selectedValues[$listKey] = $enumList[$property['ID']][$listValue];
 										$selectedValues[$listKey]['DESCRIPTION'] = (
@@ -5818,7 +5824,29 @@ class CAllIBlockElement
 						if ($property['PROPERTY_TYPE'] == Iblock\PropertyTable::TYPE_LIST)
 						{
 							$elementValues[$code]['VALUE_ENUM_ID'] = $value[$property['ID']];
-							if (isset($enumList[$property['ID']][$value[$property['ID']]]))
+							if (!isset($enumList[$property['ID']][$value[$property['ID']]]))
+							{
+								if (!isset($enumList[$property['ID']]))
+									$enumList[$property['ID']] = [];
+								$enumList[$property['ID']][$value[$property['ID']]] = false;
+								$enumIterator = Iblock\PropertyEnumerationTable::getList(array(
+									'select' => array('ID', 'VALUE', 'SORT', 'XML_ID'),
+									'filter' => array('=ID' => $value[$property['ID']], '=PROPERTY_ID' => $property['ID'])
+								));
+								$row = $enumIterator->fetch();
+								unset($enumIterator);
+								if (!empty($row))
+								{
+									$enumList[$property['ID']][$value[$property['ID']]] = array(
+										'ID' => $row['ID'],
+										'VALUE' => $row['VALUE'],
+										'SORT' => $row['SORT'],
+										'XML_ID' => $row['XML_ID']
+									);
+								}
+								unset($row);
+							}
+							if (!empty($enumList[$property['ID']][$value[$property['ID']]]))
 							{
 								$elementValues[$code]['VALUE'] = $enumList[$property['ID']][$value[$property['ID']]]['VALUE'];
 								$elementValues[$code]['VALUE_ENUM'] = $elementValues[$code]['VALUE'];
@@ -6197,6 +6225,7 @@ class CAllIBlockElement
 		$PROPS_CACHE = $BX_IBLOCK_PROP_CACHE[$IBLOCK_ID][$uniq_flt];
 		//Unify properties values arProps[$property_id]=>array($id=>array("VALUE", "DESCRIPTION"),....)
 		$arProps = array();
+		$propertyList = [];
 		foreach($PROPERTY_VALUES as $key=>$value)
 		{
 			//Code2ID
@@ -6212,6 +6241,7 @@ class CAllIBlockElement
 					continue;
 			}
 
+			$propertyList[$key] = $PROPS_CACHE[$key];
 			if($PROPS_CACHE[$key]["PROPERTY_TYPE"]=="F")
 			{
 				if(is_array($value))
@@ -6388,8 +6418,20 @@ class CAllIBlockElement
 						}
 					}
 				}
+				else
+				{
+					$DB->Query("
+					insert into b_iblock_element_prop_s".$IBLOCK_ID."
+					(IBLOCK_ELEMENT_ID) values (".$ELEMENT_ID.")
+				");
+				}
 			}
 		}
+
+		foreach (GetModuleEvents("iblock", "OnIBlockElementSetPropertyValuesEx", true) as $arEvent)
+			ExecuteModuleEventEx($arEvent, array($ELEMENT_ID, $IBLOCK_ID, $PROPERTY_VALUES, $propertyList, $arDBProps));
+		if (isset($arEvent))
+			unset($arEvent);
 
 		$arFilesToDelete = array();
 		//Handle file properties

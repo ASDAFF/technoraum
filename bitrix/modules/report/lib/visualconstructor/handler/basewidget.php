@@ -2,16 +2,10 @@
 
 namespace Bitrix\Report\VisualConstructor\Handler;
 
-use Bitrix\Main\Localization\Loc;
 use Bitrix\Report\VisualConstructor\Entity\Widget;
 use Bitrix\Report\VisualConstructor\Fields\Base as BaseFormField;
 use Bitrix\Report\VisualConstructor\Fields\Container;
-use Bitrix\Report\VisualConstructor\Fields\Div;
 use Bitrix\Report\VisualConstructor\Fields\Valuable\BaseValuable;
-use Bitrix\Report\VisualConstructor\Fields\Valuable\ColorPicker;
-use Bitrix\Report\VisualConstructor\Fields\Valuable\LabelField;
-use Bitrix\Report\VisualConstructor\Fields\Valuable\PreviewBlock;
-use Bitrix\Report\VisualConstructor\Fields\Valuable\TimePeriod;
 use Bitrix\Report\VisualConstructor\Handler\Base as BaseHandler;
 use Bitrix\Report\VisualConstructor\RuntimeProvider\ViewProvider;
 
@@ -53,71 +47,13 @@ class BaseWidget extends BaseHandler
 	}
 
 	/**
-	 * Collecting form elements for configuratyion form.
+	 * Collecting form elements for configuration form.
 	 *
 	 * @return void
 	 */
 	protected function collectFormElements()
 	{
-		$label = new LabelField('label', 'big');
-		$label->setDefaultValue(Loc::getMessage('REPORT_WIDGET_DEFAULT_TITLE'));
-		$label->addAssets(array(
-			'js' => array('/bitrix/js/report/js/visualconstructor/fields/reporttitle.js')
-		));
-		$label->setIsDisplayLabel(false);
 
-
-		$timePeriod = new TimePeriod('time_period', $this->getWidget()->getFilterId());
-		$timePeriod->setLabel(Loc::getMessage('REPORT_CALCULATION_PERIOD'));
-
-
-		$colorPicker = new ColorPicker('color');
-		$colorPicker->setLabel(Loc::getMessage('BACKGROUND_COLOR_OF_WIDGET'));
-		$colorPicker->setDefaultValue('#ffffff');
-
-		$previewBlockField = new PreviewBlock('view_type');
-		$previewBlockField->setWidget($this->getWidget());
-		$previewBlockField->addJsEventListener($previewBlockField, $previewBlockField::JS_EVENT_ON_VIEW_SELECT, array(
-			'class' => 'BX.Report.VisualConstructor.FieldEventHandlers.PreviewBlock',
-			'action' => 'viewTypeSelect'
-		));
-
-		$previewBlockField->addJsEventListener($label, $label::JS_EVENT_ON_CHANGE, array(
-			'class' => 'BX.Report.VisualConstructor.FieldEventHandlers.PreviewBlock',
-			'action' => 'reloadWidgetPreview'
-		));
-		$previewBlockField->addJsEventListener($timePeriod, $timePeriod::JS_EVENT_ON_SELECT, array(
-			'class' => 'BX.Report.VisualConstructor.FieldEventHandlers.PreviewBlock',
-			'action' => 'reloadWidgetPreview'
-		));
-
-		$previewBlockField->addAssets(array(
-			'js' => array('/bitrix/js/report/js/visualconstructor/fields/previewblock.js')
-		));
-		$titleContainer = new Div();
-		$titleContainer->addClass('report-configuration-row');
-		$titleContainer->addClass('report-configuration-no-padding-bottom');
-		$titleContainer->addClass('report-configuration-row-white-background');
-		$titleContainer->addClass('report-configuration-row-margin-bottom');
-		$this->addFormElement($titleContainer->start());
-		$this->addFormElement($label);
-		$this->addFormElement($colorPicker);
-		$this->addFormElement($titleContainer->end());
-
-		$timePeriodContainer = new Div();
-		$timePeriodContainer->addClass('report-configuration-row');
-		$timePeriodContainer->addClass('report-configuration-row-white-background');
-		$this->addFormElement($timePeriodContainer->start());
-		$this->addFormElement($timePeriod);
-		$this->addFormElement($timePeriodContainer->end());
-
-		$previewBlockContainer = new Div();
-		$previewBlockContainer->addClass('report-configuration-row');
-		$previewBlockContainer->addClass('report-configuration-row-margin-top-big');
-		$previewBlockContainer->addClass('report-configuration-row-white-background');
-		$this->addFormElement($previewBlockContainer->start());
-		$this->addFormElement($previewBlockField);
-		$this->addFormElement($previewBlockContainer->end());
 
 	}
 
@@ -197,7 +133,7 @@ class BaseWidget extends BaseHandler
 	}
 
 	/**
-	 * Attach report hadnler to widget handler.
+	 * Attach report handler to widget handler.
 	 *
 	 * @param BaseReport $reportHandler Report handler.
 	 * @return $this
@@ -218,19 +154,28 @@ class BaseWidget extends BaseHandler
 	 */
 	public function fillWidget(Widget $widget)
 	{
-		$this->setWidget($widget);
 		$viewHandler = ViewProvider::getViewByViewKey($widget->getViewKey());
 		if ($viewHandler)
 		{
 			$this->setView($viewHandler);
 		}
+		$this->setWidget($widget);
 		$this->setConfigurations($widget->getConfigurations());
+		$this->getCollectedFormElements();
 		$this->fillFormElementValues();
+		if ($widget->getReports())
+		{
+			foreach ($widget->getReports() as $report)
+			{
+				$this->reportHandlerList[] = $report->getReportHandler();
+			}
+		}
+
 	}
 
 	private function fillFormElementValues()
 	{
-		$formElements = $this->getCollectedFormElements();
+		$formElements = $this->getFormElements();
 		$configurations = $this->getConfigurations();
 		if (!empty($configurations))
 		{

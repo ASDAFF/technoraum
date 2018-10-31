@@ -1,18 +1,19 @@
 <?
 /** @global CMain $APPLICATION */
-use Bitrix\Main\Loader;
+use Bitrix\Main,
+	Bitrix\Main\Loader;
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_before.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/translate/prolog.php");
 $TRANS_RIGHT = $APPLICATION->GetGroupRight("translate");
-if($TRANS_RIGHT=="D") $APPLICATION->AuthForm(GetMessage("ACCESS_DENIED"));
+if ($TRANS_RIGHT == "D")
+	$APPLICATION->AuthForm(GetMessage("ACCESS_DENIED"));
 Loader::includeModule('translate');
 IncludeModuleLangFile(__FILE__);
 define("HELP_FILE","translate_list.php");
 
-/***************************************************************************
-						GET | POST
-***************************************************************************/
+$request = Main\Context::getCurrent()->getRequest();
+
 $strError = "";
 $arDIFF = array();
 
@@ -25,9 +26,14 @@ if (!isAllowPath($file) || strpos($file, "/lang/") === false || GetFileExtension
 $chain = "";
 $arPath = array();
 
+$arKEYS = [];
+$arMESS = [];
+
 if($strError == "")
 {
-	if (strlen($show_error)>0) $ONLY_ERROR = "Y"; else $ONLY_ERROR = "N";
+	$ONLY_ERROR = 'N';
+	if ($request->get('show_error') == 'Y')
+		$ONLY_ERROR = "Y";
 
 	// form a way to get back
 	$path_back = dirname($file);
@@ -89,6 +95,7 @@ if($strError == "")
 				$arFiles[] = $fn;
 				$arLangFiles[$lng] = $fn;
 			}
+			unset($arSlash);
 		}
 	}
 	if (isset($lng))
@@ -96,11 +103,10 @@ if($strError == "")
 
 	if(!empty($arFiles))
 	{
+		$arFilesLng = [];
 		// form the array for each file by language
-		foreach ($arFiles as &$fname)
+		foreach ($arFiles as $fname)
 		{
-			$arKeys = array();
-			$MESS_TRANS = array();
 			$arSlash = explode("/",$fname);
 			$lang_key = array_search("lang", $arSlash) + 1;
 			$file_lang = $arSlash[$lang_key];
@@ -108,57 +114,55 @@ if($strError == "")
 			if (in_array($file_lang, $arTLangs))
 			{
 				$MESS_tmp = $MESS;
-				$MESS = array();
+				$MESS = [];
 				if (file_exists($_SERVER["DOCUMENT_ROOT"].$fname))
 					include($_SERVER["DOCUMENT_ROOT"].$fname);
 
-				$file_name = str_replace("/".$file_lang."/", "/", $fname);
-				//$file_name = str_replace(array("/ru/", "/de/", "/en/"), array("/", "/", "/"), $fname);
-
-				$arFilesLng[$file_name][$file_lang] = array_keys($MESS);
+				$arFilesLng[$file_lang] = array_keys($MESS);
 				$arMESS[$file_lang] = $MESS;
 				$MESS = $MESS_tmp;
+				unset($file_name);
 			}
+			unset($file_lang);
 		}
-		if (isset($fname))
-			unset($fname);
+		unset($fname);
 
-		if (is_array($arFilesLng))
+		if (!empty($arFilesLng))
 		{
 			// calculate the sum and difference for file
-			while (list($f, $arLns)=each($arFilesLng))
+			foreach ($arFilesLng as $phraseCodes)
 			{
-				$arKEYS = array();
-
-				while (list($ln, $arLn)=each($arLns))
-				{
-					foreach ($arLn as $lg)
-						if (!in_array($lg, $arKEYS))
-							$arKEYS[] = $lg;
-				}
-
-				$total = sizeof($arKEYS);
-				// calculate the difference for each language
-				reset($arLns);
-				while (list($ln, $arLn)=each($arLns))
-				{
-					$arr = array();
-					$diff_arr = array_diff($arKEYS, $arLn);
-					$diff_arr_lang[$ln] = $diff_arr;
-					$arr["TOTAL"] = $total;
-					$diff = sizeof($diff_arr);
-					$arr["DIFF"] = $diff;
-					if (0 < $diff)
-						$boolGetUntranslate = true;
-					$arDIFF[$ln] = $arr;
-				}
+				foreach ($phraseCodes as $phraseId)
+					$arKEYS[$phraseId] = $phraseId;
+				unset($phraseId);
 			}
+			unset($phraseCodes);
+
+			$arKEYS = array_values($arKEYS);
+			$total = count($arKEYS);
+
+			foreach ($arFilesLng as $languageId => $phraseCodes)
+			{
+				$arr = [];
+				$diff_arr = array_diff($arKEYS, $phraseCodes);
+				$diff_arr_lang[$languageId] = $diff_arr;
+				$arr['TOTAL'] = $total;
+				$diff = count($diff_arr);
+				$arr['DIFF'] = $diff;
+				if ($diff > 0)
+					$boolGetUntranslate = true;
+				$arDIFF[$languageId] = $arr;
+			}
+			unset($languageId, $phraseCodes);
 		}
+		unset($arFilesLng);
 	}
 
 	// gather in the array is that it is necessary to write to file
-	if ($_SERVER['REQUEST_METHOD'] == "POST" && (strlen($save)>0 || strlen($apply)>0) && $TRANS_RIGHT=="W" && check_bitrix_sessid())
+	if ($request->isPost() && (strlen($save)>0 || strlen($apply)>0) && $TRANS_RIGHT=="W" && check_bitrix_sessid())
 	{
+		$KEYS = $request->getPost('KEYS');
+		$LANGS = $request->getPost('LANGS');
 		if (is_array($KEYS))
 		{
 			$arTEXT = array();
@@ -208,7 +212,7 @@ if($strError == "")
 
 
 			// collect all the variables and write to files
-			while (list($fpath, $arM)=each($arTEXT))
+			foreach ($arTEXT as $fpath => $arM)
 			{
 				$strContent = "";
 				foreach ($arM as $M)
@@ -346,7 +350,7 @@ $tabControl->BeginNextTab();
 	if (is_array($arDIFF))
 	{
 		reset($arDIFF);
-		while (list($ln, $arD)=each($arDIFF))
+		foreach ($arDIFF as $ln => $arD)
 		{
 			$str1 .= '<td width="'.round(100/sizeof($arTLangs)).'%" align="center">'.$ln.'</td>';
 			$str2 .= '<td align="right">';
@@ -363,7 +367,7 @@ $tabControl->BeginNextTab();
 		<td colspan="2" valign="top" align="left" width="100%" nowrap><table border="0" cellspacing="0" cellpadding="0" width="100%">
 <?
 	reset($arTLanguages);
-	while (list($j,$arLng)=each($arTLanguages))
+	foreach ($arTLanguages as $arLng)
 	{
 		if (LANG_CHARSET == $arLng["CHARSET"] || $arLng["LID"]=="en")
 		{
@@ -383,19 +387,19 @@ $tabControl->BeginNextTab();
 	}
 	$intShowCount = 0;
 	$key_del = 0;
-	if (is_array($arKEYS))
+	if (!empty($arKEYS))
 	{
-		while (list($i,$key)=each($arKEYS))
+		foreach ($arKEYS as $i => $key)
 		{
 			$key_del++;
 			$red = false;
 			reset($diff_arr_lang);
-			while (list($ln,$arDLang)=each($diff_arr_lang))
+			foreach ($diff_arr_lang as $ln => $arDLang)
 			{
 				if (in_array($key, $arDLang))
 				{
 					reset($arTLanguages);
-					while (list($j,$arLng)=each($arTLanguages))
+					foreach ($arTLanguages as $arLng)
 					{
 						if ($ln==$arLng["LID"])
 						{
@@ -447,7 +451,7 @@ $tabControl->BeginNextTab();
 				}
 
 				reset($arTLanguages);
-				while (list($j,$arLng)=each($arTLanguages))
+				foreach ($arTLanguages as $arLng)
 				{
 					$valMsg = '';
 					if (LANG_CHARSET==$arLng["CHARSET"] || $arLng["LID"]=="en")
@@ -475,7 +479,7 @@ $tabControl->BeginNextTab();
 			else //if (($ONLY_ERROR=="Y" && $red) || $ONLY_ERROR=="N")
 			{
 				reset($arTLanguages);
-				while (list($j,$arLng)=each($arTLanguages))
+				foreach ($arTLanguages as $arLng)
 				{
 					if (LANG_CHARSET==$arLng["CHARSET"] || $arLng["LID"]=="en")
 					{
@@ -508,7 +512,7 @@ $tabControl->BeginNextTab();
 				for (var i = 1;i <= intAllCount; i++)
 				{
 					var ck = BX("DEL_"+i);
-					if (ck && (ck.disabled != true))
+					if (ck && !ck.disabled)
 						ck.checked = val;
 				}
 				if (!!obCountChecked)
@@ -534,7 +538,7 @@ $tabControl->BeginNextTab();
 			var boolCheck = obj.checked;
 			var intCurrent = parseInt(BX('count_checked').value);
 			intCurrent += (boolCheck ? 1 : -1);
-			BX('all').checked = (intCurrent < intShowCount ? false : true);
+			BX('all').checked = (intCurrent >= intShowCount);
 			BX('count_checked').value = intCurrent;
 		}
 	}
@@ -553,7 +557,7 @@ $tabControl->BeginNextTab();
 					{
 						var boolTemp = obCheck.checked;
 						obCheck.checked = val;
-						if (boolTemp != val)
+						if (boolTemp !== val)
 							SelectOneDelete(obCheck);
 					}
 				}

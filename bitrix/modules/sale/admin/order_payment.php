@@ -68,8 +68,10 @@ if (strlen($filter_company_id) > 0 && $filter_company_id != 'NOT_REF')
 	$arFilter['COMPANY_ID'] = $filter_company_id;
 if (strlen($filter_account_num) > 0)
 	$arFilter['ORDER.ACCOUNT_NUMBER'] = $filter_account_num;
-if ($filter_sum_from > 0 && $filter_sum_to > 0)
-	$arFilter['><SUM'] = array($filter_sum_from, $filter_sum_to);
+if (floatval($filter_sum_from)>0)
+	$arFilter[">=SUM"] = floatval($filter_sum_from);
+if (floatval($filter_sum_to)>0)
+	$arFilter["<=SUM"] = floatval($filter_sum_to);
 if (strlen($filter_currency) > 0 && $filter_currency != 'NOT_REF')
 	$arFilter['CURRENCY'] = $filter_currency;
 if (strlen($filter_pay_voucher_num) > 0)

@@ -1,4 +1,6 @@
 <?
+$MESS["SBB_EMPTY_BASKET_TITLE"] = "Your cart is empty";
+$MESS["SBB_EMPTY_BASKET_HINT"] = "#A1#Click here#A2# to continue shopping";
 $MESS["SBB_FILTER_EMPTY_RESULT"] = "No products were found matching your selection";
 $MESS["SBB_BASKET_ITEM_WARNING"] = "In your cart <a href=\"javascript:void(0)\" data-entity=\"basket-items-warning-count\"></a> with error.";
 $MESS["SBB_BASKET_FILTER"] = "Filter";

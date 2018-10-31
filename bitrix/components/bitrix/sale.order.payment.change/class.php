@@ -276,15 +276,16 @@ class SaleOrderPaymentChange extends \CBitrixComponent
 		{
 			return;
 		}
-
-		$this->order = Sale\Order::loadByAccountNumber($this->arParams['ACCOUNT_NUMBER']);
+		$registry = Sale\Registry::getInstance(Sale\Order::getRegistryType());
+		$orderClassName = $registry->getOrderClassName();
+		$this->order = $orderClassName::loadByAccountNumber($this->arParams['ACCOUNT_NUMBER']);
 
 		if (empty($this->order))
 		{
 			return;
 		}
-
-		$paymentList = Sale\Payment::getList(
+		$paymentClassName = $registry->getPaymentClassName();
+		$paymentList = $paymentClassName::getList(
 			array(
 				"filter" => array("ACCOUNT_NUMBER" => $this->arParams['PAYMENT_NUMBER']),
 				"select" => array('*')

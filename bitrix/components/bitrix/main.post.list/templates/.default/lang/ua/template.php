@@ -1,4 +1,5 @@
 <?
+$MESS["BLOG_C_VIEW2"] = "Попередні коментарі";
 $MESS["B_B_MS_LINK"] = "Посилання на коментар";
 $MESS["BPC_MES_EDIT"] = "Редагувати";
 $MESS["BPC_MES_SHOW"] = "Показати";

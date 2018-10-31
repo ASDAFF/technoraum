@@ -12,6 +12,7 @@ $controlNameFull = $controlName . (($arParams['MULTIPLE'] == 'Y') ? '[]' : '');
 $arValue = $arResult['FILES'];
 $addClass = ((strpos($_SERVER['HTTP_USER_AGENT'], 'Mac OS') !== false) ? 'file-filemacos' : '');
 $controlNameFull1 = htmlspecialcharsbx($controlNameFull);
+$delOnclick = "window['BfileFD{$uid}'].agent.StopUpload(BX('wd-doc#element_id#'));";
 $thumb = <<<HTML
 <tr class="file-inline-file" id="wd-doc#element_id#">
 	<td class="files-name">
@@ -22,7 +23,7 @@ $thumb = <<<HTML
 	<td class="files-size">#size#</td>
 	<td class="files-storage">
 		<div class="files-storage-block">&nbsp;
-			<span class='del-but' onclick="BfileFD{$uid}.agent.StopUpload(BX('wd-doc#element_id#'));"></span>
+			<span class="del-but" onclick="{$delOnclick}"></span>
 			<span class="files-placement">&nbsp;</span>
 			<input id="file-doc#element_id#" type="hidden" name="{$controlNameFull1}" value="#element_id#" />
 		</div>

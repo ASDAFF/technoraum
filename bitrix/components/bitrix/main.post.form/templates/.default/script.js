@@ -2351,7 +2351,7 @@ window.MPFbuttonShowWait = function(el)
 	el = (el ? (el.tagName == "A" ? el : el.parentNode) : el);
 	if (el)
 	{
-		BX.addClass(el, "feed-add-button-load");
+		BX.addClass(el, "ui-btn-clock");
 		lastWaitElement = el;
 		BX.defer(function(){el.disabled = true})();
 	}
@@ -2365,7 +2365,7 @@ window.MPFbuttonCloseWait = function(el)
 	if (el)
 	{
 		el.disabled = false ;
-		BX.removeClass(el, 'feed-add-button-load');
+		BX.removeClass(el, 'ui-btn-clock');
 		lastWaitElement = null;
 	}
 };
@@ -3168,11 +3168,6 @@ window.MPFMentionInit = function(formId, params)
 
 	BX.ready(function() {
 			var ment = BX('bx-b-mention-' + formId);
-			if(BX.browser.IsIE() && !BX.browser.IsIE9())
-			{
-				ment.style.width = '1px';
-				ment.style.marginRight = '0';
-			}
 
 			BX.bind(
 				ment,

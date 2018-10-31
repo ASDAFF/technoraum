@@ -222,43 +222,6 @@ foreach($arResult['changeableFilters'] as $chFilter)
 						</tbody>
 					</table>
 
-					<!-- UF enumerations control examples -->
-					<div id="adm-report-chfilter-examples-ufenums" style="display: none;">
-						<?
-						if (is_array($arResult['ufEnumerations'])):
-							foreach ($arResult['ufEnumerations'] as $ufId => $enums):
-								foreach ($enums as $fieldKey => $enum):
-						?>
-						<tr class="chfilter-field-<?=($ufId.'_'.$fieldKey)?> adm-report-chfilter-control" callback="RTFilter_chooseBoolean">
-							<td class="adm-filter-item-left">%TITLE% "%COMPARE%":</td>
-							<td class="adm-filter-item-center">
-								<div class="adm-filter-alignment">
-									<div class="adm-filter-box-sizing">
-										<span class="adm-select-wrap">
-											<select class="adm-select" id="%ID%" name="%NAME%" caller="true">
-												<option value=""><?=GetMessage('REPORT_IGNORE_FILTER_VALUE')?></option>
-												<?
-												foreach ($enum as $itemId => $itemInfo):
-												?>
-												<option value="<?=$itemId?>"><?=$itemInfo['VALUE']?></option>
-												<?
-												endforeach;
-												?>
-											</select>
-										</span>
-									</div>
-								</div>
-							</td>
-							<td class="adm-filter-item-right"></td>
-						</tr>
-						<?
-								endforeach;
-							endforeach;
-						endif;
-						?>
-					</div>
-
-
 					<table cellspacing="0" class="adm-filter-content-table" style="display: table;">
 						<tbody>
 
@@ -555,42 +518,29 @@ foreach($arResult['changeableFilters'] as $chFilter)
 
 			cpControl = null;
 			fieldType = info[i].FIELD_TYPE;
-			if (info[i]['IS_UF'] && fieldType === 'enum')
-			{
-				cpControl = BX.clone(
-					BX.findChild(
-						BX('adm-report-chfilter-examples-ufenums'),
-						{className:'chfilter-field-'+info[i]['UF_ID'] + "_" + info[i]['UF_NAME']}
-					),
+			// insert value control
+			// search in `examples-custom` by name or type
+			// then search in `examples` by type
+			cpControl = BX.clone(
+				BX.findChild(
+					BX('adm-report-chfilter-examples-custom'),
+					{className: 'chfilter-field-' + info[i].FIELD_NAME},
 					true
-				);
-			}
-			else
-			{
-				// insert value control
-				// search in `examples-custom` by name or type
-				// then search in `examples` by type
-				cpControl = BX.clone(
-					BX.findChild(
-						BX('adm-report-chfilter-examples-custom'),
-						{className: 'chfilter-field-' + info[i].FIELD_NAME},
-						true
-					)
-					||
-					BX.findChild(
-						BX('adm-report-chfilter-examples-custom'),
-						{className: 'chfilter-field-' + fieldType},
-						true
-					)
-					||
-					BX.findChild(
-						BX('adm-report-chfilter-examples'),
-						{className: 'chfilter-field-' + fieldType},
-						true
-					),
+				)
+				||
+				BX.findChild(
+					BX('adm-report-chfilter-examples-custom'),
+					{className: 'chfilter-field-' + fieldType},
 					true
-				);
-			}
+				)
+				||
+				BX.findChild(
+					BX('adm-report-chfilter-examples'),
+					{className: 'chfilter-field-' + fieldType},
+					true
+				),
+				true
+			);
 
 			//global replace %ID%, %NAME%, %TITLE% and etc.
 			replaceInAttributesAndTextElements(cpControl, info[i]);

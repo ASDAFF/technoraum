@@ -44,6 +44,8 @@ class SaleOrderAjax extends \CBitrixComponent
 	protected $order;
 	/** @var Sale\Basket\Storage $basketStorage */
 	protected $basketStorage;
+	/** @var Sale\Basket */
+	private $calculateBasket;
 
 	protected $action;
 	protected $arUserResult;
@@ -67,6 +69,11 @@ class SaleOrderAjax extends \CBitrixComponent
 	public function onPrepareComponentParams($arParams)
 	{
 		global $APPLICATION;
+
+		if (isset($arParams['CUSTOM_SITE_ID']))
+		{
+			$this->setSiteId($arParams['CUSTOM_SITE_ID']);
+		}
 
 		$this->useCatalog = Loader::includeModule('catalog');
 
@@ -143,7 +150,13 @@ class SaleOrderAjax extends \CBitrixComponent
 		}
 
 		$arParams['ALLOW_AUTO_REGISTER'] = $arParams['ALLOW_AUTO_REGISTER'] === 'Y' ? 'Y' : 'N';
-		$arParams['CURRENT_PAGE'] = $APPLICATION->GetCurPage();
+
+		if (!isset($arParams['CURRENT_PAGE']))
+		{
+			$arParams['CURRENT_PAGE'] = $APPLICATION->GetCurPage();
+		}
+
+		$siteId = $this->getSiteId();
 
 		$this->arResult = array(
 			'PERSON_TYPE' => array(),
@@ -162,9 +175,9 @@ class SaleOrderAjax extends \CBitrixComponent
 			'VAT_SUM' => 0,
 			'bUsingVat' => false,
 			'BASKET_ITEMS' => array(),
-			'BASE_LANG_CURRENCY' => Bitrix\Sale\Internals\SiteCurrencyTable::getSiteCurrency(SITE_ID),
-			'WEIGHT_UNIT' => htmlspecialcharsbx(Option::get('sale', 'weight_unit', false, SITE_ID)),
-			'WEIGHT_KOEF' => htmlspecialcharsbx(Option::get('sale', 'weight_koef', 1, SITE_ID)),
+			'BASE_LANG_CURRENCY' => Bitrix\Sale\Internals\SiteCurrencyTable::getSiteCurrency($siteId),
+			'WEIGHT_UNIT' => htmlspecialcharsbx(Option::get('sale', 'weight_unit', false, $siteId)),
+			'WEIGHT_KOEF' => htmlspecialcharsbx(Option::get('sale', 'weight_koef', 1, $siteId)),
 			'TaxExempt' => array(),
 			'DISCOUNT_PRICE' => 0,
 			'DISCOUNT_PERCENT' => 0,
@@ -189,12 +202,25 @@ class SaleOrderAjax extends \CBitrixComponent
 			'PREPAY_ORDER_PROPS' => array(),
 		);
 
-		$this->arResult['AUTH']['new_user_registration_email_confirmation'] = Option::get('main', 'new_user_registration_email_confirmation', 'N', SITE_ID) === 'Y' ? 'Y' : 'N';
-		$this->arResult['AUTH']['new_user_registration'] = Option::get('main', 'new_user_registration', 'Y') === 'Y' ? 'Y' : 'N';
-		$this->arResult['AUTH']['new_user_email_required'] = Option::get('main', 'new_user_email_required', '') === 'Y' ? 'Y' : 'N';
+		if (Main\ModuleManager::isModuleInstalled('intranet') && Loader::includeModule('crm'))
+		{
+			$arParams['IS_LANDING_SHOP'] = 'Y';
+			$arParams['ALLOW_AUTO_REGISTER'] = 'Y';
+			$this->arResult['AUTH']['new_user_registration'] = 'N';
+		}
+		else
+		{
+			$arParams['IS_LANDING_SHOP'] = 'N';
+			$this->arResult['AUTH']['new_user_registration'] = Option::get('main', 'new_user_registration', 'Y', $siteId) === 'Y' ? 'Y' : 'N';
+		}
+
+		$userRegistrationEmailConfirmation = Option::get('main', 'new_user_registration_email_confirmation', 'N', $siteId);
+		$this->arResult['AUTH']['new_user_registration_email_confirmation'] = $userRegistrationEmailConfirmation === 'Y' ? 'Y' : 'N';
+		$this->arResult['AUTH']['new_user_email_required'] = Option::get('main', 'new_user_email_required', '', $siteId) === 'Y' ? 'Y' : 'N';
 
 		if (
 			$arParams['ALLOW_AUTO_REGISTER'] === 'Y'
+			&& $arParams['IS_LANDING_SHOP'] === 'N'
 			&& (
 				$this->arResult['AUTH']['new_user_registration_email_confirmation'] === 'Y'
 				|| $this->arResult['AUTH']['new_user_registration'] === 'N'
@@ -466,6 +492,61 @@ class SaleOrderAjax extends \CBitrixComponent
 		return $orderProperties;
 	}
 
+	protected function addLastLocationPropertyValues($orderProperties)
+	{
+		$currentPersonType = (int)$this->arUserResult['PERSON_TYPE_ID'];
+		$lastPersonType = (int)$this->arUserResult['PERSON_TYPE_OLD'];
+
+		if (!empty($lastPersonType) && $currentPersonType !== $lastPersonType)
+		{
+			$propsByPersonType = [];
+
+			$props = Sale\Property::getList([
+				'select' => ['ID', 'PERSON_TYPE_ID', 'IS_LOCATION', 'IS_ZIP'],
+				'filter' => [
+					[
+						'LOGIC' => 'OR',
+						'IS_ZIP' => 'Y',
+						'IS_LOCATION' => 'Y',
+					],
+					[
+						'@PERSON_TYPE_ID' => [$currentPersonType, $lastPersonType],
+					],
+				],
+			]);
+
+			foreach ($props as $prop)
+			{
+				if ($prop['IS_LOCATION'] === 'Y')
+				{
+					$propsByPersonType[$prop['PERSON_TYPE_ID']]['IS_LOCATION'] = $prop['ID'];
+				}
+				else
+				{
+					$propsByPersonType[$prop['PERSON_TYPE_ID']]['IS_ZIP'] = $prop['ID'];
+				}
+			}
+
+			if (!empty($propsByPersonType[$lastPersonType]))
+			{
+				foreach ($propsByPersonType[$lastPersonType] as $code => $id)
+				{
+					if (!empty($propsByPersonType[$currentPersonType][$code]))
+					{
+						$newId = $propsByPersonType[$currentPersonType][$code];
+
+						if (empty($orderProperties[$newId]) && !empty($orderProperties[$id]))
+						{
+							$orderProperties[$newId] = $orderProperties[$id];
+						}
+					}
+				}
+			}
+		}
+
+		return $orderProperties;
+	}
+
 	protected function getBasketStorage()
 	{
 		if (!isset($this->basketStorage))
@@ -570,6 +651,7 @@ class SaleOrderAjax extends \CBitrixComponent
 	{
 		$arResult =& $this->arResult;
 		$orderProperties = $this->getPropertyValuesFromRequest();
+		$orderProperties = $this->addLastLocationPropertyValues($orderProperties);
 
 		$this->initUserProfiles($order, $isPersonTypeChanged);
 
@@ -802,12 +884,18 @@ class SaleOrderAjax extends \CBitrixComponent
 		{
 			$locId = $location->getField('ORDER_PROPS_ID');
 			$locValue = $this->arUserResult['ORDER_PROP'][$locId];
-			// $locationChanged = $locValue != $this->request->get('RECENT_DELIVERY_VALUE');
 
 			// need to override flag for zip data from profile
 			if ($loadFromProfile)
 			{
 				$this->arUserResult['ZIP_PROPERTY_CHANGED'] = 'Y';
+			}
+
+			$requestLocation = $this->request->get('RECENT_DELIVERY_VALUE');
+			// reload zip when user manually choose another location
+			if ($requestLocation !== null && $locValue !== $requestLocation)
+			{
+				$this->arUserResult['ZIP_PROPERTY_CHANGED'] = 'N';
 			}
 
 			// don't autoload zip property if user manually changed it
@@ -1054,6 +1142,28 @@ class SaleOrderAjax extends \CBitrixComponent
 		}
 	}
 
+	protected static function getEscapedPostValue($name, $value)
+	{
+		$escapedValue = [];
+
+		if (!empty($name))
+		{
+			if (is_array($value))
+			{
+				foreach ($value as $k => $v)
+				{
+					$escapedValue += static::getEscapedPostValue("{$name}[{$k}]", $v);
+				}
+			}
+			else
+			{
+				$escapedValue[htmlspecialcharsbx($name)] = htmlspecialcharsbx($value);
+			}
+		}
+
+		return $escapedValue;
+	}
+
 	/**
 	 * Action - show and process authorization form
 	 *
@@ -1078,7 +1188,7 @@ class SaleOrderAjax extends \CBitrixComponent
 			$arResult['AUTH']['capCode'] = htmlspecialcharsbx($APPLICATION->CaptchaGetCode());
 		}
 
-		$arResult['POST'] = array();
+		$arResult['POST'] = [];
 
 		if ($this->request->isPost() && $this->checkSession)
 		{
@@ -1086,25 +1196,15 @@ class SaleOrderAjax extends \CBitrixComponent
 			{
 				if (in_array(
 					$name,
-					array(
+					[
 						'USER_LOGIN', 'USER_PASSWORD', 'do_authorize', 'NEW_NAME', 'NEW_LAST_NAME', 'NEW_EMAIL',
 						'NEW_GENERATE', 'NEW_LOGIN', 'NEW_PASSWORD', 'NEW_PASSWORD_CONFIRM', 'captcha_sid',
-						'captcha_word', 'do_register', 'is_ajax_post'
-					)
+						'captcha_word', 'do_register', 'is_ajax_post',
+					]
 				))
 					continue;
 
-				if (is_array($value))
-				{
-					foreach ($value as $k => $v)
-					{
-						$arResult['POST'][htmlspecialcharsbx($name.'['.$k.']')] = htmlspecialcharsbx($v);
-					}
-				}
-				else
-				{
-					$arResult['POST'][htmlspecialcharsbx($name)] = htmlspecialcharsbx($value);
-				}
+				$arResult['POST'] += static::getEscapedPostValue($name, $value);
 			}
 
 			if ($request['do_authorize'] === 'Y')
@@ -1158,9 +1258,6 @@ class SaleOrderAjax extends \CBitrixComponent
 		$arResult["AUTH_SERVICES"] = false;
 		$arResult["CURRENT_SERVICE"] = false;
 		$arResult["FOR_INTRANET"] = false;
-
-		if (Bitrix\Main\ModuleManager::isModuleInstalled("intranet") || Bitrix\Main\ModuleManager::isModuleInstalled("rest"))
-			$arResult["FOR_INTRANET"] = true;
 
 		if (Loader::includeModule("socialservices") && $arResult["ALLOW_SOCSERV_AUTHORIZATION"] == 'Y')
 		{
@@ -1305,7 +1402,7 @@ class SaleOrderAjax extends \CBitrixComponent
 				{
 					if ($this->arParams['SEND_NEW_USER_NOTIFY'] === 'Y')
 					{
-						CUser::SendUserInfo($USER->GetID(), SITE_ID, Loc::getMessage('INFO_REQ'), true);
+						CUser::SendUserInfo($USER->GetID(), $this->getSiteId(), Loc::getMessage('INFO_REQ'), true);
 					}
 
 					if ($this->isRequestViaAjax)
@@ -1345,7 +1442,7 @@ class SaleOrderAjax extends \CBitrixComponent
 		$affiliateID = CSaleAffiliate::GetAffiliate();
 		if ($affiliateID > 0)
 		{
-			$dbAffiliate = CSaleAffiliate::GetList(array(), array("SITE_ID" => $this->context->getSite(), "ID" => $affiliateID));
+			$dbAffiliate = CSaleAffiliate::GetList(array(), array("SITE_ID" => $this->getSiteId(), "ID" => $affiliateID));
 			$arAffiliates = $dbAffiliate->Fetch();
 			if (count($arAffiliates) > 1)
 				$this->order->setField('AFFILIATE_ID', $affiliateID);
@@ -1423,17 +1520,15 @@ class SaleOrderAjax extends \CBitrixComponent
 			$newLastName = $arNames[0];
 		}
 
-		$defGroup = Option::get('main', 'new_user_registration_def_group', '');
-		if (!empty($defGroup))
+		$groupIds = [];
+		$defaultGroups = Option::get('main', 'new_user_registration_def_group', '');
+
+		if (!empty($defaultGroups))
 		{
-			$groupId = explode(',', $defGroup);
-			$arPolicy = $USER->GetGroupPolicy($groupId);
+			$groupIds = explode(',', $defaultGroups);
 		}
-		else
-		{
-			$groupId = false;
-			$arPolicy = $USER->GetGroupPolicy(array());
-		}
+
+		$arPolicy = $USER->GetGroupPolicy($groupIds);
 
 		$passwordMinLength = (int)$arPolicy['PASSWORD_LENGTH'];
 		if ($passwordMinLength <= 0)
@@ -1460,7 +1555,7 @@ class SaleOrderAjax extends \CBitrixComponent
 			'NEW_LAST_NAME' => $newLastName,
 			'NEW_PASSWORD' => $newPassword,
 			'NEW_PASSWORD_CONFIRM' => $newPasswordConfirm,
-			'GROUP_ID' => $groupId
+			'GROUP_ID' => $groupIds
 		);
 	}
 
@@ -1485,8 +1580,7 @@ class SaleOrderAjax extends \CBitrixComponent
 		$userId = false;
 		$userData = $this->generateUserData($userProps);
 
-		$user = new CUser;
-		$arAuthResult = $user->Add(array(
+		$fields = [
 			'LOGIN' => $userData['NEW_LOGIN'],
 			'NAME' => $userData['NEW_NAME'],
 			'LAST_NAME' => $userData['NEW_LAST_NAME'],
@@ -1495,26 +1589,46 @@ class SaleOrderAjax extends \CBitrixComponent
 			'EMAIL' => $userData['NEW_EMAIL'],
 			'GROUP_ID' => $userData['GROUP_ID'],
 			'ACTIVE' => 'Y',
-			'LID' => $this->context->getSite(),
+			'LID' => $this->getSiteId(),
 			'PERSONAL_PHONE' => isset($userProps['PHONE']) ? $this->getNormalizedPhone($userProps['PHONE']) : '',
 			'PERSONAL_ZIP' => isset($userProps['ZIP']) ? $userProps['ZIP'] : '',
-			'PERSONAL_STREET' => isset($userProps['ADDRESS']) ? $userProps['ADDRESS'] : ''
-		));
+			'PERSONAL_STREET' => isset($userProps['ADDRESS']) ? $userProps['ADDRESS'] : '',
+		];
 
-		if (intval($arAuthResult) <= 0)
+		if ($this->arParams['IS_LANDING_SHOP'] === 'Y')
 		{
-			$this->addError(Loc::getMessage('STOF_ERROR_REG').((strlen($user->LAST_ERROR) > 0) ? ': '.$user->LAST_ERROR : '' ), self::AUTH_BLOCK);
+			$fields['GROUP_ID'] = \Bitrix\Crm\Order\BuyerGroup::getDefaultGroups();
+			$fields['EXTERNAL_AUTH_ID'] = 'shop';
+
+			// reset department for intranet
+			$fields['UF_DEPARTMENT'] = [];
+
+			// rewrite login with email
+			if (!empty($userData['NEW_EMAIL']))
+			{
+				$fields['LOGIN'] = $userData['NEW_EMAIL'];
+			}
+		}
+
+		$user = new CUser;
+		$addResult = $user->Add($fields);
+
+		if (intval($addResult) <= 0)
+		{
+			$this->addError(Loc::getMessage('STOF_ERROR_REG').((strlen($user->LAST_ERROR) > 0) ? ': '.$user->LAST_ERROR : ''), self::AUTH_BLOCK);
 		}
 		else
 		{
 			global $USER;
-			$userId = intval($arAuthResult);
-			$USER->Authorize($arAuthResult);
+
+			$userId = intval($addResult);
+			$USER->Authorize($addResult);
+
 			if ($USER->IsAuthorized())
 			{
 				if ($this->arParams['SEND_NEW_USER_NOTIFY'] == 'Y')
 				{
-					CUser::SendUserInfo($USER->GetID(), $this->context->getSite(), Loc::getMessage('INFO_REQ'), true);
+					CUser::SendUserInfo($USER->GetID(), $this->getSiteId(), Loc::getMessage('INFO_REQ'), true);
 				}
 			}
 			else
@@ -1538,7 +1652,7 @@ class SaleOrderAjax extends \CBitrixComponent
 		$personType = $this->request->get('PERSON_TYPE');
 		if ($personType <= 0)
 		{
-			$personTypes = PersonType::load(SITE_ID);
+			$personTypes = PersonType::load($this->getSiteId());
 			foreach ($personTypes as $type)
 			{
 				$personType = $type['ID'];
@@ -1564,6 +1678,7 @@ class SaleOrderAjax extends \CBitrixComponent
 			{
 				$res = Bitrix\Main\UserTable::getRow(array(
 					'filter' => array(
+						'=ACTIVE' => 'Y',
 						'=EMAIL' => $userProps['EMAIL']
 					),
 					'select' => array('ID')
@@ -1574,7 +1689,7 @@ class SaleOrderAjax extends \CBitrixComponent
 				}
 			}
 
-			if ($existingUserId === 0 && !empty($userProps['PHONE']))
+			if ($existingUserId == 0 && !empty($userProps['PHONE']))
 			{
 				$normalizedPhone = $this->getNormalizedPhone($userProps['PHONE']);
 
@@ -1582,9 +1697,12 @@ class SaleOrderAjax extends \CBitrixComponent
 				{
 					$res = Bitrix\Main\UserTable::getRow(array(
 						'filter' => array(
-							'LOGIC' => 'OR',
-							'=PERSONAL_PHONE' => $normalizedPhone,
-							'=PERSONAL_MOBILE' => $normalizedPhone
+							'ACTIVE' => 'Y',
+							array(
+								'LOGIC' => 'OR',
+								'=PERSONAL_PHONE' => $normalizedPhone,
+								'=PERSONAL_MOBILE' => $normalizedPhone
+							)
 						),
 						'select' => array('ID')
 					));
@@ -1599,6 +1717,11 @@ class SaleOrderAjax extends \CBitrixComponent
 			{
 				$userId = $existingUserId;
 				$saveToSession = true;
+
+				if ($this->arParams['IS_LANDING_SHOP'] === 'Y')
+				{
+					CUser::AppendUserGroup($userId, \Bitrix\Crm\Order\BuyerGroup::getDefaultGroups());
+				}
 			}
 			else
 			{
@@ -1649,7 +1772,7 @@ class SaleOrderAjax extends \CBitrixComponent
 				$iBlockList = array();
 				$catalogIterator = Bitrix\Catalog\CatalogIblockTable::getList(array(
 					'select' => array('IBLOCK_ID', 'PRODUCT_IBLOCK_ID', 'SITE_ID' => 'IBLOCK_SITE.SITE_ID'),
-					'filter' => array('SITE_ID' => SITE_ID),
+					'filter' => array('SITE_ID' => $this->getSiteId()),
 					'runtime' => array(
 						'IBLOCK_SITE' => array(
 							'data_type' => 'Bitrix\Iblock\IblockSiteTable',
@@ -2306,8 +2429,28 @@ class SaleOrderAjax extends \CBitrixComponent
 
 		$arResult["MAX_DIMENSIONS"] = $arResult["ITEMS_DIMENSIONS"] = array();
 		$arResult["BASKET_ITEMS"] = array();
+
+		$this->calculateBasket = $this->order->getBasket()->createClone();
+
+		$discounts = $this->order->getDiscount();
+		$showPrices = $discounts->getShowPrices();
+		if (!empty($showPrices['BASKET']))
+		{
+			foreach ($showPrices['BASKET'] as $basketCode => $data)
+			{
+				$basketItem = $this->calculateBasket->getItemByBasketCode($basketCode);
+				if ($basketItem instanceof Sale\BasketItemBase)
+				{
+					$basketItem->setFieldNoDemand('BASE_PRICE', $data['SHOW_BASE_PRICE']);
+					$basketItem->setFieldNoDemand('PRICE', $data['SHOW_PRICE']);
+					$basketItem->setFieldNoDemand('DISCOUNT_PRICE', $data['SHOW_DISCOUNT']);
+				}
+			}
+		}
+		unset($showPrices);
+
 		/** @var Sale\BasketItem $basketItem */
-		foreach ($this->order->getBasket() as $basketItem)
+		foreach ($this->calculateBasket as $basketItem)
 		{
 			$arBasketItem = $basketItem->getFieldValues();
 			if ($basketItem->getVatRate() > 0)
@@ -2320,12 +2463,18 @@ class SaleOrderAjax extends \CBitrixComponent
 			$arBasketItem["WEIGHT_FORMATED"] = roundEx(doubleval($basketItem->getWeight()/$arResult["WEIGHT_KOEF"]), SALE_WEIGHT_PRECISION)." ".$arResult["WEIGHT_UNIT"];
 			$arBasketItem["DISCOUNT_PRICE"] = $basketItem->getDiscountPrice();
 
-			if (($basketItem->getDiscountPrice() + $basketItem->getPrice()) > 0)
-				$arBasketItem["DISCOUNT_PRICE_PERCENT"] = $basketItem->getDiscountPrice() * 100 / ($basketItem->getDiscountPrice() + $basketItem->getPrice());
-			else
-				$arBasketItem["DISCOUNT_PRICE_PERCENT"] = 0;
+			$arBasketItem["DISCOUNT_PRICE_PERCENT"] = 0;
+			if ($arBasketItem['CUSTOM_PRICE'] != 'Y')
+			{
+				$arBasketItem['DISCOUNT_PRICE_PERCENT'] = Sale\Discount::calculateDiscountPercent(
+					$arBasketItem['BASE_PRICE'],
+					$arBasketItem['DISCOUNT_PRICE']
+				);
+				if ($arBasketItem['DISCOUNT_PRICE_PERCENT'] === null)
+					$arBasketItem['DISCOUNT_PRICE_PERCENT'] = 0;
+			}
+			$arBasketItem["DISCOUNT_PRICE_PERCENT_FORMATED"] = $arBasketItem['DISCOUNT_PRICE_PERCENT'].'%';
 
-			$arBasketItem["DISCOUNT_PRICE_PERCENT_FORMATED"] = Bitrix\Sale\PriceMaths::roundPrecision($arBasketItem["DISCOUNT_PRICE_PERCENT"])."%";
 			$arBasketItem["BASE_PRICE_FORMATED"] = SaleFormatCurrency($basketItem->getBasePrice(), $this->order->getCurrency());
 
 			$arDim = unserialize($basketItem->getField('DIMENSIONS'));
@@ -2741,7 +2890,7 @@ class SaleOrderAjax extends \CBitrixComponent
 		$arStore = array();
 		$dbList = CCatalogStore::GetList(
 			array("SORT" => "DESC", "ID" => "DESC"),
-			array("ACTIVE" => "Y", "ID" => $arStoreId, "ISSUING_CENTER" => "Y", "+SITE_ID" => SITE_ID),
+			array("ACTIVE" => "Y", "ID" => $arStoreId, "ISSUING_CENTER" => "Y", "+SITE_ID" => $this->getSiteId()),
 			false,
 			false,
 			array("ID", "TITLE", "ADDRESS", "DESCRIPTION", "IMAGE_ID", "PHONE", "SCHEDULE", "GPS_N", "GPS_S", "ISSUING_CENTER", "SITE_ID")
@@ -2869,7 +3018,7 @@ class SaleOrderAjax extends \CBitrixComponent
 		$arRes = array();
 		$arProps = $this->order->getPropertyCollection()->getArray();
 		$arPaymentSystemId = $this->order->getPaymentSystemId();
-		$arDeliverySystemId = $this->order->getDeliverySystemId();
+		$arDeliverySystemId = $this->getDeliveryIds($this->order);
 
 		foreach ($arProps['properties'] as $key => $property)
 		{
@@ -2979,7 +3128,7 @@ class SaleOrderAjax extends \CBitrixComponent
 			}
 		}
 
-		$basket = $this->order->getBasket();
+		$basket = $this->calculateBasket;
 
 		$arResult['ORDER_PRICE'] = $basket->getPrice();
 		$arResult['ORDER_PRICE_FORMATED'] = SaleFormatCurrency($arResult['ORDER_PRICE'], $this->order->getCurrency());
@@ -3009,12 +3158,12 @@ class SaleOrderAjax extends \CBitrixComponent
 	{
 		$propertyNames = array();
 
-		$propertyIterator = Sale\Internals\OrderPropsTable::getList(array(
+		$propertyIterator = Sale\Property::getList(array(
 			'select' => array('NAME'),
 			'filter' => array(
 				'ACTIVE' => 'Y',
 				'UTIL' => 'N',
-				'PERSON_TYPE_SITE.SITE_ID' => SITE_ID
+				'PERSON_TYPE_SITE.SITE_ID' => $this->getSiteId()
 			),
 			'order' => array(
 				'SORT' => 'ASC',
@@ -3135,7 +3284,7 @@ class SaleOrderAjax extends \CBitrixComponent
 		$arResult =& $this->arResult;
 
 		$prePayablePs = array();
-		$personTypes = array_keys(PersonType::load($this->context->getSite()));
+		$personTypes = array_keys(PersonType::load($this->getSiteId()));
 
 		if (!empty($personTypes))
 		{
@@ -3286,7 +3435,7 @@ class SaleOrderAjax extends \CBitrixComponent
 		$personTypeId = intval($this->arUserResult['PERSON_TYPE_ID']);
 		$personTypeIdOld = intval($this->arUserResult['PERSON_TYPE_OLD']);
 
-		$personTypes = PersonType::load($this->context->getSite());
+		$personTypes = PersonType::load($this->getSiteId());
 		foreach ($personTypes as $personType)
 		{
 			if ($personTypeId === intval($personType["ID"]) || !array_key_exists($personTypeId, $personTypes))
@@ -3320,10 +3469,10 @@ class SaleOrderAjax extends \CBitrixComponent
 		$justAuthorized = $this->request->get('do_authorize') == 'Y' || $this->request->get('do_register') == 'Y';
 		$bFirst = false;
 		$dbUserProfiles = CSaleOrderUserProps::GetList(
-			array("DATE_UPDATE" => "DESC"),
+			array('DATE_UPDATE' => 'DESC'),
 			array(
-				"PERSON_TYPE_ID" => $order->getPersonTypeId(),
-				"USER_ID" => $order->getUserId()
+				'PERSON_TYPE_ID' => $order->getPersonTypeId(),
+				'USER_ID' => $order->getUserId()
 			)
 		);
 		while ($arUserProfiles = $dbUserProfiles->GetNext())
@@ -3331,13 +3480,15 @@ class SaleOrderAjax extends \CBitrixComponent
 			if (!$bFirst && (empty($this->arUserResult['PROFILE_CHANGE']) || $isPersonTypeChanged || $justAuthorized))
 			{
 				$bFirst = true;
-				$this->arUserResult['PROFILE_ID'] = intval($arUserProfiles["ID"]);
+				$this->arUserResult['PROFILE_ID'] = (int)$arUserProfiles['ID'];
 			}
 
-			if (intval($this->arUserResult['PROFILE_ID']) == intval($arUserProfiles["ID"]))
-				$arUserProfiles["CHECKED"] = "Y";
+			if ((int)$this->arUserResult['PROFILE_ID'] === (int)$arUserProfiles['ID'])
+			{
+				$arUserProfiles['CHECKED'] = 'Y';
+			}
 
-			$arResult["ORDER_PROP"]["USER_PROFILES"][$arUserProfiles["ID"]] = $arUserProfiles;
+			$arResult['ORDER_PROP']['USER_PROFILES'][$arUserProfiles['ID']] = $arUserProfiles;
 		}
 	}
 
@@ -3351,6 +3502,22 @@ class SaleOrderAjax extends \CBitrixComponent
 		}
 
 		return null;
+	}
+
+	protected function getDeliveryIds(Order $order)
+	{
+		$deliveryIds = [];
+
+		/** @var Shipment $shipment */
+		foreach ($order->getShipmentCollection() as $shipment)
+		{
+			if (!$shipment->isSystem())
+			{
+				$deliveryIds[] = $shipment->getDeliveryId();
+			}
+		}
+
+		return $deliveryIds;
 	}
 
 	/**
@@ -3470,6 +3637,11 @@ class SaleOrderAjax extends \CBitrixComponent
 		{
 			$innerPaySystemId = PaySystem\Manager::getInnerPaySystemId();
 			$innerPayment = $order->getPaymentCollection()->getInnerPayment();
+
+			if (!$innerPayment)
+			{
+				$innerPayment = $order->getPaymentCollection()->createInnerPayment();
+			}
 
 			$this->loadUserAccount($order);
 			$userBudget = (float)$arResult['USER_ACCOUNT']['CURRENT_BUDGET'];
@@ -3653,6 +3825,10 @@ class SaleOrderAjax extends \CBitrixComponent
 						if (empty($innerPayment))
 						{
 							$innerPayment = $paymentCollection->getInnerPayment();
+							if (!$innerPayment)
+							{
+								$innerPayment = $paymentCollection->createInnerPayment();
+							}
 						}
 
 						$sumToPay = $remainingSum > $sumToSpend ? $sumToSpend : $remainingSum;
@@ -3826,6 +4002,10 @@ class SaleOrderAjax extends \CBitrixComponent
 						if (empty($innerPayment))
 						{
 							$innerPayment = $paymentCollection->getInnerPayment();
+							if (!$innerPayment)
+							{
+								$innerPayment = $paymentCollection->createInnerPayment();
+							}
 						}
 
 						$sumToPay = $remainingSum > $sumToSpend ? $sumToSpend : $remainingSum;
@@ -4082,7 +4262,8 @@ class SaleOrderAjax extends \CBitrixComponent
 		{
 			$actualProperties = array();
 			$paymentSystemIds = $order->getPaymentSystemId();
-			$deliverySystemIds = $order->getDeliverySystemId();
+			$deliverySystemIds = $this->getDeliveryIds($order);
+
 			$propertyCollection = $order->getPropertyCollection();
 			/** @var Sale\PropertyValue $property */
 			foreach ($propertyCollection as $property)
@@ -4501,7 +4682,8 @@ class SaleOrderAjax extends \CBitrixComponent
 
 		$arr = $this->order->getPropertyCollection()->getArray();
 		$paymentSystemIds = $this->order->getPaymentSystemId();
-		$deliverySystemIds = $this->order->getDeliverySystemId();
+		$deliverySystemIds = $this->getDeliveryIds($this->order);
+
 		foreach ($arr['properties'] as $key => $property)
 		{
 			if ($property['UTIL'] === 'Y'
@@ -4784,7 +4966,7 @@ class SaleOrderAjax extends \CBitrixComponent
 					'PRESELECT_TREE_TRUNK' => 'Y',
 					'SUPPRESS_ERRORS' => 'Y',
 					'FILTER_BY_SITE' => 'Y',
-					'FILTER_SITE_ID' => SITE_ID
+					'FILTER_SITE_ID' => $this->getSiteId()
 				);
 
 				ob_start();
@@ -4829,7 +5011,7 @@ class SaleOrderAjax extends \CBitrixComponent
 				'PRESELECT_TREE_TRUNK' => 'Y',
 				'SUPPRESS_ERRORS' => 'Y',
 				'FILTER_BY_SITE' => 'Y',
-				'FILTER_SITE_ID' => SITE_ID
+				'FILTER_SITE_ID' => $this->getSiteId()
 			);
 
 			ob_start();
@@ -5208,7 +5390,7 @@ class SaleOrderAjax extends \CBitrixComponent
 		$orderData['ORDER_WEIGHT'] = $this->arResult['ORDER_WEIGHT'];
 		$orderData['WEIGHT_UNIT'] = $this->arResult['WEIGHT_UNIT'];
 		$orderData['WEIGHT_KOEF'] = $this->arResult['WEIGHT_KOEF'];
-		$orderData['SITE_ID'] = SITE_ID;
+		$orderData['SITE_ID'] = $this->getSiteId();
 		$orderData['USE_VAT'] = $this->arResult["USE_VAT"];
 		$orderData['VAT_RATE'] = $this->arResult["VAT_RATE"];
 		$orderData['VAT_SUM'] = $this->arResult["VAT_SUM"];
@@ -5219,7 +5401,7 @@ class SaleOrderAjax extends \CBitrixComponent
 	protected function saveProfileData()
 	{
 		$arResult =& $this->arResult;
-		$profileId = null;
+		$profileId = 0;
 		$profileName = '';
 		$properties = array();
 
@@ -5227,9 +5409,9 @@ class SaleOrderAjax extends \CBitrixComponent
 		{
 			foreach ($arResult['ORDER_PROP']['USER_PROFILES'] as $profile)
 			{
-				if ($profile['CHECKED'] == 'Y')
+				if ($profile['CHECKED'] === 'Y')
 				{
-					$profileId = $profile['ID'];
+					$profileId = (int)$profile['ID'];
 					break;
 				}
 			}
@@ -5316,7 +5498,7 @@ class SaleOrderAjax extends \CBitrixComponent
 	{
 		$this->makeUserResultArray();
 
-		DiscountCouponsManager::init();
+		DiscountCouponsManager::init(DiscountCouponsManager::MODE_CLIENT, ['userId' => $userId]);
 		$this->executeEvent('OnSaleComponentOrderOneStepDiscountBefore');
 
 		/** @var Order $order */
@@ -5347,7 +5529,7 @@ class SaleOrderAjax extends \CBitrixComponent
 		/** @var Order $orderClassName */
 		$orderClassName = $registry->getOrderClassName();
 
-		$order = $orderClassName::create($this->context->getSite(), $userId);
+		$order = $orderClassName::create($this->getSiteId(), $userId);
 		$order->isStartField();
 
 		$this->initLastOrderData($order);
@@ -5360,6 +5542,8 @@ class SaleOrderAjax extends \CBitrixComponent
 		}
 
 		$isPersonTypeChanged = $this->initPersonType($order);
+
+		$this->initTradeBinding($order);
 		$this->initProperties($order, $isPersonTypeChanged);
 		$this->initBasket($order);
 
@@ -5528,6 +5712,31 @@ class SaleOrderAjax extends \CBitrixComponent
 				}
 			}
 		}
+	}
+
+	protected function initTradeBinding(Order $order)
+	{
+		if (!Loader::includeModule('landing'))
+		{
+			return;
+		}
+
+		if (!class_exists('LandingPubComponent') || !method_exists('LandingPubComponent', 'getMainInstance'))
+		{
+			return;
+		}
+
+		$currentLandingInstance = \LandingPubComponent::getMainInstance();
+		$code = \Bitrix\Sale\TradingPlatform\Landing\Landing::getCodeBySiteId((int)$currentLandingInstance['SITE_ID']);
+
+		$platform = \Bitrix\Sale\TradingPlatform\Landing\Landing::getInstanceByCode($code);
+		if (!$platform->isInstalled())
+		{
+			return;
+		}
+
+		$collection = $order->getTradeBindingCollection();
+		$collection->createItem($platform);
 	}
 
 	/**
@@ -5737,6 +5946,7 @@ class SaleOrderAjax extends \CBitrixComponent
 							}
 
 							$arResult["PAY_SYSTEM_LIST"][$payment->getPaymentSystemId()] = $arPaySysAction;
+							$arResult["PAY_SYSTEM_LIST_BY_PAYMENT_ID"][$payment->getId()] = $arPaySysAction;
 						}
 						else
 							$arResult["PAY_SYSTEM_LIST"][$payment->getPaymentSystemId()] = array('ERROR' => true);

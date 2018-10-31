@@ -25,7 +25,7 @@ class EmptyReport extends BaseReport implements IReportMultipleBiGroupedData, IR
 	}
 
 	/**
-	 * Collecting form elements for configuratyion form.
+	 * Collecting form elements for configuration form.
 	 *
 	 * @return void
 	 */
@@ -191,5 +191,16 @@ class EmptyReport extends BaseReport implements IReportMultipleBiGroupedData, IR
 		$data['title'] = $this->getFormElement('label')->getValue();
 		$data['config']['color'] = $colorFieldValue ? $colorFieldValue->getValue() : '#ffffff';
 		return $data;
+	}
+
+	/**
+	 * Called every time when calculate some report result before passing some concrete handler, such us getMultipleData or getSingleData.
+	 * Here you can get result of configuration fields of report, if report in widget you can get configurations of widget.
+	 *
+	 * @return mixed
+	 */
+	public function prepare()
+	{
+		return null;
 	}
 }

@@ -109,4 +109,6 @@ $MESS["user_edit_lang_not_set"] = "(не установлен)";
 $MESS["user_edit_lang"] = "язык дл€ уведомлений:";
 $MESS["MAIN_ADMIN_AUTH"] = "јвторизоватьс€";
 $MESS["MAIN_ADMIN_AUTH_TITLE"] = "јвторизоватьс€ под данным пользователем";
+$MESS["MAIN_USER_EDIT_HISTORY"] = "»стори€";
+$MESS["MAIN_USER_EDIT_HISTORY_TITLE"] = "»стори€ изменени€ профил€ пользовател€";
 ?>

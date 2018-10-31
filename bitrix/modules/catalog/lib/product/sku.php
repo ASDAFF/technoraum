@@ -370,7 +370,7 @@ class Sku
 	 *
 	 * @return void
 	 */
-	public static function calculatePrice($id, $iblockId = null, $type = null, array $priceTypes)
+	public static function calculatePrice($id, $iblockId = null, $type = null, array $priceTypes = [])
 	{
 		if (!self::allowedUpdateAvailable())
 			return;
@@ -471,7 +471,7 @@ class Sku
 	 * @param array $fields				Element data.
 	 * @return void
 	 */
-	public static function handlerIblockElementAdd(/** @noinspection PhpUnusedParameterInspection */$fields)
+	public static function handlerIblockElementAdd($fields)
 	{
 		static::disablePropertyHandler();
 	}
@@ -483,7 +483,7 @@ class Sku
 	 *
 	 * @return void
 	 */
-	public static function handlerAfterIblockElementAdd(/** @noinspection PhpUnusedParameterInspection */&$fields)
+	public static function handlerAfterIblockElementAdd(&$fields)
 	{
 		static::enablePropertyHandler();
 	}
@@ -664,7 +664,6 @@ class Sku
 			self::$offers[$elementId]['PRODUCT_IBLOCK_ID'],
 			Catalog\ProductTable::TYPE_SKU
 		);
-		//static::updateProductAvailable(self::$offers[$elementId]['CURRENT_PRODUCT'], self::$offers[$elementId]['PRODUCT_IBLOCK_ID']);
 
 		unset(self::$offers[$elementId]);
 	}
@@ -699,6 +698,7 @@ class Sku
 			return;
 		$skuPropertyCode = (string)$propertyList[$skuPropertyId]['CODE'];
 
+		$foundValue = false;
 		$skuValue = null;
 		if ($propertyIdentifyer)
 		{
@@ -713,18 +713,28 @@ class Sku
 					$propertyId = ($skuPropertyCode == $propertyIdentifyer ? $skuPropertyId : 0);
 			}
 			if ($propertyId == $skuPropertyId)
+			{
 				$skuValue = $newValues;
+				$foundValue = true;
+			}
 			unset($propertyId);
 		}
 		else
 		{
-			if (isset($newValues[$skuPropertyId]))
+			if (array_key_exists($skuPropertyId, $newValues))
+			{
 				$skuValue = $newValues[$skuPropertyId];
-			elseif (isset($newValues[$skuPropertyCode]))
+				$foundValue = true;
+			}
+			elseif (array_key_exists($skuPropertyCode, $newValues))
+			{
 				$skuValue = $newValues[$skuPropertyCode];
+				$foundValue = true;
+			}
 		}
-		if ($skuValue === null)
+		if (!$foundValue)
 			return;
+		unset($foundValue);
 
 		$newSkuPropertyValue = 0;
 		if (!empty($skuValue))
@@ -757,6 +767,7 @@ class Sku
 		if ($currentSkuPropertyValue < 0)
 			$currentSkuPropertyValue = 0;
 
+		// no error - first condition for event OnAfterIblockElementUpdate handler
 		if (!static::allowedPropertyHandler() || ($currentSkuPropertyValue != $newSkuPropertyValue))
 		{
 			self::$offers[$elementId] = array(
@@ -780,52 +791,129 @@ class Sku
 	public static function handlerAfterIBlockElementSetPropertyValues(
 		$elementId,
 		$iblockId,
-		/** @noinspection PhpUnusedParameterInspection */$newValues,
-		/** @noinspection PhpUnusedParameterInspection */$propertyIdentifyer
+		$newValues,
+		$propertyIdentifyer
 	)
 	{
 		if (!static::allowedPropertyHandler())
 			return;
 
-		if (!isset(self::$offers[$elementId]))
+		self::calculateOfferChange($elementId, $iblockId);
+	}
+
+	/**
+	 * OnIBlockElementSetPropertyValuesEx event handler. Do not use directly.
+	 *
+	 * @param int $elementId							Element id.
+	 * @param int $iblockId								Iblock id.
+	 * @param array $newValues							New properties values.
+	 * @param array $propertyList						Changed property list.
+	 * @param array $currentValues						Current properties values.
+	 *
+	 * @return void
+	 */
+	public static function handlerIblockElementSetPropertyValuesEx(
+		$elementId,
+		$iblockId,
+		$newValues,
+		$propertyList,
+		$currentValues
+	)
+	{
+		$iblockData = \CCatalogSku::GetInfoByOfferIBlock($iblockId);
+		if (empty($iblockData))
 			return;
 
-		$iblockData = \CCatalogSku::GetInfoByOfferIBlock($iblockId);
-		if (!empty($iblockData))
+		$skuPropertyId = $iblockData['SKU_PROPERTY_ID'];
+		if (!isset($propertyList[$skuPropertyId]))
+			return;
+		$skuPropertyCode = (string)$propertyList[$skuPropertyId]['CODE'];
+
+		$foundValue = false;
+		$skuValue = null;
+		if (array_key_exists($skuPropertyId, $newValues))
 		{
-			$existCurrentProduct = (self::$offers[$elementId]['CURRENT_PRODUCT'] > 0);
-			$existNewProduct = (self::$offers[$elementId]['NEW_PRODUCT'] > 0);
-			if ($existCurrentProduct > 0)
-			{
-				self::calculateComplete(
-					self::$offers[$elementId]['CURRENT_PRODUCT'],
-					$iblockData['PRODUCT_IBLOCK_ID'],
-					Catalog\ProductTable::TYPE_SKU
-				);
-			}
-			if ($existNewProduct > 0)
-			{
-				self::calculateComplete(
-					self::$offers[$elementId]['NEW_PRODUCT'],
-					$iblockData['PRODUCT_IBLOCK_ID'],
-					Catalog\ProductTable::TYPE_SKU
-				);
-			}
-			if (!$existCurrentProduct || !$existNewProduct)
-			{
-				self::disableUpdateAvailable();
-				$type = (
-					$existNewProduct
-					? Catalog\ProductTable::TYPE_OFFER
-					: Catalog\ProductTable::TYPE_FREE_OFFER
-				);
-				$result = Catalog\Model\Product::update($elementId, array('TYPE' => $type));
-				unset($result);
-				self::enableUpdateAvailable();
-			}
-			unset($existNewProduct, $existCurrentProduct);
+			$skuValue = $newValues[$skuPropertyId];
+			$foundValue = true;
 		}
-		unset(self::$offers[$elementId]);
+		elseif (array_key_exists($skuPropertyCode, $newValues))
+		{
+			$skuValue = $newValues[$skuPropertyCode];
+			$foundValue = true;
+		}
+		if (!$foundValue)
+			return;
+		unset($foundValue);
+
+		$newSkuPropertyValue = 0;
+		if (!empty($skuValue))
+		{
+			if (!is_array($skuValue))
+			{
+				$newSkuPropertyValue = (int)$skuValue;
+			}
+			else
+			{
+				if (array_key_exists('VALUE', $skuValue))
+				{
+					$newSkuPropertyValue = (int)$skuValue['VALUE'];
+				}
+				else
+				{
+					foreach($skuValue as $row)
+					{
+						if (!is_array($row))
+							$newSkuPropertyValue = (int)$row;
+						elseif (array_key_exists('VALUE', $row))
+							$newSkuPropertyValue = (int)$row['VALUE'];
+					}
+					unset($row);
+				}
+			}
+		}
+		unset($skuValue);
+		if ($newSkuPropertyValue < 0)
+			$newSkuPropertyValue = 0;
+
+		$currentSkuPropertyValue = 0;
+		if (!empty($currentValues[$skuPropertyId]) && is_array($currentValues[$skuPropertyId]))
+		{
+			$currentSkuProperty = current($currentValues[$skuPropertyId]);
+			if (!empty($currentSkuProperty['VALUE']))
+				$currentSkuPropertyValue = (int)$currentSkuProperty['VALUE'];
+			unset($currentSkuProperty);
+		}
+		if ($currentSkuPropertyValue < 0)
+			$currentSkuPropertyValue = 0;
+
+		if (!static::allowedPropertyHandler() || ($currentSkuPropertyValue != $newSkuPropertyValue))
+		{
+			self::$offers[$elementId] = [
+				'CURRENT_PRODUCT' => $currentSkuPropertyValue,
+				'NEW_PRODUCT' => $newSkuPropertyValue,
+				'PRODUCT_IBLOCK_ID' => $iblockData['PRODUCT_IBLOCK_ID']
+			];
+		}
+	}
+
+	/**
+	 * OnAfterIBlockElementSetPropertyValuesEx event handler. Do not use directly.
+	 *
+	 * @param int $elementId							Element id.
+	 * @param int $iblockId								Iblock id.
+	 * @param array $newValues							New properties values.
+	 * @param array $flags								Flags from \CIBlockElement::SetPropertyValuesEx.
+	 *
+	 * @return void
+	 */
+	public static function handlerAfterIblockElementSetPropertyValuesEx(
+		$elementId,
+		$iblockId,
+		$newValues,
+		$flags
+	)
+	{
+		self::calculateOfferChange($elementId, $iblockId);
 	}
 
 	/**
@@ -915,7 +1003,6 @@ class Sku
 			return false;
 		static::disableUpdateAvailable();
 		$updateResult = Catalog\Model\Product::update($offerId, array('TYPE' => $type));
-		//$updateResult = Catalog\ProductTable::update($offerId, array('TYPE' => $type));
 		$result = $updateResult->isSuccess();
 		static::enableUpdateAvailable();
 		return $result;
@@ -1488,7 +1575,7 @@ class Sku
 			$iterator = Catalog\PriceTable::getList(array(
 				'select' => array(
 					'PRODUCT_ID', 'CATALOG_GROUP_ID', 'PRICE', 'CURRENCY',
-					'PRICE_SCALE', 'TMP_ID',  //TODO: add MEASURE_RATIO_ID
+					'PRICE_SCALE', 'TMP_ID'  //TODO: add MEASURE_RATIO_ID
 				),
 				'filter' => $filter,
 				'order' => array('PRODUCT_ID' => 'ASC', 'CATALOG_GROUP_ID' => 'ASC')
@@ -1647,5 +1734,56 @@ class Sku
 				$id
 			);
 		}
+	}
+
+	/**
+	 * Update parent product data from iblock event handlers.
+	 *
+	 * @param int $elementId	Offer id.
+	 * @param int $iblockId		Offer iblock id.
+	 *
+	 * @return void
+	 */
+	private static function calculateOfferChange($elementId, $iblockId)
+	{
+		if (!isset(self::$offers[$elementId]))
+			return;
+
+		$iblockData = \CCatalogSku::GetInfoByOfferIBlock($iblockId);
+		if (!empty($iblockData))
+		{
+			$existCurrentProduct = (self::$offers[$elementId]['CURRENT_PRODUCT'] > 0);
+			$existNewProduct = (self::$offers[$elementId]['NEW_PRODUCT'] > 0);
+			if ($existCurrentProduct > 0)
+			{
+				self::calculateComplete(
+					self::$offers[$elementId]['CURRENT_PRODUCT'],
+					$iblockData['PRODUCT_IBLOCK_ID'],
+					Catalog\ProductTable::TYPE_SKU
+				);
+			}
+			if ($existNewProduct > 0)
+			{
+				self::calculateComplete(
+					self::$offers[$elementId]['NEW_PRODUCT'],
+					$iblockData['PRODUCT_IBLOCK_ID'],
+					Catalog\ProductTable::TYPE_SKU
+				);
+			}
+			if (!$existCurrentProduct || !$existNewProduct)
+			{
+				self::disableUpdateAvailable();
+				$type = (
+					$existNewProduct
+					? Catalog\ProductTable::TYPE_OFFER
+					: Catalog\ProductTable::TYPE_FREE_OFFER
+				);
+				$result = Catalog\Model\Product::update($elementId, array('TYPE' => $type));
+				unset($result);
+				self::enableUpdateAvailable();
+			}
+			unset($existNewProduct, $existCurrentProduct);
+		}
+		unset(self::$offers[$elementId]);
 	}
 }

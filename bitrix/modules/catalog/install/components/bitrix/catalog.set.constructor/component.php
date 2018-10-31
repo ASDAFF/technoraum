@@ -15,7 +15,7 @@ use Bitrix\Main,
 	Bitrix\Main\Application,
 	Bitrix\Catalog;
 
-if (!CBXFeatures::IsFeatureEnabled('CatCompleteSet'))
+if (!Catalog\Config\Feature::isProductSetsEnabled())
 	return;
 
 $arParams['IBLOCK_ID'] = isset($arParams['IBLOCK_ID']) ? (int)$arParams['IBLOCK_ID'] : 0;

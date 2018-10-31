@@ -47,6 +47,11 @@ class ProviderCreator
 	public function addShipmentItem(Sale\ShipmentItem $shipmentItem)
 	{
 		$basketItem = $shipmentItem->getBasketItem();
+		if (!$basketItem)
+		{
+			return;
+		}
+
 		$providerName = $basketItem->getProviderName();
 		if (empty($providerName))
 		{
@@ -94,6 +99,10 @@ class ProviderCreator
 	public function addBasketItemBarcodeData(Sale\BasketItem $basketItem, array $barcodeParams)
 	{
 		$providerName = $basketItem->getProviderName();
+		if (empty($providerName))
+		{
+			$providerName = $basketItem->getCallbackFunction();
+		}
 		$builder = $this->createBuilder($providerName);
 		$builder->addBasketItemBarcodeData($barcodeParams);
 	}
@@ -441,6 +450,11 @@ class ProviderCreator
 					$providerName = $this->clearProviderName($reflect->getName());
 				}
 
+				if (strval($providerName) == '')
+				{
+					$providerName = $builder->getCallbackFunction();
+				}
+
 				if (!empty($data[$outputName]))
 				{
 					$resultList[$providerName] = $data[$outputName];
@@ -474,6 +488,11 @@ class ProviderCreator
 			if (class_exists($providerName))
 			{
 				$providerClass = new $providerName($this->getContext());
+			}
+
+			if (!$providerClass)
+			{
+				$providerClass = $providerName;
 			}
 
 			$builder = ProviderBuilderBase::createBuilder($providerClass, $this->getContext());

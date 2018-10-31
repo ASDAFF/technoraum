@@ -700,7 +700,7 @@ function GetDirList($path, &$arDirs, &$arFiles, $arFilter=array(), $sort=array()
 		if ($task_mode)
 		{
 			$arFile["PERMISSION"] = $arPerm[0];
-			if (count($arPerm[1]) > 0)
+			if (!empty($arPerm[1]))
 				$arFile["PERMISSION_EX"] = $arPerm[1];
 		}
 		else

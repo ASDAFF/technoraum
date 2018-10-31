@@ -26,6 +26,12 @@ class CBitrixBasketBasketSmallMailComponent extends CBitrixBasketComponent
 
 		$params['COMPATIBLE_MODE'] = 'Y';
 
+		if (!$this->getSiteId())
+		{
+			$siteId = isset($params["LID"]) ? $params["LID"] : \CSite::GetDefSite();
+			$this->setSiteId($siteId);
+		}
+
 		return $params;
 	}
 

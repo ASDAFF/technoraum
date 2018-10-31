@@ -1,5 +1,7 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("description", "Гарантийный срок на поломку бытовой техники Керхер до 5 лет.");
+$APPLICATION->SetPageProperty("keywords", "karcher гарантия,  гарантийный талон керхер, гарантия на технику керхер, гарантия керхер");
 $APPLICATION->SetPageProperty("title", "Гарантийный срок на технику Керхер. Расширенная гарантия от интернет-магазина ТехноРаум");
 $APPLICATION->SetTitle("Гарантия");
 ?><h2><img width="350" alt="image-min.jpg" src="/upload/medialibrary/414/414a3c3a2bc4ea8d828b681dcb1d8eef.jpg" height="282" title="Расширенная гарантия на технику Керхер (Karcher) на сайте ТехноРаум" align="right">Гарантийный срок на поломку:</h2>

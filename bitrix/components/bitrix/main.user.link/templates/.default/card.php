@@ -1,5 +1,4 @@
-<?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-<?
+<?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
 $arFieldsSorted = array(
 	"LOGIN",
@@ -81,8 +80,10 @@ if (count($arParams["SHOW_FIELDS"]) > 0)
 				case 'WORK_CITY':
 				case 'WORK_STREET':
 				case 'WORK_MAILBOX':
-					if (StrLen($val) > 0)
+					if (strLen($val) > 0)
+					{
 						$val = htmlspecialcharsbx($val);
+					}
 					break;
 
 				case 'LAST_LOGIN':
@@ -189,23 +190,24 @@ if (count($arParams["SHOW_FIELDS"]) > 0)
 						}
 					}
 					$val = $sManagers;
-
-
-					$strCard .= '<div class="bx-user-info-data-name '.$strUserNameClass.'"><a href="'.($arResult["CurrentUser"] && !in_array($arResult["CurrentUser"]["EXTERNAL_AUTH_ID"], array('email')) ? $arTmpUser["DETAIL_URL"] : 'javascript:void(0);').'">'.$strNameFormatted.'</a></div>';
-
-
-
 					break;
 				default:
 					$val = "";
 					break;
 			}
+
 			if($val <> '')
-				$arUserOutFields[$userFieldName] = array("name"=>GetMessage("MAIN_UL_".$userFieldName), "value"=>$val);
+			{
+				$arUserOutFields[$userFieldName] = array(
+					"code" => $userFieldName,
+					"name" => getMessage("MAIN_UL_".$userFieldName),
+					"value" => $val
+				);
+			}
 		}
 	}
 }
-				
+
 // USER PROPERIES
 if (count($arParams["USER_PROPERTY"]) > 0)
 {
@@ -267,7 +269,17 @@ if (count($arParams["USER_PROPERTY"]) > 0)
 			ob_end_clean();
 			
 			if($tmpVal <> '')
-				$arUserOutFields[$fieldName] = array("name"=>htmlspecialcharsEx(StrLen($arUserField["EDIT_FORM_LABEL"]) > 0 ? $arUserField["EDIT_FORM_LABEL"] : $arUserField["FIELD_NAME"]), "value"=>$tmpVal);
+			{
+				$arUserOutFields[$fieldName] = array(
+					"code" => $fieldName,
+					"name" => htmlspecialcharsEx(
+						strLen($arUserField["EDIT_FORM_LABEL"]) > 0
+							? $arUserField["EDIT_FORM_LABEL"]
+							: $arUserField["FIELD_NAME"]
+					),
+					"value" => $tmpVal
+				);
+			}
 		}
 	}
 }	
@@ -288,17 +300,34 @@ if(!function_exists('__card_sort'))
 
 //sorting fields
 foreach($arFieldsSorted as $index=>$field)
+{
 	if(isset($arUserOutFields[$field]))
+	{
 		$arUserOutFields[$field]["sort"] = $index;
+	}
+}
 uasort($arUserOutFields, '__card_sort');
 
-$strUserFields = '';
+$strPosition = $strUserFields = '';
 foreach($arUserOutFields as $field)
-	$strUserFields .= "<span class='field-name'>".$field["name"]."</span>: ".$field["value"]."<br>\n";
+{
+	if (
+		$bIntranet
+		&& $arResult["VERSION"] >= 2
+		&& $field['code'] == 'WORK_POSITION'
+	)
+	{
+		$strPosition = $field["value"];
+	}
+	else
+	{
+		$strUserFields .= "<span class='field-row field-row-".htmlspecialcharsbx(strtolower($field["code"]))."'><span class='field-name'>".$field["name"]."</span>: <span class='field-value'>".$field["value"]."</span></span>".($arResult["VERSION"] < 2 ? "<br>" : "")."\n";
+	}
+}
 
 // RATING
 $strTmpUserRatings = "";
-				
+
 if (array_key_exists("USER_RATING", $arParams) && is_array($arParams["USER_RATING"]) && count($arParams["USER_RATING"]) > 0)
 {
 	$tmpVal = "";
@@ -320,9 +349,7 @@ if (array_key_exists("USER_RATING", $arParams) && is_array($arParams["USER_RATIN
 		
 		if (is_array($arRating))
 			$strTmpUserRatings .= '<span class="field-name">'.htmlspecialcharsEx($arRating["RATING_NAME"]).'</span>: <span title="'.$arRating["RATING_NAME"].': '.$arRating["CURRENT_VALUE"].' ('.GetMessage("MAIN_UL_RATING_PROGRESS").' '.$arRating["PROGRESS_VALUE"].')">'.$arRating["ROUND_CURRENT_VALUE"].'</span><br>';
-
 	}
-	
 }
 
 if (in_array("PERSONAL_PHOTO", $arParams["SHOW_FIELDS"]))
@@ -339,7 +366,7 @@ if (in_array("PERSONAL_PHOTO", $arParams["SHOW_FIELDS"]))
 			$arFileTmp = CFile::ResizeImageGet(
 				$imageFile,
 				array("width" => $iSize, "height" => $iSize),
-				BX_RESIZE_IMAGE_PROPORTIONAL,
+				($arResult["VERSION"] >= 2 ? BX_RESIZE_IMAGE_EXACT : BX_RESIZE_IMAGE_PROPORTIONAL),
 				false
 			);
 			$arTmpUser["PERSONAL_PHOTO"] = CFile::ShowImage($arFileTmp["src"], $iSize, $iSize, "border=0", "");
@@ -375,12 +402,12 @@ if (in_array("PERSONAL_PHOTO", $arParams["SHOW_FIELDS"]))
 
 if (array_key_exists("PERSONAL_PHOTO", $arTmpUser) && strlen($arTmpUser["PERSONAL_PHOTO"]) > 0)
 {
-	$photoClass = "bx-user-info-data-photo";
+	$photoClass = $arResult["stylePrefix"]."-info-data-photo";
 	$strPhoto = $arTmpUser["PERSONAL_PHOTO"];
 }
 else
 {
-	$photoClass = "bx-user-info-data-photo no-photo";
+	$photoClass = $arResult["stylePrefix"]."-info-data-photo no-photo";
 	$strPhoto = "";
 }
 
@@ -403,15 +430,15 @@ if (IsModuleInstalled('extranet') || IsModuleInstalled('mail'))
 
 	if ($bCrmEmailUser)
 	{
-		$strUserNameClass = " bx-user-info-emailcrm";
+		$strUserNameClass = " ".$arResult["stylePrefix"]."-info-emailcrm";
 	}
 	elseif ($bEmailUser)
 	{
-		$strUserNameClass = " bx-user-info-email";
+		$strUserNameClass = " ".$arResult["stylePrefix"]."-info-email";
 	}
 	elseif ($bExtranetUser)
 	{
-		$strUserNameClass = " bx-user-info-extranet";
+		$strUserNameClass = " ".$arResult["stylePrefix"]."-info-extranet";
 	}
 	else
 	{
@@ -423,14 +450,30 @@ $strNameFormatted = CUser::FormatName($arParams['NAME_TEMPLATE'], $arTmpUser, $b
 
 $strPhoto = '<a href="'.$arTmpUser["DETAIL_URL"].'" class="'.$photoClass.'">'.$strPhoto.'</a>';
 
-$data_cont_class = ($GLOBALS["USER"]->IsAuthorized() && $arResult["CurrentUserPerms"]["Operations"]["videocall"] ? "bx-user-info-data-cont-video" : "bx-user-info-data-cont");
+$data_cont_class = ($GLOBALS["USER"]->IsAuthorized() && $arResult["CurrentUserPerms"]["Operations"]["videocall"] ? $arResult["stylePrefix"]."-info-data-cont-video" : $arResult["stylePrefix"]."-info-data-cont");
 
 $strCard = '<div class="'.$data_cont_class.'" id="bx_user_info_data_cont_'.$arTmpUser["ID"].'">';
 
-$strCard .= '<div class="bx-user-info-data-name '.$strUserNameClass.'"><a href="'.($arResult["CurrentUser"] && !in_array($arResult["CurrentUser"]["EXTERNAL_AUTH_ID"], array('email')) ? $arTmpUser["DETAIL_URL"] : 'javascript:void(0);').'">'.$strNameFormatted.'</a></div>';
+if ($arResult["VERSION"] < 2)
+{
+	$strCard .= '<div class="'.$arResult["stylePrefix"].'-info-data-name '.$strUserNameClass.'"><a href="'.($arResult["CurrentUser"] && !in_array($arResult["CurrentUser"]["EXTERNAL_AUTH_ID"], array('email')) ? $arTmpUser["DETAIL_URL"] : 'javascript:void(0);').'">'.$strNameFormatted.'</a></div>';
+	$strCard .= ($bExtranetUser ? '<div class="'.$arResult["stylePrefix"].'-info-extranet-description">'.GetMessage("MAIN_UL_EXTRANET_USER").'</div>' : '');
+}
+else
+{
+	if ($arResult["CurrentUser"] && !in_array($arResult["CurrentUser"]["EXTERNAL_AUTH_ID"], array('email')))
+	{
+		$strNameFormatted = '<a href="'.$arTmpUser["DETAIL_URL"].'">'.$strNameFormatted.'</a>';
+	}
 
-$strCard .= ($bExtranetUser ? '<div class="bx-user-info-extranet-description">'.GetMessage("MAIN_UL_EXTRANET_USER").'</div>' : '');
-$strCard .= '<div class="bx-user-info-data-info">'.$strUserFields.$strTmpUserRatings.'</div>';
+	if ($bExtranetUser)
+	{
+		$strPosition = GetMessage("MAIN_UL_EXTRANET_USER");
+	}
+}
+
+
+$strCard .= '<div class="'.$arResult["stylePrefix"].'-info-data-info">'.$strUserFields.$strTmpUserRatings.'</div>';
 $strCard .= '</div>';
 
 static $includedOnce = false;

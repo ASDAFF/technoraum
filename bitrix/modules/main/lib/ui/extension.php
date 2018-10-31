@@ -7,11 +7,19 @@ use Bitrix\Main\IO\File;
 
 class Extension
 {
-	public static function load($extName)
+	public static function load($extNames)
 	{
-		if (static::register($extName))
+		if (!is_array($extNames))
 		{
-			\CJSCore::init($extName);
+			$extNames = [$extNames];
+		}
+
+		foreach ($extNames as $extName)
+		{
+			if (static::register($extName))
+			{
+				\CJSCore::init($extName);
+			}
 		}
 	}
 
@@ -25,7 +33,7 @@ class Extension
 			return true;
 		}
 
-		return false;
+		return \CJSCore::isExtRegistered($extName);
 	}
 
 	public static function registerAssets($id, array $options)
@@ -96,5 +104,17 @@ class Extension
 		}
 
 		return \getLocalPath($path, BX_PERSONAL_ROOT);
+	}
+
+	public static function getHtml($extName)
+	{
+		$isRegistered = static::register($extName);
+
+		if ($isRegistered)
+		{
+			return \CJSCore::getHTML($extName);
+		}
+
+		return null;
 	}
 }

@@ -16,7 +16,7 @@ use Bitrix\Report\VisualConstructor\View;
 abstract class Base
 {
 	protected $configurations = array();
-	private $view;
+	protected $view;
 
 	/**
 	 * @var BaseFormElement[]
@@ -55,7 +55,7 @@ abstract class Base
 	}
 
 	/**
-	 * Collecting form elements for configuratyion form.
+	 * Collecting form elements for configuration form.
 	 *
 	 * @return void
 	 */
@@ -194,7 +194,7 @@ abstract class Base
 	}
 
 	/**
-	 * Isnert element to start of form elements list.
+	 * Insert element to start of form elements list.
 	 *
 	 * @param BaseFormElement $newElement Element which need to insert to start of form.
 	 * @return void
@@ -274,7 +274,7 @@ abstract class Base
 	}
 
 	/**
-	 * In form elemenrts list fuind form element with key $fieldKey.
+	 * In form elements list find form element with key $fieldKey.
 	 *
 	 * @param string $fieldKey Unique key to find form element.
 	 * @return BaseFormElement|\Bitrix\Report\VisualConstructor\Fields\Valuable\BaseValuable|null

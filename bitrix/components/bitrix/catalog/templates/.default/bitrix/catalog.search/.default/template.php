@@ -130,7 +130,7 @@ if (!empty($arElements) && is_array($arElements))
 			'SLIDER_PROGRESS' => $arParams['SLIDER_PROGRESS'],
 
 			'OFFER_ADD_PICT_PROP' => $arParams['OFFER_ADD_PICT_PROP'],
-			'OFFER_TREE_PROPS' => $arParams['OFFER_TREE_PROPS'],
+			'OFFER_TREE_PROPS' => (isset($arParams['OFFER_TREE_PROPS']) ? $arParams['OFFER_TREE_PROPS'] : []),
 			'PRODUCT_SUBSCRIPTION' => $arParams['PRODUCT_SUBSCRIPTION'],
 			'SHOW_DISCOUNT_PERCENT' => $arParams['SHOW_DISCOUNT_PERCENT'],
 			'SHOW_OLD_PRICE' => $arParams['SHOW_OLD_PRICE'],

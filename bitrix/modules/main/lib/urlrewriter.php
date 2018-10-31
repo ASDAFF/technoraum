@@ -11,7 +11,7 @@ class UrlRewriter
 
 	protected static function loadRules($siteId)
 	{
-		$site = SiteTable::getRow(array("filter" => array("LID" => $siteId)));
+		$site = SiteTable::getRow(array("filter" => array("=LID" => $siteId)));
 		$docRoot = $site["DOC_ROOT"];
 
 		if (!empty($docRoot))
@@ -35,7 +35,7 @@ class UrlRewriter
 
 	protected static function saveRules($siteId, array $arUrlRewrite)
 	{
-		$site = SiteTable::getRow(array("filter" => array("LID" => $siteId)));
+		$site = SiteTable::getRow(array("filter" => array("=LID" => $siteId)));
 		$docRoot = $site["DOC_ROOT"];
 
 		if (!empty($docRoot))
@@ -149,6 +149,15 @@ class UrlRewriter
 
 		$arUrlRewrite = static::loadRules($siteId);
 
+		// if rule is exist – return
+		foreach ($arUrlRewrite as $rule)
+		{
+			if ($arFields["CONDITION"] == $rule["CONDITION"])
+			{
+				return;
+			}
+		}
+
 		$arUrlRewrite[] = array(
 			"CONDITION" => $arFields["CONDITION"],
 			"RULE" => $arFields["RULE"],
@@ -237,7 +246,7 @@ class UrlRewriter
 		$db = SiteTable::getList(
 			array(
 				"select" => array("LID", "DOC_ROOT", "DIR"),
-				"filter" => array("ACTIVE" => "Y"),
+				"filter" => array("=ACTIVE" => "Y"),
 			)
 		);
 		while ($ar = $db->fetch())

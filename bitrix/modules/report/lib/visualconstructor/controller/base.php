@@ -7,7 +7,7 @@ use Bitrix\Main\Engine\Controller;
 use Bitrix\Main\Error;
 
 /**
- * Abstract common controlelr class
+ * Abstract common controller class
  * @package Bitrix\Report\VisualConstructor\Controller
  */
 abstract class Base extends Controller
@@ -29,6 +29,7 @@ abstract class Base extends Controller
 			$traceLength = count($trace);
 
 			$this->addError(new Error($e->getFile() . ':' . $e->getLine()));
+
 
 			for ($i = 0; $i < $traceLength && $i < 3; $i++)
 			{

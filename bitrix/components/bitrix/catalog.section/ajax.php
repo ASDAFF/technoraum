@@ -1,6 +1,7 @@
 <?
 /** @global \CMain $APPLICATION */
 define('STOP_STATISTICS', true);
+define('NOT_CHECK_PERMISSIONS', true);
 
 $siteId = isset($_REQUEST['siteId']) && is_string($_REQUEST['siteId']) ? $_REQUEST['siteId'] : '';
 $siteId = substr(preg_replace('/[^a-z0-9_]/i', '', $siteId), 0, 2);

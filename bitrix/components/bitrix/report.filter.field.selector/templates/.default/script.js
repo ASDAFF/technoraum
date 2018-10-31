@@ -104,6 +104,15 @@ if (typeof(BX.Report.FilterFieldSelectorManagerClass) === "undefined")
 				{
 					switch (entityType)
 					{
+						case "enumeration":
+							selector = new BX.Report.EnumerationFilterFieldSelectorClass(settings);
+							if (selector)
+							{
+								if (!this._selectors[entityId])
+									this._selectors[entityId] = {};
+								this._selectors[entityId][fieldName] = selector;
+							}
+							break;
 						case "crm":
 							selector = new BX.Report.CrmFilterFieldSelectorClass(settings);
 							if (selector)
@@ -160,6 +169,201 @@ if (typeof(BX.Report.FilterFieldSelectorManagerClass) === "undefined")
 	})();
 }
 
+if (typeof(BX.Report.EnumerationFilterFieldSelectorClass) === "undefined")
+{
+	BX.Report.EnumerationFilterFieldSelectorClass = (function ()
+	{
+		var FilterFieldSelectorClass = function (settings)
+		{
+			this._settings = settings;
+			this.entityType = settings["USER_TYPE_ID"] || "";
+			this.entityId = settings["ENTITY_ID"] || "";
+			this.fieldName = settings["FIELD_NAME"] || "";
+
+			this.selectId = [];
+			this.currentValue = [];
+
+			this.ajaxUrl = "/bitrix/components/bitrix/report.filter.field.selector/ajax.php";
+			this.valuesLoading = false;
+			this.valuesLoaded = false;
+		};
+
+		FilterFieldSelectorClass.prototype = {
+			getSetting: function (name, dafaultval)
+			{
+				return typeof(this._settings[name]) !== 'undefined' ? this._settings[name] : dafaultval;
+			},
+			setSetting:function(name, value)
+			{
+				this._settings[name] = value;
+			},
+			getMessage: function (messageName)
+			{
+				var msg = "";
+
+				if (BX.type.isString(messageName) && messageName.length > 0
+					&& this._settings["messages"] && this._settings["messages"][messageName])
+				{
+					msg = this._settings["messages"][messageName];
+				}
+
+				return msg;
+			},
+			makeFilterField: function (container, nextSibling, name)
+			{
+				var selectNode, fieldNode, controlId, selectorIndex;
+
+				if (!this.entityType || !this.entityId || !this.fieldName
+					|| !container || !BX.type.isDomNode(container))
+				{
+					return null;
+				}
+
+				selectorIndex = this.selectId.length;
+				controlId = this.entityId + "_" + this.fieldName + "[" + selectorIndex + "]";
+
+				if (!BX.type.isString(name) || name.length <= 0)
+					name = controlId;
+
+				fieldNode = BX.create(
+					'SPAN',
+					{
+						"attrs": {
+							"name": "report-filter-value-control-" + controlId,
+							"class": "report-filter-vcc",
+							"ufSelectorIndex": selectorIndex.toString()
+						},
+						"children": [
+							selectNode = BX.create(
+								'SELECT',
+								{
+									"attrs": {
+										"id": controlId,
+										"class": "reports-filter-select-small",
+										"name": name + "[]",
+										"multiple": "multiple",
+										"size": this.getSetting("LIST_HEIGHT", 3),
+										"style": "width: 225px;"
+									}
+								}
+							)
+						]
+					}
+				);
+
+				if (selectNode)
+					BX.Report.rebuildSelect(selectNode, this.getSetting("ITEMS"), "");
+
+				if (BX.type.isDomNode(nextSibling) && nextSibling.parentNode === container)
+					container.insertBefore(fieldNode, nextSibling);
+				else
+					container.appendChild(fieldNode);
+
+				this.selectId.push(controlId);
+
+				if (!this.valuesLoaded && !this.valuesLoading)
+				{
+					this.startLoadValues();
+				}
+
+				return fieldNode;
+			},
+			getFilterValue: function (selectorIndex)
+			{
+				var opts, optIndex, vals, valIndex,
+					selectNode = BX(this.selectId[selectorIndex]),
+					value = "";
+
+				if (selectNode)
+				{
+					if (selectNode.tagName === "SELECT" && selectNode.getAttribute("multiple") === "multiple")
+					{
+						opts = selectNode.options;
+						vals = [];
+						valIndex = 0;
+						for (optIndex = 0; optIndex < opts.length; optIndex++)
+						{
+							if (opts[optIndex].selected)
+								vals[valIndex++] = opts[optIndex].value;
+						}
+						value =  (vals.length > 0) ? vals : "";
+					}
+					else
+					{
+						value = selectNode.value;
+					}
+				}
+
+				return value;
+			},
+			setFilterValue: function (selectorIndex, value)
+			{
+				this.currentValue[selectorIndex] = value;
+
+				if (this.valuesLoaded)
+				{
+					var selectNode = BX(this.selectId[selectorIndex]);
+					if (selectNode)
+						BX.Report.setSelectValue(selectNode, value);
+				}
+			},
+			startLoadValues: function () {
+				this.valuesLoading = true;
+				BX.ajax({
+					'url': BX.util.add_url_param(
+						this.ajaxUrl,
+						{
+							'sessid': BX.bitrix_sessid(),
+							'action': 'LoadEnumerationValues'
+						}
+					),
+					'method': 'POST',
+					'dataType': 'json',
+					'data': {
+						'entityId': this.entityId,
+						'fieldName': this.fieldName
+					},
+					'onsuccess': BX.delegate(this.onLoadValues, this)
+				});
+			},
+			onLoadValues: function (data) {
+				if (BX.type.isPlainObject(data) && data.hasOwnProperty('status') && data["status"] === "success"
+					&& data.hasOwnProperty('ITEMS') && BX.type.isArray(data["ITEMS"]))
+				{
+					var i, selectNode, value;
+					var items = this.getSetting("ITEMS", []);
+					if (BX.type.isArray(items) && items.hasOwnProperty(0)
+						&& items[0].hasOwnProperty("id") && items[0].hasOwnProperty("title")
+						&& items[0]["id"] === "")
+					{
+						data["ITEMS"].unshift(items[0]);
+						this.setSetting("ITEMS", data["ITEMS"]);
+
+						for (i = 0; i < this.selectId.length; i++)
+						{
+							selectNode = BX(this.selectId[i]);
+							if (selectNode)
+							{
+								value = "";
+								if (this.currentValue.hasOwnProperty(i))
+								{
+									value = this.currentValue[i];
+								}
+								BX.Report.rebuildSelect(selectNode, this.getSetting("ITEMS"), value);
+							}
+						}
+					}
+				}
+
+				this.valuesLoaded = true;
+				this.valuesLoading = false;
+			}
+		};
+
+		return FilterFieldSelectorClass;
+	})();
+}
+
 if (typeof(BX.Report.CrmFilterFieldSelectorClass) === "undefined")
 {
 	BX.Report.CrmFilterFieldSelectorClass = (function ()
@@ -178,7 +382,7 @@ if (typeof(BX.Report.CrmFilterFieldSelectorClass) === "undefined")
 		FilterFieldSelectorClass.prototype = {
 			getSetting: function (name, dafaultval)
 			{
-				return typeof(this._settings[name]) != 'undefined' ? this._settings[name] : dafaultval;
+				return typeof(this._settings[name]) !== 'undefined' ? this._settings[name] : dafaultval;
 			},
 			getMessage: function (messageName)
 			{
@@ -262,11 +466,10 @@ if (typeof(BX.Report.CrmFilterFieldSelectorClass) === "undefined")
 			},
 			getFilterValue: function (selectorIndex)
 			{
-				var value, crmId, crm, crmName, inputBox, valElements;
+				var value, crmId, crmName, inputBox, valElements;
 
 				value = [];
 				crmId = this.crmId[selectorIndex];
-				crm = obCrm[crmId];
 				crmName = this.crmName[selectorIndex];
 				inputBox = BX("crm-" + crmId + "_" + crmName + "-input-box");
 				if (inputBox)
@@ -336,7 +539,7 @@ if (typeof(BX.Report.CrmStatusFilterFieldSelectorClass) === "undefined")
 		FilterFieldSelectorClass.prototype = {
 			getSetting: function (name, dafaultval)
 			{
-				return typeof(this._settings[name]) != 'undefined' ? this._settings[name] : dafaultval;
+				return typeof(this._settings[name]) !== 'undefined' ? this._settings[name] : dafaultval;
 			},
 			getMessage: function (messageName)
 			{
@@ -461,7 +664,7 @@ if (typeof(BX.Report.IblockElementFilterFieldSelectorClass) === "undefined")
 		FilterFieldSelectorClass.prototype = {
 			getSetting: function (name, dafaultval)
 			{
-				return typeof(this._settings[name]) != 'undefined' ? this._settings[name] : dafaultval;
+				return typeof(this._settings[name]) !== 'undefined' ? this._settings[name] : dafaultval;
 			},
 			getMessage: function (messageName)
 			{
@@ -586,7 +789,7 @@ if (typeof(BX.Report.IblockSectionFilterFieldSelectorClass) === "undefined")
 		FilterFieldSelectorClass.prototype = {
 			getSetting: function (name, dafaultval)
 			{
-				return typeof(this._settings[name]) != 'undefined' ? this._settings[name] : dafaultval;
+				return typeof(this._settings[name]) !== 'undefined' ? this._settings[name] : dafaultval;
 			},
 			getMessage: function (messageName)
 			{

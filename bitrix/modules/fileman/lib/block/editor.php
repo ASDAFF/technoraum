@@ -20,6 +20,7 @@ class Editor
 {
 	CONST SLICE_SECTION_ID = 'BX_BLOCK_EDITOR_EDITABLE_SECTION';
 	CONST BLOCK_PLACE_ATTR = 'data-bx-block-editor-place';
+	CONST BLOCK_PHP_ATTR = 'data-bx-editor-php-slice';
 	CONST STYLIST_TAG_ATTR = 'data-bx-stylist-container';
 	CONST BLOCK_PLACE_ATTR_DEF_VALUE = 'body';
 	CONST BLOCK_COUNT_PER_PAGE = 14;
@@ -1087,8 +1088,9 @@ HTML
 		$phpList = \PHPParser::ParseFile($html);
 		foreach($phpList as $php)
 		{
+			$phpFormatted = htmlspecialcharsbx(str_replace(["\r", "\n"], "", $php[2]));
 			$id = 'bx_block_php_' . mt_rand();
-			$surrogate = '<span id="' . $id . '" data-bx-editor-php-slice="' . htmlspecialcharsbx($php[2]) . '" class="bxhtmled-surrogate" title=""></span>';
+			$surrogate = '<span id="' . $id . '" ' . self::BLOCK_PHP_ATTR . '="' . ($phpFormatted) . '" class="bxhtmled-surrogate" title=""></span>';
 			$html = str_replace($php[2], $surrogate, $html);
 		}
 

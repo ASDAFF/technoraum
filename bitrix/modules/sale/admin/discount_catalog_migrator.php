@@ -400,8 +400,14 @@ final class DiscountCatalogMigrator
 			{
 				$newData['UNPACK'] = $rawFields['UNPACK'];
 				$newData['APPLICATION'] = $rawFields['APPLICATION'];
-				$newData['ACTIONS'] = $rawFields['ACTIONS'];
-				$newData['CONDITIONS'] = $rawFields['CONDITIONS'];
+				if (!is_array($rawFields['ACTIONS']))
+					$rawFields['ACTIONS'] = unserialize($rawFields['ACTIONS']);
+				$newData['ACTIONS_LIST'] = $rawFields['ACTIONS'];
+
+				if (!is_array($rawFields['CONDITIONS']))
+					$rawFields['CONDITIONS'] = unserialize($rawFields['CONDITIONS']);
+				$newData['CONDITIONS_LIST'] = $rawFields['CONDITIONS'];
+
 				if (isset($rawFields['EXECUTE_MODULE']))
 				{
 					$newData['EXECUTE_MODULE'] = $rawFields['EXECUTE_MODULE'];

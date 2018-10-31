@@ -259,6 +259,11 @@ abstract class Base extends \CBitrixComponent
 		// save original parameters for further ajax requests
 		$this->arResult['ORIGINAL_PARAMETERS'] = $params;
 
+		if (isset($params['CUSTOM_SITE_ID']))
+		{
+			$this->setSiteId($params['CUSTOM_SITE_ID']);
+		}
+
 		// for AJAX_MODE set original ajax_id from initial load
 		if (isset($params['AJAX_MODE']) && $params['AJAX_MODE'] === 'Y')
 		{
@@ -279,6 +284,10 @@ abstract class Base extends \CBitrixComponent
 		$params['SECTION_ID'] = isset($params['SECTION_ID']) ? (int)$params['SECTION_ID'] : 0;
 		$params['SECTION_CODE'] = isset($params['SECTION_CODE']) ? trim($params['SECTION_CODE']) : '';
 		$params['SECTION_URL'] = isset($params['SECTION_URL']) ? trim($params['SECTION_URL']) : '';
+		$params['STRICT_SECTION_CHECK'] = isset($params['STRICT_SECTION_CHECK']) && $params['STRICT_SECTION_CHECK'] === 'Y';
+
+		$params['CHECK_LANDING_PRODUCT_SECTION'] = (isset($params['CHECK_LANDING_PRODUCT_SECTION']) && $params['CHECK_LANDING_PRODUCT_SECTION'] === 'Y');
+
 		$params['DETAIL_URL'] = isset($params['DETAIL_URL']) ? trim($params['DETAIL_URL']) : '';
 		$params['BASKET_URL'] = isset($params['BASKET_URL']) ? trim($params['BASKET_URL']) : '/personal/basket.php';
 
@@ -558,6 +567,72 @@ abstract class Base extends \CBitrixComponent
 		$this->storage['CATALOGS'] = $catalogs;
 	}
 
+	protected function getProductInfo($productId)
+	{
+		if (!$this->useCatalog)
+			return null;
+
+		$productId = (int)$productId;
+		if ($productId <= 0)
+			return null;
+
+		$iblockId = (int)\CIBlockElement::GetIBlockByID($productId);
+		if ($iblockId <= 0)
+			return null;
+
+		$iterator = Catalog\ProductTable::getList([
+			'select' => ['ID', 'TYPE'],
+			'filter' => ['=ID' => $productId]
+		]);
+		$row = $iterator->fetch();
+		unset($iterator);
+		if (empty($row))
+			return null;
+
+		$row['ID'] = (int)$row['ID'];
+		$row['TYPE'] = (int)$row['TYPE'];
+		if (
+			$row['TYPE'] == Catalog\ProductTable::TYPE_EMPTY_SKU
+			|| $row['TYPE'] == Catalog\ProductTable::TYPE_FREE_OFFER
+		)
+			return null;
+
+		$row['ELEMENT_IBLOCK_ID'] = $iblockId;
+		$row['PRODUCT_IBLOCK_ID'] = 0;
+
+		if (isset($this->storage['CATALOGS'][$iblockId]))
+		{
+			if ($this->storage['CATALOGS'][$iblockId]['CATALOG_TYPE'] == \CCatalogSku::TYPE_CATALOG)
+				$row['PRODUCT_IBLOCK_ID'] = $this->storage['CATALOGS'][$iblockId]['IBLOCK_ID'];
+			else
+				$row['PRODUCT_IBLOCK_ID'] = $this->storage['CATALOGS'][$iblockId]['PRODUCT_IBLOCK_ID'];
+			return $row;
+		}
+
+		$catalog = \CCatalogSku::GetInfoByIBlock($iblockId);
+		if (empty($catalog) || !is_array($catalog))
+			return null;
+
+		if ($catalog['CATALOG_TYPE'] == \CCatalogSku::TYPE_PRODUCT)
+			return null;
+
+		if ($catalog['CATALOG_TYPE'] == \CCatalogSku::TYPE_OFFERS)
+		{
+			$iblockId = $catalog['PRODUCT_IBLOCK_ID'];
+			$catalog = \CCatalogSku::GetInfoByIBlock($iblockId);
+		}
+		if (!isset($this->storage['CATALOGS']))
+			$this->storage['CATALOGS'] = [];
+		$this->storage['CATALOGS'][$iblockId] = $catalog;
+		unset($catalog);
+
+		if ($this->storage['CATALOGS'][$iblockId]['CATALOG_TYPE'] == \CCatalogSku::TYPE_CATALOG)
+			$row['PRODUCT_IBLOCK_ID'] = $this->storage['CATALOGS'][$iblockId]['IBLOCK_ID'];
+		else
+			$row['PRODUCT_IBLOCK_ID'] = $this->storage['CATALOGS'][$iblockId]['PRODUCT_IBLOCK_ID'];
+		return $row;
+	}
+
 	/**
 	 * Load catalog prices in component storage.
 	 *
@@ -599,6 +674,14 @@ abstract class Base extends \CBitrixComponent
 
 		if ($this->useCatalog)
 			Catalog\Product\Price::loadRoundRules($this->storage['PRICES_ALLOW']);
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function initIblockPropertyFeatures()
+	{
+
 	}
 
 	/**
@@ -1295,7 +1378,7 @@ abstract class Base extends \CBitrixComponent
 
 		if (!empty($this->arParams['FILTER']))
 		{
-			$filter = defined('SITE_ID') && !SITE_ID ? array('=LID' => $this->getSiteId()) : array();
+			$filter = array('=LID' => $this->getSiteId());
 			$subFilter = array('LOGIC' => 'OR');
 
 			$statuses = array(
@@ -1980,7 +2063,7 @@ abstract class Base extends \CBitrixComponent
 		$propertyCodes = array_fill_keys($propertyCodes, true);
 
 		$propertyIterator = Iblock\PropertyTable::getList(array(
-			'select' => array('ID', 'CODE'),
+			'select' => array('ID', 'CODE', 'SORT'),
 			'filter' => array('=IBLOCK_ID' => $iblock, '=ACTIVE' => 'Y'),
 			'order' => array('SORT' => 'ASC', 'ID' => 'ASC')
 		));
@@ -3394,7 +3477,11 @@ abstract class Base extends \CBitrixComponent
 			{
 				$propertyList = $this->getPropertyList(
 					$catalog['IBLOCK_ID'],
-					$iblockParams['OFFERS_PROPERTY_CODE']
+					array_merge(
+						$iblockParams['OFFERS_PROPERTY_CODE'],
+						$iblockParams['OFFERS_TREE_PROPS'],
+						$iblockParams['OFFERS_CART_PROPERTIES']
+					)
 				);
 				if (!empty($propertyList))
 				{
@@ -3560,6 +3647,7 @@ abstract class Base extends \CBitrixComponent
 
 		$this->initCurrencyConvert();
 		$this->initCatalogInfo();
+		$this->initIblockPropertyFeatures();
 		$this->initPrices();
 		$this->initUrlTemplates();
 
@@ -3758,6 +3846,68 @@ abstract class Base extends \CBitrixComponent
 		}
 	}
 
+	protected function checkProductSection($productId, $sectionId = 0, $sectionCode = '')
+	{
+		$successfulAdd = true;
+		$errorMsg = '';
+
+		if (!empty($productId) && ($sectionId > 0 || !empty($sectionCode)))
+		{
+			$productsMap = $this->getProductIdMap([$productId]);
+
+			if (!empty($productsMap[$productId]))
+			{
+				$sectionId = (int)$sectionId;
+				$sectionCode = (string)$sectionCode;
+
+				$filter = ['ID' => $productsMap[$productId]];
+
+				$element = false;
+				if ($sectionId > 0)
+				{
+					$filter['SECTION_ID'] = $sectionId;
+					$filter['INCLUDE_SUBSECTIONS'] = 'Y';
+					$elementIterator = \CIBlockElement::GetList(array(), $filter, false, false, array('ID'));
+					$element = $elementIterator->Fetch();
+					unset($elementIterator);
+				}
+				elseif ($sectionCode != '')
+				{
+					$iblockId = (int)\CIBlockElement::GetIBlockByID($productsMap[$productId]);
+					if ($iblockId > 0)
+					{
+						$sectionIterator = \CIBlockSection::GetList(
+							[],
+							['IBLOCK_ID' => $iblockId, '=CODE' => $sectionCode],
+							false,
+							['ID', 'IBLOCK_ID']
+						);
+						$section = $sectionIterator->Fetch();
+						unset($sectionIterator);
+						if (!empty($section))
+						{
+							$filter['SECTION_ID'] = (int)$section['ID'];
+							$filter['INCLUDE_SUBSECTIONS'] = 'Y';
+							$elementIterator = \CIBlockElement::GetList(array(), $filter, false, false, array('ID'));
+							$element = $elementIterator->Fetch();
+							unset($elementIterator);
+						}
+						unset($section);
+					}
+					unset($iblockId);
+				}
+
+				if (empty($element))
+				{
+					$successfulAdd = false;
+					$errorMsg = Loc::getMessage('CATALOG_PRODUCT_NOT_FOUND');
+				}
+			}
+		}
+
+		return [$successfulAdd, $errorMsg];
+	}
+
 	protected function addProductToBasket($productId, $action)
 	{
 		/** @global \CMain $APPLICATION */
@@ -3768,72 +3918,77 @@ abstract class Base extends \CBitrixComponent
 
 		$quantity = 0;
 		$productProperties = array();
-		$iblockId = (int)\CIBlockElement::GetIBlockByID($productId);
 
-		if ($iblockId > 0)
+		$product = $this->getProductInfo($productId);
+		if (empty($product))
 		{
-			$productCatalogInfo = \CCatalogSku::GetInfoByIBlock($iblockId);
-			if (!empty($productCatalogInfo) && $productCatalogInfo['CATALOG_TYPE'] == \CCatalogSku::TYPE_PRODUCT)
+			$errorMsg = Loc::getMessage('CATALOG_PRODUCT_NOT_FOUND');
+			$successfulAdd = false;
+		}
+		if ($successfulAdd)
+		{
+			if ($this->arParams['CHECK_LANDING_PRODUCT_SECTION'])
 			{
-				$productCatalogInfo = false;
+				list($successfulAdd, $errorMsg) = $this->checkProductSection(
+					$productId, $this->arParams['SECTION_ID'], $this->arParams['SECTION_CODE']
+				);
 			}
-			if (!empty($productCatalogInfo))
+		}
+
+		if ($successfulAdd)
+		{
+			if ($this->arParams['ADD_PROPERTIES_TO_BASKET'] === 'Y')
 			{
-				if ($this->arParams['ADD_PROPERTIES_TO_BASKET'] === 'Y')
+				$this->initIblockPropertyFeatures();
+				$iblockParams = $this->storage['IBLOCK_PARAMS'][$product['PRODUCT_IBLOCK_ID']];
+				if ($product['TYPE'] == Catalog\ProductTable::TYPE_OFFER)
 				{
-					$productIblockId = ($productCatalogInfo['CATALOG_TYPE'] == \CCatalogSku::TYPE_CATALOG
-						? $productCatalogInfo['IBLOCK_ID']
-						: $productCatalogInfo['PRODUCT_IBLOCK_ID']
-					);
-					$iblockParams = $this->storage['IBLOCK_PARAMS'][$productIblockId];
-					if ($productCatalogInfo['CATALOG_TYPE'] !== \CCatalogSku::TYPE_OFFERS)
+					$skuAddProps = $this->request->get('basket_props') ?: '';
+					if (!empty($iblockParams['OFFERS_CART_PROPERTIES']) || !empty($skuAddProps))
 					{
-						if (!empty($iblockParams['CART_PROPERTIES']))
+						$productProperties = \CIBlockPriceTools::GetOfferProperties(
+							$productId,
+							$product['PRODUCT_IBLOCK_ID'],
+							$iblockParams['OFFERS_CART_PROPERTIES'],
+							$skuAddProps
+						);
+					}
+					unset($skuAddProps);
+				}
+				else
+				{
+					if (!empty($iblockParams['CART_PROPERTIES']))
+					{
+						$productPropsVar = $this->request->get($this->arParams['PRODUCT_PROPS_VARIABLE']);
+						if (is_array($productPropsVar))
 						{
-							$productPropsVar = $this->request->get($this->arParams['PRODUCT_PROPS_VARIABLE']);
-							if (is_array($productPropsVar))
+							$productProperties = \CIBlockPriceTools::CheckProductProperties(
+								$product['PRODUCT_IBLOCK_ID'],
+								$productId,
+								$iblockParams['CART_PROPERTIES'],
+								$productPropsVar,
+								$this->arParams['PARTIAL_PRODUCT_PROPERTIES'] === 'Y'
+							);
+							if (!is_array($productProperties))
 							{
-								$productProperties = \CIBlockPriceTools::CheckProductProperties(
-									$productIblockId,
-									$productId,
-									$iblockParams['CART_PROPERTIES'],
-									$productPropsVar,
-									$this->arParams['PARTIAL_PRODUCT_PROPERTIES'] === 'Y'
-								);
-								if (!is_array($productProperties))
-								{
-									$errorMsg = Loc::getMessage('CATALOG_PARTIAL_BASKET_PROPERTIES_ERROR');
-									$successfulAdd = false;
-								}
-							}
-							else
-							{
-								$errorMsg = Loc::getMessage('CATALOG_EMPTY_BASKET_PROPERTIES_ERROR');
+								$errorMsg = Loc::getMessage('CATALOG_PARTIAL_BASKET_PROPERTIES_ERROR');
 								$successfulAdd = false;
 							}
 						}
-					}
-					else
-					{
-						$skuAddProps = $this->request->get('basket_props') ?: '';
-						if (!empty($iblockParams['OFFERS_CART_PROPERTIES']) || !empty($skuAddProps))
+						else
 						{
-							$productProperties = \CIBlockPriceTools::GetOfferProperties(
-								$productId,
-								$productIblockId,
-								$iblockParams['OFFERS_CART_PROPERTIES'],
-								$skuAddProps
-							);
+							$errorMsg = Loc::getMessage('CATALOG_EMPTY_BASKET_PROPERTIES_ERROR');
+							$successfulAdd = false;
 						}
+						unset($productPropsVar);
 					}
 				}
+				unset($iblockParams);
 			}
-			else
-			{
-				$errorMsg = Loc::getMessage('CATALOG_PRODUCT_NOT_FOUND');
-				$successfulAdd = false;
-			}
+		}
 
+		if ($successfulAdd)
+		{
 			if ($this->arParams['USE_PRODUCT_QUANTITY'])
 			{
 				$quantity = (float)$this->request->get($this->arParams['PRODUCT_QUANTITY_VARIABLE']);
@@ -3861,16 +4016,10 @@ abstract class Base extends \CBitrixComponent
 				$quantity = 1;
 			}
 		}
-		else
-		{
-			$errorMsg = Loc::getMessage('CATALOG_PRODUCT_NOT_FOUND');
-			$successfulAdd = false;
-		}
-
-		$rewriteFields = $this->getRewriteFields($action);
 
 		if ($successfulAdd)
 		{
+			$rewriteFields = $this->getRewriteFields($action);
 			if (!Add2BasketByProductID($productId, $quantity, $rewriteFields, $productProperties))
 			{
 				if ($ex = $APPLICATION->GetException())
@@ -4266,10 +4415,16 @@ abstract class Base extends \CBitrixComponent
 				$documentRoot = Main\Application::getDocumentRoot();
 				$templateFolder = $this->getTemplate()->GetFolder();
 
-				$file = new Main\IO\File($documentRoot.$templateFolder.'/themes/'.$theme.'/style.css');
-				if (!$file->isExists())
+				$themesFolder = new Main\IO\Directory($documentRoot.$templateFolder.'/themes/');
+
+				if ($themesFolder->isExists())
 				{
-					$theme = '';
+					$file = new Main\IO\File($documentRoot.$templateFolder.'/themes/'.$theme.'/style.css');
+
+					if (!$file->isExists())
+					{
+						$theme = '';
+					}
 				}
 			}
 		}
@@ -4389,6 +4544,115 @@ abstract class Base extends \CBitrixComponent
 		}
 
 		return $cell;
+	}
+
+	protected function getOffersIblockId($iblockId)
+	{
+		if (!$this->useCatalog)
+			return null;
+		if (!isset($this->storage['CATALOGS'][$iblockId]))
+			return null;
+		if (
+			$this->storage['CATALOGS'][$iblockId]['CATALOG_TYPE'] != \CCatalogSku::TYPE_PRODUCT
+			&& $this->storage['CATALOGS'][$iblockId]['CATALOG_TYPE'] != \CCatalogSku::TYPE_FULL
+		)
+			return null;
+		return $this->storage['CATALOGS'][$iblockId]['IBLOCK_ID'];
+	}
+
+	/**
+	 * @param int $iblockId
+	 * @return void
+	 */
+	protected function loadDisplayPropertyCodes($iblockId)
+	{
+
+	}
+
+	protected function loadBasketPropertyCodes($iblockId)
+	{
+		if (!$this->useCatalog)
+			return;
+		if (!isset($this->storage['CATALOGS'][$iblockId]))
+			return;
+
+		switch ($this->storage['CATALOGS'][$iblockId]['CATALOG_TYPE'])
+		{
+			case \CCatalogSku::TYPE_CATALOG:
+				$list = Catalog\Product\PropertyCatalogFeature::getBasketPropertyCodes(
+					$iblockId,
+					['CODE' => 'Y']
+				);
+				if ($list === null)
+					$list = [];
+				$this->storage['IBLOCK_PARAMS'][$iblockId]['CART_PROPERTIES'] = $list;
+				unset($list);
+				$this->storage['IBLOCK_PARAMS'][$iblockId]['OFFERS_CART_PROPERTIES'] = [];
+				break;
+			case \CCatalogSku::TYPE_PRODUCT:
+				$this->storage['IBLOCK_PARAMS'][$iblockId]['CART_PROPERTIES'] = [];
+				$list = Catalog\Product\PropertyCatalogFeature::getBasketPropertyCodes(
+					$this->getOffersIblockId($iblockId),
+					['CODE' => 'Y']
+				);
+				if ($list === null)
+					$list = [];
+				$this->storage['IBLOCK_PARAMS'][$iblockId]['OFFERS_CART_PROPERTIES'] = $list;
+				unset($list);
+				break;
+			case \CCatalogSku::TYPE_FULL:
+				$list = Catalog\Product\PropertyCatalogFeature::getBasketPropertyCodes(
+					$iblockId,
+					['CODE' => 'Y']
+				);
+				if ($list === null)
+					$list = [];
+				$this->storage['IBLOCK_PARAMS'][$iblockId]['CART_PROPERTIES'] = $list;
+				$list = Catalog\Product\PropertyCatalogFeature::getBasketPropertyCodes(
+					$this->getOffersIblockId($iblockId),
+					['CODE' => 'Y']
+				);
+				if ($list === null)
+					$list = [];
+				$this->storage['IBLOCK_PARAMS'][$iblockId]['OFFERS_CART_PROPERTIES'] = $list;
+				unset($list);
+				break;
+			case \CCatalogSku::TYPE_OFFERS:
+				$this->storage['IBLOCK_PARAMS'][$iblockId]['CART_PROPERTIES'] = [];
+				$this->storage['IBLOCK_PARAMS'][$iblockId]['OFFERS_CART_PROPERTIES'] = [];
+				break;
+			default:
+				break;
+		}
+	}
+
+	protected function loadOfferTreePropertyCodes($iblockId)
+	{
+		if (!$this->useCatalog)
+			return;
+		if (!isset($this->storage['CATALOGS'][$iblockId]))
+			return;
+
+		switch ($this->storage['CATALOGS'][$iblockId]['CATALOG_TYPE'])
+		{
+			case \CCatalogSku::TYPE_CATALOG:
+			case \CCatalogSku::TYPE_OFFERS:
+				$this->storage['IBLOCK_PARAMS'][$iblockId]['OFFERS_TREE_PROPS'] = [];
+				break;
+			case \CCatalogSku::TYPE_PRODUCT:
+			case \CCatalogSku::TYPE_FULL:
+				$list = Catalog\Product\PropertyCatalogFeature::getOfferTreePropertyCodes(
+					$this->storage['CATALOGS'][$iblockId]['IBLOCK_ID'],
+					['CODE' => 'Y']
+				);
+				if ($list === null)
+					$list = [];
+				$this->storage['IBLOCK_PARAMS'][$iblockId]['OFFERS_TREE_PROPS'] = $list;
+				unset($list);
+				break;
+			default:
+				break;
+		}
 	}
 
 	/* product tools */

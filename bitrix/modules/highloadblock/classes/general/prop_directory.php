@@ -32,9 +32,11 @@ class CIBlockPropertyDirectory
 			'GetPropertyFieldHtml' => array(__CLASS__, 'GetPropertyFieldHtml'),
 			'GetPropertyFieldHtmlMulty' => array(__CLASS__, 'GetPropertyFieldHtmlMulty'),
 			'PrepareSettings' => array(__CLASS__, 'PrepareSettings'),
+			'GetOptionsData' => array(__CLASS__, 'GetOptionsData'),
 			'GetAdminListViewHTML' => array(__CLASS__, 'GetAdminListViewHTML'),
 			'GetPublicViewHTML' => array(__CLASS__, 'GetPublicViewHTML'),
 			'GetPublicEditHTML' => array(__CLASS__, 'GetPublicEditHTML'),
+			'GetPublicEditHTMLMulty' => array(__CLASS__, 'GetPublicEditHTMLMulty'),
 			'GetAdminFilterHTML' => array(__CLASS__, 'GetAdminFilterHTML'),
 			'GetExtendedValue' => array(__CLASS__, 'GetExtendedValue'),
 			'GetSearchContent' => array(__CLASS__, 'GetSearchContent'),
@@ -177,7 +179,7 @@ function getDirectoryTableRow(addNew)
 				BX('hlb_directory_title_tr').style.display = 'none';
 
 				BX.ajax.post(
-					'/bitrix/admin/highloadblock_directory_ajax.php',
+					'highloadblock_directory_ajax.php',
 					{
 						lang: BX.message('LANGUAGE_ID'),
 						sessid: BX.bitrix_sessid(),
@@ -199,7 +201,7 @@ function getDirectoryTableRow(addNew)
 		if (addNew === 'row')
 		{
 			BX.ajax.loadJSON(
-				'/bitrix/admin/highloadblock_directory_ajax.php',
+				'highloadblock_directory_ajax.php',
 				{
 					lang: BX.message('LANGUAGE_ID'),
 					sessid: BX.bitrix_sessid(),
@@ -395,14 +397,36 @@ HIBSELECT;
 	 */
 	public static function GetPublicEditHTML($property, $value, $control)
 	{
+		$multi = (isset($property['MULTIPLE']) && $property['MULTIPLE'] == 'Y');
+
 		$settings = CIBlockPropertyDirectory::PrepareSettings($property);
 		$size = ($settings['size'] > 1 ? ' size="'.$settings['size'].'"' : '');
 		$width = ($settings['width'] > 0 ? ' style="width:'.$settings['width'].'px"' : ' style="margin-bottom:3px"');
 
-		$multi = (isset($property['MULTIPLE']) && $property['MULTIPLE'] == 'Y');
-
-		$html = '<select multiple name="'.$control['VALUE'].($multi ? '[]' : '').'"'.$size.$width.'>';
+		$html = '<select '.($multi ? 'multiple' : '').' name="'.$control['VALUE'].($multi ? '[]' : '').'"'.$size.$width.'>';
 		$html .= CIBlockPropertyDirectory::GetOptionsHtml($property, $value);
+		$html .= '</select>';
+
+		return $html;
+	}
+
+	/**
+	 * Return html for public edit multi values.
+	 *
+	 * @param array $property			Property description.
+	 * @param array $value				Current value.
+	 * @param array $control			Control description.
+	 * @return string
+	 */
+	public static function GetPublicEditHTMLMulty($property, $value, $control)
+	{
+		$settings = CIBlockPropertyDirectory::PrepareSettings($property);
+		$settings['size'] = ($settings['size'] <= 1 ? 5 : $settings['size']);
+
+		$width = ($settings['width'] > 0 ? ' style="width:'.$settings['width'].'px"' : ' style="margin-bottom:3px"');
+
+		$html = '<select multiple name="'.$control['VALUE'].'[]" size="'.$settings['size'].'"'.$width.'>';
+		$html .= CIBlockPropertyDirectory::GetOptionsHtml($property, self::normalizeValue($value));
 		$html .= '</select>';
 
 		return $html;
@@ -452,6 +476,35 @@ HIBSELECT;
 	}
 
 	/**
+	 * Returns data for list.
+	 *
+	 * @param array $arProperty Property description.
+	 * @return array
+	 */
+	public static function GetOptionsData($arProperty)
+	{
+		$listData = array();
+
+		if(isset($arProperty["USER_TYPE_SETTINGS"]["TABLE_NAME"]))
+		{
+			$highLoadIBTableName = $arProperty["USER_TYPE_SETTINGS"]["TABLE_NAME"];
+			if (empty(self::$arFullCache[$highLoadIBTableName]))
+			{
+				self::$arFullCache[$highLoadIBTableName] = self::getEntityFieldsByFilter(
+					$highLoadIBTableName,
+					array("select" => array("UF_XML_ID", "UF_NAME", "ID"))
+				);
+			}
+			foreach(self::$arFullCache[$highLoadIBTableName] as $data)
+			{
+				$listData[$data['UF_XML_ID']] = $data["UF_NAME"]." [".$data["ID"]."]";
+			}
+		}
+
+		return $listData;
+	}
+
+	/**
 	 * Returns data for smart filter.
 	 *
 	 * @param array $arProperty				Property description.
@@ -462,6 +515,10 @@ HIBSELECT;
 	{
 		if (!isset($value['VALUE']))
 			return false;
+
+		if (is_array($value['VALUE']) && count($value['VALUE']) == 0)
+			return false;
+
 		if (empty($arProperty['USER_TYPE_SETTINGS']['TABLE_NAME']))
 			return false;
 
@@ -469,31 +526,55 @@ HIBSELECT;
 		if (!isset(self::$arItemCache[$tableName]))
 			self::$arItemCache[$tableName] = array();
 
-		if (!isset(self::$arItemCache[$tableName][$value['VALUE']]))
+		if (is_array($value['VALUE']) || !isset(self::$arItemCache[$tableName][$value['VALUE']]))
 		{
-			$arData = self::getEntityFieldsByFilter(
+			$data = self::getEntityFieldsByFilter(
 				$arProperty['USER_TYPE_SETTINGS']['TABLE_NAME'],
 				array(
 					'select' => array('UF_XML_ID', 'UF_NAME'),
 					'filter' => array('=UF_XML_ID' => $value['VALUE'])
 				)
 			);
-			if (!empty($arData))
+
+			if (!empty($data))
 			{
-				$arData = current($arData);
-				if (isset($arData['UF_XML_ID']) && $arData['UF_XML_ID'] == $value['VALUE'])
+				foreach ($data as $item)
 				{
-					$arData['VALUE'] = $arData['UF_NAME'];
-					if (isset($arData['UF_FILE']))
-						$arData['FILE_ID'] = $arData['UF_FILE'];
-					self::$arItemCache[$tableName][$value['VALUE']] = $arData;
+					if (isset($item['UF_XML_ID']))
+					{
+						$item['VALUE'] = $item['UF_NAME'];
+						if (isset($item['UF_FILE']))
+						{
+							$item['FILE_ID'] = $item['UF_FILE'];
+						}
+						self::$arItemCache[$tableName][$item['UF_XML_ID']] = $item;
+					}
 				}
 			}
 		}
 
-		if (isset(self::$arItemCache[$tableName][$value['VALUE']]))
+		if (is_array($value['VALUE']))
 		{
-			return self::$arItemCache[$tableName][$value['VALUE']];
+			$result = array();
+			foreach ($value['VALUE'] as $prop)
+			{
+				if (isset(self::$arItemCache[$tableName][$prop]))
+				{
+					$result[$prop] = self::$arItemCache[$tableName][$prop];
+				}
+				else
+				{
+					$result[$prop] = false;
+				}
+			}
+			return $result;
+		}
+		else
+		{
+			if (isset(self::$arItemCache[$tableName][$value['VALUE']]))
+			{
+				return self::$arItemCache[$tableName][$value['VALUE']];
+			}
 		}
 		return false;
 	}
@@ -718,5 +799,39 @@ HIBSELECT;
 			}
 		}
 		return $arResult;
+	}
+
+	private static function normalizeValue($value)
+	{
+		$result = [];
+		if (!is_array($value))
+		{
+			$value = (string)$value;
+			if ($value !== '')
+				$result[] = $value;
+		}
+		else
+		{
+			if (!empty($value))
+			{
+				foreach ($value as $row)
+				{
+					$oneValue = '';
+					if (is_array($row))
+					{
+						if (isset($row['VALUE']))
+							$oneValue = (string)$row['VALUE'];
+					}
+					else
+					{
+						$oneValue = (string)$row;
+					}
+					if ($oneValue !== '')
+						$result[] = $oneValue;
+				}
+				unset($oneValue, $row);
+			}
+		}
+		return $result;
 	}
 }

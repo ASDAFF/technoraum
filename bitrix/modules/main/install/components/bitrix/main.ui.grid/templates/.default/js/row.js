@@ -118,6 +118,12 @@
 				{
 					cellValues.forEach(function(cellValue) {
 						values[cellValue.NAME] = cellValue.VALUE !== undefined ? cellValue.VALUE : "";
+
+						if (cellValue.RAW_NAME && cellValue.RAW_VALUE)
+						{
+							values[cellValue.NAME + "_custom"] = values[cellValue.NAME + "_custom"] || {};
+							values[cellValue.NAME + "_custom"][cellValue.RAW_NAME] = cellValue.RAW_VALUE;
+						}
 					});
 				}
 				else if (cellValues)
@@ -161,6 +167,8 @@
 									});
 									result.push({
 										'NAME': editor.getAttribute('data-name'),
+										'RAW_NAME': element.name,
+										'RAW_VALUE': selectValues,
 										'VALUE': selectValues
 									});
 								}
@@ -168,6 +176,8 @@
 								{
 									result.push({
 										'NAME': editor.getAttribute('data-name'),
+										'RAW_NAME': element.name,
+										'RAW_VALUE': element.value,
 										'VALUE': element.value
 									});
 								}
@@ -175,17 +185,20 @@
 							case 'INPUT':
 								switch(element.type.toUpperCase())
 								{
+									case 'RADIO':
 									case 'CHECKBOX':
 										result.push({
 											'NAME': editor.getAttribute('data-name'),
+											'RAW_NAME': element.name,
+											'RAW_VALUE': element.checked ? element.value : '',
 											'VALUE': element.checked ? element.value : ''
 										});
-										break;
-									case 'HIDDEN':
 										break;
 									default:
 										result.push({
 											'NAME': editor.getAttribute('data-name'),
+											'RAW_NAME': element.name,
+											'RAW_VALUE': element.value,
 											'VALUE': element.value
 										});
 								}
@@ -193,6 +206,8 @@
 							default:
 								result.push({
 									'NAME': editor.getAttribute('data-name'),
+									'RAW_NAME': element.name,
+									'RAW_VALUE': element.value,
 									'VALUE': element.value
 								});
 						}
@@ -403,9 +418,7 @@
 		 */
 		setParentId: function(id)
 		{
-			id = id.toString();
-			var dataset = this.getDataset();
-			dataset['parentId'] = id;
+			this.getDataset()['parentId'] = id;
 		},
 
 
@@ -583,7 +596,7 @@
 				}
 
 				BX.onCustomEvent(window, 'Grid::rowUpdated', [{id: id, data: data, grid: self.parent, response: this}]);
-				BX.onCustomEvent(window, 'Grid::updated', []);
+				BX.onCustomEvent(window, 'Grid::updated', [self.parent]);
 
 				if (BX.type.isFunction(callback))
 				{
@@ -632,7 +645,7 @@
 				}
 
 				BX.onCustomEvent(window, 'Grid::rowRemoved', [{id: id, data: data, grid: self.parent, response: this}]);
-				BX.onCustomEvent(window, 'Grid::updated', []);
+				BX.onCustomEvent(window, 'Grid::updated', [self.parent]);
 
 				if (BX.type.isFunction(callback))
 				{
@@ -868,12 +881,12 @@
 
 		showActionsMenu: function(event)
 		{
+			BX.fireEvent(document.body, 'click');
+
 			this.getActionsMenu().popupWindow.show();
 
 			if (event)
 			{
-				BX.fireEvent(document.body, 'click');
-
 				this.getActionsMenu().popupWindow.popupContainer.style.top = ((event.pageY - 25) + BX.PopupWindow.getOption("offsetTop")) + "px";
 				this.getActionsMenu().popupWindow.popupContainer.style.left = ((event.pageX + 20) + BX.PopupWindow.getOption("offsetLeft")) + "px";
 			}

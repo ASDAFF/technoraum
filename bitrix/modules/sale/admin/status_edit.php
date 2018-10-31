@@ -76,6 +76,8 @@ if ($saleGroupIds)
 // A D D / U P D A T E /////////////////////////////////////////////////////////////////////////////////////////////////
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && !$readOnly && check_bitrix_sessid() && ($_POST['save'] || $_POST['apply']))
 {
+	$adminSidePanelHelper->decodeUriComponent();
+
 	$errors = array();
 	$statusType = $_REQUEST['TYPE'] == \Bitrix\Sale\OrderStatus::TYPE ? \Bitrix\Sale\OrderStatus::TYPE : \Bitrix\Sale\DeliveryStatus::TYPE;
 	$lockedStatusList = array(
@@ -256,11 +258,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !$readOnly && check_bitrix_sessid() 
 			}
 		}
 
+		$adminSidePanelHelper->sendSuccessResponse("base", array("ID" => $statusId));
 
 		if ($_POST['save'])
 			LocalRedirect('sale_status.php?lang='.LANGUAGE_ID.GetFilterParams('filter_', false));
 		else
 			LocalRedirect("sale_status_edit.php?ID=".$statusId."&lang=".LANGUAGE_ID.GetFilterParams("filter_", false));
+	}
+	else
+	{
+		$adminSidePanelHelper->sendJsonErrorResponse($errors);
 	}
 }
 // L O A D  O R  N E W /////////////////////////////////////////////////////////////////////////////////////////////////

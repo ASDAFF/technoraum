@@ -1826,7 +1826,7 @@ final class CurrencyClassifier
 				'SYM_CODE' => 'XAF',
 				'DEFAULT' => array(
 					'FULL_NAME' => 'CFA Franc BEAC',
-					'FORMAT_STRING' => '&#8378;#VALUE#',
+					'FORMAT_STRING' => '&#8355;#VALUE#',
 					'DEC_POINT' => '.',
 					'THOUSANDS_VARIANT' => self::SEPARATOR_COMMA,
 					'DECIMALS' => 0,
@@ -1850,7 +1850,7 @@ final class CurrencyClassifier
 				'SYM_CODE' => 'XOF',
 				'DEFAULT' => array(
 					'FULL_NAME' => 'CFA Franc BCEAO',
-					'FORMAT_STRING' => '&#8378;#VALUE#',
+					'FORMAT_STRING' => '&#8355;#VALUE#',
 					'DEC_POINT' => '.',
 					'THOUSANDS_VARIANT' => self::SEPARATOR_COMMA,
 					'DECIMALS' => 0,
@@ -1862,7 +1862,7 @@ final class CurrencyClassifier
 				'SYM_CODE' => 'XPF',
 				'DEFAULT' => array(
 					'FULL_NAME' => 'CFP Franc',
-					'FORMAT_STRING' => '&#8378;#VALUE#',
+					'FORMAT_STRING' => '&#8355;#VALUE#',
 					'DEC_POINT' => '.',
 					'THOUSANDS_VARIANT' => self::SEPARATOR_COMMA,
 					'DECIMALS' => 0,
@@ -2150,7 +2150,7 @@ final class CurrencyClassifier
 				'SYM_CODE' => 'GEL',
 				'DEFAULT' => array(
 					'FULL_NAME' => 'Lari',
-					'FORMAT_STRING' => '&#8372;#VALUE#',
+					'FORMAT_STRING' => '&#8382;#VALUE#',
 					'DEC_POINT' => '.',
 					'THOUSANDS_VARIANT' => self::SEPARATOR_COMMA,
 					'DECIMALS' => 2,

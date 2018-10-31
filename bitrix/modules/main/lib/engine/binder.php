@@ -7,6 +7,7 @@ use Bitrix\Main\ArgumentException;
 use Bitrix\Main\ArgumentNullException;
 use Bitrix\Main\ArgumentTypeException;
 use Bitrix\Main\Event;
+use Bitrix\Main\ObjectNotFoundException;
 
 class Binder
 {
@@ -182,6 +183,20 @@ class Binder
 	}
 
 	/**
+	 * Sets list of method params.
+	 * @param array $params List of parameters.
+	 *
+	 * @return $this
+	 */
+	final public function setMethodParams(array $params)
+	{
+		$this->methodParams = $params;
+		$this->args = array_values($params);
+
+		return $this;
+	}
+
+	/**
 	 * Returns list of method params which possible use in call_user_func_array().
 	 * @return array
 	 */
@@ -196,13 +211,56 @@ class Binder
 	 */
 	final public function invoke()
 	{
-		if($this->reflectionFunctionAbstract instanceof \ReflectionMethod)
+		try
 		{
-			return $this->reflectionFunctionAbstract->invokeArgs($this->instance, $this->getArgs());
+			if($this->reflectionFunctionAbstract instanceof \ReflectionMethod)
+			{
+				return $this->reflectionFunctionAbstract->invokeArgs($this->instance, $this->getArgs());
+			}
+			elseif ($this->reflectionFunctionAbstract instanceof \ReflectionFunction)
+			{
+				return $this->reflectionFunctionAbstract->invokeArgs($this->getArgs());
+			}
 		}
-		elseif ($this->reflectionFunctionAbstract instanceof \ReflectionFunction)
+		catch (\TypeError $exception)
 		{
-			return $this->reflectionFunctionAbstract->invokeArgs($this->getArgs());
+			$this->processException($exception);
+		}
+		catch (\ErrorException $exception)
+		{
+			$this->processException($exception);
+		}
+
+		return null;
+	}
+
+	private function processException($exception)
+	{
+		if (!($exception instanceof \TypeError) && !($exception instanceof \ErrorException))
+		{
+			return;
+		}
+
+		if (
+			stripos($exception->getMessage(), 'must be an instance of') === false &&
+			stripos($exception->getMessage(), 'null given') === false
+		)
+		{
+			throw $exception;
+		}
+
+		$message = $this->extractParameterClassName($exception->getMessage());
+
+		throw new ObjectNotFoundException(
+			"Could not find value for class {{$message}} to build auto wired argument"
+		);
+	}
+
+	private function extractParameterClassName($message)
+	{
+		if (preg_match('%must be an instance of ([a-zA-Z0-9_\\\\]+), null given%', $message, $m))
+		{
+			return $m[1];
 		}
 
 		return null;
@@ -222,6 +280,11 @@ class Binder
 				$primaryId = $this->findParameterInSourceList($parameterName, $status);
 				if ($status === self::STATUS_NOT_FOUND)
 				{
+					if ($parameter->isDefaultValueAvailable())
+					{
+						return $parameter->getDefaultValue();
+					}
+
 					throw new ArgumentException(
 						"Could not find value for parameter {{$parameterName}} to build auto wired argument {{$parameter->getClass()->name} {$parameter->getName()}}"
 					);

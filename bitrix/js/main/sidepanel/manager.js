@@ -16,6 +16,9 @@
  * @property {object} [data]
  * @property {string} [typeLoader] - option for compatibility
  * @property {number} [animationDuration]
+ * @property {number} [customLeftBoundary]
+ * @property {number} [customRightBoundary]
+ * @property {number} [customTopBoundary]
  * @property {?object.<string, function>} [events]
  */
 
@@ -78,7 +81,6 @@ Object.defineProperty(BX.SidePanel, "Instance", {
 BX.SidePanel.Manager = function(options)
 {
 	this.anchorRules = [];
-	this.anchorHandler = null;
 
 	this.openSliders = [];
 	this.lastOpenSlider = null;
@@ -89,6 +91,7 @@ BX.SidePanel.Manager = function(options)
 
 	this.pageUrl = this.getCurrentUrl();
 
+	this.handleAnchorClick = this.handleAnchorClick.bind(this);
 	this.handleDocumentKeyDown = this.handleDocumentKeyDown.bind(this);
 	this.handleWindowResize = BX.throttle(this.handleWindowResize, 300, this);
 	this.handleWindowScroll = this.handleWindowScroll.bind(this);
@@ -181,7 +184,16 @@ BX.SidePanel.Manager.prototype =
 			slider = new sliderClass(url, options);
 
 			var zIndex = topSlider ? topSlider.getZindex() + 1 : slider.getZindex();
-			var offset = topSlider ? Math.min(topSlider.getOffset() + this.getMinOffset(), this.getMaxOffset()) : 0;
+			var offset = null;
+			if (slider.getWidth() === null && slider.getCustomLeftBoundary() === null)
+			{
+				offset = 0;
+				var lastOffset = this.getLastOffset();
+				if (topSlider && lastOffset !== null)
+				{
+					offset = Math.min(lastOffset + this.getMinOffset(), this.getMaxOffset());
+				}
+			}
 
 			slider.setZindex(zIndex);
 			slider.setOffset(offset);
@@ -513,6 +525,25 @@ BX.SidePanel.Manager.prototype =
 	},
 
 	/**
+	 * @private
+	 * @return {?number}
+	 */
+	getLastOffset: function()
+	{
+		var openSliders = this.getOpenSliders();
+		for (var i = openSliders.length - 1; i >= 0; i--)
+		{
+			var slider = openSliders[i];
+			if (slider.getOffset() !== null)
+			{
+				return slider.getOffset();
+			}
+		}
+
+		return null;
+	},
+
+	/**
 	 * @public
 	 * @param {string} url
 	 * @returns {string}
@@ -542,7 +573,7 @@ BX.SidePanel.Manager.prototype =
 
 	/**
 	 * @public
-	 * @param {string|window|BX.SidePanel.Slider} source
+	 * @param {string|Window|BX.SidePanel.Slider} source
 	 * @param {string} eventId
 	 * @param {object} data
 	 */
@@ -589,7 +620,7 @@ BX.SidePanel.Manager.prototype =
 
 	/**
 	 * @public
-	 * @param {string|window|BX.SidePanel.Slider} source
+	 * @param {string|Window|BX.SidePanel.Slider} source
 	 * @param {string} eventId
 	 * @param {object} data
 	 */
@@ -619,7 +650,7 @@ BX.SidePanel.Manager.prototype =
 			});
 
 			slider.firePageEvent(event);
-			slider.fireFrameEvent(event)
+			slider.fireFrameEvent(event);
 		}
 
 		event = new BX.SidePanel.MessageEvent({
@@ -634,7 +665,7 @@ BX.SidePanel.Manager.prototype =
 
 	/**
 	 * @public
-	 * @param {string|window|BX.SidePanel.Slider} source
+	 * @param {string|Window|BX.SidePanel.Slider} source
 	 * @param {string} eventId
 	 * @param {object} data
 	 */
@@ -682,15 +713,24 @@ BX.SidePanel.Manager.prototype =
 	{
 		parameters = parameters || {};
 
-		if (BX.type.isArray(parameters.rules))
+		if (BX.type.isArray(parameters.rules) && parameters.rules.length)
 		{
-			this.anchorRules = this.anchorRules.concat(parameters.rules);
-		}
+			if (this.anchorRules.length === 0)
+			{
+				window.document.addEventListener("click", this.handleAnchorClick, true);
+			}
 
-		if (!this.anchorHandler)
-		{
-			this.anchorHandler = this.handleAnchorClick.bind(this);
-			window.document.addEventListener("click", this.anchorHandler, true);
+			if (!(parameters.rules instanceof Object))
+			{
+				console.error(
+					"BX.SitePanel: anchor rules were created in a different context. " +
+					"This might be a reason for a memory leak."
+				);
+
+				console.trace();
+			}
+
+			this.anchorRules = this.anchorRules.concat(parameters.rules);
 		}
 	},
 
@@ -785,6 +825,12 @@ BX.SidePanel.Manager.prototype =
 		BX.removeCustomEvent(slider, "SidePanel.Slider:onLoad", this.handleSliderLoad);
 		BX.removeCustomEvent(slider, "SidePanel.Slider:onDestroy", this.handleSliderDestroy);
 
+		var frameWindow = event.getSlider().getFrameWindow();
+		if (frameWindow)
+		{
+			frameWindow.document.removeEventListener("click", this.handleAnchorClick, true);
+		}
+
 		if (slider === this.getLastOpenSlider())
 		{
 			this.lastOpenSlider = null;
@@ -835,7 +881,7 @@ BX.SidePanel.Manager.prototype =
 		var frameWindow = event.getSlider().getFrameWindow();
 		if (frameWindow)
 		{
-			frameWindow.document.addEventListener("click", this.handleAnchorClick.bind(this), true);
+			frameWindow.document.addEventListener("click", this.handleAnchorClick, true);
 		}
 
 		this.setBrowserHistory(event.getSlider());
@@ -843,7 +889,7 @@ BX.SidePanel.Manager.prototype =
 
 	/**
 	 * @private
-	 * @param {string|window|BX.SidePanel.Slider} source
+	 * @param {string|Window|BX.SidePanel.Slider} source
 	 * @param {object} data
 	 */
 	handlePostMessageCompatible: function(source, data)
@@ -853,7 +899,7 @@ BX.SidePanel.Manager.prototype =
 
 	/**
 	 * @private
-	 * @param {string|window|BX.SidePanel.Slider} source
+	 * @param {string|Window|BX.SidePanel.Slider} source
 	 */
 	getSliderFromSource: function(source)
 	{
@@ -959,6 +1005,7 @@ BX.SidePanel.Manager.prototype =
 		var scrollWidth = window.innerWidth - document.documentElement.clientWidth;
 		document.body.style.paddingRight = scrollWidth + "px";
 		BX.addClass(document.body, "side-panel-disable-scrollbar");
+		this.pageScrollTop = window.pageYOffset || document.documentElement.scrollTop;
 	},
 
 	/**
@@ -1016,6 +1063,7 @@ BX.SidePanel.Manager.prototype =
 	 */
 	handleWindowScroll: function()
 	{
+		window.scrollTo(0, this.pageScrollTop);
 		this.adjustLayout();
 	},
 

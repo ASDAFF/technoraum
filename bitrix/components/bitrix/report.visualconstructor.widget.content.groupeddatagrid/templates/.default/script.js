@@ -7,6 +7,7 @@
 		this.blockContainer = this.context.querySelector('[data-role="report-widget-triple-data-with-progress"]');
 		this.wrapper = this.context.querySelector('[data-role="report-widget-triple-data-with-progress-wrapper"]');
 		this.actionControlNode = this.context.querySelector('[data-role="reports-more-users"]');
+		this.containerHeight = null;
 		this.layout = {
 			container: null,
 			header: null,
@@ -46,6 +47,11 @@
 		},
 		expendWidgetHeight: function()
 		{
+			if (!this.containerHeight)
+			{
+				this.containerHeight = this.blockContainer.offsetHeight;
+			}
+
 			BX.addClass(this.blockContainer, 'report-widget-triple-data-with-progress-open');
 			this.blockContainer.style.height = this.wrapper.offsetHeight + 'px';
 			this.blockContainer.addEventListener("transitionend", function() {
@@ -58,9 +64,12 @@
 		},
 		collapseWidgetHeight: function()
 		{
+			this.blockContainer.style.height = this.blockContainer.offsetHeight + 'px';
 			this.collapseAllRows();
 			BX.removeClass(this.blockContainer, 'report-widget-triple-data-with-progress-open');
-			this.blockContainer.style.height = '';
+			setTimeout(function() {
+				this.blockContainer.style.height = this.containerHeight + 'px';
+			}.bind(this),0);
 			this.actionControlNode.textContent = BX.message('REPORT_GROUPED_DATA_GRID_MORE_TITLE');
 		},
 		collapseAllRows: function()

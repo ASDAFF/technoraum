@@ -192,7 +192,11 @@
 			BX.addCustomEvent(window, 'Grid::unselectRow', BX.proxy(this._onUnselectRows, this));
 			BX.addCustomEvent(window, 'Grid::unselectRows', BX.proxy(this._onUnselectRows, this));
 			BX.addCustomEvent(window, 'Grid::allRowsUnselected', BX.proxy(this._onUnselectRows, this));
+			BX.addCustomEvent(window, 'Grid::updated', BX.proxy(this._onGridUpdated, this));
 			window.frames[this.getFrameId()].onresize = BX.throttle(this._onFrameResize, 20, this);
+
+			this.initStickedColumns();
+
 		},
 
 		destroy: function()
@@ -212,6 +216,12 @@
 		_onFrameResize: function()
 		{
 			BX.onCustomEvent(window, 'Grid::resize', [this]);
+		},
+
+		_onGridUpdated: function()
+		{
+			this.initStickedColumns();
+			this.adjustFadePosition(this.getFadeOffset());
 		},
 
 		/**
@@ -413,7 +423,38 @@
 
 		editSelectedSave: function()
 		{
-			var data = { 'FIELDS': this.getRows().getEditSelectedValues() };
+			var data = {'FIELDS': this.getRows().getEditSelectedValues()};
+
+			if (this.getParam("ALLOW_VALIDATE"))
+			{
+				this.tableFade();
+				data[this.getActionKey()] = 'validate';
+				this.getData().request('', 'POST', data, 'validate', function(res) {
+					res = JSON.parse(res);
+
+					if (res.messages.length)
+					{
+						this.arParams['MESSAGES'] = res.messages;
+						this.messages.show();
+
+						var editButton = this.getActionsPanel().getButtons()
+							.find(function(button) {
+								return button.id === "grid_edit_button_control";
+							});
+
+						this.tableUnfade();
+						BX.fireEvent(editButton, 'click');
+					}
+					else
+					{
+						data[this.getActionKey()] = 'edit';
+						this.reloadTable('POST', data);
+					}
+				}.bind(this));
+
+				return;
+			}
+
 			data[this.getActionKey()] = 'edit';
 			this.reloadTable('POST', data);
 		},
@@ -452,7 +493,7 @@
 			this.tableFade();
 			this.getData().request(url, 'POST', rowData, null, function() {
 				var bodyRows = this.getBodyRows();
-				self.getUpdater().updateBodyRows();
+				self.getUpdater().updateBodyRows(bodyRows);
 				self.tableUnfade();
 				self.getRows().reset();
 				self.getUpdater().updateFootRows(this.getFootRows());
@@ -478,7 +519,7 @@
 				}
 
 				BX.onCustomEvent(window, 'Grid::rowAdded', [{data: data, grid: self, response: this}]);
-				BX.onCustomEvent(window, 'Grid::updated', []);
+				BX.onCustomEvent(window, 'Grid::updated', [self]);
 
 				if (BX.type.isFunction(callback))
 				{
@@ -656,7 +697,7 @@
 
 				self.tableUnfade();
 
-				BX.onCustomEvent(window, 'Grid::updated', []);
+				BX.onCustomEvent(window, 'Grid::updated', [self]);
 
 				if (BX.type.isFunction(callback))
 				{
@@ -772,8 +813,9 @@
 			BX.bind(this.getContainer(), 'click', function(event) {
 				cell = BX.findParent(event.target, {tag: 'th'}, true, false);
 
-				if (cell && self.isSortableHeader(cell))
+				if (cell && self.isSortableHeader(cell) && !self.preventSortableClick)
 				{
+					self.preventSortableClick = false;
 					self._clickOnSortableHeader(cell, event);
 				}
 			});
@@ -807,6 +849,188 @@
 		{
 			var columns = this.getParam('DEFAULT_COLUMNS');
 			return !!name && name in columns ? columns[name] : null;
+		},
+
+		adjustIndex: function(index)
+		{
+			var fixedCells = this.getAllRows()[0]
+				.querySelectorAll('.main-grid-fixed-column').length;
+			return (index + fixedCells);
+		},
+
+		getColumnByIndex: function(index)
+		{
+			index = this.adjustIndex(index);
+
+			return this.getAllRows()
+				.reduce(function(accumulator, row) {
+					if (!row.classList.contains('main-grid-row-custom') && !row.classList.contains('main-grid-row-empty'))
+					{
+						accumulator.push(row.children[index]);
+					}
+
+					return accumulator;
+				}, []);
+		},
+
+		getAllRows: function()
+		{
+			var rows = [].slice.call(this.getTable().rows);
+			var fixedTable = this.getContainer().parentElement.querySelector(".main-grid-fixed-bar table");
+
+			if (fixedTable)
+			{
+				rows.push(fixedTable.rows[0]);
+			}
+
+			return rows;
+		},
+
+		initStickedColumns: function()
+		{
+			[].slice.call(this.getAllRows()[0].children).forEach(function(cell, index) {
+				if (cell.classList.contains('main-grid-sticked-column'))
+				{
+					this.stickyColumnByIndex(index);
+				}
+			}, this);
+
+			this.getResize().destroy();
+			this.getResize().init(this);
+		},
+
+		stickyColumnByIndex: function(index)
+		{
+			var column = this.getColumnByIndex(index);
+			var cellWidth = column[0].clientWidth;
+
+			var heights = column.map(function(cell) {
+				return BX.height(cell);
+			});
+
+			column.forEach(function(cell, cellIndex) {
+				var clone = BX.clone(cell);
+
+				cell.style.minWidth = cellWidth + 'px';
+				cell.style.width = cellWidth + 'px';
+				cell.style.minHeight = heights[cellIndex] + 'px';
+
+				var lastStickyCell = this.getLastStickyCellFromRowByIndex(cellIndex);
+
+				if (lastStickyCell)
+				{
+					var lastStickyCellLeft = parseInt(BX.style(lastStickyCell, 'left'));
+					var lastStickyCellWidth = parseInt(BX.style(lastStickyCell, 'width'));
+
+					lastStickyCellLeft = isNaN(lastStickyCellLeft) ? 0 : lastStickyCellLeft;
+					lastStickyCellWidth = isNaN(lastStickyCellWidth) ? 0 : lastStickyCellWidth;
+
+					cell.style.left = (lastStickyCellLeft + lastStickyCellWidth) + 'px';
+				}
+
+				cell.classList.add('main-grid-fixed-column');
+				cell.classList.add('main-grid-cell-static');
+				clone.classList.add('main-grid-cell-static');
+
+				if (this.getColsSortable())
+				{
+					this.getColsSortable().unregister(cell);
+					this.getColsSortable().unregister(clone);
+				}
+
+				BX.insertAfter(clone, cell);
+
+			}, this);
+
+			this.adjustFadePosition(this.getFadeOffset());
+		},
+
+		adjustFixedColumnsPosition: function()
+		{
+			var fixedCells = this.getAllRows()[0]
+				.querySelectorAll('.main-grid-fixed-column').length;
+
+			var columnsPosition = [].slice.call(this.getAllRows()[0].children)
+				.reduce(function(accumulator, cell, index, columns) {
+					var cellLeft;
+					var cellWidth;
+
+					if (columns[index-1] && columns[index-1].classList.contains('main-grid-fixed-column'))
+					{
+						cellLeft = parseInt(BX.style(columns[index-1], 'left'));
+						cellWidth = parseInt(BX.style(columns[index-1], 'width'));
+
+						cellLeft = isNaN(cellLeft) ? 0 : cellLeft;
+						cellWidth = isNaN(cellWidth) ? 0 : cellWidth;
+
+						accumulator.push({index: index+1, left: (cellLeft + cellWidth)});
+					}
+
+					return accumulator;
+				}, []);
+
+			columnsPosition
+				.forEach(function(item) {
+					var column = this.getColumnByIndex(item.index - fixedCells);
+
+					column.forEach(function(cell) {
+						if (item.index !== columnsPosition[columnsPosition.length-1].index)
+						{
+							cell.style.left = item.left + 'px';
+						}
+					});
+				}, this);
+
+			this.getAllRows()
+				.forEach(function(row) {
+					var height = BX.height(row);
+					var cells = [].slice.call(row.children);
+
+					cells.forEach(function(cell) {
+						cell.style.minHeight = height + 'px';
+					});
+				});
+		},
+
+		getLastStickyCellFromRowByIndex: function(index)
+		{
+			return [].slice.call(this.getAllRows()[index].children)
+				.reduceRight(function(accumulator, cell) {
+					if (!accumulator && cell.classList.contains('main-grid-fixed-column'))
+					{
+						accumulator = cell;
+					}
+
+					return accumulator;
+				}, null);
+		},
+
+		getFadeOffset: function()
+		{
+			var fadeOffset = 0;
+			var lastStickyCell = this.getLastStickyCellFromRowByIndex(0);
+
+			if (lastStickyCell)
+			{
+				var lastStickyCellLeft = parseInt(BX.style(lastStickyCell, 'left'));
+				var lastStickyCellWidth = lastStickyCell.offsetWidth;
+
+				lastStickyCellLeft = isNaN(lastStickyCellLeft) ? 0 : lastStickyCellLeft;
+				lastStickyCellWidth = isNaN(lastStickyCellWidth) ? 0 : lastStickyCellWidth;
+
+				fadeOffset = lastStickyCellLeft + lastStickyCellWidth;
+			}
+
+			return fadeOffset;
+		},
+
+		adjustFadePosition: function(offset)
+		{
+			var earLeft = this.getFader().getEarLeft();
+			var shadowLeft = this.getFader().getShadowLeft();
+
+			earLeft.style.left = offset + 'px';
+			shadowLeft.style.left = offset + 'px';
 		},
 
 		/**
@@ -870,7 +1094,7 @@
 						}
 
 						BX.onCustomEvent(window, 'BX.Main.grid:sort', [header, self]);
-						BX.onCustomEvent(window, 'Grid::updated', []);
+						BX.onCustomEvent(window, 'Grid::updated', [self]);
 						self.tableUnfade();
 					});
 				});
@@ -995,19 +1219,24 @@
 		{
 			event.preventDefault();
 
-			if (event.target.checked)
+			this.toggleSelectionAll();
+		},
+
+		toggleSelectionAll: function()
+		{
+			if (!this.getRows().isAllSelected())
 			{
 				this.getRows().selectAll();
 				this.selectAllCheckAllCheckboxes();
 				this.enableActionsPanel();
-				BX.onCustomEvent(window, 'Grid::allRowsSelected', []);
+				BX.onCustomEvent(window, 'Grid::allRowsSelected', [this]);
 			}
 			else
 			{
 				this.getRows().unselectAll();
 				this.unselectAllCheckAllCheckboxes();
 				this.disableActionsPanel();
-				BX.onCustomEvent(window, 'Grid::allRowsUnselected', []);
+				BX.onCustomEvent(window, 'Grid::allRowsUnselected', [this]);
 			}
 
 			this.updateCounterSelected();
@@ -1245,12 +1474,14 @@
 		{
 			BX.addClass(this.getTable(), this.settings.get('classTableFade'));
 			this.getLoader().show();
+			BX.onCustomEvent('Grid::disabled', [this]);
 		},
 
 		tableUnfade: function()
 		{
 			BX.removeClass(this.getTable(), this.settings.get('classTableFade'));
 			this.getLoader().hide();
+			BX.onCustomEvent('Grid::enabled', [this]);
 		},
 
 		_clickOnPaginationLink: function(event)
@@ -1302,7 +1533,7 @@
 					link.unload();
 					self.tableUnfade();
 
-					BX.onCustomEvent(window, 'Grid::updated', []);
+					BX.onCustomEvent(window, 'Grid::updated', [self]);
 				});
 			}
 		},

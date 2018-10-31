@@ -491,7 +491,7 @@
 		}
 
 		BX.eventCancelBubble(e);
-		BX.PreventDefault(e);
+		e.preventDefault();
 
 		var node = BX('record-' + makeId(ENTITY_XML_ID, ID)),
 			menu = [], action;
@@ -536,17 +536,25 @@
 				title: BX.message('BPC_MES_DELETE'),
 				callback: function() { repo["list"][ENTITY_XML_ID].act(node.getAttribute('bx-mpl-delete-url'), ID, 'DELETE'); }});
 		if (node.getAttribute("bx-mpl-createtask-show") == "Y")
+		{
+			var
+				commentEntityType = node.getAttribute('bx-mpl-comment-entity-type'),
+				postEntityType = node.getAttribute('bx-mpl-post-entity-type');
+
 			menu.push({
 				title: BX.message('BPC_MES_CREATETASK'),
 				callback: function() {
 					if (typeof oMSL != 'undefined')
 					{
 						oMSL.createTask({
-							entityType: 'BLOG_COMMENT',
+							postEntityType: (BX.type.isNotEmptyString(postEntityType) ? postEntityType : 'BLOG_POST'),
+							entityType: (BX.type.isNotEmptyString(commentEntityType) ? commentEntityType : 'BLOG_COMMENT'),
 							entityId: ID
 						});
 					}
-				}});
+				}
+			});
+		}
 		if (menu.length > 0)
 		{
 			action = new window.BXMobileApp.UI.ActionSheet({ buttons: menu }, "commentSheet" );
@@ -556,13 +564,13 @@
 	};
 	window.mobileReply = function(ENTITY_XML_ID, e) {
 		BX.eventCancelBubble(e);
-		BX.PreventDefault(e);
+		e.preventDefault();
 		repo["list"][ENTITY_XML_ID].reply(e.target);
 		return false;
 	};
 	window.mobileExpand = function(node, e) {
 		BX.eventCancelBubble(e);
-		BX.PreventDefault(e);
+		e.preventDefault();
 
 		var el2 = (BX(node) ? node.previousSibling : null);
 		if (BX(el2))
@@ -779,17 +787,35 @@
 		};
 		BX.MPL.prototype.send = function() {
 			if (BX(this.nav))
-				BX.addClass(this.nav.parentNode, "post-comments-button-waiter");
+			{
+				var waiter = BX.findChild(this.nav, { className: 'post-comments-button-waiter'});
+				if (waiter)
+				{
+					BX.addClass(waiter, "post-comments-button-waiter-active");
+				}
+			}
 			BX.MPL.superclass.send.apply(this, arguments);
 		};
 		BX.MPL.prototype.build = function() {
 			if (BX(this.nav))
-				BX.removeClass(this.nav.parentNode, "post-comments-button-waiter");
+			{
+				var waiter = BX.findChild(this.nav, { className: 'post-comments-button-waiter'});
+				if (waiter)
+				{
+					BX.removeClass(waiter, "post-comments-button-waiter-active");
+				}
+			}
 			BX.MPL.superclass.build.apply(this, arguments);
 		};
 		BX.MPL.prototype.complete = function() {
 			if (BX(this.nav))
-				BX.removeClass(this.nav.parentNode, "post-comments-button-waiter");
+			{
+				var waiter = BX.findChild(this.nav, { className: 'post-comments-button-waiter'});
+				if (waiter)
+				{
+					BX.removeClass(waiter, "post-comments-button-waiter-active");
+				}
+			}
 			BX.MPL.superclass.complete.apply(this, arguments);
 		};
 		BX.MPL.prototype.showWait = function(id) {

@@ -57,6 +57,7 @@ foreach ($arResult['SELECTOR_ITEMS'] as $selectorConfig)
 		BX.Report.FilterFieldSelectorManager.addSelector(<?=CUtil::PhpToJSObject($selectorConfig)?>);
 <?php
 				break;
+			case "enumeration":
 			case "crm_status":
 			case "iblock_element":
 			case "iblock_section":

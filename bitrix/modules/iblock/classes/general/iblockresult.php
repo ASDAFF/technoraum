@@ -424,8 +424,9 @@ class CIBlockResult extends CDBResult
 		{
 			if ($_REQUEST["mode"] == "excel")
 				return;
-
-			$nSize = CAdminResult::GetNavSize($this->table_id, $nPageSize);
+			$navResult = new CAdminResult(null, '');
+			$nSize = $navResult->GetNavSize($this->table_id, $nPageSize);
+			unset($navResult);
 			if(is_array($nPageSize))
 			{
 				$this->nInitialSize = $nPageSize["nPageSize"];

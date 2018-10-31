@@ -67,6 +67,15 @@ if($USER->CanDoOperation('edit_php') || $USER->CanDoOperation('view_all_users') 
 		);
 	}
 
+	if($USER->CanDoOperation('edit_all_users'))
+	{
+		$array_user_items[] = array(
+			"text" => GetMessage("MAIN_MENU_PROFILE_HISTORY"),
+			"url" => "profile_history.php?lang=".LANGUAGE_ID,
+			"title" => GetMessage("MAIN_MENU_PROFILE_HISTORY_TITLE"),
+		);
+	}
+
 	if ($USER->CanDoOperation('edit_php'))
 	{
 		$array_user_items[] = array(
@@ -227,7 +236,7 @@ if($USER->CanDoOperation('view_other_settings') || $USER->CanDoOperation('manage
 						"sort" => $sort,
 					);
 
-					if(BX_SEARCH_ADMIN===true)
+					if(defined('BX_SEARCH_ADMIN') && BX_SEARCH_ADMIN===true)
 					{
 						$lfile = getLocalPath("modules/".$module."/lang/".LANGUAGE_ID."/options.php");
 						if($lfile !== false)
@@ -263,7 +272,7 @@ if($USER->CanDoOperation('view_other_settings') || $USER->CanDoOperation('manage
 		);
 	}
 
-	if($USER->CanDoOperation('view_other_settings'))
+	if($USER->CanDoOperation('view_other_settings') && !\Bitrix\Main\Composite\Engine::isSelfHostedPortal())
 	{
 		$settingsItems[] = array(
 			"text" => GetMessage("MAIN_MENU_COMPOSITE"),

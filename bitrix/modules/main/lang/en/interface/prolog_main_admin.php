@@ -1,4 +1,10 @@
 <?
+$MESS["prolog_main_timelimit11"] = "<span class=\"required\">Attention!</span> The current license will expire #DAYS_AGO_TXT#. You have to renew your annual license until #FINISH_DATE# to ensure
+your product copy is running without interruption. Please contact <a href=\"mailto:sales@bitrix24.com\">Bitrix24 Sales Department</a>. ";
+$MESS["prolog_main_timelimit12"] = "<span class=\"required\">Attention!</span> The current license has expired on
+#FINISH_DATE#. Your project will stop functioning in #DAYS_AGO# days, any access
+will be blocked. Please contact <a href=\"mailto:sales@bitrix24.com\">Bitrix24
+Sales Department</a> immeadiately to renew your license.";
 $MESS["MAIN_PROLOG_ADMIN_LOGOUT"] = "Log off";
 $MESS["MAIN_PROLOG_ADMIN_TITLE"] = "Administrative section";
 $MESS["TRIAL_ATTENTION"] = "ATTENTION! Use <a href=\"/bitrix/admin/sysupdate.php\">SiteUpdate</a> technology to get the latest product version.<br>";

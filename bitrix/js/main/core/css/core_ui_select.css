@@ -2,18 +2,15 @@
 	margin-bottom: 0;
 }
 
-.popup-select-content .main-ui-select-inner-item {
-	padding-left: 10px;
-	padding-right: 10px;
-}
-
 .main-ui-select-inner-item.main-ui-select-inner-item-selected {
 	background: #f3f6f8;
 }
 
-.popup-select-content .main-ui-select-inner-item {
+.popup-select-content .main-ui-select-inner-item,
+.popup-multiselect-content .main-ui-select-inner-item {
 	padding-left: 10px;
 	padding-right: 10px;
+	position: relative;
 }
 
 .main-ui-select-inner-item.main-ui-select-inner-item-selected {

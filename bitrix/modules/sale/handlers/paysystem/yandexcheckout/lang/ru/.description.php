@@ -1,7 +1,9 @@
 <?php
-$MESS['SALE_HPS_YANDEX_CHECKOUT'] = 'Яндекс.Касса';
+$MESS['SALE_HPS_YANDEX_CHECKOUT'] = 'Яндекс.Касса (с версии 3.х)';
 $MESS["SALE_HPS_YANDEX_CHECKOUT_SHOP_ID"] = "shopId";
 $MESS["SALE_HPS_YANDEX_CHECKOUT_SHOP_ID_DESC"] = "Скопируйте shopId в личном кабинете Яндекс.Кассы";
+$MESS["SALE_HPS_YANDEX_CHECKOUT_SHOP_ARTICLE_ID"] = "shopArticleId";
+$MESS["SALE_HPS_YANDEX_CHECKOUT_SHOP_ARTICLE_ID_DESC"] = "Значение shopArticleId можно узнать у менеджера Яндекс.Кассы";
 $MESS["SALE_HPS_YANDEX_CHECKOUT_SECRET_KEY"] = "Секретный ключ";
 $MESS["SALE_HPS_YANDEX_CHECKOUT_SECRET_KEY_DESC"] = "Выпустите и активируйте секретный ключ в личном кабинете Яндекс.Кассы";
 $MESS["SALE_HPS_YANDEX_CHECKOUT_RETURN_URL"] = "URL страницы возврата";
@@ -17,3 +19,4 @@ $MESS["SALE_HPS_YANDEX_CHECKOUT_RETURN"] = "Возвраты платежей не поддерживаются"
 $MESS["SALE_HPS_YANDEX_CHECKOUT_RESTRICTION"] = "Ограничение по сумме платежей зависит от способа оплаты, который выберет покупатель";
 $MESS["SALE_HPS_YANDEX_CHECKOUT_COMMISSION"] = "Без комисси для покупателя";
 $MESS["SALE_HPS_YANDEX_CHECKOUT_REFERRER"] = "<a href=\"https://money.yandex.ru/joinups/?source=bitrix24\" target=\"_blank\">Быстрая регистрация</a>";
+$MESS["SALE_HPS_YANDEX_CHECKOUT_PAYMENT_DESC"] = "Оплата №#PAYMENT_ID#";

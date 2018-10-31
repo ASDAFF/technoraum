@@ -1,4 +1,5 @@
 <?
+$MESS["CATALOG_QUANTITY"] = "Menge";
 $MESS["CT_BCE_QUANTITY"] = "Menge";
 $MESS["CT_BCE_CATALOG_BUY"] = "Kaufen";
 $MESS["CT_BCE_CATALOG_ADD"] = "In Warenkorb";
@@ -33,6 +34,6 @@ $MESS["CT_BCE_CATALOG_RANGE_FROM"] = "von #FROM#";
 $MESS["CT_BCE_CATALOG_RANGE_TO"] = "bis #TO#";
 $MESS["CT_BCE_CATALOG_RANGE_MORE"] = "und mehr";
 $MESS["CT_BCE_CATALOG_RATIO_PRICE"] = "Preis für #RATIO#";
-$MESS["CT_BCE_CATALOG_GIFT_BLOCK_TITLE_DEFAULT"] = "W?hlen Sie ein Geschenk f?r dieses Produkt aus";
+$MESS["CT_BCE_CATALOG_GIFT_BLOCK_TITLE_DEFAULT"] = "Wählen Sie ein Geschenk für dieses Produkt aus";
 $MESS["CT_BCE_CATALOG_GIFTS_MAIN_BLOCK_TITLE_DEFAULT"] = "Wählen Sie ein Produkt aus und bekommen Sie ein Geschenk";
 ?>

@@ -560,13 +560,18 @@ class OrderBasket
 		return $result;
 	}
 
+	public function getOffersSkuParams(array $productsParams, array $visibleColumns = array())
+	{
+		return static::getOffersSkuParamsMode($productsParams, $visibleColumns, $this->mode);
+	}
+
 	/**
 	 * @param array $productsParams
 	 * @param array $visibleColumns
 	 * @return array
 	 * @throws Main\LoaderException
 	 */
-	public function getOffersSkuParams(array $productsParams, array $visibleColumns = array())
+	public static function getOffersSkuParamsMode(array $productsParams, array $visibleColumns = array(), $mode = 0)
 	{
 		if(!empty($productsParams["ITEMS"]) && is_array($productsParams["ITEMS"]))
 		{
@@ -589,7 +594,7 @@ class OrderBasket
 
 				$productIds[] = $params['PRODUCT_ID'];
 
-				if ($this->mode == self::VIEW_MODE)
+				if ($mode == self::VIEW_MODE)
 				{
 					if ((int)$params['OFFER_ID'] > 0)
 					{
@@ -759,7 +764,7 @@ class OrderBasket
 					}
 				}
 
-				if($this->mode == self::EDIT_MODE && $params['PRODUCT_ID'] != $params['OFFER_ID'])
+				if($mode == self::EDIT_MODE && $params['PRODUCT_ID'] != $params['OFFER_ID'])
 				{
 					if(is_array(self::$iblockPropsParams[$params["OFFERS_IBLOCK_ID"]]))
 						$skuOrder = array_keys(self::$iblockPropsParams[$params["OFFERS_IBLOCK_ID"]]);
@@ -777,7 +782,7 @@ class OrderBasket
 
 			unset($params, $iblockPropsUsed);
 
-			if($this->mode == self::EDIT_MODE && !empty($possibleSkuParams))
+			if($mode == self::EDIT_MODE && !empty($possibleSkuParams))
 			{
 				$possibleSkuProps = Sale\Helpers\Admin\SkuProps::getPossibleSkuPropsValues($possibleSkuParams);
 
@@ -1445,26 +1450,7 @@ class OrderBasket
 
 	public static function getCatalogMeasures()
 	{
-		static $result = null;
-
-		if(!is_array($result))
-		{
-			$result = array();
-
-			if (self::$catalogIncluded === null)
-				self::$catalogIncluded = Main\Loader::includeModule('catalog');
-			if (self::$catalogIncluded)
-			{
-				$dbList = \CCatalogMeasure::getList();
-				while($arList = $dbList->Fetch())
-					$result[$arList["CODE"]] = ($arList["SYMBOL_RUS"] != '' ? $arList["SYMBOL_RUS"] : $arList["SYMBOL_INTL"]);
-			}
-
-			if (empty($result))
-				$result[796] = GetMessage("SALE_ORDER_BASKET_SHTUKA");
-		}
-
-		return $result;
+		return \Bitrix\Sale\Helpers\Order\Builder\BasketBuilder::getCatalogMeasures();
 	}
 
 	public static function getDefaultMeasures()
@@ -2064,7 +2050,9 @@ class OrderBasket
 					$providerData = Provider::getTrustData($this->order->getSiteId(), 'sale', $item->getProductId());
 
 					if(is_array($providerData) && !empty($providerData))
+					{
 						$params["PROVIDER_DATA"] = serialize($providerData);
+					}
 				}
 
 				if(is_array($params["SET_ITEMS"]) && !empty($params["SET_ITEMS"]))

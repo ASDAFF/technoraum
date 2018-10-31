@@ -101,7 +101,7 @@ var cookie_prefix = '<?=$arResult["COOKIE_PREFIX"]?>';
 		<td><?=GetMessage('LOGIN')?><span class="starrequired">*</span></td>
 		<td><input type="text" name="LOGIN" maxlength="50" value="<? echo $arResult["arUser"]["LOGIN"]?>" /></td>
 	</tr>
-<?if($arResult["arUser"]["EXTERNAL_AUTH_ID"] == ''):?>
+<?if($arResult['CAN_EDIT_PASSWORD']):?>
 	<tr>
 		<td><?=GetMessage('NEW_PASSWORD_REQ')?></td>
 		<td><input type="password" name="NEW_PASSWORD" maxlength="50" value="" autocomplete="off" class="bx-auth-input" />

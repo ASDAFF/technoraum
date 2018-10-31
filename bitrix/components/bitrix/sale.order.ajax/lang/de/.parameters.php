@@ -1,4 +1,6 @@
 <?
+$MESS["EMPTY_BASKET_HINT_PATH_TIP"] = "Der Link \"Weiter einkaufen\" wird angezeigt, wenn der Warenkorb leer ist.<br>Der Text wird ausgeblendet, wenn der Link leer ist.";
+$MESS["SOA_EMPTY_BASKET_HINT_PATH"] = "Pfad zur Seite fürs Weiter einkaufen";
 $MESS["SOA_DESC_YES"] = "Ja";
 $MESS["SOA_DESC_NO"] = "Nein";
 $MESS["SOA_ACTION_VARIABLE"] = "Variable mit der Aktion";

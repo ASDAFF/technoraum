@@ -328,9 +328,8 @@
 							<?
 							
 						else:
-						
-							?><?=$prod[(strpos($headerId, 'PROPERTY_')===0 ? $headerId."_VALUE" : $headerId)]?><?
-						
+							$headerId = strtoupper($headerId);
+							echo $prod[(strpos($headerId, 'PROPERTY_')===0 ? $headerId."_VALUE" : $headerId)];
 						endif;
 						
 						?></td><?

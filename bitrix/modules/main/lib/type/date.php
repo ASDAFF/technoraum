@@ -94,7 +94,7 @@ class Date
 	 *
 	 * @param string $interval Time interval to add.
 	 *
-	 * @return Date
+	 * @return $this
 	 */
 	public function add($interval)
 	{
@@ -332,7 +332,7 @@ class Date
 	 * Examples: "end of next week", "tomorrow morning", "friday 25.10"
 	 *
 	 * @param string $text
-	 * @return \Bitrix\Main\Text\DateConverterResult[]
+	 * @return \Bitrix\Main\Type\DateTime|null
 	 */
 	public static function createFromText($text)
 	{

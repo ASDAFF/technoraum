@@ -517,13 +517,18 @@ class Options
 
 	protected function trySetFilterFromRequest($fields = array())
 	{
-		if (self::isSetFromRequest($this->getRequest()))
+		$request = $this->getRequest();
+
+		if (self::isSetFromRequest($request))
 		{
 			$settings = self::fetchSettingsFromQuery($fields, $this->getRequest());
+			$clear = strtoupper($request->get("clear_filter")) == "Y";
 
-			if ($settings !== null)
+			if ($settings !== null || $clear)
 			{
-				$this->setFilterSettings(self::TMP_FILTER, $settings);
+				$presetId = $clear ? self::DEFAULT_FILTER : self::TMP_FILTER;
+
+				$this->setFilterSettings($presetId, $settings);
 				$this->save();
 			}
 		}
@@ -583,6 +588,7 @@ class Options
 	 * @param string $key
 	 * @param array $filterFields
 	 * @return array
+	 * @throws \Bitrix\Main\ObjectException
 	 */
 	public static function fetchDateFieldValue($key = "", $filterFields = array())
 	{
@@ -644,14 +650,24 @@ class Options
 	}
 
 
-	public static function fetchFieldValuesFromFilterSettings($filterSettings = array(), $additionalFields = array())
+	public static function fetchFieldValuesFromFilterSettings($filterSettings = array(), $additionalFields = array(), $sourceFields = array())
 	{
 		$filterFields = self::fetchFieldsFromFilterSettings($filterSettings, $additionalFields);
 		$resultFields = array();
 
 		foreach ($filterFields as $key => $field)
 		{
-			if ($field !== "" && strpos($key, -6) !== "_label")
+			$isStrictField = false;
+
+			foreach ($sourceFields as $sourceKey => $sourceField)
+			{
+				if ($key === $sourceField["id"] && $sourceField["strict"])
+				{
+					$isStrictField = true;
+				}
+			}
+
+			if (($field !== "" && strpos($key, -6) !== "_label") || $isStrictField)
 			{
 				if (self::isDateField($key))
 				{
@@ -701,7 +717,7 @@ class Options
 		{
 			$filterSettings = $this->getFilterSettings($currentPresetId);
 			$additionalFields = $this->getAdditionalPresetFields($currentPresetId);
-			$fieldsValues = self::fetchFieldValuesFromFilterSettings($filterSettings, $additionalFields);
+			$fieldsValues = self::fetchFieldValuesFromFilterSettings($filterSettings, $additionalFields, $sourceFields);
 
 			$result = $fieldsValues;
 			$searchString = $this->getSearchString();
@@ -796,30 +812,41 @@ class Options
 		if (self::isCurrentUserEditOtherSettings())
 		{
 			$allUserOptions = $this->getAllUserOptions();
-			$currentOptions = $this->options;
 
-			$forAllPresets = array();
-
-			foreach ($currentOptions["filters"] as $key => $preset)
+			if ($allUserOptions)
 			{
-				if ($preset["for_all"])
-				{
-					$forAllPresets[$key] = $preset;
-				}
-			}
+				$currentOptions = $this->options;
 
-			while ($allUserOptions && $userOptions = $allUserOptions->fetch())
-			{
-				if (!self::isCommon($userOptions))
+				$forAllPresets = array();
+
+				foreach ($currentOptions["filters"] as $key => $preset)
 				{
-					$currentOptions["default_presets"] = $forAllPresets;
-					$currentOptions["filters"] = $forAllPresets;
+					if ($preset["for_all"])
+					{
+						$forAllPresets[$key] = $preset;
+					}
 				}
 
-				$this->saveOptionsForUser($currentOptions, $userOptions["USER_ID"]);
+				while ($userOptions = $allUserOptions->fetch())
+				{
+					$currentUserOptions = unserialize($userOptions["VALUE"]);
+
+					if (is_array($currentUserOptions))
+					{
+						if (!self::isCommon($userOptions))
+						{
+							$currentUserOptions["deleted_presets"] = $currentOptions["deleted_presets"];
+							$currentUserOptions["default_presets"] = $forAllPresets;
+							$currentUserOptions["filters"] = $forAllPresets;
+						}
+
+						$this->saveOptionsForUser($currentUserOptions, $userOptions["USER_ID"]);
+					}
+				}
+
+				$this->saveCommon();
 			}
 
-			$this->saveCommon();
 		}
 	}
 
@@ -853,6 +880,18 @@ class Options
 		}
 
 		$userOptions = \CUserOptions::GetOption("main.ui.filter", $this->getId(), array("filters" => array(), "default_presets" => array()), $userId);
+
+		if (is_array($options["deleted_presets"]))
+		{
+			foreach ($options["deleted_presets"] as $key => $isDeleted)
+			{
+				if (array_key_exists($key, $userOptions["filters"]))
+				{
+					unset($userOptions["filters"][$key]);
+				}
+			}
+		}
+
 		$options["filters"] = array_merge($userOptions["filters"], $options["filters"]);
 		\CUserOptions::SetOption("main.ui.filter", $this->getId(), $options, null, $userId);
 	}
@@ -966,8 +1005,9 @@ class Options
 				$request = $this->getRequest();
 				$isApplyFilter = (strtoupper($request->get("apply_filter")) == "Y");
 				$isClearFilter = (strtoupper($request->get("clear_filter")) == "Y");
+				$isWithPreset = (strtoupper($request->get("with_preset")) == "Y");
 
-				if (($useRequest && ($isApplyFilter || $isClearFilter)) || $useRequest === false)
+				if (($useRequest && ($isApplyFilter || $isClearFilter) && !$isWithPreset) || $useRequest === false)
 				{
 					$_SESSION["main.ui.filter"][$this->id]["filter"] = $presetId;
 				}
@@ -1096,6 +1136,7 @@ class Options
 	 * @param string $fieldId
 	 * @param array $source Source values
 	 * @param array $result Result values
+	 * @throws \Bitrix\Main\ObjectException
 	 */
 	public static function calcDates($fieldId, $source, &$result)
 	{
@@ -1307,6 +1348,7 @@ class Options
 				{
 					$dateTime = new Filter\DateTime();
 					$days = (int) $source[$fieldId."_days"];
+					$days = max($days, 0);
 
 					$result[$fieldId."_datesel"] = DateType::PREV_DAYS;
 					$result[$fieldId."_month"] = $dateTime->month();
@@ -1314,11 +1356,72 @@ class Options
 					$result[$fieldId."_days"] = $source[$fieldId."_days"];
 					$result[$fieldId."_year"] = $dateTime->year();
 					$result[$fieldId."_from"] = $dateTime->offset("- ".$days." days");
-					$result[$fieldId."_to"] = $dateTime->offset("-1 second");
+					$result[$fieldId."_to"] = $dateTime->offset("1 days -1 second");
 				}
 
 				break;
 			}
+
+			case AdditionalDateType::PREV_DAY :
+			{
+				if (is_numeric($source[$fieldId."_days"]))
+				{
+					$dateTime = new Filter\DateTime();
+					$days = (int) $source[$fieldId."_days"];
+
+					$result[$fieldId."_days"] = $source[$fieldId."_days"];
+					$result[$fieldId."_from"] = $dateTime->offset(-$days." days");
+					$result[$fieldId."_to"] = $dateTime->offset(-($days-1)." days -1 second");
+				}
+
+				break;
+			}
+
+			case AdditionalDateType::NEXT_DAY :
+			{
+				if (is_numeric($source[$fieldId."_days"]))
+				{
+					$dateTime = new Filter\DateTime();
+					$days = (int) $source[$fieldId."_days"];
+
+					$result[$fieldId."_days"] = $source[$fieldId."_days"];
+					$result[$fieldId."_from"] = $dateTime->offset($days." days");
+					$result[$fieldId."_to"] = $dateTime->offset(($days+1)." days -1 second");
+				}
+
+				break;
+			}
+
+			case AdditionalDateType::MORE_THAN_DAYS_AGO :
+			{
+				if (is_numeric($source[$fieldId."_days"]))
+				{
+					$dateTime = new Filter\DateTime();
+					$days = (int) $source[$fieldId."_days"];
+
+					$result[$fieldId."_days"] = $source[$fieldId."_days"];
+					$result[$fieldId."_from"] = $dateTime->offset(-($days+1)." days");
+					$result[$fieldId."_to"] = $dateTime->offset(-$days." days -1 second");
+				}
+
+				break;
+			}
+
+			case AdditionalDateType::AFTER_DAYS :
+				{
+					if (is_numeric($source[$fieldId."_days"]))
+					{
+						$dateTime = new Filter\DateTime();
+						$days = (int) $source[$fieldId."_days"];
+
+						$result[$fieldId."_days"] = $source[$fieldId."_days"];
+						$result[$fieldId."_from"] = $dateTime->offset($days." days");
+						$result[$fieldId."_to"] = $dateTime->offset(($days+1)." days -1 second");
+					}
+
+					break;
+				}
+
 
 			case DateType::QUARTER :
 			{

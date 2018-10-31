@@ -121,8 +121,13 @@
 
 			do
 			{
-				index = BX.type.stringToInt(BX.style(element, "z-index"));
-				element = element.offsetParent;
+				var propertyValue = BX.style(element, "z-index");
+				if (propertyValue !== "auto")
+				{
+					index = BX.type.stringToInt(propertyValue);
+				}
+
+				element = element.parentNode;
 			}
 			while (
 				element && element.tagName !== "BODY"

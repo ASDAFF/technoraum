@@ -325,6 +325,7 @@ class CYandexOAuthInterface extends CSocServOAuthTransport
 			."?response_type=code"
 			."&client_id=".urlencode($this->appID)
 			."&display=popup"
+			."&redirect_uri=".urlencode($redirect_uri)
 			.(!empty($state) ? "&state=".urlencode($state) : '');
 	}
 
@@ -350,7 +351,7 @@ class CYandexOAuthInterface extends CSocServOAuthTransport
 			return false;
 		}
 
-		$h = new \Bitrix\Main\Web\HttpClient(array("socketTimeout" => $this->httpTimeout	));
+		$h = new \Bitrix\Main\Web\HttpClient(array("socketTimeout" => $this->httpTimeout));
 		$h->setAuthorization($this->appID, $this->appSecret);
 
 		$result = $h->post(self::TOKEN_URL, array(

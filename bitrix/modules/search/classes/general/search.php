@@ -752,7 +752,7 @@ class CAllSearch extends CDBResult
 				$r["TAGS_FORMATED"] = tags_prepare($r["TAGS"], SITE_ID);
 				if ($r["BODY"])
 				{
-					$r["BODY_FORMATED"] = $this->PrepareSearchResult(htmlspecialcharsEx($arBody["BODY"]));
+					$r["BODY_FORMATED"] = $this->PrepareSearchResult(htmlspecialcharsEx($r["BODY"]));
 					$r["BODY_FORMATED_TYPE"] = "html";
 				}
 				else
@@ -2530,12 +2530,13 @@ class CAllSearch extends CDBResult
 	{
 		$DB = CDatabase::GetModuleConnection('search');
 		$bIncSites = false;
+		$op = (strpos($ITEM_ID, '%') !== false? '%=': '=');
 
 		if ($PARAM1 !== false && $PARAM2 !== false)
 		{
 			$strSqlWhere = CSearch::__PrepareFilter(array(
 				"MODULE_ID" => $MODULE_ID,
-				"ITEM_ID" => $ITEM_ID,
+				$op."ITEM_ID" => $ITEM_ID,
 				array(
 					"=PARAM1" => $PARAM1,
 					"PARAM2" => $PARAM2,
@@ -2547,7 +2548,7 @@ class CAllSearch extends CDBResult
 		{
 			$strSqlWhere = CSearch::__PrepareFilter(array(
 				"MODULE_ID" => $MODULE_ID,
-				"ITEM_ID" => $ITEM_ID,
+				$op."ITEM_ID" => $ITEM_ID,
 				"PARAM1" => $PARAM1,
 				"PARAM2" => $PARAM2,
 				"SITE_ID" => $SITE_ID,

@@ -594,7 +594,7 @@ class Network
 	{
 		return array(
 			"REGISTER" => Option::get("socialservices", "new_user_registration_network", "N"),
-			"REGISTER_CONFIRM" => Option::get("socialservices", "new_user_registration_confirm", "N"),
+			"REGISTER_CONFIRM" => Option::get("socialservices", "new_user_registration_confirm", "Y"),
 			"REGISTER_WHITELIST" => implode(';', unserialize(Option::get("socialservices", "new_user_registration_whitelist", serialize(array())))),
 			"REGISTER_TEXT" => Option::get("socialservices", "new_user_registration_text", ""),
 			"REGISTER_SECRET" => Option::get("socialservices", "new_user_registration_secret", ""),

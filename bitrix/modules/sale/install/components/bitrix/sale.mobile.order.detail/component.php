@@ -13,7 +13,7 @@ if (!CModule::IncludeModule('mobileapp'))
 	return;
 }
 
-$bUseAccountNumber = (COption::GetOptionString("sale", "account_number_template", "") !== "") ? true : false;
+$bUseAccountNumber = \Bitrix\Sale\Integration\Numerator\NumeratorOrder::isUsedNumeratorForOrder();
 
 if (isset($_REQUEST['id']))
 {

@@ -471,6 +471,28 @@ BXBlockEditorHelper.prototype.groupImageSrc = function (node, value)
 	return result;
 };
 
+BXBlockEditorHelper.prototype.textContent = function(node, value)
+{
+	if(!node)
+	{
+		return;
+	}
+
+	if(typeof(value) !== "undefined")
+	{
+		if(value.length > 0)
+		{
+			node.textContent = value.trim();
+		}
+		else
+		{
+			node.textContent = '';
+		}
+	}
+
+	return node.textContent.trim();
+};
+
 BXBlockEditorHelper.prototype.innerHTML = function(node, value)
 {
 	if(!node)

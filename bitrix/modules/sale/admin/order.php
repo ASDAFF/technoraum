@@ -2080,7 +2080,7 @@ if (!empty($orderList) && is_array($orderList))
 					$fieldValueTmp .= "] ".$LOCAL_STATUS_CACHE[$arOrder["STATUS_ID"]]['NAME'];
 					$colorRGB = array();
 					$colorRGB = sscanf($LOCAL_STATUS_CACHE[$arOrder["STATUS_ID"]]['COLOR'], "#%02x%02x%02x");
-					if (count($colorRGB))
+					if (is_array($colorRGB) && count($colorRGB))
 					{
 						$color = "background:rgba(".$colorRGB[0].",".$colorRGB[1].",".$colorRGB[2].",0.6);";
 						$fieldValue = '<div style=	"'.$color.'
@@ -4160,44 +4160,6 @@ echo BeginNote();
 		}
 	}
 </script>
-
-<?$spotlight = new \Bitrix\Main\UI\Spotlight("DELIVERY_REQUESTS_ADDED");?>
-<?if(!$spotlight->isViewed($USER->GetID())):?>
-	<?\CJSCore::init("spotlight");?>
-	<script type="text/javascript">
-		BX.ready(
-			function() {
-				var elem = document.getElementsByClassName('adm-list-table-top');
-
-				if(!elem[0] || !elem[0].nodeName || elem[0].nodeName !== 'DIV')
-					return;
-
-				var target = null;
-
-				for (var i = 0; i < elem[0].childNodes.length; i++)
-				{
-					if(elem[0].childNodes[i].innerHTML === "<?=Loc::getMessage("SALE_O_CONTEXT_B_DELIVERY_REQUESTS")?>")
-					{
-						target = elem[0].childNodes[i];
-						break;
-					}
-				}
-
-				if(target)
-				{
-					var deliveryRequestSpotlight = new BX.SpotLight({
-						targetElement: target,
-						targetVertex: "middle-center",
-						content: "<?=Loc::getMessage('SALE_O_CONTEXT_B_DELIVERY_REQUESTS_SL')?>",
-						id: "DELIVERY_REQUESTS_ADDED",
-						autoSave: true
-					});
-
-					deliveryRequestSpotlight.show();
-				}
-		});
-	</script>
-<?endif;?>
 
 <?echo EndNote();
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_admin.php");

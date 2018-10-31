@@ -1,4 +1,8 @@
 <?
+$MESS["F_PS_MODE_DOCUMENT"] = "Document template";
+$MESS["F_PS_MODE_DOCUMENT_ADD"] = "Add template";
+$MESS["SALE_PSE_ERROR_DOCUMENT_TEMPLATE_EMPTY"] = "Document template is not specified";
+$MESS["SALE_PSE_ERROR_IMAGE_ERROR"] = "Error loading #SETTING_NAME#. Please try some other format.<br>";
 $MESS["SALE_EDIT_RECORD"] = "Edit payment system # #ID#";
 $MESS["SALE_NEW_RECORD"] = "New payment system";
 $MESS["SALE_RECORDS_LIST"] = "To the list of payment systems";

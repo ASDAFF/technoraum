@@ -167,6 +167,8 @@ if (!$isStExport)
 	}
 }
 
+$usedUFMap = array();
+
 try
 {
 	// select report info/settings
@@ -375,8 +377,6 @@ try
 	$entityName = call_user_func(array($arParams['REPORT_HELPER_CLASS'], 'getEntityName'));
 	$entityFields = call_user_func(array($arParams['REPORT_HELPER_CLASS'], 'getColumnList'));
 	$grcFields = call_user_func(array($arParams['REPORT_HELPER_CLASS'], 'getGrcColumns'));
-	//$arUFInfo = call_user_func(array($arParams['REPORT_HELPER_CLASS'], 'getUFInfo'));
-	$arUFEnumerations = call_user_func(array($arParams['REPORT_HELPER_CLASS'], 'getUFEnumerations'));
 
 	// customize entity
 	$entity = clone Entity\Base::getInstance($entityName);
@@ -604,6 +604,12 @@ try
 
 		$arUF = call_user_func(array($arParams['REPORT_HELPER_CLASS'], 'detectUserField'), $field);
 
+		if ($arUF['isUF'] && is_array($arUF['ufInfo'])
+			&& isset($arUF['ufInfo']['ENTITY_ID']) && isset($arUF['ufInfo']['FIELD_NAME']))
+		{
+			$usedUFMap[$arUF['ufInfo']['ENTITY_ID']][$arUF['ufInfo']['FIELD_NAME']] = true;
+		}
+
 		// default sort
 		if ($is_grc
 			|| ((in_array($fType, array('file', 'disk_file', 'employee', 'crm', 'crm_status', 'iblock_element',
@@ -770,6 +776,7 @@ try
 			if (is_array($fElem) && $fElem['type'] == 'field' && (int) $fElem['changeable'] > 0)
 			{
 				$match = array();
+				$arUF = null;
 				if (preg_match('/__COLUMN__(\d+)/', $fElem['name'], $match))
 				{
 					/** @var Entity\Field[] $view */
@@ -808,6 +815,7 @@ try
 				}
 				else
 				{
+					// detect UF
 					$arUF = call_user_func_array(
 						array($arParams['REPORT_HELPER_CLASS'], 'detectUserField'),
 						array($field)
@@ -828,7 +836,16 @@ try
 				}
 
 				// detect UF
-				$arUF = call_user_func(array($arParams['REPORT_HELPER_CLASS'], 'detectUserField'), $field);
+				if ($arUF === null)
+				{
+					$arUF = call_user_func(array($arParams['REPORT_HELPER_CLASS'], 'detectUserField'), $field);
+				}
+
+				if ($arUF['isUF'] && is_array($arUF['ufInfo'])
+					&& isset($arUF['ufInfo']['ENTITY_ID']) && isset($arUF['ufInfo']['FIELD_NAME']))
+				{
+					$usedUFMap[$arUF['ufInfo']['ENTITY_ID']][$arUF['ufInfo']['FIELD_NAME']] = true;
+				}
 
 				$changeableFilters[] = array(
 					'name' => $fElem['name'],
@@ -1010,6 +1027,13 @@ try
 
 				$fField = $fList[$fElem['name']];
 				$arUF = call_user_func(array($arParams['REPORT_HELPER_CLASS'], 'detectUserField'), $fField);
+
+				if ($arUF['isUF'] && is_array($arUF['ufInfo'])
+					&& isset($arUF['ufInfo']['ENTITY_ID']) && isset($arUF['ufInfo']['FIELD_NAME']))
+				{
+					$usedUFMap[$arUF['ufInfo']['ENTITY_ID']][$arUF['ufInfo']['FIELD_NAME']] = true;
+				}
+
 				if ($arUF['isUF'])
 				{
 					$fFieldDataType = call_user_func(
@@ -1232,7 +1256,6 @@ try
 			{
 				$runtimeField = $queryChains[$k]->getLastElement()->getValue();
 				if (is_array($runtimeField)) $runtimeField = end($runtimeField);
-				/*$arUF = CReport::detectUserField($runtimeField, $arUFInfo);*/
 				$viewColumns[$newNum] = array(
 					'field' => $runtimeField,
 					'fieldName' => $k,
@@ -1244,12 +1267,8 @@ try
 					'href' => empty($runtimeColumnInfo['href']) ? '' : $runtimeColumnInfo['href'],
 					'grouping' => false,
 					'grouping_subtotal' => ($runtimeColumnInfo['grouping_subtotal'] === true) ? true : false,
-					'runtime' => true/*,
-					'isUF' => $arUF['isUF'],
-					'isUF' => $arUF['isUF'],
-					'ufInfo' => $arUF['ufInfo']*/
+					'runtime' => true
 				);
-				/*unset($arUF);*/
 				$viewColumnsByResultName[$k] = &$viewColumns[$newNum];
 			}
 		}
@@ -1370,67 +1389,64 @@ try
 
 	// <editor-fold defaultstate="collapsed" desc="retrieve total counts">
 	$total = array();
-	if (!$isStExport)
-	{
-		$totalSelect = $select;
-		$totalColumns = array();
+	$totalSelect = $select;
+	$totalColumns = array();
 
-		if (is_array($totalSelect) && !empty($totalSelect))
+	if (is_array($totalSelect) && !empty($totalSelect))
+	{
+		foreach ($viewColumns as $num => $view)
 		{
-			foreach ($viewColumns as $num => $view)
+			// total's fields are the same as percentable fields
+			// they are also all numerics
+			if (CReport::isColumnTotalCountable($view, $arParams['REPORT_HELPER_CLASS']))
 			{
-				// total's fields are the same as percentable fields
-				// they are also all numerics
-				if (CReport::isColumnTotalCountable($view, $arParams['REPORT_HELPER_CLASS']))
+				// exclude from select all except those
+				if (is_array($view) && isset($view['resultName']))
 				{
-					// exclude from select all except those
-					if (is_array($view) && isset($view['resultName']))
-					{
-						$totalColumns[$view['resultName']] = true;
-					}
+					$totalColumns[$view['resultName']] = true;
 				}
 			}
 		}
+	}
 
-		// save only totalCountable visible fields
-		foreach ($totalSelect as $k => $v)
+	// save only totalCountable visible fields
+	foreach ($totalSelect as $k => $v)
+	{
+		if (!array_key_exists($k, $totalColumns))
 		{
-			if (!array_key_exists($k, $totalColumns))
-			{
-				unset($totalSelect[$k]);
-			}
+			unset($totalSelect[$k]);
+		}
+	}
+
+	// add SUM aggr
+	$_totalSelect = $totalSelect;
+	$totalSelect = array();
+
+	foreach ($_totalSelect as $k => $v)
+	{
+		$totalSelect[] = new Entity\ExpressionField('TOTAL_'.$k, 'SUM(%s)', $k);
+	}
+
+	if (!empty($totalSelect))
+	{
+		// source query
+		$query_from = new Entity\Query($entity);
+		$query_from->setSelect($select);
+		$query_from->setFilter($filter);
+		$query_from->setGroup($group);
+
+		foreach ($runtime as $k => $v)
+		{
+			$query_from->registerRuntimeField($k, $v);
 		}
 
-		// add SUM aggr
-		$_totalSelect = $totalSelect;
-		$totalSelect = array();
+		// total query
+		$total_query = new Entity\Query($query_from);
+		$total_query->setSelect($totalSelect);
 
-		foreach ($_totalSelect as $k => $v)
-		{
-			$totalSelect[] = new Entity\ExpressionField('TOTAL_'.$k, 'SUM(%s)', $k);
-		}
-
-		if (!empty($totalSelect))
-		{
-			// source query
-			$query_from = new Entity\Query($entity);
-			$query_from->setSelect($select);
-			$query_from->setFilter($filter);
-			$query_from->setGroup($group);
-
-			foreach ($runtime as $k => $v)
-			{
-				$query_from->registerRuntimeField($k, $v);
-			}
-
-			// total query
-			$total_query = new Entity\Query($query_from);
-			$total_query->setSelect($totalSelect);
-
-			$result = $total_query->exec();
-			$total = $result->fetch();
-			$total = ($total === false) ? array() : $total;
-		}
+		$result = $total_query->exec();
+		$total = $result->fetch();
+		$total = ($total === false) ? array() : $total;
 	}
 	// </editor-fold>
 
@@ -1685,7 +1701,6 @@ $arResult['viewColumns'] = $viewColumns;
 $arResult['data'] = $data;
 $arResult['grcData'] = $grcData;
 $arResult['changeableFilters'] = $changeableFilters;
-$arResult['ufEnumerations'] = $arUFEnumerations;
 $arResult['changeableFiltersEntities'] = $changeableFiltersEntities;
 $arResult['chfilter_examples'] = array();
 $arResult['total'] = $total;

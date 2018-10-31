@@ -471,7 +471,10 @@
 		 */
 		getSourceRows: function()
 		{
-			return BX.Grid.Utils.getByTag(this.getParent().getTable(), 'tr');
+			return BX.Grid.Utils.getBySelector(this.getParent().getTable(), [
+				'.main-grid-header > tr',
+				'.main-grid-header + tbody > tr'
+			].join(', '));
 		},
 
 

@@ -40,7 +40,7 @@ class NumberBlock extends Base
 	}
 
 	/**
-	 * Collect second and thirdd report configuration block in one horizontal group.
+	 * Collect second and third report configuration block in one horizontal group.
 	 *
 	 * @param WidgetForm $form Widget form.
 	 * @return WidgetForm
@@ -89,7 +89,7 @@ class NumberBlock extends Base
 	}
 
 	/**
-	 * Set defaul colors for report configuration block if not exist.
+	 * Set default colors for report configuration block if not exist.
 	 * Set non-displayable remove button field in this view type.
 	 * Attach what will calculate change event to label field.
 	 *
@@ -130,7 +130,7 @@ class NumberBlock extends Base
 	}
 
 	/**
-	 * Pass first report color to widget background callar,.
+	 * Pass first report color to widget background color,.
 	 * In interface we modify first report color but actually we change background of all widget.
 	 *
 	 * @param Widget $widget Widget entity.
@@ -141,10 +141,12 @@ class NumberBlock extends Base
 	{
 		$resultWidget = parent::prepareWidgetContent($widget, $withCalculatedData);
 
-		$result = $this->getCalculatedPerformedData($widget, $withCalculatedData);
+		if ($withCalculatedData)
+		{
+			$resultWidget['content']['params']['color'] = $widget->getWidgetHandler()->getReportHandlers()[0]->getFormElement('color')->getValue();
+			$resultWidget['config']['title'] = $widget->getWidgetHandler()->getReportHandlers()[0]->getFormElement('label')->getValue();
+		}
 
-		$resultWidget['content']['params']['color'] = $result['data'][0]['config']['color'];
-		$resultWidget['config']['title'] = $result['data'][0]['title'];
 		return $resultWidget;
 	}
 

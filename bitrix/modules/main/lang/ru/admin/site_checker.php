@@ -12,6 +12,7 @@ $MESS["SC_UPDATE_ERROR"] = "Нет соединения с сервером обновлений";
 $MESS["SC_TMP_FOLDER_PERMS"] = "Нет прав на запись во временную папку";
 $MESS["SC_NO_TMP_FOLDER"] = "Временная папка не существует";
 $MESS["ERR_NO_MODS"] = "Не установлены требуемые расширения:";
+$MESS["ERR_NO_MODS_DOC_GENERATOR"] = "Для работы модуля &quot;Генератор документов&quot; необходимо установить расширения php-xml и php-zip.";
 $MESS["SC_ERR_DNS"] = "Не удалось получить MX запись для домена #DOMAIN#";
 $MESS["SC_ERR_DNS_WRONG"] = "DNS настроен неправильно, должна быть одна MX запись: mail-001.bitrix24.com (настроено: #DOMAIN#).";
 $MESS["SC_ERR_CONNECT_MAIL001"] = "Не удалось подключиться к почтовому серверу mail-001.bitrix24.com";
@@ -367,7 +368,7 @@ $MESS["SC_ERR_FIELD_DIFFERS"] = "В таблице #TABLE# поле #FIELD# \"#CUR#\" не соо
 $MESS["SC_ERR_NO_INDEX"] = "В таблице #TABLE# отсутствует индекс #INDEX#";
 $MESS["SC_ERR_NO_INDEX_ENABLED"] = "Не включен полнотекстовый индекс #INDEX# для таблицы #TABLE#";
 $MESS["SC_ERR_NO_TABLE"] = "Отсутствует таблица #TABLE#";
-$MESS["SC_CHECK_TABLES_STRUCT_ERRORS"] = "Структура базы данных имеет ошибки (нет таблиц: #NO_TABLES#, нет полей: #NO_FIELDS#, поля отличаются: #DIFF_FIELDS#, нет индексов: #NO_INDEXES#). Всего #VAL#, автоматически могут быть исправлены: #VAL1#.";
+$MESS["SC_CHECK_TABLES_STRUCT_ERRORS"] = "Структура базы данных имеет ошибки. Всего #VAL#, автоматически могут быть исправлены: #VAL1#.";
 $MESS["SC_CHECK_TABLES_STRUCT_ERRORS_FIX"] = "Автоисправление прошло успешно, но ряд полей (#VAL#) отличаются по типу, необходимо вручную их исправить на основе журнала проверки сайта.";
 $MESS["SC_HELP_CHECK_PERF"] = "Оценка производительности сервера методом <a href=\"http://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=32&CHAPTER_ID=1146\">монитора производительности</a>.
 

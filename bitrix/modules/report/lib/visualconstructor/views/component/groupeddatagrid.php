@@ -62,11 +62,11 @@ class GroupedDataGrid extends Base
 				{
 					$result['items'][$item['groupBy']][$reportKey] = $item;
 				}
-				$result['config']['reportOptions'][$reportKey]['title'] = $reportHandlerResult['config']['reportTitle'];
+				$result['config']['reportOptions'][$reportKey]['title'] = htmlspecialcharsbx($reportHandlerResult['config']['reportTitle']);
 
 				foreach ($reportHandlerResult['config']['groupsLabelMap'] as $groupKey => $label)
 				{
-					$result['config']['groupOptions'][$groupKey]['title'] = $label;
+					$result['config']['groupOptions'][$groupKey]['title'] = htmlspecialcharsbx($label);
 				}
 
 				foreach ($reportHandlerResult['config']['groupsLogoMap'] as $groupKey => $logUrl)

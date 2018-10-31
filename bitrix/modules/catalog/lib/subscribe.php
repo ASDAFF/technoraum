@@ -440,8 +440,6 @@ class SubscribeTable extends Entity\DataManager
 	 * Agent function. Get the necessary data and send notifications to users.
 	 *
 	 * @return string
-	 * @throws \Bitrix\Main\ArgumentException
-	 * @throws \Bitrix\Main\ArgumentNullException
 	 */
 	public static function sendNotice()
 	{
@@ -481,8 +479,6 @@ class SubscribeTable extends Entity\DataManager
 	 * Agent function. Get the necessary data and send notifications to users.
 	 *
 	 * @return string
-	 * @throws \Bitrix\Main\ArgumentException
-	 * @throws \Bitrix\Main\ArgumentNullException
 	 */
 	public static function sendRepeatedNotice()
 	{
@@ -634,11 +630,18 @@ class SubscribeTable extends Entity\DataManager
 		/* Preparation of data for the mail template */
 		$currentApplication = Application::getInstance();
 		$context = $currentApplication->getContext();
-		$protocol = ($context->getRequest()->isHttps() ? 'https://' : 'http://');
-		$serverName = (defined('SITE_SERVER_NAME') && SITE_SERVER_NAME != '' ? SITE_SERVER_NAME : (string)Option::get('main', 'server_name', ''));
-		if ($serverName == '')
-			$serverName = $context->getServer()->getServerName();
-		unset($context, $currentApplication);
+		if ($context->getServer()->getServerName())
+		{
+			$protocol = ($context->getRequest()->isHttps() ? 'https://' : 'http://');
+		}
+		else
+		{
+			$protocol = Option::get('main', 'mail_link_protocol', 'https');
+			if (strrpos($protocol, '://') === false)
+				$protocol .= '://';
+		}
+
+		unset($currentApplication);
 
 		$itemIdGroupByIblock = array();
 		foreach($listSubscribe as $key => $subscribeData)
@@ -660,6 +663,23 @@ class SubscribeTable extends Entity\DataManager
 		$listNotifiedSubscribeId = array();
 		foreach($listSubscribe as $key => $subscribeData)
 		{
+			$serverName = '';
+			$iterator = \CSite::GetByID($subscribeData['SITE_ID']);
+			$site = $iterator->fetch();
+			unset($iterator);
+			if (!empty($site))
+				$serverName = (string)$site['SERVER_NAME'];
+			unset($site);
+			if ($serverName == '')
+			{
+				$serverName = (defined('SITE_SERVER_NAME') && SITE_SERVER_NAME != ''
+					? SITE_SERVER_NAME
+					: (string)Option::get('main', 'server_name', '', $subscribeData['SITE_ID'])
+				);
+				if ($serverName == '')
+					$serverName = $context->getServer()->getServerName();
+			}
+
 			$listNotifiedSubscribeId[] = $subscribeData['ID'];
 
 			$subscribeData['DETAIL_PAGE_URL'] = '';
@@ -687,6 +707,8 @@ class SubscribeTable extends Entity\DataManager
 
 			$dataSendToNotice[$subscribeData['CONTACT_TYPE']][$subscribeData['USER_CONTACT']][$key] = $subscribeData;
 		}
+
+		unset($context);
 
 		return array($dataSendToNotice, $listNotifiedSubscribeId);
 	}

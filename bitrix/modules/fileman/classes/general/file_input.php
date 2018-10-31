@@ -416,16 +416,7 @@ class CFileInput
 				foreach(self::$curFiles as $ind => $arFile)
 					self::DisplayFile($arFile, $ind);
 		?>
-		<script type="text/javascript">
-		if (typeof(window.BX) !== 'undefined')
-		{
-			new BX.file_input(<?= CUtil::PhpToJSObject($arConfig)?>);
-		}
-		else
-		{
-			new top.BX.file_input(<?= CUtil::PhpToJSObject($arConfig)?>);
-		}
-		</script>
+		<script type="text/javascript">(top.BX.file_input) ? new top.BX.file_input(<?= CUtil::PHPToJSObject($arConfig)?>) : new BX.file_input(<?= CUtil::PHPToJSObject($arConfig)?>)</script>
 		</div>
 		<?/* Used to refresh form content - workaround for IE bug (mantis:37969) */?>
 	<div id="<?= self::$jsId.'_ie_bogus_container'?>"><input type="hidden" value="" /></div>
@@ -520,20 +511,6 @@ class CFileInput
 		{
 		?>
 		<script type="text/javascript">
-		if (typeof(window.BX) !== 'undefined')
-		{
-			new BX.CHint({
-				parent: BX("<?= $hintId?>"),
-				show_timeout: 10,
-				hide_timeout: 200,
-				dx: 2,
-				preventHide: true,
-				min_width: 250,
-				hint: '<?= CUtil::JSEscape($hint)?>'
-			});
-		}
-		else
-		{
 			new top.BX.CHint({
 				parent: top.BX("<?= $hintId?>"),
 				show_timeout: 10,
@@ -543,7 +520,6 @@ class CFileInput
 				min_width: 250,
 				hint: '<?= CUtil::JSEscape($hint)?>'
 			});
-		}
 		</script>
 			<?
 		}

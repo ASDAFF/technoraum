@@ -741,9 +741,12 @@ BX.Sale.Input = (function () {
 				settings.SIZE = 30;
 			}
 
-			if (settings.PATTERN && settings.PATTERN.length)
+			if (settings.PATTERN
+				&& settings.PATTERN.length > 0
+				&& settings.PATTERN[0] === settings.PATTERN[settings.PATTERN.length-1]
+			)
 			{
-				var clearPattern = settings.PATTERN.substr(1, settings.PATTERN.lastIndexOf(settings.PATTERN[0]) - 1);
+				var clearPattern = settings.PATTERN.substr(1, settings.PATTERN.length - 2);
 				if (clearPattern && clearPattern.length)
 				{
 					settings.PATTERN = clearPattern;

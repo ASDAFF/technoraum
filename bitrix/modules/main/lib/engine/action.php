@@ -66,6 +66,23 @@ class Action implements Errorable
 		return $binder->getMethodParams();
 	}
 
+	/**
+	 * Sets list of action arguments.
+	 * It is associative array looks like argument name => value.
+	 * Be aware the method reset old values and set new arguments.
+	 *
+	 * @param array $arguments List of action arguments.
+	 *
+	 * @return Binder
+	 * @throws SystemException
+	 */
+	final public function setArguments(array $arguments)
+	{
+		$binder = $this->buildBinder()->getBinder();
+
+		return $binder->setMethodParams($arguments);
+	}
+
 	protected function buildBinder()
 	{
 		if ($this->binder === null)
@@ -136,6 +153,23 @@ class Action implements Errorable
 
 	protected function onAfterRun()
 	{
+	}
+
+	final public function getCurrentUser()
+	{
+		return $this->getController()->getCurrentUser();
+	}
+
+	/**
+	 * Converts keys of array to camel case notation.
+	 * @see \Bitrix\Main\Engine\Response\Converter::OUTPUT_JSON_FORMAT
+	 * @param mixed $data Data.
+	 *
+	 * @return array|mixed|string
+	 */
+	public function convertKeysToCamelCase($data)
+	{
+		return $this->getController()->convertKeysToCamelCase($data);
 	}
 
 	/**

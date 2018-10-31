@@ -3,11 +3,12 @@ namespace Bitrix\Sale\Delivery\Services;
 
 use Bitrix\Main\Error;
 use Bitrix\Main\Event;
+use Bitrix\Main\Loader;
 use Bitrix\Sale\Result;
 use Bitrix\Sale\Delivery;
 use Bitrix\Sale\Shipment;
 use Bitrix\Main\EventResult;
-use Bitrix\Sale\Internals\Input;
+use \Bitrix\Main\ModuleManager;
 use Bitrix\Main\SystemException;
 use Bitrix\Main\Localization\Loc;
 use Bitrix\Sale\Delivery\Requests;
@@ -256,8 +257,8 @@ abstract class Base
 	public function prepareFieldsForSaving(array $fields)
 	{
 		$strError = "";
-
 		$structure = $fields["CLASS_NAME"]::getConfigStructure();
+
 		foreach($structure as $key1 => $rParams)
 		{
 			foreach($rParams["ITEMS"] as $key2 => $iParams)
@@ -276,6 +277,11 @@ abstract class Base
 
 		if($strError != "")
 			throw new SystemException($strError);
+
+		if(strpos($fields['CLASS_NAME'], '\\') !== 0)
+		{
+			$fields['CLASS_NAME'] = '\\'.$fields['CLASS_NAME'];
+		}
 
 		return $fields;
 	}
@@ -813,5 +819,25 @@ abstract class Base
 	public function createProfileObject($fields)
 	{
 		return Manager::createObject($fields);
+	}
+
+	public static function isHandlerCompatible()
+	{
+		$result = true;
+
+		//Only configurable are fully compatible with all languages
+		if (ModuleManager::isModuleInstalled('bitrix24')
+			&& Loader::includeModule('bitrix24')
+			&& method_exists('CBitrix24', 'getLicensePrefix'))
+		{
+			$languageId = \CBitrix24::getLicensePrefix();
+
+			if(!in_array($languageId, ['ru', 'kz', 'by']))
+			{
+				$result = false;
+			}
+		}
+
+		return $result;
 	}
 }

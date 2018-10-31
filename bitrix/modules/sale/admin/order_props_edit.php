@@ -19,6 +19,8 @@ use	Bitrix\Sale\Internals\Input,
 
 Loc::loadMessages(__FILE__);
 
+$ID = intval($ID);
+
 $propertyId = $ID;
 $personTypeId = $PERSON_TYPE_ID;
 unset($ID, $PERSON_TYPE_ID);
@@ -453,6 +455,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && (isset($_POST["apply"]) || isset($_P
 		// 2. insert property
 		else
 		{
+			$propertyForDB['ENTITY_REGISTRY_TYPE'] = \Bitrix\Sale\Registry::REGISTRY_TYPE_ORDER;
 			$insert = OrderPropsTable::add($propertyForDB);
 			if ($insert->isSuccess())
 				$propertyId = $property['ID'] = $insert->getId();
@@ -555,7 +558,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && (isset($_POST["apply"]) || isset($_P
 			LocalRedirect("sale_order_props_edit.php?lang=".LANG."&ID=".$propertyId.GetFilterParams("filter_", false));
 	}
 }
-
 // RENDER VIEW /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 $APPLICATION->SetTitle($propertyId
@@ -624,10 +626,26 @@ if ($errors)
 	<?=bitrix_sessid_post()?>
 
 	<?
-	$tabControl = new CAdminTabControl('tabControl', array(
-		array('DIV' => 'edit1', 'TAB' => Loc::getMessage('SOPEN_TAB_PROPS'), 'ICON' => 'sale', 'TITLE' => str_replace('#PTYPE#', "{$personType['NAME']} ({$personType['LID']})", Loc::getMessage('SOPEN_TAB_PROPS_DESCR'))),
-		array('DIV' => 'edit2', 'TAB' => Loc::getMessage('SALE_PROPERTY_LINKING'), 'ICON' => 'sale', 'TITLE' => Loc::getMessage('SALE_PROPERTY_LINKING_DESC'))
-	));
+	$tabs = [
+		[
+			'DIV' => 'edit1',
+			'TAB' => Loc::getMessage('SOPEN_TAB_PROPS'),
+			'ICON' => 'sale',
+			'TITLE' => str_replace(
+				'#PTYPE#',
+				"{$personType['NAME']} ({$personType['LID']})",
+				Loc::getMessage('SOPEN_TAB_PROPS_DESCR')
+			)
+		],
+		[
+			'DIV' => 'edit2',
+			'TAB' => Loc::getMessage('SALE_PROPERTY_LINKING'),
+			'ICON' => 'sale',
+			'TITLE' => Loc::getMessage('SALE_PROPERTY_LINKING_DESC')
+		]
+	];
+
+	$tabControl = new CAdminTabControl('tabControl', $tabs);
 	$tabControl->Begin();
 	$tabControl->BeginNextTab();
 	?>
@@ -708,7 +726,6 @@ if ($errors)
 			<td width="60%"><?=Input\Manager::getEditHtml("RELATIONS[$name]", $input, $value)?></td>
 		</tr>
 	<?endforeach?>
-
 	<?
 	$tabControl->EndTab();
 	$tabControl->Buttons(array(

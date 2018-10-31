@@ -78,6 +78,16 @@ CJSCore::RegisterExt('userfield_address', array(
 	'rel' => array('uf', 'google_map', 'google_geocoder', 'google_autocomplete', 'popup'),
 ));
 
+CJSCore::RegisterExt('player', [
+	'js' => [
+		'/bitrix/js/fileman/player/fileman_player.js',
+		'/bitrix/js/fileman/player/videojs/video.js',
+	],
+	'css' => [
+		'/bitrix/js/fileman/player/videojs/video-js.css',
+	],
+]);
+
 //on update method still not exist
 if(method_exists($GLOBALS["APPLICATION"], 'AddJSKernelInfo'))
 {

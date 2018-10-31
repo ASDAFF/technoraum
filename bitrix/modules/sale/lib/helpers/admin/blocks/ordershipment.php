@@ -73,7 +73,7 @@ class OrderShipment
 		{
 			$deliveryId = $data['DELIVERY_ID'];
 			$service = Services\Manager::getObjectById($deliveryId);
-			if ($service && $service->getParentService())
+			if ($service && $service::isProfile())
 			{
 				$profileId = $deliveryId;
 				$deliveryId = $service->getParentService()->getId();
@@ -726,7 +726,7 @@ class OrderShipment
 		return array('SHIPMENT' => $data);
 	}
 
-	protected static function getStoresList($deliveryId, $storeId)
+	public static function getStoresList($deliveryId, $storeId)
 	{
 		$result = array();
 

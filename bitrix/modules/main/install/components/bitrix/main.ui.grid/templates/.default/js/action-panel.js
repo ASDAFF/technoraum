@@ -107,6 +107,11 @@
 			return BX.Grid.Utils.getBySelector(this.getPanel(), 'input[type="hidden"]');
 		},
 
+		getSelects: function()
+		{
+			return BX.Grid.Utils.getBySelector(this.getPanel(), 'select');
+		},
+
 		getDropdowns: function()
 		{
 			return BX.Grid.Utils.getByClass(this.getPanel(), this.parent.settings.get('classDropdown'));
@@ -140,6 +145,11 @@
 		isHiddenInput: function(node)
 		{
 			return node.type === 'hidden';
+		},
+
+		isSelect: function(node)
+		{
+			return node.tagName === 'SELECT';
 		},
 
 		createDropdown: function(data, relative)
@@ -352,7 +362,18 @@
 
 		createCustom: function(data, relative)
 		{
+			var container = this.createContainer(data.ID, relative);
 
+			var custom = BX.create('div', {
+				props: {
+					className: 'main-grid-panel-custom' + (data.CLASS ? ' ' + data.CLASS : '')
+				},
+				html: data.VALUE
+			});
+
+			container.appendChild(custom);
+
+			return container;
 		},
 
 		createContainer: function(id, relative)
@@ -708,7 +729,7 @@
 			var dropdown = BX(id);
 			var container = dropdown.parentNode;
 			var onChange = dataItem && ('ONCHANGE' in dataItem) ? dataItem.ONCHANGE : null;
-			var isPseudo = ('PSEUDO' in dataItem && dataItem.PSEUDO !== false);
+			var isPseudo = dataItem && ('PSEUDO' in dataItem && dataItem.PSEUDO !== false);
 
 			this.onChangeHandler(container, onChange, isPseudo);
 		},
@@ -783,6 +804,7 @@
 				this.getDropdowns(),
 				this.getTextInputs(),
 				this.getHiddenInputs(),
+				this.getSelects(),
 				this.getCheckboxes(),
 				this.getButtons()
 			);
@@ -795,6 +817,11 @@
 						var dropdownValue = BX.data(current, 'value');
 						dropdownValue = (dropdownValue !== null && dropdownValue !== undefined) ? dropdownValue : '';
 						data[BX.data(current, 'name')] = dropdownValue;
+					}
+
+					if (self.isSelect(current))
+					{
+						data[current.getAttribute('name')] = current.options[current.selectedIndex].value;
 					}
 
 					if (self.isCheckbox(current) && current.checked)

@@ -29,7 +29,7 @@ if (strlen($arParams["PATH_TO_DETAIL"]) <= 0)
 if ($arParams["SET_TITLE"] == 'Y')
 	$APPLICATION->SetTitle(str_replace("#ID#", $ID, GetMessage("SPOC_TITLE")));
 
-$bUseAccountNumber = (COption::GetOptionString("sale", "account_number_template", "") !== "") ? true : false;
+$bUseAccountNumber = \Bitrix\Sale\Integration\Numerator\NumeratorOrder::isUsedNumeratorForOrder();
 
 $errors = array();
 

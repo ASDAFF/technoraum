@@ -6,6 +6,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 CBitrixComponent::includeComponentClass("bitrix:catalog.viewed.products");
 
+/**
+ * Class CSaleGiftBasketComponent
+ * @deprecated No longer used by internal code and not recommended.
+ * Use "sale.products.gift.basket" instead.
+ */
 class CSaleGiftBasketComponent extends CCatalogViewedProductsComponent
 {
 	/** @var \Bitrix\Sale\Discount\Gift\Manager */

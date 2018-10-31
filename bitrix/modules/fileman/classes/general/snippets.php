@@ -586,9 +586,9 @@ window.arSnGroups['<?=$template?>']['<?= $key?>'] =
 
 		$io = CBXVirtualIo::GetInstance();
 
-		if (!$io->ValidatePathString($snippetPath) ||
-			IsFileUnsafe($snippetPath) ||
-			HasScriptExtension($snippetPath))
+		if (!$io->ValidatePathString($path) ||
+			IsFileUnsafe($path) ||
+			HasScriptExtension($path))
 		{
 			return false;
 		}

@@ -595,9 +595,19 @@ BX.Sale.Admin.OrderEditPage =
 	 *
 	 * @param {string} itemCode
 	 * @param {string} itemType
-	 * @param {array} itemDiscount
-	 * @param {array} discountParams
-	 * @param {HTMLElement} table
+	 * @param {{
+	 * 		COUPON_ID: string,
+	 * 		APPLY: string,
+	 * 		DESCR: {}|string,
+	 * 		TYPE: string
+	 * }} itemDiscount
+	 * @param {{
+	 * 		DISCOUNT_ID: string,
+	 *		USE_COUPONS: string,
+	 *		EDIT_PAGE_URL: string,
+	 *		NAME: string
+	 * }} discountParams
+	 * @param {HTMLTableElement} table
 	 * @param {string} mode
 	 * @returns {HTMLElement}
 	 */
@@ -608,7 +618,7 @@ BX.Sale.Admin.OrderEditPage =
 			name,
 			checkbox;
 
-		if (itemType == 'DISCOUNT_LIST')
+		if (itemType === 'DISCOUNT_LIST')
 		{
 			itemAttrs['data-discount'] = 'Y';
 			itemAttrs['data-use-coupons'] = (discountParams.USE_COUPONS);
@@ -624,9 +634,9 @@ BX.Sale.Admin.OrderEditPage =
 				props: {
 					type: "checkbox",
 					name: name,
-					checked: itemDiscount.APPLY == "Y",
+					checked: itemDiscount.APPLY === "Y",
 					value: "Y",
-					disabled: (mode == "VIEW")
+					disabled: (mode === "VIEW")
 				},
 				attrs: itemAttrs
 			});
@@ -646,7 +656,7 @@ BX.Sale.Admin.OrderEditPage =
 			})
 		);
 
-		if(mode == "EDIT")
+		if(mode === "EDIT")
 		{
 			BX.bind(checkbox, "click", function(e){
 				BX.Sale.Admin.OrderEditPage.setDiscountCheckbox(e);
@@ -656,7 +666,7 @@ BX.Sale.Admin.OrderEditPage =
 
 		var value = "";
 
-		if(typeof itemDiscount.DESCR == "object")
+		if(typeof itemDiscount.DESCR === "object")
 		{
 			if(itemDiscount.DESCR)
 			{

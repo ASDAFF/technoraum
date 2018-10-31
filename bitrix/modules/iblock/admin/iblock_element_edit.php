@@ -13,6 +13,8 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/iblock/prolog.php');
 
 Loader::includeModule('iblock');
 
+$selfFolderUrl = $adminPage->getSelfFolderUrl();
+
 $io = CBXVirtualIo::GetInstance();
 
 /*Change any language identifiers carefully*/
@@ -158,7 +160,8 @@ else
 	if ($return_url == '')
 	{
 		if ($from=="iblock_section_admin")
-			$return_url = CIBlock::GetAdminSectionListLink($IBLOCK_ID, array('find_section_section' => $find_section_section));
+			$return_url = CIBlock::GetAdminSectionListLink($IBLOCK_ID, array(
+				"find_section_section" => $find_section_section, "SECTION_ID" => intval($find_section_section)));
 	}
 }
 
@@ -742,6 +745,7 @@ do{ //one iteration loop
 			}
 			else
 			{
+				$adminSidePanelHelper->localRedirect($APPLICATION->GetCurPageParam("", array("stop_bizproc", "sessid")));
 				LocalRedirect($APPLICATION->GetCurPageParam("", array("stop_bizproc", "sessid")));
 			}
 		}
@@ -764,7 +768,8 @@ do{ //one iteration loop
 				if ($bAutocomplete)
 					$arUrlParams['lookup'] = $strLookup;
 				CCatalogAdminTools::addTabParams($arUrlParams);
-				LocalRedirect("/bitrix/admin/".CIBlock::GetAdminElementEditLink($IBLOCK_ID, $ID, $arUrlParams, "&".$tabControl->ActiveTabParam()));
+				$adminSidePanelHelper->localRedirect($selfFolderUrl.CIBlock::GetAdminElementEditLink($IBLOCK_ID, $ID, $arUrlParams, "&".$tabControl->ActiveTabParam()));
+				LocalRedirect($selfFolderUrl.CIBlock::GetAdminElementEditLink($IBLOCK_ID, $ID, $arUrlParams, "&".$tabControl->ActiveTabParam()));
 			}
 		}
 
@@ -777,6 +782,8 @@ do{ //one iteration loop
 			&& empty($dontsave)
 		)
 		{
+			$adminSidePanelHelper->decodeUriComponent();
+
 			$DB->StartTransaction();
 
 			if(isset($_POST["IBLOCK_SECTION"]))
@@ -1212,6 +1219,8 @@ do{ //one iteration loop
 
 				$DB->Commit();
 
+				$adminSidePanelHelper->sendSuccessResponse("base", array("ID" => $ID));
+
 				if(strlen($apply) <= 0 && strlen($save_and_add) <= 0)
 				{
 					if ($bAutocomplete)
@@ -1219,8 +1228,13 @@ do{ //one iteration loop
 						if (defined('BX_PUBLIC_MODE') && BX_PUBLIC_MODE == 1)
 						{
 							?><script type="text/javascript">
-							top.<? echo $strLookup; ?>.AddValue(<? echo $ID;?>);
-							top.BX.WindowManager.Get().AllowClose(); top.BX.WindowManager.Get().Close();
+							var currentWindow = top.window;
+							if (top.BX.SidePanel.Instance && top.BX.SidePanel.Instance.getTopSlider())
+							{
+								currentWindow = top.BX.SidePanel.Instance.getTopSlider().getWindow();
+							}
+							currentWindow.<? echo $strLookup; ?>.AddValue(<? echo $ID;?>);
+							currentWindow.BX.WindowManager.Get().AllowClose(); currentWindow.BX.WindowManager.Get().Close();
 							</script><?
 							die();
 						}
@@ -1254,17 +1268,21 @@ do{ //one iteration loop
 							}
 							else
 							{
+								$adminSidePanelHelper->localRedirect($return_url);
 								LocalRedirect($return_url);
 							}
 						}
 						else
 						{
+							$adminSidePanelHelper->localRedirect($return_url);
 							LocalRedirect($return_url);
 						}
 					}
 					else
 					{
-						LocalRedirect("/bitrix/admin/".CIBlock::GetAdminElementListLink($IBLOCK_ID, array('find_section_section'=> $find_section_section)));
+						$saveUrl = $selfFolderUrl.CIBlock::GetAdminElementListLink($IBLOCK_ID, array('find_section_section'=> $find_section_section));
+						$adminSidePanelHelper->localRedirect($saveUrl);
+						LocalRedirect($saveUrl);
 					}
 				}
 				elseif(strlen($save_and_add) > 0)
@@ -1297,7 +1315,7 @@ do{ //one iteration loop
 						?>
 						<script type="text/javascript">
 							top.BX.ajax.get(
-								'/bitrix/admin/<? echo $l; ?>',
+								'<? echo $selfFolderUrl.$l; ?>',
 								function (result) {
 									top.BX.closeWait();
 									top.window.reloadAfterClose = true;
@@ -1310,17 +1328,22 @@ do{ //one iteration loop
 					}
 					else
 					{
-						LocalRedirect("/bitrix/admin/".CIBlock::GetAdminElementEditLink($IBLOCK_ID, 0, $params, "&".$tabControl->ActiveTabParam()));
+						$saveAndAddUrl =$selfFolderUrl.CIBlock::GetAdminElementEditLink($IBLOCK_ID, 0, $params, "&".
+							$tabControl->ActiveTabParam());
+						$adminSidePanelHelper->localRedirect($saveAndAddUrl);
+						LocalRedirect($saveAndAddUrl);
 					}
 				}
 				else
 				{
-					LocalRedirect("/bitrix/admin/".CIBlock::GetAdminElementEditLink($IBLOCK_ID, $ID, array(
+					$applyUrl = $selfFolderUrl.CIBlock::GetAdminElementEditLink($IBLOCK_ID, $ID, array(
 						"WF" => ($WF=="Y"? "Y": null),
 						"find_section_section" => $find_section_section,
-						"return_url" => (strlen($return_url) > 0? $return_url: null),
+						"return_url" => (strlen($return_url) > 0 ? $return_url: null),
 						"lookup" => $bAutocomplete ? $strLookup : null,
-					), "&".$tabControl->ActiveTabParam()));
+					), "&".$tabControl->ActiveTabParam());
+					$applyUrl = $adminSidePanelHelper->setDefaultQueryParams($applyUrl);
+					LocalRedirect($applyUrl);
 				}
 			}
 		}
@@ -1341,7 +1364,15 @@ do{ //one iteration loop
 				}
 				elseif(defined('BX_PUBLIC_MODE') && BX_PUBLIC_MODE == 1)
 				{
-					echo '<script type="text/javascript">top.BX.closeWait(); top.BX.WindowManager.Get().AllowClose(); top.BX.WindowManager.Get().Close();</script>';
+					echo '<script type="text/javascript">
+						var currentWindow = top.window;
+						if (top.BX.SidePanel.Instance && top.BX.SidePanel.Instance.getTopSlider())
+						{
+							currentWindow = top.BX.SidePanel.Instance.getTopSlider().getWindow();
+						}
+						currentWindow.BX.closeWait(); currentWindow.BX.WindowManager.Get().AllowClose(); 
+						currentWindow.BX.WindowManager.Get().Close();
+						</script>';
 					die();
 				}
 				else
@@ -1350,6 +1381,7 @@ do{ //one iteration loop
 					$arElement = $rsElement->Fetch();
 					if($arElement)
 						$return_url = CIBlock::ReplaceDetailUrl($return_url, $arElement, true, "E");
+					$adminSidePanelHelper->localRedirect($return_url);
 					LocalRedirect($return_url);
 				}
 			}
@@ -1364,13 +1396,20 @@ do{ //one iteration loop
 				}
 				else
 				{
-					LocalRedirect("/bitrix/admin/".CIBlock::GetAdminElementListLink($IBLOCK_ID, array('find_section_section'=> $find_section_section)));
+					$donSaveUrl = $selfFolderUrl.CIBlock::GetAdminElementListLink($IBLOCK_ID, array('find_section_section'=> $find_section_section));
+					$adminSidePanelHelper->localRedirect($donSaveUrl);
+					LocalRedirect($donSaveUrl);
 				}
 			}
 		}
 	}
 
 }while(false);
+
+if ($error)
+{
+	$adminSidePanelHelper->sendJsonErrorResponse($error->GetErrorText());
+}
 
 if($error && $error->err_level==1)
 {
@@ -1681,24 +1720,30 @@ else
 	$aMenu = array();
 	if ( !$bAutocomplete && !$bPropertyAjax )
 	{
+		$listUrl = $selfFolderUrl.CIBlock::GetAdminElementListLink(
+			$IBLOCK_ID, array("find_section_section" => $find_section_section));
 		$aMenu = array(
 			array(
 				"TEXT" => htmlspecialcharsEx($arIBlock["ELEMENTS_NAME"]),
-				"LINK" => CIBlock::GetAdminElementListLink($IBLOCK_ID, array('find_section_section'=> $find_section_section)),
+				"LINK" => $listUrl,
 				"ICON" => "btn_list",
 			)
 		);
 
-		if (!$bCopy)
+		if (!$bCopy && $ID > 0)
 		{
+			$copyUrl = $selfFolderUrl.CIBlock::GetAdminElementEditLink($IBLOCK_ID, $ID, array(
+				"IBLOCK_SECTION_ID" => $MENU_SECTION_ID,
+				"find_section_section" => $find_section_section,
+				"action" => "copy",
+				"replace_script_name" => true
+			));
+			if (!$adminSidePanelHelper->isPublicFrame())
+				$copyUrl = $adminSidePanelHelper->setDefaultQueryParams($copyUrl);
 			$aMenu[] = array(
 				"TEXT"=>GetMessage("IBEL_E_COPY_ELEMENT"),
 				"TITLE"=>GetMessage("IBEL_E_COPY_ELEMENT_TITLE"),
-				"LINK"=>"/bitrix/admin/".CIBlock::GetAdminElementEditLink($IBLOCK_ID, $ID, array(
-					"IBLOCK_SECTION_ID" => $MENU_SECTION_ID,
-					"find_section_section" => $find_section_section,
-					"action" => "copy",
-				)),
+				"LINK"=>$copyUrl,
 				"ICON"=>"btn_copy",
 			);
 		}
@@ -1717,29 +1762,60 @@ else
 			if (!empty($arCatalogBtns))
 			{
 				$aMenu[] = array('SEPARATOR' => 'Y');
+
+				if ($adminSidePanelHelper->isSidePanel())
+				{
+					if (!empty($arCatalogBtns["MENU"]))
+					{
+						foreach ($arCatalogBtns["MENU"] as &$arCatalogBtnMenu)
+						{
+							if (!empty($arCatalogBtnMenu["LINK"]))
+							{
+								$arCatalogBtnMenu["LINK"] = $adminSidePanelHelper->setDefaultQueryParams(
+									$arCatalogBtnMenu["LINK"]);
+							}
+						}
+					}
+				}
+
 				$aMenu[] = $arCatalogBtns;
 			}
 		}
 
 		if($ID > 0 && !$bCopy)
 		{
+			$urlParams = array(
+				"IBLOCK_SECTION_ID" => $MENU_SECTION_ID,
+				"find_section_section" => $find_section_section,
+				"replace_script_name" => true
+			);
+			$editButtonUrl = $selfFolderUrl.CIBlock::GetAdminElementEditLink($IBLOCK_ID, 0, $urlParams);
+			if ($adminSidePanelHelper->isPublicFrame())
+			{
+				$editButtonUrl = "javascript:top.window.location.href='".$editButtonUrl."';";
+			}
+			else
+			{
+				$editButtonUrl = $adminSidePanelHelper->setDefaultQueryParams($editButtonUrl);
+			}
 			$arSubMenu = array();
 			$arSubMenu[] = array(
 				"TEXT" => htmlspecialcharsEx($arIBlock["ELEMENT_ADD"]),
-				"LINK" => "/bitrix/admin/".CIBlock::GetAdminElementEditLink($IBLOCK_ID, 0, array(
-					"IBLOCK_SECTION_ID" => $MENU_SECTION_ID,
-					"find_section_section" => $find_section_section,
-				)),
+				"LINK" => $editButtonUrl,
 				'ICON' => 'edit',
 			);
 			if (CIBlockElementRights::UserHasRightTo($IBLOCK_ID, $ID, "element_delete"))
 			{
-				$urlDelete = CIBlock::GetAdminElementListLink($IBLOCK_ID, array('find_section_section'=> $find_section_section, 'action'=>'delete'));
+				$deleteUrlParams = array('find_section_section'=> $find_section_section, 'action'=>'delete');
+				if (!$adminSidePanelHelper->isPublicFrame())
+					$deleteUrlParams['skip_public'] = true;
+				$urlDelete = $selfFolderUrl.CIBlock::GetAdminElementListLink($IBLOCK_ID, $deleteUrlParams);
 				$urlDelete .= '&'.bitrix_sessid_get();
 				$urlDelete .= '&ID='.(CIBlock::GetAdminListMode($IBLOCK_ID) == 'C' ? "E": "").$ID;
+				$buttonAction = $adminSidePanelHelper->isPublicFrame() ? "ONCLICK" : "LINK";
 				$arSubMenu[] = array(
 					"TEXT" => htmlspecialcharsEx($arIBlock["ELEMENT_DELETE"]),
-					"ACTION" => "if(confirm('".GetMessageJS("IBLOCK_ELEMENT_DEL_CONF")."'))window.location='".CUtil::JSEscape($urlDelete)."';",
+					$buttonAction => "javascript:if(confirm('".GetMessageJS("IBLOCK_ELEMENT_DEL_CONF")."')) top.window.location.href='".CUtil::JSEscape($urlDelete)."';",
 					'ICON' => 'delete',
 				);
 			}
@@ -1748,7 +1824,7 @@ else
 			{
 				$arSubMenu[] = array(
 					"TEXT" => GetMessage("IBEL_HIST"),
-					"LINK" => '/bitrix/admin/iblock_history_list.php?ELEMENT_ID='.$ID.'&type='.urlencode($arIBlock["IBLOCK_TYPE_ID"]).'&lang='.LANGUAGE_ID.'&IBLOCK_ID='.$IBLOCK_ID.'&find_section_section='.$find_section_section,
+					"LINK" => $selfFolderUrl.'/iblock_history_list.php?ELEMENT_ID='.$ID.'&type='.urlencode($arIBlock["IBLOCK_TYPE_ID"]).'&lang='.LANGUAGE_ID.'&IBLOCK_ID='.$IBLOCK_ID.'&find_section_section='.$find_section_section,
 				);
 			}
 
@@ -1878,7 +1954,7 @@ else:
 	<script type="text/javascript">
 		var InheritedPropertiesTemplates = new JCInheritedPropertiesTemplates(
 			'<?echo $tabControl->GetName()?>_form',
-			'/bitrix/admin/iblock_templates.ajax.php?ENTITY_TYPE=E&IBLOCK_ID=<?echo intval($IBLOCK_ID)?>&ENTITY_ID=<?echo intval($ID)?>'
+			'<?=$selfFolderUrl?>iblock_templates.ajax.php?ENTITY_TYPE=E&IBLOCK_ID=<?echo intval($IBLOCK_ID)?>&ENTITY_ID=<?echo intval($ID)?>&bxpublic=y'
 		);
 		BX.ready(function(){
 			setTimeout(function(){
@@ -1928,9 +2004,13 @@ if ($bAutocomplete)
 {
 	$arEditLinkParams['lookup'] = $strLookup;
 }
-
+if ($adminSidePanelHelper->isPublicFrame())
+{
+	$arEditLinkParams["IFRAME"] = "Y";
+	$arEditLinkParams["IFRAME_TYPE"] = "PUBLIC_FRAME";
+}
 $tabControl->Begin(array(
-	"FORM_ACTION" => "/bitrix/admin/".CIBlock::GetAdminElementEditLink($IBLOCK_ID, null, $arEditLinkParams)
+	"FORM_ACTION" => $selfFolderUrl.CIBlock::GetAdminElementEditLink($IBLOCK_ID, null, $arEditLinkParams)
 ));
 
 $tabControl->BeginNextFormTab();
@@ -1962,7 +2042,9 @@ if ($ID > 0 && !$bCopy)
 			<td width="40%"><? echo $tabControl->GetCustomLabelHTML() ?></td>
 			<td width="60%"><? echo $str_DATE_CREATE ?><?
 				if (intval($str_CREATED_BY) > 0):
+					if (!$adminSidePanelHelper->isPublicSidePanel()):
 					?>&nbsp;&nbsp;&nbsp;[<a href="user_edit.php?lang=<?=LANGUAGE_ID; ?>&amp;ID=<?=$str_CREATED_BY; ?>"><? echo $str_CREATED_BY ?></a>]<?
+					endif;
 					$rsUser = CUser::GetByID($str_CREATED_BY);
 					$arUser = $rsUser->Fetch();
 					if ($arUser):
@@ -1982,7 +2064,9 @@ if ($ID > 0 && !$bCopy)
 	<td width="40%"><? echo $tabControl->GetCustomLabelHTML() ?></td>
 	<td width="60%"><? echo $str_TIMESTAMP_X; ?><?
 		if (intval($str_MODIFIED_BY) > 0):
+			if (!$adminSidePanelHelper->isPublicSidePanel()):
 			?>&nbsp;&nbsp;&nbsp;[<a href="user_edit.php?lang=<?=LANGUAGE_ID; ?>&amp;ID=<?=$str_MODIFIED_BY; ?>"><? echo $str_MODIFIED_BY ?></a>]<?
+			endif;
 			if (intval($str_CREATED_BY) != intval($str_MODIFIED_BY))
 			{
 				$rsUser = CUser::GetByID($str_MODIFIED_BY);
@@ -2208,7 +2292,7 @@ if(!empty($PROP)):
 			"FILTRABLE" => "Y",
 		));
 		$arLinkedProp = $rsLinkedProps->GetNext();
-		if ($arLinkedProp)
+		if ($arLinkedProp && !$adminSidePanelHelper->isPublicSidePanel())
 		{
 			$linkedTitle = '';
 			$tabControl->BeginCustomField("LINKED_PROP", GetMessage("IBLOCK_ELEMENT_EDIT_LINKED"));
@@ -2225,7 +2309,7 @@ if(!empty($PROP)):
 				if ($elements_name == '')
 					$elements_name = GetMessage("IBLOCK_ELEMENT_EDIT_ELEMENTS");
 			?><tr id="tr_LINKED_PROP<?echo $arLinkedProp["ID"]?>">
-				<td colspan="2"><a title="<?=$linkedTitle; ?>" href="/bitrix/admin/<?=htmlspecialcharsbx(CIBlock::GetAdminElementListLink($arLinkedProp["IBLOCK_ID"], array('set_filter'=>'Y', 'find_el_property_'.$arLinkedProp["ID"]=>$ID, 'find_section_section' => -1)))?>"><?=htmlspecialcharsbx(CIBlock::GetArrayByID($arLinkedProp["IBLOCK_ID"], "NAME").": ".$elements_name); ?></a></td>
+				<td colspan="2"><a title="<?=$linkedTitle; ?>" href="<?=$selfFolderUrl.htmlspecialcharsbx(CIBlock::GetAdminElementListLink($arLinkedProp["IBLOCK_ID"], array('apply_filter'=>'Y', 'find_el_property_'.$arLinkedProp["ID"]=>$ID, 'find_section_section' => -1)))?>"><?=htmlspecialcharsbx(CIBlock::GetArrayByID($arLinkedProp["IBLOCK_ID"], "NAME").": ".$elements_name); ?></a></td>
 			</tr><?
 			}
 			while ($arLinkedProp = $rsLinkedProps->GetNext());
@@ -2936,7 +3020,7 @@ $tabControl->EndCustomField("DETAIL_TEXT",
 				}
 				</script>
 				<input name="input_IBLOCK_SECTION" id="input_IBLOCK_SECTION" type="hidden">
-				<input type="button" value="<?echo GetMessage("IBLOCK_ELEMENT_EDIT_PROP_ADD")?>..." onClick="jsUtils.OpenWindow('/bitrix/admin/iblock_section_search.php?lang=<?echo LANGUAGE_ID?>&amp;IBLOCK_ID=<?echo $IBLOCK_ID?>&amp;n=input_IBLOCK_SECTION&amp;m=y&amp;iblockfix=y&amp;tableId=iblocksection-<?=$IBLOCK_ID; ?>', 900, 700);">
+				<input type="button" value="<?echo GetMessage("IBLOCK_ELEMENT_EDIT_PROP_ADD")?>..." onClick="jsUtils.OpenWindow('<?=$selfFolderUrl?>iblock_section_search.php?lang=<?echo LANGUAGE_ID?>&amp;IBLOCK_ID=<?echo $IBLOCK_ID?>&amp;n=input_IBLOCK_SECTION&amp;m=y&amp;iblockfix=y&amp;tableId=iblocksection-<?=$IBLOCK_ID; ?>', 900, 700);">
 		</td>
 	<?endif;?>
 	</tr>
@@ -3027,7 +3111,8 @@ if ($arShowTabs['sku'])
 	$intSubPropValue = (0 == $ID || $bCopy ? '-'.$TMP_ID : $ID);
 	$strSubTMP_ID = $TMP_ID;
 
-	$strSubElementAjaxPath = '/bitrix/admin/iblock_subelement_admin.php?WF=Y&IBLOCK_ID='.$intSubIBlockID.'&type='.urlencode($strSubIBlockType).'&lang='.LANGUAGE_ID.'&find_section_section=0&find_el_property_'.$arSubCatalog['SKU_PROPERTY_ID'].'='.((0 == $ID) || ($bCopy) ? '-'.$TMP_ID : $ID).'&TMP_ID='.urlencode($strSubTMP_ID);
+	$additionalParams = (defined("SELF_FOLDER_URL") ? "&public=y" : "");
+	$strSubElementAjaxPath = $selfFolderUrl.'iblock_subelement_admin.php?WF=Y&IBLOCK_ID='.$intSubIBlockID.'&type='.urlencode($strSubIBlockType).'&lang='.LANGUAGE_ID.'&find_section_section=0&find_el_property_'.$arSubCatalog['SKU_PROPERTY_ID'].'='.((0 == $ID) || ($bCopy) ? '-'.$TMP_ID : $ID).'&TMP_ID='.urlencode($strSubTMP_ID).$additionalParams;
 	if ($boolIncludeOffers && file_exists($_SERVER["DOCUMENT_ROOT"].'/bitrix/modules/iblock/admin/templates/iblock_subelement_list.php'))
 	{
 		require($_SERVER["DOCUMENT_ROOT"].'/bitrix/modules/iblock/admin/templates/iblock_subelement_list.php');
@@ -3229,7 +3314,7 @@ if ($arShowTabs['bizproc']):
 			<td colspan="2">
 				<?= htmlspecialcharsbx($arDocumentState["TEMPLATE_NAME"]) ?>
 				<?if (strlen($arDocumentState["ID"]) > 0 && strlen($arDocumentState["WORKFLOW_STATUS"]) > 0):?>
-					(<a href="<?echo htmlspecialcharsbx("/bitrix/admin/".CIBlock::GetAdminElementEditLink($IBLOCK_ID, $ID, array(
+					(<a href="<?echo htmlspecialcharsbx($selfFolderUrl.CIBlock::GetAdminElementEditLink($IBLOCK_ID, $ID, array(
 						"WF"=>$WF,
 						"find_section_section" => $find_section_section,
 						"stop_bizproc" => $arDocumentState["ID"],
@@ -3256,7 +3341,7 @@ if ($arShowTabs['bizproc']):
 		<?if (strlen($arDocumentState["STATE_NAME"]) > 0):?>
 		<tr>
 			<td width="40%"><?echo GetMessage("IBEL_BIZPROC_STATE")?></td>
-			<td width="60%"><?if (strlen($arDocumentState["ID"]) > 0):?><a href="/bitrix/admin/bizproc_log.php?ID=<?= $arDocumentState["ID"] ?>&back_url=<?= urlencode($APPLICATION->GetCurPageParam("", array())) ?>"><?endif;?><?= strlen($arDocumentState["STATE_TITLE"]) > 0 ? $arDocumentState["STATE_TITLE"] : $arDocumentState["STATE_NAME"] ?><?if (strlen($arDocumentState["ID"]) > 0):?></a><?endif;?></td>
+			<td width="60%"><?if (strlen($arDocumentState["ID"]) > 0):?><a href=<?=$selfFolderUrl?>"bizproc_log.php?ID=<?= $arDocumentState["ID"] ?>&back_url=<?= urlencode($APPLICATION->GetCurPageParam("", array())) ?>"><?endif;?><?= strlen($arDocumentState["STATE_TITLE"]) > 0 ? $arDocumentState["STATE_TITLE"] : $arDocumentState["STATE_NAME"] ?><?if (strlen($arDocumentState["ID"]) > 0):?></a><?endif;?></td>
 		</tr>
 		<?endif;?>
 		<?
@@ -3313,7 +3398,7 @@ if ($arShowTabs['bizproc']):
 						<?
 						foreach ($arTasks as $arTask)
 						{
-							?><a href="/bitrix/admin/bizproc_task.php?id=<?= $arTask["ID"] ?>&back_url=<?= urlencode($APPLICATION->GetCurPageParam("", array())) ?>" title="<?= strip_tags($arTask["DESCRIPTION"]) ?>"><?= $arTask["NAME"] ?></a><br /><?
+							?><a href="<?=$selfFolderUrl?>bizproc_task.php?id=<?= $arTask["ID"] ?>&back_url=<?= urlencode($APPLICATION->GetCurPageParam("", array())) ?>" title="<?= strip_tags($arTask["DESCRIPTION"]) ?>"><?= $arTask["NAME"] ?></a><br /><?
 						}
 						?>
 					</td>
@@ -3348,7 +3433,7 @@ if ($arShowTabs['bizproc']):
 			</tr>
 			<tr>
 				<td colspan="2" align="center">
-					<a href="/bitrix/admin/<?=MODULE_ID?>_start_bizproc.php?document_id=<?= $ID ?>&document_type=<?= DOCUMENT_TYPE ?>&back_url=<?= urlencode($APPLICATION->GetCurPageParam("", array('bxpublic'))) ?>"><?echo GetMessage("IBEL_BIZPROC_START")?></a>
+					<a href="<?=$selfFolderUrl.MODULE_ID?>_start_bizproc.php?document_id=<?= $ID ?>&document_type=<?= DOCUMENT_TYPE ?>&back_url=<?= urlencode($APPLICATION->GetCurPageParam("", array('bxpublic'))) ?>"><?echo GetMessage("IBEL_BIZPROC_START")?></a>
 				</td>
 			</tr>
 			<?
@@ -3411,7 +3496,9 @@ $bDisabled =
 	)
 ;
 
-if (!defined('BX_PUBLIC_MODE') || BX_PUBLIC_MODE != 1):
+if ($adminSidePanelHelper->isSidePanelFrame()):
+	$tabControl->Buttons(array("disabled" => $bDisabled));
+elseif(!defined('BX_PUBLIC_MODE') || BX_PUBLIC_MODE != 1):
 	ob_start();
 	?>
 	<input <?if ($bDisabled) echo "disabled";?> type="submit" class="adm-btn-save" name="save" id="save" value="<?echo GetMessage("IBLOCK_EL_SAVE")?>">
@@ -3490,7 +3577,7 @@ elseif(!$bPropertyAjax && (!isset($_REQUEST['nobuttons']) || $_REQUEST['nobutton
 		id: 'edit_in_panel',
 		className: 'adm-btn-add',
 		action: function () {
-			location.href = '/bitrix/admin/".CIBlock::GetAdminElementEditLink(
+			location.href = '".$selfFolderUrl.CIBlock::GetAdminElementEditLink(
 			$IBLOCK_ID,
 			$ID,
 			$editInPanelParams
@@ -3510,14 +3597,14 @@ $tabControl->Show();
 if (
 	(!defined('BX_PUBLIC_MODE') || BX_PUBLIC_MODE != 1)
 	&& CIBlockRights::UserHasRightTo($IBLOCK_ID, $IBLOCK_ID, "iblock_edit")
-	&& !$bAutocomplete
+	&& !$bAutocomplete && !$adminSidePanelHelper->isSidePanel()
 )
 {
 
 	echo
 		BeginNote(),
 		GetMessage("IBEL_E_IBLOCK_MANAGE_HINT"),
-		' <a href="/bitrix/admin/iblock_edit.php?type='.htmlspecialcharsbx($type).'&amp;lang='.LANGUAGE_ID.'&amp;ID='.$IBLOCK_ID.'&amp;admin=Y&amp;return_url='.urlencode("/bitrix/admin/".CIBlock::GetAdminElementEditLink($IBLOCK_ID, $ID, array("WF" => ($WF=="Y"? "Y": null), "find_section_section" => $find_section_section, "return_url" => (strlen($return_url)>0? $return_url: null)))).'">',
+		' <a href="'.$selfFolderUrl.'iblock_edit.php?type='.htmlspecialcharsbx($type).'&amp;lang='.LANGUAGE_ID.'&amp;ID='.$IBLOCK_ID.'&amp;admin=Y&amp;return_url='.urlencode($selfFolderUrl.CIBlock::GetAdminElementEditLink($IBLOCK_ID, $ID, array("WF" => ($WF=="Y"? "Y": null), "find_section_section" => $find_section_section, "return_url" => (strlen($return_url)>0? $return_url: null)))).'">',
 		GetMessage("IBEL_E_IBLOCK_MANAGE_HINT_HREF"),
 		'</a>',
 		EndNote()

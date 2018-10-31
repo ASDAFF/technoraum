@@ -9,6 +9,8 @@ if(!\Bitrix\Main\Loader::includeModule('fileman'))
 
 class CBitrixPlayer extends CBitrixComponent
 {
+	const PLAYER_JS_PATH = '/bitrix/js/fileman/player';
+
 	protected $playerType;
 	protected $jwConfig;
 	protected $path;
@@ -512,9 +514,7 @@ class CBitrixPlayer extends CBitrixComponent
 			CComponentUtil::__ShowError(GetMessage("SWF_DENIED"));
 			return false;
 		}
-
-		CUtil::InitJSCore(array('ajax'));
-
+		CJSCore::Init(['ajax']);
 		if (isset($this->arParams['PLAYER_ID']) && strlen($this->arParams['PLAYER_ID']) > 0)
 			$this->arResult['ID'] = $this->arParams['PLAYER_ID'];
 		else
@@ -599,17 +599,17 @@ class CBitrixPlayer extends CBitrixComponent
 			{
 				$this->arResult['TRACKS'] = array_values($this->arResult['TRACKS']);
 			}
+			CJSCore::Init(['player']);
+			$playerScripts = CJSCore::getExtInfo('player');
+			foreach($playerScripts['js'] as $script)
+			{
+				$this->arResult['JS_FILES'][] = $script;
+			}
+			foreach($playerScripts['css'] as $script)
+			{
+				$this->arResult['CSS_FILES'][] = $script;
+			}
 			$this->arResult['VIDEOJS_PARAMS']['sources'] = $this->arResult['TRACKS'];
-			\Bitrix\Main\Page\Asset::getInstance()->addJs($this->__path.'/videojs/video.js');
-			$this->arResult['JS_FILES'][] = $this->__path.'/videojs/video.js';
-			$APPLICATION->setAdditionalCss($this->__path.'/videojs/video-js.css');
-			$this->arResult['CSS_FILES'][] = $this->__path.'/videojs/video-js.css';
-			\Bitrix\Main\Page\Asset::getInstance()->addJs($this->__path.'/videojs/videojs-playlist-dev.js');
-			$this->arResult['JS_FILES'][] = $this->__path.'/videojs/videojs-playlist-dev.js';
-			$APPLICATION->setAdditionalCss($this->__path.'/videojs/videojs-playlist.css');
-			$this->arResult['CSS_FILES'][] = $this->__path.'/videojs/videojs-playlist.css';
-			\Bitrix\Main\Page\Asset::getInstance()->addJs($this->__path.'/js/fileman_player.js');
-			$this->arResult['JS_FILES'][] = $this->__path.'/js/fileman_player.js';
 			$this->processSkin();
 			if($this->arResult['SKIN_NAME'])
 			{
@@ -618,8 +618,8 @@ class CBitrixPlayer extends CBitrixComponent
 			if ($this->arResult['VIMEO'])
 			{
 				array_unshift($this->arResult['VIDEOJS_PARAMS']['techOrder'], 'vimeo');
-				\Bitrix\Main\Page\Asset::getInstance()->addJs($this->__path.'/videojs/vimeo.js');
-				$this->arResult['JS_FILES'][] = $this->__path.'/videojs/vimeo.js';
+				\Bitrix\Main\Page\Asset::getInstance()->addJs(static::PLAYER_JS_PATH.'/videojs/vimeo.js');
+				$this->arResult['JS_FILES'][] = static::PLAYER_JS_PATH.'/videojs/vimeo.js';
 			}
 			if ($this->arResult['YOUTUBE'])
 			{
@@ -631,8 +631,8 @@ class CBitrixPlayer extends CBitrixComponent
 				if ($this->arParams['REPEAT'] == "always")
 					$this->arResult['VIDEOJS_PARAMS']['youtube']['loop'] = 1;
 
-				\Bitrix\Main\Page\Asset::getInstance()->addJs($this->__path.'/videojs/youtube.js');
-				$this->arResult['JS_FILES'][] = $this->__path.'/videojs/youtube.js';
+				\Bitrix\Main\Page\Asset::getInstance()->addJs(static::PLAYER_JS_PATH.'/videojs/youtube.js');
+				$this->arResult['JS_FILES'][] = static::PLAYER_JS_PATH.'/videojs/youtube.js';
 			}
 			if ($this->arResult['COMMON_VIDEO'] || $this->arResult['AUDIO_FILE'])
 			{
@@ -648,8 +648,8 @@ class CBitrixPlayer extends CBitrixComponent
 			if ($this->arResult['STREAM'])
 			{
 				$this->arParams['START_TIME'] = 0;
-				\Bitrix\Main\Page\Asset::getInstance()->addJs($this->__path.'/videojs/videojs-contrib-hls.js');
-				$this->arResult['JS_FILES'][] = $this->__path.'/videojs/videojs-contrib-hls.js';
+				\Bitrix\Main\Page\Asset::getInstance()->addJs(static::PLAYER_JS_PATH.'/videojs/videojs-contrib-hls.js');
+				$this->arResult['JS_FILES'][] = static::PLAYER_JS_PATH.'/videojs/videojs-contrib-hls.js';
 			}
 			if ($this->arResult['WMV'] && count ($this->arResult['TRACKS']) > 1)
 			{
@@ -659,10 +659,10 @@ class CBitrixPlayer extends CBitrixComponent
 				$this->arResult['PLAYLIST_CONFIG'] = array();
 				\Bitrix\Main\Page\Asset::getInstance()->addJs($this->__path.'/wmvplayer/silverlight.js');
 				\Bitrix\Main\Page\Asset::getInstance()->addJs($this->__path.'/wmvplayer/wmvplayer.js');
-				\Bitrix\Main\Page\Asset::getInstance()->addJs($this->__path.'/videojs/wmv.js');
+				\Bitrix\Main\Page\Asset::getInstance()->addJs(static::PLAYER_JS_PATH.'/videojs/wmv.js');
 				$this->arResult['JS_FILES'][] = $this->__path.'/wmvplayer/silverlight.js';
 				$this->arResult['JS_FILES'][] = $this->__path.'/wmvplayer/wmvplayer.js';
-				$this->arResult['JS_FILES'][] = $this->__path.'/videojs/wmv.js';
+				$this->arResult['JS_FILES'][] = static::PLAYER_JS_PATH.'/videojs/wmv.js';
 				array_unshift($this->arResult['VIDEOJS_PARAMS']['techOrder'], 'wmv');
 			}
 			if($this->arResult['FLASH'])
@@ -674,7 +674,7 @@ class CBitrixPlayer extends CBitrixComponent
 			{
 				$this->arParams['PLAYBACK_RATE'] = 1;
 				$this->arParams['START_TIME'] = 0;
-				$this->arResult['VIDEOJS_PARAMS']['flash']['swf'] = $this->__path.'/videojs/video-js.swf';
+				$this->arResult['VIDEOJS_PARAMS']['flash']['swf'] = static::PLAYER_JS_PATH.'/videojs/video-js.swf';
 			}
 			if($this->arParams['AUTOSTART_ON_SCROLL'] === 'Y')
 			{
@@ -1109,6 +1109,10 @@ class CBitrixPlayer extends CBitrixComponent
 	protected function processPlaylist()
 	{
 		global $USER, $APPLICATION;
+		\Bitrix\Main\Page\Asset::getInstance()->addJs(self::PLAYER_JS_PATH.'/videojs/videojs-playlist-dev.js');
+		$this->arResult['JS_FILES'][] = self::PLAYER_JS_PATH.'/videojs/videojs-playlist-dev.js';
+		$APPLICATION->setAdditionalCss(self::PLAYER_JS_PATH.'/videojs/videojs-playlist.css');
+		$this->arResult['CSS_FILES'][] = self::PLAYER_JS_PATH.'/videojs/videojs-playlist.css';
 		if (count($this->arResult['TRACKS']) > 1)
 		{
 			$this->arResult['VIDEOJS_PLAYLIST_PARAMS'] = array(
@@ -1163,7 +1167,7 @@ class CBitrixPlayer extends CBitrixComponent
 				"ICON" => "bx-context-toolbar-edit-icon",
 				"TITLE" => ($playlistExists ? GetMessage("PLAYER_PLAYLIST_EDIT") : GetMessage("PLAYER_PLAYLIST_ADD")),
 			));
-			echo '<script>if (JCPopup) {window.jsPopup_playlist = new JCPopup({suffix: "playlist", zIndex: 3000});}</script>'; // create instance of JCPopup: jsPopup_playlist
+			echo '<script>BX.ready(function(){if (typeof JCPopup === \'object\') {window.jsPopup_playlist = new JCPopup({suffix: "playlist", zIndex: 3000});}});</script>';
 			$this->AddIncludeAreaIcons($arIcons);
 		}
 	}
