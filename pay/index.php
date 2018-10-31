@@ -1,6 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Способы оплаты");
+$APPLICATION->SetPageProperty("keywords", "Способы оплаты, как купить технику Керхер в Краснодаре");
+$APPLICATION->SetPageProperty("title", "Способы оплаты  техники Керхер в Краснодаре");
+$APPLICATION->SetTitle("Способы оплаты ");
 ?><table border="1" cellpadding="1" cellspacing="1">
 <tbody>
 <tr>
