@@ -1,5 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("description", "Cервисный центр Karcher в Краснодаре. Бесплатная диагностика. Гарантия. Грамотные технические специалисты. Звоните.");
+$APPLICATION->SetPageProperty("keywords", "сервис ремонт керхер, керхер официальный сервис, керхер сервис краснодар, сервис karcher, сервис karcher краснодар, сервис керхер, сервис ремонта керхер, сервис центр керхер, сервис центр керхер +в краснодаре, сервисный центр керхер, сервисный центр керхер краснодар");
+$APPLICATION->SetPageProperty("title", "Сервис-центр Керхер (Karcher) в Краснодаре.");
 $APPLICATION->SetTitle("Услуги и сервис");?><?$APPLICATION->IncludeComponent(
 	"bitrix:news", 
 	"services", 

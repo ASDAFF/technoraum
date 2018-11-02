@@ -117,3 +117,4 @@
 [25-Oct-2018 15:20:30 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
 [25-Oct-2018 15:20:31 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
 [25-Oct-2018 15:20:33 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[01-Nov-2018 14:36:07 Europe/Moscow] PHP Fatal error:  print_r(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/include/dbquery_error.php on line 37
