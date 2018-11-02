@@ -64,33 +64,32 @@ class CSaleDiscountCouponMailComponent extends CBitrixComponent
 			'LAST_DISCOUNT' => 'Y',
 			'XML_ID' => $xmlId,
 			'USER_GROUPS' => array(2),
-			'ACTIONS' => serialize(Array(
+			'ACTIONS' => [
 				'CLASS_ID' => 'CondGroup',
-				'DATA' => Array
-				(
-					'All' => 'AND'
-				),
-				'CHILDREN' => Array(
-					Array(
+				'DATA' => [ 'All' => 'AND' ],
+				'CHILDREN' => [
+					[
 						'CLASS_ID' => 'ActSaleBsktGrp',
-						'DATA' => Array(
+						'DATA' => [
 							'Type' => 'Discount',
 							'Value' => $saleDiscountValue,
 							'Unit' => $saleDiscountUnit,
 							'All' => 'AND',
-						),
-						'CHILDREN' => Array()
-					)
-				)
-			)),
-			'CONDITIONS' => serialize(Array(
+							'Max' => '0',
+							'True' => 'True'
+						],
+						'CHILDREN' => []
+					]
+				]
+			],
+			'CONDITIONS' => [
 				'CLASS_ID' => 'CondGroup',
-				'DATA' => Array(
+				'DATA' => [
 					'All' => 'AND',
 					'True' => 'True',
-				),
-				'CHILDREN' => Array()
-			))
+				],
+				'CHILDREN' => []
+			]
 		);
 
 		if(strlen($xmlId) <= 0)
@@ -103,9 +102,11 @@ class CSaleDiscountCouponMailComponent extends CBitrixComponent
 			'ACTIVE' => 'Y'
 		);
 		$saleDiscountDb = CSaleDiscount::GetList(array('DATE_CREATE' => 'DESC'), $fields, false, false, array('ID', 'ACTIONS', 'CONDITIONS'));
+		$serializedAction = serialize($fieldsAdd['ACTIONS']);
+		$serializedCondition = serialize($fieldsAdd['CONDITIONS']);
 		if($saleDiscount = $saleDiscountDb->Fetch())
 		{
-			if($saleDiscount['ACTIONS'] == $fieldsAdd['ACTIONS'] && $saleDiscount['CONDITIONS'] == $fieldsAdd['CONDITIONS'])
+			if($saleDiscount['ACTIONS'] == $serializedAction && $saleDiscount['CONDITIONS'] == $serializedCondition)
 			{
 				$saleDiscountId = $saleDiscount['ID'];
 			}

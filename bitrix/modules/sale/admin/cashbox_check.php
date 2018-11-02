@@ -238,7 +238,7 @@ $shipmentData = Shipment::getList(
 
 while ($shipment = $shipmentData->fetch())
 {
-	$linkIdUrl = $selfFolderUrl."sale_order_shipment_edit.php?order_id=".$shipment["ORDER_ID"]."&payment_id=".$shipment["ID"]."&lang=".LANGUAGE_ID;
+	$linkIdUrl = $selfFolderUrl."sale_order_shipment_edit.php?order_id=".$shipment["ORDER_ID"]."&shipment_id=".$shipment["ID"]."&lang=".LANGUAGE_ID;
 	if ($publicMode)
 	{
 		$linkIdUrl = "/shop/orders/shipment/details/".$shipment["ID"]."/";

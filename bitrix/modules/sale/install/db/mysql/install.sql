@@ -208,6 +208,7 @@ create table if not exists b_sale_person_type
 	CODE varchar(255) null,
 	SORT int not null default '150',
 	ACTIVE VARCHAR(1) NOT NULL default 'Y',
+	ENTITY_REGISTRY_TYPE varchar(255) null,
 	primary key (ID),
 	index IXS_PERSON_TYPE_LID(LID)
 );

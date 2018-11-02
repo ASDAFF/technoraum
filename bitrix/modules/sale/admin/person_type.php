@@ -106,28 +106,19 @@ if (($arID = $lAdmin->GroupAction()) && $saleModulePermissions >= "W")
 			case "delete":
 				@set_time_limit(0);
 
-				$dbRes = CSalePersonType::getList([], ['ID' => $ID]);
-				$personType = $dbRes->Fetch();
-				if ($personType['CODE'] === 'CRM_COMPANY' || $personType['CODE'] === 'CRM_CONTACT')
+				$DB->StartTransaction();
+
+				if (!CSalePersonType::Delete($ID))
 				{
-					$lAdmin->AddGroupError(GetMessage("SPTAN_ERROR_DELETE"), $ID);
+					$DB->Rollback();
+
+					if ($ex = $APPLICATION->GetException())
+						$lAdmin->AddGroupError($ex->GetString(), $ID);
+					else
+						$lAdmin->AddGroupError(GetMessage("SPTAN_ERROR_DELETE"), $ID);
 				}
-				else
-				{
-					$DB->StartTransaction();
 
-					if (!CSalePersonType::Delete($ID))
-					{
-						$DB->Rollback();
-
-						if ($ex = $APPLICATION->GetException())
-							$lAdmin->AddGroupError($ex->GetString(), $ID);
-						else
-							$lAdmin->AddGroupError(GetMessage("SPTAN_ERROR_DELETE"), $ID);
-					}
-
-					$DB->Commit();
-				}
+				$DB->Commit();
 
 				break;
 		}
@@ -215,10 +206,7 @@ while ($arPersonType = $dbResultList->NavNext(false))
 		"LINK" => $editUrl,
 		"DEFAULT" => true
 	);
-	if ($saleModulePermissions >= "W"
-		&& $arPersonType['CODE'] !== 'CRM_COMPANY'
-		&& $arPersonType['CODE'] !== 'CRM_CONTACT'
-	)
+	if ($saleModulePermissions >= "W")
 	{
 		$arActions[] = array(
 			"ICON" => "delete",

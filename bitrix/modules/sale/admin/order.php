@@ -860,9 +860,19 @@ if(($arID = $lAdmin->GroupAction()) && $saleModulePermissions >= "P")
 						break;
 					}
 
-					$res = \Bitrix\Sale\Order::delete($ID);
-					if(!$res->isSuccess())
+					try
+					{
+						$res = \Bitrix\Sale\Order::delete($ID);
+					}
+					catch (Exception $e)
+					{
+						$res = \Bitrix\Sale\Order::deleteNoDemand($ID);
+					}
+
+					if (!$res->isSuccess())
+					{
 						$lAdmin->AddGroupError(implode("<br>\n", $res->getErrorMessages()));
+					}
 					break;
 
 				case "unlock":

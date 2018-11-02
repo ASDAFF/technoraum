@@ -28,8 +28,10 @@ if ($arParams["SET_TITLE"] == "Y")
 						"#PAYMENT_ID#" => $arResult['PAYMENT'][$arResult['ORDER']["PAYMENT_ID"]]['ACCOUNT_NUMBER']
 					))?>
 				<? endif ?>
-				<br /><br />
-				<?=Loc::getMessage("SOA_ORDER_SUC1", array("#LINK#" => $arParams["PATH_TO_PERSONAL"]))?>
+				<? if ($arParams['NO_PERSONAL'] !== 'Y'): ?>
+					<br /><br />
+					<?=Loc::getMessage('SOA_ORDER_SUC1', ['#LINK#' => $arParams['PATH_TO_PERSONAL']])?>
+				<? endif; ?>
 			</td>
 		</tr>
 	</table>

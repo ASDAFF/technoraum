@@ -1037,7 +1037,7 @@ function wrapDescrLHE($inputName, $content = '', $divId = false)
 		'toolbarConfig' => array(
 			'Bold', 'Italic', 'Underline', 'Strike',
 			'CreateLink', 'DeleteLink',
-			'Source', 'BackColor', 'ForeColor'
+			'Source', 'BackColor', 'ForeColor', 'Image'
 		)
 	);
 

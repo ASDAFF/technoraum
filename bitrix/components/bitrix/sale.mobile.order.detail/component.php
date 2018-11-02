@@ -13,33 +13,21 @@ if (!CModule::IncludeModule('mobileapp'))
 	return;
 }
 
-$bUseAccountNumber = \Bitrix\Sale\Integration\Numerator\NumeratorOrder::isUsedNumeratorForOrder();
-
 if (isset($_REQUEST['id']))
 {
-	$orderId = $_REQUEST['id'];
-
-	if ($bUseAccountNumber) // supporting ACCOUNT_NUMBER in the request
-	{
-		$dbOrder = CSaleOrder::GetList(
-			array("DATE_UPDATE" => "DESC"),
-			array(
-				"ACCOUNT_NUMBER" => urldecode(urldecode($_REQUEST['id']))
-			)
-		);
-		if ($arOrder = $dbOrder->GetNext())
-			$orderId = $arOrder["ID"];
-	}
+	$orderId = (int)$_REQUEST['id'];
 }
 else
+{
 	$orderId = false;
+}
 
 $bUserCanViewOrder = CSaleOrder::CanUserViewOrder($orderId, $GLOBALS["USER"]->GetUserGroupArray(), $GLOBALS["USER"]->GetID());
 
 
 if(!$bUserCanViewOrder)
 {
-	echo ShowError(GetMessage("SMOD_NO_PERMS2VIEW"));
+	ShowError(GetMessage("SMOD_NO_PERMS2VIEW"));
 	return;
 }
 

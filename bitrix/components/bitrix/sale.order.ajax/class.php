@@ -118,10 +118,20 @@ class SaleOrderAjax extends \CBitrixComponent
 			$arParams['PATH_TO_BASKET'] = '/personal/cart/';
 		}
 
-		$arParams['PATH_TO_PERSONAL'] = isset($arParams['PATH_TO_PERSONAL']) ? trim($arParams['PATH_TO_PERSONAL']) : '';
-		if ($arParams['PATH_TO_PERSONAL'] == '')
+		$arParams['NO_PERSONAL'] = isset($arParams['NO_PERSONAL']) && $arParams['NO_PERSONAL'] === 'Y' ? 'Y' : 'N';
+
+		if ($arParams['NO_PERSONAL'] === 'Y')
 		{
-			$arParams['PATH_TO_PERSONAL'] = 'index.php';
+			$arParams['PATH_TO_PERSONAL'] = '';
+		}
+		else
+		{
+			$arParams['PATH_TO_PERSONAL'] = isset($arParams['PATH_TO_PERSONAL']) ? trim((string)$arParams['PATH_TO_PERSONAL']) : '';
+
+			if ($arParams['PATH_TO_PERSONAL'] === '')
+			{
+				$arParams['PATH_TO_PERSONAL'] = 'index.php';
+			}
 		}
 
 		$arParams['PATH_TO_PAYMENT'] = isset($arParams['PATH_TO_PAYMENT']) ? trim($arParams['PATH_TO_PAYMENT']) : '';

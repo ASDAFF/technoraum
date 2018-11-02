@@ -2097,7 +2097,7 @@ class AjaxProcessor
 
 					$order->setPersonTypeId($personTypeId);
 
-					$properties = $order->loadPropertyCollection()->getArray();
+					$properties = $order->getPropertyCollection()->getArray();
 
 					if (is_array($properties['properties']))
 					{

@@ -191,52 +191,55 @@ class CBitrixBasketComponent extends CBitrixComponent
 		$params['WEIGHT_UNIT'] = htmlspecialcharsbx(COption::GetOptionString('sale', 'weight_unit', '', $this->getSiteId()));
 
 		// default columns
-		$extendedColumnUse = isset($params['COLUMNS_LIST_EXT']);
+		if (!isset($params['COLUMNS_LIST_EXT']) || !is_array($params['COLUMNS_LIST_EXT']))
+		{
+			if (!empty($params['COLUMNS_LIST']))
+			{
+				$params['COLUMNS_LIST_EXT'] = $params['COLUMNS_LIST'];
 
-		if (!$extendedColumnUse || !is_array($params['COLUMNS_LIST_EXT']))
-		{
-			$params['COLUMNS_LIST_EXT'] = array(
-				'PREVIEW_PICTURE', 'DISCOUNT', 'DELETE', 'DELAY', 'TYPE', 'SUM'
-			);
-		}
-
-		if (empty($params['COLUMNS_LIST']) || $extendedColumnUse)
-		{
-			$params['COLUMNS_LIST'] = $params['COLUMNS_LIST_EXT'];
-		}
-		elseif (!in_array('PREVIEW_PICTURE', $params['COLUMNS_LIST']))
-		{
-			// compatibility
-			$params['COLUMNS_LIST'][] = 'PREVIEW_PICTURE';
+				// compatibility
+				if (!in_array('PREVIEW_PICTURE', $params['COLUMNS_LIST_EXT']))
+				{
+					$params['COLUMNS_LIST_EXT'][] = 'PREVIEW_PICTURE';
+				}
+			}
+			else
+			{
+				$params['COLUMNS_LIST_EXT'] = [
+					'PREVIEW_PICTURE', 'DISCOUNT', 'DELETE', 'DELAY', 'TYPE', 'SUM',
+				];
+			}
 		}
 
 		// required columns
-		if (!in_array('NAME', $params['COLUMNS_LIST']))
+		if (!in_array('NAME', $params['COLUMNS_LIST_EXT']))
 		{
-			$params['COLUMNS_LIST'] = array_merge(array('NAME'), $params['COLUMNS_LIST']);
+			$params['COLUMNS_LIST_EXT'] = array_merge(['NAME'], $params['COLUMNS_LIST_EXT']);
 		}
 
-		if (!in_array('QUANTITY', $params['COLUMNS_LIST']))
+		if (!in_array('QUANTITY', $params['COLUMNS_LIST_EXT']))
 		{
-			$params['COLUMNS_LIST'][] = 'QUANTITY';
+			$params['COLUMNS_LIST_EXT'][] = 'QUANTITY';
 		}
 
-		if (!in_array('PRICE', $params['COLUMNS_LIST']))
+		if (!in_array('PRICE', $params['COLUMNS_LIST_EXT']))
 		{
-			if (!in_array('SUM', $params['COLUMNS_LIST']))
+			if (!in_array('SUM', $params['COLUMNS_LIST_EXT']))
 			{
-				$params['COLUMNS_LIST'][] = 'PRICE';
+				$params['COLUMNS_LIST_EXT'][] = 'PRICE';
 			}
 			else // make PRICE before SUM
 			{
-				$index = array_search('SUM', $params['COLUMNS_LIST']);
-				array_splice($params['COLUMNS_LIST'], $index, 0, 'PRICE');
+				$index = array_search('SUM', $params['COLUMNS_LIST_EXT']);
+				array_splice($params['COLUMNS_LIST_EXT'], $index, 0, 'PRICE');
 			}
 		}
 
+		$params['COLUMNS_LIST'] = $params['COLUMNS_LIST_EXT'];
+
 		if (!isset($params['OFFERS_PROPS']) && !is_array($params['OFFERS_PROPS']))
 		{
-			$params['OFFERS_PROPS'] = array();
+			$params['OFFERS_PROPS'] = [];
 		}
 
 		$params['ACTION_VARIABLE'] = isset($params['ACTION_VARIABLE']) ? trim((string)$params['ACTION_VARIABLE']) : '';
@@ -270,19 +273,19 @@ class CBitrixBasketComponent extends CBitrixComponent
 			}
 		}
 
-		if (!isset($params['BASKET_IMAGES_SCALING']) || !in_array($params['BASKET_IMAGES_SCALING'], array('standard', 'adaptive', 'no_scale')))
+		if (!isset($params['BASKET_IMAGES_SCALING']) || !in_array($params['BASKET_IMAGES_SCALING'], ['standard', 'adaptive', 'no_scale']))
 		{
 			$params['BASKET_IMAGES_SCALING'] = 'adaptive';
 		}
 
 		if (!isset($params['LABEL_PROP']) || !is_array($params['LABEL_PROP']))
 		{
-			$params['LABEL_PROP'] = array();
+			$params['LABEL_PROP'] = [];
 		}
 
 		if (!isset($params['LABEL_PROP_MOBILE']) || !is_array($params['LABEL_PROP_MOBILE']))
 		{
-			$params['LABEL_PROP_MOBILE'] = array();
+			$params['LABEL_PROP_MOBILE'] = [];
 		}
 
 		if (!empty($params['LABEL_PROP_MOBILE']))
@@ -1779,13 +1782,43 @@ class CBitrixBasketComponent extends CBitrixComponent
 					{
 						$temporary = array();
 
-						if (!empty($property['~VALUE']) && is_array($property['~VALUE']))
+						if ($property['PROPERTY_TYPE'] === 'S' && $property['USER_TYPE'] === 'HTML')
 						{
-							$temporary['PROPERTY_'.$code.'_VALUE'] = implode(', ', $property['~VALUE']);
+							$temporary['PROPERTY_'.$code.'_VALUE'] = '';
+
+							if (!empty($property['~VALUE']))
+							{
+								if ($property['MULTIPLE'] === 'N')
+								{
+									$property['~VALUE'] = [$property['~VALUE']];
+								}
+
+								foreach ($property['~VALUE'] as $value)
+								{
+									if (!empty($temporary['PROPERTY_'.$code.'_VALUE']))
+									{
+										$temporary['PROPERTY_'.$code.'_VALUE'] .= ', ';
+									}
+
+									$temporary['PROPERTY_'.$code.'_VALUE'] .= ($value['TYPE'] === 'HTML'
+										? $value['TEXT']
+										: htmlspecialcharsbx($value['TEXT'])
+									);
+								}
+							}
+
+							$temporary['PROPERTY_'.$code.'_VALUE_HTML'] = true;
 						}
 						else
 						{
-							$temporary['PROPERTY_'.$code.'_VALUE'] = $property['~VALUE'];
+							if (!empty($property['~VALUE']) && is_array($property['~VALUE']))
+							{
+								$temporary['PROPERTY_'.$code.'_VALUE'] = implode(', ', $property['~VALUE']);
+							}
+							else
+							{
+								$temporary['PROPERTY_'.$code.'_VALUE'] = $property['~VALUE'];
+							}
 						}
 
 						if (!empty($property['PROPERTY_VALUE_ID']) && is_array($property['PROPERTY_VALUE_ID']))

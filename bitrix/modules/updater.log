@@ -3475,3 +3475,91 @@
 2018-11-01 10:34:00 -  - exec CUpdateClient::GetHTTPPage
 2018-11-01 10:34:00 -  - TIME GetUpdatesList(request) 0.26 sec
 2018-11-01 10:34:00 -  - exec CUpdateClient::ParseServerData
+2018-11-02 17:26:26 -  - exec CUpdateClient::GetUpdatesList
+2018-11-02 17:26:26 -  - exec CUpdateClient::CollectRequestData
+2018-11-02 17:26:26 -  - LICENSE_KEY=X&lang=ru&SUPD_VER=18.1.3&VERSION=18.1.3&TYPENC=E&SUPD_STS=1&SUPD_URS=0&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&CHHB=technoraum.ru&CSAB=87.236.16.39&SUID=77dfda70386e970b74105f156fcc5c25&CANGZIP=Y&CLIENT_PHPVER=5.6.30&stable=Y&NGINX=Y&rerere=Y&bitm_main=18.1.3&bitm_scale=17.5.0&bitm_pull=17.5.5&bitm_sale=18.5.3&bitm_cluster=18.5.0&bitm_seo=18.5.0&bitm_bizproc=18.0.2&bitm_lists=17.0.18&bitm_fileman=18.0.4&bitm_statistic=18.5.0&bitm_sender=18.1.3&bitm_storeassist=16.0.1&bitm_socialservices=18.0.2&bitm_forum=18.0.1&bitm_subscribe=18.5.0&bitm_form=18.0.0&bitm_workflow=18.5.0&bitm_mail=18.5.0&bitm_wiki=17.5.1&bitm_highloadblock=18.0.1&bitm_rest=18.5.2&bitm_report=18.0.7&bitm_bizprocdesigner=18.0.0&bitm_compression=16.0.0&bitm_vote=17.5.1&bitm_security=18.5.0&bitm_idea=17.5.1&bitm_calendar=18.0.0&bitm_landing=18.5.7&bitm_blog=18.1.0&bitm_socialnetwork=18.1.2&bitm_ldap=18.0.0&bitm_advertising=18.0.0&bitm_bitrixcloud=18.5.0&bitm_search=18.5.0&bitm_iblock=18.5.4&bitm_support=16.0.0&bitm_perfmon=18.5.0&bitm_catalog=18.5.4&bitm_b24connector=18.0.0&bitm_eshopapp=16.5.0&bitm_ui=18.0.1&bitm_abtest=17.5.0&bitm_mobileapp=18.0.2&bitm_webservice=17.0.0&bitm_im=18.1.5&bitm_clouds=18.0.0&bitm_translate=16.5.0&bitm_conversion=17.5.0&bitm_messageservice=18.0.0&bitm_learning=17.5.1&bitm_photogallery=18.0.0&bitm_currency=18.5.0&bitl_en=&bitl_ru=&SUPD_SRS=RU&SUPD_CMP=N&SALE_15=Y&LICENSE_SIGNED=%7Enew_license18_0_sign-Y
+2018-11-02 17:26:26 -  - exec CUpdateClient::GetHTTPPage
+2018-11-02 17:26:27 -  - TIME GetUpdatesList(request) 0.603 sec
+2018-11-02 17:26:27 -  - exec CUpdateClient::ParseServerData
+2018-11-02 17:27:51 -  - exec CUpdateClient::GetUpdatesList
+2018-11-02 17:27:51 -  - exec CUpdateClient::CollectRequestData
+2018-11-02 17:27:51 -  - LICENSE_KEY=X&lang=ru&SUPD_VER=18.1.3&VERSION=18.1.3&TYPENC=E&SUPD_STS=1&SUPD_URS=0&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&CHHB=technoraum.ru&CSAB=87.236.16.39&SUID=77dfda70386e970b74105f156fcc5c25&CANGZIP=Y&CLIENT_PHPVER=7.1.11&stable=Y&NGINX=Y&rerere=Y&bitm_main=18.1.3&bitm_scale=17.5.0&bitm_pull=17.5.5&bitm_sale=18.5.3&bitm_cluster=18.5.0&bitm_seo=18.5.0&bitm_bizproc=18.0.2&bitm_lists=17.0.18&bitm_fileman=18.0.4&bitm_statistic=18.5.0&bitm_sender=18.1.3&bitm_storeassist=16.0.1&bitm_socialservices=18.0.2&bitm_forum=18.0.1&bitm_subscribe=18.5.0&bitm_form=18.0.0&bitm_workflow=18.5.0&bitm_mail=18.5.0&bitm_wiki=17.5.1&bitm_highloadblock=18.0.1&bitm_rest=18.5.2&bitm_report=18.0.7&bitm_bizprocdesigner=18.0.0&bitm_compression=16.0.0&bitm_vote=17.5.1&bitm_security=18.5.0&bitm_idea=17.5.1&bitm_calendar=18.0.0&bitm_landing=18.5.7&bitm_blog=18.1.0&bitm_socialnetwork=18.1.2&bitm_ldap=18.0.0&bitm_advertising=18.0.0&bitm_bitrixcloud=18.5.0&bitm_search=18.5.0&bitm_iblock=18.5.4&bitm_support=16.0.0&bitm_perfmon=18.5.0&bitm_catalog=18.5.4&bitm_b24connector=18.0.0&bitm_eshopapp=16.5.0&bitm_ui=18.0.1&bitm_abtest=17.5.0&bitm_mobileapp=18.0.2&bitm_webservice=17.0.0&bitm_im=18.1.5&bitm_clouds=18.0.0&bitm_translate=16.5.0&bitm_conversion=17.5.0&bitm_messageservice=18.0.0&bitm_learning=17.5.1&bitm_photogallery=18.0.0&bitm_currency=18.5.0&bitl_en=&bitl_ru=&SUPD_SRS=RU&SUPD_CMP=N&SALE_15=Y&LICENSE_SIGNED=%7Enew_license18_0_sign-Y
+2018-11-02 17:27:51 -  - exec CUpdateClient::GetHTTPPage
+2018-11-02 17:27:51 -  - TIME GetUpdatesList(request) 0.223 sec
+2018-11-02 17:27:51 -  - exec CUpdateClient::ParseServerData
+2018-11-02 17:27:57 -  - exec CUpdateClient::GetUpdatesList
+2018-11-02 17:27:57 -  - exec CUpdateClient::CollectRequestData
+2018-11-02 17:27:57 -  - LICENSE_KEY=X&lang=ru&SUPD_VER=18.1.3&VERSION=18.1.3&TYPENC=E&SUPD_STS=1&SUPD_URS=0&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&CHHB=technoraum.ru&CSAB=87.236.16.39&SUID=77dfda70386e970b74105f156fcc5c25&CANGZIP=Y&CLIENT_PHPVER=7.1.11&stable=Y&NGINX=Y&rerere=Y&bitm_main=18.1.3&bitm_scale=17.5.0&bitm_pull=17.5.5&bitm_sale=18.5.3&bitm_cluster=18.5.0&bitm_seo=18.5.0&bitm_bizproc=18.0.2&bitm_lists=17.0.18&bitm_fileman=18.0.4&bitm_statistic=18.5.0&bitm_sender=18.1.3&bitm_storeassist=16.0.1&bitm_socialservices=18.0.2&bitm_forum=18.0.1&bitm_subscribe=18.5.0&bitm_form=18.0.0&bitm_workflow=18.5.0&bitm_mail=18.5.0&bitm_wiki=17.5.1&bitm_highloadblock=18.0.1&bitm_rest=18.5.2&bitm_report=18.0.7&bitm_bizprocdesigner=18.0.0&bitm_compression=16.0.0&bitm_vote=17.5.1&bitm_security=18.5.0&bitm_idea=17.5.1&bitm_calendar=18.0.0&bitm_landing=18.5.7&bitm_blog=18.1.0&bitm_socialnetwork=18.1.2&bitm_ldap=18.0.0&bitm_advertising=18.0.0&bitm_bitrixcloud=18.5.0&bitm_search=18.5.0&bitm_iblock=18.5.4&bitm_support=16.0.0&bitm_perfmon=18.5.0&bitm_catalog=18.5.4&bitm_b24connector=18.0.0&bitm_eshopapp=16.5.0&bitm_ui=18.0.1&bitm_abtest=17.5.0&bitm_mobileapp=18.0.2&bitm_webservice=17.0.0&bitm_im=18.1.5&bitm_clouds=18.0.0&bitm_translate=16.5.0&bitm_conversion=17.5.0&bitm_messageservice=18.0.0&bitm_learning=17.5.1&bitm_photogallery=18.0.0&bitm_currency=18.5.0&bitl_en=&bitl_ru=&SUPD_SRS=RU&SUPD_CMP=N&SALE_15=Y&LICENSE_SIGNED=%7Enew_license18_0_sign-Y
+2018-11-02 17:27:57 -  - exec CUpdateClient::GetHTTPPage
+2018-11-02 17:27:57 -  - TIME GetUpdatesList(request) 0.24 sec
+2018-11-02 17:27:57 -  - exec CUpdateClient::ParseServerData
+2018-11-02 17:28:01 -  - exec CUpdateClient::LoadModulesUpdates
+2018-11-02 17:28:01 -  - exec CUpdateClient::CollectRequestData
+2018-11-02 17:28:01 -  - LICENSE_KEY=X&lang=ru&SUPD_VER=18.1.3&VERSION=18.1.3&TYPENC=E&SUPD_STS=1&SUPD_URS=0&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&CHHB=technoraum.ru&CSAB=87.236.16.39&SUID=77dfda70386e970b74105f156fcc5c25&CANGZIP=Y&CLIENT_PHPVER=7.1.11&stable=Y&NGINX=Y&rerere=Y&bitm_main=18.1.3&bitm_scale=17.5.0&bitm_pull=17.5.5&bitm_sale=18.5.3&bitm_cluster=18.5.0&bitm_seo=18.5.0&bitm_bizproc=18.0.2&bitm_lists=17.0.18&bitm_fileman=18.0.4&bitm_statistic=18.5.0&bitm_sender=18.1.3&bitm_storeassist=16.0.1&bitm_socialservices=18.0.2&bitm_forum=18.0.1&bitm_subscribe=18.5.0&bitm_form=18.0.0&bitm_workflow=18.5.0&bitm_mail=18.5.0&bitm_wiki=17.5.1&bitm_highloadblock=18.0.1&bitm_rest=18.5.2&bitm_report=18.0.7&bitm_bizprocdesigner=18.0.0&bitm_compression=16.0.0&bitm_vote=17.5.1&bitm_security=18.5.0&bitm_idea=17.5.1&bitm_calendar=18.0.0&bitm_landing=18.5.7&bitm_blog=18.1.0&bitm_socialnetwork=18.1.2&bitm_ldap=18.0.0&bitm_advertising=18.0.0&bitm_bitrixcloud=18.5.0&bitm_search=18.5.0&bitm_iblock=18.5.4&bitm_support=16.0.0&bitm_perfmon=18.5.0&bitm_catalog=18.5.4&bitm_b24connector=18.0.0&bitm_eshopapp=16.5.0&bitm_ui=18.0.1&bitm_abtest=17.5.0&bitm_mobileapp=18.0.2&bitm_webservice=17.0.0&bitm_im=18.1.5&bitm_clouds=18.0.0&bitm_translate=16.5.0&bitm_conversion=17.5.0&bitm_messageservice=18.0.0&bitm_learning=17.5.1&bitm_photogallery=18.0.0&bitm_currency=18.5.0&bitl_en=&bitl_ru=&SUPD_SRS=RU&SUPD_CMP=N&SALE_15=Y&LICENSE_SIGNED=%7Enew_license18_0_sign-Y
+2018-11-02 17:28:01 -  - exec CUpdateClient::GetHTTPPage
+2018-11-02 17:28:01 -  - TIME LoadModulesUpdates(request) 0.224 sec
+2018-11-02 17:28:01 -  - exec CUpdateClient::ParseServerData
+2018-11-02 17:28:01 - S - STEP
+2018-11-02 17:28:01 - LMU01 - LoadModulesUpdates-Step
+2018-11-02 17:28:01 -  - exec CUpdateClient::LoadModulesUpdates
+2018-11-02 17:28:01 -  - exec CUpdateClient::ParseServerData
+2018-11-02 17:28:01 -  - loadFile
+2018-11-02 17:28:02 - U - RETURN
+2018-11-02 17:28:02 -  - exec CUpdateClient::UnGzipArchive
+2018-11-02 17:28:02 -  - TIME UnGzipArchive 0.056 sec
+2018-11-02 17:28:02 - CSURUS1 - Run updater '/bitrix/updates/update_m1541168882/sale/updater18.5.4.php'
+2018-11-02 17:28:02 - CRUPDCF1 - Run updater '/bitrix/updates/update_m1541168882/sale/updater18.5.4.php': CopyFiles(install/components, components)
+2018-11-02 17:28:02 - CRUPDCF1 - Run updater '/bitrix/updates/update_m1541168882/sale/updater18.5.4.php': CopyFiles(handlers/delivery/additional/install/js, js/sale)
+2018-11-02 17:28:02 - CRUPDCDF2 - Run updater '/bitrix/updates/update_m1541168882/sale/updater18.5.4.php': Query(UPDATE b_sale_person_type SET ENTITY_REGISTRY_TYPE='ORDER' WHERE ENTITY_REGISTRY_TYPE IS NULL, )
+2018-11-02 17:28:02 -  - TIME UpdateStepModules 0.114 sec
+2018-11-02 17:28:02 - UPD_SUCCESS - Updated: sale (18.5.4)<br><li>Исправлено удаление испорченных заказов. <li>Исправлена работа фильтров \"Дата обновления\" и \"Доставка разрешена\" в списке заказов покупателя. <li>Исправлено удаление множественного свойства заказа типа \"Файл\". 
+2018-11-02 17:28:02 -  - exec CUpdateClient::LoadModulesUpdates
+2018-11-02 17:28:02 -  - exec CUpdateClient::CollectRequestData
+2018-11-02 17:28:02 -  - LICENSE_KEY=X&lang=ru&SUPD_VER=18.1.3&VERSION=18.1.3&TYPENC=E&SUPD_STS=1&SUPD_URS=0&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&CHHB=technoraum.ru&CSAB=87.236.16.39&SUID=77dfda70386e970b74105f156fcc5c25&CANGZIP=Y&CLIENT_PHPVER=7.1.11&stable=Y&NGINX=Y&rerere=Y&bitm_main=18.1.3&bitm_scale=17.5.0&bitm_pull=17.5.5&bitm_sale=18.5.4&bitm_cluster=18.5.0&bitm_seo=18.5.0&bitm_bizproc=18.0.2&bitm_lists=17.0.18&bitm_fileman=18.0.4&bitm_statistic=18.5.0&bitm_sender=18.1.3&bitm_storeassist=16.0.1&bitm_socialservices=18.0.2&bitm_forum=18.0.1&bitm_subscribe=18.5.0&bitm_form=18.0.0&bitm_workflow=18.5.0&bitm_mail=18.5.0&bitm_wiki=17.5.1&bitm_highloadblock=18.0.1&bitm_rest=18.5.2&bitm_report=18.0.7&bitm_bizprocdesigner=18.0.0&bitm_compression=16.0.0&bitm_vote=17.5.1&bitm_security=18.5.0&bitm_idea=17.5.1&bitm_calendar=18.0.0&bitm_landing=18.5.7&bitm_blog=18.1.0&bitm_socialnetwork=18.1.2&bitm_ldap=18.0.0&bitm_advertising=18.0.0&bitm_bitrixcloud=18.5.0&bitm_search=18.5.0&bitm_iblock=18.5.4&bitm_support=16.0.0&bitm_perfmon=18.5.0&bitm_catalog=18.5.4&bitm_b24connector=18.0.0&bitm_eshopapp=16.5.0&bitm_ui=18.0.1&bitm_abtest=17.5.0&bitm_mobileapp=18.0.2&bitm_webservice=17.0.0&bitm_im=18.1.5&bitm_clouds=18.0.0&bitm_translate=16.5.0&bitm_conversion=17.5.0&bitm_messageservice=18.0.0&bitm_learning=17.5.1&bitm_photogallery=18.0.0&bitm_currency=18.5.0&bitl_en=&bitl_ru=&SUPD_SRS=RU&SUPD_CMP=N&SALE_15=Y&LICENSE_SIGNED=%7Enew_license18_0_sign-Y
+2018-11-02 17:28:02 -  - exec CUpdateClient::GetHTTPPage
+2018-11-02 17:28:02 -  - TIME LoadModulesUpdates(request) 0.262 sec
+2018-11-02 17:28:02 -  - exec CUpdateClient::ParseServerData
+2018-11-02 17:28:02 - S - STEP
+2018-11-02 17:28:02 - LMU01 - LoadModulesUpdates-Step
+2018-11-02 17:28:02 -  - exec CUpdateClient::LoadModulesUpdates
+2018-11-02 17:28:02 -  - exec CUpdateClient::ParseServerData
+2018-11-02 17:28:02 -  - loadFile
+2018-11-02 17:28:03 - U - RETURN
+2018-11-02 17:28:03 -  - exec CUpdateClient::UnGzipArchive
+2018-11-02 17:28:03 -  - TIME UnGzipArchive 0.004 sec
+2018-11-02 17:28:03 - CSURUS1 - Run updater '/bitrix/updates/update_m1541168883/socialservices/updater18.0.3.php'
+2018-11-02 17:28:03 - CRUPDCF1 - Run updater '/bitrix/updates/update_m1541168883/socialservices/updater18.0.3.php': CopyFiles(install/components, components)
+2018-11-02 17:28:03 -  - TIME UpdateStepModules 0.012 sec
+2018-11-02 17:28:03 - UPD_SUCCESS - Updated: socialservices (18.0.3)<br><li>Исправлена обработка ошибок авторизации через Яндекс. <li>Исправлена ошибка потери авторизации в мобильном приложении. 
+2018-11-02 17:28:03 -  - exec CUpdateClient::LoadModulesUpdates
+2018-11-02 17:28:03 -  - exec CUpdateClient::CollectRequestData
+2018-11-02 17:28:03 -  - LICENSE_KEY=X&lang=ru&SUPD_VER=18.1.3&VERSION=18.1.3&TYPENC=E&SUPD_STS=1&SUPD_URS=0&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&CHHB=technoraum.ru&CSAB=87.236.16.39&SUID=77dfda70386e970b74105f156fcc5c25&CANGZIP=Y&CLIENT_PHPVER=7.1.11&stable=Y&NGINX=Y&rerere=Y&bitm_main=18.1.3&bitm_scale=17.5.0&bitm_pull=17.5.5&bitm_sale=18.5.4&bitm_cluster=18.5.0&bitm_seo=18.5.0&bitm_bizproc=18.0.2&bitm_lists=17.0.18&bitm_fileman=18.0.4&bitm_statistic=18.5.0&bitm_sender=18.1.3&bitm_storeassist=16.0.1&bitm_socialservices=18.0.3&bitm_forum=18.0.1&bitm_subscribe=18.5.0&bitm_form=18.0.0&bitm_workflow=18.5.0&bitm_mail=18.5.0&bitm_wiki=17.5.1&bitm_highloadblock=18.0.1&bitm_rest=18.5.2&bitm_report=18.0.7&bitm_bizprocdesigner=18.0.0&bitm_compression=16.0.0&bitm_vote=17.5.1&bitm_security=18.5.0&bitm_idea=17.5.1&bitm_calendar=18.0.0&bitm_landing=18.5.7&bitm_blog=18.1.0&bitm_socialnetwork=18.1.2&bitm_ldap=18.0.0&bitm_advertising=18.0.0&bitm_bitrixcloud=18.5.0&bitm_search=18.5.0&bitm_iblock=18.5.4&bitm_support=16.0.0&bitm_perfmon=18.5.0&bitm_catalog=18.5.4&bitm_b24connector=18.0.0&bitm_eshopapp=16.5.0&bitm_ui=18.0.1&bitm_abtest=17.5.0&bitm_mobileapp=18.0.2&bitm_webservice=17.0.0&bitm_im=18.1.5&bitm_clouds=18.0.0&bitm_translate=16.5.0&bitm_conversion=17.5.0&bitm_messageservice=18.0.0&bitm_learning=17.5.1&bitm_photogallery=18.0.0&bitm_currency=18.5.0&bitl_en=&bitl_ru=&SUPD_SRS=RU&SUPD_CMP=N&SALE_15=Y&LICENSE_SIGNED=%7Enew_license18_0_sign-Y
+2018-11-02 17:28:03 -  - exec CUpdateClient::GetHTTPPage
+2018-11-02 17:28:03 -  - TIME LoadModulesUpdates(request) 0.24 sec
+2018-11-02 17:28:03 -  - exec CUpdateClient::ParseServerData
+2018-11-02 17:28:03 - S - STEP
+2018-11-02 17:28:03 - LMU01 - LoadModulesUpdates-Step
+2018-11-02 17:28:03 -  - exec CUpdateClient::LoadModulesUpdates
+2018-11-02 17:28:03 -  - exec CUpdateClient::ParseServerData
+2018-11-02 17:28:03 -  - loadFile
+2018-11-02 17:28:03 - U - RETURN
+2018-11-02 17:28:03 -  - exec CUpdateClient::UnGzipArchive
+2018-11-02 17:28:03 -  - TIME UnGzipArchive 0.005 sec
+2018-11-02 17:28:03 - CSURUS1 - Run updater '/bitrix/updates/update_m1541168883/highloadblock/updater18.5.0/index.php'
+2018-11-02 17:28:03 - CRUPDCF1 - Run updater '/bitrix/updates/update_m1541168883/highloadblock/updater18.5.0/index.php': CopyFiles(install/components, components)
+2018-11-02 17:28:03 -  - TIME UpdateStepModules 0.01 sec
+2018-11-02 17:28:03 - UPD_SUCCESS - Updated: highloadblock (18.5.0)<br><li>Исправлена ошибка передачи значения по умолчанию свойства \"Справочник\" в форму создания элемента инфоблока. Внимание! Необходимо пересохранить свойство, чтоб значение по умолчанию было передано.
+2018-11-02 17:28:03 -  - exec CUpdateClient::LoadModulesUpdates
+2018-11-02 17:28:03 -  - exec CUpdateClient::CollectRequestData
+2018-11-02 17:28:03 -  - LICENSE_KEY=X&lang=ru&SUPD_VER=18.1.3&VERSION=18.1.3&TYPENC=E&SUPD_STS=1&SUPD_URS=0&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&CHHB=technoraum.ru&CSAB=87.236.16.39&SUID=77dfda70386e970b74105f156fcc5c25&CANGZIP=Y&CLIENT_PHPVER=7.1.11&stable=Y&NGINX=Y&rerere=Y&bitm_main=18.1.3&bitm_scale=17.5.0&bitm_pull=17.5.5&bitm_sale=18.5.4&bitm_cluster=18.5.0&bitm_seo=18.5.0&bitm_bizproc=18.0.2&bitm_lists=17.0.18&bitm_fileman=18.0.4&bitm_statistic=18.5.0&bitm_sender=18.1.3&bitm_storeassist=16.0.1&bitm_socialservices=18.0.3&bitm_forum=18.0.1&bitm_subscribe=18.5.0&bitm_form=18.0.0&bitm_workflow=18.5.0&bitm_mail=18.5.0&bitm_wiki=17.5.1&bitm_highloadblock=18.5.0&bitm_rest=18.5.2&bitm_report=18.0.7&bitm_bizprocdesigner=18.0.0&bitm_compression=16.0.0&bitm_vote=17.5.1&bitm_security=18.5.0&bitm_idea=17.5.1&bitm_calendar=18.0.0&bitm_landing=18.5.7&bitm_blog=18.1.0&bitm_socialnetwork=18.1.2&bitm_ldap=18.0.0&bitm_advertising=18.0.0&bitm_bitrixcloud=18.5.0&bitm_search=18.5.0&bitm_iblock=18.5.4&bitm_support=16.0.0&bitm_perfmon=18.5.0&bitm_catalog=18.5.4&bitm_b24connector=18.0.0&bitm_eshopapp=16.5.0&bitm_ui=18.0.1&bitm_abtest=17.5.0&bitm_mobileapp=18.0.2&bitm_webservice=17.0.0&bitm_im=18.1.5&bitm_clouds=18.0.0&bitm_translate=16.5.0&bitm_conversion=17.5.0&bitm_messageservice=18.0.0&bitm_learning=17.5.1&bitm_photogallery=18.0.0&bitm_currency=18.5.0&bitl_en=&bitl_ru=&SUPD_SRS=RU&SUPD_CMP=N&SALE_15=Y&LICENSE_SIGNED=%7Enew_license18_0_sign-Y
+2018-11-02 17:28:03 -  - exec CUpdateClient::GetHTTPPage
+2018-11-02 17:28:03 -  - TIME LoadModulesUpdates(request) 0.232 sec
+2018-11-02 17:28:03 -  - exec CUpdateClient::ParseServerData
+2018-11-02 17:28:03 - STEP - Finish - NOUPDATES
+2018-11-02 17:28:03 - STEP - Finish - NOUPDATES
+2018-11-02 17:28:06 -  - exec CUpdateClient::GetUpdatesList
+2018-11-02 17:28:06 -  - exec CUpdateClient::CollectRequestData
+2018-11-02 17:28:06 -  - LICENSE_KEY=X&lang=ru&SUPD_VER=18.1.3&VERSION=18.1.3&TYPENC=E&SUPD_STS=1&SUPD_URS=0&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&CHHB=technoraum.ru&CSAB=87.236.16.39&SUID=77dfda70386e970b74105f156fcc5c25&CANGZIP=Y&CLIENT_PHPVER=7.1.11&stable=Y&NGINX=Y&rerere=Y&bitm_main=18.1.3&bitm_scale=17.5.0&bitm_pull=17.5.5&bitm_sale=18.5.4&bitm_cluster=18.5.0&bitm_seo=18.5.0&bitm_bizproc=18.0.2&bitm_lists=17.0.18&bitm_fileman=18.0.4&bitm_statistic=18.5.0&bitm_sender=18.1.3&bitm_storeassist=16.0.1&bitm_socialservices=18.0.3&bitm_forum=18.0.1&bitm_subscribe=18.5.0&bitm_form=18.0.0&bitm_workflow=18.5.0&bitm_mail=18.5.0&bitm_wiki=17.5.1&bitm_highloadblock=18.5.0&bitm_rest=18.5.2&bitm_report=18.0.7&bitm_bizprocdesigner=18.0.0&bitm_compression=16.0.0&bitm_vote=17.5.1&bitm_security=18.5.0&bitm_idea=17.5.1&bitm_calendar=18.0.0&bitm_landing=18.5.7&bitm_blog=18.1.0&bitm_socialnetwork=18.1.2&bitm_ldap=18.0.0&bitm_advertising=18.0.0&bitm_bitrixcloud=18.5.0&bitm_search=18.5.0&bitm_iblock=18.5.4&bitm_support=16.0.0&bitm_perfmon=18.5.0&bitm_catalog=18.5.4&bitm_b24connector=18.0.0&bitm_eshopapp=16.5.0&bitm_ui=18.0.1&bitm_abtest=17.5.0&bitm_mobileapp=18.0.2&bitm_webservice=17.0.0&bitm_im=18.1.5&bitm_clouds=18.0.0&bitm_translate=16.5.0&bitm_conversion=17.5.0&bitm_messageservice=18.0.0&bitm_learning=17.5.1&bitm_photogallery=18.0.0&bitm_currency=18.5.0&bitl_en=&bitl_ru=&SUPD_SRS=RU&SUPD_CMP=N&SALE_15=Y&LICENSE_SIGNED=%7Enew_license18_0_sign-Y
+2018-11-02 17:28:06 -  - exec CUpdateClient::GetHTTPPage
+2018-11-02 17:28:06 -  - TIME GetUpdatesList(request) 0.251 sec
+2018-11-02 17:28:06 -  - exec CUpdateClient::ParseServerData

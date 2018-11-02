@@ -402,7 +402,8 @@ class SaleAccountPay extends \CBitrixComponent
 			"DELAY" => "N",
 			"CAN_BUY" => "Y",
 			"NAME" => str_replace("#SUM#", SaleFormatCurrency($requestValue, $this->arParams["SELL_CURRENCY"]), Loc::getMessage("SAP_BASKET_NAME", array('#NAME#' => 'NAME'))),
-			"PRODUCT_PROVIDER_CLASS" => $this->arParams["PRODUCT_PROVIDER_CLASS"]
+			"PRODUCT_PROVIDER_CLASS" => $this->arParams["PRODUCT_PROVIDER_CLASS"],
+			"CUSTOM_PRICE" => "Y"
 		);
 
 		$result = $basketItem->setFields($productFields);

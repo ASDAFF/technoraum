@@ -29,11 +29,14 @@ if ($arParams["SET_TITLE"] == "Y")
 			<? endif ?>
 		</div>
 	</div>
-	<div class="row mb-5">
-		<div class="col">
-			<?=Loc::getMessage("SOA_ORDER_SUC1", array("#LINK#" => $arParams["PATH_TO_PERSONAL"]))?>
+
+	<? if ($arParams['NO_PERSONAL'] !== 'Y'): ?>
+		<div class="row mb-5">
+			<div class="col">
+				<?=Loc::getMessage('SOA_ORDER_SUC1', ['#LINK#' => $arParams['PATH_TO_PERSONAL']])?>
+			</div>
 		</div>
-	</div>
+	<? endif; ?>
 
 	<?
 	if ($arResult["ORDER"]["IS_ALLOW_PAY"] === 'Y')

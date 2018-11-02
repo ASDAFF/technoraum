@@ -45,6 +45,7 @@ if ($REQUEST_METHOD=="POST" && strlen($Update)>0 && $saleModulePermissions>="W" 
 			"CODE" => $CODE,
 			"SORT" => $SORT,
 			"ACTIVE" => $ACTIVE,
+			"ENTITY_REGISTRY_TYPE" => \Bitrix\Sale\Registry::REGISTRY_TYPE_ORDER,
 		);
 
 		if ($ID > 0)
@@ -168,22 +169,19 @@ if ($ID > 0 && $saleModulePermissions >= "W")
 		"ICON" => "btn_new"
 	);
 
-	if ($str_CODE !== 'CRM_COMPANY' && $str_CODE !== 'CRM_CONTACT')
+	$deleteUrl = $selfFolderUrl."sale_person_type.php?ID=".$ID."&action=delete&lang=".LANGUAGE_ID."&".bitrix_sessid_get()."#tb";
+	$buttonAction = "LINK";
+	if ($adminSidePanelHelper->isPublicFrame())
 	{
-		$deleteUrl = $selfFolderUrl."sale_person_type.php?ID=".$ID."&action=delete&lang=".LANGUAGE_ID."&".bitrix_sessid_get()."#tb";
-		$buttonAction = "LINK";
-		if ($adminSidePanelHelper->isPublicFrame())
-		{
-			$deleteUrl = $adminSidePanelHelper->editUrlToPublicPage($deleteUrl);
-			$buttonAction = "ONCLICK";
-		}
-		$aMenu[] = array(
-			"TEXT" => GetMessage("SPTEN_DELETE_PERSON_TYPE"),
-			$buttonAction => "javascript:if(confirm('".GetMessage("SPTEN_DELETE_PERSON_TYPE_CONFIRM")."')) top.window.location.href='".$deleteUrl."';",
-			"WARNING" => "Y",
-			"ICON" => "btn_delete"
-		);
+		$deleteUrl = $adminSidePanelHelper->editUrlToPublicPage($deleteUrl);
+		$buttonAction = "ONCLICK";
 	}
+	$aMenu[] = array(
+		"TEXT" => GetMessage("SPTEN_DELETE_PERSON_TYPE"),
+		$buttonAction => "javascript:if(confirm('".GetMessage("SPTEN_DELETE_PERSON_TYPE_CONFIRM")."')) top.window.location.href='".$deleteUrl."';",
+		"WARNING" => "Y",
+		"ICON" => "btn_delete"
+	);
 }
 $context = new CAdminContextMenu($aMenu);
 $context->Show();
@@ -240,12 +238,7 @@ $tabControl->BeginNextTab();
 	<tr>
 		<td width="40%"><?echo GetMessage("SPTEN_CODE")?>:</td>
 		<td width="60%">
-			<?if ($str_CODE === 'CRM_COMPANY' || $str_CODE === 'CRM_CONTACT'):?>
-				<?=$str_CODE;?>
-				<input type="hidden" name="CODE" size="30" maxlength="100" value="<?= $str_CODE ?>">
-			<?else:?>
-				<input type="text" name="CODE" size="30" maxlength="100" value="<?= $str_CODE ?>">
-			<?endif;?>
+			<input type="text" name="CODE" size="30" maxlength="100" value="<?= $str_CODE ?>">
 		</td>
 	</tr>
 	<tr>
