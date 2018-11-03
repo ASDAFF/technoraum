@@ -878,7 +878,7 @@ body img.top_mob_img {display:none !important;margin:0 auto 15px;padding-top:20p
 .thanks_popup .error span{font-size: 60px;color:red;border:2px solid red;border-radius:100px;-moz-border-radius:100px;-webkit-border-radius:100px;padding:10px 25px 10px 25px;}
 .section.top_banner_section p.title{max-width: 650px;}
 .search-query{height:58px;}
-.bx_bt_button.bx_big, .bx-blue .btn.btn-default, .bx_profile input[type='submit'], .search-button, .sale-order-detail-about-order-inner-container-repeat-button{box-shadow:none;text-shadow:none;width: 160px;  height: 58px;line-height: 36px;max-width:100%;background:#feee35;display:block;font-size:16px;color:#111;text-transform:none;text-align:center;text-decoration:none;border: solid 2px #feee35;-moz-border-radius: 0px;-webkit-border-radius: 0px;border-radius: 0px;-moz-transition:all 0.6s;-webkit-transition:all 0.6s;transition:all 0.6s;}
+.bx_bt_button.bx_big, .bx-blue .btn.btn-default, .bx_profile input[type='submit'], .search-button, .sale-order-detail-about-order-inner-container-repeat-button{box-shadow:none;text-shadow:none;background:#feee35;font-size:16px;color:#111;text-transform:none;text-align:center;text-decoration:none;border: solid 2px #feee35;-moz-border-radius: 0px;-webkit-border-radius: 0px;border-radius: 0px;-moz-transition:all 0.6s;-webkit-transition:all 0.6s;transition:all 0.6s;}
 .bx-soa-reg-block .btn.btn-default{width:235px;}
 .bx_bt_button.bx_big:hover, .bx-blue .btn.btn-default:hover, .bx_profile input[type='submit']:hover, .search-button:hover,.sale-order-detail-about-order-inner-container-repeat-button:hover{background:none;border: solid 2px #feee35;color:#000;}
 .bx-authform-formgroup-container .btn-default{margin-top: 61px;}

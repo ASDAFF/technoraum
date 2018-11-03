@@ -218,3 +218,25 @@ RBS PAYMENT https://3dsec.sberbank.ru/payment/rest/register.do REQUEST: {"orderN
 	/home/t/technoraum/technoraum.ru/public_html/bitrix/php_interface/include/sale_payment/payment/payment.php:2
 	/home/t/technoraum/technoraum.ru/public_html/bitrix/modules/sale/lib/paysystem/compatibilityhandler.php:205
 ----------
+Host: technoraum.loc
+Date: 2018-11-03 13:32:48
+Module: sberbank.ecom
+RBS PAYMENT https://3dsec.sberbank.ru/payment/rest/register.do REQUEST: {"orderNumber":"253_0","language":"ru","amount":9682052,"returnUrl":"http:\/\/technoraum.loc\/sale\/payment\/result.php?ID=253","description":"","currency":643,"userName":"technoraum-api","password":"technoraum","CMS":"Bitrix 18.1.3","jsonParams":"{\"CMS\":\"Bitrix 18.1.3\",\"Module-Version\":\"3.2.0\"}"} RESPONSE: {"orderId":"602e81b3-cab0-71e1-80bd-05a604b2964a","formUrl":"https:\/\/3dsec.sberbank.ru\/payment\/merchants\/sbersafe\/payment_ru.html?mdOrder=602e81b3-cab0-71e1-80bd-05a604b2964a"}
+    RBS::logger < RBS::gateway < RBS::register_order < require_once < require
+	E:\OSPanel\domains\technoraum.loc\bitrix\modules\sberbank.ecom\payment\rbs.php:122
+	E:\OSPanel\domains\technoraum.loc\bitrix\modules\sberbank.ecom\payment\rbs.php:169
+	E:\OSPanel\domains\technoraum.loc\bitrix\modules\sberbank.ecom\payment\payment.php:242
+	E:\OSPanel\domains\technoraum.loc\bitrix\php_interface\include\sale_payment\payment\payment.php:2
+	E:\OSPanel\domains\technoraum.loc\bitrix\modules\sale\lib\paysystem\compatibilityhandler.php:205
+----------
+Host: technoraum.loc
+Date: 2018-11-03 21:53:07
+Module: sberbank.ecom
+RBS PAYMENT https://3dsec.sberbank.ru/payment/rest/register.do REQUEST: {"orderNumber":"255_0","language":"ru","amount":637940,"returnUrl":"http:\/\/technoraum.loc\/sale\/payment\/result.php?ID=255","description":"","currency":643,"userName":"technoraum-api","password":"technoraum","CMS":"Bitrix 18.1.3","jsonParams":"{\"CMS\":\"Bitrix 18.1.3\",\"Module-Version\":\"3.2.0\"}"} RESPONSE: {"orderId":"63bdd823-e256-712e-b420-713804b2964a","formUrl":"https:\/\/3dsec.sberbank.ru\/payment\/merchants\/sbersafe\/payment_ru.html?mdOrder=63bdd823-e256-712e-b420-713804b2964a"}
+    RBS::logger < RBS::gateway < RBS::register_order < require_once < require
+	E:\OSPanel\domains\technoraum.loc\bitrix\modules\sberbank.ecom\payment\rbs.php:122
+	E:\OSPanel\domains\technoraum.loc\bitrix\modules\sberbank.ecom\payment\rbs.php:169
+	E:\OSPanel\domains\technoraum.loc\bitrix\modules\sberbank.ecom\payment\payment.php:242
+	E:\OSPanel\domains\technoraum.loc\bitrix\php_interface\include\sale_payment\payment\payment.php:2
+	E:\OSPanel\domains\technoraum.loc\bitrix\modules\sale\lib\paysystem\compatibilityhandler.php:205
+----------
