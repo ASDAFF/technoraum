@@ -150,7 +150,7 @@
 		</div>
 		<input type="submit" value="Перейти к способу оплаты" />
 	</div>
-</div>
+</form>
 <script type="text/javascript" src="/bitrix/templates/TechnoRaum/css/maskedinput.js"></script>
 <script>
 	$(document).ready(function()
