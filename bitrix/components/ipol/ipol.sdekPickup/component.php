@@ -69,18 +69,20 @@ if($arParams['CNT_DELIV'] == 'Y'){
 		$arResult['ORDER']['GOODS'] = $goods;
 
 	$arResult['DELIVERY'] = CDeliverySDEK::countDelivery(array(
-		'CITY_TO'    => CDeliverySDEK::zajsonit($arResult['city']),
-		'CITY_TO_ID' => (array_key_exists($arParams['CITY_ID']) ? $arParams['CITY_ID'] : false),
-		'WEIGHT'     => (CDeliverySDEK::$goods['W'])*1000,
-		'PRICE'      => CDeliverySDEK::$orderPrice,
-		'FORBIDDEN'  => $arParams['FORBIDDEN'],
-		'GOODS'	     => $goods
+		'CITY_TO'    	 => CDeliverySDEK::zajsonit($arResult['city']),
+		'CITY_TO_ID' 	 => (array_key_exists('CITY_ID',$arParams)) ? $arParams['CITY_ID'] : false,
+		'WEIGHT'     	 => (CDeliverySDEK::$goods['W'])*1000,
+		'PRICE'      	 => CDeliverySDEK::$orderPrice,
+		'FORBIDDEN'   	 => $arParams['FORBIDDEN'],
+		'GOODS'	     	 => $goods,
+		'PERSON_TYPE_ID' => $arParams['PAYER'],
+		'PAY_SYSTEM_ID'  => $arParams['PAYSYSTEM']
 	));
 }
 
 if(!(count($arParams['CITIES'])==1 && $arResult['DELIVERY']['pickup'] == 'no')){
 	$arList = CDeliverySDEK::getListFile();
-	$arList['PVZ'] = CDeliverySDEK::wegihtPVZ((CDeliverySDEK::$orderWeight)?false:COption::GetOptionString(CDeliverySDEK::$MODULE_ID,'weightD',1000),$arList['PVZ']);
+	$arList['PVZ'] = CDeliverySDEK::weightPVZ((CDeliverySDEK::$orderWeight)?false:COption::GetOptionString(CDeliverySDEK::$MODULE_ID,'weightD',1000),$arList['PVZ']);
 }
 
 if(count($arList)){

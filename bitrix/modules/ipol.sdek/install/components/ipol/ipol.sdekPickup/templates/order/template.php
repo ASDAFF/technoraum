@@ -3,8 +3,9 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 	include_once($_SERVER['DOCUMENT_ROOT'].'/bitrix/js/'.CDeliverySDEK::$MODULE_ID.'/jsloader.php');
 	global $APPLICATION;
+	$pathToYmaps = 'https://api-maps.yandex.ru/2.1/?lang=ru_RU';
 	if($arParams['NOMAPS']!='Y')
-		$APPLICATION->AddHeadString('<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>');
+		$APPLICATION->AddHeadString('<script src="'.$pathToYmaps.'" type="text/javascript"></script>');
 	$APPLICATION->AddHeadString('<link href="/bitrix/js/'.CDeliverySDEK::$MODULE_ID.'/jquery.jscrollpane.css" type="text/css"  rel="stylesheet" />');
 
 	$objProfiles = array();
@@ -55,6 +56,10 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 				cityID: '<?=CDeliverySDEK::$cityId?>', // id город
 
 				cityCountry: <?=CUtil::PhpToJSObject($arResult['Subjects'])?>,
+				
+				payer: false,
+				
+				paysystem: false,
 
 				pvzInputs: [<?=substr($arResult['propAddr'],0,-1)?>],//инпуты, куда грузится адрес пвз
 
@@ -139,6 +144,8 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 							CURPROF    : IPOLSDEK_pvz.curProfile,
 							DELIVERY   : IPOLSDEK_pvz.curDelivery,
 							GOODS      : <?=CUtil::PhpToJSObject(CDeliverySDEK::setOrderGoods())?>,
+							PERSON_TYPE_ID : IPOLSDEK_pvz.payer,
+							PAY_SYSTEM_ID  : IPOLSDEK_pvz.paysystem
 						},
 						success: function(data){
 							var links = {pickup:'PVZ'}; //Profiler
@@ -168,12 +175,16 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
 					var cityUpdated = true;
 					if($('#sdek_city').length>0){//обновляем город
-						IPOLSDEK_pvz.city   = $('#sdek_city').val();
-						IPOLSDEK_pvz.cityID = $('#sdek_cityID').val();
+						IPOLSDEK_pvz.city       = $('#sdek_city').val();
+						IPOLSDEK_pvz.cityID     = $('#sdek_cityID').val();
+						IPOLSDEK_pvz.payer      = $('#sdek_payer').val();
+						IPOLSDEK_pvz.paysystem  = $('#sdek_paysystem').val();
 					}else{
 						if(newTemplateAjax){
-							IPOLSDEK_pvz.city   = ajaxAns.sdek.city;
-							IPOLSDEK_pvz.cityID = ajaxAns.sdek.cityId;
+							IPOLSDEK_pvz.city       = ajaxAns.sdek.city;
+							IPOLSDEK_pvz.cityID     = ajaxAns.sdek.cityId;
+							IPOLSDEK_pvz.payer      = ajaxAns.sdek.payer;
+							IPOLSDEK_pvz.paysystem  = ajaxAns.sdek.paysystem;
 						}else
 							cityUpdated = false;
 					}
@@ -280,6 +291,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 				loadProfile:function(){//загрузка ПВЗ из профиля
 					var chznPnkt=false;
 					for(var i in IPOLSDEK_pvz.pvzInputs){
+						if(typeof(IPOLSDEK_pvz.pvzInputs[i]) == 'function') continue;
 						chznPnkt = $('[name="ORDER_PROP_'+IPOLSDEK_pvz.pvzInputs[i]+'"]');
 						if(chznPnkt.length>0)
 							break;
@@ -296,7 +308,8 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 					else{
 						var checks = ['PVZ']; // Profiler
 						var pret = false;
-						for(var i in checks)
+						for(var i in checks){
+							if(typeof(checks[i]) == 'function') continue;
 							if(
 								typeof IPOLSDEK_pvz[checks[i]][IPOLSDEK_pvz.city] != 'undefined' &&
 								typeof IPOLSDEK_pvz[checks[i]][IPOLSDEK_pvz.city][seltdPVZ] != 'undefined'
@@ -304,6 +317,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 								pret = checks[i];
 								break;
 							}
+						}
 						if(!pret)
 							return false;
 						else
@@ -315,9 +329,11 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 					IPOLSDEK_pvz.pvzId = seltdPVZ;
 
 					//Выводим подпись о выбранном ПВЗ рядом с кнопкой "Выбрать ПВЗ"
-					for(var i in IPOLSDEK_pvz.deliveries[IPOLSDEK_pvz.curMode])
+					for(var i in IPOLSDEK_pvz.deliveries[IPOLSDEK_pvz.curMode]){
+						if(typeof(IPOLSDEK_pvz.deliveries[IPOLSDEK_pvz.curMode][i]) == 'function') continue;
 						if(IPOLSDEK_pvz.deliveries[IPOLSDEK_pvz.curMode][i].tag)
 							IPOLSDEK_pvz.labelPzv(i,IPOLSDEK_pvz.curMode);
+					}
 				},
 
 				initCityPVZ: function(){ // грузим пункты самовывоза для выбранного города
@@ -325,6 +341,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 					var cnt = [];
 					IPOLSDEK_pvz.cityPVZ = {};
 					for(var i in IPOLSDEK_pvz[IPOLSDEK_pvz.curMode][city]){
+						if(typeof(IPOLSDEK_pvz[IPOLSDEK_pvz.curMode][city][i]) == 'function') continue;
 						IPOLSDEK_pvz.cityPVZ[i] = {
 							'Name'     : (IPOLSDEK_pvz[IPOLSDEK_pvz.curMode][city][i]['Name']) ? IPOLSDEK_pvz[IPOLSDEK_pvz.curMode][city][i]['Name'] : IPOLSDEK_pvz[IPOLSDEK_pvz.curMode][city][i]['Address'],
 							'Address'  : IPOLSDEK_pvz[IPOLSDEK_pvz.curMode][city][i]['Address'],
@@ -342,8 +359,10 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 				
 				cityPVZHTML: function(){ // заполняем список ПВЗ города
 					var html = '';
-					for(var i in IPOLSDEK_pvz.cityPVZ)
+					for(var i in IPOLSDEK_pvz.cityPVZ){
+						if(typeof(IPOLSDEK_pvz.cityPVZ[i]) == 'function') continue;
 						html+='<p id="PVZ_'+i+'" onclick="IPOLSDEK_pvz.markChosenPVZ(\''+i+'\')" onmouseover="IPOLSDEK_pvz.Y_blinkPVZ(\''+i+'\',true)" onmouseout="IPOLSDEK_pvz.Y_blinkPVZ(\''+i+'\')">'+IPOLSDEK_pvz.paintPVZ(i)+'</p>';
+					}
 					$('#SDEK_wrapper').html(html);
 				},
 				
@@ -395,7 +414,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 				markUnable: function(){
 					for(var i in IPOLSDEK_pvz.pvzInputs){
 						chznPnkt = $('#ORDER_PROP_'+IPOLSDEK_pvz.pvzInputs[i]);
-						if(chznPnkt.length<=0)
+						if(chznPnkt.length<=0 || chznPnkt.get(0).tagName != 'INPUT')
 							chznPnkt = $('[name="ORDER_PROP_'+IPOLSDEK_pvz.pvzInputs[i]+'"]');
 						if(chznPnkt.length>0){
 							chznPnkt.val(IPOLSDEK_pvz.pvzAdress);
@@ -653,17 +672,35 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 				jquiready: function(){IPOLSDEK_pvz.checkReady('jqui');},
 				ympsready: function(){IPOLSDEK_pvz.checkReady('ymaps');},
 
-				ymapsBindCntr: 0,
+				ymapsBindCntr  : 0,
+				ymapsBindFinal : false,
+				ymapsBlockLoad : false,
 				ymapsBidner: function(){
-					if(IPOLSDEK_pvz.ymapsBindCntr > 50){
-						console.error('SDEK widjet error: no Y-maps');
+					if(IPOLSDEK_pvz.ymapsBlockLoad){
 						return;
+					}
+					if(IPOLSDEK_pvz.ymapsBindCntr > 50){
+						if(IPOLSDEK_pvz.ymapsBindFinal){
+							console.error('SDEK widjet error: no Y-maps');
+							return;
+						} else {
+							IPOLSDEK_pvz.ymapsBindFinal = true;
+							IPOLSDEK_pvz.ymapsBlockLoad = true;
+							IPOL_JSloader.checkScript('','<?=$pathToYmaps?>',IPOLSDEK_pvz.ymapsForseCheck);
+							IPOL_JSloader.recall();
+							return;
+						}
 					}
 					if(typeof(ymaps) == 'undefined'){
 						IPOLSDEK_pvz.ymapsBindCntr++;
 						setTimeout(IPOLSDEK_pvz.ymapsBidner,100);
 					}else
 						ymaps.ready(IPOLSDEK_pvz.ympsready);
+				},
+				ymapsForseCheck: function(){
+					IPOLSDEK_pvz.ymapsBindCntr = 0;
+					IPOLSDEK_pvz.ymapsBlockLoad = false;
+					IPOLSDEK_pvz.ymapsBidner();
 				},
 				// сервисные
 				isFull: function(wat){

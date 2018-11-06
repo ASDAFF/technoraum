@@ -43,15 +43,14 @@
 				foreach(GetModuleEvents(CDeliverySDEK::$MODULE_ID, "onBeforeRequestDelivery", true) as $arEvent)
 					ExecuteModuleEventEx($arEvent,Array($profile));
 
-				$cachename = "IPOLSDEK|$profile|".$this->sender."|".$this->receiver."|".implode('|',$this->gabs)."|".$this->accountId;
-				$obCache = new CPHPCache();
-				if($obCache->InitCache(defined("IPOLSDEK_CACHE_TIME")?IPOLSDEK_CACHE_TIME:86400,$cachename,"/IPOLSDEK/") && !defined("IPOLSDEK_NOCACHE"))
-					$result = $obCache->GetVars();
-				else{
+				$cache = new Ipolh\SDEK\Bitrix\Entity\cache();
+				$cachename = "calculate|$profile|".$this->sender."|".$this->receiver."|".implode('|',$this->gabs)."|".$this->accountId;
+				if($cache->checkCache($cachename)){
+					$result = $cache->getCache($cachename);
+				}else{
 					$result = CDeliverySDEK::formCalcRequest($profile,$this->accountId);
 					if($result['success']){
-						$obCache->StartDataCache();
-						$obCache->EndDataCache($result);
+						$cache->setCache($cachename,$result);
 					}
 				}
 
@@ -120,7 +119,7 @@
 		}
 
 		function getProfileTarif($profile){
-			return (array_key_exists($profile,$this->profiles) && $this->profiles[$profile]['RESULT'] == 'OK') ? $this->profiles[$profile]['TARIF'] : false;
+			return (is_array($this->profiles) && array_key_exists($profile,$this->profiles) && $this->profiles[$profile]['RESULT'] == 'OK') ? $this->profiles[$profile]['TARIF'] : false;
 		}
 		
 		private function addError($errMess){

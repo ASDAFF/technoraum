@@ -62,7 +62,7 @@ $orignCityId = false; // город-исходник из заказа, для которого рассчитывается д
 $errCities = sdekHelper::getErrCities();
 $multiCity = false;
 $multiCityS = false;
-if(array_key_exists('many',$errCities) && array_key_exists(self::$orderDescr['properties'][COption::GetOptionString(self::$MODULE_ID,$prop,'location')],$errCities['many'])){
+if(array_key_exists('many',$errCities) && array_key_exists(self::$orderDescr['properties'][COption::GetOptionString(self::$MODULE_ID,'location','LOCATION')],$errCities['many'])){
     $multiCity = '&nbsp;&nbsp;<a href="#" class="PropWarning" onclick="return IPOLSDEK_oExport.popup(\'pop-multiCity\',this);"></a>	
 	<div id="pop-multiCity" class="b-popup" style="display: none; ">
 	<div class="pop-text">'.GetMessage("IPOLSDEK_SOD_MANYCITY").'<div class="close" onclick="$(this).closest(\'.b-popup\').hide();"></div>
@@ -78,7 +78,7 @@ $payment = sqlSdekCity::getCityPM($ordrVals['location']); // платежная система
 
 //ТАРИФЫ
 $arList = CDeliverySDEK::getListFile();
-$arModdedList = CDeliverySDEK::wegihtPVZ($ordrVals['GABS']["W"] * 1000);
+$arModdedList = CDeliverySDEK::weightPVZ($ordrVals['GABS']["W"] * 1000,$arList['PVZ']);
 $strOfCodes='';
 
 $arTarif = sdekdriver::getExtraTarifs();
@@ -127,23 +127,26 @@ $badPay = (self::$orderDescr['info']['PAYED'] != 'Y');
 // ПВЗ
 $strOfPSV='';
 $arBPVZ = "{";
-if(array_key_exists($cityName,$arList['PVZ']))
+if(array_key_exists($cityName,$arList['PVZ'])){
+	uasort($arList['PVZ'][$cityName],'sdekExport::sortPVZ');
     foreach($arList['PVZ'][$cityName] as $code => $punkts){
         if(!array_key_exists($code,$arModdedList[$cityName]))
             $arBPVZ .= $code.":true,";
         $selected = ($ordrVals['PVZ'] == $code) ? "selected" : "";
         $strOfPSV.="<option $selected value='".$code."'>".$punkts['Name']." (".$code.")"."</option>";
     }
+}
 $arBPVZ .= "}";
 
 //Доп. опции
 $exOpts = sdekdriver::getExtraOptions();
-if(self::$isLoaded)
-    foreach($exOpts as $code => $vals)
-        if($ordrVals['AS'][$code] == 'Y')
-            $exOpts[$code]['DEF'] = 'Y';
-        else
-            $exOpts[$code]['DEF'] = 'N';
+foreach($exOpts as $code => $vals)
+	if($ordrVals['AS'][$code] == 'Y')
+		$exOpts[$code]['DEF'] = 'Y';
+	elseif(self::$isLoaded)
+		$exOpts[$code]['DEF'] = 'N';
+	
+		
 
 // Вызов курьера
 $allowCourier = (COption::GetOptionString(self::$MODULE_ID,'allowSenders','N') == 'Y');
@@ -189,7 +192,6 @@ if(COption::GetOptionString(self::$MODULE_ID,'warhouses','N')==='Y'){
         }else
             $senderWH = json_decode($ordrVals['service'],true);
 }
-
 // страны и валюты
 
 $arCity  = sqlSdekCity::getBySId($ordrVals['location']);
@@ -279,7 +281,6 @@ CJSCore::Init(array("jquery"));
             width: 100%;
         }
         #IPOLSDEK_allTarifs td{
-            border: 1px dashed black;
             padding: 3px;
         }
         #IPOLSDEK_tarifWarning{
@@ -308,6 +309,10 @@ CJSCore::Init(array("jquery"));
             border: 1px solid #dce7ed;
             padding: 5px;
         }
+		.errorText{
+			color:red;
+			font-size:11px;
+		}
     </style>
     <script>
         <?=sdekdriver::getModuleExt('mask_input')?>
@@ -322,6 +327,8 @@ CJSCore::Init(array("jquery"));
             delivPrice   : <?=$ordrVals['deliveryP']?>,
             curDelivery  : <?=(self::$orderDescr['info']['DELIVERY_SDEK']) ? '"'.self::$orderDescr['info']['DELIVERY_ID'].'"' : "false"?>,
             country      : "<?=$country?>",
+			person	     : '<?=(self::$orderDescr['info']['PERSON_TYPE_ID']) ? self::$orderDescr['info']['PERSON_TYPE_ID'] : '1'?>',
+			paysystem    : <?=(self::$orderDescr['info']['PAY_SYSTEM_ID']) ? "'".self::$orderDescr['info']['PAY_SYSTEM_ID']."'" : 'false'?>,
 
             ajax: function(params){
                 var ajaxParams = {
@@ -385,6 +392,7 @@ CJSCore::Init(array("jquery"));
                             '<input id=\"IPOLSDEK_allTarifsBtn\" type=\"button\" value=\"<?=GetMessage('IPOLSDEK_JSC_SOD_ALLTARIFS')?>\"  '+savButStat+'onclick=\"IPOLSDEK_oExport.allTarifs.show()\"/>', // все тарифы
                             '<input type=\"button\" value=\"<?=GetMessage('IPOLSDEK_JSC_SOD_DELETE')?>\" '+delButStat+' onclick=\"IPOLSDEK_oExport.delete()\"/>', // удалить
                             '<input type=\"button\" id=\"IPOLSDEK_PRINT\" value=\"<?=GetMessage('IPOLSDEK_JSC_SOD_PRNTSH')?>\" '+prntButStat+' onclick="IPOLSDEK_oExport.print(\''+IPOLSDEK_oExport.orderId+'\'); return false;"/>', // печать штрихкода
+                            '<input type=\"button\" id=\"IPOLSDEK_SHTRIH\" value=\"<?=GetMessage('IPOLSDEK_JSC_SOD_SHTRIH')?>\" '+prntButStat+' onclick="IPOLSDEK_oExport.shtrih(\''+IPOLSDEK_oExport.orderId+'\'); return false;"/>', // печать штрихкода
                             '<input type=\"button\" value=\"<?=GetMessage('IPOLSDEK_JS_SOD_PACKS')?>\"  onclick="IPOLSDEK_packs.wnd.open(); return false;"/>', // места
                             <?if($SDEK_ID){?>'<a href="http://www.edostavka.ru/track.html?order_id=<?=$SDEK_ID?>" target="_blank"><?=GetMessage('IPOLSDEK_JSC_SOD_FOLLOW')?></a>'<?}?> // отслеживание
                         ]
@@ -538,15 +546,18 @@ CJSCore::Init(array("jquery"));
 
                 return {
                     isdek_action : 'extCountDeliv',
-                    orderId  : (params.orderId) ? params.orderId : IPOLSDEK_oExport.orderId,
-                    mode     : (params.mode) ? params.mode : IPOLSDEK_oExport.mode,
-                    shipment : (params.shipment) ? params.shipment : IPOLSDEK_oExport.shipment,
-                    cityTo   : city,
-                    cityFrom : cityFrom,
-                    tarif    : (params.tarif) ? params.tarif : tarif,
-                    GABS     : (params.GABS) ? params.GABS : GABS,
-                    packs    : (params.packs) ? params.packs : packs,
-                    account  : account
+                    orderId   : (params.orderId) ? params.orderId : IPOLSDEK_oExport.orderId,
+                    mode      : (params.mode) ? params.mode : IPOLSDEK_oExport.mode,
+                    shipment  : (params.shipment) ? params.shipment : IPOLSDEK_oExport.shipment,
+                    cityTo    : city,
+                    cityFrom  : cityFrom,
+                    tarif     : (params.tarif) ? params.tarif : tarif,
+                    GABS      : (params.GABS) ? params.GABS : GABS,
+                    packs     : (params.packs) ? params.packs : packs,
+                    account   : account,
+					price	  : IPOLSDEK_oExport.goodsPrice,
+					person    : IPOLSDEK_oExport.person,
+					paysystem : IPOLSDEK_oExport.paysystem
                 };
             },
 
@@ -565,8 +576,8 @@ CJSCore::Init(array("jquery"));
                     'departure'		 : {need: true,check: ($('#IPOLSDEK_departure').length && !isCourierCall)},
                     'location'  	 : {need: true},
                     'name'     		 : {need: true},
-                    'email'     	 : {need: false},
-                    'phone'     	 : {need: true},
+                    'email'     	 : {need: true},
+                    'phone'     	 : {need: true,format: IPOLSDEK_oExport.checkPhone,failFormat: "<?=GetMessage('IPOLSDEK_JSC_SOD_badPhone')?>"},
                     'comment'    	 : {need: false},
                     'NDSGoods'    	 : {need: false},
                     'NDSDelivery'    : {need: false},
@@ -593,8 +604,14 @@ CJSCore::Init(array("jquery"));
                     if(typeof(reqFields[i].need) == 'undefined') continue;
                     if(typeof(reqFields[i].check) != 'undefined' && !reqFields[i].check) continue;
                     dO[i]=$('#IPOLSDEK_'+i).val();
-                    if(!dO[i] && reqFields[i].need)
+                    if(!dO[i] && reqFields[i].need){
                         return $('#IPOLSDEK_'+i).closest('tr').children('td').html();
+					}
+					if(typeof(reqFields[i].format) != 'undefined'){
+						if(!reqFields[i].format(dO[i])){
+							return (typeof(reqFields[i].failFormat)!= 'undefined') ? reqFields[i].failFormat : $('#IPOLSDEK_'+i).closest('tr').children('td').html();
+						}
+					}
                 }
 
                 dO['AS'] = {};
@@ -681,13 +698,38 @@ CJSCore::Init(array("jquery"));
                         $('#IPOLSDEK_PRINT').removeAttr('disabled');
                         $('#IPOLSDEK_PRINT').val('<?=GetMessage("IPOLSDEK_JSC_SOD_PRNTSH")?>');
                         if(data.result == 'ok'){
-                            for(var i in data.files)
-                                window.open('/upload/<?=self::$MODULE_ID?>/'+data.files[i]);
+                            for(var i in data.files){
+                                if(typeof(data.files[i]) !== 'function')
+                                    window.open('/upload/<?=self::$MODULE_ID?>/'+data.files[i]);
+                            }
                         }else
                             alert(data.error);
                     }
                 });
             },
+			
+			shtrih: function(){
+				$('#IPOLSDEK_SHTRIH').attr('disabled','true');
+                $('#IPOLSDEK_SHTRIH').val('<?=GetMessage("IPOLSDEK_JSC_SOD_LOADING")?>');
+                IPOLSDEK_oExport.ajax({
+                    data    : {
+                        isdek_action : 'printOrderShtrih',
+                        oId : IPOLSDEK_oExport.orderId
+                    },
+                    dataType : 'json',
+                    success : function(data){
+                        $('#IPOLSDEK_SHTRIH').removeAttr('disabled');
+                        $('#IPOLSDEK_SHTRIH').val('<?=GetMessage("IPOLSDEK_JSC_SOD_SHTRIH")?>');
+                        if(data.result == 'ok'){
+                            for(var i in data.files){
+                                if(typeof(data.files[i]) !== 'function')
+                                    window.open('/upload/<?=self::$MODULE_ID?>/'+data.files[i]);
+                            }
+                        }else
+                            alert(data.error);
+                    }
+                });
+			},
 
             // служебные
             // тариф: ПВЗ, Почтомат или курьер
@@ -752,6 +794,12 @@ CJSCore::Init(array("jquery"));
                 var val = parseFloat(wat.val().replace(',','.'));
                 wat.val((isNaN(val)) ? 0 : val);
             },
+			
+			checkPhone: function(val){
+				// var check = /^(\+7(\d{10}))/;
+				var check = /^(\+(\d{11}))/;
+				return check.test(val);
+			},
 
             // Дополнительные окна и функционал
             // Все тарифы
@@ -763,10 +811,12 @@ CJSCore::Init(array("jquery"));
                 availTarifs : false,
                 tarifDescr  : false,
 
-                curMode: false,
+                curMode : false,
+				stopF   : false,
 
                 show: function(){
-                    var wndContent = "<table id='IPOLSDEK_allTarifs'></table><div id='IPOLSDEK_allTarAjax' style='text-align:center;border:none;padding-top: 10px;'><img src='/bitrix/images/<?=self::$MODULE_ID?>/ajax.gif'></div>";
+					IPOLSDEK_oExport.allTarifs.stopF = false;
+                    var wndContent = "<table id='IPOLSDEK_allTarifs'></table><div id='IPOLSDEK_allTarAjax' style='text-align:center;border:none;padding-top: 10px;'><img src='/bitrix/images/<?=self::$MODULE_ID?>/ajax.gif'></div><input type='button' id='IPOLSDEK_tarifStopper' value='<?=GetMessage('IPOLSDEK_LBL_STOP')?>' onclick='IPOLSDEK_oExport.allTarifs.stop()'>";
 
                     $('#IPOLSDEK_allTarifsBtn').attr('disabled','disabled');
 
@@ -777,8 +827,8 @@ CJSCore::Init(array("jquery"));
                             icon: 'head-block',
                             resizable: true,
                             draggable: true,
-                            height: '300',
-                            width: '550',
+                            height: '500',
+                            width: '700',
                             buttons: []
                         });
                     }else
@@ -827,12 +877,21 @@ CJSCore::Init(array("jquery"));
                 },
 
                 carnage: function(isStart){
-                    if(typeof(isStart) == 'undefined' && !IPOLSDEK_oExport.allTarifs.curMode)
-                        return;
+                    if(
+						(
+							typeof(isStart) == 'undefined' && 
+							!IPOLSDEK_oExport.allTarifs.curMode
+						) || IPOLSDEK_oExport.allTarifs.stopF
+					){
+						IPOLSDEK_oExport.allTarifs.curMode = false;
+						$('#IPOLSDEK_allTarAjax').css('display','none');
+						IPOLSDEK_oExport.allTarifs.closer(true);
+						return;
+					}
 
                     if(!IPOLSDEK_oExport.allTarifs.curMode){
                         IPOLSDEK_oExport.allTarifs.curMode = IPOLSDEK_oExport.allTarifs.getFirstTafirType();
-                        $('#IPOLSDEK_allTarifs').append("<tr><td colspan='4' style='text-align:center;font-weight:bold;'>"+IPOLSDEK_oExport.allTarifs.lang[IPOLSDEK_oExport.allTarifs.curMode]+"</td></tr>");
+                        $('#IPOLSDEK_allTarifs').append("<tr class='adm-list-table-header'><td colspan='4' class='adm-list-table-cell'>"+IPOLSDEK_oExport.allTarifs.lang[IPOLSDEK_oExport.allTarifs.curMode]+"</td></tr>");
                     }
 
                     if(IPOLSDEK_oExport.isEmpty(IPOLSDEK_oExport.allTarifs.availTarifs[IPOLSDEK_oExport.allTarifs.curMode])){
@@ -842,7 +901,7 @@ CJSCore::Init(array("jquery"));
                             $('#IPOLSDEK_allTarAjax').css('display','none');
                             IPOLSDEK_oExport.allTarifs.closer(true);
                         }else
-                            $('#IPOLSDEK_allTarifs').append("<tr><td colspan='4' style='text-align:center;font-weight:bold;'>"+IPOLSDEK_oExport.allTarifs.lang[IPOLSDEK_oExport.allTarifs.curMode]+"</td></tr>");
+                            $('#IPOLSDEK_allTarifs').append("<tr class='adm-list-table-header'><td colspan='4' class='adm-list-table-cell'>"+IPOLSDEK_oExport.allTarifs.lang[IPOLSDEK_oExport.allTarifs.curMode]+"</td></tr>");
                     }
 
                     if(IPOLSDEK_oExport.allTarifs.curMode){
@@ -855,18 +914,35 @@ CJSCore::Init(array("jquery"));
                             IPOLSDEK_oExport.ajax({
                                 data: reqParams,
                                 dataType: 'json',
-                                success: function(data){console.log(data);
-                                    if(data.success){
-                                        var curPrice = '';
-                                        if(typeof(data.price) != 'undefined'){
-                                            curPrice = data.price;
-                                            if(typeof(data.sourcePrice) != 'undefined')
-                                                curPrice += '<a href="#" class="PropWarning" onclick="return false;" title="<?=GetMessage('IPOLSDEK_JSC_SOD_PriceInLK')?> '+data.sourcePrice+'">';
-                                        }else
-                                        if(typeof(data.sourcePrice) != 'undefined')
-                                            curPrice = data.sourcePrice+' <a href="#" class="PropWarning" onclick="return false;" title="<?=GetMessage('IPOLSDEK_JSC_SOD_PriceONLYInLK')?>">';
-                                        $('#IPOLSDEK_allTarifs').append("<tr id='IPOLSDEK_tarifsTable_"+data.tarif+"'><td>"+IPOLSDEK_oExport.allTarifs.tarifDescr[data.tarif]+"</td><td style='text-align:center;'>"+curPrice+"</td><td style='text-align:center;'>"+((data['termMin'] == data['termMax'])?data['termMin']:data['termMin']+" - "+data['termMax'])+" <?=GetMessage('IPOLSDEK_JS_SOD_HD_DAY')?></td><td><input type='button' value='<?=GetMessage('IPOLSDEK_FRNT_CHOOSE')?>' onclick='IPOLSDEK_oExport.allTarifs.select(\""+data.tarif+"\");'></td></tr>");
-                                    }
+                                success: function(data){
+console.log(data);
+									var arBlocks = {ready: false,price:'',term:'',choosable:''};
+									if(data.tarif){
+										arBlocks.ready = true; 
+										arBlocks.name  = IPOLSDEK_oExport.allTarifs.tarifDescr[data.tarif]; 
+										if(data.success){
+											arBlocks.price = '';
+											if(typeof(data.price) != 'undefined'){
+												arBlocks.price = data.price;
+												if(typeof(data.sourcePrice) != 'undefined')
+													arBlocks.price += '<a href="#" class="PropWarning" onclick="return false;" title="<?=GetMessage('IPOLSDEK_JSC_SOD_PriceInLK')?> '+data.sourcePrice+'">';
+											}else{
+												if(typeof(data.sourcePrice) != 'undefined'){
+													arBlocks.price = data.sourcePrice+' <a href="#" class="PropWarning" onclick="return false;" title="<?=GetMessage('IPOLSDEK_JSC_SOD_PriceONLYInLK')?>">';
+												}
+											}
+											arBlocks.term = ((data['termMin'] == data['termMax'])?data['termMin']:data['termMin']+" - "+data['termMax'])+" <?=GetMessage('IPOLSDEK_JS_SOD_HD_DAY')?>";
+											arBlocks.choosable = "<input type='button' value='<?=GetMessage('IPOLSDEK_FRNT_CHOOSE')?>' onclick='IPOLSDEK_oExport.allTarifs.select(\""+data.tarif+"\");'>";
+										} else{
+											if(data.error){
+												arBlocks.price = "<span class='errorText'>"+data.error+"</span>";
+											}
+										}
+									}
+									
+									if(arBlocks.ready){
+										 $('#IPOLSDEK_allTarifs').append("<tr id='IPOLSDEK_tarifsTable_"+data.tarif+"' class='adm-list-table-row'><td class='adm-list-table-cell'>"+arBlocks.name+"</td><td class='adm-list-table-cell' style='text-align:center;'>"+arBlocks.price+"</td><td class='adm-list-table-cell' style='text-align:center;'>"+arBlocks.term+"</td><td class='adm-list-table-cell'>"+arBlocks.choosable+"</td></tr>");
+									}
                                     IPOLSDEK_oExport.allTarifs.carnage();
                                 }
                             });
@@ -875,6 +951,11 @@ CJSCore::Init(array("jquery"));
                     }
 
                 },
+				
+				stop: function(){
+					IPOLSDEK_oExport.allTarifs.stopF = true;
+					$('#IPOLSDEK_tarifStopper').css('display','none');
+				},
 
                 getFirstTafirType: function(){
                     for(var i in IPOLSDEK_oExport.allTarifs.availTarifs)
@@ -1290,8 +1371,10 @@ CJSCore::Init(array("jquery"));
             <?// Города-отправители?>
             <?if($citySenders || (self::$isLoaded && array_key_exists('departure',$ordrVals))){?>
                 <tr><td><?=GetMessage('IPOLSDEK_JS_SOD_departure')?></td><td>
-                        <?if(self::$isLoaded && array_key_exists('departure',$ordrVals) && !$citySenders[$ordrVals['departure']]){?>
-                            <span style='color:red'><?=GetMessage('IPOLSDEK_ERR_SENDERCITYNOTFOUND');?></span><br>
+                        <?if(self::$isLoaded && array_key_exists('departure',$ordrVals) && !$citySenders[$ordrVals['departure']]){
+							$subCitySender = sqlSdekCity::getBySId($ordrVals['departure']);
+						?>
+                            <span style='color:red'><?=$subCitySender['NAME']?> <?=GetMessage('IPOLSDEK_ERR_SENDERCITYNOTFOUND');?></span><br>
                         <?}
                         if($citySenders){?>
                             <select id='IPOLSDEK_departure' onchange='IPOLSDEK_oExport.onDepartureChange($(this))'>
@@ -1375,7 +1458,10 @@ CJSCore::Init(array("jquery"));
             <tr class='heading'><td colspan='2'><?=GetMessage('IPOLSDEK_JS_SOD_HD_RESIEVER')?></td></tr>
             <tr><td><?=GetMessage('IPOLSDEK_JS_SOD_name')?></td><td><input id='IPOLSDEK_name' type='text' value="<?=$ordrVals['name']?>"><?=$message['name']?></td></tr>
             <tr><td valign="top"><?=GetMessage('IPOLSDEK_JS_SOD_phone')?></td><td><input id='IPOLSDEK_phone' type='text' value="<?=$ordrVals['phone']?>"></td></tr>
-            <tr><td valign="top"><?=GetMessage('IPOLSDEK_JS_SOD_email')?></td><td><input id='IPOLSDEK_email' type='text' value="<?=$ordrVals['email']?>"></td></tr>
+            <?if(array_key_exists('oldPhone',$ordrVals) && str_replace(' ','',$ordrVals['oldPhone']) != $ordrVals['phone']){?>
+			<tr><td valign="top"><?=GetMessage('IPOLSDEK_JS_SOD_oldPhone')?></td><td><?=$ordrVals['oldPhone']?></td></tr>
+            <?}?>
+			<tr><td valign="top"><?=GetMessage('IPOLSDEK_JS_SOD_email')?></td><td><input id='IPOLSDEK_email' type='text' value="<?=$ordrVals['email']?>"></td></tr>
             <tr><td><?=GetMessage('IPOLSDEK_JS_SOD_comment')?></td><td><textarea id='IPOLSDEK_comment'><?=$ordrVals['comment']?></textarea><?=$message['comment']?></td></tr>
             <tr><td colspan='2'>
                     <?foreach(array('realSeller','sender','courierSender','GABARITES') as $hintCode){?>

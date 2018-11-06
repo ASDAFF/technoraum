@@ -181,6 +181,7 @@
 				$strSql.="
 				ORDER BY ".$arOrder[0]." ".$arOrder[1];
 
+			$err_mess = "";
 			$cnt=$DB->Query("SELECT COUNT(*) as C FROM ".self::$tableName." ".$strSql, false, $err_mess.__LINE__)->Fetch();
 
 			if($arNavStartParams['nPageSize']==0)
@@ -214,6 +215,7 @@
 			}else
 				$where = '';
 
+			$err_mess = "";
 			if($doNav){
 				$cnt=$DB->Query("SELECT COUNT(*) as C FROM ".self::$tableName." ".$where, false, $err_mess.__LINE__)->Fetch();
 				$req = new CDBResult();

@@ -1,4 +1,7 @@
 <?
+define('IPOLH_SDEK', 'ipol.sdek');
+define('IPOLH_SDEK_LBL', 'IPOLSDEK_');
+
 IncludeModuleLangFile(__FILE__);
 // IPOLSDEK_LOG - ����� ����
 
@@ -10,22 +13,7 @@ class sdekHelper{
     static $MODULE_ID = "ipol.sdek";
 
     public static function getAjaxAction($action,$subaction){
-        if(method_exists('sdekHelper',$action))
-            sdekHelper::$action($_POST);
-        elseif(method_exists('sdekdriver',$action))
-            sdekdriver::$action($_POST);
-        elseif(method_exists('CDeliverySDEK',$action))
-            CDeliverySDEK::$action($_POST);
-        elseif(method_exists('sdekExport',$action))
-            sdekExport::$action($_POST);
-        elseif(method_exists('sdekOption',$action))
-            sdekOption::$action($_POST);
-        else{
-            if(method_exists('sdekHelper',$subaction))
-                sdekHelper::$subaction($_POST);
-            elseif(method_exists('CDeliverySDEK',$subaction))
-                CDeliverySDEK::$subaction($_POST);
-        }
+		Ipolh\SDEK\subscribeHandler::getAjaxAction($action,$subaction);
     }
 
     /*()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
@@ -51,7 +39,7 @@ class sdekHelper{
             return;
         self::$ERROR_REF .= $error."\n";
         $file=fopen($_SERVER["DOCUMENT_ROOT"]."/bitrix/js/".self::$MODULE_ID."/errorLog.txt","a");
-        fwrite($file,"\n".date("d.m.Y H:i:s")." ".$error);
+        fwrite($file,"\n".date("d.m.Y H:i:s")." ".self::zaDEjsonit($error));
         fclose($file);
     }
     static function getErrors(){
@@ -143,6 +131,7 @@ class sdekHelper{
             curl_setopt($ch, CURLOPT_POST, TRUE);
             curl_setopt($ch, CURLOPT_POSTFIELDS, self::zajsonit(array('xml_request' => $XML)));
         }
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
         $result = curl_exec($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -412,15 +401,19 @@ class sdekHelper{
         return self::zaDEjsonit(json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/bitrix/js/".self::$MODULE_ID."/".$fileName.".json"),true));
     }
 
-    static function getNormalCity($cityId){// �������������� 2.0, �������� id �����a
+    static function getNormalCity($cityId,$onlyCity = false){// �������������� 2.0, �������� id �����a
         if(self::isLocation20() && $cityId){//getLocationIDbyCODE
-            $cityType = \Bitrix\Sale\Location\TypeTable::getList(array('filter'=>array('=CODE'=>'CITY')))->Fetch();
+            $cityType    = \Bitrix\Sale\Location\TypeTable::getList(array('filter'=>array('=CODE'=>'CITY')))->Fetch();
+            $villageType = \Bitrix\Sale\Location\TypeTable::getList(array('filter'=>array('=CODE'=>'VILLAGE')))->Fetch();
             if(strlen($cityId) >= 10 || !is_numeric($cityId))
                 $city = \Bitrix\Sale\Location\LocationTable::getList(array('filter' => array('=CODE' => $cityId)))->Fetch();
             else
                 $city = \Bitrix\Sale\Location\LocationTable::getById($cityId)->Fetch();
 
-            if($city['TYPE_ID'] != $cityType['ID']){
+            if(
+				$city['TYPE_ID'] != $cityType['ID'] && 
+				($onlyCity || !$villageType || $city['TYPE_ID'] != $villageType['ID'])
+			){
                 $newCityId = false;
                 while(!$newCityId){
                     if(empty($city['PARENT_ID']))
@@ -452,7 +445,7 @@ class sdekHelper{
         }
         $return = false;
         if($city){
-            $arCity = sqlSdekCity::getByBId($cityId);
+            $arCity = self::getSQLCityBI($cityId);
             if($arCity['SDEK_ID']){
                 $return = array('courier');
                 if(CDeliverySDEK::checkPVZ($cityName))
@@ -465,14 +458,38 @@ class sdekHelper{
     public static function getCity($location,$ifFull = false){ // �������� ����� �� �� �� ��� ���� / id
         if(!$location)
             return false;
-        $arCity = sqlSdekCity::getByBId($location);
-        if(!$arCity)
-            $arCity = sqlSdekCity::getByBId(self::getNormalCity($location));
-        if($ifFull)
-            return $arCity;
-        else
-            return $arCity['SDEK_ID'];
+        $arCity = self::getSQLCityBI($location);
+		if($arCity){
+			if($ifFull)
+				return $arCity;
+			else
+				return $arCity['SDEK_ID'];
+		}
+		return false;
     }
+
+	public static function getSQLCityBI($bitrixID,$skipAPI=false)
+	{
+		if(!$bitrixID && !self::getNormalCity($bitrixID))
+			return false;
+		$arCity = sqlSdekCity::getByBId($bitrixID);
+		if(!$arCity){
+            $arCity = sqlSdekCity::getByBId(self::getNormalCity($bitrixID));
+		}
+		if(
+			!$arCity && 
+			!$skipAPI && 
+			is_numeric($bitrixID) &&
+			COption::GetOptionString(self::$MODULE_ID,'autoAddCities','N') == 'Y'
+		){
+			$cityAdder = new sdekCityGetter(self::getNormalCity($bitrixID),COption::GetOptionString(self::$MODULE_ID,'dostTimeout',6));
+			$cityAdder->search();
+			if($cityAdder->getSDEK()){
+				$arCity = $cityAdder->getSDEK();
+			}
+		}
+		return $arCity;
+	}
 
     public static function getHomeCity(){ // �������� �����
         return self::getCity(COption::GetOptionString(self::$MODULE_ID,'departure'));
@@ -491,6 +508,16 @@ class sdekHelper{
 
         return $arCities;
     }
+	
+	public function getCountryCode($country = 'rus'){
+		$arCodes = array(
+			'rus' => 643,
+			'blr' => 112,
+			'kaz' => 398
+		);
+		
+		return (array_key_exists($country,$arCodes)) ? $arCodes[$country] : false;
+	}
 
     /*()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
                                                         ��������� � ��� ������
@@ -534,7 +561,8 @@ class sdekHelper{
     }
 
     static function getCountryOptions(){
-        return self::zaDEjsonit(json_decode(COption::GetOptionString(self::$MODULE_ID,'countries','{"rus":{"act":"Y"}}'),true));
+		$result = self::zaDEjsonit(json_decode(COption::GetOptionString(self::$MODULE_ID,'countries','{"rus":{"act":"Y"}}'),true));
+        return (is_array($result)) ? $result : array();
     }
 
     // �����������
@@ -622,6 +650,18 @@ class sdekHelper{
     }
 }
 
+spl_autoload_register(function($className){
+	if (strpos($className, 'Ipolh\SDEK') === 0)
+	{
+		$classPath = implode(DIRECTORY_SEPARATOR, explode('\\', substr($className,11)));
+
+		$filename = __DIR__ . DIRECTORY_SEPARATOR . "classes".DIRECTORY_SEPARATOR."lib" . DIRECTORY_SEPARATOR . $classPath . ".php";
+
+		if (is_readable($filename) && file_exists($filename))
+			require_once $filename;
+	}
+});
+
 CModule::AddAutoloadClasses(
     sdekHelper::$MODULE_ID,
     array(
@@ -629,14 +669,19 @@ CModule::AddAutoloadClasses(
         'CDeliverySDEK'				 => '/classes/general/sdekdelivery.php',
         'sdekOption'				 => '/classes/general/sdekoption.php',
         'sdekExport'				 => '/classes/general/sdekexport.php',
+        'sdekExport'				 => '/classes/general/sdekexport.php',
         'sqlSdekOrders'				 => '/classes/mysql/sqlSdekOrders.php',
         'sqlSdekCity'				 => '/classes/mysql/sqlSdekCity.php',
         'sqlSdekLogs'				 => '/classes/mysql/sqlSdekLogs.php',
         'CalculatePriceDeliverySdek' => '/classes/sdekMercy/calculator.php',
         'cityExport'				 => '/classes/sdekMercy/syncCityClass.php',
+        'sdekCityGetter'			 => '/classes/sdekMercy/getCityClass.php',
         'sdekShipment'				 => '/classes/lib/sdekShipment.php',
-        'sdekShipmentCollection'	 => '/classes/lib/sdekShipmentCollection.php'
+        'sdekShipmentCollection'	 => '/classes/lib/sdekShipmentCollection.php',
+		'\\Ipolh\\SDEK\\subscribeHandler'  => '/classes/general/subscribeHandler.php'
     )
 );
+
+
 
 ?>

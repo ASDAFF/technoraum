@@ -185,6 +185,8 @@ class sdekdriver extends sdekHelper{
 		$on = ($baze['ACCOUNT_NUMBER'])?$baze['ACCOUNT_NUMBER']:$oId;
 
 		$bezNal = ($orderParams['isBeznal'] == 'Y')?true:false;
+		
+		$usualDelivery = (COption::getOptionString(self::$MODULE_ID,'deliveryAsPosition','N') != 'Y');
 
 		if($mesId === false)
 			$mesId=self::getMessId();
@@ -194,15 +196,24 @@ class sdekdriver extends sdekHelper{
 			$sendCity = $orderParams['courierCity'];
 		elseif(array_key_exists('departure',$orderParams) && $orderParams['departure'])
 			$sendCity = $orderParams['departure'];
+		
+		if($sendCity){
+			$arSendCity = sqlSdekCity::getBySId($sendCity);
+			$senderCountry = ($arSendCity['COUNTRY']) ? $arSendCity['COUNTRY'] : 'rus';
+			$senderCountry = self::getCountryCode($senderCountry);
+			$senderCountry = ($senderCountry) ? 'SendCountryCode="'.$senderCountry.'" ' : '';
+		}
 
 		$arCity  = sqlSdekCity::getBySId($orderParams['location']);
 		$country = ($arCity['COUNTRY']) ? $arCity['COUNTRY'] : 'rus';
+		$recCountryCode = self::getCountryCode($country);
+		$recCountryCode = ($recCountryCode) ? 'RecCountryCode="'.$recCountryCode.'" ' : '';
 
 		$authSelect = ($account) ? $account : array('COUNTRY'=>$country);
 		$headers = self::getXMLHeaders($authSelect);
 		self::$accountId = $headers['ID'];
 
-		$strXML = "<DeliveryRequest Number=\"".$mesId."\" Date=\"".$headers['date']."\" Account=\"".$headers['account']."\" Secure=\"".$headers['secure']."\" OrderCount=\"1\" DeveloperKey=\"4b1d17d262bdf16e36b9070934c74d47\">
+		$strXML = "<DeliveryRequest Number=\"".$mesId."\" Date=\"".$headers['date']."\" Account=\"".$headers['account']."\" Secure=\"".$headers['secure']."\" OrderCount=\"1\" DeveloperKey=\"4b1d17d262bdf16e36b9070934c74d47\" ".$recCountryCode.$senderCountry.">
 	<Order Number=\"".$on."\"
 		SendCityCode=\"".$sendCity."\" 
 		RecCityCode=\"".$orderParams["location"]."\" 
@@ -251,18 +262,16 @@ class sdekdriver extends sdekHelper{
 
 			// товары и упаковки
 		$packs = self::getPacks($oId,$mode,$orderParams);
-
-		$goodsXML = '';
-		foreach($packs as $number => $packContent){ // см, г
-			$arPackArticules = array();
-			$goodsXML .= "<Package Number=\"{$number}\" BarCode=\"{$number}\" Weight=\"{$packContent['WEIGHT']}\" SizeA=\"{$packContent['LENGTH']}\" SizeB=\"{$packContent['WIDTH']}\" SizeC=\"{$packContent['HEIGHT']}\">";
-			foreach($packContent['GOODS'] as $arGood){
+		
+		// handling prices
+		foreach($packs as $number => $packContent){
+			foreach($packContent['GOODS'] as $index => $arGood){
 				if($cntrCurrency){
-					$arGood["price"] = floatval(sdekExport::formatCurrency(array('TO'=>$cntrCurrency['site'],'SUM'=>$arGood["price"],'orderId'=>$oId)));
-					$arGood["cstPrice"] = floatval(sdekExport::formatCurrency(array('TO'=>$cntrCurrency['site'],'SUM'=>$arGood["cstPrice"],'orderId'=>$oId)));
+					$packs[$number]['GOODS'][$index]["price"] = floatval(sdekExport::formatCurrency(array('TO'=>$cntrCurrency['site'],'SUM'=>$arGood["price"],'orderId'=>$oId)));
+					$packs[$number]['GOODS'][$index]["price"] = floatval(sdekExport::formatCurrency(array('TO'=>$cntrCurrency['site'],'SUM'=>$arGood["cstPrice"],'orderId'=>$oId)));
 				}
-				$toPay = ($bezNal || $orderParams['toPay'] == 0)?0:$arGood["price"];
-				$cnt = (int)$arGood["quantity"];
+				$toPay = ($bezNal || $orderParams['toPay'] == 0) ? 0 : $arGood["price"];
+				$cnt = (int) $arGood["quantity"];
 				if($toPay){
 					$all = $toPay * $cnt;
 					if($all > $orderParams['toPay']){
@@ -279,41 +288,54 @@ class sdekdriver extends sdekHelper{
 						case '0.00' : $vatRate = 'VAT0'; break;
 						default     : $vatRate = $orderParams['NDSGoods']; break;
 					}
-						
-					$strNDS   .= " PaymentVATRate=\"".$vatRate."\"";
-					$ndsGoods = self::ndsVal($toPay,$vatRate);
-					$strNDS   .= " PaymentVATSum=\"".$ndsGoods."\"";
+					$packs[$number]['GOODS'][$index]["VATRate"] = $vatRate;
+					$packs[$number]['GOODS'][$index]["VATSum"]  = self::ndsVal($toPay,$vatRate);
+					$packs[$number]['GOODS'][$index]["VATS"]    = true;
+				} else {
+					$packs[$number]['GOODS'][$index]["VATS"]    = false;
 				}
 				
-				$articul = ($arGood["articul"])?$arGood["articul"]:$arGood["id"];
-				if(array_key_exists($articul,$arPackArticules))
-					$articul.="(".(++$arPackArticules[$articul]).")";
-				else
-					$arPackArticules[$articul] = 1;
-				$goodsXML .= "
-			<Item WareKey=\"".$articul."\" Cost=\"".number_format($arGood["cstPrice"],2,'.','')."\" Payment=\"".number_format($toPay,2,'.','')."\" Weight=\"".$arGood["weight"]."\" Amount=\"".$cnt."\" ".$strNDS."  Comment=\"".str_replace('"',"'",$arGood["name"])."\"/>";
+				$packs[$number]['GOODS'][$index]["price"]    = $toPay;
+				$packs[$number]['GOODS'][$index]["quantity"] = $cnt;
 			}
-			$goodsXML .= "
-		</Package>
-		";
 		}
-
+		
 		if(!$bezNal){
 			$priceDelivery = array_key_exists('deliveryP',$orderParams) ? $orderParams['deliveryP'] : $baze["PRICE_DELIVERY"];
 			if($priceDelivery){
-				$strXML .= "
-		DeliveryRecipientCost=\"".number_format($priceDelivery,2,'.','')."\"";
-				if($priceDeliveryVAT !== false){
+				if($usualDelivery){
 					$strXML .= "
+		DeliveryRecipientCost=\"".number_format($priceDelivery,2,'.','')."\"";
+					if($priceDeliveryVAT !== false){
+						$strXML .= "
 		DeliveryRecipientVATRate=\"".$orderParams['NDSDelivery']."\"
 		DeliveryRecipientVATSum =\"".$priceDeliveryVAT."\"	
 ";
-// $strXML .= "
-		// DeliveryRecipientVATRate=\"VAT10\"
-		// DeliveryRecipientVATSum=\"10.00\"	
-// ";
+					}
+				} else {
+					$countPacks = count($packs);
+					$counter    = 1;
+					foreach($packs as $number => $packContent){
+						if($counter++ >= $countPacks){
+							$arDelivery = array(
+								'articul'  => 'delivery',
+								'id'       => 'delivery',
+								'cstPrice' => 0,
+								'price'    => $priceDelivery,
+								'weight'   => 0,
+								'quantity' => 1,
+								'name'	   => GetMessage('IPOLSDEK_LBL_DELIVERY'),
+								'VATS'	   => false
+							);
+							if($priceDeliveryVAT !== false){
+								$arDelivery['VATS']    = true;
+								$arDelivery['VATSum']  = $priceDeliveryVAT;
+								$arDelivery['VATRate'] = $orderParams['NDSDelivery'];
+							}
+							$packs[$number]['GOODS'] []= $arDelivery;
+						}
+					}
 				}
-		
 			}
 		}
 
@@ -339,8 +361,30 @@ class sdekdriver extends sdekHelper{
 		else
 			$strXML .= "<Address Street=\"".str_replace('"',"'",$orderParams['street'])."\" House=\"".$orderParams['house']."\" Flat=\"".$orderParams['flat']."\" />
 		";
-		
-		$strXML .= $goodsXML;
+
+		foreach($packs as $number => $packContent){ // см, г
+			$arPackArticules = array();
+			$strXML .= "<Package Number=\"{$number}\" BarCode=\"{$number}\" Weight=\"{$packContent['WEIGHT']}\" SizeA=\"{$packContent['LENGTH']}\" SizeB=\"{$packContent['WIDTH']}\" SizeC=\"{$packContent['HEIGHT']}\">";
+			foreach($packContent['GOODS'] as $arGood){
+				$strNDS = '';
+				if($arGood["VATS"]){
+					$strNDS   .= " PaymentVATRate=\"".$arGood["VATRate"]."\"";
+					$strNDS   .= " PaymentVATSum=\"".$arGood["VATSum"]."\"";
+				}
+				
+				$articul = ($arGood["articul"])?str_replace('"',"'",$arGood["articul"]):$arGood["id"];
+				if(array_key_exists($articul,$arPackArticules))
+					$articul.="(".(++$arPackArticules[$articul]).")";
+				else
+					$arPackArticules[$articul] = 1;
+				$strXML .= "
+			<Item WareKey=\"".$articul."\" Cost=\"".number_format($arGood["cstPrice"],2,'.','')."\" Payment=\"".number_format($arGood["price"],2,'.','')."\" Weight=\"".$arGood["weight"]."\" Amount=\"".$arGood["quantity"]."\" ".$strNDS."  Comment=\"".str_replace('"',"'",$arGood["name"])."\"/>";
+			}
+			
+			$strXML .= "
+		</Package>
+		";
+		}
 
 		if($payed){
 			self::errorLog(GetMessage('IPOLSDEK_SEND_ERR_CANTCALCPRICE'));
@@ -405,10 +449,10 @@ class sdekdriver extends sdekHelper{
 		if(!cmodule::includemodule('sale')){self::errorLog(GetMessage("IPOLSDEK_ERRLOG_NOSALEOML"));return false;}//без модуля sale делать нечего
 		$mesId=self::getMessId();
 		$orderXML = self::genOrderXML($oId,$mesId,$mode);
-
 		if(!$orderXML) return false;
 		$sended = '';
 		$result = self::sendToSDEK($orderXML,'new_orders');
+// self::toLog(array($orderXML,$result),'requste',true);
 		$return = false;
 		if($result['code'] == 200){
 			$xml=simplexml_load_string($result['result']);
@@ -718,10 +762,22 @@ class sdekdriver extends sdekHelper{
 			$existedProps[$tmpElement['PERSON_TYPE_ID']]=$tmpElement['ID'];
 		if($mode=='1'){
 			$return = true;
+			
+			$tmpGet = CSite::GetList($by="sort", $order="desc",array('ACTIVE' => 'Y'));
+			$arLids = array();
+			while($tmpElement=$tmpGet->Fetch()){
+				$arLids[]=$tmpElement['LID'];
+			}
+			
 			$tmpGet = CSalePersonType::GetList(Array("SORT" => "ASC"), Array());
 			$allPayers=array();
-			while($tmpElement=$tmpGet->Fetch())
-				$allPayers[]=$tmpElement['ID'];
+			while($tmpElement=$tmpGet->Fetch()){
+				if(
+					$tmpElement['ACTIVE'] == 'Y' &&
+					in_array($tmpElement['LID'],$arLids)
+				)
+					$allPayers[]=$tmpElement['ID'];
+			}
 
 			foreach($allPayers as $payer){
 				$tmpGet = CSaleOrderPropsGroup::GetList(array("SORT" => "ASC"),array("PERSON_TYPE_ID" => $payer),false,array('nTopCount' => '1'));

@@ -7,7 +7,7 @@ class cityExport{
 	public $regLinks;
 	public $errCity;
 	public $timeLimit;
-	public static $addedCity = 0;
+	public $addedCity = 0;
 	private $fname;
 
 	public $startTime;
@@ -20,7 +20,7 @@ class cityExport{
 
 	public $error;
 
-	public static $impMode = false;
+	public $impMode = false;
 
 	function cityExport($countryLink='rus',$timeLimit=60,$fname='tmpExport.txt'){
 		$countryParams = sdekOption::getCountryDescr($countryLink);
@@ -64,7 +64,7 @@ class cityExport{
 
 	function getBitrixMP(){
 		if(!$this->regLinks)
-			$this->getRegLinks();
+			$this->regLinks = self::getRegLinks();
 		$arCities = array('ORIG'=>array(),'LANG'=>array());
 		$workedId = array();
 		$smpledRegions = array();
@@ -74,12 +74,12 @@ class cityExport{
 			if(!in_array($element['ID'],$workedId)){
 				if($element['REGION_NAME']){
 					if(!array_key_exists($element['REGION_NAME_ORIG'],$smpledRegions))
-						$smpledRegions[$element['REGION_NAME_ORIG']] = $this->simpleRegion($element['REGION_NAME_ORIG']);
+						$smpledRegions[$element['REGION_NAME_ORIG']] = self::simpleRegion($element['REGION_NAME_ORIG'],$this->regLinks);
 					if(!array_key_exists($element['REGION_NAME'],$smpledRegions))
-						$smpledRegions[$element['REGION_NAME']] = $this->simpleRegion($element['REGION_NAME']);
+						$smpledRegions[$element['REGION_NAME']] = self::simpleRegion($element['REGION_NAME'],$this->regLinks);
 
-					$arCities['ORIG'][$smpledRegions[$element['REGION_NAME_ORIG']]][$element['ID']] = $this->simpleCity($element['CITY_NAME_ORIG']);
-					$arCities['LANG'][$smpledRegions[$element['REGION_NAME']]][$element['ID']]      = $this->simpleCity($element['CITY_NAME']);
+					$arCities['ORIG'][$smpledRegions[$element['REGION_NAME_ORIG']]][$element['ID']] = self::simpleCity($element['CITY_NAME_ORIG']);
+					$arCities['LANG'][$smpledRegions[$element['REGION_NAME']]][$element['ID']]      = self::simpleCity($element['CITY_NAME']);
 					$workedId[]=$element['ID'];
 				}else
 					$arCities['NO_REGION'][$element['ID']] = $element['CITY_NAME'];
@@ -91,12 +91,12 @@ class cityExport{
 			if(!in_array($element['ID'],$workedId)){
 				if($element['REGION_NAME']){
 					if(!array_key_exists($element['REGION_NAME_ORIG'],$smpledRegions))
-						$smpledRegions[$element['REGION_NAME_ORIG']] = $this->simpleRegion($element['REGION_NAME_ORIG']);
+						$smpledRegions[$element['REGION_NAME_ORIG']] = self::simpleRegion($element['REGION_NAME_ORIG'],$this->regLinks);
 					if(!array_key_exists($element['REGION_NAME'],$smpledRegions))
-						$smpledRegions[$element['REGION_NAME']] = $this->simpleRegion($element['REGION_NAME']);
+						$smpledRegions[$element['REGION_NAME']] = self::simpleRegion($element['REGION_NAME'],$this->regLinks);
 
-					$arCities['ORIG'][$smpledRegions[$element['REGION_NAME_ORIG']]][$element['ID']] = $this->simpleCity($element['CITY_NAME_ORIG']);
-					$arCities['LANG'][$smpledRegions[$element['REGION_NAME']]][$element['ID']]      = $this->simpleCity($element['CITY_NAME']);
+					$arCities['ORIG'][$smpledRegions[$element['REGION_NAME_ORIG']]][$element['ID']] = self::simpleCity($element['CITY_NAME_ORIG']);
+					$arCities['LANG'][$smpledRegions[$element['REGION_NAME']]][$element['ID']]      = self::simpleCity($element['CITY_NAME']);
 					$workedId[]=$element['ID'];
 				}else
 					$arCities['NO_REGION'][$element['ID']] = $element['CITY_NAME'];
@@ -107,10 +107,12 @@ class cityExport{
 		return $arCities;
 	}
 	
-	function getRegLinks(){
-		$this->regLinks = array();
+	static function getRegLinks(){
+		$arLinks = array();
 		for($i=1;$i<89;$i++)
-			$this->regLinks[GetMessage("IPOLSDEK_RK_".$i)] = GetMessage("IPOLSDEK_RV_".$i);
+			$arLinks[GetMessage("IPOLSDEK_RK_".$i)] = GetMessage("IPOLSDEK_RV_".$i);
+		
+		return $arLinks;
 	}
 	
 	function start(){
@@ -141,7 +143,7 @@ class cityExport{
 	function getCity($cityArr){
 		$arCities = array();
 		$mode = '';
-		$sRcA = $this->simpleRegion($cityArr[3]);
+		$sRcA = self::simpleRegion($cityArr[3],$this->regLinks);
 		// ищем, будто регион найден или без региона
 		if(array_key_exists($sRcA,$this->arMP['ORIG']))
 			$mode = 'ORIG';
@@ -149,7 +151,7 @@ class cityExport{
 			$mode = 'LANG';
 		else
 			$mode = 'NO_REGION';
-		$sCity = $this->simpleCity($cityArr[2]);
+		$sCity = self::simpleCity($cityArr[2]);
 		$fnded = $this->findCity($sCity,$this->arMP[$mode][$sRcA],$sRcA,$cityArr);
 		//если не нашли и есть непонятные регионы - ищем в куче непонятных регионов
 		if(!$fnded && array_key_exists("UNDEFINED",$this->arMP['ORIG'])){
@@ -182,7 +184,7 @@ class cityExport{
 			foreach($arSearch as $id => $cityName)
 				if($sCity == $cityName){
 					// синхронизация, а не экспорт
-					if(!self::$impMode){
+					if(!$this->impMode){
 						// найден
 						if(!array_key_exists($id,$this->arUploaded)){
 							$ic = sqlSdekCity::Add(array(
@@ -220,7 +222,7 @@ class cityExport{
 		return $fnded;
 	}
 	
-	function simpleCity($city){
+	static function simpleCity($city){
 		if(strpos($city,"(")!==false)
 			$city = trim(substr($city,0,strpos($city,"(")));
 		if(strpos($city,".")!==false)
@@ -231,22 +233,40 @@ class cityExport{
 			$city = str_replace(GetMessage('IPOLSDEK_CHANGE_YO'),GetMessage('IPOLSDEK_CHANGE_YE'),$city);
 		return $city;
 	}
+	
+	static function simpleCityExt($city){
+		$city = self::simpleCity($city);
+		
+		$arChange = array();
+		for($i=1;$i<17;$i++){
+			$arChange []= GetMessage('IPOLSDEK_SIMPLECITY_'.$i);
+		}
+		
+		$city = trim(str_replace($arChange,'',$city));
+		
+		return $city;
+	}
 
-	function simpleRegion($region){
+	static function simpleRegion($region,$arRegLinks=false){
 		if(class_exists('sdekhelper'))
 			$region = sdekhelper::toUpper($region);
 
 		$finded = false;
 
-		foreach($this->regLinks as $find => $label){
-			if(strpos($region,$find)!==false){
-				$region = $label;
-				$finded = true;
-				break;
+		if(is_array($arRegLinks))
+			foreach($arRegLinks as $find => $label){
+				if(strpos($region,$find)!==false){
+					$region = $label;
+					$finded = true;
+					break;
+				}
 			}
-		}
 
 		return ($finded)?$region:"UNDEFINED";
+	}
+	
+	static function simpleDistrict($district){
+		return trim(str_replace(array(GetMessage('IPOLSDEK_SIMPLEDIST_1'),GetMessage('IPOLSDEK_SIMPLEDIST_2')),'',$district));
 	}
 	
 	protected function pauseExport(){
@@ -457,7 +477,7 @@ class cityExport{
 	}
 
 	function findRegion($_region){
-		$region = $this->simpleRegion($_region);
+		$region = self::simpleRegion($_region,$this->regLinks);
 		$arReturn = array(
 			"TOTABLE" => $this->arMP['links'][$region],
 		);

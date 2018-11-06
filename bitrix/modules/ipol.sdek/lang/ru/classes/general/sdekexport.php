@@ -11,8 +11,10 @@
 	$MESS ['IPOLSDEK_JSC_SOD_PriceONLYInLK'] = "Стоимость по личному кабинету";
 	$MESS ['IPOLSDEK_JSC_SOD_noTarifs'] = "Подходящих тарифов не обнаружено.";
 	$MESS ['IPOLSDEK_JSC_SOD_noAccounts'] = "Активные аккаунты не обнаружены.";
+	$MESS ['IPOLSDEK_JSC_SOD_badPhone'] = "телефон. Номер должен быть написан в международном формате код страны (для России это +7) и сам номер (10 и более цифр). Номер не должен содержать никаких букв и символов, кроме признаков добавочного номера ':' (двоеточие), '#' (решетка).";
 	$MESS ['IPOLSDEK_LBL_BASIC'] = "Основной";
-	$MESS ['IPOLSDEK_ERR_SENDERCITYNOTFOUND'] = "Город-отправитель не найден. Возможно он был удален из настроек.";
+	$MESS ['IPOLSDEK_LBL_STOP']  = "Остановить";
+	$MESS ['IPOLSDEK_ERR_SENDERCITYNOTFOUND'] = " - город-отправитель не найден. Возможно он был удален из настроек.";
 // запрос аккаунтов
     $MESS ['IPOLSDEK_ERR_NORIGHTS'] = "Недостаточно прав.";
     $MESS ['IPOLSDEK_LBL_BASICACCOUNT']    = "Основной";

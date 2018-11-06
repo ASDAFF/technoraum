@@ -82,6 +82,7 @@
 
 <tr class="heading"><td colspan="2" valign="top" align="center"><?=GetMessage('IPOLSDEK_FAQ_HDR_HELP')?></td></tr>
 <tr><td style="color:#555; " colspan="2">
+	<?sdekOption::placeFAQ('CITYSUNC')?>
 	<?sdekOption::placeFAQ('CNTDOST')?>
 	<?sdekOption::placeFAQ('CALLCOURIER')?>
 	<?sdekOption::placeFAQ('ERRORS')?>

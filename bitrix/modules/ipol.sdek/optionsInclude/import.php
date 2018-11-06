@@ -144,6 +144,6 @@
 </div>
 <div id='IPOLSDEK_timeout'></div>
 <div id='IPOLSDEK_cntrt'><?=GetMessage('IPOLSDEK_IMPORT_LBL_TIMEOUT')?>: <input id='IPOLSDEK_timeoutCnter' value='60' type='text' onKeyUp = "IPOLSDEK_cityImport.timeOutCheck()"> <?=GetMessage('IPOLSDEK_IMPORT_LBL_sec')?></div>
-<input id='IPOLSDEK_importStart' type='button' value='<?=GetMessage('IPOLSDEK_IMPORT_LBL_START')?>' onclick='IPOLSDEK_cityImport.start()'>&nbsp;&nbsp;
+<input id='IPOLSDEK_importStart' type='button' value='<?=GetMessage('IPOLSDEK_IMPORT_LBL_START')?>' onclick='IPOLSDEK_cityImport.start()'><br><br><br>
 <input id='IPOLSDEK_killWnd' type='button' value='<?=GetMessage('IPOLSDEK_IMPORT_LBL_KILL')?>' onclick='IPOLSDEK_cityImport.kill()'>
 </td></tr>

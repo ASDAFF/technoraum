@@ -211,6 +211,20 @@
 			});
 		},
 
+		shtrih: function(oId,mode){
+			IPOLSDEK_setups.ajax({
+				data: {isdek_action : 'printOrderShtrih',oId : oId,mode : mode},
+				dataType: 'json',
+				success: function(data){
+					if(data.result == 'ok')
+						for(var i in data.files)
+							window.open('/upload/<?=$module_id?>/'+data.files[i]);
+					else
+						alert(data.error);
+				}
+			});
+		},
+
 		checkState: function(dispNumber){
 			IPOLSDEK_setups.ajax({
 				data: {isdek_action : 'getOrderState',DispatchNumber : dispNumber},

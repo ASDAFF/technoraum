@@ -76,7 +76,11 @@ $arAllOptions = array(
 	),
 	"print" => Array(
 		array("prntActOrdr",GetMessage("IPOLSDEK_OPT_prntActOrdr"),"O",array("selectbox"),array("O" => GetMessage('IPOLSDEK_OTHR_ACTSORDRS'),"A" => GetMessage('IPOLSDEK_OTHR_ACTSONLY'))),
-		array("numberOfPrints",GetMessage("IPOLSDEK_OPT_numberOfPrints"),"2",array("text",2)),
+		array("numberOfPrints",GetMessage("IPOLSDEK_OPT_numberOfPrints"),"2",array("text",1)),
+	),
+	"printShtr" => array(
+		array("numberOfStrihs",GetMessage("IPOLSDEK_OPT_numberOfShtrihs"),"1",array("text",1)),
+		array("formatOfShtrihs",GetMessage("IPOLSDEK_OPT_formatOfShtrihs"),"A4",array("selectbox"),array('A4'=>'A4','A5'=>'A5','A6'=>'A6')),
 	),
 	"dimensionsDef" => array(//�������� ������� (���������)
 		Array("lengthD", GetMessage("IPOLSDEK_OPT_lengthD"), '400', Array("text")),
@@ -84,6 +88,10 @@ $arAllOptions = array(
 		Array("heightD", GetMessage("IPOLSDEK_OPT_heightD"), '200', Array("text")),
 		Array("weightD", GetMessage("IPOLSDEK_OPT_weightD"), '1000', Array("text")),
 		Array("defMode", GetMessage("IPOLSDEK_OPT_defMode"), 'O', array("selectbox"), array('O'=>GetMessage("IPOLSDEK_LABEL_forOrder"),'G'=>GetMessage("IPOLSDEK_LABEL_forGood")))
+	),
+	"commonRequest" => array(//���
+		Array("deliveryAsPosition", GetMessage("IPOLSDEK_OPT_deliveryAsPosition"), 'N', Array("checkbox")),
+		Array("normalizePhone", GetMessage("IPOLSDEK_OPT_normalizePhone"), 'N', Array("checkbox")),
 	),
 	"NDS" => array(//���
 		Array("NDSUseCatalog", GetMessage("IPOLSDEK_OPT_NDSUseCatalog"), 'N', Array("checkbox")),
@@ -116,6 +124,7 @@ $arAllOptions = array(
 	"itemProps" => Array(//�������� ������ ������ �����
 		Array("articul", GetMessage("IPOLSDEK_OPT_articul"), 'ARTNUMBER', Array("text")),
 		Array("getParentArticul", GetMessage("IPOLSDEK_OPT_getParentArticul"), 'Y', Array("checkbox")),
+		Array("addMeasureName", GetMessage("IPOLSDEK_OPT_addMeasureName"), 'Y', Array("checkbox")),
 		Array("noVats", GetMessage("IPOLSDEK_OPT_noVats"), 'N', Array("checkbox")),
 	),
 	"vidjet" => array(
@@ -124,14 +133,20 @@ $arAllOptions = array(
 		array("buttonName",GetMessage("IPOLSDEK_OPT_buttonName"),"",array("text")),
 		array("autoSelOne",GetMessage("IPOLSDEK_OPT_autoSelOne"),"",array("checkbox")),
 		array("mindVWeight",GetMessage("IPOLSDEK_OPT_mindVWeight"),"Y",array("checkbox")),
+		array("widjetVersion",GetMessage("IPOLSDEK_OPT_widjetVersion"),"ipol.sdekPickup",array("type")),
+		array("noYmaps",GetMessage("IPOLSDEK_OPT_noYmaps"),"N",array("checkbox")),
 	),
 	"basket" => array(
 		array("noPVZnoOrder",GetMessage("IPOLSDEK_OPT_noPVZnoOrder"),"N",array("checkbox")),
 		array("hideNal",GetMessage("IPOLSDEK_OPT_hideNal"),"Y",array("checkbox")),
 		array("hideNOC",GetMessage("IPOLSDEK_OPT_hideNOC"),"Y",array("checkbox")),
 		array("cntExpress",GetMessage("IPOLSDEK_OPT_cntExpress"),"500",array("text")),
+	),
+	"delivery" => array(
 		array("mindEnsure",GetMessage("IPOLSDEK_OPT_mindEnsure"),"N",array("checkbox")),
 		array("ensureProc",GetMessage("IPOLSDEK_OPT_ensureProc"),"1.5",array("text")),
+		array("mindNDSEnsure",GetMessage("IPOLSDEK_OPT_mindNDSEnsure"),"Y",array("checkbox")),
+		array("forceRoundDelivery",GetMessage("IPOLSDEK_OPT_forceRoundDelivery"),"N",array("checkbox")),
 	),
 	"addingService" => array(
 		array("addingService",GetMessage("IPOLSDEK_OPT_addingService"),"",array("text")),
@@ -146,6 +161,7 @@ $arAllOptions = array(
 		array("statCync",GetMessage("IPOLSDEK_OPT_statCync"),'0',array("text")),//���� ���������� ������ �������� �������
 		array("dostTimeout",GetMessage("IPOLSDEK_OPT_dostTimeout"),'6',array("text")),//������� ������� ��������
 		array("timeoutRollback",GetMessage("IPOLSDEK_OPT_timeoutRollback"),'15',array("text")),//������� ������� ��������
+		array("autoAddCities",GetMessage("IPOLSDEK_OPT_autoAddCities"),'N',array("checkbox")),//������� ������� ��������
 	),
 	"warhouses" => array(
 		array("warhouses",GetMessage("IPOLSDEK_OPT_warhouses"),false,array('checkbox')),
@@ -175,7 +191,7 @@ if($converted){
 }
 
 if($isLogged){
-	$import = (COption::GetOptionString($module_id,'importMode','N') === 'Y');
+	$import = (COption::GetOptionString($module_id,'importMode','N') == 'Y');
 	$autoloads = (COption::GetOptionString($module_id,'autoloads','N' ) === 'Y'); // AUTO
 
 	$aTabs = array(
@@ -210,16 +226,16 @@ if($REQUEST_METHOD=="POST" && strlen($Update.$Apply.$RestoreDefaults)>0 && check
 		// blockPVZ
 		if($_REQUEST['noPVZnoOrder'] == 'Y' && COption::GetOptionString($module_id,'noPVZnoOrder','N') == 'N'){
 			if($converted){
-				RegisterModuleDependences("sale", "OnSaleOrderBeforeSaved", $module_id, "CDeliverySDEK", "noPVZNewTemplate");
-				RegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", $module_id, "CDeliverySDEK", "noPVZOldTemplate");
+				RegisterModuleDependences("sale", "OnSaleOrderBeforeSaved", $module_id, "Ipolh\Pony\subscribeHandler", "noPVZNewTemplate");
+				RegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", $module_id, "Ipolh\Pony\subscribeHandler", "noPVZOldTemplate");
 			}else
-				RegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", $module_id, "CDeliverySDEK", "noPVZOldTemplate");
+				RegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", $module_id, "Ipolh\Pony\subscribeHandler", "noPVZOldTemplate");
 		}elseif((!array_key_exists('noPVZnoOrder',$_REQUEST) || $_REQUEST['noPVZnoOrder'] == 'N') && COption::GetOptionString($module_id,'noPVZnoOrder','N') == 'Y'){
 			if($converted){
-				UnRegisterModuleDependences("sale", "OnSaleOrderBeforeSaved", $module_id, "CDeliverySDEK", "noPVZNewTemplate");
-				UnRegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", $module_id, "CDeliverySDEK", "noPVZOldTemplate");
+				UnRegisterModuleDependences("sale", "OnSaleOrderBeforeSaved", $module_id, "Ipolh\Pony\subscribeHandler", "noPVZNewTemplate");
+				UnRegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", $module_id, "Ipolh\Pony\subscribeHandler", "noPVZOldTemplate");
 			}else
-				UnRegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", $module_id, "CDeliverySDEK", "noPVZOldTemplate");
+				UnRegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", $module_id, "Ipolh\Pony\subscribeHandler", "noPVZOldTemplate");
 		}
 		
 		foreach($_REQUEST['addDeparture'] as $key => $place)
@@ -230,8 +246,15 @@ if($REQUEST_METHOD=="POST" && strlen($Update.$Apply.$RestoreDefaults)>0 && check
 		$_REQUEST['dostTimeout']  = (floatval($_REQUEST['dostTimeout']) > 0) ? $_REQUEST['dostTimeout']  : 6;
 		$_REQUEST['cntExpress']   = (floatval($_REQUEST['cntExpress']) > 0) ? $_REQUEST['cntExpress']  : 0;
 		setSenders();
+		$_REQUEST['ensureProc']   = floatval(str_replace(array(',',' '),array('.',''),$_REQUEST['ensureProc']));
+		
 		$_REQUEST['countries']    = json_encode(sdekOption::zajsonit($_REQUEST['countries']));
-		$_REQUEST['ensureProc']    = floatval(str_replace(array(',',' '),array('.',''),$_REQUEST['ensureProc']));
+		if(
+			$_REQUEST['countries'] !== COption::GetOptionString($module_id,'countries',false) &&
+			file_exists($_SERVER['DOCUMENT_ROOT'].'/bitrix/js/'.$module_id.'/tmpExport.txt')
+		){
+			unlink($_SERVER['DOCUMENT_ROOT'].'/bitrix/js/'.$module_id.'/tmpExport.txt');
+		}
 
 		$arNumReq = array('numberOfPrints','termInc','lengthD','widthD','heightD','weightD');
 		foreach($arNumReq as $key){
@@ -253,25 +276,28 @@ if($REQUEST_METHOD=="POST" && strlen($Update.$Apply.$RestoreDefaults)>0 && check
 }
 
 function setSenders(){
+	$arSenders = array();
 	if(array_key_exists('senders',$_REQUEST))
 		foreach($_REQUEST['senders'] as $key => $sender){
 			if(
-				!$sender["senderName"]    ||
-				!$sender["courierCity"]   ||
-				!$sender["courierStreet"] ||
-				!$sender["courierHouse"]  ||
-				!$sender["courierFlat"]   ||
-				!$sender["courierPhone"]  ||
-				!$sender["courierName"]
-			)
-				unset($_REQUEST['senders'][$key]);
-			else
+				$sender["senderName"]    &&
+				$sender["courierCity"]   &&
+				$sender["courierStreet"] &&
+				$sender["courierHouse"]  &&
+				$sender["courierFlat"]   &&
+				$sender["courierPhone"]  &&
+				$sender["courierName"]
+			){
+				$arSenders[$key] = array();
 				foreach($sender as $k => $v)
-					$_REQUEST['senders'][$key][$k] = str_replace("'",'"',$v);
+					$arSenders[$key][$k] = str_replace("'",'"',$v);
+			}
 		}
 	else
-		$_REQUEST['senders'] = false;
+		$arSenders = false;
 	sdekOption::senders($_REQUEST['senders']);
+	if($arSenders !== false)
+		unset($_REQUEST['senders']);
 }
 
 function ShowParamsHTMLByArray($arParams){
@@ -323,6 +349,9 @@ function ShowParamsHTMLByArray($arParams){
 					else
 						echo "<div><input type='text' class='IPOLSDEK_{$Option[0]}'><input type='hidden' name='{$Option[0]}[$index]' name='{$Option[0]}[]'></div>";
 					echo "</div><br><input type='button' onclick='IPOLSDEK_setups.base.depature.add()' value='".GetMessage("IPOLSDEK_LABEL_".$Option[0])."'></td>";
+				break;
+				case 'widjetVersion':
+					echo "<td colspan='2'><input type='hidden' value='ipol.sdekPickup' id='widjetVersion' name='widjetVersion'></td>";
 				break;
 				default: __AdmSettingsDrawRow($module_id, $Option); break;
 			}

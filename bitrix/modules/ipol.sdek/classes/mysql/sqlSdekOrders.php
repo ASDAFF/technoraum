@@ -28,6 +28,7 @@ class sqlSdekOrders
 		$rec = self::CheckRecord($Data['ORDER_ID'],$Data['SOURCE']);
 		if($rec)
 		{
+			$err_mess = "";
 			$strUpdate = $DB->PrepareUpdate(self::$tableName, $Data);
 			$strSql = "UPDATE ".self::$tableName." SET ".$strUpdate." WHERE ID=".$rec['ID'];
 			$DB->Query($strSql, false, $err_mess.__LINE__);
@@ -93,6 +94,7 @@ class sqlSdekOrders
 			$strSql.="
 			ORDER BY ".$arOrder[0]." ".$arOrder[1];
 		
+		$err_mess = "";
 		$cnt=$DB->Query("SELECT COUNT(*) as C FROM ".self::$tableName." ".$strSql, false, $err_mess.__LINE__)->Fetch();
 		
 		if($arNavStartParams['nPageSize']==0)

@@ -1,7 +1,7 @@
 create table if not exists ipol_sdekcities
 (
 	ID int(5) NOT NULL auto_increment,
-	BITRIX_ID int(5),
+	BITRIX_ID varchar(7),
 	SDEK_ID int(5),
 	NAME varchar(50),
 	REGION varchar(20),

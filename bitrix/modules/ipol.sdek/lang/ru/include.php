@@ -7,6 +7,8 @@ $MESS ['IPOLSDEK_LANG_CH_B'] = 'Ч';
 $MESS ['IPOLSDEK_LANG_YA_S'] = 'я';
 $MESS ['IPOLSDEK_LANG_YA_B'] = 'Я';
 
+$MESS ['IPOLSDEK_LBL_DELIVERY'] = 'Доставка';
+
 $MESS ['IPOLSDEK_STT_order'] = "Заказ";
 $MESS ['IPOLSDEK_STT_shipment'] = "Отправление";
 

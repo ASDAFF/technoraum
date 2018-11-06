@@ -20,12 +20,13 @@ class CalculatePriceDeliverySdek {
 	private $receiverCityId;
 	private $tariffId;
 	private $modeId;
-	public $goodsList;
-	public $tariffList;
+	public  $goodsList;
+	public  $tariffList;
 	private $result;
     private $error;
-	public $dateExecute;
+	public  $dateExecute;
 	private $timeOut;
+	private $services;
 
 	public function __construct(){
 	     $this->dateExecute = date('Y-m-d');
@@ -70,6 +71,12 @@ class CalculatePriceDeliverySdek {
 		if(!in_array($id,array(1,2,3,4)))
 			throw new Exception(GetMessage("IPOLSDEK_CALCEXC_WRONGDELIVTR"));
 		$this->modeId = $id;
+	}
+	
+	public function setServices($arServices) {
+		if(!is_array($arServices))
+			throw new Exception("WRONG SERVICES");
+		$this->services = $arServices;
 	}
 
 	public function addGoodsItemBySize($weight, $length, $width, $height) {
@@ -168,6 +175,8 @@ class CalculatePriceDeliverySdek {
 		isset($this->tariffId)       ? $data['tariffId']       = $this->tariffId                 : '';
 		isset($this->tariffList)     ? $data['tariffList']     = $this->tariffList               : '';
 		isset($this->modeId)         ? $data['modeId']         = $this->modeId                   : '';
+		isset($this->services)		 ? $data['services']	   = $this->services				 : '';
+		
 		isset($this->timeOut) ? '' : $this->timeOut = 6;
 
 		if(isset($this->goodsList)){
@@ -192,15 +201,13 @@ class CalculatePriceDeliverySdek {
         }elseif(isset($response['noanswer']) && !empty($response['noanswer'])){
 			$this->result = 'noanswer';
 			return false;
+		}elseif(empty($response)){
+			$this->result = 'badanswer';
+			return false;
 		}else{
             $this->error = $response;
             return false;
         }
-        
-		//return (isset($response['result']) && (!empty($response['result']))) ? true : false;
-		//���������
-		//$result = ($this->getResponse());
-		//return $result;
 	}
 
 	public function getResult(){

@@ -279,6 +279,7 @@
 		},
 
 		suncProceed: function(data){
+console.log('suncProceed',data);
 			if(!arguments.length)
 				var data = {text:false,result:false};
 

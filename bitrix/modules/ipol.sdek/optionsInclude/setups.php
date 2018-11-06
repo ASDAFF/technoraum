@@ -422,6 +422,11 @@ $paySysHtml.="</select>";
 				});
 			}
 		},
+		
+		subSyncList: function(){
+			$('#IPOLSDEK_subsyncer').attr('disabled','disabled');
+			IPOLSDEK_setups.base.syncList();
+		},
 
 		syncList: function(params){
 			var dataObj = {text:false,status:false};
@@ -438,7 +443,7 @@ $paySysHtml.="</select>";
 
 			if(dataObj.text){
 				if($('#IPOLSDEK_syncInfo').length == 0)
-					$("[onclick='IPOLSDEK_setups.base.syncList()']").after('<br><span id="IPOLSDEK_syncInfo"></span>');
+					$('#IPOLSDEK_sT_sunc').after('<br><span id="IPOLSDEK_syncInfo"></span>');
 				$('#IPOLSDEK_syncInfo').html(dataObj.text);
 				if(dataObj.status == 'error')
 					$('#IPOLSDEK_syncInfo').css('color','red');
@@ -456,6 +461,8 @@ $paySysHtml.="</select>";
 					alert(dataObj.text);
 					IPOLSDEK_setups.cities.controlSunc(true);
 					IPOLSDEK_setups.reload();
+				} else{
+					alert(dataObj.text);
 				}
 		},
 
@@ -473,7 +480,7 @@ $paySysHtml.="</select>";
 		importCities: function(){
 			$('#IPOLSDEK_IMPORTCITIES').attr('disabled','disabled');
 			IPOLSDEK_setups.ajax({
-				data: {'isdek_action':'setImport'},
+				data: {'isdek_action':'setImport','mode':'Y'},
 				success: IPOLSDEK_setups.reload
 			});
 		},
@@ -506,16 +513,19 @@ $paySysHtml.="</select>";
 		},
 
 		onEnsChange: function(){
-			if($('[name="mindEnsure"]').attr('checked'))
+			if($('[name="mindEnsure"]').attr('checked')){
 				$('[name="ensureProc"]').closest('tr').css('display','');
-			else
+				$('[name="mindNDSEnsure"]').closest('tr').css('display','');
+			}else{
 				$('[name="ensureProc"]').closest('tr').css('display','none');
+				$('[name="mindNDSEnsure"]').closest('tr').css('display','none');
+			}
 		}
 	};
 </script>
 
 <?
-foreach(array("depature","showInOrders","realSeller","addDeparture","shipments","prntActOrdr","numberOfPrints","NDSUseCatalog","address","pvzPicker","noPVZnoOrder","hideNal","hideNOC","autoSelOne","profilesMode","cntExpress","mindEnsure","AS","noVats","statusSTORE","statusTRANZT","statusCORIER","tarifs","warhouses","dostTimeout","timeoutRollback","TURNOFF","TARSHOW") as $code)
+foreach(array("depature","showInOrders","realSeller","addDeparture","shipments","prntActOrdr","numberOfPrints","numberOfShtrihs","deliveryAsPosition","normalizePhone","NDSUseCatalog","address","pvzPicker","noPVZnoOrder","hideNal","hideNOC","autoSelOne","noYmaps","profilesMode","cntExpress","mindEnsure","forceRoundDelivery","AS","noVats","addMeasureName","statusSTORE","statusTRANZT","statusCORIER","tarifs","warhouses","dostTimeout","timeoutRollback","TURNOFF","TARSHOW","autoAddCities") as $code)
 	sdekOption::placeHint($code);
 
 $deadServerCheck = COption::GetOptionString($module_id,'sdekDeadServer',false);
@@ -533,76 +543,41 @@ if($deadServerCheck && (mktime() - $deadServerCheck) < (COption::GetOptionString
 	</td></tr>
 <?}
 
+if(!file_exists($_SERVER["DOCUMENT_ROOT"]."/bitrix/js/".$module_id."/list.php")){
+	Ipolh\SDEK\Bitrix\Tools::placeErrorLabel(GetMessage('IPOLSDEK_NOLIST_ERR_TITLE'),GetMessage('IPOLSDEK_NOLIST_ERR_HEADER'));
+}
+
 if(file_exists($_SERVER["DOCUMENT_ROOT"]."/bitrix/js/".$module_id."/errorLog.txt")){
 	$errorStr=file_get_contents($_SERVER["DOCUMENT_ROOT"]."/bitrix/js/".$module_id."/errorLog.txt");
-	if(strlen($errorStr)>0){?>
-		<tr><td colspan='2'>
-			<div class="adm-info-message-wrap adm-info-message-red">
-			  <div class="adm-info-message">
-				<div class="adm-info-message-title"><?=GetMessage('IPOLSDEK_FNDD_ERR_HEADER')?></div>
-					<?=GetMessage('IPOLSDEK_FNDD_ERR_TITLE')?>
-				<div class="adm-info-message-icon"></div>
-			  </div>
-			</div>
-		</td></tr>
-	<?}
+	if(strlen($errorStr)>0){
+		Ipolh\SDEK\Bitrix\Tools::placeErrorLabel(GetMessage('IPOLSDEK_FNDD_ERR_TITLE'),GetMessage('IPOLSDEK_FNDD_ERR_HEADER'));
+	}
 }
+
 if(file_exists($_SERVER["DOCUMENT_ROOT"]."/bitrix/js/".$module_id."/hint.txt")){
 	$updateStr=file_get_contents($_SERVER["DOCUMENT_ROOT"]."/bitrix/js/".$module_id."/hint.txt");
-	if(strlen($updateStr)>0){?>
-		<tr id='IPOLSDEK_updtPlc'><td colspan='2'>
-			<div class="adm-info-message-wrap">
-				<div class="adm-info-message" style='color: #000000'>
-					<div class='IPOLSDEK_clz' onclick='IPOLSDEK_setups.base.clrUpdt()'></div>
-					<?=$updateStr?>
-				</div>
-			</div>
-		</td></tr>
-	<?}
+	if(strlen($updateStr)>0){
+		Ipolh\SDEK\Bitrix\Tools::placeWarningLabel($updateStr,"<div class='IPOLSDEK_clz' onclick='IPOLSDEK_setups.base.clrUpdt()'></div>",300);
+	}
 }
 
 $dost = sdekdriver::getDelivery(true);
 if($dost){
-	if($dost['ACTIVE'] != 'Y'){?>
-	<tr><td colspan='2'>
-		<div class="adm-info-message-wrap adm-info-message-red">
-		  <div class="adm-info-message">
-			<div class="adm-info-message-title"><?=GetMessage('IPOLSDEK_NO_ADOST_HEADER')?></div>
-				<?=GetMessage('IPOLSDEK_NO_ADOST_TITLE')?>
-			<div class="adm-info-message-icon"></div>
-		  </div>
-		</div>
-	</td></tr>
-	<?}
-}else{?>
-	<tr><td colspan='2'>
-		<div class="adm-info-message-wrap adm-info-message-red">
-		  <div class="adm-info-message">
-			<?if($converted){?>
-				<div class="adm-info-message-title"><?=GetMessage('IPOLSDEK_NOT_CRTD_HEADER')?></div>
-					<?=GetMessage('IPOLSDEK_NOT_CRTD_TITLE')?>				
-			<?}else{?>
-				<div class="adm-info-message-title"><?=GetMessage('IPOLSDEK_NO_DOST_HEADER')?></div>
-					<?=GetMessage('IPOLSDEK_NO_DOST_TITLE')?>
-			<?}?>
-			<div class="adm-info-message-icon"></div>
-		  </div>
-		</div>
-	</td></tr>
-<?}
+	if($dost['ACTIVE'] != 'Y'){
+		Ipolh\SDEK\Bitrix\Tools::placeErrorLabel(GetMessage('IPOLSDEK_NO_ADOST_TITLE'),GetMessage('IPOLSDEK_NO_ADOST_HEADER'));
+	}
+}else{
+	if($converted){
+		Ipolh\SDEK\Bitrix\Tools::placeErrorLabel(GetMessage('IPOLSDEK_NOT_CRTD_TITLE'),GetMessage('IPOLSDEK_NOT_CRTD_HEADER'));
+	} else {
+		Ipolh\SDEK\Bitrix\Tools::placeErrorLabel(GetMessage('IPOLSDEK_NO_DOST_TITLE'),GetMessage('IPOLSDEK_NO_DOST_HEADER'));
+	}
+}
 
 foreach(sdekExport::getAllProfiles() as $profile)
-	if(!sdekHelper::checkTarifAvail($profile)){?>
-		<tr><td colspan='2'>
-			<div class="adm-info-message-wrap adm-info-message-red">
-			  <div class="adm-info-message">
-				<div class="adm-info-message-title"><?=GetMessage("IPOLSDEK_NO_PROFILE_HEADER_$profile")?></div>
-					<?=GetMessage('IPOLSDEK_NO_PROFILE_TITLE')?>
-				<div class="adm-info-message-icon"></div>
-			  </div>
-			</div>
-		</td></tr>
-	<?}
+	if(!sdekHelper::checkTarifAvail($profile)){
+		Ipolh\SDEK\Bitrix\Tools::placeErrorLabel(GetMessage('IPOLSDEK_NO_PROFILE_TITLE'),GetMessage("IPOLSDEK_NO_PROFILE_HEADER_$profile"));
+	}
 ?>
 
 <tr>
@@ -627,6 +602,10 @@ foreach(sdekExport::getAllProfiles() as $profile)
 	<?sdekOption::placeFAQ('PRINT')?>
 </td></tr>
 <?ShowParamsHTMLByArray($arAllOptions["print"]);?>
+<tr><td style="color:#555;" colspan="2">
+	<?sdekOption::placeFAQ('PRINTSHTR')?>
+</td></tr>
+<?ShowParamsHTMLByArray($arAllOptions["printShtr"]);?>
 
 <?//Габариты товаров по умолчанию?>
 <tr class="heading"><td colspan="2" valign="top" align="center"><?=GetMessage('IPOLSDEK_HDR_MEASUREMENT_DEF')?></td></tr>
@@ -637,6 +616,7 @@ foreach(sdekExport::getAllProfiles() as $profile)
 
 <?//Свойства заявки?>
 <tr class="heading"><td colspan="2" valign="top" align="center"><?=GetMessage('IPOLSDEK_HDR_requestProps')?></td></tr>
+<?ShowParamsHTMLByArray($arAllOptions["commonRequest"]);?>
     <?// Свойства заказа?>
 <tr class="subHeading"><td colspan="2" valign="top" align="center"><?=GetMessage('IPOLSDEK_HDR_orderProps')?></td></tr>
 <tr><td style="color:#555;" colspan="2">
@@ -679,6 +659,7 @@ foreach(sdekExport::getAllProfiles() as $profile)
 
 <?// Доставки?>
 <tr class="heading"><td colspan="2" valign="top" align="center"><?=GetMessage("IPOLSDEK_HDR_delivery")?></td></tr>
+<?ShowParamsHTMLByArray($arAllOptions["delivery"]);?>
 <tr><td colspan="2"><?=GetMessage("IPOLSDEK_FAQ_DELIVERY")?></td></tr>
 
 <?//Платежные системы?>
@@ -851,6 +832,12 @@ foreach(sdekExport::getAllProfiles() as $profile)
 			if(floatval($optVal)<=0) $optVal=15;
 		?>
 		<input type='text' value='<?=$optVal?>' name='timeoutRollback' size="1"/>
+	</td>
+</tr>
+<tr style='display:none' class='IPOLSDEK_service'>
+	<td><?=GetMessage('IPOLSDEK_OPT_autoAddCities')?></td>
+	<td>
+		<input type='checkbox' value='Y' name='autoAddCities' <?=(COption::GetOptionString($module_id,'autoAddCities','Y') === 'Y') ? 'checked' : ''?>/>
 	</td>
 </tr>
 <tr style='display:none' class='IPOLSDEK_service'><td colspan='2' style='text-align:center'>

@@ -23,18 +23,8 @@
 				$lastCheck = sqlSdekLogs::Check($params['login']);
 				COption::SetOptionString(self::$MODULE_ID,'logged',$lastCheck);
 				if($lastCheck){
-					RegisterModuleDependences("main", "OnEpilog", self::$MODULE_ID, "sdekdriver", "onEpilog");
-					RegisterModuleDependences("main", "OnEndBufferContent", self::$MODULE_ID, "CDeliverySDEK", "onBufferContent");
-					RegisterModuleDependences("sale", "OnSaleComponentOrderOneStepDelivery", self::$MODULE_ID, "CDeliverySDEK", "pickupLoader",900);
-					RegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", self::$MODULE_ID, "CDeliverySDEK", "loadComponent",900);
-					RegisterModuleDependences("sale", "OnSaleComponentOrderOneStepComplete", self::$MODULE_ID, "sdekdriver", "orderCreate"); // создание заказа
-					RegisterModuleDependences("sale", "OnSaleComponentOrderOneStepPaySystem", self::$MODULE_ID, "CDeliverySDEK", "checkNalD2P"); // проверка платежных систем
-					RegisterModuleDependences("sale", "OnSaleComponentOrderOneStepDelivery", self::$MODULE_ID, "CDeliverySDEK", "checkNalP2D"); // проверка платежных систем
-					RegisterModuleDependences("sale", "OnSaleComponentOrderShowAjaxAnswer", self::$MODULE_ID, "CDeliverySDEK", "onAjaxAnswer");
-
-					// печать
-					RegisterModuleDependences("main", "OnAdminListDisplay", self::$MODULE_ID, "sdekOption", "displayActPrint");
-					RegisterModuleDependences("main", "OnBeforeProlog", self::$MODULE_ID, "sdekOption", "OnBeforePrologHandler");
+					$isPVZ = (COption::GetOptionString(self::$MODULE_ID,'noPVZnoOrder','N') == 'Y');
+					Ipolh\SDEK\subscribeHandler::register($isPVZ);
 
 					CAgent::AddAgent("sdekOption::agentUpdateList();", self::$MODULE_ID);//обновление листов
 					CAgent::AddAgent("sdekOption::agentOrderStates();",self::$MODULE_ID,"N",1800);//обновление статусов заказов
@@ -60,19 +50,7 @@
 			COption::SetOptionString(self::$MODULE_ID,'logged',false);
 			sqlSdekLogs::clear();
 			CAgent::RemoveModuleAgents(self::$MODULE_ID);
-			UnRegisterModuleDependences("main", "OnEpilog", self::$MODULE_ID, "sdekdriver", "onEpilog");
-			UnRegisterModuleDependences("main", "OnEndBufferContent", self::$MODULE_ID, "CDeliverySDEK", "onBufferContent");
-			UnRegisterModuleDependences("sale", "OnSaleComponentOrderOneStepDelivery", self::$MODULE_ID, "CDeliverySDEK", "pickupLoader");
-			UnRegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", self::$MODULE_ID, "CDeliverySDEK", "loadComponent");
-			UnRegisterModuleDependences("sale", "OnSaleOrderBeforeSaved", self::$MODULE_ID, "CDeliverySDEK", "noPVZNotConverted");
-			UnRegisterModuleDependences("sale", "OnSaleOrderBeforeSaved", self::$MODULE_ID, "CDeliverySDEK", "noPVZConverted");
-
-			UnRegisterModuleDependences("main", "OnAdminListDisplay", self::$MODULE_ID, "sdekOption", "displayActPrint");
-			UnRegisterModuleDependences("main", "OnBeforeProlog", self::$MODULE_ID, "sdekOption", "OnBeforePrologHandler");
-
-			UnRegisterModuleDependences("sale", "OnSaleComponentOrderOneStepComplete", self::$MODULE_ID, "sdekdriver", "orderCreate");
-			UnRegisterModuleDependences("sale", "OnSaleComponentOrderOneStepPaySystem", self::$MODULE_ID, "CDeliverySDEK", "checkNalD2P");
-			UnRegisterModuleDependences("sale", "OnSaleComponentOrderOneStepDelivery", self::$MODULE_ID, "CDeliverySDEK", "checkNalP2D");
+			Ipolh\SDEK\subscribeHandler::unRegister();
 		}
 
 		static function authConsolidation(){
@@ -296,6 +274,7 @@
 							'link'    => '/bitrix/admin/sale_order_shipment_edit.php?order_id='.$oId.'&shipment_id='.$request['ORDER_ID'].'&lang=ru',
 							'delete'  => 'IPOLSDEK_setups.table.delReq('.$request['ORDER_ID'].',\\\'shipment\\\');',
 							'print'   => 'IPOLSDEK_setups.table.print('.$request['ORDER_ID'].',\\\'shipment\\\')',
+							'shtrih'  => 'IPOLSDEK_setups.table.shtrih('.$request['ORDER_ID'].',\\\'shipment\\\')',
 							'destroy' => 'IPOLSDEK_setups.table.killReq('.$request['ORDER_ID'].',\\\'shipment\\\')',
 						);
 					}else
@@ -303,6 +282,7 @@
 							'link'    => '/bitrix/admin/sale_order_view.php?ID='.$request['ORDER_ID'].'&lang=ru',
 							'delete'  => 'IPOLSDEK_setups.table.delReq('.$request['ORDER_ID'].',\\\'order\\\');',
 							'print'   => 'IPOLSDEK_setups.table.print('.$request['ORDER_ID'].',\\\'order\\\')',
+							'shtrih'  => 'IPOLSDEK_setups.table.shtrih('.$request['ORDER_ID'].',\\\'order\\\')',
 							'destroy' => 'IPOLSDEK_setups.table.killReq('.$request['ORDER_ID'].',\\\'order\\\')',
 						);
 				}else
@@ -310,6 +290,7 @@
 						'link'    => 'sale_order_detail.php?ID='.$request['ORDER_ID'].'&lang=ru',
 						'delete'  => 'IPOLSDEK_setups.table.delReq('.$request['ORDER_ID'].',\\\'order\\\');',
 						'print'   => 'IPOLSDEK_setups.table.print('.$request['ORDER_ID'].',\\\'order\\\')',
+						'shtrih'  => 'IPOLSDEK_setups.table.shtrih('.$request['ORDER_ID'].',\\\'order\\\')',
 						'destroy' => 'IPOLSDEK_setups.table.killReq('.$request['ORDER_ID'].',\\\'order\\\')',
 					);
 
@@ -322,6 +303,7 @@
 					$contMenu.=',{\'GLOBAL_ICON\':\'adm-menu-move\',\'TEXT\':\''.GetMessage('IPOLSDEK_JSC_SOD_CHECK').'\',\'ONCLICK\':\'IPOLSDEK_setups.table.checkState('.$request['SDEK_ID'].');\'}';
 				if($request['STATUS']=='OK'){
 					$contMenu.=',{\'TEXT\':\''.GetMessage('IPOLSDEK_JSC_SOD_PRNTSH').'\',\'ONCLICK\':\''.$arActions['print'].'\'}';
+					$contMenu.=',{\'TEXT\':\''.GetMessage('IPOLSDEK_JSC_SOD_SHTRIH').'\',\'ONCLICK\':\''.$arActions['shtrih'].'\'}';
 					$contMenu.=',{\'GLOBAL_ICON\':\'adm-menu-delete\',\'TEXT\':\''.GetMessage('IPOLSDEK_JSC_SOD_DESTROY').'\',\'ONCLICK\':\''.$arActions['destroy'].'\'}';
 				}
 				$contMenu.='])"><div class="adm-list-table-popup"></div></td>';
@@ -361,10 +343,24 @@
 
 		/*()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
 														Функции для печати
-			== getOrderInvoice ==  == killOldInvoices == == displayActPrint ==  == OnBeforePrologHandler ==
+			== getOrderInvoice ==  == getOrderShtrih ==  == getOrderPrint ==  == killOldInvoices == == displayActPrint ==  == OnBeforePrologHandler ==
 		()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()*/
+		
+		static function getOrderInvoice($orders){
+			if(!is_array($orders))
+				$orders = array('order' => $orders);
+			
+			return self::getOrderPrint($orders,'invoice');
+		}
+		
+		static function getOrderShtrih($orders){
+			if(!is_array($orders))
+				$orders = array('order' => $orders);
+			
+			return self::getOrderPrint($orders,'shtrih');
+		}
 
-		static function getOrderInvoice($orders){ // получаем квитанцию от сдека
+		static function getOrderPrint($orders,$type='invoice'){ // получаем квитанцию от сдека
 			self::killOldInvoices(); //удаляем старые квитанции
 			if(!$orders){
 				return array(
@@ -372,10 +368,15 @@
 					'error'  => 'No order id'
 				);
 			}
-			if(!is_array($orders))
-				$orders = array('order' => $orders);
+	
+			if(!in_array($type,array('shtrih','invoice'))){
+				return array(
+					'result' => 'error',
+					'error'  => 'Unknown print format: '.$type
+				);
+			}
 
-			$arAccInvoices = array();
+			$arAccPrints = array();
 			$defAccount = self::getBasicAuth(true);
 			$arMade = array();
 			foreach($orders as $mode => $IDs){
@@ -386,10 +387,10 @@
 				while($request=$requests->Fetch()){
 					if($request['SDEK_ID']){
 						$accId = ($request['ACCOUNT']) ? $request['ACCOUNT'] : $defAccount;
-						if(!array_key_exists($accId,$arAccInvoices))
-							$arAccInvoices[$accId] = array('XML' => '', 'cnt' => 0);
-						$arAccInvoices[$accId]['XML'] .= '<Order DispatchNumber="'.$request['SDEK_ID'].'"/>';
-						$arAccInvoices[$accId]['cnt']++;
+						if(!array_key_exists($accId,$arAccPrints))
+							$arAccPrints[$accId] = array('XML' => '', 'cnt' => 0);
+						$arAccPrints[$accId]['XML'] .= '<Order DispatchNumber="'.$request['SDEK_ID'].'"/>';
+						$arAccPrints[$accId]['cnt']++;
 						$arMade[$mode][]=$request['ORDER_ID'];
 					}
 				}
@@ -400,8 +401,15 @@
 					'error'  => 'No orders founded'
 				);
 			}
-			$copies = (int)COption::GetOptionString(self::$MODULE_ID,"numberOfPrints",2);
+			
+			$copies = ($type == 'shtrih') ? (int)COption::GetOptionString(self::$MODULE_ID,"numberOfStrihs",1) : (int)COption::GetOptionString(self::$MODULE_ID,"numberOfPrints",2);
 			if(!$copies) $copies = 1;
+			
+			$format = ($type == 'shtrih') ? 'PrintFormat="'.COption::GetOptionString(self::$MODULE_ID,"formatOfShtrihs",'A4').'"' : "";
+			
+			$method = ($type == 'shtrih') ? 'ordersPackagesPrint' : 'orders_print';
+			
+			$container = ($type == 'shtrih') ? 'OrdersPackagesPrint ' : 'OrdersPrint';
 
 			$arReturn = array(
 				'result' => '',
@@ -409,16 +417,17 @@
 				'files'  => array()
 			);
 
-			foreach($arAccInvoices as $accId => $data){
+			foreach($arAccPrints as $accId => $data){
 				$headers = self::getXMLHeaders($accId);
 				$request = '<?xml version="1.0" encoding="UTF-8" ?>
-	<OrdersPrint Date="'.$headers['date'].'" Account="'.$headers['account'].'" Secure="'.$headers['secure'].'"  OrderCount="'.$data['cnt'].'" CopyCount="'.$copies.'">'.$data['XML']."</OrdersPrint>";
-				$result = self::sendToSDEK($request,"orders_print");
+	<'.$container.' Date="'.$headers['date'].'" Account="'.$headers['account'].'" Secure="'.$headers['secure'].'"  OrderCount="'.$data['cnt'].'" CopyCount="'.$copies.'" '.$format.'>'.$data['XML']."</".$container.">";
+
+				$result = self::sendToSDEK($request,$method);
 
 				if(strpos($result['result'],'<')===0){
 					$answer = simplexml_load_string($result['result']);
 					$errAnswer = '';
-					foreach($answer->OrdersPrint as $print)
+					foreach($answer->$container as $print)
 						$errAnswer .= $print['Msg'].". ";
 					foreach($answer->Order as $print)
 						$errAnswer .= $print['Msg'].". ";
@@ -458,6 +467,7 @@
 			}
 			return $arReturn;
 		}
+
 		static function killOldInvoices(){ // удаляет старые файлы с инвойсами
 			$dirPath = $_SERVER['DOCUMENT_ROOT']."/upload/".self::$MODULE_ID."/";
 			if(file_exists($dirPath)){
@@ -470,16 +480,27 @@
 		}
 
 		static function displayActPrint(&$list){ // действие для печати актов
-			if (!empty($list->arActions))
+			if (!empty($list->arActions)){
 				CJSCore::Init(array('ipolSDEK_printOrderActs'));
-			if($GLOBALS['APPLICATION']->GetCurPage() == "/bitrix/admin/sale_order.php")
-				$list->arActions['ipolSDEK_printOrderActs'] = GetMessage("IPOLSDEK_SIGN_PRNTSDEK");
+				CJSCore::Init(array('ipolSDEK_printOrderShtrihs'));
+			}
+			if($GLOBALS['APPLICATION']->GetCurPage() == "/bitrix/admin/sale_order.php"){
+				$list->arActions['ipolSDEK_printOrderActs']    = GetMessage("IPOLSDEK_SIGN_PRNTSDEK");
+				$list->arActions['ipolSDEK_printOrderShtrihs'] = GetMessage("IPOLSDEK_SIGN_SHTRIHSDEK");
+			}
 		}
 
 		static function OnBeforePrologHandler(){ // нажатие на печать актов
-			if(!array_key_exists('action', $_REQUEST) || !array_key_exists('ID', $_REQUEST) || $_REQUEST['action'] != 'ipolSDEK_printOrderActs')
+			if(
+				!array_key_exists('action', $_REQUEST) || 
+				!array_key_exists('ID', $_REQUEST) || 
+				!in_array($_REQUEST['action'],array('ipolSDEK_printOrderActs','ipolSDEK_printOrderShtrihs'))
+			)
 				return;
-			$ifActs = (COption::GetOptionString(self::$MODULE_ID,'prntActOrdr','O') == 'A')?true:false; // другой способ печати документов, если true, печатаем только акт
+				
+			$mode = ($_REQUEST['action'] == 'ipolSDEK_printOrderActs') ? 'acts' : 'shtrihs';
+				
+			$ifActs = ( $mode=='acts' && COption::GetOptionString(self::$MODULE_ID,'prntActOrdr','O') == 'A')?true:false; // другой способ печати документов, если true, печатаем только акт
 
 			$unFounded  = array(); // не найденные (не отосланные) заказы
 			$arRequests = array(); // все заявки вида тип => массив id-шников
@@ -512,17 +533,19 @@
 			}
 			$badOrders = (count($unFounded)) ? implode(',',array_keys($unFounded)) : false;
 			if(!$ifActs){
-				$shtrihs = self::getOrderInvoice($arRequests);
+				$shtrihs   = ($mode == 'shtrihs') ? self::getOrderShtrih($arRequests) : self::getOrderInvoice($arRequests);
 				$badOrders .= ($shtrihs['errors']) ? '\n'.$shtrihs['errors'] : ''; // errors - расхождения, error - если коллапс
 			}
 			?>
 			<script type="text/javascript">
 				<?if(count($arRequests) && !$shtrihs['error']){
-					if(self::canShipment()){?>
-						window.open('/bitrix/js/<?=self::$MODULE_ID?>/printActs.php?orders=<?=implode(":",$arRequests['order'])?>&shipments=<?=implode(":",$arRequests['shipment'])?>','_blank');
-					<?}else{?>
-						window.open('/bitrix/js/<?=self::$MODULE_ID?>/printActs.php?ORDER_ID=<?=implode(":",$arRequests['order'])?>','_blank');
-					<?}
+					if($mode == 'acts'){
+						if(self::canShipment()){?>
+							window.open('/bitrix/js/<?=self::$MODULE_ID?>/printActs.php?orders=<?=implode(":",$arRequests['order'])?>&shipments=<?=implode(":",$arRequests['shipment'])?>','_blank');
+						<?}else{?>
+							window.open('/bitrix/js/<?=self::$MODULE_ID?>/printActs.php?ORDER_ID=<?=implode(":",$arRequests['order'])?>','_blank');
+						<?}
+					}
 					if(!$ifActs && $shtrihs['files']){
 						foreach($shtrihs['files'] as $file){?>
 							window.open('/upload/<?=self::$MODULE_ID?>/<?=$file?>','_blank');
@@ -589,7 +612,7 @@
 
 		static function getSDEKCity($city){
 			$cityId = self::getNormalCity($city);
-			$SDEKcity = sqlSdekCity::getByBId($cityId);
+			$SDEKcity = self::getSQLCityBI($cityId);
 			return $SDEKcity;
 		}
 
@@ -703,9 +726,17 @@
 							<tbody>';
 
 						foreach($arErrCities['many'] as $bitrixId => $arCities){
-							$bitrix = CSaleLocation::GetList(array(),array("ID"=>$bitrixId,"REGION_LID"=>LANGUAGE_ID,"CITY_LID"=>LANGUAGE_ID))->Fetch();
-						if(!$bitrix)
+							$bitrix = false;
+							if(self::isLocation20()){
+								$city   = sdekCityGetter::getCityChain($bitrixId);
+								if($city)
+									$bitrix = array('REGION_NAME' => $city['REGION'],'CITY_NAME' => $city['CITY']);
+							} else {
+								$bitrix = CSaleLocation::GetList(array(),array("ID"=>$bitrixId,"REGION_LID"=>LANGUAGE_ID,"CITY_LID"=>LANGUAGE_ID))->Fetch();
+							}
+							if(!$bitrix)
 								$bitrix = CSaleLocation::GetList(array(),array("ID"=>$bitrixId))->Fetch();
+							
 							$location = $bitrix['REGION_NAME'].", ".$bitrix['CITY_NAME']." (".$bitrixId.")";
 
 							echo '<tr class="adm-list-table-row"><td class="adm-list-table-cell">'.$location.'</td><td class="adm-list-table-cell">'.$arCities['takenLbl'].'</td><td class="adm-list-table-cell">';
@@ -777,6 +808,13 @@
 			echo json_encode(self::zajsonit($resPrint));
 		}
 
+		static function printOrderShtrih($params){ // печать штрихкода
+			if(!array_key_exists('mode',$params))
+				$params['mode'] = 'order';
+			$resPrint = self::getOrderShtrih(array($params['mode'] => $params['oId']));
+			echo json_encode(self::zajsonit($resPrint));
+		}
+
 		static function killReqOD($params,$mode=false){// удаление заявки из СДЕКа
 			if(!self::isAdmin()) return false;
 			$oid = (is_array($params)) ? $params['oid'] : $params;
@@ -836,6 +874,10 @@
 			if(!self::isAdmin()) return false;
 			$result = self::slaughterCities();
 			if($result == 'done'){
+				$tmpExportFile = $_SERVER['DOCUMENT_ROOT']."/bitrix/js/".self::$MODULE_ID."/tmpExport.txt";
+				if(file_exists($tmpExportFile)){
+					unlink($tmpExportFile);
+				}
 				$us=self::cityUpdater();
 				if($us['result']!='error')
 					$arResult = array(
@@ -916,40 +958,44 @@
 
 		static function getOrderStates(){//запрос статусов заказов
 			if(!cmodule::includemodule('sale')){self::errorLog(GetMessage("IPOLSDEK_ERRLOG_NOSALEOOS"));return false;}//без модуля sale делать нечего
+			
+			$bdOrders = sqlSdekOrders::select();
 
-			$dateFirst = date("Y-m-d",COption::GetOptionString(self::$MODULE_ID,'statCync',0));
+			if($bdOrders->Fetch()){
+				$dateFirst = date("Y-m-d",COption::GetOptionString(self::$MODULE_ID,'statCync',0));
 
-			$accounts = sqlSdekLogs::getAccountsList();
+				$accounts = sqlSdekLogs::getAccountsList();
 
-			foreach($accounts as $id => $acc){
-				$headers = self::getXMLHeaders($id);
+				foreach($accounts as $id => $acc){
+					$headers = self::getXMLHeaders($id);
 
-				$XML = '<?xml version="1.0" encoding="UTF-8" ?>
-	<StatusReport Date="'.$headers['date'].'" Account="'.$headers['account'].'" Secure="'.$headers['secure'].'">
-		<ChangePeriod DateFirst="'.$dateFirst.'" DateLast="'.date('Y-m-d').'"/>
-	</StatusReport>
-';
+					$XML = '<?xml version="1.0" encoding="UTF-8" ?>
+		<StatusReport Date="'.$headers['date'].'" Account="'.$headers['account'].'" Secure="'.$headers['secure'].'">
+			<ChangePeriod DateFirst="'.$dateFirst.'" DateLast="'.date('Y-m-d').'"/>
+		</StatusReport>
+	';
 
-				$result = self::sendToSDEK($XML,'status_report_h');
+					$result = self::sendToSDEK($XML,'status_report_h');
 
-				if($result['code'] != 200)
-					self::errorLog(GetMessage("IPOLSDEK_GOS_UNBLSND").GetMessage("IPOLSDEK_ERRORLOG_BADRESPOND").$result['code']);
-				else{
-					$xml = simplexml_load_string($result['result']);
+					if($result['code'] != 200)
+						self::errorLog(GetMessage("IPOLSDEK_GOS_UNBLSND").GetMessage("IPOLSDEK_ERRORLOG_BADRESPOND").$result['code']);
+					else{
+						$xml = simplexml_load_string($result['result']);
 
-					$arOrders = array();
-					foreach($xml->Order as $orderMess){
-						$arOrders[]=array(
-							'DispatchNumber' => (string)$orderMess['DispatchNumber'],
-							'State'			 => (int)$orderMess->Status['Code'],
-							'Number'		 => (int)$orderMess['Number'],
-							'Description'    => (string)$orderMess->Status['Description']
-						);
+						$arOrders = array();
+						foreach($xml->Order as $orderMess){
+							$arOrders[]=array(
+								'DispatchNumber' => (string)$orderMess['DispatchNumber'],
+								'State'			 => (int)$orderMess->Status['Code'],
+								'Number'		 => (int)$orderMess['Number'],
+								'Description'    => (string)$orderMess->Status['Description']
+							);
+						}
 					}
-				}
 
-				if(count($arOrders))
-					self::setOrderStates($arOrders);
+					if(count($arOrders))
+						self::setOrderStates($arOrders);
+				}
 			}
 
 			if(!self::$ERROR_REF)
@@ -1069,11 +1115,15 @@
 								if($order && $order['PAYED'] != 'Y'){
 									if(self::isConverted()){
 										$order = \Bitrix\Sale\Order::load($arOrder['ORDER_ID']); 
-										$paymentCollection = $order->getPaymentCollection(); 
-										foreach($paymentCollection as $payment)
-										if(!$payment->isPaid()){ 
-											$payment->setPaid("Y"); 
-											$order->save();   
+										if($order && is_object($order)){
+											$paymentCollection = $order->getPaymentCollection(); 
+											foreach($paymentCollection as $payment)
+											if(!$payment->isPaid()){ 
+												$payment->setPaid("Y"); 
+												$order->save();   
+											}
+										} else {
+											self::errorLog(GetMessage('IPOLSDEK_GOS_HASERROR').GetMessage('IPOLSDEK_GOS_CANTMARKPAYED').$arOrder['ORDER_ID'].". ");
 										}
 									}elseif(!CSaleOrder::PayOrder($arOrder['ORDER_ID'],"Y"))
 										self::errorLog(GetMessage('IPOLSDEK_GOS_HASERROR').GetMessage('IPOLSDEK_GOS_CANTMARKPAYED').$arOrder['ORDER_ID'].". ");
@@ -1097,8 +1147,8 @@
 				$xml=simplexml_load_string($request['result']);
 				foreach($xml as $key => $val){
 					$cityCode = (string)$val['CityCode'];
-					if(!sqlSdekCity::getBySId($cityCode))
-						continue;
+					// if(!sqlSdekCity::getBySId($cityCode))
+						// continue;
 					$type = (string)$val['Type'];
 					$city = (string)$val["City"];
 					if(strpos($city,'(') !== false)
@@ -1136,8 +1186,15 @@
 				$strInfo = GetMessage('IPOLSDEK_FILE_UNBLUPDT').$request['code'].".";
 				$errors = true;
 			}
-			if(count($arList))
-				file_put_contents($_SERVER["DOCUMENT_ROOT"]."/bitrix/js/".self::$MODULE_ID."/list.php",json_encode($arList));
+			if(count($arList)){
+				if(!file_put_contents($_SERVER["DOCUMENT_ROOT"]."/bitrix/js/".self::$MODULE_ID."/list.php",json_encode($arList))){
+					$strInfo = GetMessage('IPOLSDEK_SUNCPVZ_NOWRITE');
+					$errors = true;
+				}
+			} else {
+				$strInfo = GetMessage('IPOLSDEK_SUNCPVZ_NODATA');
+				$errors = true;
+			}
 			if($strInfo && COption::GetOptionString(self::$MODULE_ID,'logged',false)){
 				$file=fopen($_SERVER["DOCUMENT_ROOT"]."/bitrix/js/".self::$MODULE_ID."/hint.txt","a");
 				fwrite($file,"<br><br><strong>".date('d.m.Y H:i:s')."</strong><br>".$strInfo);
@@ -1192,7 +1249,7 @@
 			}else
 				$result = array(
 					'result' => 'error',
-					'error'  => GetMessage("IPOLSDEK_ERRLOG_ERRSUNCCITY")
+					'error'  => GetMessage("IPOLSDEK_ERRLOG_ERRNOCOUNTRIES")
 				);
 
 			if($params['mode'] == 'json')
@@ -1332,9 +1389,9 @@
 		()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()*/
 
 
-		static function setImport($mode = 'Y'){
+		static function setImport($mode = 'N'){
 			if(is_array($mode))
-				$mode = (array_key_exists('mode',$mode)) ? $mode['mode'] : 'Y';
+				$mode = (array_key_exists('mode',$mode)) ? $mode['mode'] : 'N';
 			COption::SetOptionString(self::$MODULE_ID,'importMode',$mode);
 		}
 

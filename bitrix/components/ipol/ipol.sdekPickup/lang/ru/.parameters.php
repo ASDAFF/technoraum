@@ -5,6 +5,8 @@ $MESS["IPOLSDEK_COMPOPT_NOMAPS"] = "Не подключать Яндекс-карты (если их подключа
 $MESS["IPOLSDEK_COMPOPT_CNT_DELIV"]  = "Расчитывать доставку при подключении";
 $MESS["IPOLSDEK_COMPOPT_CNT_BASKET"] = "Расчитывать доставку для корзины";
 $MESS["IPOLSDEK_COMPOPT_FORBIDDEN"]  = "Отключить расчет для профилей";
+$MESS["IPOLSDEK_COMPOPT_PAYERS"]  = "Тип плательщика, от лица которого считать доставку";
+$MESS["IPOLSDEK_COMPOPT_PAYSYSTEM"]  = "Тип платежной системы, с которой будет считатся доставка";
 $MESS["IPOLSDEK_COMPOPT_COUNTRIES"]  = "Подключенные страны";
 
 $MESS["IPOLSDEK_PROF_PICKUP"]   = "Самовывоз";

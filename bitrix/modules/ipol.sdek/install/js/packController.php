@@ -14,84 +14,84 @@ $strPackGabsST = (COption::GetOptionString(self::$MODULE_ID,"lengthD",400) / 10)
 		padding-top: 7px;
 	}
 	/*Шапка Упаковки*/
-		.IPOLSDEK_PC{
-			background-color: #E0E8EA;
-			color: #4B6267;
-			font-size: 14px;
-			text-align: center !important;
-			text-shadow: 0px 1px #FFF;
-			padding: 8px 4px 10px !important;
-			width: 635px;
-		}
-		.IPOLSDEK_PC div{
-			float: left;
-			font-weight: bold !important;
-		}
-		.IPOLSDEK_PC_KG{
-			font-weight: bold !important;
-		}
-		.IPOLSDEK_PC_gabsEdit,.IPOLSDEK_PC_gabsSave,.IPOLSDEK_PC_gabsCount, .IPOLSDEK_PC_weightEdit,.IPOLSDEK_PC_weightSave,.IPOLSDEK_PC_weightCancel,.IPOLSDEK_PC_packDelete{
-				width: 15px;
-				height: 15px;
-				display: inline-block;
-			}
-		.IPOLSDEK_PC_packDelete, .IPOLSDEK_PC_packDelete:hover{
-			background: url("/bitrix/images/<?=self::$MODULE_ID?>/delPack.png") !important;
-		}
-		/*Габариты*/
-			.IPOLSDEK_PC_gabLabel{
-				width: 155px;
-			}			
-			.IPOLSDEK_PC_gabCLabel{
-				width: 155px;
-				display:none;
-			}
-			.IPOLSDEK_PC_gabBLabel a{
-				margin-left: 2px;
-			}
-			.IPOLSDEK_PC_gabsSave{
-				display:none;
-			}
-			.IPOLSDEK_PC_gabsEdit, .IPOLSDEK_PC_gabsEdit:hover{
-				background: url("/bitrix/images/<?=self::$MODULE_ID?>/edit.png") !important;
-			}
-			.IPOLSDEK_PC_gabsCount, .IPOLSDEK_PC_gabsCount:hover{
-				background: url("/bitrix/images/<?=self::$MODULE_ID?>/recall.png") !important;
-			}			
-			.IPOLSDEK_PC_gabsSave, .IPOLSDEK_PC_gabsSave:hover{
-				background: url("/bitrix/images/<?=self::$MODULE_ID?>/save.png") !important;
-			}
-		/*Вес*/
-			.IPOLSDEK_PC_gabCLabel input{
-				width: 20px;
-				margin-top: -6px !important;
-			}
-			.IPOLSDEK_PC_weightChange input{
-				width: 20px;
-				margin-top: -6px !important;			
-			}
-			.IPOLSDEK_PC_weightButtons a{
-				margin-left: 2px;
-			}
-			.IPOLSDEK_PC_weightSave, .IPOLSDEK_PC_weightCancel{
-				display:none;
-			}
-			.IPOLSDEK_PC_weightLabeled{
-				display:none;
-			}
-			.IPOLSDEK_PC_weightChange{
-				display:none;
-			}
-			.IPOLSDEK_PC_weightEdit, .IPOLSDEK_PC_weightEdit:hover{
-				background: url("/bitrix/images/<?=self::$MODULE_ID?>/edit.png") !important;
-			}		
-			.IPOLSDEK_PC_weightCancel, .IPOLSDEK_PC_weightCancel:hover{
-				background: url("/bitrix/images/<?=self::$MODULE_ID?>/recall.png") !important;
-			}			
-			.IPOLSDEK_PC_weightSave, .IPOLSDEK_PC_weightSave:hover{
-				background: url("/bitrix/images/<?=self::$MODULE_ID?>/save.png") !important;
-			}
-			
+	.IPOLSDEK_PC{
+		background-color: #E0E8EA;
+		color: #4B6267;
+		font-size: 14px;
+		text-align: center !important;
+		text-shadow: 0px 1px #FFF;
+		padding: 8px 4px 10px !important;
+		width: 635px;
+	}
+	.IPOLSDEK_PC div{
+		float: left;
+		font-weight: bold !important;
+	}
+	.IPOLSDEK_PC_KG{
+		font-weight: bold !important;
+	}
+	.IPOLSDEK_PC_gabsEdit,.IPOLSDEK_PC_gabsSave,.IPOLSDEK_PC_gabsCount, .IPOLSDEK_PC_weightEdit,.IPOLSDEK_PC_weightSave,.IPOLSDEK_PC_weightCancel,.IPOLSDEK_PC_packDelete{
+		width: 15px;
+		height: 15px;
+		display: inline-block;
+	}
+	.IPOLSDEK_PC_packDelete, .IPOLSDEK_PC_packDelete:hover{
+		background: url("/bitrix/images/<?=self::$MODULE_ID?>/delPack.png") !important;
+	}
+	/*Габариты*/
+	.IPOLSDEK_PC_gabLabel{
+		width: 155px;
+	}
+	.IPOLSDEK_PC_gabCLabel{
+		width: 155px;
+		display:none;
+	}
+	.IPOLSDEK_PC_gabBLabel a{
+		margin-left: 2px;
+	}
+	.IPOLSDEK_PC_gabsSave{
+		display:none;
+	}
+	.IPOLSDEK_PC_gabsEdit, .IPOLSDEK_PC_gabsEdit:hover{
+		background: url("/bitrix/images/<?=self::$MODULE_ID?>/edit.png") !important;
+	}
+	.IPOLSDEK_PC_gabsCount, .IPOLSDEK_PC_gabsCount:hover{
+		background: url("/bitrix/images/<?=self::$MODULE_ID?>/recall.png") !important;
+	}
+	.IPOLSDEK_PC_gabsSave, .IPOLSDEK_PC_gabsSave:hover{
+		background: url("/bitrix/images/<?=self::$MODULE_ID?>/save.png") !important;
+	}
+	/*Вес*/
+	.IPOLSDEK_PC_gabCLabel input{
+		width: 20px;
+		margin-top: -6px !important;
+	}
+	.IPOLSDEK_PC_weightChange input{
+		width: 20px;
+		margin-top: -6px !important;
+	}
+	.IPOLSDEK_PC_weightButtons a{
+		margin-left: 2px;
+	}
+	.IPOLSDEK_PC_weightSave, .IPOLSDEK_PC_weightCancel{
+		display:none;
+	}
+	.IPOLSDEK_PC_weightLabeled{
+		display:none;
+	}
+	.IPOLSDEK_PC_weightChange{
+		display:none;
+	}
+	.IPOLSDEK_PC_weightEdit, .IPOLSDEK_PC_weightEdit:hover{
+		background: url("/bitrix/images/<?=self::$MODULE_ID?>/edit.png") !important;
+	}
+	.IPOLSDEK_PC_weightCancel, .IPOLSDEK_PC_weightCancel:hover{
+		background: url("/bitrix/images/<?=self::$MODULE_ID?>/recall.png") !important;
+	}
+	.IPOLSDEK_PC_weightSave, .IPOLSDEK_PC_weightSave:hover{
+		background: url("/bitrix/images/<?=self::$MODULE_ID?>/save.png") !important;
+	}
+
 	/*Товары*/
 	.IPOLSDEK_PC_goodsPlace{
 		width: 644px;
@@ -126,9 +126,9 @@ $strPackGabsST = (COption::GetOptionString(self::$MODULE_ID,"lengthD",400) / 10)
 	.IPOLSDEK_PC_checkB{
 		width: 50px;
 		text-align: center !important;
-		<?if(!sdekExport::$isEditable || count($arGoods) < 10){?>
+	<?if(!sdekExport::$isEditable || count($arGoods) < 10){?>
 		visibility:hidden;
-		<?}?>
+	<?}?>
 	}
 	.IPOLSDEK_PC_name{
 		width: 230px;
@@ -151,8 +151,8 @@ $strPackGabsST = (COption::GetOptionString(self::$MODULE_ID,"lengthD",400) / 10)
 	#IPOLSDEK_addPacker{
 		clear: both;
 	}
-	
-		/* количество*/
+
+	/* количество*/
 	.IPOLSDEK_PC_unity{
 		display: none;
 	}
@@ -171,12 +171,12 @@ $strPackGabsST = (COption::GetOptionString(self::$MODULE_ID,"lengthD",400) / 10)
 		text-align: center;
 	}
 	<?if(!sdekExport::$isEditable){?>
-		#IPOLSDEK_buttonPlace, #IPOLSDEK_packApply, #IPOLSDEK_packCancel{
-			display:none;
-		}
-		.IPOLSDEK_PC_gabBLabel, .IPOLSDEK_PC_weightButtons, .IPOLSDEK_PC_delete a{
-			display:none;
-		}
+	#IPOLSDEK_buttonPlace, #IPOLSDEK_packApply, #IPOLSDEK_packCancel{
+		display:none;
+	}
+	.IPOLSDEK_PC_gabBLabel, .IPOLSDEK_PC_weightButtons, .IPOLSDEK_PC_delete a{
+		display:none;
+	}
 	<?}?>
 </style>
 <script>
@@ -234,10 +234,10 @@ $strPackGabsST = (COption::GetOptionString(self::$MODULE_ID,"lengthD",400) / 10)
 			var savedPacks = $('#IPOLSDEK_PLACES').val();
 			if(savedPacks)
 				IPOLSDEK_packs.saveObj = JSON.parse(savedPacks);
-			
+
 			if(!IPOLSDEK_packs.packs)
 				IPOLSDEK_packs.packs = {};
-			
+
 			for(var i in IPOLSDEK_packs.saveObj){
 				IPOLSDEK_packs.packs[i] = IPOLSDEK_packs.saveObj[i]['goods'];
 				if(typeof(IPOLSDEK_packs.packsGabs[i]) == 'undefined')
@@ -332,7 +332,7 @@ $strPackGabsST = (COption::GetOptionString(self::$MODULE_ID,"lengthD",400) / 10)
 						packHeaderHtml += "<a href='javascript:void(0)' class='IPOLSDEK_PC_packDelete' onclick='IPOLSDEK_packs.deletePack("+id+")' title='<?=GetMessage('MAIN_APPLY')?>'></a>";
 				packHeaderHtml += "</div>";
 				packHeaderHtml += "<p></p></div><div class='IPOLSDEK_PC_goodsPlace'></div></div>";
-				
+
 			$('#IPOLSDEK_addPacker').before(packHeaderHtml);
 			IPOLSDEK_packs.initUi();
 			if(typeof(IPOLSDEK_packs.packs[id]) == 'undefined')
@@ -393,7 +393,7 @@ $strPackGabsST = (COption::GetOptionString(self::$MODULE_ID,"lengthD",400) / 10)
 			var goods = {};
 			if(arguments.length == 1){
 				for(var i in IPOLSDEK_packs.packs[id])
-					if(typeof(IPOLSDEK_packs.goods[i]) != 'undefined'){					
+					if(typeof(IPOLSDEK_packs.goods[i]) != 'undefined'){
 						if(typeof(goods[IPOLSDEK_packs.goods[i]['ID']]) == 'undefined')
 							goods[IPOLSDEK_packs.goods[i]['ID']] = parseInt(IPOLSDEK_packs.packs[id][i]);
 						else
@@ -521,7 +521,7 @@ $strPackGabsST = (COption::GetOptionString(self::$MODULE_ID,"lengthD",400) / 10)
 			boss.find('.IPOLSDEK_PC_weightLabeled').css('display','none');
 			boss.find('.IPOLSDEK_PC_weightCancel').css('display','none');
 		},
-		
+
 		weight_isManual: function(id){ // check weither weight was changed manually for pack id
 			return (typeof(IPOLSDEK_packs.packsGabs[id]) != 'undefined' && typeof(IPOLSDEK_packs.packsGabs[id].weight) != 'undefined');
 		},
@@ -658,7 +658,7 @@ $strPackGabsST = (COption::GetOptionString(self::$MODULE_ID,"lengthD",400) / 10)
 			}
 			var packsCnt = IPOLSDEK_packs.srv.count(IPOLSDEK_packs.packs);
 			if(
-				goodCnt <= packsCnt && 
+				goodCnt <= packsCnt &&
 				(goodCnt != 1 || IPOLSDEK_packs.packsSrc[1][0] <= packsCnt)
 			){
 				$('#IPOLSDEK_PC_addPack').attr('disabled','disabled');
@@ -676,7 +676,7 @@ $strPackGabsST = (COption::GetOptionString(self::$MODULE_ID,"lengthD",400) / 10)
 			},
 
 			getSO: function(){
-				var saveObj = {};			
+				var saveObj = {};
 				var SOCnt = 0;
 				for(var i in IPOLSDEK_packs.packs){
 					var cnt = 0;
@@ -707,7 +707,7 @@ $strPackGabsST = (COption::GetOptionString(self::$MODULE_ID,"lengthD",400) / 10)
 				IPOLSDEK_packs.saveObj = false;
 				IPOLSDEK_packs.wnd.close();
 			},
-		
+
 			// контроль товаров
 			showGoods: function(){
 				$('.IPOLSDEK_PC_item').show();
@@ -838,14 +838,14 @@ $strPackGabsST = (COption::GetOptionString(self::$MODULE_ID,"lengthD",400) / 10)
 					var packTo   = $('#IPOLSDEK_PC_cChange_select').val();
 					var goodId   = parseInt($('#IPOLSDEK_PC_goodDescr').val().substr(20+packFrom.toString().length));
 					//script
-						IPOLSDEK_packs.packs[packFrom][goodId] -= changeVal;
-						if(typeof(IPOLSDEK_packs.packs[packTo][goodId]) == 'undefined')
-							IPOLSDEK_packs.packs[packTo][goodId] = changeVal;
-						else
-							IPOLSDEK_packs.packs[packTo][goodId] += changeVal;
+					IPOLSDEK_packs.packs[packFrom][goodId] -= changeVal;
+					if(typeof(IPOLSDEK_packs.packs[packTo][goodId]) == 'undefined')
+						IPOLSDEK_packs.packs[packTo][goodId] = changeVal;
+					else
+						IPOLSDEK_packs.packs[packTo][goodId] += changeVal;
 					//ui
-						IPOLSDEK_packs.loadPack(packFrom);// remove
-						IPOLSDEK_packs.loadPack(packTo);// add
+					IPOLSDEK_packs.loadPack(packFrom);// remove
+					IPOLSDEK_packs.loadPack(packTo);// add
 				}
 				IPOLSDEK_packs.rend.close();
 			},
@@ -872,7 +872,7 @@ $strPackGabsST = (COption::GetOptionString(self::$MODULE_ID,"lengthD",400) / 10)
 		// контроль окна
 		wnd: {
 			link : false,
-			
+
 			open: function(){
 				if(!IPOLSDEK_packs.wnd.link){
 					var html=$('#IPOLSDEK_PackController').html();

@@ -4,6 +4,7 @@ IncludeModuleLangFile(__FILE__);
 /*
 	onGoodsToRequest
 	onParseAddress
+	onFormation
 */
 
 class sdekExport extends sdekHelper{
@@ -109,7 +110,7 @@ class sdekExport extends sdekHelper{
 		if(self::isConverted()){
 			// информация о заказе
 			$orderInfo = Bitrix\Sale\Order::load($oId);
-			$arUChecks = array("COMMENTS","PAY_SYSTEM_ID","PAYED","PRICE","SUM_PAID","PRICE_DELIVERY","USER_DESCRIPTION");
+			$arUChecks = array("COMMENTS","PAY_SYSTEM_ID","PAYED","PRICE","SUM_PAID","PRICE_DELIVERY","USER_DESCRIPTION","PERSON_TYPE_ID");
 			if($mode == 'order'){
 				$ds = $orderInfo->getDeliverySystemId();
 				foreach($ds as $id){
@@ -135,7 +136,7 @@ class sdekExport extends sdekHelper{
 			foreach($arUChecks as $code)
 				$arOrderDescr['info'][$code] = $orderInfo->getField($code);
 			// свойства
-			$arProps = $orderInfo->loadPropertyCollection()->getArray();
+			$arProps = $orderInfo->getPropertyCollection()->getArray();
 			foreach($arProps['properties'] as $arProp){
 				$val = array_pop($arProp['VALUE']);
 				if($val)
@@ -146,7 +147,7 @@ class sdekExport extends sdekHelper{
 			$order = CSaleOrder::getById($oId);
 			$arOrderDescr['info']['DELIVERY_SDEK'] = (strpos($order['DELIVERY_ID'],'sdek:') === 0);
             $arOrderDescr['info']['DELIVERY_ID']   = $order['DELIVERY_ID'];
-			$arUChecks = array("COMMENTS","PAY_SYSTEM_ID","PAYED","ACCOUNT_NUMBER","PRICE","SUM_PAID","PRICE_DELIVERY","USER_DESCRIPTION");
+			$arUChecks = array("COMMENTS","PAY_SYSTEM_ID","PAYED","ACCOUNT_NUMBER","PRICE","SUM_PAID","PRICE_DELIVERY","USER_DESCRIPTION","PERSON_TYPE_ID");
 			foreach($arUChecks as $code)
 				$arOrderDescr['info'][$code] = $order[$code];
 			// свойства
@@ -180,10 +181,10 @@ class sdekExport extends sdekHelper{
 		$arFormation['realSeller'] = ($rs = COption::GetOptionString(self::$MODULE_ID,'realSeller','')) ? $rs : '';
 
 		// город-отправитель
-        if($arDeliveryConfig && array_key_exists('VALUE',$arDeliveryConfig['SENDER'])){
-            $arFormation['departure'] = $arDeliveryConfig['SENDER']['VALUE'];
+        if($arDeliveryConfig){
+            $arFormation['departure'] = CDeliverySDEK::getDeliverySender($arDeliveryConfig);
         } else {
-            $sender = sqlSdekCity::getByBId(COption::GetOptionString(self::$MODULE_ID, 'departure'));
+            $sender = self::getSQLCityBI(COption::GetOptionString(self::$MODULE_ID, 'departure'));
             if ($sender)
                 $arFormation['departure'] = $sender['SDEK_ID'];
         }
@@ -226,6 +227,34 @@ class sdekExport extends sdekHelper{
 			$arFormation[$prop] = $arProps[$prop];
 			unset($arProps[$prop]);
 		}
+		
+		// kukan phone
+		if(COption::GetOptionString(self::$MODULE_ID,'normalizePhone','N') == 'Y'){
+			$arFormation['oldPhone'] = $arFormation['phone'];
+			$arFormation['phone'] = preg_replace("/[^\+0-9]/","",$arFormation['phone']);
+			if(
+				strpos('+',$arFormation['phone']) !== 0 &&
+				strpos('8',$arFormation['phone']) === 0 &&
+				strlen($arFormation['phone'] > 10)
+			){
+				$arCity  = sqlSdekCity::getBySId($arFormation['location']);
+				if($arCity){
+					$country = ($arCity['COUNTRY']) ? $arCity['COUNTRY'] : 'rus';
+					
+					$switcher = false;
+					switch($country){
+						case 'rus' : $switcher='7'; break;
+						case 'blr' : $switcher='7'; break;
+						case 'kaz' : $switcher='375'; break;
+					}
+					
+					if($switcher){
+						$arFormation['phone'] = $switcher.substr($arFormation['phone'],1);
+					}
+				}
+				
+			}
+		}
 
 		// комментарий
 		switch(COption::GetOptionString(self::$MODULE_ID,'comment','B')){
@@ -264,6 +293,9 @@ class sdekExport extends sdekHelper{
 		// Ќ„‘
 		$arFormation['NDSGoods']    = COption::GetOptionString(self::$MODULE_ID,'NDSGoods','VATX');
 		$arFormation['NDSDelivery'] = COption::GetOptionString(self::$MODULE_ID,'NDSDelivery','VATX');
+
+		foreach(GetModuleEvents(self::$MODULE_ID, "onFormation", true) as $arEvent)
+			ExecuteModuleEventEx($arEvent,Array(&$arFormation,self::$orderId,self::$orderDescr));
 
 		return $arFormation;
 	}
@@ -426,41 +458,73 @@ class sdekExport extends sdekHelper{
 			else
 				$curProfile = $tarifName;
 		$dost = sdekdriver::getDelivery(true,$arParams['delivery']);
+		$arReturn = array('success' => false, 'tarif' => $arParams['tarif']);
 		if($dost && $dost['ACTIVE'] && self::checkProfileActive($curProfile)){
-			$arReturn = CDeliverySDEK::countDelivery(array('CITY_TO_ID'=>$arParams['cityTo'],'FORBIDDEN' => $arBlockedTarifs,'SDEK_CITY_FROM' => $arParams['cityFrom'], 'SDEK_ACCOUNT' => $arParams['account']));
-			$arReturn['price']       = strip_tags($arReturn['price']);
-			if(self::diffPrice($arReturn['price']))
-				$arReturn['sourcePrice'] = CDeliverySDEK::$lastCnt;
-			$arReturn['tarif']       = $arParams['tarif'];
-		}else{
-			$cityTo = self::getCity($arParams['cityTo'],true);
-			CDeliverySDEK::$sdekCity = $cityTo['SDEK_ID'];
-			if($arParams['account']){
-                CDeliverySDEK::setAuth(self::defineAuth($arParams['account']));
-            }else{
-                CDeliverySDEK::setAuth(self::defineAuth(array('COUNTRY'=>($arCity['COUNTRY']) ? $arCity['COUNTRY'] : 'rus')));
-            }
-            if($arParams['cityFrom']){
-                CDeliverySDEK::$sdekSender = $arParams['cityFrom'];
-            }
-
-			$_arReturn = CDeliverySDEK::calculateDost($arParams['tarif']);
-			if($_arReturn['success'])
-				$arReturn = array(
-					'success'     => true,
-					'termMin'     => $_arReturn['termMin'],
-					'termMax'     => $_arReturn['termMax'],
-					'sourcePrice' => $_arReturn['price'],
-					'tarif'		  => $arParams['tarif']
+			$arOrder = array(
+				'CITY_TO_ID'     =>$arParams['cityTo'],
+				'FORBIDDEN'      => $arBlockedTarifs,
+				'SDEK_CITY_FROM' => $arParams['cityFrom'],
+				'SDEK_ACCOUNT'   => $arParams['account'],
+				'PERSON_TYPE_ID' => $arParams['person'],
+				'PAY_SYSTEM_ID'  => $arParams['paysystem']
+			);
+			
+			if($arParams['GABS']['D_L'] && $arParams['GABS']['D_W'] && $arParams['GABS']['D_H']){
+				$arOrder['DIMS'] = array(
+					"WIDTH"  => $arParams["GABS"]["D_W"] * 10,
+					"HEIGHT" => $arParams["GABS"]["D_H"] * 10,
+					"LENGTH" => $arParams["GABS"]["D_L"] * 10,
 				);
-			else
-				$arReturn = array('success' => false);
+				$arOrder["WEIGHT"] = $arParams['GABS']["W"];
+				$arOrder["PRICE"]  = $arParams['price'];
+			}
+
+			$arReturn = CDeliverySDEK::countDelivery($arOrder);
+			if($arReturn['success']){
+				$arReturn['price']       = strip_tags($arReturn['price']);
+				if(self::diffPrice($arReturn['price']))
+					$arReturn['sourcePrice'] = CDeliverySDEK::$lastCnt;
+			} else { // bad count from existed delivery - direct calculation
+				$_arReturn = self::directRequestDelivery($arParams);
+				if($_arReturn['success']){
+					$arReturn['success']     = true;
+					$arReturn['termMin']     = $_arReturn['termMin'];
+					$arReturn['termMax']     = $_arReturn['termMax'];
+					$arReturn['termMax']     = $_arReturn['termMax'];
+					$arReturn['sourcePrice'] = $_arReturn['price'];
+				}
+			}
+			$arReturn['tarif'] = $arParams['tarif'];
+		}else{ // no delivery - direct calculation
+			$_arReturn = self::directRequestDelivery($arParams);
+			if($_arReturn['success']){
+				$arReturn['success']     = true;
+				$arReturn['termMin']     = $_arReturn['termMin'];
+				$arReturn['termMax']     = $_arReturn['termMax'];
+				$arReturn['termMax']     = $_arReturn['termMax'];
+				$arReturn['sourcePrice'] = $_arReturn['price'];
+			}
 		}
 
 		if($arParams['isdek_action'])
 			echo json_encode(self::zajsonit($arReturn));
 		else
 			return $arReturn;
+	}
+	
+	protected static function directRequestDelivery($arParams){
+		$cityTo = self::getCity($arParams['cityTo'],true);
+		CDeliverySDEK::$sdekCity = $cityTo['SDEK_ID'];
+		if($arParams['account']){
+			CDeliverySDEK::setAuth(self::defineAuth($arParams['account']));
+		}else{
+			CDeliverySDEK::setAuth(self::defineAuth(array('COUNTRY'=>($cityTo['COUNTRY']) ? $cityTo['COUNTRY'] : 'rus')));
+		}
+		if($arParams['cityFrom']){
+			CDeliverySDEK::$sdekSender = $arParams['cityFrom'];
+		}
+
+		return CDeliverySDEK::calculateDost($arParams['tarif']);
 	}
 
 	private static function diffPrice($got){
@@ -733,6 +797,13 @@ class sdekExport extends sdekHelper{
             return $arReturn;
         }
     }
+	
+	// ‘ортировка Џ‚‡ по алфавиту
+	public static function sortPVZ($pvz1,$pvz2){
+		$pvz1['Name'] = str_replace(array('"',"'",'З'),"",$pvz1['Name']);
+		$pvz2['Name'] = str_replace(array('"',"'",'З'),"",$pvz2['Name']);
+		return ($pvz1['Name'] < $pvz2['Name']) ? -1 : 1;
+	}
 
 	// LEGACY
 	static function countAlltarifs($arParams){

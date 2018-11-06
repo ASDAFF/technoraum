@@ -265,4 +265,24 @@ $MESS ['IPOLSDEK_RV_88'] = "КРЫМ";
 
 $MESS ['IPOLSDEK_CHANGE_YO'] = "ё";
 $MESS ['IPOLSDEK_CHANGE_YE'] = "е";
+
+$MESS ['IPOLSDEK_SIMPLECITY_1'] = "населенный пункт";
+$MESS ['IPOLSDEK_SIMPLECITY_2'] = "поселок городского типа";
+$MESS ['IPOLSDEK_SIMPLECITY_3'] = "курортный поселок";
+$MESS ['IPOLSDEK_SIMPLECITY_4'] = "дачный поселок";
+$MESS ['IPOLSDEK_SIMPLECITY_5'] = "поселок";
+$MESS ['IPOLSDEK_SIMPLECITY_6'] = "ж/д станция";
+$MESS ['IPOLSDEK_SIMPLECITY_7'] = "станция";
+$MESS ['IPOLSDEK_SIMPLECITY_8'] = "деревня";
+$MESS ['IPOLSDEK_SIMPLECITY_9'] = "снт";
+$MESS ['IPOLSDEK_SIMPLECITY_10'] = "городок";
+$MESS ['IPOLSDEK_SIMPLECITY_11'] = "почтовое отделение";
+$MESS ['IPOLSDEK_SIMPLECITY_12'] = "сельское поселение";
+$MESS ['IPOLSDEK_SIMPLECITY_13'] = "станица";
+$MESS ['IPOLSDEK_SIMPLECITY_14'] = "хутор";
+$MESS ['IPOLSDEK_SIMPLECITY_15'] = "аул";
+$MESS ['IPOLSDEK_SIMPLECITY_16'] = "село";
+
+$MESS ['IPOLSDEK_SIMPLEDIST_1']  = "район";
+$MESS ['IPOLSDEK_SIMPLEDIST_2']  = "р-н";
 ?>

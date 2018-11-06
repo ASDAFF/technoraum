@@ -7,7 +7,8 @@
 	$MESS ['IPOLSDEK_AUTH_NO_EXIST'] = "Аккаунт не найден.";
 	$MESS ['IPOLSDEK_AUTH_NO_BD'] = "Ошибка добавления аккаунта в базу.";
 //Печать
-	$MESS ['IPOLSDEK_SIGN_PRNTSDEK'] = "Печать СДЭК";
+	$MESS ['IPOLSDEK_SIGN_PRNTSDEK']   = "Печать СДЭК";
+	$MESS ['IPOLSDEK_SIGN_SHTRIHSDEK'] = "Штрихкод СДЭК";
 	$MESS ['IPOLSDEK_PRINTERR_BADORDERS'] = "Нельзя напечатать следующие заказы: ";
 	$MESS ['IPOLSDEK_PRINTERR_TOTALERROR'] = "Выбранные заказы распечатать нельзя. Возможные причины: заявка на заказ не была отослана модулем и принята СДЭКом.";
 // Удаление заявки
@@ -35,8 +36,10 @@
 	$MESS ['IPOLSDEK_UPDT_ERR']='При синхронизации произошли ошибки, за подробной информацией обратитесь к лог-файлу ошибок (/bitrix/js/ipol.sdek/errorLog.txt)';
 	$MESS ['IPOLSDEK_UPDT_DONE']='Модуль синхронизирован - ';
 	$MESS ['IPOLSDEK_FILE_UNBLUPDT']='Не удалось получить с сервера информацию о пунктах самовывоза. Код ответа сервера: ';
+	$MESS ['IPOLSDEK_SUNCPVZ_NODATA']='Ошибка получения информации о ПВЗ. Проверьте доступность php-библиотеки simple_xml. Так же есть вероятность ошибки на стороне сервера СДЭКа.';
+	$MESS ['IPOLSDEK_SUNCPVZ_NOWRITE']='Ошибка сохранения информации о ПВЗ. Проверьте права на папку /bitrix/js/ipol.sdek.';
 	$MESS ['IPOLSDEK_ERRLOG_ERRSUNCCITY']='Не удалось синхронизировать города. Ошибка: ';
-	$MESS ['IPOLSDEK_ERRLOG_ERRSUNCCITY']='Не найдены активные страны. Убедитесь, что в разделе "Города" есть отмеченные для обработки страны.';
+	$MESS ['IPOLSDEK_ERRLOG_ERRNOCOUNTRIES']='Не найдены активные страны. Убедитесь, что в разделе "Города" есть отмеченные для обработки страны.';
 	$MESS ['IPOLSDEK_DELCITYERROR'] = "Не удалось переопределить города, ошибка SQL: ";
 	$MESS ['IPOLSDEK_FILEIPL_UNBLUPDT']='Не удалось запросить дополнительную информацию о пунктах самовывоза. Код ответа сервера: ';
 

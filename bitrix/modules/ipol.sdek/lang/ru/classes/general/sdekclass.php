@@ -73,6 +73,7 @@ $MESS ['IPOLSDEK_JSC_SOD_UNLOCK'] = "Разблокировать";
 $MESS ['IPOLSDEK_JSC_SOD_IFDELETE'] = "Вы уверены, что хотите удалить данные о заявке? Восстановить их будет невозможно!";
 $MESS ['IPOLSDEK_JSC_SOD_IFKILL'] = "Вы уверены, что хотите отозвать заявку из СДЭКа?";
 $MESS ['IPOLSDEK_JSC_SOD_PRNTSH'] = "Печать квитанции";
+$MESS ['IPOLSDEK_JSC_SOD_SHTRIH'] = "Штрихкод";
 $MESS ['IPOLSDEK_JSC_SOD_LOADING'] = "Обработка запроса...";
 $MESS ['IPOLSDEK_JSC_SOD_FOLLOW'] = "Отследить";
 $MESS ['IPOLSDEK_JSC_SOD_STATCHECK'] = "Проверить статус";
@@ -152,6 +153,7 @@ $MESS ['IPOLSDEK_JS_SOD_POSTOMAT']   = "Постамат";
 $MESS ['IPOLSDEK_JS_SOD_HD_RESIEVER'] = "Получатель";
 $MESS ['IPOLSDEK_JS_SOD_name']        = "Контактное лицо";
 $MESS ['IPOLSDEK_JS_SOD_phone']       = "Контактный телефон";
+$MESS ['IPOLSDEK_JS_SOD_oldPhone']    = "Телефон в заказе";
 $MESS ['IPOLSDEK_JS_SOD_email']       = "E-mail";
 $MESS ['IPOLSDEK_JS_SOD_comment']     = "Комментарий";
 	// Оплата

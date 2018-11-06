@@ -29,6 +29,10 @@ class CDeliverySDEK extends sdekHelper{
 	private static $extSdekSender = false;
 	static $goods        = false; // кг, см
 	static $PVZcities    = false;
+	
+	static $payerType = false;
+	static $paysystem = false;
+	static $currentDelvery = false;
 
 	private static $auth    = false;
     private static $account = false;
@@ -107,7 +111,7 @@ class CDeliverySDEK extends sdekHelper{
         }
 
         // SenderCity
-        $city = sqlSdekCity::getByBId(COption::GetOptionString(self::$MODULE_ID,'departure'));
+        $city = self::getSQLCityBI(COption::GetOptionString(self::$MODULE_ID,'departure'));
         $arSenders   = array(false => GetMessage('IPOLSDEK_DELCONFIG_DEFAULT'),$city['SDEK_ID']=>$city['NAME']." (".GetMessage('IPOLSDEK_DELCONFIG_BACIS').")");
         $citySenders = unserialize(COption::GetOptionString(self::$MODULE_ID,'addDeparture','a:{}'));
         if(!empty($citySenders)){
@@ -173,6 +177,8 @@ class CDeliverySDEK extends sdekHelper{
 	static function Compability($arOrder, $arConfig){
 		self::$orderWeight = $arOrder['WEIGHT'];
 		self::$orderPrice  = $arOrder['PRICE'];
+		self::$payerType   = $arOrder['PERSON_TYPE_ID'];
+		self::$currentDelvery = $arConfig['UID']['VALUE'];
 
 	    if(
 	        !self::checkAviable($arOrder, $arConfig) ||
@@ -185,116 +191,117 @@ class CDeliverySDEK extends sdekHelper{
 		$_SESSION['IPOLSDEK_CHOSEN'] = array();
 
 		// defining cityTo
-		$arCity = self::getCity(self::getNormalCity($arOrder['LOCATION_TO']),true);
-		self::$sdekCity = $arCity['SDEK_ID'];
-		self::$sdekCityCntr = ($arCity['COUNTRY']) ? $arCity['COUNTRY'] : 'rus';
-		if(self::$sdekCity){
-			$countries = self::getActiveCountries();
-			$curdeliveryCountryAv = true;
+		$arCity = self::getCity($arOrder['LOCATION_TO'],true);
 
-			// checking country
-			if(
-			    !empty($arConfig) &&
-                array_key_exists('COUNTRIES',$arConfig) &&
-                array_key_exists('VALUE',$arConfig['COUNTRIES']) &&
-                $arConfig['COUNTRIES']['VALUE']
-            ){
-                foreach ($countries as $key => $country){
-                    if(self::$sdekCityCntr == $country){
-                        if(!in_array(($key+1),$arConfig['COUNTRIES']['VALUE'])){
-                            $curdeliveryCountryAv = false;
-                        }
-                        break;
-                    }
-                }
-            }
+		if($arCity){
+			self::$sdekCity = $arCity['SDEK_ID'];
+			self::$sdekCityCntr = ($arCity['COUNTRY']) ? $arCity['COUNTRY'] : 'rus';
+			if(self::$sdekCity){
+				$countries = self::getActiveCountries();
+				$curdeliveryCountryAv = true;
 
-			if(
-                (
-				    in_array($arCity['COUNTRY'],$countries) ||
-				    (!$arCity['COUNTRY'] && in_array('rus',$countries))
-                ) &&
-                $curdeliveryCountryAv
-			){
-				self::$city = $arCity['NAME'];
-				self::$cityId = $arOrder['LOCATION_TO'];
-				$arKeys[]='courier';
-				if(self::checkPVZ())
-					$arKeys[]='pickup';
-			}
-		}
-
-		// from where
-		if(self::$extSdekSender){
-            CDeliverySDEK::$sdekSender = self::$extSdekSender;
-        }elseif(
-		    !empty($arConfig) &&
-            array_key_exists('VALUE',$arConfig['SENDER']) &&
-            $arConfig['SENDER']['VALUE']
-        ){
-            CDeliverySDEK::$sdekSender = $arConfig['SENDER']['VALUE'];
-        }
-
-        // account
-        if(self::$account){
-            sdekShipmentCollection::$accountId = self::$account;
-        }elseif(
-            !empty($arConfig) &&
-            array_key_exists('VALUE',$arConfig['ACCOUNT']) &&
-            $arConfig['ACCOUNT']['VALUE']
-        ){
-            sdekShipmentCollection::$accountId = $arConfig['ACCOUNT']['VALUE'];
-        }
-
-		// отключаем те профили, где нет включенных тарифов
-		foreach($arKeys as $key => $profile)
-			if(!self::checkTarifAvail($profile))
-				unset($arKeys[$key]);
-
-		if(!COption::GetOptionString(self::$MODULE_ID,'pvzPicker',false))
-			foreach($arKeys as $ind => $profile)
-				if($profile=='pickup'){
-					unset($arKeys[$ind]);
-					break;
+				// checking country
+				if(
+					!empty($arConfig) &&
+					array_key_exists('COUNTRIES',$arConfig) &&
+					array_key_exists('VALUE',$arConfig['COUNTRIES']) &&
+					$arConfig['COUNTRIES']['VALUE']
+				){
+					foreach ($countries as $key => $country){
+						if(self::$sdekCityCntr == $country){
+							if(!in_array(($key+1),$arConfig['COUNTRIES']['VALUE'])){
+								$curdeliveryCountryAv = false;
+							}
+							break;
+						}
+					}
 				}
 
-		//проверяем возможность доставки, если не редактирование заказа
-		if(strpos($_SERVER['REQUEST_URI'],"bitrix/admin/sale_order_new.php") === false && !$_POST['isdek_action']){
-			if(!self::$preSet && $arItems = sdekShipmentCollection::formation($arOrder)){
-				// событие заполнения порядка
-				$order = array();
-				foreach(GetModuleEvents(self::$MODULE_ID, "onBeforeShipment", true) as $arEvent)
-					ExecuteModuleEventEx($arEvent,Array(&$order,$arItems));
-
-				sdekShipmentCollection::init(self::$sdekCity,$arItems,$order);
-			}else {
-                sdekShipmentCollection::initGabs(self::$sdekCity);
-            }
-
-			if(count($arKeys)){
-				sdekShipmentCollection::calculate((self::$preSet)?self::$preSet:$arKeys);
-				$arKeys = sdekShipmentCollection::compability();
+				if(
+					(
+						in_array($arCity['COUNTRY'],$countries) ||
+						(!$arCity['COUNTRY'] && in_array('rus',$countries))
+					) &&
+					$curdeliveryCountryAv
+				){
+					self::$city = $arCity['NAME'];
+					self::$cityId = $arOrder['LOCATION_TO'];
+					$arKeys[]='courier';
+					if(self::checkPVZ())
+						$arKeys[]='pickup';
+				}
 			}
 
-			if(!array_key_exists('IPOLSDEK_CHOSEN',$_SESSION))
-				$_SESSION['IPOLSDEK_CHOSEN'] = array();
-			foreach($arKeys as $profile)
-				$_SESSION['IPOLSDEK_CHOSEN'][$profile] = sdekShipmentCollection::getProfileTarif($profile);
+			// from where
+			if(self::$extSdekSender){
+				CDeliverySDEK::$sdekSender = self::$extSdekSender;
+			}else{
+				CDeliverySDEK::$sdekSender = self::getDeliverySender($arConfig);
+			}
+
+			// account
+			if(self::$account){
+				sdekShipmentCollection::$accountId = self::$account;
+			}elseif(
+				!empty($arConfig) &&
+				array_key_exists('VALUE',$arConfig['ACCOUNT']) &&
+				$arConfig['ACCOUNT']['VALUE']
+			){
+				sdekShipmentCollection::$accountId = $arConfig['ACCOUNT']['VALUE'];
+			}
+
+			// отключаем те профили, где нет включенных тарифов
+			foreach($arKeys as $key => $profile)
+				if(!self::checkTarifAvail($profile))
+					unset($arKeys[$key]);
+
+			if(!COption::GetOptionString(self::$MODULE_ID,'pvzPicker',false))
+				foreach($arKeys as $ind => $profile)
+					if($profile=='pickup'){
+						unset($arKeys[$ind]);
+						break;
+					}
+
+			//проверяем возможность доставки, если не редактирование заказа
+			if(strpos($_SERVER['REQUEST_URI'],"bitrix/admin/sale_order_new.php") === false && !$_POST['isdek_action']){
+				if(!self::$preSet && $arItems = sdekShipmentCollection::formation($arOrder)){
+					// событие заполнения порядка
+					$order = array();
+					foreach(GetModuleEvents(self::$MODULE_ID, "onBeforeShipment", true) as $arEvent)
+						ExecuteModuleEventEx($arEvent,Array(&$order,$arItems));
+
+					sdekShipmentCollection::init(self::$sdekCity,$arItems,$order);
+				}else {
+					sdekShipmentCollection::initGabs(self::$sdekCity);
+				}
+
+				if(count($arKeys)){
+					sdekShipmentCollection::calculate((self::$preSet)?self::$preSet:$arKeys);
+					$arKeys = sdekShipmentCollection::compability();
+				}
+
+				if(!array_key_exists('IPOLSDEK_CHOSEN',$_SESSION))
+					$_SESSION['IPOLSDEK_CHOSEN'] = array();
+				
+				if(!empty($arKeys))
+					foreach($arKeys as $profile)
+						$_SESSION['IPOLSDEK_CHOSEN'][$profile] = sdekShipmentCollection::getProfileTarif($profile);
+			}
+
+			$ifPrevent=true;
+			foreach(GetModuleEvents(self::$MODULE_ID, "onCompabilityBefore", true) as $arEvent)
+				$ifPrevent = ExecuteModuleEventEx($arEvent,Array($arOrder,$arConfig,$arKeys));
+
+			if(is_array($ifPrevent)){
+				$newKeys = array();
+				foreach($ifPrevent as $val)
+					if(in_array($val, $arKeys))
+						$newKeys[] = $val;
+				$arKeys = $newKeys;
+			}
+			if(!$ifPrevent) return array();
+		
 		}
-
-		$ifPrevent=true;
-		foreach(GetModuleEvents(self::$MODULE_ID, "onCompabilityBefore", true) as $arEvent)
-			$ifPrevent = ExecuteModuleEventEx($arEvent,Array($arOrder,$arConfig,$arKeys));
-
-		if(is_array($ifPrevent)){
-			$newKeys = array();
-			foreach($ifPrevent as $val)
-				if(in_array($val, $arKeys))
-					$newKeys[] = $val;
-			$arKeys = $newKeys;
-		}
-
-		if(!$ifPrevent) return array();
 
 		// Подключение FrontEnd (для многостраничного компонента)
 		if($_POST['CurrentStep'] > 1 && $_POST['CurrentStep'] < 4 && in_array('pickup',$arKeys))
@@ -304,6 +311,7 @@ class CDeliverySDEK extends sdekHelper{
 	}
 
 	static function Calculate($profile, $arConfig, $arOrder, $STEP, $TEMP = false){
+		self::$currentDelvery = $arConfig['UID']['VALUE'];
         if(
             !self::checkAviable($arOrder, $arConfig)
         )
@@ -314,94 +322,110 @@ class CDeliverySDEK extends sdekHelper{
 
 		if(!self::$sdekCity){
 			$arCity = self::getCity($arOrder['LOCATION_TO'],true);
-			self::$sdekCity = $arCity['SDEK_ID'];
-			self::$sdekCityCntr = ($arCity['COUNTRY']) ? $arCity['COUNTRY'] : 'rus';
+			
+			if($arCity){
+				self::$sdekCity = $arCity['SDEK_ID'];
+				self::$sdekCityCntr = ($arCity['COUNTRY']) ? $arCity['COUNTRY'] : 'rus';
+			}
 		}
+		
+		if(self::$sdekCity){
+			//if(!sdekShipmentCollection::ready()){
+				if(!self::$preSet && $arItems = sdekShipmentCollection::formation($arOrder)){
+					$order = array();
+					foreach(GetModuleEvents(self::$MODULE_ID, "onBeforeShipment", true) as $arEvent)
+						ExecuteModuleEventEx($arEvent,Array(&$order,$arItems));
 
-		//if(!sdekShipmentCollection::ready()){
-			if(!self::$preSet && $arItems = sdekShipmentCollection::formation($arOrder)){
-				$order = array();
-				foreach(GetModuleEvents(self::$MODULE_ID, "onBeforeShipment", true) as $arEvent)
-					ExecuteModuleEventEx($arEvent,Array(&$order,$arItems));
-
-				// DELIVERY
-                if(self::$extSdekSender){
-                    CDeliverySDEK::$sdekSender = self::$extSdekSender;
-                }elseif(
-                    !empty($arConfig) &&
-                    array_key_exists('VALUE',$arConfig['SENDER']) &&
-                    $arConfig['SENDER']['VALUE']
-                ){
-                    CDeliverySDEK::$sdekSender = $arConfig['SENDER']['VALUE'];
-                }
-
-                // ACCOUNT
-                if(self::$account){
-                    sdekShipmentCollection::$accountId = self::$account;
-                }elseif(
-                    !empty($arConfig) &&
-                    array_key_exists('VALUE',$arConfig['ACCOUNT']) &&
-                    $arConfig['ACCOUNT']['VALUE']
-                ){
-                    sdekShipmentCollection::$accountId = $arConfig['ACCOUNT']['VALUE'];
-                }
-
-				// событие заполнения порядка
-				if($arItems)
-					sdekShipmentCollection::init(self::$sdekCity,$arItems,$order);
-			}else
-				sdekShipmentCollection::initGabs(self::$sdekCity);
-		//}
-		$tarifs = (self::$preSet) ? self::$preSet : $profile;
-		sdekShipmentCollection::calculate($tarifs);
-		$curProfile = sdekShipmentCollection::getProfile($tarifs);
-
-		if($curProfile){
-			if($curProfile['RESULT'] == "OK"){
-				// определение валют
-				/* нет
-				$currency = self::getCountryOptions();
-				if(
-					array_key_exists(self::$sdekCityCntr,$currency) && 
-					array_key_exists('cur',$currency[self::$sdekCityCntr]) && 
-					$currency[self::$sdekCityCntr]['cur']
-				)
-					$curProfile['PRICE'] = floatval(sdekExport::formatCurrency(array('FROM'=>$currency[self::$sdekCityCntr]['cur'],'SUM'=>$curProfile['PRICE'])));
-				*/
-
-				if(COption::GetOptionString(self::$MODULE_ID,'mindEnsure','N') == 'Y')
-					$curProfile['PRICE'] += $arOrder['PRICE']*floatval(COption::GetOptionString(self::$MODULE_ID,'ensureProc','1.5'))/100;
-
-				$arReturn = array(
-					"RESULT"  => "OK",
-					"VALUE"   => $curProfile['PRICE'],
-					"TRANSIT" => ($curProfile['TERMS']['MIN'] == $curProfile['TERMS']['MAX']) ? $curProfile['TERMS']['MAX'] : $curProfile['TERMS']['MIN'].'-'.$curProfile['TERMS']['MAX'],
-					"TARIF"   => $curProfile['TARIF'],
-				);
-				if(CheckVersion(self::getSaleVersion(),'15.0.0')){
-					$time = $curProfile['TERMS']['MAX'];
-					if($time > 4 && $time < 21 || $time == 0)
-						$arReturn['TRANSIT'] .= ' '.GetMessage('IPOLSDEK_DELIV_days');
-					else{
-						$lst = $time % 10;
-						if($lst == 1)
-							$arReturn['TRANSIT'] .= ' '.GetMessage('IPOLSDEK_DELIV_day');
-						elseif($lst < 5)
-							$arReturn['TRANSIT'] .= ' '.GetMessage('IPOLSDEK_DELIV_daya');
-						else
-							$arReturn['TRANSIT'] .= ' '.GetMessage('IPOLSDEK_DELIV_days');
+					// DELIVERY
+					if(self::$extSdekSender){
+						CDeliverySDEK::$sdekSender = self::$extSdekSender;
+					}else{
+						CDeliverySDEK::$sdekSender = self::getDeliverySender($arConfig);
 					}
+
+					// ACCOUNT
+					if(self::$account){
+						sdekShipmentCollection::$accountId = self::$account;
+					}elseif(
+						!empty($arConfig) &&
+						array_key_exists('VALUE',$arConfig['ACCOUNT']) &&
+						$arConfig['ACCOUNT']['VALUE']
+					){
+						sdekShipmentCollection::$accountId = $arConfig['ACCOUNT']['VALUE'];
+					}
+
+					// событие заполнения порядка
+					if($arItems)
+						sdekShipmentCollection::init(self::$sdekCity,$arItems,$order);
+				}else
+					sdekShipmentCollection::initGabs(self::$sdekCity);
+			//}
+			$tarifs = (self::$preSet) ? self::$preSet : $profile;
+			sdekShipmentCollection::calculate($tarifs);
+			$curProfile = sdekShipmentCollection::getProfile($tarifs);
+			if($curProfile){
+				if($curProfile['RESULT'] == "OK"){
+					// определение валют
+					/* нет
+					$currency = self::getCountryOptions();
+					if(
+						array_key_exists(self::$sdekCityCntr,$currency) && 
+						array_key_exists('cur',$currency[self::$sdekCityCntr]) && 
+						$currency[self::$sdekCityCntr]['cur']
+					)
+						$curProfile['PRICE'] = floatval(sdekExport::formatCurrency(array('FROM'=>$currency[self::$sdekCityCntr]['cur'],'SUM'=>$curProfile['PRICE'])));
+					*/
+
+					if(COption::GetOptionString(self::$MODULE_ID,'mindEnsure','N') == 'Y'){
+						$ensurance = $arOrder['PRICE']*floatval(COption::GetOptionString(self::$MODULE_ID,'ensureProc','1.5'))/100;
+						if(COption::GetOptionString(self::$MODULE_ID,'mindNDSEnsure','Y') == 'Y'){
+							$ensurance +=  $ensurance * 18 /100;
+						}
+						$curProfile['PRICE'] += $ensurance;
+					}
+					
+					if(COption::GetOptionString(self::$MODULE_ID,'forceRoundDelivery','N') == 'Y'){
+						$curProfile['PRICE'] = round($curProfile['PRICE']);
+					}
+
+					$arReturn = array(
+						"RESULT"  => "OK",
+						"VALUE"   => $curProfile['PRICE'],
+						"TRANSIT" => ($curProfile['TERMS']['MIN'] == $curProfile['TERMS']['MAX']) ? $curProfile['TERMS']['MAX'] : $curProfile['TERMS']['MIN'].'-'.$curProfile['TERMS']['MAX'],
+						"TARIF"   => $curProfile['TARIF'],
+					);
+					if(CheckVersion(self::getSaleVersion(),'15.0.0')){
+						$time = $curProfile['TERMS']['MAX'];
+						if($time > 4 && $time < 21 || $time == 0)
+							$arReturn['TRANSIT'] .= ' '.GetMessage('IPOLSDEK_DELIV_days');
+						else{
+							$lst = $time % 10;
+							if($lst == 1)
+								$arReturn['TRANSIT'] .= ' '.GetMessage('IPOLSDEK_DELIV_day');
+							elseif($lst < 5)
+								$arReturn['TRANSIT'] .= ' '.GetMessage('IPOLSDEK_DELIV_daya');
+							else
+								$arReturn['TRANSIT'] .= ' '.GetMessage('IPOLSDEK_DELIV_days');
+						}
+					}
+				}else{
+					$arReturn = array(
+						"RESULT" => "ERROR",
+						"TEXT"   => $curProfile['TEXT'],
+					);
 				}
-			}else
+			}else{
 				$arReturn = array(
 					"RESULT" => "ERROR",
-					"TEXT"   => $curProfile['TEXT'],
+					"TEXT"   => GetMessage('IPOLSDEK_DELIV_ERR_NOCNT'),
 				);
-		}else
+			}
+		} else {
 			$arReturn = array(
-				"RESULT" => "ERROR",
-				"TEXT"   => GetMessage('IPOLSDEK_DELIV_ERR_NOCNT'),
-			);
+					"RESULT" => "ERROR",
+					"TEXT"   => GetMessage('IPOLSDEK_DELIV_ERR_NOCTO'),
+				);
+		}
 
 		foreach(GetModuleEvents(self::$MODULE_ID, "onCalculate", true) as $arEvent)
 			ExecuteModuleEventEx($arEvent,Array(&$arReturn,$profile,$arConfig,$arOrder));
@@ -426,7 +450,6 @@ class CDeliverySDEK extends sdekHelper{
 				date('d.m.Y',time()+($curProfile['TERMS']['MAX'])*86400)
 			);
 		}
-
 		return $arReturn;
 	}
 
@@ -441,6 +464,7 @@ class CDeliverySDEK extends sdekHelper{
             $arConfig['ACCOUNT']['VALUE']
         ){
             $acc = sqlSdekLogs::getById($arConfig['ACCOUNT']['VALUE']);
+
             if(!$acc || $acc['ACTIVE'] != 'Y'){
                 return false;
             }
@@ -448,6 +472,33 @@ class CDeliverySDEK extends sdekHelper{
 
         return true;
     }
+	
+	public static function getDeliverySender($arConfig = array())
+	{
+		$defaultSender = COption::GetOptionString(self::$MODULE_ID,'departure',false);
+		$citySenders   = unserialize(COption::GetOptionString(self::$MODULE_ID,'addDeparture','a:{}'));
+		
+		if($defaultSender){
+			$defaultSender = sqlSdekCity::getByBId($defaultSender);
+		}
+
+		if(is_array($citySenders)){
+			$citySenders []= $defaultSender;
+		}else{
+			$citySenders = array($defaultSender);
+		}
+
+		if(
+		    !empty($arConfig) &&
+            array_key_exists('VALUE',$arConfig['SENDER']) &&
+            $arConfig['SENDER']['VALUE'] &&
+			in_array($arConfig['SENDER']['VALUE'],$citySenders)
+        ){
+            return $arConfig['SENDER']['VALUE'];
+        } else {
+			return $defaultSender['SDEK_ID'];
+		}
+	}
 
 
 	/*()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
@@ -476,8 +527,9 @@ class CDeliverySDEK extends sdekHelper{
             ));
 
 			$result = self::calculateDost($profile,$mode);
+
 			if(
-				!is_numeric($tarif) && 
+				!is_numeric($profile) && 
 				(
 					$mode == 'heavy' || $result['price'] > floatval(COption::GetOptionString(self::$MODULE_ID,'cntExpress',500))
 				)
@@ -526,6 +578,18 @@ class CDeliverySDEK extends sdekHelper{
 			}else
 				foreach(self::$goods as $arGood)
 					$calc->addGoodsItemBySize($arGood['W'],$arGood['D_W'],$arGood['D_H'],$arGood['D_L']);
+			
+			$arServices = false;
+			foreach(GetModuleEvents(self::$MODULE_ID, "onCalculatePriceDelivery", true) as $arEvent){
+				$arServices = ExecuteModuleEventEx($arEvent,Array($tarif,$mode,array(
+					'CITY_FROM' => self::$sdekSender,
+					'CITY_TO'   => self::$sdekCity,
+					'GOODS'     => self::$goods
+				)));
+			}
+			if($arServices && is_array($arServices)){
+				$calc->setServices($arServices);
+			}
 
 			if($calc->calculate()===true){
 				COption::SetOptionString(self::$MODULE_ID,'sdekDeadServer',false);
@@ -551,6 +615,8 @@ class CDeliverySDEK extends sdekHelper{
 			}elseif($calc->getResult() == 'noanswer'){
 				COption::SetOptionString(self::$MODULE_ID,'sdekDeadServer',time());
 				$arReturn['error'] = GetMessage('IPOLSDEK_DEAD_SERVER');
+			}elseif($calc->getResult() == 'badanswer'){
+				$arReturn['error'] = GetMessage('IPOLSDEK_BAD_SERVER');
 			}else{
 				$err = $calc->getError();
 				if(isset($err['error'])&&!empty($err))
@@ -560,6 +626,7 @@ class CDeliverySDEK extends sdekHelper{
 		} catch (Exception $e){
 			$arReturn['error'] = $e->getMessage();
 		}
+
 		return $arReturn;
 	}
 
@@ -772,13 +839,23 @@ class CDeliverySDEK extends sdekHelper{
 			$arFilter,
 			false,
 			false,
-			array("ID","PRODUCT_ID", "PRICE", "QUANTITY",'CAN_BUY','DELAY',"NAME","DIMENSIONS","WEIGHT","PRICE","SET_PARENT_ID","LID","CURRENCY","VAT_RATE")
+			array("ID","PRODUCT_ID", "PRICE", "QUANTITY",'CAN_BUY','DELAY',"NAME","DIMENSIONS","WEIGHT","PRICE","SET_PARENT_ID","LID","CURRENCY","VAT_RATE","MEASURE_NAME")
 		);
-		while ($arItems = $dbBasketItems->Fetch())
-			if ($arItems['CAN_BUY'] == 'Y' && $arItems['DELAY'] == 'N'){
-				$arItems['DIMENSIONS'] = unserialize($arItems['DIMENSIONS']);
-				$arGoods[]=$arItems;
-				$ttlPrice+=$arItems['PRICE']*$arItems['QUANTITY'];
+		while ($arItem = $dbBasketItems->Fetch())
+			if ($arItem['CAN_BUY'] == 'Y' && $arItem['DELAY'] == 'N'){
+				$arItem['DIMENSIONS'] = unserialize($arItem['DIMENSIONS']);
+				$arItem['NAME'] = str_replace('"',"'",$arItem['NAME']);
+				if($arItem['QUANTITY'] != intval($arItem['QUANTITY'])){
+					$arItem['PRICE'] = round($arItem['PRICE'] * $arItem['QUANTITY'] * 100) / 100;
+					$arItem['WEIGHT'] *= intval($arItem['QUANTITY']);
+					// $sumGabs = self::sumSize(array($arItem['DIMENSIONS']['LENGTH'],$arItem['DIMENSIONS']['HEIGHT'],$arItem['DIMENSIONS']['WIDTH']),$arItem['QUANTITY']); // NOT used: Bitrix don't eat this gabarites
+					if(COption::GetOptionString(self::$MODULE_ID,'blockMeasureName','Y') == 'Y')
+						$arItem['NAME']  .= " (".$arItem['QUANTITY']." ".$arItem['MEASURE_NAME'].")";
+					$arItem['QUANTITY'] = 1;
+				}
+				$arGoods[]=$arItem;
+				$ttlPrice+=$arItem['PRICE']*$arItem['QUANTITY'];
+				
 			}
 
 		return $arGoods;
@@ -870,8 +947,8 @@ class CDeliverySDEK extends sdekHelper{
 	static function pickupLoader($arResult,$arUR){//подготавливает данные о доставке
 		if(!self::isActive()) return;
 
-		self::$orderWeight = $arResult['ORDER_WEIGHT'];
-		self::$orderPrice  = $arResult['ORDER_PRICE'];
+		self::$orderWeight = ($arResult['ORDER_WEIGHT']) ? $arResult['ORDER_WEIGHT'] : self::$orderWeight;
+		self::$orderPrice  = ($arResult['ORDER_PRICE'])  ? $arResult['ORDER_PRICE']  : self::$orderPrice;
 
 		$city = self::getCity($arUR['DELIVERY_LOCATION'],true);
 		self::$cityId = $arUR['DELIVERY_LOCATION'];
@@ -886,7 +963,7 @@ class CDeliverySDEK extends sdekHelper{
 		if(!is_array($arParams))
 			$arParams = array();
 		if(self::isActive() && $_REQUEST['is_ajax_post'] != 'Y' && $_REQUEST["AJAX_CALL"] != 'Y' && !$_REQUEST["ORDER_AJAX"]){
-			if(defined('BX_YMAP_SCRIPT_LOADED') || defined('IPOL_YMAPS_LOADED'))
+			if(COption::GetOptionString(self::$MODULE_ID,'noYmaps','Y') == 'Y' || defined('BX_YMAP_SCRIPT_LOADED') || defined('IPOL_YMAPS_LOADED'))
 				$arParams['NOMAPS'] = 'Y';
 			elseif(!array_key_exists('NOMAPS',$arParams) || $arParams['NOMAPS'] != 'Y')
 				define('IPOL_YMAPS_LOADED',true);
@@ -898,11 +975,13 @@ class CDeliverySDEK extends sdekHelper{
 		if(self::$city && self::isActive()){
 			$noJson = self::no_json($content);
 			if(($_REQUEST['is_ajax_post'] == 'Y' || $_REQUEST["AJAX_CALL"] == 'Y' || $_REQUEST["ORDER_AJAX"]) && $noJson){
-				$content .= '<input type="hidden" id="sdek_city"   name="sdek_city"   value=\''.self::$city.'\' />';//вписываем город
-				$content .= '<input type="hidden" id="sdek_cityID"   name="sdek_cityID"   value=\''.self::$cityId.'\' />';//вписываем город
-				$content .= '<input type="hidden" id="sdek_dostav"   name="sdek_dostav"   value=\''.self::$selDeliv.'\' />';//вписываем выбранный вариант доставки
+				$content .= '<input type="hidden" id="sdek_city" name="sdek_city" value=\''.self::$city.'\' />';//вписываем город
+				$content .= '<input type="hidden" id="sdek_cityID" name="sdek_cityID" value=\''.self::$cityId.'\' />';//вписываем город
+				$content .= '<input type="hidden" id="sdek_dostav" name="sdek_dostav" value=\''.self::$selDeliv.'\' />';//вписываем выбранный вариант доставки
+				$content .= '<input type="hidden" id="sdek_payer" name="sdek_payer" value=\''.self::$payerType.'\' />';//вписываем плательщика
+				$content .= '<input type="hidden" id="sdek_paysystem" name="sdek_paysystem" value=\''.self::$paysystem.'\' />';//вписываем платежную систему
 			}elseif(($_REQUEST['soa-action'] == 'refreshOrderAjax' || $_REQUEST['action'] == 'refreshOrderAjax') && !$noJson)
-				$content = substr($content,0,strlen($content)-1).',"sdek":{"city":"'.self::zajsonit(self::$city).'","cityId":"'.self::$cityId.'","dostav":"'.self::$selDeliv.'"}}';
+				$content = substr($content,0,strlen($content)-1).',"sdek":{"city":"'.self::zajsonit(self::$city).'","cityId":"'.self::$cityId.'","dostav":"'.self::$selDeliv.'","payer":"'.self::$payerType.'","paysystem":"'.self::$paysystem.'"}}';
 		}
 	}
 
@@ -926,11 +1005,11 @@ class CDeliverySDEK extends sdekHelper{
 
 	/*()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
 													Проверки ПВЗ и Почтоматов
-		== wegihtPVZ ==  == checkPVZ ==  == checkPOSTOMAT ==
+		== weightPVZ ==  == checkPVZ ==  == checkPOSTOMAT ==
 	()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()*/
 
 
-	public static function wegihtPVZ($weight=false,$src=false){
+	public static function weightPVZ($weight=false,$src=false){
 		if($src)
 			self::$PVZcities = $src;
 		if(!self::$PVZcities){
@@ -995,7 +1074,7 @@ class CDeliverySDEK extends sdekHelper{
 			$hNOC = (COption::GetOptionString(self::$MODULE_ID,"hideNOC","Y") == 'Y');
 			if($hNal || $hNOC){
 				$arBesnalPaySys = unserialize(COption::GetOptionString(self::$MODULE_ID,'paySystems','a:{}'));
-				$MP = sqlSdekCity::getByBId(self::getNormalCity($arUserResult['DELIVERY_LOCATION']));
+				$MP = self::getSQLCityBI($arUserResult['DELIVERY_LOCATION']);
 				$isAvail = true;
 				if($hNal)
 					$isAvail = self::defilePayNal($MP['PAYNAL'],$arResult['ORDER_PRICE']);
@@ -1012,6 +1091,9 @@ class CDeliverySDEK extends sdekHelper{
 				}
 			}
 		}
+		if($arParams['DELIVERY_TO_PAYSYSTEM'] == 'd2p' && $arUserResult['PAY_SYSTEM_ID']){
+			self::$paysystem = $arUserResult['PAY_SYSTEM_ID'];
+		}
 	}
 
 	static function checkNalP2D(&$arResult,$arUserResult,$arParams){
@@ -1020,7 +1102,7 @@ class CDeliverySDEK extends sdekHelper{
 			$hNOC = (COption::GetOptionString(self::$MODULE_ID,"hideNOC","Y") == 'Y');
 			if($hNal || $hNOC){
 				$arBesnalPaySys = unserialize(COption::GetOptionString(self::$MODULE_ID,'paySystems','a:{}'));
-				$MP = sqlSdekCity::getByBId(self::getNormalCity($arUserResult['DELIVERY_LOCATION']));
+				$MP = self::getSQLCityBI($arUserResult['DELIVERY_LOCATION']);
 				$isAvail = true;
 				if($hNal)
 					$isAvail = self::defilePayNal($MP['PAYNAL'],$arResult['ORDER_PRICE']);
@@ -1038,6 +1120,8 @@ class CDeliverySDEK extends sdekHelper{
 						unset($arResult['DELIVERY']['sdek']);
 				}
 			}
+			
+			self::$paysystem = $arUserResult['PAY_SYSTEM_ID'];
 		}
 	}
 
@@ -1184,6 +1268,16 @@ class CDeliverySDEK extends sdekHelper{
 			}
 		}
 
+		if(!self::$sdekCityCntr && $arOrder['CITY_TO_ID']){
+			$arCity = self::getCity($arOrder['CITY_TO_ID'],true);
+			self::$sdekCityCntr  = ($arCity['COUNTRY']) ? $arCity['COUNTRY'] : 'rus';
+		}elseif($arOrder['CITY_TO_ID']){
+			self::$sdekCityCntr = 'rus';
+		}
+		if(!self::$sdekCityCntr){
+			self::$sdekCityCntr = 'rus';
+		}
+			
 		// GABS
 		if($arOrder["DIMS"]) {
             $arOrder['GOODS'] = array(
@@ -1227,7 +1321,9 @@ class CDeliverySDEK extends sdekHelper{
 		if(self::$preSet){
 			$result = array_pop($arProfiles);
 			$sourse = sdekShipmentCollection::getProfile(self::$preSet);
-			if(!$sourse || $sourse['RESULT'] == 'ERROR')
+			if(!$sourse){
+				$arReturn = array('success' => false, 'error' => GetMessage('IPOLSDEK_DELIV_ERR_NOTRF'));
+			}elseif($sourse['RESULT'] == 'ERROR')
 				$arReturn = array('success' => false, 'error' => $sourse['TEXT']);
 			else
 				$arReturn = array('success' => true, 'price' => $result, 'termMin' => $sourse['TERMS']['MIN'], 'termMax' => $sourse['TERMS']['MAX']);
@@ -1304,6 +1400,12 @@ class CDeliverySDEK extends sdekHelper{
 				$arProps[$arProperty["ID"]] = $locVal;
 		}
 		$propertyCollection->setValuesFromPost(array('PROPERTIES'=>$arProps),array());
+		
+		if($arOrder['PERSON_TYPE_ID']){
+			$order->setField('PERSON_TYPE_ID',$arOrder['PERSON_TYPE_ID']);
+			if(!self::$payerType)
+				self::$payerType = $arOrder['PERSON_TYPE_ID'];
+		}
 
 		$shipmentCollection = $order->getShipmentCollection();
 		$shipment = $shipmentCollection->createItem();
@@ -1312,6 +1414,27 @@ class CDeliverySDEK extends sdekHelper{
 		foreach ($order->getBasket() as $item){
 			$shipmentItem = $shipmentItemCollection->createItem($item);
 			$shipmentItem->setQuantity($item->getQuantity());
+		}
+
+		if($arOrder['PAY_SYSTEM_ID']){
+			$paymentCollection = $order->getPaymentCollection();
+			$payment = $paymentCollection->createItem();
+			$psService = \Bitrix\Sale\PaySystem\Manager::getObjectById($arOrder['PAY_SYSTEM_ID']);
+			$paymentFields = array(
+				'PAY_SYSTEM_ID' => $arOrder['PAY_SYSTEM_ID'],
+				'COMPANY_ID' => 0,
+				'PAY_VOUCHER_NUM' => '',
+				'PAY_RETURN_NUM' => '',
+				'PAY_RETURN_COMMENT' => '',
+				'COMMENTS' => '',
+				'PAY_SYSTEM_NAME' => ($psService) ? $psService->getField('NAME') : ''
+			);
+			$payment->setFields($paymentFields);
+			$payment->setField('SUM', $order->getPrice());
+			
+			if(!self::$paysystem){
+				self::$paysystem = $arOrder['PAY_SYSTEM_ID'];
+			}
 		}
 
 		$arShipments = array();

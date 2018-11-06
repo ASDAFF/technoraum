@@ -35,6 +35,8 @@ $MESS ['IPOLSDEK_DELIV_daya'] = "дня";
 $MESS ['IPOLSDEK_DELIV_days'] = "дней";
 
 $MESS ['IPOLSDEK_DELIV_ERR_NOCNT'] = "Невозможно рассчитать доставку для данного профиля.";
+$MESS ['IPOLSDEK_DELIV_ERR_NOTRF'] = "Невозможно рассчитать доставку. Проверьте Ограничения данной службы доставки.";
+$MESS ['IPOLSDEK_DELIV_ERR_NOCTO'] = "Невозможно рассчитать доставку. Город доставки не найден.";
 
 $MESS ['IPOLSDEK_DELIV_ERR_NOPVZ'] = "Для оформления заказа укажите пункт самовывоза СДЭК.";
 
@@ -75,4 +77,5 @@ $MESS ['IPOLSDEK_SHIPMENT_ERRRECEIVER'] = "Не задан город-получатель";
 $MESS ['IPOLSDEK_SHIPMENT_ERRGOODS']    = "Не заданы товары";
 
 $MESS ['IPOLSDEK_DEAD_SERVER']    = "Сервер недоступен";
+$MESS ['IPOLSDEK_BAD_SERVER']     = "Некорректный ответ сервера";
 ?>

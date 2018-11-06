@@ -55,6 +55,10 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 				scrollDetail: false,
 
 				cityCountry: <?=CUtil::PhpToJSObject($arResult['Subjects'])?>,
+				
+				payer: '<?=$arParams['PAYER']?>',
+				
+				paysystem: '<?=$arParams['PAYSYSTEM']?>',
 
 				init: function(){
 					IPOLSDEK_pvz.punctMode = (IPOLSDEK_pvz.profiles.length == 1) ? IPOLSDEK_pvz.profiles[0] : 'ALL';
@@ -312,6 +316,8 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 					data['CITY_TO_ID'] = IPOLSDEK_pvz.cityId;
 					data['isdek_action']  = 'countDelivery';
 					data['FORBIDDEN'] = IPOLSDEK_pvz.forbidden;
+					data['PERSON_TYPE_ID'] = IPOLSDEK_pvz.payer;
+					data['PAY_SYSTEM_ID'] = IPOLSDEK_pvz.paysystem;
 					IPOLSDEK_pvz.prices = {};
 					$.ajax({
 						url: '/bitrix/js/ipol.sdek/ajax.php',

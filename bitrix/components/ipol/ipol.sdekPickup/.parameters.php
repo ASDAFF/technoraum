@@ -19,6 +19,18 @@ $arCountries = array();
 foreach($optCountries as $countryCode)
 	$arCountries[$countryCode] = GetMessage('IPOLSDEK_SYNCTY_'.$countryCode);
 
+$arPayers = array();
+$db_ptype = CSalePersonType::GetList(Array("SORT" => "ASC"));
+while($arPayer = $db_ptype->Fetch()){
+	$arPayers [$arPayer['ID']]= $arPayer['NAME'];
+}
+
+$arPaySyss=CSalePaySystem::GetList(array(),array('ACTIVE'=>'Y'));
+$arPaySystems = array();
+while($arPaySus=$arPaySyss->Fetch()){
+	$arPaySystems [$arPaySus['ID']]= $arPaySus['NAME']; 
+}
+
 $arComponentParameters = array(
 	"PARAMETERS" => array(
 		/* "MODE" => array(
@@ -51,6 +63,22 @@ $arComponentParameters = array(
 			"SIZE"     => 3,
 			"MULTIPLE" => "Y",
 		),
+		"PAYER" => array(
+			"PARENT"   => "BASE",
+			"NAME"     => GetMessage('IPOLSDEK_COMPOPT_PAYERS'),
+			"TYPE"     => "LIST",
+			"VALUES"   => $arPayers,
+			"SIZE"     => 3,
+			"MULTIPLE" => "N",
+		),
+		"PAYSYSTEM" => array(
+			"PARENT"   => "BASE",
+			"NAME"     => GetMessage('IPOLSDEK_COMPOPT_PAYSYSTEM'),
+			"TYPE"     => "LIST",
+			"VALUES"   => $arPaySystems,
+			"SIZE"     => 5,
+			"MULTIPLE" => "N",
+		),
 		"COUNTRIES" => array(
 			"PARENT"   => "BASE",
 			"NAME"     => GetMessage('IPOLSDEK_COMPOPT_COUNTRIES'),
@@ -64,7 +92,7 @@ $arComponentParameters = array(
 			"NAME"     => GetMessage('IPOLSDEK_COMPOPT_CITIES'),
 			"TYPE"     => "LIST",
 			"VALUES"   => $arCities,
-			"SIZE"     => count($arCities),
+			"SIZE"     => min(count($arCities),30),
 			"MULTIPLE" => "Y",
 		)
 	),
