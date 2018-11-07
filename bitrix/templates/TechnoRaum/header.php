@@ -28,7 +28,6 @@ if($url[1] != "personal" && $url[2] != "order" && $url[3] != "make")
 		<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900&amp;subset=cyrillic" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
 		<script src='https://www.google.com/recaptcha/api.js'></script>
-		<script src="https://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" type="text/javascript"></script>
 		<?
 			if($url[1] == "catalog")
 			{

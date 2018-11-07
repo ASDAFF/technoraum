@@ -47,6 +47,8 @@ foreach($countries as $code)
 if($arParams['CNT_DELIV'] == 'Y'){
 	$goods = ($arParams['CNT_BASKET'] == 'Y') ? CDeliverySDEK::setOrderGoods() : false;
 
+
+
 	// Old templates
 	$arResult['ORDER'] = array(
 		'WEIGHT' => (CDeliverySDEK::$goods['W'])*1000,
@@ -68,7 +70,10 @@ if($arParams['CNT_DELIV'] == 'Y'){
 	if($goods)
 		$arResult['ORDER']['GOODS'] = $goods;
 
-	$arResult['DELIVERY'] = CDeliverySDEK::countDelivery(array(
+
+
+	$arResult['DELIVERY'] = CDeliverySDEK::countDelivery(
+		array(
 		'CITY_TO'    	 => CDeliverySDEK::zajsonit($arResult['city']),
 		'CITY_TO_ID' 	 => (array_key_exists('CITY_ID',$arParams)) ? $arParams['CITY_ID'] : false,
 		'WEIGHT'     	 => (CDeliverySDEK::$goods['W'])*1000,
@@ -77,8 +82,10 @@ if($arParams['CNT_DELIV'] == 'Y'){
 		'GOODS'	     	 => $goods,
 		'PERSON_TYPE_ID' => $arParams['PAYER'],
 		'PAY_SYSTEM_ID'  => $arParams['PAYSYSTEM']
-	));
+		)
+	);
 }
+
 
 if(!(count($arParams['CITIES'])==1 && $arResult['DELIVERY']['pickup'] == 'no')){
 	$arList = CDeliverySDEK::getListFile();

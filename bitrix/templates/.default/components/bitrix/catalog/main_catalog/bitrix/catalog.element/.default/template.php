@@ -438,63 +438,69 @@ while ($arItems = $dbBasketItems->Fetch())
 	?>
 </div>
 <div style="clear:both"></div>
-<style>
-	.order_container input[type='submit']{display:none}
-	.pp_form input[type='submit']{display:block}
-	#cdek{display:block}
-	#cdek input[type='submit']{display:block}
-	#dil_form .address_form{display:none !important}
-</style>
-<div class="order_container" id="ordc">
-	<link rel="stylesheet" type="text/css" href="/personal/order/make/js/style.css"></link>
-	<script src="https://api-maps.yandex.ru/2.1/?lang=ru-RU" type="text/javascript"></script>
-	<script src="/personal/order/make/js/order.js" type="text/javascript"></script>
-<?
 
-	if(!empty($curr_weight) && !empty($curr_width) && !empty($curr_length) && !empty($curr_height))
-		$tabs = array("Самовывоз из магазина" , "Самовывоз из пункта выдачи", "Доставка до двери");
-	else
-		$tabs = array("Самовывоз из магазина" , "Самовывоз из пункта выдачи");
+<!--TABS-->
 
-	$_SESSION["product-weight"] = str_replace(" " , "" , $curr_weight / 1000);
-	$_SESSION["product-size"] = array("l" => $curr_length , "w" => $curr_width, "h" => $curr_height);
 
-	$_SESSION["city"] = $_SESSION["ALTASIB_GEOBASE_CODE"]["CITY"]["NAME"];
-?>
-<form class="step_form" id="step2_form">
-	<div class="tabs step2">
-	<?
-		for($i=1;$i<=count($tabs);$i++)
-		{
-			?>
-				<div data-id="<?=$i?>" class="tab<?=$i?> tab<? if($i == 1) echo ' active'?>"><a tab-id="<?=$i?>"><?=$tabs[$i-1]?></a></div>
+	<div id="tabs">
+		<ul>
+			<li><a href="#tabs-1">Самовывоз из магазина</a></li>
+			<li><a href="#tabs-2">Самовывоз из пункта выдачи</a></li>
+			<li><a href="#tabs-3">Доставка до двери</a></li>
+		</ul>
+		<div id="tabs-1">
+			<?$APPLICATION->IncludeComponent(
+				"bitrix:catalog.store.list",
+				".store.list",
+				Array(
+					"CACHE_TIME" => "36000000",
+					"CACHE_TYPE" => "A",
+					"MAP_TYPE" => "0",
+					"PATH_TO_ELEMENT" => "store/#store_id#",
+					"PHONE" => "Y",
+					"SCHEDULE" => "Y",
+					"SET_TITLE" => "N",
+					"TITLE" => "",
+					"PRODUCT_ID" => $arResult['ID']
+				)
+			);?>
+		</div>
+		<div id="tabs-2">
+			<?$APPLICATION->IncludeComponent("ipol:ipol.sdekPickup", ".sdekPickup", Array(
+				"CITIES" => "",	// Подключаемые города (если не выбрано ни одного - подключаются все)
+				"CNT_BASKET" => "N",	// Расчитывать доставку для корзины
+				"CNT_DELIV" => "Y",	// Расчитывать доставку при подключении
+				"COUNTRIES" => "",	// Подключенные страны
+				"FORBIDDEN" => "",	// Отключить расчет для профилей
+				"NOMAPS" => "Y",	// Не подключать Яндекс-карты (если их подключает что-то еще на странице)
+				"PAYER" => "1",	// Тип плательщика, от лица которого считать доставку
+				"PAYSYSTEM" => "",	// Тип платежной системы, с которой будет считатся доставка
+			),
+				false
+			);?>
+		</div>
+		<div id="tabs-3">
 			<?
-		}
-	?>
+			$APPLICATION->IncludeComponent(
+				"nbrains:sdek.ajax.delivery",
+				"",
+				Array(
+					"WIDTH" => $arResult['CATALOG_WIDTH'],
+					"HEIGHT" => $arResult['CATALOG_HEIGHT'],
+					"LENGTH" => $arResult['CATALOG_LENGTH'],
+					"WEIGHT" => $arResult['CATALOG_WEIGHT'],
+				)
+			);?>
+		</div>
 	</div>
-	<div class="tabs_content">
-		<div class="tbc tbc1"></div>
-		<div class="tbc tbc2"></div>
-		<div class="tbc tbc3"></div>
-	</div>
-</form>
-			<form style="position:relative" method="POST" action="/personal/order/make/" class="nstep">
-				<input type="hidden" name="point_name" value="<?=$point_name?>" />
-				<input type="hidden" name="point_phone" value="<?=$point_phone?>" />
-				<input type="hidden" name="point_time" value="<?=$point_time?>" />
-				<input type="hidden" name="city" value="" />
-				<input type="hidden" name="temp1" />
-				<input type="hidden" name="temp2" value="1"/>
-				<input type="hidden" name="city_id" value="1"/>
-				<input type="hidden" name="change_dmethod" value="1">
-				<input type="text" name="dil_address" required style="opacity:0;position:absolute;top:-300px;left:0;z-index:-1">
-				<input type="hidden" name="change_step" value="3">
-				<input type="submit" value="Перейти к способу оплаты" />
-			</form>
 
 
 
-</div>
+
+<!--TABS-END-->
+
+
+
 <?
 	if($arResult["PROPERTIES"]["DN_FILES"]["VALUE"])
 	{

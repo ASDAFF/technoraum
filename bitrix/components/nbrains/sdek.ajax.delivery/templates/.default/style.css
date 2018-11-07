@@ -1,0 +1,94 @@
+.delivery-door{
+    font-family: "Montserrat-SemiBold";
+}
+
+.delivery-door{
+    padding: 10px;
+}
+
+.delivery-door .delivery-door-main .delivery-door-item{
+    width: 50%;
+    text-align: center;
+    float: left;
+}
+
+.delivery-door .delivery-door-main .delivery-door-item .delivery-door-title{
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 20px;
+}
+
+.delivery-door .delivery-door-main .delivery-door-item .delivery-door-input input{
+    width: 25em;
+    height: 50px;
+    -webkit-appearance: none;
+    background: #FFF;
+    border: 2px solid #ededed;
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.delivery-door .delivery-door-main .delivery-door-item .delivery-door-button input{
+    background: #ef293b;
+    color: #FFF;
+    font-size: 15px;
+    padding: 15px 30px;
+    border: none;
+    transition: 0.5s;
+    font-weight: bold;
+}
+
+.delivery-door .delivery-door-main .delivery-door-item .delivery-door-param{
+    font-size: 15px;
+    font-weight: 100;
+}
+.delivery-door .delivery-door-main .delivery-door-item .delivery-door-param span{
+    font-weight: bold;
+}
+
+.delivery-door-table .row:not(:first-child) {
+    padding: 10px 30px;
+    font-weight: 100;
+    font-size: 14px;
+}
+
+.delivery-door-table .row{
+    display: flex;
+}
+
+.delivery-door-table .row:nth-child(1) {
+    background: #e8ecef;
+    padding: 10px 30px;
+}
+
+.delivery-door-table .row .col1 {
+    width: 40%;
+    display: flex;
+}
+
+.delivery-door-table .row .col2 {
+    width: 30%;
+    display: flex;
+}
+
+.delivery-door-table .row .col3 {
+    width: 30%;
+    display: flex;
+}
+
+.delivery-door-table .row .item div {
+    margin: auto;
+}
+
+.delivery-door-table-title{
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#delivery-table{
+    display: none;
+}

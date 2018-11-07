@@ -1,0 +1,54 @@
+
+.region-shop {
+    border: 1px solid #d2d2d2;
+}
+
+.region-shop > .shop-list {
+    margin: 0;
+    padding: 0;
+    width: 30%;
+    height: 380px;
+    float: left;
+    overflow-y: auto;
+}
+
+.region-shop > .shop-list > .shop {
+    vertical-align: top;
+    border-bottom: 1px solid #d2d2d2;
+    list-style-type: none;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.region-shop > .shop-list > .shop.active {
+    background: #eee;
+}
+
+.region-shop>.shop-list>.shop:nth-child(1), .region-shop>.shop-list>.shop:nth-child(2), .region-shop>.shop-list>.shop:nth-child(3) {
+    border-bottom: 1px solid #d2d2d2;
+}
+
+.region-shop > .shop-map {
+    width: 70%;
+    height: 380px;
+    border-left: 1px solid #ccc;
+    float: right;
+}
+
+.region-shop > .shop-list > .shop .shop-name {
+    font-size: 13px;
+    display: block;
+    font-weight: bold;
+}
+
+.region-shop > .shop-list > .shop .shop-address {
+    font-size: 12px;
+}
+.region-shop > .shop-list > .shop .call-manager {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.clear{
+    clear: both;
+}

@@ -420,5 +420,12 @@ if($_SERVER["REQUEST_URI"] != "/")
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/news_filter.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/catalog_filter.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/fos.js");
+
+
+            $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/js/jquery-ui/css/jquery-ui.css");
+			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery-ui/js/jquery-ui.js");
+			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/script.js");
+
+
 		?>
 </html>
