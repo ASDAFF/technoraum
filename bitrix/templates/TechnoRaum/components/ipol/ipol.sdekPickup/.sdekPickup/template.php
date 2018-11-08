@@ -263,15 +263,17 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 							if(IPOLSDEK_pvz.cityPVZ[i].Note)
 								baloonHTML += "<div class='sdek_baloonInfo'><div>"+IPOLSDEK_pvz.cityPVZ[i].Note+"</div></div>";
 
+						baloonHTML += "<a style='display: block;padding: 10px 12px;font-size: 12px;font-weight: bold;margin: auto 10px;' class='button' href='/catalog/element/?action=BUY&id=<?=$arParams[PRODUCT_ID]?>'>Добавить в корзину</a>";
 						baloonHTML += "</div>";
-						
+
 						IPOLSDEK_pvz.cityPVZ[i].placeMark = new ymaps.Placemark([IPOLSDEK_pvz.cityPVZ[i].cY,IPOLSDEK_pvz.cityPVZ[i].cX],{
 							balloonContent: baloonHTML
 						}, {
 							iconLayout: 'default#image',
 							iconImageHref: '/bitrix/images/ipol.sdek/widjet/sdekNActive.png',
 							iconImageSize: [40, 43],
-							iconImageOffset: [-10, -31]
+							iconImageOffset: [-10, -31],
+							//balloonMaxWidth:210
 						});
 						IPOLSDEK_pvz.Y_map.geoObjects.add(IPOLSDEK_pvz.cityPVZ[i].placeMark);
 						IPOLSDEK_pvz.cityPVZ[i].placeMark.link = i;
