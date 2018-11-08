@@ -15,6 +15,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 			</div>
 			<div class="delivery-door-button">
 				<input type="submit" value="Посчитать" id="delivery-door-send">
+				<input type="submit" onclick="window.location.href='/catalog/element/?action=BUY&id=<?=$arParams[PRODUCT_ID]?>'" style="background: #feee35;color: #000000;" value="Добавить в корзину">
 			</div>
 
 		</div>

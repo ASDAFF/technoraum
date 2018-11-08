@@ -490,6 +490,7 @@ while ($arItems = $dbBasketItems->Fetch())
 					"HEIGHT" => $arResult['CATALOG_HEIGHT'],
 					"LENGTH" => $arResult['CATALOG_LENGTH'],
 					"WEIGHT" => $arResult['CATALOG_WEIGHT'],
+					"PRODUCT_ID" => $arResult['ID']
 				)
 			);?>
 		</div>
