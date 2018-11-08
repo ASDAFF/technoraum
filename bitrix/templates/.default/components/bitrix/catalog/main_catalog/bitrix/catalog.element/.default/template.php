@@ -450,7 +450,7 @@ while ($arItems = $dbBasketItems->Fetch())
 		</ul>
 		<div id="tabs-1">
 			<?$APPLICATION->IncludeComponent(
-				"bitrix:catalog.store.list",
+				"nbrains:catalog.store.list",
 				".store.list",
 				Array(
 					"CACHE_TIME" => "36000000",
