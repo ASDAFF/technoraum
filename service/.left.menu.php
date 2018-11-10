@@ -1,22 +1,29 @@
 <?
 $aMenuLinks = Array(
 	Array(
-		"Услуга 1", 
-		"/service/usluga-1/", 
+		" Ремонт бытовой техники Karcher", 
+		"/service/Remont-tekhniki-Karcher/", 
 		Array(), 
 		Array(), 
 		"" 
 	),
 	Array(
-		"Услуга 2", 
-		"/service/usluga-2/", 
+		"Ремонт профессиональной техники", 
+		"/service/Remont-professionalnoj-tekhniki/", 
 		Array(), 
 		Array(), 
 		"" 
 	),
 	Array(
-		"Услуга 3", 
-		"/service/usluga-3/", 
+		"Ремонт насадок и аксессуаров Керхер", 
+		"/service/Remont-nasadok-i-aksessuarov-Kerher/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Изготовление шлангов высокого давления", 
+		"/service/izgotovlenie-shlangov-vysokogo-davleniya/", 
 		Array(), 
 		Array(), 
 		"" 
