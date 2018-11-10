@@ -407,15 +407,19 @@ while ($arItems = $dbBasketItems->Fetch())
 					break;
 				}
 			}
-			if ($er == 0)
-			{
-				?><label class="compare"><input vl="<?=$arResult["ID"]?>" type="checkbox" name="compare"/><span>Добавить в сравнение</span></label><?
-			}
-			else
-			{
-				?><label class="compare"><input vl="<?=$arResult["ID"]?>" checked="checked" type="checkbox" name="compare"/><span>Добавлено в сравнение</span></label><?
-			}
-		?>
+			?>
+
+
+		<div class="">
+			<input vl="<?=$arResult["ID"]?>" type="checkbox" class="compare-checkbox" name="compare"
+				   <?=($er) ? "checked" : ""?>
+				   data-tt-type="square_v"
+				   data-tt-label-uncheck="Добавить в сравнение"
+				   data-tt-label-check="Добавлено в сравнение"
+			/>
+		</div>
+
+
 		<div class="card_consult_text">
 			<br>
 			<p>

@@ -422,8 +422,13 @@ if($_SERVER["REQUEST_URI"] != "/")
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/fos.js");
 
 
+            //jquery-ui
             $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/js/jquery-ui/css/jquery-ui.css");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery-ui/js/jquery-ui.js");
+            //tinytoggle js checkbox manager
+            $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/js/tinytoggle/css/tiny-toggle.css");
+            $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/tinytoggle/js/tiny-toggle.js");
+            //custom script
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/script.js");
 
 

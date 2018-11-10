@@ -98,22 +98,25 @@ $frame = $this->createFrame("sender-subscribe", false)->begin();
 		})();
 	</script>
 
-			<form id="bx_subscribe_subform_<?=$buttonId?>" role="form" method="post" action="<?=$arResult["FORM_ACTION"]?>">
+	<form id="bx_subscribe_subform_<?=$buttonId?>" role="form" method="post" action="<?=$arResult["FORM_ACTION"]?>">
 		<?=bitrix_sessid_post()?>
 		<input type="hidden" name="sender_subscription" value="add">
-				<p class="title">
-					 Подпишитесь на нашу рассылку
-				</p>
-				<p>
-					 Никакого спама, только важные новости и акции 1 раз в неделю
-				</p>
-				<div class="the_form_div the_form_div_text_and_submit">
- <input type="text" required name="SENDER_SUBSCRIBE_EMAIL" placeholder="Электронная почта"> <input type="submit" name="submit1" value="Подписаться">
-				</div>
-				<div class="the_form_div the_form_div_accept">
- <label><input required type="checkbox" name="accept"><span>Я cогласен на <a href="/soglasie-na-obrabotku-personalnykh-dannykh/" target=_blank>обработку персональных данных</a></span></label>
-				</div>
-			</form>
+		<p class="title">Подпишитесь на нашу рассылку</p>
+		<p>Никакого спама, только важные новости и акции 1 раз в неделю</p>
+
+		<div class="the_form_div the_form_div_text_and_submit">
+			<input type="text" required name="SENDER_SUBSCRIBE_EMAIL" placeholder="Электронная почта">
+			<input type="submit" name="submit1" value="Подписаться">
+		</div>
+
+		<div class="the_form_div the_form_div_accept">
+			<input type="checkbox" class="checkbox" name="accept" required
+				   checked="checked"
+				   data-tt-type="square_v"
+				   data-tt-label-check="Я cогласен на <a href='/soglasie-na-obrabotku-personalnykh-dannykh/' target=_blank>обработку персональных данных</a>"
+				   data-tt-label-uncheck="Вы не дали согласие на обработку персональных данных.">
+		</div>
+	</form>
 
 
 <?
@@ -220,7 +223,7 @@ $frame->beginStub();
 			<?endforeach;?>
 		</div>
 
-		<?if ($arParams['USER_CONSENT_USE'] == 'Y'):?>
+		<?if ($arParams['USER_CONSENT_USE'] == 'Y'):?>1
 		<div class="bx_subscribe_checkbox_container bx-sender-subscribe-agreement">
 			<?$APPLICATION->IncludeComponent(
 				"bitrix:main.userconsent.request",
@@ -238,7 +241,7 @@ $frame->beginStub();
 					),
 				)
 			);?>
-		</div>
+		</div>2
 		<?endif;?>
 
 		<div class="bx_subscribe_submit_container">

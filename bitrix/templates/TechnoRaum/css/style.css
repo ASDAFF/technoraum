@@ -293,7 +293,7 @@ nav.header_menu > ul > li > ul > li.has_ul > a:after {display:block;}
 .popup form .error{font-size: 14px;color:red;}
 .the_form.mini_form.mini_form_mark2 {}
 .the_form.mini_form.mini_form_mark2 .the_form_div.the_form_div_text_and_submit {width:100%;max-width:100%;float:left;}
-.the_form.mini_form.mini_form_mark2 .the_form_div.the_form_div_text_and_submit input[type="text"] {max-width:100%;float:left;width: 348px;  height: 54px;padding-left:20px;}
+.the_form.mini_form.mini_form_mark2 .the_form_div.the_form_div_text_and_submit input[type="text"] {max-width:100%;float:left;width: 250px;  height: 54px;padding-left:20px;}
 .the_form.mini_form.mini_form_mark2 .the_form_div.the_form_div_text_and_submit input[type="submit"] {width: 218px;float:left;height:54px;background:#f22534;color:#fff;border-color:#f22534;}
 .the_form.mini_form.mini_form_mark2 .the_form_div.the_form_div_text_and_submit input[type="submit"]:hover {background:none;color:#000;}
 
@@ -375,8 +375,6 @@ a.ref {display:block;text-decoration:none;position:absolute;top:0;left:0;width:1
 .section.middle_consult_section.subscribe_section .the_form.mini_form.mini_form_mark2 .the_form_div input[type="text"] {border-color:#fff;}
 .section.middle_consult_section.subscribe_section .the_form.mini_form.mini_form_mark2 .the_form_div.the_form_div_text_and_submit input[type="submit"] {width:177px;border-color:#111;background:#111;background:#4f5358;border-color:#4f5358;color:#fff;}
 .section.middle_consult_section.subscribe_section .the_form.mini_form.mini_form_mark2 .the_form_div.the_form_div_text_and_submit input[type="submit"]:hover {background:#393c40;border-color:#393c40;}
-
-.section.middle_consult_section.subscribe_section .the_form.mini_form.mini_form_mark2 .the_form_div .ez-checkbox {background-image:url(../img/checkbox2.png);}
 
 .ez-checkbox-noclick{background: #fff url(../img/checkbox.png) 0 0px no-repeat;display: inline-block;width: 24px;height: 24px;border-radius: 0px;margin-right: 7px;vertical-align: middle;background-position: 0px 0px}
 .ez-checkbox-noclick.check{background-position: 0px -24px !important}

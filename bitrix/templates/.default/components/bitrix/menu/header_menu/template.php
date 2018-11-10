@@ -36,8 +36,7 @@
 																				if($sub_item["IS_PARENT"])
 																				{
 																					$sub2_level[$sub2_index] .= '<div data-index="'.$sub2_index.'" class="header_menu_dropdown_level2';
-																					//if($sub2_index == 1)
-																					//$sub2_level[$sub2_index] .= ' open';
+
 																					$sub2_level[$sub2_index] .= '"><ul>';
 
 																					$index = 0;
@@ -60,11 +59,11 @@
 																						}
 																					}
 																					$sub2_level[$sub2_index] .= '</ul></div>';
-																					$sub2_index++;
 																				}
 																			?>
 																	</li>
 																<?
+																$sub2_index++;
 															}
 															elseif($sub_item["DEPTH_LEVEL"] < 2)
 															{

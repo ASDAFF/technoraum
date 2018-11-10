@@ -568,10 +568,15 @@ $APPLICATION->IncludeComponent("bitrix:catalog", "home_categories", Array(
 					 проконсультируем и подберем оптимальное оборудование
 				</p>
 				<div class="the_form_div the_form_div_text_and_submit">
- <input type="text" name="tel" required placeholder="Ваш номер телефона"> <input type="submit" name="submit1" value="Отправить заявку">
+ 					<input type="text" name="tel" required placeholder="Ваш номер телефона">
+					<input type="submit" name="submit1" value="Отправить заявку">
 				</div>
 				<div class="the_form_div the_form_div_accept">
- <label><input type="checkbox" required name="accept"><span>Я cогласен на <a href="/soglasie-na-obrabotku-personalnykh-dannykh/" target=_blank>обработку моих персональных данных</a></span></label>
+					<input type="checkbox" class="checkbox" name="accept" required
+						   checked="checked"
+						   data-tt-type="square_v"
+						   data-tt-label-check="Я cогласен на <a href='/soglasie-na-obrabotku-personalnykh-dannykh/' target=_blank>обработку персональных данных</a>"
+						   data-tt-label-uncheck="Вы не дали согласие на обработку персональных данных.">
 				</div>
 			</form>
 		</div>
@@ -676,41 +681,48 @@ $APPLICATION->IncludeComponent("bitrix:catalog", "home_categories", Array(
 		)
 	),
 	false
-);?>
+);
+?>
 </div>
- </section><!--/glav_news_section--> <section class="section middle_consult_section subscribe_section">
-<div class="inner_section clearfix">
-	<div class="middle_consult_img">
- <img src="/bitrix/templates/TechnoRaum/img/subscribe_img0.png" alt="">
-	</div>
-	<div class="middle_order_right clearfix">
-		<div class="the_form mini_form mini_form_mark2">
-				 <?$APPLICATION->IncludeComponent("bitrix:sender.subscribe", "template1", Array(
-	"AJAX_MODE" => "N",	// Включить режим AJAX
-		"AJAX_OPTION_ADDITIONAL" => "",	// Дополнительный идентификатор
-		"AJAX_OPTION_HISTORY" => "N",	// Включить эмуляцию навигации браузера
-		"AJAX_OPTION_JUMP" => "N",	// Включить прокрутку к началу компонента
-		"AJAX_OPTION_STYLE" => "Y",	// Включить подгрузку стилей
-		"CACHE_TIME" => "3600",	// Время кеширования (сек.)
-		"CACHE_TYPE" => "A",	// Тип кеширования
-		"CONFIRMATION" => "Y",	// Запрашивать подтверждение подписки по email
-		"HIDE_MAILINGS" => "N",	// Скрыть список рассылок, и подписывать на все
-		"SET_TITLE" => "N",	// Устанавливать заголовок страницы
-		"SHOW_HIDDEN" => "N",	// Показать скрытые рассылки для подписки
-		"USER_CONSENT" => "N",	// Запрашивать согласие
-		"USER_CONSENT_ID" => "0",	// Соглашение
-		"USER_CONSENT_IS_CHECKED" => "Y",	// Галка по умолчанию проставлена
-		"USER_CONSENT_IS_LOADED" => "N",	// Загружать текст сразу
-		"USE_PERSONALIZATION" => "Y",	// Определять подписку текущего пользователя
-		"COMPONENT_TEMPLATE" => "footer-subscribe"
-	),
-	false
-);?>
+</section><!--/glav_news_section-->
+
+<section class="section middle_consult_section subscribe_section">
+	<div class="inner_section clearfix">
+		<div class="middle_consult_img">
+			<img src="<?=SITE_TEMPLATE_PATH?>/img/subscribe_img0.png" alt="">
 		</div>
-		 <!--/mini_form mini_form_mark2-->
+		<div class="middle_order_right clearfix">
+			<div class="the_form mini_form mini_form_mark2">
+					 <?$APPLICATION->IncludeComponent("bitrix:sender.subscribe", "template1", Array(
+						"AJAX_MODE" => "N",	// Включить режим AJAX
+							"AJAX_OPTION_ADDITIONAL" => "",	// Дополнительный идентификатор
+							"AJAX_OPTION_HISTORY" => "N",	// Включить эмуляцию навигации браузера
+							"AJAX_OPTION_JUMP" => "N",	// Включить прокрутку к началу компонента
+							"AJAX_OPTION_STYLE" => "Y",	// Включить подгрузку стилей
+							"CACHE_TIME" => "3600",	// Время кеширования (сек.)
+							"CACHE_TYPE" => "A",	// Тип кеширования
+							"CONFIRMATION" => "Y",	// Запрашивать подтверждение подписки по email
+							"HIDE_MAILINGS" => "N",	// Скрыть список рассылок, и подписывать на все
+							"SET_TITLE" => "N",	// Устанавливать заголовок страницы
+							"SHOW_HIDDEN" => "N",	// Показать скрытые рассылки для подписки
+							"USER_CONSENT" => "N",	// Запрашивать согласие
+							"USER_CONSENT_ID" => "0",	// Соглашение
+							"USER_CONSENT_IS_CHECKED" => "Y",	// Галка по умолчанию проставлена
+							"USER_CONSENT_IS_LOADED" => "N",	// Загружать текст сразу
+							"USE_PERSONALIZATION" => "Y",	// Определять подписку текущего пользователя
+							"COMPONENT_TEMPLATE" => "footer-subscribe"
+						),
+						false
+					);?>
+			</div>
+			 <!--/mini_form mini_form_mark2-->
+		</div>
 	</div>
-</div>
- </section><!--/middle_consult_section subscribe_section--> <section class="section seo_section">
+ </section>
+<!--/middle_consult_section subscribe_section-->
+
+
+<section class="section seo_section">
 <div class="inner_section the_content_section clearfix">
 	<? $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH."/include/seo_h2.php",Array(),Array("MODE"=>"html")); ?>
 	<div class="text_toggling_div">

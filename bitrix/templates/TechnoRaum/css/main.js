@@ -3,44 +3,9 @@ function sub(obj)
 	obj.next(".header_menu_dropdown").find("ul").css({"display" : "block"});
 	obj.next(".header_menu_dropdown").slideToggle();
 }
-function bUpdate()
-{
-	var all_basket = $(".bx-soa-item-table").html();
-	$(".bx-soa-item-table").css({"opacity" : "0"}).html("");
-	var click = setInterval(function()
-	{
-		var html = $(".bx-soa-item-table").html();
-		if(html.length > 10)
-		{
-			$(".bx-soa-item-table").html(all_basket).css({"opacity" : "1"});
-			$(".bx-soa-pp-company").attr("onClick" , "bUpdate()");
-			clearInterval(click);
-		}
-	},100);
-}
-function lUpdate()
-{
-	$("#bx-soa-delivery .ez-checkbox").css({"opacity" : "0"});
-	var click = setInterval(function()
-	{
-		var obj = $("#bx-soa-delivery .bx-soa-pp-company.col-lg-4.col-sm-4.col-xs-6").filter(":first-child");
-		var obj2 = $("#bx-soa-paysystem .bx-soa-pp-company.col-lg-4.col-sm-4.col-xs-6").filter(":first-child");
-		if(obj)
-		{
-			obj.removeClass("bx-selected");
-			obj.find(".ez-checkbox").removeClass("ez-checked");
-			obj.trigger("click");
-			clearInterval(click);
-		}
-		if(obj2)
-		{
-			obj2.removeClass("bx-selected");
-			obj2.find(".ez-checkbox").removeClass("ez-checked");
-			obj2.trigger("click");
-			clearInterval(click);
-		}
-	},100);
-}
+
+
+
 $(document).ready(function()
 {
 	$(".card-scroll").click(function(e)
@@ -94,11 +59,6 @@ $(document).ready(function()
 			}
 		},100);
 	});
-	
-	
-	
-	$(".bx-soa-pp-company").attr("onClick" , "bUpdate()");
-	$(".bx-soa-editstep").attr("onClick" , "lUpdate()");
 
 	$(".bx-soa-item-table a").attr("target" , "_blank");
 	$(".bx-soa-reg-block .btn.btn-default.btn-lg").attr("onClick" , "return false;");
@@ -223,14 +183,6 @@ $(document).ready(function()
 			}
 		}
 	});
-	$("input[type='checkbox']").click(function()
-	{
-		if($(this).hasClass("checked") == true)
-			$(this).removeClass("checked");
-		else
-			$(this).addClass("checked");
-	});
-
 
 	$(".button.add_to_cart_button").click(function(e)
 	{
@@ -258,29 +210,7 @@ $(document).ready(function()
 		}
 	});
 	
-	$("input[name='compare']").click(function()
-	{
-		var check = $(this).attr("checked");
-console.log(check);
-		if(check != "checked")
-		{
-			$(this).attr("checked" , "checked");
-			$(this).parent().next("span").text("Добавлено в сравнение");
-			var id = $("input[name='product_id']").val();
-			$.post("/compare/index.php?action=ADD_TO_COMPARE_LIST&id="+id);
-			$.post("/system.php" , {action : "add" , id : $(this).attr("vl")});
-			$(this).parent().css({"background-position" : "0px -24px !important"});
-		}
-		else
-		{
-			$(this).removeAttr("checked");
-			$(this).parent().next("span").text("Добавить в сравнение");
-			var id = $("input[name='product_id']").val();
-			$.post("/compare/index.php?action=DELETE_FROM_COMPARE_LIST&id="+id);
-			$.post("/system.php" , {action : "del" , id : id});
-		}
-		
-	});
+
 	
 	$(".ffclose").click(function(){$("body").find(".fancybox-close").trigger("click");});
 	
@@ -642,23 +572,7 @@ console.log(check);
 		});
 	
 	}
-	
-	/*
-	if ($(".mini_img_slider").length) {
-		$(".mini_img_slider").flexslider({
-        itemWidth: 82,
-        minItems: 3,
-        maxItems: 7,
-        directionNav: false,
-        controlNav: true,
-		pauseOnHover:true,
-        animation: "slide",
-        slideshow:false,		
-		move: 1
-		});
-	
-	}
-	*/
+
 	
 	
 	
@@ -667,7 +581,7 @@ console.log(check);
 		$('.mini_img_slider .flex-control-paging li').css('width',(100 / $('.mini_img_slider .flex-control-paging li').length) + "%");	
 		$('.mini_img_slider .flex-control-paging li a').css('width','100%');		
 	}	
-	//--
+
 	
 	
 	
@@ -691,16 +605,6 @@ console.log(check);
 	});
 	
 	//-
-	
-	
-	
-	if ($('input[type="radio"]').length) {
-		$('input[type="radio"]').ezMark();
-	}
-	
-	if ($('input[type="checkbox"]').length) {
-		$('input[type="checkbox"]').ezMark();
-	}
 	
 	
 	
@@ -919,19 +823,13 @@ console.log(check);
   },
   
 		 submitHandler: function(form) {
-		//if ($('.the_form_div_accept input[type="checkbox"]').is(':checked')) {
-			
-			 //$(form).find('input[type="submit"]').addClass('done').attr('disabled','disabled');
 			  $.fancybox({href:"#thanks_popup"});
-			 //$('p.thanks_p').addClass('active');
-			
-			 //отправка файла на сервер
 			$$f({
 					formid:'frm11',//id формы
 					url:'sender.php'//адрес на серверный скрипт
 			});
     
-		//}
+
 	
   },
  
@@ -1003,20 +901,11 @@ console.log(check);
   },
   
 		 submitHandler: function(form) {
-		//if ($('.the_form_div_accept input[type="checkbox"]').is(':checked')) {
-			
-			 //$(form).find('input[type="submit"]').addClass('done').attr('disabled','disabled');
 			  $.fancybox({href:"#thanks_popup"});
-			 //$('p.thanks_p').addClass('active');
-			
-			 //отправка файла на сервер
 			$$f({
 					formid:'frm22',//id формы
 					url:'sender.php'//адрес на серверный скрипт
 			});
-    
-		//}
-	
   },
  
 	   messages: {
@@ -1087,19 +976,11 @@ console.log(check);
   },
   
 		 submitHandler: function(form) {
-		//if ($('.the_form_div_accept input[type="checkbox"]').is(':checked')) {
-			
-			 //$(form).find('input[type="submit"]').addClass('done').attr('disabled','disabled');
 			  $.fancybox({href:"#thanks_popup"});
-			 //$('p.thanks_p').addClass('active');
-			
-			 //отправка файла на сервер
 			$$f({
 					formid:'frm33',//id формы
 					url:'sender.php'//адрес на серверный скрипт
 			});
-    
-		//}
 	
   },
  
@@ -1181,20 +1062,11 @@ console.log(check);
   },
   
 		 submitHandler: function(form) {
-		//if ($('.the_form_div_accept input[type="checkbox"]').is(':checked')) {
-			
-			 //$(form).find('input[type="submit"]').addClass('done').attr('disabled','disabled');
 			  $.fancybox({href:"#thanks_popup"});
-			 //$('p.thanks_p').addClass('active');
-			
-			 //отправка файла на сервер
 			$$f({
 					formid:'frm011',//id формы
 					url:'sender.php'//адрес на серверный скрипт
 			});
-    
-		//}
-	
   },
  
 	   messages: {
@@ -1265,19 +1137,13 @@ console.log(check);
   },
   
 		 submitHandler: function(form) {
-		//if ($('.the_form_div_accept input[type="checkbox"]').is(':checked')) {
-			
-			 //$(form).find('input[type="submit"]').addClass('done').attr('disabled','disabled');
 			  $.fancybox({href:"#thanks_popup"});
-			 //$('p.thanks_p').addClass('active');
 			
 			 //отправка файла на сервер
 			$$f({
 					formid:'frm022',//id формы
 					url:'sender.php'//адрес на серверный скрипт
 			});
-    
-		//}
 	
   },
  
@@ -1350,19 +1216,13 @@ console.log(check);
   },
   
 		 submitHandler: function(form) {
-		//if ($('.the_form_div_accept input[type="checkbox"]').is(':checked')) {
-			
-			 //$(form).find('input[type="submit"]').addClass('done').attr('disabled','disabled');
 			  $.fancybox({href:"#thanks_popup"});
-			 //$('p.thanks_p').addClass('active');
 			
 			 //отправка файла на сервер
 			$$f({
 					formid:'frm033',//id формы
 					url:'sender.php'//адрес на серверный скрипт
 			});
-    
-		//}
 	
   },
  

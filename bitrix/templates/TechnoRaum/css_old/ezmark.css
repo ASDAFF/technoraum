@@ -1,8 +1,0 @@
-.ez-hide{opacity:0;filter:alpha(opacity=0);}
-.ez-checkbox{background:#fff url('../img/checkbox.png') 0 0px no-repeat;display:inline-block;width:24px;height:24px;border-radius:0px;margin-right:7px;vertical-align:middle;background-position:0px 0px;}
-.ez-radio{background:transparent url('../img/radio.png') 0px 0px no-repeat;display:inline-block;vertical-align:middle;width:20px;height:20px;z-index:4;position:relative;}
-.ez-checked{background-position:0px -24px;}
-.ez-selected{background-position:0px -20px;}
-.ez-checkbox-green{background:transparent url('../img/filter_checkbox.png') 0 1px no-repeat;display:inline-block;*display:inline;}
-.ez-checked-green{background-position:0 8px;}
-.ez-checkbox, .ez-radio{zoom:1;*display:inline;_height:17px;}
