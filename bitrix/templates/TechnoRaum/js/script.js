@@ -1,7 +1,7 @@
 $( function() {
 
     $( "#tabs" ).tabs();
-    $(".checkbox").tinyToggle();
+    $(".checkbox-toggle").tinyToggle();
 
     $(".compare-checkbox").tinyToggle({
         onCheck: function() {

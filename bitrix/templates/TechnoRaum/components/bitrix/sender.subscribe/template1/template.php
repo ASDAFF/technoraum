@@ -110,7 +110,7 @@ $frame = $this->createFrame("sender-subscribe", false)->begin();
 		</div>
 
 		<div class="the_form_div the_form_div_accept">
-			<input type="checkbox" class="checkbox" name="accept" required
+			<input type="checkbox" class="checkbox-toggle" name="accept" required
 				   checked="checked"
 				   data-tt-type="square_v"
 				   data-tt-label-check="Я cогласен на <a href='/soglasie-na-obrabotku-personalnykh-dannykh/' target=_blank>обработку персональных данных</a>"
