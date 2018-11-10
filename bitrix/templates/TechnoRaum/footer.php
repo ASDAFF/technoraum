@@ -394,7 +394,6 @@ if($_SERVER["REQUEST_URI"] != "/")
 <?
 			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/jquery.fancybox.css");
 			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/flexslider.css");
-			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/ezmark.css");
 			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/jquery.selectBox.css");
 			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/animate.css");
 			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/slick.css");
@@ -404,13 +403,11 @@ if($_SERVER["REQUEST_URI"] != "/")
 			$APPLICATION->SetAdditionalCss('/bitrix/css/main/bootstrap.min.css');
 			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/style.css?ver=1.01");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery-1.11.0.min.js");
-			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery-1.11.0.min.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery.fancybox.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery.flexslider-min.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery.validate.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/scriptjava_sender.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery.selectBox.js");
-			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery.ezmark.min.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/maskedinput.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/nouislider.min.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/wow.min.js");
