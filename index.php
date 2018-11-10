@@ -551,39 +551,44 @@ $APPLICATION->IncludeComponent("bitrix:catalog", "home_categories", Array(
 	false
 );?>
 </div>
- </section><!--/glav_cat_section--> <section class="section middle_consult_section middle_consult_section1">
-<div class="inner_section clearfix">
-	<div class="middle_consult_img">
- <img src="/bitrix/templates/TechnoRaum/img/middle_consult_img.png" alt="">
-	</div>
-	<div class="middle_order_right clearfix">
-		<div class="the_form mini_form mini_form_mark2">
-			<form method="post" class="mform">
-				<input type="hidden" name="form_id" value="1" />
-				<p class="title">
-					 Требуется помощь в подборе оборудования или консультация?
-				</p>
-				<p>
-					 Отправьте заявку прямо сейчас, мы свяжемся с Вами,<br>
-					 проконсультируем и подберем оптимальное оборудование
-				</p>
-				<div class="the_form_div the_form_div_text_and_submit">
- 					<input type="text" name="tel" required placeholder="Ваш номер телефона">
-					<input type="submit" name="submit1" value="Отправить заявку">
-				</div>
-				<div class="the_form_div the_form_div_accept">
-					<input type="checkbox" class="checkbox-toggle" name="accept" required
-						   checked="checked"
-						   data-tt-type="square_v"
-						   data-tt-label-check="Я cогласен на <a href='/soglasie-na-obrabotku-personalnykh-dannykh/' target=_blank>обработку персональных данных</a>"
-						   data-tt-label-uncheck="Вы не дали согласие на обработку персональных данных.">
-				</div>
-			</form>
+ </section><!--/glav_cat_section-->
+
+<section class="section middle_consult_section middle_consult_section1">
+	<div class="inner_section clearfix">
+		<div class="middle_consult_img">
+	 		<img src="<?=SITE_TEMPLATE_PATH?>/img/middle_consult_img.png" alt="">
 		</div>
-		 <!--/mini_form mini_form_mark2-->
+		<div class="middle_order_right clearfix">
+			<div class="the_form mini_form mini_form_mark2">
+				<form method="post" class="mform">
+					<input type="hidden" name="form_id" value="1" />
+					<p class="title">
+						 Требуется помощь в подборе оборудования или консультация?
+					</p>
+					<p>
+						 Отправьте заявку прямо сейчас, мы свяжемся с Вами,<br>
+						 проконсультируем и подберем оптимальное оборудование
+					</p>
+					<div class="the_form_div the_form_div_text_and_submit">
+						<input type="text" name="tel" required placeholder="Ваш номер телефона">
+						<input type="submit" name="submit1" value="Отправить заявку">
+					</div>
+					<div class="the_form_div the_form_div_accept">
+						<input type="checkbox" class="checkbox-toggle" name="accept" required
+							   checked="checked"
+							   data-tt-type="square_v"
+							   data-tt-label-check="Я cогласен на <a href='/soglasie-na-obrabotku-personalnykh-dannykh/' target=_blank>обработку персональных данных</a>"
+							   data-tt-label-uncheck="Вы не дали согласие на обработку персональных данных.">
+					</div>
+				</form>
+			</div>
+			 <!--/mini_form mini_form_mark2-->
+		</div>
 	</div>
-</div>
- </section><!--/middle_consult_section--> <section class="section glav_news_section">
+</section>
+<!--/middle_consult_section-->
+
+<section class="section glav_news_section">
 <div class="inner_section">
 	<div class="the_section_head">
 		<p class="section_title">
