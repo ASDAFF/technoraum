@@ -444,8 +444,6 @@ while ($arItems = $dbBasketItems->Fetch())
 <div style="clear:both"></div>
 
 <!--TABS-->
-
-
 	<div id="tabs">
 		<ul>
 			<li><a href="#tabs-1">Самовывоз из магазина</a></li>
@@ -470,7 +468,7 @@ while ($arItems = $dbBasketItems->Fetch())
 			);?>
 		</div>
 		<div id="tabs-2">
-			<?$APPLICATION->IncludeComponent("ipol:ipol.sdekPickup", ".sdekPickup", Array(
+			<? $APPLICATION->IncludeComponent("ipol:ipol.sdekPickup", ".sdekPickup", Array(
 				"CITIES" => "",	// Подключаемые города (если не выбрано ни одного - подключаются все)
 				"CNT_BASKET" => "N",	// Расчитывать доставку для корзины
 				"CNT_DELIV" => "Y",	// Расчитывать доставку при подключении
@@ -499,10 +497,6 @@ while ($arItems = $dbBasketItems->Fetch())
 			);?>
 		</div>
 	</div>
-
-
-
-
 <!--TABS-END-->
 
 

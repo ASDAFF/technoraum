@@ -204,6 +204,8 @@ Class CAltasibGeoBaseTools extends CAltasibGeoBase
 					if(!empty($strURL) && "http://".$_SERVER['SERVER_NAME'].$curPage != $strURL
 						&& "http://".$_SERVER['SERVER_NAME'] != $strURL && $curPage != $strURL)
 					{
+						if(class_exists("Bitrix\Main\Application"))
+							Bitrix\Main\Application::getInstance()->getContext()->getResponse()->flush("");
 						LocalRedirect($strURL, true);
 						die();
 					}

@@ -4,7 +4,7 @@
  * Developer: adumnov
  * Site: http://www.altasib.ru
  * E-mail: dev@altasib.ru
- * @copyright (c) 2006-2017 ALTASIB
+ * @copyright (c) 2006-2018 ALTASIB
  */
 
 global $DBType;
@@ -592,7 +592,7 @@ Class CAltasibGeoBase
 			if($res && COption::GetOptionString(self::MID, 'redirect_enable', 'Y') == "Y")
 			{
 				$res .= ";".CAltasibGeoBase::GetRedirectUri(htmlspecialcharsEx($_REQUEST["url"]), (htmlspecialcharsEx($_REQUEST["reload"])!=="NO"));
-				
+
 				if(COption::GetOptionString(self::MID, "SPREAD_COOKIE", "Y") == "Y")
 				{
 					$resSpr = '';
@@ -630,14 +630,54 @@ Class CAltasibGeoBase
 				$arSpread = array_merge($arSpread, $_SESSION['SPREAD_COOKIE']);
 			}
 
+			$params = "";
+
+			if(!empty($arSpread) && is_object(current($arSpread)))
+			{
+				$response = \Bitrix\Main\Context::getCurrent()->getResponse();
+
+				if(is_array($_SESSION['SPREAD_COOKIE']))
+				{
+					foreach($_SESSION['SPREAD_COOKIE'] as $cookie)
+					{
+						if($cookie instanceof \Bitrix\Main\Web\Cookie)
+						{
+							$response->addCookie($cookie, false);
+						}
+					}
+				}
+				$cookies = $response->getCookies();
+
+				if(!empty($cookies))
+				{
+					foreach($cookies as $cookie)
+					{
+						if($cookie->getSpread() & \Bitrix\Main\Web\Cookie::SPREAD_SITES)
+						{
+							$params .= $cookie->getName().chr(1).
+								$cookie->getValue().chr(1).
+								$cookie->getExpires().chr(1).
+								$cookie->getPath().chr(1).
+								chr(1). //domain is empty
+								$cookie->getSecure().chr(1).
+								$cookie->getHttpOnly().chr(2);
+						}
+					}
+					unset($arSpread);
+				}
+			}
+
 			if(!empty($arSpread))
 			{
-				$params = "";
 				foreach($arSpread as $name => $ar)
 				{
 					$ar["D"] = ""; // domain must be empty
 					$params .= $name.chr(1).$ar["V"].chr(1).$ar["T"].chr(1).$ar["F"].chr(1).$ar["D"].chr(1).$ar["S"].chr(1).$ar["H"].chr(2);
 				}
+			}
+
+			if(!empty($params))
+			{
 				$salt = $_SERVER["REMOTE_ADDR"]."|".@filemtime($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/classes/general/version.php")."|".LICENSE_KEY;
 				$params = "s=".urlencode(base64_encode($params))."&k=".urlencode(md5($params.$salt));
 				$arDomain = self::GetDomains();
@@ -784,7 +824,7 @@ Class CAltasibGeoBase
 			if($res && COption::GetOptionString(self::MID, 'redirect_enable', 'Y') == "Y")
 			{
 				$res .= ";".CAltasibGeoBase::GetRedirectUri(htmlspecialcharsEx($_REQUEST["url"]), (htmlspecialcharsEx($_REQUEST["reload"])!=="NO"));
-				
+
 				if(COption::GetOptionString(self::MID, "SPREAD_COOKIE", "Y") == "Y")
 				{
 					$rsSpr = '';

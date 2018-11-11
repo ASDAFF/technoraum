@@ -11,4 +11,7 @@ elseif ($incMod == '3')
 	return false;
 else
 	echo CAltasibGeoBase::GetCitySuggest();
+
+if(isset($_REQUEST['save']) && $_REQUEST['save'] == 'Y')
+	require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_after.php");
 ?>
