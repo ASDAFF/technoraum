@@ -1,9 +1,9 @@
 <?php
+
 if(CModule::IncludeModule("altasib.geobase")) {
-    $arSelCity = CAltasibGeoBaseSelected::GetCurrentCityFromSelected();
-    if($arSelCity['C_NAME']){
-        session_start();
-        $_SESSION['IPOLSDEK_city'] = $arSelCity['C_NAME'];
+    session_start();
+    if($city = $_SESSION["ALTASIB_GEOBASE_CODE"]["CITY"]["NAME"]){
+        $_SESSION['IPOLSDEK_city'] = $city;
     }else
         return false;
 }

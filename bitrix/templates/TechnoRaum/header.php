@@ -48,7 +48,7 @@ if($url[1] != "personal" && $url[2] != "order" && $url[3] != "make")
 				<div class="inner_section clearfix">
 				<div class="header_search">
 					<?$APPLICATION->IncludeComponent("altasib:geobase.select.city", "geobase.select.city", Array(
-						"LOADING_AJAX" => "Y",	// Подгружать окно "Выбор города" со списком городов ajax-запросом
+						"LOADING_AJAX" => "N",	// Подгружать окно "Выбор города" со списком городов ajax-запросом
 						"RIGHT_ENABLE" => "Y",	// Выводить вместо правой надписи строки "Выберите город" город, определенный автоматически
 						"SMALL_ENABLE" => "Y",	// Показывать компактное окно подтверждения "Это ваш город?"
 						"SPAN_LEFT" => "Мой город:",	// Текст левой строки, клик по которой вызывает всплывающее окно
