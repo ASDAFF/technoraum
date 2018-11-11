@@ -11,7 +11,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
 			<div class="delivery-door-title">Где вы хотите получить заказ</div>
 			<div class="delivery-door-input">
-				<input type="text" placeholder="Населенный пункт" id="city" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
+				<input type="text" placeholder="Населенный пункт" id="city" class="ui-autocomplete-input" value="<?=$_SESSION['IPOLSDEK_city'];?>" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
 			</div>
 			<div class="delivery-door-button">
 				<input type="submit" value="Посчитать" id="delivery-door-send">
