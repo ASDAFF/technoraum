@@ -19,7 +19,9 @@ else
 {
 	$basketAction = (isset($arParams['DETAIL_ADD_TO_BASKET_ACTION']) ? $arParams['DETAIL_ADD_TO_BASKET_ACTION'] : array());
 }
-?><?$ElementID = $APPLICATION->IncludeComponent(
+?>
+
+<?$ElementID = $APPLICATION->IncludeComponent(
 	"bitrix:catalog.element",
 	"",
 	array(
@@ -120,5 +122,166 @@ else
 		'SHOW_BASIS_PRICE' => (isset($arParams['DETAIL_SHOW_BASIS_PRICE']) ? $arParams['DETAIL_SHOW_BASIS_PRICE'] : 'Y')
 	),
 	$component
-);?><?
-?>
+);?>
+
+	<div class="the_section_head">
+		<p class="section_title">
+			<a href="#">Похожие товары</a>
+		</p>
+	</div>
+<?
+	$APPLICATION->IncludeComponent(
+	"bitrix:catalog.top",
+	"recom",
+	array(
+		"ACTION_VARIABLE" => "action",
+		"ADD_PICT_PROP" => "-",
+		"ADD_PROPERTIES_TO_BASKET" => "Y",
+		"ADD_TO_BASKET_ACTION" => "ADD",
+		"BASKET_URL" => "/personal/cart/",
+		"CACHE_FILTER" => "N",
+		"CACHE_GROUPS" => "Y",
+		"CACHE_TIME" => "36000000",
+		"CACHE_TYPE" => "A",
+		"COMPARE_NAME" => "CATALOG_COMPARE_LIST",
+		"COMPATIBLE_MODE" => "Y",
+		"CONVERT_CURRENCY" => "N",
+		"CUSTOM_FILTER" => "{\"CLASS_ID\":\"CondGroup\",\"DATA\":{\"All\":\"AND\",\"True\":\"True\"},\"CHILDREN\":[{\"CLASS_ID\":\"CondIBProp:8:18\",\"DATA\":{\"logic\":\"Equal\",\"value\":12}}]}",
+		"DETAIL_URL" => "/catalog/element/#ELEMENT_CODE#/",
+		"DISPLAY_COMPARE" => "N",
+		"ELEMENT_COUNT" => "9",
+		"ELEMENT_SORT_FIELD" => "sort",
+		"ELEMENT_SORT_FIELD2" => "id",
+		"ELEMENT_SORT_ORDER" => "asc",
+		"ELEMENT_SORT_ORDER2" => "desc",
+		"ENLARGE_PRODUCT" => "STRICT",
+		"FILTER_NAME" => "recom_filter",
+		"HIDE_NOT_AVAILABLE" => "N",
+		"HIDE_NOT_AVAILABLE_OFFERS" => "N",
+		"IBLOCK_ID" => "8",
+		"IBLOCK_TYPE" => "catalog",
+		"LABEL_PROP" => array(
+		),
+		"LINE_ELEMENT_COUNT" => "3",
+		"MESS_BTN_ADD_TO_BASKET" => "В корзину",
+		"MESS_BTN_BUY" => "Купить",
+		"MESS_BTN_COMPARE" => "Сравнить",
+		"MESS_BTN_DETAIL" => "Подробнее",
+		"MESS_NOT_AVAILABLE" => "Нет в наличии",
+		"OFFERS_LIMIT" => "0",
+		"PARTIAL_PRODUCT_PROPERTIES" => "N",
+		"PRICE_CODE" => array(
+			0 => "price",
+		),
+		"PRICE_VAT_INCLUDE" => "Y",
+		"PRODUCT_BLOCKS_ORDER" => "price,props,sku,quantityLimit,quantity,buttons,compare",
+		"PRODUCT_ID_VARIABLE" => "id",
+		"PRODUCT_PROPERTIES" => array(
+		),
+		"PRODUCT_PROPS_VARIABLE" => "prop",
+		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
+		"PRODUCT_ROW_VARIANTS" => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
+		"PRODUCT_SUBSCRIPTION" => "Y",
+		"PROPERTY_CODE" => array(
+			0 => "DETAIL_P1",
+			1 => "ARTICLE",
+			2 => "DETAIL_P7",
+			3 => "DETAIL_P8",
+			4 => "OLD_PRICE",
+			5 => "DETAIL_P3",
+			6 => "DETAIL_P5",
+			7 => "DETAIL_P4",
+			8 => "DETAIL_P2",
+			9 => "DETAIL_P6",
+			10 => "OLD_PRICE_VAL",
+			11 => "STICKER",
+			12 => "BRAND",
+			13 => "PRESSURE",
+			14 => "POWER",
+			15 => "TENSION",
+			16 => "PERFOMANCE",
+			17 => "",
+		),
+		"PROPERTY_CODE_MOBILE" => array(
+		),
+		"SECTION_URL" => "/catalog/#SECTION_CODE#/",
+		"SEF_MODE" => "Y",
+		"SHOW_CLOSE_POPUP" => "N",
+		"SHOW_DISCOUNT_PERCENT" => "N",
+		"SHOW_MAX_QUANTITY" => "N",
+		"SHOW_OLD_PRICE" => "N",
+		"SHOW_PRICE_COUNT" => "1",
+		"SHOW_SLIDER" => "Y",
+		"SLIDER_INTERVAL" => "3000",
+		"SLIDER_PROGRESS" => "N",
+		"TEMPLATE_THEME" => "blue",
+		"USE_ENHANCED_ECOMMERCE" => "N",
+		"USE_PRICE_COUNT" => "N",
+		"USE_PRODUCT_QUANTITY" => "N",
+		"VIEW_MODE" => "SECTION",
+		"COMPONENT_TEMPLATE" => "recom",
+		"SEF_RULE" => " /catalog/#SECTION_CODE#/"
+	),
+	false
+);?>
+	<div style="margin-top: 100px;"></div>
+
+	<?$APPLICATION->IncludeComponent(
+	"bitrix:catalog.recommended.products", 
+	".recommended.products", 
+	array(
+		"ACTION_VARIABLE" => "action_crp",
+		"ADDITIONAL_PICT_PROP_8" => "PHOTO",
+		"ADD_PROPERTIES_TO_BASKET" => "Y",
+		"BASKET_URL" => "/personal/cart/",
+		"CACHE_TIME" => "86400",
+		"CACHE_TYPE" => "A",
+		"CART_PROPERTIES_8" => array(
+			0 => ",",
+		),
+		"CODE" => $_REQUEST["PRODUCT_CODE"],
+		"CONVERT_CURRENCY" => "N",
+		"DETAIL_URL" => "",
+		"ELEMENT_SORT_FIELD" => "SORT",
+		"ELEMENT_SORT_FIELD2" => "ID",
+		"ELEMENT_SORT_ORDER" => "ASC",
+		"ELEMENT_SORT_ORDER2" => "DESC",
+		"HIDE_NOT_AVAILABLE" => "N",
+		"IBLOCK_ID" => $arParams["IBLOCK_ID"],
+		"IBLOCK_TYPE" => "catalog",
+		"ID" => $ElementID,
+		"LABEL_PROP_8" => "-",
+		"LINE_ELEMENT_COUNT" => "3",
+		"MESS_BTN_BUY" => "Купить",
+		"MESS_BTN_DETAIL" => "Подробнее",
+		"MESS_BTN_SUBSCRIBE" => "Подписаться",
+		"MESS_NOT_AVAILABLE" => "Нет в наличии",
+		"OFFERS_PROPERTY_LINK" => "RECOMMEND",
+		"PAGE_ELEMENT_COUNT" => "50",
+		"PARTIAL_PRODUCT_PROPERTIES" => "N",
+		"PRICE_CODE" => array(
+			0 => "price",
+		),
+		"PRICE_VAT_INCLUDE" => "N",
+		"PRODUCT_DISPLAY_MODE" => "N",
+		"PRODUCT_ID_VARIABLE" => "id",
+		"PRODUCT_PROPS_VARIABLE" => "prop",
+		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
+		"PRODUCT_SUBSCRIPTION" => "N",
+		"PROPERTY_CODE_8" => array(
+			0 => ",",
+		),
+		"PROPERTY_LINK" => "RECOMMEND",
+		"SHOW_DISCOUNT_PERCENT" => "N",
+		"SHOW_IMAGE" => "Y",
+		"SHOW_NAME" => "Y",
+		"SHOW_OLD_PRICE" => "Y",
+		"SHOW_PRICE_COUNT" => "1",
+		"SHOW_PRODUCTS_8" => "N",
+		"TEMPLATE_THEME" => "blue",
+		"USE_PRODUCT_QUANTITY" => "N",
+		"COMPONENT_TEMPLATE" => ".recommended.products"
+	),
+	false
+);?>
+
