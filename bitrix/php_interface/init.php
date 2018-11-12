@@ -5,5 +5,5 @@ if(CModule::IncludeModule("altasib.geobase")) {
     if($city = $_SESSION["ALTASIB_GEOBASE_CODE"]["CITY"]["NAME"]){
         $_SESSION['IPOLSDEK_city'] = $city;
     }else
-        return false;
+        $_SESSION['IPOLSDEK_city'] = $_SESSION['ALTASIB_GEOBASE']['CITY_NAME'];
 }
