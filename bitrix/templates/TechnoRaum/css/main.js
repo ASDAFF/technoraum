@@ -362,10 +362,6 @@ $(document).ready(function()
 	//-
 	if (isMobile) {$('body').addClass('mobile');}
 	
-
-	
-	
-	$('.fancy').fancybox();
 	
 	$('input[name="tel"]').mask("+7 (999) 999-99-99");
 	$(".indexfield").mask("999-999");
