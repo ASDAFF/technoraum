@@ -13,7 +13,7 @@
 $this->setFrameMode(true);
 $com_path = '/bitrix/components/nbrains/slider/';
 $this->addExternalCss($com_path."front/css/masterslider.css");
-$this->addExternalJS($com_path."front/js/jquery-3.1.1.min.js");
+//$this->addExternalJS($com_path."front/js/jquery-3.1.1.min.js");
 $this->addExternalJS($com_path."front/js/masterslider.js");
 
 ?>
