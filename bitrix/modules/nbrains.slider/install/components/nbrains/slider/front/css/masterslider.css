@@ -1,0 +1,188 @@
+.master-slider-parent {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 7px;
+}
+
+.wpb_row .master-slider-parent *, .master-slider-parent * {
+    box-sizing: content-box;
+}
+
+.master-slider {
+    position: relative;
+    visibility: hidden;
+    -moz-transform: translate3d(0 , 0 , 0);
+}
+
+.ms-slide .ms-slide-bgcont img, .ms-container, .ms-inner-controls-cont {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.ms-inner-controls-cont, .ms-container {
+    position: relative;
+    margin: 0 auto;
+}
+
+.wpb_row .master-slider-parent *, .master-slider-parent * {
+    box-sizing: content-box;
+}
+
+.master-slider {
+    position: relative;
+    visibility: hidden;
+    -moz-transform: translate3d(0 , 0 , 0);
+}
+
+.ms-inner-controls-cont, .ms-container {
+    position: relative;
+    margin: 0 auto;
+}
+
+.ms-view {
+    margin: 0px auto;
+    overflow: hidden;
+    position: relative;
+    -webkit-perspective: 2000px;
+    -ms-perspective: 2000px;
+    perspective: 2000px;
+}
+
+.ms-grab-cursor {
+    cursor: url(../img/grab.png), move;
+}
+.ms-view .ms-slide-container {
+    position: relative;
+}
+.ms-wk .ms-slide {
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+.ms-slide {
+    position: absolute;
+    height: 100%;
+    -webkit-transform: translateZ(0px);
+    -ms-transform: translateZ(0px);
+    transform: translateZ(0px);
+}
+
+.ms-slide .ms-slide-bgcont, .ms-slide .ms-slide-bgvideocont {
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+}
+
+
+.ms-skin-light-3 .ms-nav-next, .ms-skin-light-3 .ms-nav-prev {
+    width: 50px;
+    background: url(../img/light-skin-3.png);
+    background-position: -82px -22px;
+    height: 50px;
+    cursor: pointer;
+    top: 50%;
+    left: 30px;
+    margin-top: -25px;
+    position: absolute;
+    z-index: 20;
+}
+.ms-skin-light-3 .ms-nav-next, .ms-skin-light-3 .ms-nav-prev {
+    width: 50px;
+    background: url(../img/light-skin-3.png);
+    background-position: -82px -22px;
+    height: 50px;
+    cursor: pointer;
+    top: 50%;
+    left: 30px;
+    margin-top: -25px;
+    position: absolute;
+    z-index: 20;
+}
+.ms-skin-light-3 .ms-bullets.ms-dir-h {
+    position: absolute;
+    bottom: 20px;
+    right: 50%;
+    width: 100px;
+}
+.ms-bullets.ms-dir-h {
+    position: absolute;
+    bottom: 20px;
+    right: 50%;
+    width: 100px;
+}
+.ms-skin-light-3 .ms-bullets.ms-dir-h .ms-bullets-count {
+    position: relative;
+    right: -50%;
+}
+
+.ms-skin-light-3 .ms-bullet-selected {
+    background-position: -31px -81px;
+    background: white;
+}
+.ms-skin-light-3 .ms-bullet {
+    width: 12px;
+    height: 12px;
+    /* background: url(../img/light-skin-3.png) no-repeat; */
+    /* background-position: -31px -114px; */
+    margin: 4px;
+    border: 1px solid #fff;
+    border-radius: 50px;
+}
+
+.ms-bullet {
+    cursor: pointer;
+    float: left;
+}
+
+.ms-slider-text-box{
+    font-weight: normal;
+    font-size: 14px;
+    position: absolute;
+    z-index: 1;
+    max-width: 370px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #FFFFFF;
+    padding: 30px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+
+
+.ms-skin-light-3 .ms-nav-next, .ms-skin-light-3 .ms-nav-prev {
+    width: 50px;
+    background: url(../img/light-skin-3.png);
+    background-position: -82px -22px;
+    height: 50px;
+    cursor: pointer;
+    top: 50%;
+    left: 30px;
+    margin-top: -25px;
+    position: absolute;
+    z-index: 20;
+}
+
+.ms-skin-light-3 .ms-nav-next {
+    right: 30px;
+    left: auto;
+    background-position: -81px -99px;
+}
+
+.ms-timerbar {
+    width: 100%;
+    bottom: 0px;
+    position: absolute;
+    background: #BFC2CB;
+}
+
+.ms-time-bar {
+    -webkit-transition: width 120ms linear;
+    transition: width 120ms linear;
+}
+
+@media (max-width: 400px) {
+    .ms-slider-text-box{
+        display: none;
+    }
+}

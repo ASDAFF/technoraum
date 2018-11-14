@@ -176,7 +176,7 @@ if($url[1] != "personal" && $url[2] != "order" && $url[3] != "make")
 		</header>
 		<section class="main">
 			<?
-			if($_SERVER["REQUEST_URI"] != "/")
+			if(!CSite::InDir('/index.php'))
 			{
 				?>
 				<div class="breadcrumbs inner_section">
@@ -184,7 +184,9 @@ if($url[1] != "personal" && $url[2] != "order" && $url[3] != "make")
 				</div>
 				<section class="section the_content_section padd_bottom0">	
 					<div class="inner_section clearfix">
-						<div class="main_title"><h1><?$APPLICATION->ShowTitle(false)?></h1></div>
+						<div class="main_title">
+							<h1><?$APPLICATION->ShowTitle(false)?></h1>
+						</div>
 						<div class="contacts_page_wrap">
 				<?
 			}
