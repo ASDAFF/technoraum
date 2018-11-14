@@ -22,9 +22,11 @@ $this->addExternalJS($com_path."front/js/masterslider.js");
 		<!-- MasterSlider Main -->
 		<div id="MS<?=$arResult['ID']?>" class="master-slider ms-skin-light-3" >
 			<?foreach($arResult["ITEMS"] as $arItem):?>
-			<div  class="ms-slide" data-delay="<?=$arParams['TIME_SLIDE']?>" <? if(!empty($arItem['CODE'])): ?>onclick="javascript:location.href='<?=$arItem['CODE']?>'" <? endif; ?> data-fill-mode="fill">
-				<img src="<?=$com_path?>front/css/blank.gif" alt="" title="" data-src="<?=$arItem["PREVIEW_PICTURE"]["SRC"];?>" />
-			</div>
+				<? if($src = CFile::GetPath($arItem['PROPERTIES']['SLIDE_IMAGE']['VALUE'])): ?>
+					<div  class="ms-slide" data-delay="<?=$arParams['TIME_SLIDE']?>" <? if(!empty($arItem['CODE'])): ?>onclick="javascript:location.href='<?=$arItem['CODE']?>'" <? endif; ?> data-fill-mode="fill">
+						<img src="<?=$com_path?>front/css/blank.gif" alt="" title="" data-src="<?=$src;?>" />
+					</div>
+				<? endif; ?>
 			<?endforeach;?>
 		</div>
 		<!-- END MasterSlider Main -->

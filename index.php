@@ -30,6 +30,7 @@ $APPLICATION->SetTitle("Купить технику Karcher в Краснодаре на официальном сайте
 		"TIME_SLIDE" => "5",	// время отображения слайда в секундах
 		"TOP_PX_TEXT" => "135",	// расположение текста от верхнего края в px.
 		"WIDTH" => "1170",	// размер по горизонтали в пикселях
+		"PROPERTY_CODE" => array("SLIDE_SHOW","SLIDE_IMAGE")
 	),
 	false
 );?>
