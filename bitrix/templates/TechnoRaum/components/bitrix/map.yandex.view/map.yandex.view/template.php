@@ -21,6 +21,7 @@ else:
 		'MAP_ID' => $arParams['MAP_ID'],
 		'LOCALE' => $arParams['LOCALE'],
 		'ONMAPREADY' => 'BX_SetPlacemarks_'.$arParams['MAP_ID'],
+		'YANDEX_VERSION' => "2.1"
 	);
 
 	if ($arParams['DEV_MODE'] == 'Y')

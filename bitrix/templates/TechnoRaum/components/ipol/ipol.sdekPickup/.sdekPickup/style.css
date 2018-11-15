@@ -288,3 +288,8 @@
 .sdek_baloonDiv a{
 	cursor: help;
 }
+
+.ymaps-2-1-71-balloon__close+.ymaps-2-1-71-balloon__content {
+	margin-right: 0!important;
+	padding-right: 10px!important;
+}

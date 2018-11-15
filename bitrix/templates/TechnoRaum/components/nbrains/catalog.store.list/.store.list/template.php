@@ -33,12 +33,12 @@ $gpsS = '';
 					</div>
 
 					<?
-					$text = "
-					<strong>Адрес:</strong><br> $arProperty[ADDRESS]<br>
-					<strong>Телефон:</strong><br> $arProperty[PHONE]<br>
-					<strong>Режим работы:</strong><br> $arProperty[SCHEDULE]<br>
+					$text = "<div class='store-map' style='margin-top: -10px;margin-bottom: -10px;'>
+					<strong>Адрес:</strong><br><span style='font-size: 12px'>$arProperty[ADDRESS]</span>
+					<strong>Телефон:</strong><br><span style='font-size: 12px'>$arProperty[PHONE]</span>
+					<strong>Режим работы:</strong><br><span style='font-size: 12px'>$arProperty[SCHEDULE]</span>
 					<a style='display: block;padding: 10px 12px;font-size: 12px;font-weight: bold;margin: auto 10px;' class='button' href='/catalog/element/?action=BUY&id=$arParams[PRODUCT_ID]'>Добавить в корзину</a>
-					";
+					</div>";
 					if($arProperty["GPS_S"]!=0 && $arProperty["GPS_N"]!=0)
 					{
 						$gpsN=substr(doubleval($arProperty["GPS_N"]),0,15);
