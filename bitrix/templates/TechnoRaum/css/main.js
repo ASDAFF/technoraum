@@ -8,21 +8,7 @@ function sub(obj)
 
 $(document).ready(function()
 {
-	$(".card-scroll").click(function(e)
-	{
-		e.preventDefault();
-		var url = $(this).attr("href");
-		var id = $(this).attr("data-id");
-		if(id.length)
-		{
-			$(".tabs.step2 .tab").removeClass("active");
-			$(".tabs.step2 .tab.tab"+id).addClass("active");
-			$(".tabs_content .tbc").html("");
-			$(".tabs_content .tbc"+id).load("/personal/order/make/include/step2_tab"+id+".php");
-			var px = $(url).offset().top;
-			$("html").animate({scrollTop : px-150 + "px"},2000);
-		}
-	});
+
 	$(".gift").mouseenter(function(){$(this).next(".gift_popup").fadeIn();});
 	$(".gift_popup").mouseleave(function(){$(this).fadeOut();});
 	$(".glav_cat_div").mouseleave(function(){$(this).find(".gift_popup").fadeOut();});

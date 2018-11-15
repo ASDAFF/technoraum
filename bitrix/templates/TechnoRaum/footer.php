@@ -425,6 +425,10 @@ if($_SERVER["REQUEST_URI"] != "/")
             //tinytoggle js checkbox manager
             $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/js/tinytoggle/css/tiny-toggle.css");
             $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/tinytoggle/js/tiny-toggle.js");
+
+            //anchor scroll
+            $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.anchorlink.js");
+
             //custom script
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/script.js");
 

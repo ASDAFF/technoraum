@@ -283,13 +283,17 @@ while ($arItems = $dbBasketItems->Fetch())
 				<div>Когда можно забрать</div>
 			</div>
 			<div class="row">
-				<div><a style="text-decoration:none" class="card-scroll" data-id="1" href="#ordc"><span>Самовывоз из магазина</span></a></div>
+				<div>
+					<a style="text-decoration:none" class="card-scroll" data-id="0" href="#tabs"><span>Самовывоз из магазина</span></a>
+				</div>
 				<div>Бесплатно</div>
 				<div>|</div>
 				<div><a class="fancy" href="#callback2_popup">Уточнить у менеджера</a></div>
 			</div>
 			<div class="row">
-				<div><a style="text-decoration:none" class="card-scroll" data-id="2" href="#ordc"><span>Самовывоз из пункта выдачи</span></a></div>
+				<div>
+					<a style="text-decoration:none" class="card-scroll" data-id="1" href="#tabs"><span>Самовывоз из пункта выдачи</span></a>
+				</div>
 				<div>Бесплатно</div>
 				<div>|</div>
 				<div><a class="fancy" href="#callback2_popup">Уточнить у менеджера</a></div>
@@ -299,7 +303,7 @@ while ($arItems = $dbBasketItems->Fetch())
 				{
 					?>
 						<div class="row">
-							<div><a style="text-decoration:none" class="card-scroll" data-id="3" href="#ordc"><span>Доставка до двери</span></a></div>
+							<div><a style="text-decoration:none" class="card-scroll" data-id="2" href="#tabs"><span>Доставка до двери</span></a></div>
 							<div></div>
 							<div>|</div>
 							<div><a class="fancy" href="#callback2_popup">Уточнить у менеджера</a></div>

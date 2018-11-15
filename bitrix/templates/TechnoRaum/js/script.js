@@ -16,4 +16,15 @@ $( function() {
         },
     });
 
+    $(".card-scroll").anchorlink({
+        offsetTop : -150,
+        timer : 800,
+        scrollOnLoad : false,
+        afterScroll : function(data){
+            $( ".ui-tabs" ).tabs( "option", "active", $(this).data("id") );
+        }
+    });
+
+
+
 });
