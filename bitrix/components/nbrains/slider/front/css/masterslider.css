@@ -181,8 +181,8 @@
     transition: width 120ms linear;
 }
 
-@media (max-width: 400px) {
-    .ms-slider-text-box{
+@media (max-width: 720px) {
+    .ms-skin-light-3 .ms-nav-next {
         display: none;
     }
 }
