@@ -8,22 +8,6 @@ $arUrlRewrite=array (
     'PATH' => '/desktop_app/router.php',
     'SORT' => 100,
   ),
-  125 => 
-  array (
-    'CONDITION' => '#^ /catalog/([^/]+?)/\\??(.*)#',
-    'RULE' => 'SECTION_CODE=$1&$2',
-    'ID' => 'bitrix:catalog.top',
-    'PATH' => '/bitrix/templates/.default/components/bitrix/catalog/main_catalog/bitrix/catalog.element/.default/template.php',
-    'SORT' => 100,
-  ),
-  126 => 
-  array (
-    'CONDITION' => '#^ /catalog/([^/]+?)/\\??(.*)#',
-    'RULE' => 'SECTION_CODE=$1&$2',
-    'ID' => 'bitrix:catalog.top',
-    'PATH' => '/bitrix/templates/.default/components/bitrix/catalog/main_catalog/bitrix/catalog.element/.default/template.php',
-    'SORT' => 100,
-  ),
   124 => 
   array (
     'CONDITION' => '#^ /catalog/([^/]+?)/\\??(.*)#',

@@ -428,7 +428,7 @@ while ($arItems = $dbBasketItems->Fetch())
 			<br>
 			<p>
 				≈сли вам требуетс€ помощь в выборе или консультаци€ Ц звоните<br/>
-				на гор€чую линию 8 800 250 13 08 или <a class="fancy" style="text-decoration:none;font-weight: normal;color: #35a2e8;border-bottom: 1px dashed #35a2e8;" href="#callback_popup">закажите обратный звонок</a>
+				на гор€чую линию <?= tplvar('phone');?> или <a class="fancy" style="text-decoration:none;font-weight: normal;color: #35a2e8;border-bottom: 1px dashed #35a2e8;" href="#callback_popup">закажите обратный звонок</a>
 			</p>
 		</div>
 <?

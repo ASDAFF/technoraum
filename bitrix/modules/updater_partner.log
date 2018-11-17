@@ -1397,3 +1397,198 @@
 2018-11-17 12:06:02 -  - exec CUpdateClientPartner::GetHTTPPage
 2018-11-17 12:06:03 -  - TIME GetUpdatesList(request) 0.928 sec
 2018-11-17 12:06:03 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:25 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-11-17 12:09:25 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-11-17 12:09:25 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=37&TYPENC=E&CLIENT_PHPVER=7.1.11&NGINX=Y&dbv=5.7.21&instm=main%2C18.1.3%2CN%3Bscale%2C17.5.0%2CN%3Bpull%2C17.5.5%2CN%3Bsale%2C18.5.4%2CN%3Bcluster%2C18.5.0%2CN%3Bseo%2C18.5.0%2CN%3Bbizproc%2C18.0.2%2CN%3Bsberbank.ecom%2C3.2.0%2CN%3Blists%2C17.0.18%2CN%3Bfileman%2C18.0.4%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Baltasib.geobase%2C2.1.4%2CN%3Bstatistic%2C18.5.0%2CN%3Bsender%2C18.1.3%2CN%3Bstoreassist%2C16.0.1%2CN%3Bsocialservices%2C18.0.3%2CN%3Bforum%2C18.0.1%2CN%3Bsubscribe%2C18.5.0%2CN%3Bnbrains.slider%2C1.0.3%2CN%3Bform%2C18.0.0%2CN%3Bdirectcredit.frame%2C1.0.4%2CN%3Bworkflow%2C18.5.0%2CN%3Bmail%2C18.5.0%2CN%3Bwiki%2C17.5.1%2CN%3Bhighloadblock%2C18.5.0%2CN%3Brest%2C18.5.2%2CN%3Breport%2C18.0.7%2CN%3Bbizprocdesigner%2C18.0.0%2CN%3Bcompression%2C16.0.0%2CN%3Bvote%2C17.5.1%2CN%3Bsecurity%2C18.5.0%2CN%3Bidea%2C17.5.1%2CN%3Bcalendar%2C18.0.0%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Blanding%2C18.5.7%2CN%3Bblog%2C18.1.0%2CN%3Bsocialnetwork%2C18.1.2%2CN%3Bipol.sdek%2C3.7.3%2CN%3Bldap%2C18.0.0%2CN%3Badvertising%2C18.0.0%2CN%3Bbitrixcloud%2C18.5.0%2CN%3Bsearch%2C18.5.0%2CN%3Biblock%2C18.5.4%2CN%3Bsupport%2C16.0.0%2CN%3Bperfmon%2C18.5.0%2CN%3Bcatalog%2C18.5.4%2CN%3Bb24connector%2C18.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bui%2C18.0.1%2CN%3Babtest%2C17.5.0%2CN%3Bmobileapp%2C18.0.2%2CN%3Bwebservice%2C17.0.0%2CN%3Bim%2C18.1.5%2CN%3Bclouds%2C18.0.0%2CN%3Btranslate%2C16.5.0%2CN%3Bconversion%2C17.5.0%2CN%3Bmessageservice%2C18.0.0%2CN%3Blearning%2C17.5.1%2CN%3Bphotogallery%2C18.0.0%2CN%3Bcurrency%2C18.5.0%2CN&reqm=sberbank.ecom%2Cbitrix.eshop%2Caltasib.geobase%2Cnbrains.slider%2Cdirectcredit.frame%2Cbitrix.sitecorporate%2Cipol.sdek%2Casd.tplvars&SUPD_SRS=RU&SUPD_CMP=N
+2018-11-17 12:09:25 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-11-17 12:09:25 -  - TIME GetUpdatesList(request) 0.33 sec
+2018-11-17 12:09:25 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:31 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:31 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-11-17 12:09:31 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=37&TYPENC=E&CLIENT_PHPVER=7.1.11&NGINX=Y&dbv=5.7.21&instm=main%2C18.1.3%2CN%3Bscale%2C17.5.0%2CN%3Bpull%2C17.5.5%2CN%3Bsale%2C18.5.4%2CN%3Bcluster%2C18.5.0%2CN%3Bseo%2C18.5.0%2CN%3Bbizproc%2C18.0.2%2CN%3Bsberbank.ecom%2C3.2.0%2CN%3Blists%2C17.0.18%2CN%3Bfileman%2C18.0.4%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Baltasib.geobase%2C2.1.4%2CN%3Bstatistic%2C18.5.0%2CN%3Bsender%2C18.1.3%2CN%3Bstoreassist%2C16.0.1%2CN%3Bsocialservices%2C18.0.3%2CN%3Bforum%2C18.0.1%2CN%3Bsubscribe%2C18.5.0%2CN%3Bnbrains.slider%2C1.0.3%2CN%3Bform%2C18.0.0%2CN%3Bdirectcredit.frame%2C1.0.4%2CN%3Bworkflow%2C18.5.0%2CN%3Bmail%2C18.5.0%2CN%3Bwiki%2C17.5.1%2CN%3Bhighloadblock%2C18.5.0%2CN%3Brest%2C18.5.2%2CN%3Breport%2C18.0.7%2CN%3Bbizprocdesigner%2C18.0.0%2CN%3Bcompression%2C16.0.0%2CN%3Bvote%2C17.5.1%2CN%3Bsecurity%2C18.5.0%2CN%3Bidea%2C17.5.1%2CN%3Bcalendar%2C18.0.0%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Blanding%2C18.5.7%2CN%3Bblog%2C18.1.0%2CN%3Bsocialnetwork%2C18.1.2%2CN%3Bipol.sdek%2C3.7.3%2CN%3Bldap%2C18.0.0%2CN%3Badvertising%2C18.0.0%2CN%3Bbitrixcloud%2C18.5.0%2CN%3Bsearch%2C18.5.0%2CN%3Biblock%2C18.5.4%2CN%3Bsupport%2C16.0.0%2CN%3Bperfmon%2C18.5.0%2CN%3Bcatalog%2C18.5.4%2CN%3Bb24connector%2C18.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bui%2C18.0.1%2CN%3Babtest%2C17.5.0%2CN%3Bmobileapp%2C18.0.2%2CN%3Bwebservice%2C17.0.0%2CN%3Bim%2C18.1.5%2CN%3Bclouds%2C18.0.0%2CN%3Btranslate%2C16.5.0%2CN%3Bconversion%2C17.5.0%2CN%3Bmessageservice%2C18.0.0%2CN%3Blearning%2C17.5.1%2CN%3Bphotogallery%2C18.0.0%2CN%3Bcurrency%2C18.5.0%2CN&reqm=asd.tplvars&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-11-17 12:09:31 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-11-17 12:09:31 -  - TIME LoadModulesUpdates(request) 0.28 sec
+2018-11-17 12:09:31 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:31 - S - STEP
+2018-11-17 12:09:31 - LMU01 - LoadModulesUpdates-Step
+2018-11-17 12:09:31 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:31 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:31 -  - loadFile
+2018-11-17 12:09:31 - U - RETURN
+2018-11-17 12:09:31 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-11-17 12:09:31 -  - TIME UnGzipArchive 0.008 sec
+2018-11-17 12:09:31 -  - TIME UpdateStepModules 0.006 sec
+2018-11-17 12:09:31 - UPD_SUCCESS - Updated: asd.tplvars
+2018-11-17 12:09:31 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:31 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-11-17 12:09:31 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=37&TYPENC=E&CLIENT_PHPVER=7.1.11&NGINX=Y&dbv=5.7.21&instm=main%2C18.1.3%2CN%3Bscale%2C17.5.0%2CN%3Bpull%2C17.5.5%2CN%3Bsale%2C18.5.4%2CN%3Bcluster%2C18.5.0%2CN%3Bseo%2C18.5.0%2CN%3Bbizproc%2C18.0.2%2CN%3Bsberbank.ecom%2C3.2.0%2CN%3Blists%2C17.0.18%2CN%3Bfileman%2C18.0.4%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Baltasib.geobase%2C2.1.4%2CN%3Bstatistic%2C18.5.0%2CN%3Bsender%2C18.1.3%2CN%3Bstoreassist%2C16.0.1%2CN%3Bsocialservices%2C18.0.3%2CN%3Bforum%2C18.0.1%2CN%3Bsubscribe%2C18.5.0%2CN%3Bnbrains.slider%2C1.0.3%2CN%3Bform%2C18.0.0%2CN%3Bdirectcredit.frame%2C1.0.4%2CN%3Bworkflow%2C18.5.0%2CN%3Bmail%2C18.5.0%2CN%3Bwiki%2C17.5.1%2CN%3Bhighloadblock%2C18.5.0%2CN%3Brest%2C18.5.2%2CN%3Breport%2C18.0.7%2CN%3Bbizprocdesigner%2C18.0.0%2CN%3Bcompression%2C16.0.0%2CN%3Bvote%2C17.5.1%2CN%3Bsecurity%2C18.5.0%2CN%3Bidea%2C17.5.1%2CN%3Bcalendar%2C18.0.0%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Blanding%2C18.5.7%2CN%3Bblog%2C18.1.0%2CN%3Bsocialnetwork%2C18.1.2%2CN%3Bipol.sdek%2C3.7.3%2CN%3Bldap%2C18.0.0%2CN%3Badvertising%2C18.0.0%2CN%3Bbitrixcloud%2C18.5.0%2CN%3Bsearch%2C18.5.0%2CN%3Biblock%2C18.5.4%2CN%3Bsupport%2C16.0.0%2CN%3Bperfmon%2C18.5.0%2CN%3Bcatalog%2C18.5.4%2CN%3Bb24connector%2C18.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bui%2C18.0.1%2CN%3Babtest%2C17.5.0%2CN%3Bmobileapp%2C18.0.2%2CN%3Bwebservice%2C17.0.0%2CN%3Bim%2C18.1.5%2CN%3Bclouds%2C18.0.0%2CN%3Btranslate%2C16.5.0%2CN%3Bconversion%2C17.5.0%2CN%3Bmessageservice%2C18.0.0%2CN%3Blearning%2C17.5.1%2CN%3Basd.tplvars%2C1.0.0%2CN%3Bphotogallery%2C18.0.0%2CN%3Bcurrency%2C18.5.0%2CN&reqm=asd.tplvars&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-11-17 12:09:31 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-11-17 12:09:32 -  - TIME LoadModulesUpdates(request) 0.291 sec
+2018-11-17 12:09:32 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:32 - S - STEP
+2018-11-17 12:09:32 - LMU01 - LoadModulesUpdates-Step
+2018-11-17 12:09:32 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:32 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:32 -  - loadFile
+2018-11-17 12:09:32 - U - RETURN
+2018-11-17 12:09:32 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-11-17 12:09:32 -  - TIME UnGzipArchive 0.001 sec
+2018-11-17 12:09:32 - CSURUS1 - Run updater '/bitrix/updates/update_m1542445772/asd.tplvars/updater1.0.2.php'
+2018-11-17 12:09:32 -  - TIME UpdateStepModules 0.001 sec
+2018-11-17 12:09:32 - UPD_SUCCESS - Updated: asd.tplvars (1.0.2)<br>- Изменен порядок проверки показа кнопки на панели.
+2018-11-17 12:09:32 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:32 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-11-17 12:09:32 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=37&TYPENC=E&CLIENT_PHPVER=7.1.11&NGINX=Y&dbv=5.7.21&instm=main%2C18.1.3%2CN%3Bscale%2C17.5.0%2CN%3Bpull%2C17.5.5%2CN%3Bsale%2C18.5.4%2CN%3Bcluster%2C18.5.0%2CN%3Bseo%2C18.5.0%2CN%3Bbizproc%2C18.0.2%2CN%3Bsberbank.ecom%2C3.2.0%2CN%3Blists%2C17.0.18%2CN%3Bfileman%2C18.0.4%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Baltasib.geobase%2C2.1.4%2CN%3Bstatistic%2C18.5.0%2CN%3Bsender%2C18.1.3%2CN%3Bstoreassist%2C16.0.1%2CN%3Bsocialservices%2C18.0.3%2CN%3Bforum%2C18.0.1%2CN%3Bsubscribe%2C18.5.0%2CN%3Bnbrains.slider%2C1.0.3%2CN%3Bform%2C18.0.0%2CN%3Bdirectcredit.frame%2C1.0.4%2CN%3Bworkflow%2C18.5.0%2CN%3Bmail%2C18.5.0%2CN%3Bwiki%2C17.5.1%2CN%3Bhighloadblock%2C18.5.0%2CN%3Brest%2C18.5.2%2CN%3Breport%2C18.0.7%2CN%3Bbizprocdesigner%2C18.0.0%2CN%3Bcompression%2C16.0.0%2CN%3Bvote%2C17.5.1%2CN%3Bsecurity%2C18.5.0%2CN%3Bidea%2C17.5.1%2CN%3Bcalendar%2C18.0.0%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Blanding%2C18.5.7%2CN%3Bblog%2C18.1.0%2CN%3Bsocialnetwork%2C18.1.2%2CN%3Bipol.sdek%2C3.7.3%2CN%3Bldap%2C18.0.0%2CN%3Badvertising%2C18.0.0%2CN%3Bbitrixcloud%2C18.5.0%2CN%3Bsearch%2C18.5.0%2CN%3Biblock%2C18.5.4%2CN%3Bsupport%2C16.0.0%2CN%3Bperfmon%2C18.5.0%2CN%3Bcatalog%2C18.5.4%2CN%3Bb24connector%2C18.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bui%2C18.0.1%2CN%3Babtest%2C17.5.0%2CN%3Bmobileapp%2C18.0.2%2CN%3Bwebservice%2C17.0.0%2CN%3Bim%2C18.1.5%2CN%3Bclouds%2C18.0.0%2CN%3Btranslate%2C16.5.0%2CN%3Bconversion%2C17.5.0%2CN%3Bmessageservice%2C18.0.0%2CN%3Blearning%2C17.5.1%2CN%3Basd.tplvars%2C1.0.2%2CN%3Bphotogallery%2C18.0.0%2CN%3Bcurrency%2C18.5.0%2CN&reqm=asd.tplvars&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-11-17 12:09:32 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-11-17 12:09:32 -  - TIME LoadModulesUpdates(request) 0.299 sec
+2018-11-17 12:09:32 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:32 - S - STEP
+2018-11-17 12:09:32 - LMU01 - LoadModulesUpdates-Step
+2018-11-17 12:09:32 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:32 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:32 -  - loadFile
+2018-11-17 12:09:32 - U - RETURN
+2018-11-17 12:09:32 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-11-17 12:09:32 -  - TIME UnGzipArchive 0.002 sec
+2018-11-17 12:09:32 - CSURUS1 - Run updater '/bitrix/updates/update_m1542445772/asd.tplvars/updater1.0.3.php'
+2018-11-17 12:09:32 -  - TIME UpdateStepModules 0.002 sec
+2018-11-17 12:09:32 - UPD_SUCCESS - Updated: asd.tplvars (1.0.3)<br>- Дополнил функцией tplinvis: http://dev.1c-bitrix.ru/community/webdev/user/11948/blog/7543/
+2018-11-17 12:09:33 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:33 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-11-17 12:09:33 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=37&TYPENC=E&CLIENT_PHPVER=7.1.11&NGINX=Y&dbv=5.7.21&instm=main%2C18.1.3%2CN%3Bscale%2C17.5.0%2CN%3Bpull%2C17.5.5%2CN%3Bsale%2C18.5.4%2CN%3Bcluster%2C18.5.0%2CN%3Bseo%2C18.5.0%2CN%3Bbizproc%2C18.0.2%2CN%3Bsberbank.ecom%2C3.2.0%2CN%3Blists%2C17.0.18%2CN%3Bfileman%2C18.0.4%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Baltasib.geobase%2C2.1.4%2CN%3Bstatistic%2C18.5.0%2CN%3Bsender%2C18.1.3%2CN%3Bstoreassist%2C16.0.1%2CN%3Bsocialservices%2C18.0.3%2CN%3Bforum%2C18.0.1%2CN%3Bsubscribe%2C18.5.0%2CN%3Bnbrains.slider%2C1.0.3%2CN%3Bform%2C18.0.0%2CN%3Bdirectcredit.frame%2C1.0.4%2CN%3Bworkflow%2C18.5.0%2CN%3Bmail%2C18.5.0%2CN%3Bwiki%2C17.5.1%2CN%3Bhighloadblock%2C18.5.0%2CN%3Brest%2C18.5.2%2CN%3Breport%2C18.0.7%2CN%3Bbizprocdesigner%2C18.0.0%2CN%3Bcompression%2C16.0.0%2CN%3Bvote%2C17.5.1%2CN%3Bsecurity%2C18.5.0%2CN%3Bidea%2C17.5.1%2CN%3Bcalendar%2C18.0.0%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Blanding%2C18.5.7%2CN%3Bblog%2C18.1.0%2CN%3Bsocialnetwork%2C18.1.2%2CN%3Bipol.sdek%2C3.7.3%2CN%3Bldap%2C18.0.0%2CN%3Badvertising%2C18.0.0%2CN%3Bbitrixcloud%2C18.5.0%2CN%3Bsearch%2C18.5.0%2CN%3Biblock%2C18.5.4%2CN%3Bsupport%2C16.0.0%2CN%3Bperfmon%2C18.5.0%2CN%3Bcatalog%2C18.5.4%2CN%3Bb24connector%2C18.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bui%2C18.0.1%2CN%3Babtest%2C17.5.0%2CN%3Bmobileapp%2C18.0.2%2CN%3Bwebservice%2C17.0.0%2CN%3Bim%2C18.1.5%2CN%3Bclouds%2C18.0.0%2CN%3Btranslate%2C16.5.0%2CN%3Bconversion%2C17.5.0%2CN%3Bmessageservice%2C18.0.0%2CN%3Blearning%2C17.5.1%2CN%3Basd.tplvars%2C1.0.3%2CN%3Bphotogallery%2C18.0.0%2CN%3Bcurrency%2C18.5.0%2CN&reqm=asd.tplvars&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-11-17 12:09:33 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-11-17 12:09:33 -  - TIME LoadModulesUpdates(request) 0.3 sec
+2018-11-17 12:09:33 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:33 - S - STEP
+2018-11-17 12:09:33 - LMU01 - LoadModulesUpdates-Step
+2018-11-17 12:09:33 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:33 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:33 -  - loadFile
+2018-11-17 12:09:33 - U - RETURN
+2018-11-17 12:09:33 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-11-17 12:09:33 -  - TIME UnGzipArchive 0.002 sec
+2018-11-17 12:09:33 - CSURUS1 - Run updater '/bitrix/updates/update_m1542445773/asd.tplvars/updater1.0.4.php'
+2018-11-17 12:09:33 -  - TIME UpdateStepModules 0.002 sec
+2018-11-17 12:09:33 - UPD_SUCCESS - Updated: asd.tplvars (1.0.4)<br>- Мелкие ошибки.
+2018-11-17 12:09:33 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:33 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-11-17 12:09:33 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=37&TYPENC=E&CLIENT_PHPVER=7.1.11&NGINX=Y&dbv=5.7.21&instm=main%2C18.1.3%2CN%3Bscale%2C17.5.0%2CN%3Bpull%2C17.5.5%2CN%3Bsale%2C18.5.4%2CN%3Bcluster%2C18.5.0%2CN%3Bseo%2C18.5.0%2CN%3Bbizproc%2C18.0.2%2CN%3Bsberbank.ecom%2C3.2.0%2CN%3Blists%2C17.0.18%2CN%3Bfileman%2C18.0.4%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Baltasib.geobase%2C2.1.4%2CN%3Bstatistic%2C18.5.0%2CN%3Bsender%2C18.1.3%2CN%3Bstoreassist%2C16.0.1%2CN%3Bsocialservices%2C18.0.3%2CN%3Bforum%2C18.0.1%2CN%3Bsubscribe%2C18.5.0%2CN%3Bnbrains.slider%2C1.0.3%2CN%3Bform%2C18.0.0%2CN%3Bdirectcredit.frame%2C1.0.4%2CN%3Bworkflow%2C18.5.0%2CN%3Bmail%2C18.5.0%2CN%3Bwiki%2C17.5.1%2CN%3Bhighloadblock%2C18.5.0%2CN%3Brest%2C18.5.2%2CN%3Breport%2C18.0.7%2CN%3Bbizprocdesigner%2C18.0.0%2CN%3Bcompression%2C16.0.0%2CN%3Bvote%2C17.5.1%2CN%3Bsecurity%2C18.5.0%2CN%3Bidea%2C17.5.1%2CN%3Bcalendar%2C18.0.0%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Blanding%2C18.5.7%2CN%3Bblog%2C18.1.0%2CN%3Bsocialnetwork%2C18.1.2%2CN%3Bipol.sdek%2C3.7.3%2CN%3Bldap%2C18.0.0%2CN%3Badvertising%2C18.0.0%2CN%3Bbitrixcloud%2C18.5.0%2CN%3Bsearch%2C18.5.0%2CN%3Biblock%2C18.5.4%2CN%3Bsupport%2C16.0.0%2CN%3Bperfmon%2C18.5.0%2CN%3Bcatalog%2C18.5.4%2CN%3Bb24connector%2C18.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bui%2C18.0.1%2CN%3Babtest%2C17.5.0%2CN%3Bmobileapp%2C18.0.2%2CN%3Bwebservice%2C17.0.0%2CN%3Bim%2C18.1.5%2CN%3Bclouds%2C18.0.0%2CN%3Btranslate%2C16.5.0%2CN%3Bconversion%2C17.5.0%2CN%3Bmessageservice%2C18.0.0%2CN%3Blearning%2C17.5.1%2CN%3Basd.tplvars%2C1.0.4%2CN%3Bphotogallery%2C18.0.0%2CN%3Bcurrency%2C18.5.0%2CN&reqm=asd.tplvars&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-11-17 12:09:33 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-11-17 12:09:33 -  - TIME LoadModulesUpdates(request) 0.317 sec
+2018-11-17 12:09:33 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:33 - S - STEP
+2018-11-17 12:09:33 - LMU01 - LoadModulesUpdates-Step
+2018-11-17 12:09:34 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:34 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:34 -  - loadFile
+2018-11-17 12:09:34 - U - RETURN
+2018-11-17 12:09:34 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-11-17 12:09:34 -  - TIME UnGzipArchive 0.002 sec
+2018-11-17 12:09:34 - CSURUS1 - Run updater '/bitrix/updates/update_m1542445774/asd.tplvars/updater1.0.5.php'
+2018-11-17 12:09:34 -  - TIME UpdateStepModules 0.006 sec
+2018-11-17 12:09:34 - UPD_SUCCESS - Updated: asd.tplvars (1.0.5)<br>- Исправление js-ошибки.
+2018-11-17 12:09:34 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:34 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-11-17 12:09:34 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=37&TYPENC=E&CLIENT_PHPVER=7.1.11&NGINX=Y&dbv=5.7.21&instm=main%2C18.1.3%2CN%3Bscale%2C17.5.0%2CN%3Bpull%2C17.5.5%2CN%3Bsale%2C18.5.4%2CN%3Bcluster%2C18.5.0%2CN%3Bseo%2C18.5.0%2CN%3Bbizproc%2C18.0.2%2CN%3Bsberbank.ecom%2C3.2.0%2CN%3Blists%2C17.0.18%2CN%3Bfileman%2C18.0.4%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Baltasib.geobase%2C2.1.4%2CN%3Bstatistic%2C18.5.0%2CN%3Bsender%2C18.1.3%2CN%3Bstoreassist%2C16.0.1%2CN%3Bsocialservices%2C18.0.3%2CN%3Bforum%2C18.0.1%2CN%3Bsubscribe%2C18.5.0%2CN%3Bnbrains.slider%2C1.0.3%2CN%3Bform%2C18.0.0%2CN%3Bdirectcredit.frame%2C1.0.4%2CN%3Bworkflow%2C18.5.0%2CN%3Bmail%2C18.5.0%2CN%3Bwiki%2C17.5.1%2CN%3Bhighloadblock%2C18.5.0%2CN%3Brest%2C18.5.2%2CN%3Breport%2C18.0.7%2CN%3Bbizprocdesigner%2C18.0.0%2CN%3Bcompression%2C16.0.0%2CN%3Bvote%2C17.5.1%2CN%3Bsecurity%2C18.5.0%2CN%3Bidea%2C17.5.1%2CN%3Bcalendar%2C18.0.0%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Blanding%2C18.5.7%2CN%3Bblog%2C18.1.0%2CN%3Bsocialnetwork%2C18.1.2%2CN%3Bipol.sdek%2C3.7.3%2CN%3Bldap%2C18.0.0%2CN%3Badvertising%2C18.0.0%2CN%3Bbitrixcloud%2C18.5.0%2CN%3Bsearch%2C18.5.0%2CN%3Biblock%2C18.5.4%2CN%3Bsupport%2C16.0.0%2CN%3Bperfmon%2C18.5.0%2CN%3Bcatalog%2C18.5.4%2CN%3Bb24connector%2C18.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bui%2C18.0.1%2CN%3Babtest%2C17.5.0%2CN%3Bmobileapp%2C18.0.2%2CN%3Bwebservice%2C17.0.0%2CN%3Bim%2C18.1.5%2CN%3Bclouds%2C18.0.0%2CN%3Btranslate%2C16.5.0%2CN%3Bconversion%2C17.5.0%2CN%3Bmessageservice%2C18.0.0%2CN%3Blearning%2C17.5.1%2CN%3Basd.tplvars%2C1.0.5%2CN%3Bphotogallery%2C18.0.0%2CN%3Bcurrency%2C18.5.0%2CN&reqm=asd.tplvars&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-11-17 12:09:34 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-11-17 12:09:34 -  - TIME LoadModulesUpdates(request) 0.294 sec
+2018-11-17 12:09:34 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:34 - S - STEP
+2018-11-17 12:09:34 - LMU01 - LoadModulesUpdates-Step
+2018-11-17 12:09:34 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:34 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:34 -  - loadFile
+2018-11-17 12:09:34 - U - RETURN
+2018-11-17 12:09:34 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-11-17 12:09:34 -  - TIME UnGzipArchive 0.001 sec
+2018-11-17 12:09:34 - CSURUS1 - Run updater '/bitrix/updates/update_m1542445774/asd.tplvars/updater1.1.0.php'
+2018-11-17 12:09:34 -  - TIME UpdateStepModules 0.003 sec
+2018-11-17 12:09:34 - UPD_SUCCESS - Updated: asd.tplvars (1.1.0)<br>- Добавлена функция tplvar_set. Использование: tplvar_set($code, $value, $site), все значения обязательны. 
+2018-11-17 12:09:34 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:34 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-11-17 12:09:34 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=37&TYPENC=E&CLIENT_PHPVER=7.1.11&NGINX=Y&dbv=5.7.21&instm=main%2C18.1.3%2CN%3Bscale%2C17.5.0%2CN%3Bpull%2C17.5.5%2CN%3Bsale%2C18.5.4%2CN%3Bcluster%2C18.5.0%2CN%3Bseo%2C18.5.0%2CN%3Bbizproc%2C18.0.2%2CN%3Bsberbank.ecom%2C3.2.0%2CN%3Blists%2C17.0.18%2CN%3Bfileman%2C18.0.4%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Baltasib.geobase%2C2.1.4%2CN%3Bstatistic%2C18.5.0%2CN%3Bsender%2C18.1.3%2CN%3Bstoreassist%2C16.0.1%2CN%3Bsocialservices%2C18.0.3%2CN%3Bforum%2C18.0.1%2CN%3Bsubscribe%2C18.5.0%2CN%3Bnbrains.slider%2C1.0.3%2CN%3Bform%2C18.0.0%2CN%3Bdirectcredit.frame%2C1.0.4%2CN%3Bworkflow%2C18.5.0%2CN%3Bmail%2C18.5.0%2CN%3Bwiki%2C17.5.1%2CN%3Bhighloadblock%2C18.5.0%2CN%3Brest%2C18.5.2%2CN%3Breport%2C18.0.7%2CN%3Bbizprocdesigner%2C18.0.0%2CN%3Bcompression%2C16.0.0%2CN%3Bvote%2C17.5.1%2CN%3Bsecurity%2C18.5.0%2CN%3Bidea%2C17.5.1%2CN%3Bcalendar%2C18.0.0%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Blanding%2C18.5.7%2CN%3Bblog%2C18.1.0%2CN%3Bsocialnetwork%2C18.1.2%2CN%3Bipol.sdek%2C3.7.3%2CN%3Bldap%2C18.0.0%2CN%3Badvertising%2C18.0.0%2CN%3Bbitrixcloud%2C18.5.0%2CN%3Bsearch%2C18.5.0%2CN%3Biblock%2C18.5.4%2CN%3Bsupport%2C16.0.0%2CN%3Bperfmon%2C18.5.0%2CN%3Bcatalog%2C18.5.4%2CN%3Bb24connector%2C18.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bui%2C18.0.1%2CN%3Babtest%2C17.5.0%2CN%3Bmobileapp%2C18.0.2%2CN%3Bwebservice%2C17.0.0%2CN%3Bim%2C18.1.5%2CN%3Bclouds%2C18.0.0%2CN%3Btranslate%2C16.5.0%2CN%3Bconversion%2C17.5.0%2CN%3Bmessageservice%2C18.0.0%2CN%3Blearning%2C17.5.1%2CN%3Basd.tplvars%2C1.1.0%2CN%3Bphotogallery%2C18.0.0%2CN%3Bcurrency%2C18.5.0%2CN&reqm=asd.tplvars&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-11-17 12:09:34 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-11-17 12:09:35 -  - TIME LoadModulesUpdates(request) 0.276 sec
+2018-11-17 12:09:35 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:35 - S - STEP
+2018-11-17 12:09:35 - LMU01 - LoadModulesUpdates-Step
+2018-11-17 12:09:35 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:35 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:35 -  - loadFile
+2018-11-17 12:09:35 - U - RETURN
+2018-11-17 12:09:35 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-11-17 12:09:35 -  - TIME UnGzipArchive 0.001 sec
+2018-11-17 12:09:35 - CSURUS1 - Run updater '/bitrix/updates/update_m1542445775/asd.tplvars/updater1.1.1.php'
+2018-11-17 12:09:35 -  - TIME UpdateStepModules 0.004 sec
+2018-11-17 12:09:35 - UPD_SUCCESS - Updated: asd.tplvars (1.1.1)<br>- Изменен порядок вызова обработчика на добавление кнопки в меню.
+2018-11-17 12:09:35 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:35 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-11-17 12:09:35 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=37&TYPENC=E&CLIENT_PHPVER=7.1.11&NGINX=Y&dbv=5.7.21&instm=main%2C18.1.3%2CN%3Bscale%2C17.5.0%2CN%3Bpull%2C17.5.5%2CN%3Bsale%2C18.5.4%2CN%3Bcluster%2C18.5.0%2CN%3Bseo%2C18.5.0%2CN%3Bbizproc%2C18.0.2%2CN%3Bsberbank.ecom%2C3.2.0%2CN%3Blists%2C17.0.18%2CN%3Bfileman%2C18.0.4%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Baltasib.geobase%2C2.1.4%2CN%3Bstatistic%2C18.5.0%2CN%3Bsender%2C18.1.3%2CN%3Bstoreassist%2C16.0.1%2CN%3Bsocialservices%2C18.0.3%2CN%3Bforum%2C18.0.1%2CN%3Bsubscribe%2C18.5.0%2CN%3Bnbrains.slider%2C1.0.3%2CN%3Bform%2C18.0.0%2CN%3Bdirectcredit.frame%2C1.0.4%2CN%3Bworkflow%2C18.5.0%2CN%3Bmail%2C18.5.0%2CN%3Bwiki%2C17.5.1%2CN%3Bhighloadblock%2C18.5.0%2CN%3Brest%2C18.5.2%2CN%3Breport%2C18.0.7%2CN%3Bbizprocdesigner%2C18.0.0%2CN%3Bcompression%2C16.0.0%2CN%3Bvote%2C17.5.1%2CN%3Bsecurity%2C18.5.0%2CN%3Bidea%2C17.5.1%2CN%3Bcalendar%2C18.0.0%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Blanding%2C18.5.7%2CN%3Bblog%2C18.1.0%2CN%3Bsocialnetwork%2C18.1.2%2CN%3Bipol.sdek%2C3.7.3%2CN%3Bldap%2C18.0.0%2CN%3Badvertising%2C18.0.0%2CN%3Bbitrixcloud%2C18.5.0%2CN%3Bsearch%2C18.5.0%2CN%3Biblock%2C18.5.4%2CN%3Bsupport%2C16.0.0%2CN%3Bperfmon%2C18.5.0%2CN%3Bcatalog%2C18.5.4%2CN%3Bb24connector%2C18.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bui%2C18.0.1%2CN%3Babtest%2C17.5.0%2CN%3Bmobileapp%2C18.0.2%2CN%3Bwebservice%2C17.0.0%2CN%3Bim%2C18.1.5%2CN%3Bclouds%2C18.0.0%2CN%3Btranslate%2C16.5.0%2CN%3Bconversion%2C17.5.0%2CN%3Bmessageservice%2C18.0.0%2CN%3Blearning%2C17.5.1%2CN%3Basd.tplvars%2C1.1.1%2CN%3Bphotogallery%2C18.0.0%2CN%3Bcurrency%2C18.5.0%2CN&reqm=asd.tplvars&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-11-17 12:09:35 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-11-17 12:09:35 -  - TIME LoadModulesUpdates(request) 0.296 sec
+2018-11-17 12:09:35 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:35 - S - STEP
+2018-11-17 12:09:35 - LMU01 - LoadModulesUpdates-Step
+2018-11-17 12:09:35 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:35 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:35 -  - loadFile
+2018-11-17 12:09:35 - U - RETURN
+2018-11-17 12:09:35 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-11-17 12:09:35 -  - TIME UnGzipArchive 0.002 sec
+2018-11-17 12:09:35 - CSURUS1 - Run updater '/bitrix/updates/update_m1542445775/asd.tplvars/updater1.2.1.php'
+2018-11-17 12:09:35 -  - TIME UpdateStepModules 0.005 sec
+2018-11-17 12:09:35 - UPD_SUCCESS - Updated: asd.tplvars (1.2.1)<br>- Исправления под 14-ю версию Битрикс.
+2018-11-17 12:09:35 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:35 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-11-17 12:09:35 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=37&TYPENC=E&CLIENT_PHPVER=7.1.11&NGINX=Y&dbv=5.7.21&instm=main%2C18.1.3%2CN%3Bscale%2C17.5.0%2CN%3Bpull%2C17.5.5%2CN%3Bsale%2C18.5.4%2CN%3Bcluster%2C18.5.0%2CN%3Bseo%2C18.5.0%2CN%3Bbizproc%2C18.0.2%2CN%3Bsberbank.ecom%2C3.2.0%2CN%3Blists%2C17.0.18%2CN%3Bfileman%2C18.0.4%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Baltasib.geobase%2C2.1.4%2CN%3Bstatistic%2C18.5.0%2CN%3Bsender%2C18.1.3%2CN%3Bstoreassist%2C16.0.1%2CN%3Bsocialservices%2C18.0.3%2CN%3Bforum%2C18.0.1%2CN%3Bsubscribe%2C18.5.0%2CN%3Bnbrains.slider%2C1.0.3%2CN%3Bform%2C18.0.0%2CN%3Bdirectcredit.frame%2C1.0.4%2CN%3Bworkflow%2C18.5.0%2CN%3Bmail%2C18.5.0%2CN%3Bwiki%2C17.5.1%2CN%3Bhighloadblock%2C18.5.0%2CN%3Brest%2C18.5.2%2CN%3Breport%2C18.0.7%2CN%3Bbizprocdesigner%2C18.0.0%2CN%3Bcompression%2C16.0.0%2CN%3Bvote%2C17.5.1%2CN%3Bsecurity%2C18.5.0%2CN%3Bidea%2C17.5.1%2CN%3Bcalendar%2C18.0.0%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Blanding%2C18.5.7%2CN%3Bblog%2C18.1.0%2CN%3Bsocialnetwork%2C18.1.2%2CN%3Bipol.sdek%2C3.7.3%2CN%3Bldap%2C18.0.0%2CN%3Badvertising%2C18.0.0%2CN%3Bbitrixcloud%2C18.5.0%2CN%3Bsearch%2C18.5.0%2CN%3Biblock%2C18.5.4%2CN%3Bsupport%2C16.0.0%2CN%3Bperfmon%2C18.5.0%2CN%3Bcatalog%2C18.5.4%2CN%3Bb24connector%2C18.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bui%2C18.0.1%2CN%3Babtest%2C17.5.0%2CN%3Bmobileapp%2C18.0.2%2CN%3Bwebservice%2C17.0.0%2CN%3Bim%2C18.1.5%2CN%3Bclouds%2C18.0.0%2CN%3Btranslate%2C16.5.0%2CN%3Bconversion%2C17.5.0%2CN%3Bmessageservice%2C18.0.0%2CN%3Blearning%2C17.5.1%2CN%3Basd.tplvars%2C1.2.1%2CN%3Bphotogallery%2C18.0.0%2CN%3Bcurrency%2C18.5.0%2CN&reqm=asd.tplvars&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-11-17 12:09:35 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-11-17 12:09:36 -  - TIME LoadModulesUpdates(request) 0.3 sec
+2018-11-17 12:09:36 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:36 - S - STEP
+2018-11-17 12:09:36 - LMU01 - LoadModulesUpdates-Step
+2018-11-17 12:09:36 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:36 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:36 -  - loadFile
+2018-11-17 12:09:36 - U - RETURN
+2018-11-17 12:09:36 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-11-17 12:09:36 -  - TIME UnGzipArchive 0.004 sec
+2018-11-17 12:09:36 - CSURUS1 - Run updater '/bitrix/updates/update_m1542445776/asd.tplvars/updater1.5.0.php'
+2018-11-17 12:09:36 -  - TIME UpdateStepModules 0.009 sec
+2018-11-17 12:09:36 - UPD_SUCCESS - Updated: asd.tplvars (1.5.0)<br>Поддержка описаний свойств.
+2018-11-17 12:09:36 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:36 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-11-17 12:09:36 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=37&TYPENC=E&CLIENT_PHPVER=7.1.11&NGINX=Y&dbv=5.7.21&instm=main%2C18.1.3%2CN%3Bscale%2C17.5.0%2CN%3Bpull%2C17.5.5%2CN%3Bsale%2C18.5.4%2CN%3Bcluster%2C18.5.0%2CN%3Bseo%2C18.5.0%2CN%3Bbizproc%2C18.0.2%2CN%3Bsberbank.ecom%2C3.2.0%2CN%3Blists%2C17.0.18%2CN%3Bfileman%2C18.0.4%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Baltasib.geobase%2C2.1.4%2CN%3Bstatistic%2C18.5.0%2CN%3Bsender%2C18.1.3%2CN%3Bstoreassist%2C16.0.1%2CN%3Bsocialservices%2C18.0.3%2CN%3Bforum%2C18.0.1%2CN%3Bsubscribe%2C18.5.0%2CN%3Bnbrains.slider%2C1.0.3%2CN%3Bform%2C18.0.0%2CN%3Bdirectcredit.frame%2C1.0.4%2CN%3Bworkflow%2C18.5.0%2CN%3Bmail%2C18.5.0%2CN%3Bwiki%2C17.5.1%2CN%3Bhighloadblock%2C18.5.0%2CN%3Brest%2C18.5.2%2CN%3Breport%2C18.0.7%2CN%3Bbizprocdesigner%2C18.0.0%2CN%3Bcompression%2C16.0.0%2CN%3Bvote%2C17.5.1%2CN%3Bsecurity%2C18.5.0%2CN%3Bidea%2C17.5.1%2CN%3Bcalendar%2C18.0.0%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Blanding%2C18.5.7%2CN%3Bblog%2C18.1.0%2CN%3Bsocialnetwork%2C18.1.2%2CN%3Bipol.sdek%2C3.7.3%2CN%3Bldap%2C18.0.0%2CN%3Badvertising%2C18.0.0%2CN%3Bbitrixcloud%2C18.5.0%2CN%3Bsearch%2C18.5.0%2CN%3Biblock%2C18.5.4%2CN%3Bsupport%2C16.0.0%2CN%3Bperfmon%2C18.5.0%2CN%3Bcatalog%2C18.5.4%2CN%3Bb24connector%2C18.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bui%2C18.0.1%2CN%3Babtest%2C17.5.0%2CN%3Bmobileapp%2C18.0.2%2CN%3Bwebservice%2C17.0.0%2CN%3Bim%2C18.1.5%2CN%3Bclouds%2C18.0.0%2CN%3Btranslate%2C16.5.0%2CN%3Bconversion%2C17.5.0%2CN%3Bmessageservice%2C18.0.0%2CN%3Blearning%2C17.5.1%2CN%3Basd.tplvars%2C1.5.0%2CN%3Bphotogallery%2C18.0.0%2CN%3Bcurrency%2C18.5.0%2CN&reqm=asd.tplvars&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-11-17 12:09:36 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-11-17 12:09:36 -  - TIME LoadModulesUpdates(request) 0.293 sec
+2018-11-17 12:09:36 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:36 - S - STEP
+2018-11-17 12:09:36 - LMU01 - LoadModulesUpdates-Step
+2018-11-17 12:09:36 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:36 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:36 -  - loadFile
+2018-11-17 12:09:36 - U - RETURN
+2018-11-17 12:09:36 -  - exec CUpdateClientPartner::UnGzipArchive
+2018-11-17 12:09:36 -  - TIME UnGzipArchive 0.001 sec
+2018-11-17 12:09:36 - CSURUS1 - Run updater '/bitrix/updates/update_m1542445776/asd.tplvars/updater1.5.1.php'
+2018-11-17 12:09:36 -  - TIME UpdateStepModules 0.001 sec
+2018-11-17 12:09:36 - UPD_SUCCESS - Updated: asd.tplvars (1.5.1)<br>Совместимость со старыми версиями.
+2018-11-17 12:09:37 -  - exec CUpdateClientPartner::LoadModulesUpdates
+2018-11-17 12:09:37 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-11-17 12:09:37 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=37&TYPENC=E&CLIENT_PHPVER=7.1.11&NGINX=Y&dbv=5.7.21&instm=main%2C18.1.3%2CN%3Bscale%2C17.5.0%2CN%3Bpull%2C17.5.5%2CN%3Bsale%2C18.5.4%2CN%3Bcluster%2C18.5.0%2CN%3Bseo%2C18.5.0%2CN%3Bbizproc%2C18.0.2%2CN%3Bsberbank.ecom%2C3.2.0%2CN%3Blists%2C17.0.18%2CN%3Bfileman%2C18.0.4%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Baltasib.geobase%2C2.1.4%2CN%3Bstatistic%2C18.5.0%2CN%3Bsender%2C18.1.3%2CN%3Bstoreassist%2C16.0.1%2CN%3Bsocialservices%2C18.0.3%2CN%3Bforum%2C18.0.1%2CN%3Bsubscribe%2C18.5.0%2CN%3Bnbrains.slider%2C1.0.3%2CN%3Bform%2C18.0.0%2CN%3Bdirectcredit.frame%2C1.0.4%2CN%3Bworkflow%2C18.5.0%2CN%3Bmail%2C18.5.0%2CN%3Bwiki%2C17.5.1%2CN%3Bhighloadblock%2C18.5.0%2CN%3Brest%2C18.5.2%2CN%3Breport%2C18.0.7%2CN%3Bbizprocdesigner%2C18.0.0%2CN%3Bcompression%2C16.0.0%2CN%3Bvote%2C17.5.1%2CN%3Bsecurity%2C18.5.0%2CN%3Bidea%2C17.5.1%2CN%3Bcalendar%2C18.0.0%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Blanding%2C18.5.7%2CN%3Bblog%2C18.1.0%2CN%3Bsocialnetwork%2C18.1.2%2CN%3Bipol.sdek%2C3.7.3%2CN%3Bldap%2C18.0.0%2CN%3Badvertising%2C18.0.0%2CN%3Bbitrixcloud%2C18.5.0%2CN%3Bsearch%2C18.5.0%2CN%3Biblock%2C18.5.4%2CN%3Bsupport%2C16.0.0%2CN%3Bperfmon%2C18.5.0%2CN%3Bcatalog%2C18.5.4%2CN%3Bb24connector%2C18.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bui%2C18.0.1%2CN%3Babtest%2C17.5.0%2CN%3Bmobileapp%2C18.0.2%2CN%3Bwebservice%2C17.0.0%2CN%3Bim%2C18.1.5%2CN%3Bclouds%2C18.0.0%2CN%3Btranslate%2C16.5.0%2CN%3Bconversion%2C17.5.0%2CN%3Bmessageservice%2C18.0.0%2CN%3Blearning%2C17.5.1%2CN%3Basd.tplvars%2C1.5.1%2CN%3Bphotogallery%2C18.0.0%2CN%3Bcurrency%2C18.5.0%2CN&reqm=asd.tplvars&lim=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-11-17 12:09:37 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-11-17 12:09:37 -  - TIME LoadModulesUpdates(request) 0.316 sec
+2018-11-17 12:09:37 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:37 - STEP - Finish - NOUPDATES
+2018-11-17 12:09:37 - STEP - Finish - NOUPDATES
+2018-11-17 12:09:38 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-11-17 12:09:38 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-11-17 12:09:38 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=37&TYPENC=E&CLIENT_PHPVER=7.1.11&NGINX=Y&dbv=5.7.21&instm=main%2C18.1.3%2CN%3Bscale%2C17.5.0%2CN%3Bpull%2C17.5.5%2CN%3Bsale%2C18.5.4%2CN%3Bcluster%2C18.5.0%2CN%3Bseo%2C18.5.0%2CN%3Bbizproc%2C18.0.2%2CN%3Bsberbank.ecom%2C3.2.0%2CN%3Blists%2C17.0.18%2CN%3Bfileman%2C18.0.4%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Baltasib.geobase%2C2.1.4%2CN%3Bstatistic%2C18.5.0%2CN%3Bsender%2C18.1.3%2CN%3Bstoreassist%2C16.0.1%2CN%3Bsocialservices%2C18.0.3%2CN%3Bforum%2C18.0.1%2CN%3Bsubscribe%2C18.5.0%2CN%3Bnbrains.slider%2C1.0.3%2CN%3Bform%2C18.0.0%2CN%3Bdirectcredit.frame%2C1.0.4%2CN%3Bworkflow%2C18.5.0%2CN%3Bmail%2C18.5.0%2CN%3Bwiki%2C17.5.1%2CN%3Bhighloadblock%2C18.5.0%2CN%3Brest%2C18.5.2%2CN%3Breport%2C18.0.7%2CN%3Bbizprocdesigner%2C18.0.0%2CN%3Bcompression%2C16.0.0%2CN%3Bvote%2C17.5.1%2CN%3Bsecurity%2C18.5.0%2CN%3Bidea%2C17.5.1%2CN%3Bcalendar%2C18.0.0%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Blanding%2C18.5.7%2CN%3Bblog%2C18.1.0%2CN%3Bsocialnetwork%2C18.1.2%2CN%3Bipol.sdek%2C3.7.3%2CN%3Bldap%2C18.0.0%2CN%3Badvertising%2C18.0.0%2CN%3Bbitrixcloud%2C18.5.0%2CN%3Bsearch%2C18.5.0%2CN%3Biblock%2C18.5.4%2CN%3Bsupport%2C16.0.0%2CN%3Bperfmon%2C18.5.0%2CN%3Bcatalog%2C18.5.4%2CN%3Bb24connector%2C18.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bui%2C18.0.1%2CN%3Babtest%2C17.5.0%2CN%3Bmobileapp%2C18.0.2%2CN%3Bwebservice%2C17.0.0%2CN%3Bim%2C18.1.5%2CN%3Bclouds%2C18.0.0%2CN%3Btranslate%2C16.5.0%2CN%3Bconversion%2C17.5.0%2CN%3Bmessageservice%2C18.0.0%2CN%3Blearning%2C17.5.1%2CN%3Basd.tplvars%2C1.5.1%2CN%3Bphotogallery%2C18.0.0%2CN%3Bcurrency%2C18.5.0%2CN&reqm=sberbank.ecom%2Cbitrix.eshop%2Caltasib.geobase%2Cnbrains.slider%2Cdirectcredit.frame%2Cbitrix.sitecorporate%2Cipol.sdek%2Casd.tplvars&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-11-17 12:09:38 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-11-17 12:09:38 -  - TIME GetUpdatesList(request) 0.309 sec
+2018-11-17 12:09:38 -  - exec CUpdateClientPartner::ParseServerData
+2018-11-17 12:09:42 -  - exec CUpdateClientPartner::GetUpdatesList
+2018-11-17 12:09:42 -  - exec CUpdateClientPartner::__CollectRequestData
+2018-11-17 12:09:42 -  - utf=N&lang=ru&stable=Y&CANGZIP=Y&SUPD_DBS=MYSQL&XE=N&CLIENT_SITE=technoraum.ru&LICENSE_KEY=X&SUPD_STS=1&SUPD_URS=0&SUPD_URSA=37&TYPENC=E&CLIENT_PHPVER=7.1.11&NGINX=Y&dbv=5.7.21&instm=main%2C18.1.3%2CN%3Bscale%2C17.5.0%2CN%3Bpull%2C17.5.5%2CN%3Bsale%2C18.5.4%2CN%3Bcluster%2C18.5.0%2CN%3Bseo%2C18.5.0%2CN%3Bbizproc%2C18.0.2%2CN%3Bsberbank.ecom%2C3.2.0%2CN%3Blists%2C17.0.18%2CN%3Bfileman%2C18.0.4%2CN%3Bbitrix.eshop%2C16.5.4%2CN%3Baltasib.geobase%2C2.1.4%2CN%3Bstatistic%2C18.5.0%2CN%3Bsender%2C18.1.3%2CN%3Bstoreassist%2C16.0.1%2CN%3Bsocialservices%2C18.0.3%2CN%3Bforum%2C18.0.1%2CN%3Bsubscribe%2C18.5.0%2CN%3Bnbrains.slider%2C1.0.3%2CN%3Bform%2C18.0.0%2CN%3Bdirectcredit.frame%2C1.0.4%2CN%3Bworkflow%2C18.5.0%2CN%3Bmail%2C18.5.0%2CN%3Bwiki%2C17.5.1%2CN%3Bhighloadblock%2C18.5.0%2CN%3Brest%2C18.5.2%2CN%3Breport%2C18.0.7%2CN%3Bbizprocdesigner%2C18.0.0%2CN%3Bcompression%2C16.0.0%2CN%3Bvote%2C17.5.1%2CN%3Bsecurity%2C18.5.0%2CN%3Bidea%2C17.5.1%2CN%3Bcalendar%2C18.0.0%2CN%3Bbitrix.sitecorporate%2C15.5.0%2CN%3Blanding%2C18.5.7%2CN%3Bblog%2C18.1.0%2CN%3Bsocialnetwork%2C18.1.2%2CN%3Bipol.sdek%2C3.7.3%2CN%3Bldap%2C18.0.0%2CN%3Badvertising%2C18.0.0%2CN%3Bbitrixcloud%2C18.5.0%2CN%3Bsearch%2C18.5.0%2CN%3Biblock%2C18.5.4%2CN%3Bsupport%2C16.0.0%2CN%3Bperfmon%2C18.5.0%2CN%3Bcatalog%2C18.5.4%2CN%3Bb24connector%2C18.0.0%2CN%3Beshopapp%2C16.5.0%2CN%3Bui%2C18.0.1%2CN%3Babtest%2C17.5.0%2CN%3Bmobileapp%2C18.0.2%2CN%3Bwebservice%2C17.0.0%2CN%3Bim%2C18.1.5%2CN%3Bclouds%2C18.0.0%2CN%3Btranslate%2C16.5.0%2CN%3Bconversion%2C17.5.0%2CN%3Bmessageservice%2C18.0.0%2CN%3Blearning%2C17.5.1%2CN%3Basd.tplvars%2C1.5.1%2CN%3Bphotogallery%2C18.0.0%2CN%3Bcurrency%2C18.5.0%2CN&reqm=sberbank.ecom%2Cbitrix.eshop%2Caltasib.geobase%2Cnbrains.slider%2Cdirectcredit.frame%2Cbitrix.sitecorporate%2Cipol.sdek%2Casd.tplvars&fullmoduleinfo=Y&SUPD_SRS=RU&SUPD_CMP=N
+2018-11-17 12:09:42 -  - exec CUpdateClientPartner::GetHTTPPage
+2018-11-17 12:09:42 -  - TIME GetUpdatesList(request) 0.291 sec
+2018-11-17 12:09:42 -  - exec CUpdateClientPartner::ParseServerData

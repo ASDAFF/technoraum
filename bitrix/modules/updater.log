@@ -3593,3 +3593,13 @@
 2018-11-06 15:57:12 - CRUPDCF1 - Run updater '/bitrix/updates/update_m1541509032/ipol.sdek/updater3.7.0.php': CopyFiles(install/components, components/)
 2018-11-06 15:57:12 - CRUPDCF1 - Run updater '/bitrix/updates/update_m1541509032/ipol.sdek/updater3.7.0.php': CopyFiles(install/js, js/ipol.sdek/)
 2018-11-06 15:57:14 - CRUPDCF1 - Run updater '/bitrix/updates/update_m1541509033/ipol.sdek/updater3.7.2.php': CopyFiles(install/js, js/ipol.sdek/)
+2018-11-17 12:09:36 - CRUPDCDF2 - Run updater '/bitrix/updates/update_m1542445776/asd.tplvars/updater1.5.0.php': Query(create table if not exists b_asd_option_descr
+(
+	ID INT not null auto_increment,
+	NAME VARCHAR(50) not null,
+	DESCRIPTION VARCHAR(255),
+	SITE_ID CHAR(2),
+	PRIMARY KEY (ID),
+	INDEX ASD_OPTION_NAME (NAME),
+	INDEX ASD_OPTION_SITE (SITE_ID)
+);, )
