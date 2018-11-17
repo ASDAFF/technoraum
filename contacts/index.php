@@ -8,7 +8,7 @@ $APPLICATION->SetTitle("Контакты");
 			<b>Горячая линия</b>
 		</p>
 		<p class="big_phone">
-			<a style="color:#000;text-decoration:none;" href="tel: 88002501308">8 800 250 13 08</a>
+			<a style="color:#000;text-decoration:none;" href="tel: 88007775701">8 800 777 57 01</a>
 		</p>
 		<p>
 			Бесплатный звонок по РФ
