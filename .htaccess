@@ -38,6 +38,11 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 	
 	RewriteCond %{HTTP_HOST} ^www\.(.*)$
 	RewriteRule ^(.*)$ http://%1/$1 [L,R=301]
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
+RewriteRule ^index\.php$ https://technoraum.ru/ [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/
+RewriteRule ^index\.html$ https://technoraum.ru/ [R=301,L]
 	
 	RewriteCond %{REQUEST_URI} !\?
 	RewriteCond %{REQUEST_URI} !\&
