@@ -47,7 +47,7 @@ if($url[1] != "personal" && $url[2] != "order" && $url[3] != "make")
 			arrProducts[0] = {id : '108', price: '49990', count: '1', type: 'Паропылесосы', name: 'Паропылесос SV 7' };
 
 
-			DCLoans(partnerID, 'delProduct', false, function(result){
+			/*DCLoans(partnerID, 'delProduct', false, function(result){
 				if (result.status == true) {
 					DCLoans(partnerID, 'addProduct', { products : arrProducts }, function(result){
 						console.log(result);
@@ -58,7 +58,7 @@ if($url[1] != "personal" && $url[2] != "order" && $url[3] != "make")
 						}
 					}, debug);
 				}
-			}, debug);
+			}, debug);*/
 
 		</script>
 
