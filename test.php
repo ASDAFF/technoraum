@@ -27,6 +27,10 @@ $APPLICATION->SetTitle("test");
                 }, debug);
             }
         }, debug);
+
+        function DCCheckStatus(result){
+            console.log(result);
+        }
     </script>
 
 
