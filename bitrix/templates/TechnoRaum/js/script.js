@@ -72,7 +72,7 @@ $( function() {
             var valid = true;
             allFields.removeClass( "ui-state-error" );
             valid = valid && checkRegexp( fioCredit, /^[А-Я]([а-я])+$/i, "Только русские буквы без пробелов." );
-            valid = valid && checkLength( phoneCredit, "Ваш телефон", 1, 10 );
+            valid = valid && checkLength( phoneCredit.val().replace(/\D+/g,"").slice(1), "Ваш телефон", 1, 10 );
             if ( valid ) {
                 dialog.dialog( "close" );
                 DCLoans(partnerID, 'delProduct', false, function(result){
