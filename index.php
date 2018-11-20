@@ -822,6 +822,7 @@ $APPLICATION->IncludeComponent("bitrix:catalog", "home_categories", Array(
 					),
 					false
 				);?>	
-			</div></div><!--/callback_popup-->
+			</div>
+		</div><!--/callback_popup-->
 
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
