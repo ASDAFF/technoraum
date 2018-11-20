@@ -58,11 +58,21 @@ $( function() {
                 return true;
             }
         }
+        function checkLength( o, n, min, max ) {
+            if ( o.val().length > max || o.val().length < min ) {
+                o.addClass( "ui-state-error" );
+                updateTips( "Длинна строки" + n + " должна быть " + max + " символов." );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
         function addUser() {
             var valid = true;
             allFields.removeClass( "ui-state-error" );
             valid = valid && checkRegexp( fioCredit, /^[А-Я]([а-я])+$/i, "Только русские буквы без пробелов." );
-            valid = valid && checkRegexp( phoneCredit, /^(.*?)+$/, "Только цифры" );
+            valid = valid && checkLength( phoneCredit, "Ваш телефон", 1, 11 );
             if ( valid ) {
                 dialog.dialog( "close" );
                 DCLoans(partnerID, 'delProduct', false, function(result){
