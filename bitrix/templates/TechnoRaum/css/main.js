@@ -577,7 +577,7 @@ $(document).ready(function()
 	
 	
 	if ($('select').length) {
-		$('select').selectBox({'keepInViewport':false});
+		$('select:not([name="locationCredit"])').selectBox({'keepInViewport':false});
 	}
 	
 	

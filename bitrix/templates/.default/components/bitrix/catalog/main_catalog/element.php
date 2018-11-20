@@ -285,3 +285,25 @@ else
 	false
 );?>
 
+<div id="dialog-form" title="Заявка на кредит">
+	<p class="validateTips"></p>
+
+	<form>
+		<fieldset>
+			<label for="name">Ваше имя</label>
+			<input type="text" name="nameCredit" id="nameCredit" value="" placeholder="Иван" class="text ui-widget-content ui-corner-all">
+			<label for="email">Ваш телефон</label>
+			<input type="text" name="phoneCredit" id="phoneCredit" value="" class="text ui-widget-content ui-corner-all">
+			<label for="email">Самовывоз из магазина</label>
+			<select name="locationCredit" id="locationCredit">
+				<option value="347347433">г. Ростов-на-Дону, Шолохова пр-кт, 62</option>
+				<option value="347347013">г. Славянск-на-Кубани, Батарейная ул, 262</option>
+				<option value="347346613">г. Усть-Лабинск, Красная ул, 110</option>
+				<option value="347344637">г. Краснодар, Красных Партизан ул, 371</option>
+				<option value="347345501">г. Краснодар, Калинина ул, 15/2</option>
+				<option value="9211625">г. Краснодар, Уральская ул 87</option>
+			</select>
+		</fieldset>
+	</form>
+</div>
+

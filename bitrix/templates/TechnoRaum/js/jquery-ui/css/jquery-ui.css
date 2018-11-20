@@ -514,27 +514,32 @@ button.ui-button::-moz-focus-inner {
 	margin: -10px 0 0 0;
 	padding: 1px;
 	height: 20px;
+	background: none;
+	border: none;
 }
 .ui-dialog .ui-dialog-content {
 	position: relative;
 	border: 0;
-	padding: .5em 1em;
+	padding: 1em 2em;
 	background: none;
 	overflow: auto;
 }
 .ui-dialog .ui-dialog-buttonpane {
-	text-align: left;
+	text-align: center;
 	border-width: 1px 0 0 0;
 	background-image: none;
-	margin-top: .5em;
 	padding: .3em 1em .5em .4em;
 }
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
-	float: right;
-}
+
 .ui-dialog .ui-dialog-buttonpane button {
-	margin: .5em .4em .5em 0;
+	font-weight: bold;
+	font-size: 16px;
+	color: #000;
+	background: #feee35;
+	border: none;
+	padding: 15px 20px;
 	cursor: pointer;
+	margin: auto 5px;
 }
 .ui-dialog .ui-resizable-n {
 	height: 2px;
@@ -905,6 +910,10 @@ body .ui-tooltip {
 	margin-bottom: 15px;
 }
 
+.ui-dialog-content.ui-widget-content{
+	margin-bottom: 0;
+}
+
 .ui-widget-header {
 	color: #333333;
 	font-weight: bold;
@@ -977,9 +986,7 @@ a.ui-button:active,
 .ui-state-error,
 .ui-widget-content .ui-state-error,
 .ui-widget-header .ui-state-error {
-	border: 1px solid #f1a899;
-	background: #fddfdf;
-	color: #5f3f3f;
+	border-color: #ef8080!important;
 }
 .ui-state-error a,
 .ui-widget-content .ui-state-error a,
@@ -1250,4 +1257,26 @@ a.ui-button:active,
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-active a{
 	color: #23527c;
+}
+
+#dialog-form input{
+	height: 40px;
+	width: 100%;
+	border: 2px solid #eee;
+	box-sizing: border-box;
+	padding: 0 20px;
+}
+
+#dialog-form .validateTips{
+	color: red;
+	font-size: 12px;
+	text-align: center;
+	font-weight: bold;
+}
+
+#dialog-form #locationCredit{
+	border: 2px solid #eee;
+	height: 40px;
+	padding: 0 20px;
+	width: 100%;
 }

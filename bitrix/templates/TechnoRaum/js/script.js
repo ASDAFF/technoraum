@@ -25,6 +25,93 @@ $( function() {
         }
     });
 
+    var partnerID = "9211473";
+    var debug = false;
 
+    if(arrProducts) {
+
+        DCLoans(partnerID, 'getPayment', { products : arrProducts }, function(result){
+            if(result.status == true){
+                $('#getPaymentDc').text("от " + result.payments[arrProducts[0].id].payment + " руб./мес.");
+            }
+        });
+
+        $("#phoneCredit").mask("+7 (999) 999 99-99");
+        var dialog, form,
+            fioCredit = $( "#nameCredit" ),
+            phoneCredit = $( "#phoneCredit" ),
+            locationCredit = $( "#locationCredit" ),
+
+            allFields = $( [] ).add( name ).add( phoneCredit ),
+            tips = $( ".validateTips" );
+
+        function updateTips( t ) {
+            tips.text( t );
+        }
+
+        function checkRegexp( o, regexp, n ) {
+            if ( !( regexp.test( o.val() ) ) ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n );
+                return false;
+            } else {
+                return true;
+            }
+        }
+        function addUser() {
+            var valid = true;
+            allFields.removeClass( "ui-state-error" );
+            valid = valid && checkRegexp( fioCredit, /^[А-Я]([а-я])+$/i, "Только русские буквы без пробелов." );
+            valid = valid && checkRegexp( phoneCredit, /^(.*?)+$/, "Только цифры" );
+            if ( valid ) {
+                dialog.dialog( "close" );
+                DCLoans(partnerID, 'delProduct', false, function(result){
+                    if (result.status == true) {
+                        DCLoans(partnerID, 'addProduct', { products : arrProducts }, function(result){
+                            if (result.status == true) {
+                                DCLoans(partnerID, 'saveOrder', {
+                                        firstName: fioCredit.val(),
+                                        order : arrProducts[0].id,
+                                        phone: phoneCredit.val().replace(/\D+/g,"").slice(1),
+                                        codeTT: locationCredit.val(),
+                                    },
+                                    function(result){}, debug);
+                            }
+                        }, debug);
+                    }
+                }, debug);
+            }
+            return valid;
+        }
+        dialog = $( "#dialog-form" ).dialog({
+            autoOpen: false,
+            height: 400,
+            width: 500,
+            modal: true,
+            buttons: {
+                "Отправить": addUser,
+                "Выйти": function() {
+                    dialog.dialog( "close" );
+                }
+            },
+            close: function() {
+                form[ 0 ].reset();
+                allFields.removeClass( "ui-state-error" );
+            }
+        });
+
+        form = dialog.find( "form" ).on( "submit", function( event ) {
+            event.preventDefault();
+            addUser();
+        });
+
+        $( "#getCredit" ).on( "click", function() {
+            dialog.dialog( "open" );
+        });
+    }
 
 });
+
+function DCCheckStatus(result){
+    console.log(result);
+}

@@ -108,7 +108,7 @@ body {overflow-x:hidden;font-family: "Montserrat-SemiBold";/*background:url(../c
 .container {width:100%;position:relative;padding:0;margin:0;opacity:1;}
 .inner_section {max-width:1170px;margin:0 auto;}
 
-header {transition:0.5s;clear:both;position:relative;/*position:absolute;width:100%;top:0px;height:100px;left:0;*/background:#feee35;box-sizing:border-box;z-index:105;}
+header {transition:0.5s;clear:both;position:relative;/*position:absolute;width:100%;top:0px;height:100px;left:0;*/background:#feee35;box-sizing:border-box;z-index:100;}
 header .inner_header {box-sizing:border-box;padding-top:21px;padding-bottom:21px;}
 header.fixed{position:fixed;width:100%;top:-150px;}
 
@@ -1484,4 +1484,15 @@ form[name='bform'] input[type='submit']{font-weight: bold;border-color: #feee35;
 	.popup .the_form .the_form_div input[type="text"]{height:40px}
 	.popup .the_form .the_form_div label span{font-size:12px !important}
 	.popup .the_form .the_form_div label{font-size:12px !important}
+}
+
+.direct-credit{
+    font-weight: normal;
+    color: #35a2e8;
+    border-bottom: 1px dashed #35a2e8;
+}
+.direct-credit-green{
+    font-weight: normal;
+    color: #21ba5a;
+    border-bottom: 1px dashed #21ba5a;
 }

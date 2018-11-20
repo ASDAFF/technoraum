@@ -34,11 +34,12 @@ if($url[1] != "personal" && $url[2] != "order" && $url[3] != "make")
 				?><link rel="canonical" href="https://<?=$_SERVER["SERVER_NAME"].$base_url?>" /><?
 			}
 		?>
-
 		<link rel="stylesheet" href="//dcapi.direct-credit.ru/style.css" type="text/css">
 		<script src="//dcapi.direct-credit.ru/JsHttpRequest.js" type="text/javascript"></script>
 		<script src="//dcapi.direct-credit.ru/dc.js" charset="utf-8" type="text/javascript"></script>
-
+		<script>
+			var arrProducts = new Array();
+		</script>
 
 
 	</head>

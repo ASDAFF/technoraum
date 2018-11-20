@@ -230,6 +230,24 @@ while ($arItems = $dbBasketItems->Fetch())
 			</div>
 			<?
 		}
+		?>
+		<script type="text/javascript">
+			arrProducts[0] = {
+				id : '<?=$arResult['DIRECT_CREDIT']['id']?>',
+				price: '<?=$arResult['DIRECT_CREDIT']['price']?>',
+				count: '<?=$arResult['DIRECT_CREDIT']['count']?>',
+				type: '<?=$arResult['DIRECT_CREDIT']['type']?>',
+				name: '<?=$arResult['DIRECT_CREDIT']['name']?>'
+			};
+		</script>
+
+		<div class="button_wrap">
+			<a href="javascript:void(0)" id="getCredit" style="text-decoration: none">
+				<span class="direct-credit">Купить в кредит</span>
+				<span class="direct-credit-green" id="getPaymentDc"></span>
+			</a>
+		</div>
+		<?
 
 		if($arResult["PROPERTIES"]["GIFT"]["VALUE"])
 		{

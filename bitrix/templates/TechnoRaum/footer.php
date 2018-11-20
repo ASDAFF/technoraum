@@ -429,6 +429,9 @@ if($_SERVER["REQUEST_URI"] != "/")
             //anchor scroll
             $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.anchorlink.js");
 
+            //jquery.maskinput
+            $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.maskinput.js");
+
             //custom script
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/script.js");
 
