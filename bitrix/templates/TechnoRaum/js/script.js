@@ -61,7 +61,7 @@ $( function() {
         function checkLength( o, n, min, max ) {
             if ( o.val().length > max || o.val().length < min ) {
                 o.addClass( "ui-state-error" );
-                updateTips( "Длинна строки" + n + " должна быть " + max + " символов." );
+                updateTips( "Длинна строки " + n + " должна быть " + max + " символов." );
                 return false;
             } else {
                 return true;
