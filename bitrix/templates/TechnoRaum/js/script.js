@@ -74,17 +74,18 @@ $( function() {
             valid = valid && checkRegexp( fioCredit, /^[А-Я]([а-я])+$/i, "Только русские буквы без пробелов." );
             valid = valid && checkLength( phoneCredit, "Ваш телефон" );
             if ( valid ) {
+                var Order = {
+                        firstName: fioCredit.val(),
+                        order : arrProducts[0].id_order,
+                        phone: phoneCredit.val().replace(/\D+/g,"").slice(1),
+                        codeTT: locationCredit.val(),
+                    };
                 dialog.dialog( "close" );
                 DCLoans(partnerID, 'delProduct', false, function(result){
                     if (result.status == true) {
                         DCLoans(partnerID, 'addProduct', { products : arrProducts }, function(result){
                             if (result.status == true) {
-                                DCLoans(partnerID, 'saveOrder', {
-                                        firstName: fioCredit.val(),
-                                        order : arrProducts[0].id_order,
-                                        phone: phoneCredit.val().replace(/\D+/g,"").slice(1),
-                                        codeTT: locationCredit.val(),
-                                    },
+                                DCLoans(partnerID, 'saveOrder', Order,
                                     function(result){}, debug);
                             }
                         }, debug);
