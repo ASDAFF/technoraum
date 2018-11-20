@@ -43,6 +43,11 @@ RewriteRule ^index\.php$ https://technoraum.ru/ [R=301,L]
 
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/
 RewriteRule ^index\.html$ https://technoraum.ru/ [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !\..{1,10}$
+RewriteCond %{REQUEST_URI} !(.*)/$
+RewriteRule ^(.*)$ https://technoraum.ru/$1/ [L,R=301]
 	
 	RewriteCond %{REQUEST_URI} !\?
 	RewriteCond %{REQUEST_URI} !\&
