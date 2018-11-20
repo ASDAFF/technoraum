@@ -437,13 +437,11 @@ strong.altasib_geobase_mb_light{
 	display:none;
 }
 .altasib_geobase_mb_city .altasib_geobase_mb_cutting .uncutit span{
-	background:url("images/red_up.gif") no-repeat scroll center center;
 	font-size:12px;
 	line-height:15px;
 	padding:0 3px;
 }
 .altasib_geobase_mb_city .altasib_geobase_mb_cutting .cutit span{
-	background:url("images/red_up.gif") no-repeat scroll center center;
 	font-size:12px;
 	line-height:15px;
 	padding:0 3px;
