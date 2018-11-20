@@ -27,7 +27,7 @@ $this->addExternalJS($com_path."front/js/masterslider.js");
 				<div class="ms-slider-text-box" style="right: <?=$arParams['RIGHT_PX_TEXT']?>px;top:<?=$arParams['TOP_PX_TEXT']?>px"><?=trim(strip_tags($arItem["PREVIEW_TEXT"]));?></div>
 				<? } ?>
 
-				<img src="<?=$com_path?>front/css/blank.gif" alt="" title="" data-src="<?=$arItem["PREVIEW_PICTURE"]["SRC"];?>" />
+				<img src="<?=$com_path?>front/img/blank.gif" alt="" title="" data-src="<?=$arItem["PREVIEW_PICTURE"]["SRC"];?>" />
 
 			</div>
 			<?endforeach;?>

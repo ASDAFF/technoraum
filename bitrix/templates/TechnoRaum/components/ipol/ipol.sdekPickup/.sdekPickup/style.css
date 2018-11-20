@@ -273,9 +273,6 @@
 #SDEK_logoPlace{
 	width: 300px;
 	height: 38px;
-	background-image: url("/bitrix/images/ipol.sdek/SDEKogo.png");
-	background-repeat:no-repeat;
-	background-position: 241px 2px;
 }
 #SDEK_separator{
 	background-color: #e3e3e3;
