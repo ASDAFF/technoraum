@@ -58,8 +58,8 @@ $( function() {
                 return true;
             }
         }
-        function checkLength( o, n, min, max ) {
-            if ( o.val().length > max || o.val().length < min ) {
+        function checkLength( o, n ) {
+            if ( o.val().length < 1 ) {
                 o.addClass( "ui-state-error" );
                 updateTips( "Поле " + n + " обязательное." );
                 return false;
@@ -72,7 +72,7 @@ $( function() {
             var valid = true;
             allFields.removeClass( "ui-state-error" );
             valid = valid && checkRegexp( fioCredit, /^[А-Я]([а-я])+$/i, "Только русские буквы без пробелов." );
-            valid = valid && checkLength( phoneCredit.val().replace(/\D+/g,"").slice(1), "Ваш телефон", 1, 10 );
+            valid = valid && checkLength( phoneCredit, "Ваш телефон" );
             if ( valid ) {
                 dialog.dialog( "close" );
                 DCLoans(partnerID, 'delProduct', false, function(result){
