@@ -81,7 +81,7 @@ $( function() {
                             if (result.status == true) {
                                 DCLoans(partnerID, 'saveOrder', {
                                         firstName: fioCredit.val(),
-                                        order : arrProducts[0].id,
+                                        order : arrProducts[0].id_order,
                                         phone: phoneCredit.val().replace(/\D+/g,"").slice(1),
                                         codeTT: locationCredit.val(),
                                     },

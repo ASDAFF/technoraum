@@ -20,12 +20,12 @@ if (!is_array($arResult['SECTION']))
 
 $arResult['PRICES']['PRICE']['PRINT_VALUE'] = number_format($arResult['PROPERTIES']['PRICE']['VALUE'], 0, '.', ' ');
 $arResult['PRICES']['PRICE']['PRINT_VALUE'] .= ' '.$arResult['PROPERTIES']['PRICECURRENCY']['VALUE_ENUM'];
-
 $arResult['DIRECT_CREDIT'] = array(
 	'id' => $arResult["ID"],
 	'price' => $arResult["PRICES"]["price"]["VALUE"],
 	'count' => '1',
 	'type' => $arResult["SECTION"]["NAME"],
-	'name' => $arResult["NAME"]
+	'name' => $arResult["NAME"],
+	'id_order' => (time() + $arResult["ID"]),
 );
 ?>

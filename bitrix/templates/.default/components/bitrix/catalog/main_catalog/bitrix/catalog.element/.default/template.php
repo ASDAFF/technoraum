@@ -237,7 +237,8 @@ while ($arItems = $dbBasketItems->Fetch())
 				price: '<?=$arResult['DIRECT_CREDIT']['price']?>',
 				count: '<?=$arResult['DIRECT_CREDIT']['count']?>',
 				type: '<?=$arResult['DIRECT_CREDIT']['type']?>',
-				name: '<?=$arResult['DIRECT_CREDIT']['name']?>'
+				name: '<?=$arResult['DIRECT_CREDIT']['name']?>',
+				id_order: '<?=$arResult['DIRECT_CREDIT']['id_order']?>'
 			};
 		</script>
 
