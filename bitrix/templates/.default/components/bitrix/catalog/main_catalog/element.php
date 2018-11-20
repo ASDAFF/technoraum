@@ -291,11 +291,11 @@ else
 	<form>
 		<fieldset>
 			<label for="name">Ваше имя</label>
-			<input type="text" name="nameCredit" id="nameCredit" value="" placeholder="Иван" class="text ui-widget-content ui-corner-all">
+			<input type="text" name="nameCredit" id="nameCredit" value="" placeholder="Иван" class="text ui-widget-content ui-corner-all" required>
 			<label for="email">Ваш телефон</label>
-			<input type="text" name="phoneCredit" id="phoneCredit" value="" class="text ui-widget-content ui-corner-all">
+			<input type="text" name="phoneCredit" id="phoneCredit" value="" class="text ui-widget-content ui-corner-all" required>
 			<label for="email">Самовывоз из магазина</label>
-			<select name="locationCredit" id="locationCredit">
+			<select name="locationCredit" id="locationCredit" required>
 				<option value="347347433">г. Ростов-на-Дону, Шолохова пр-кт, 62</option>
 				<option value="347347013">г. Славянск-на-Кубани, Батарейная ул, 262</option>
 				<option value="347346613">г. Усть-Лабинск, Красная ул, 110</option>
