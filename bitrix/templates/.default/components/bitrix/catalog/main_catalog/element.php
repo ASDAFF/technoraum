@@ -296,11 +296,11 @@ else
 			<input type="text" name="phoneCredit" id="phoneCredit" value="" class="text ui-widget-content ui-corner-all" required>
 			<label for="email">Самовывоз из магазина</label>
 			<select name="locationCredit" id="locationCredit" required>
-				<option value="347347013">г. Славянск-на-Кубани, Батарейная ул, 262</option>
-				<option value="347346613">г. Усть-Лабинск, Красная ул, 110</option>
 				<option value="347344637">г. Краснодар, Красных Партизан ул, 371</option>
 				<option value="347345501">г. Краснодар, Калинина ул, 15/2</option>
 				<option value="9211625">г. Краснодар, Уральская ул 87</option>
+				<option value="347347013">г. Славянск-на-Кубани, Батарейная ул, 262</option>
+				<option value="347346613">г. Усть-Лабинск, Красная ул, 110</option>
 			</select>
 		</fieldset>
 	</form>
