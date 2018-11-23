@@ -727,9 +727,6 @@ input.button.filter_clear_button:hover {border-color:transparent;text-decoration
 .card_page_descr {width:570px;float:right;max-width:100%;padding-bottom:30px;}
 .card_page_descr p {font-weight:300;font-size:14px;color:#4f5358;display:block;line-height:26px;}
 .card_page_descr{font-weight:300;font-size:14px;color:#4f5358;display:block;line-height:26px;}
-.card_page_descr li{padding-left:20px;position:relative}
-.card_page_descr li:before{position: absolute;width: 5px;height: 5px;background: #000;top: 11px;left: 9px;content: '';z-index: 1;}
-
 .card_page_descr a.read_more_toggler {text-align:left;padding:0;background:none;font-weight:normal;font-size:16px;color:#35a2e8;position:relative;display:inline-block;}
 .card_page_descr a.read_more_toggler span {text-align:left;padding:0;background:none;}
 .card_page_descr a.read_more_toggler:after {content:" ";display:block;position:absolute;top:50%;left:100%;margin-left:10px;margin-top:-3px;width:10px;height:6px;background:url(../img/arrow_down.png) no-repeat center center;}
