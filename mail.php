@@ -37,9 +37,11 @@ elseif($_POST["form_id"] == 3)
 }
 elseif($_POST["form_id"] == 4 || $_POST["form_id"] == 6)
 {
-    $page = trim(strip_tags($_POST["name_page"]));
-    $name = trim(strip_tags($_POST["name"]));
-    $phone = trim(strip_tags($_POST["tel"]));
+
+    $page = iconv("UTF-8","CP1251",trim(strip_tags($_POST["name_page"])));
+    $name = iconv("UTF-8","CP1251",trim(strip_tags($_POST["name"])));
+    $phone = iconv("UTF-8","CP1251",trim(strip_tags($_POST["tel"])));
+    
     $arEventFields = array(
         "PAGE" => $page,
         "NAME" => $name,
