@@ -1,5 +1,6 @@
 <?php
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
+
 $to      = "zakaz@technoraum.ru";
 $headers = 'From: webmaster@technoraum.ru' . "\r\n" .
 			'Reply-To: webmaster@technoraum.ru' . "\r\n" .
@@ -7,8 +8,8 @@ $headers = 'From: webmaster@technoraum.ru' . "\r\n" .
 			
 if($_POST["form_id"] == 1)
 {
-	$subject = "Ð—Ð°ÑÐ²ÐºÐ° Ð½Ð° Ð¾Ð½Ð»Ð°Ð¹Ð½ ÐºÐ¾Ð½ÑÑƒÐ»ÑŒÑ‚Ð°Ñ†Ð¸ÑŽ";
-	$message = "ÐŸÐ¾ÑÑ‚ÑƒÐ¿Ð¸Ð»Ð° Ð·Ð°ÑÐ²ÐºÐ° Ñ ÑÐ°Ð¹Ñ‚Ð° TechnoRaum.ru Ð½Ð° Ð¾Ð½Ð»Ð°Ð¹Ð½ ÐºÐ¾Ð½ÑÑƒÐ»ÑŒÑ‚Ð°Ñ†Ð¸ÑŽ:\n"."Ð¢ÐµÐ»ÐµÑ„Ð¾Ð½: ".$_POST["tel"];
+	$subject = "Çàÿâêà íà îíëàéí êîíñóëüòàöèþ";
+	$message = "Ïîñòóïèëà çàÿâêà ñ ñàéòà TechnoRaum.ru íà îíëàéí êîíñóëüòàöèþ:\n"."Òåëåôîí: ".$_POST["tel"];
 }
 elseif($_POST["form_id"] == 2)
 {
@@ -31,18 +32,38 @@ elseif($_POST["form_id"] == 2)
 }
 elseif($_POST["form_id"] == 3)
 {
-	$subject = "Ð—Ð°ÑÐ²ÐºÐ° Ð½Ð° Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ñƒ ÑƒÐ²ÐµÐ´Ð¾Ð¼Ð»ÐµÐ½Ð¸Ñ Ð¾ Ð½Ð°Ð»Ð¸Ñ‡Ð¸Ð¸ Ñ‚Ð¾Ð²Ð°Ñ€Ð°";
-	$message = "ÐŸÐ¾ÑÑ‚ÑƒÐ¿Ð¸Ð»Ð° Ð·Ð°ÑÐ²ÐºÐ° Ñ ÑÐ°Ð¹Ñ‚Ð° TechnoRaum.ru Ð½Ð° Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ñƒ ÑƒÐ²ÐµÐ´Ð¾Ð¼Ð»ÐµÐ½Ð¸Ñ Ð¾ Ð½Ð°Ð»Ð¸Ñ‡Ð¸Ð¸ Ñ‚Ð¾Ð²Ð°Ñ€Ð°:\n"."Ð˜Ð¼Ñ:".$_POST["name"]."\nÐ¢ÐµÐ»ÐµÑ„Ð¾Ð½: ".$_POST["tel"]."\nÐ¢Ð¾Ð²Ð°Ñ€: ".$_POST["product_name"];
+	$subject = "Çàÿâêà íà îòïðàâó óâåäîìëåíèÿ î íàëè÷èè òîâàðà";
+	$message = "Ïîñòóïèëà çàÿâêà ñ ñàéòà TechnoRaum.ru íà îòïðàâó óâåäîìëåíèÿ î íàëè÷èè òîâàðà:\n"."Èìÿ:".$_POST["name"]."\nÒåëåôîí: ".$_POST["tel"]."\nÒîâàð: ".$_POST["product_name"];
 }
-elseif($_POST["form_id"] == 4)
+elseif($_POST["form_id"] == 4 || $_POST["form_id"] == 6)
 {
-	$subject = "Ð—Ð°ÑÐ²ÐºÐ° Ð½Ð° Ð¾Ð±Ñ€Ð°Ñ‚Ð½Ñ‹Ð¹ Ð·Ð²Ð¾Ð½Ð¾Ðº";
-	$message = "ÐŸÐ¾ÑÑ‚ÑƒÐ¿Ð¸Ð»Ð° Ð·Ð°ÑÐ²ÐºÐ° Ñ ÑÐ°Ð¹Ñ‚Ð° TechnoRaum.ru Ð½Ð° Ð¾Ð±Ñ€Ð°Ñ‚Ð½Ñ‹Ð¹ Ð·Ð²Ð¾Ð½Ð¾Ðº:\n"."Ð˜Ð¼Ñ:".$_POST["name"]."\nÐ¢ÐµÐ»ÐµÑ„Ð¾Ð½: ".$_POST["tel"];
+    $page = trim(strip_tags($_POST["name_page"]));
+    $name = trim(strip_tags($_POST["name"]));
+    $phone = trim(strip_tags($_POST["tel"]));
+    $arEventFields = array(
+        "PAGE" => $page,
+        "NAME" => $name,
+        "PHONE" => $phone
+    );
+
+    switch($_POST["form_id"]){
+        case 4:
+            $event = "CHECK_MANAGER";
+            break;
+        case 6:
+            $event = "ORDER_CONSULTANT";
+            break;
+    }
+
+    CEvent::Send($event, SITE_ID, $arEventFields);
 }
 elseif($_POST["form_id"] == 5)
 {
-	$subject = "Ð—Ð°ÑÐ²ÐºÐ° Ð½Ð° Ð·Ð°ÐºÐ°Ð· ÑƒÑÐ»ÑƒÐ³Ð¸";
-	$message = "ÐŸÐ¾ÑÑ‚ÑƒÐ¿Ð¸Ð»Ð° Ð·Ð°ÑÐ²ÐºÐ° Ñ ÑÐ°Ð¹Ñ‚Ð° TechnoRaum.ru Ð½Ð° Ð·Ð°ÐºÐ°Ð· ÑƒÑÐ»ÑƒÐ³Ð¸:\n"."Ð˜Ð¼Ñ:".$_POST["name"]."\nÐ¢ÐµÐ»ÐµÑ„Ð¾Ð½: ".$_POST["tel"]."\nÐ£ÑÐ»ÑƒÐ³Ð°: ".$_POST["service"];
+	$subject = "Çàÿâêà íà çàêàç óñëóãè";
+	$message = "Ïîñòóïèëà çàÿâêà ñ ñàéòà TechnoRaum.ru íà çàêàç óñëóãè:\n"."Èìÿ:".$_POST["name"]."\nÒåëåôîí: ".$_POST["tel"]."\nÓñëóãà: ".$_POST["service"];
 }
-mail($to, $subject, $message, $headers);
+
+if($subject && $message){
+    mail($to, $subject, $message, $headers);
+}
 ?>

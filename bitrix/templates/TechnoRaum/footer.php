@@ -125,92 +125,33 @@ if($_SERVER["REQUEST_URI"] != "/")
         </div>
       </form>
     </div>
+
     <div class="popup callback_popup" id="callback_popup">
       <form method="post" class="mform">
         <div class="the_form">                    
           <input type="hidden" name="form_id" value="4" />  
-                      <p class="form_title">Заказать звонок</p>
-                      
-                      <div class="the_form_div">
-                            <label>Имя</label>
-                            <input required type="text" name="name" placeholder="Кузнецов Александр Сергеевич">
-                      </div>
-                          
-                      <div class="the_form_div">
-                            <label>Сотовый телефон</label>
-                            <input required type="text" name="tel" placeholder="+7 (9ХХ) ХХХ-ХХ-ХХ">
-                      </div>
-                      <div class="the_form_div the_form_div_accept">
-                        <label><input required type="checkbox" name="check" checked="checked"><span>Я согласен с <a href="/soglasie-na-obrabotku-personalnykh-dannykh/" target=_blank>условиями использования</a> моих персональных данных.</span></label>
-                      </div>
-                      <div class="the_form_div the_form_div_submit clearfix">
-                         
-                        <input type="submit" name="submit1" value="Отправить">
-                                             
-                      </div>                    
+          <p class="form_title">Заказать звонок</p>
 
+          <div class="the_form_div">
+                <label>Имя</label>
+                <input required type="text" name="name" placeholder="Кузнецов Александр Сергеевич">
+          </div>
+
+          <div class="the_form_div">
+                <label>Сотовый телефон</label>
+                <input required type="text" name="tel" placeholder="+7 (9ХХ) ХХХ-ХХ-ХХ">
+          </div>
+          <div class="the_form_div the_form_div_accept">
+            <label><input required type="checkbox" name="check" checked="checked"><span>Я согласен с <a href="/soglasie-na-obrabotku-personalnykh-dannykh/" target=_blank>условиями использования</a> моих персональных данных.</span></label>
+          </div>
+          <div class="the_form_div the_form_div_submit clearfix">
+            <input type="submit" name="submit1" value="Отправить">
+          </div>
         </div>
       </form>
     </div><!--/callback_popup-->
-<div class="popup callback_popup" id="consult_popup">
-      <form method="post" class="mform">
-        <div class="the_form">                    
-          <input type="hidden" name="form_id" value="6" />  
-                      <p class="form_title">Заказать консультацию</p>
-                      
-                      <div class="the_form_div">
-                            <label>Имя</label>
-                            <input required type="text" name="name" placeholder="Кузнецов Александр Сергеевич">
-                      </div>
-                          
-                      <div class="the_form_div">
-                            <label>Сотовый телефон</label>
-                            <input required type="text" name="tel" placeholder="+7 (9ХХ) ХХХ-ХХ-ХХ">
-                      </div>
-                      <div class="the_form_div">
-                            <label>E-mail</label>
-                            <input type="email" name="email" placeholder="Ваш e-mail">
-                      </div>
-                      <div class="the_form_div the_form_div_accept">
-                        <label><input required type="checkbox" name="check" checked="checked"><span>Я согласен с <a href="/soglasie-na-obrabotku-personalnykh-dannykh/" target=_blank>условиями использования</a> моих персональных данных.</span></label>
-                      </div>
-                      <div class="the_form_div the_form_div_submit clearfix">
-                         
-                        <input type="submit" name="submit1" value="Отправить">
-                                             
-                      </div>                    
 
-        </div>
-      </form>
-    </div><!--/callback_popup-->
-    
-    <div class="popup callback_popup" id="callback2_popup">
-      <form method="post" class="mform">
-        <div class="the_form">                    
-          <input type="hidden" name="form_id" value="4" />  
-                      <p class="form_title">Уточнить у менеджера</p>
 
-                      <div class="the_form_div">
-                            <label>Имя</label>
-                            <input required type="text" name="name" placeholder="Кузнецов Александр Сергеевич">
-                      </div>
-                          
-                      <div class="the_form_div">
-                            <label>Сотовый телефон</label>
-                            <input required type="text" name="tel" placeholder="+7 (9ХХ) ХХХ-ХХ-ХХ">
-                      </div>
-                      <div class="the_form_div the_form_div_accept">
-                        <label><input required type="checkbox" name="check" checked="checked"><span>Я согласен с <a href="/soglasie-na-obrabotku-personalnykh-dannykh/" target=_blank>условиями использования</a> моих персональных данных.</span></label>
-                      </div>
-                      <div class="the_form_div the_form_div_submit clearfix">
-                         
-                        <input type="submit" name="submit1" value="Отправить">
-                                             
-                      </div>                    
-
-        </div>
-      </form>
-    </div>
     <div class="popup callback_popup one_click_popup" id="one_click_popup">
       <form method="post" class="ocform">
         <input type="hidden" name="form_id" value="5" />
@@ -343,6 +284,8 @@ if($_SERVER["REQUEST_URI"] != "/")
 
          
     </div>
+
+
 <!-- BEGIN JIVOSITE CODE {literal} -->
 <script type='text/javascript'>
 (function(){ var widget_id = '3Kdh1V3ZKW';var d=document;var w=window;function l(){var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true;s.src = '//code.jivosite.com/script/widget/'+widget_id; var ss = document.getElementsByTagName('script')[0]; ss.parentNode.insertBefore(s, ss);}if(d.readyState=='complete'){l();}else{if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();

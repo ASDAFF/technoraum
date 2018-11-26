@@ -68,3 +68,36 @@ $this->setFrameMode(true);
 	),
 	$component
 );?>
+
+<?
+$res = CIBlockElement::GetByID($ElementID);
+if($ar_res = $res->GetNext()){
+	$element_name = $ar_res['NAME'];
+}else{
+	$element_name = "Название неопределенно";
+}
+?>
+<div class="popup callback_popup" id="consult_popup">
+	<form method="post" class="mform">
+		<div class="the_form">
+			<input type="hidden" name="form_id" value="6" />
+			<input type="hidden" name="name_page" value="<?=$element_name?>" />
+			<p class="form_title">Заказать консультацию</p>
+			<div class="the_form_div">
+				<label>Ваше имя</label>
+				<input required type="text" name="name" placeholder="Кузнецов Александр Сергеевич">
+			</div>
+			<div class="the_form_div">
+				<label>Ваш телефон</label>
+				<input required type="text" name="tel" placeholder="+7 (9ХХ) ХХХ-ХХ-ХХ">
+			</div>
+			<div class="the_form_div the_form_div_accept">
+				<label><input required type="checkbox" name="check" checked="checked"><span>Я согласен с <a href="/soglasie-na-obrabotku-personalnykh-dannykh/" target=_blank>условиями использования</a> моих персональных данных.</span></label>
+			</div>
+			<div class="the_form_div the_form_div_submit clearfix">
+				<input type="submit" name="submit1" value="Отправить">
+			</div>
+		</div>
+	</form>
+</div>
+<!--/callback_popup-->
