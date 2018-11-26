@@ -96,35 +96,7 @@ if($_SERVER["REQUEST_URI"] != "/")
         </div>
       </footer>
     </div><!--container end-->    
-    
-    
-    
-  
-    
-    
-    <div class="popup callback_popup" id="call_me">
-      <form method="post" class="call_me_form">
-        <input type="hidden" name="form_id" value="3" />
-        <input type="hidden" name="product_name" value="" />
-        <div class="the_form">
-          <p class="form_title">Уведомить о наличии товара</p>
-          <div class="the_form_div">
-            <label>Имя</label>
-            <input type="text" required name="name" placeholder="Кузнецов Александр Сергеевич">
-          </div>
-          <div class="the_form_div">
-            <label>Сотовый телефон</label>
-            <input type="text" required name="tel" placeholder="+7 (9ХХ) ХХХ-ХХ-ХХ">
-          </div>
-          <div class="the_form_div the_form_div_accept">
-            <label><input type="checkbox" required name="check"><span>Я согласен с <a href="/soglasie-na-obrabotku-personalnykh-dannykh/" target=_blank>условиями использования</a> моих персональных данных.</span></label>
-          </div>
-          <div class="the_form_div the_form_div_submit clearfix">
-            <input type="submit" name="submit1" value="Отправить">                               
-          </div>
-        </div>
-      </form>
-    </div>
+
 
     <div class="popup callback_popup" id="callback_popup">
       <form method="post" class="mform">
@@ -149,33 +121,8 @@ if($_SERVER["REQUEST_URI"] != "/")
           </div>
         </div>
       </form>
-    </div><!--/callback_popup-->
-
-
-    <div class="popup callback_popup one_click_popup" id="one_click_popup">
-      <form method="post" class="ocform">
-        <input type="hidden" name="form_id" value="5" />
-        <div class="the_form">                    
-          <p class="form_title">Купить в один клик</p>
-          <span class="error"></span>
-          <div class="the_form_div">                             
-            <input required type="text" required name="name" placeholder="Ваше имя">
-          </div>  
-          <div class="the_form_div">                             
-            <input required type="email" required name="email" placeholder="Ваш E-mail">
-          </div>  
-          <div class="the_form_div">                             
-            <input required type="text" required name="tel" placeholder="Ваш телефон">
-          </div>                                    
-          <div class="the_form_div the_form_div_accept">
-            <label><input required type="checkbox" name="check" checked="checked"><span>Я согласен на <a href="/soglasie-na-obrabotku-personalnykh-dannykh/" target=_blank>обработку моих персональных данных</a></span></label>
-          </div>
-          <div class="the_form_div the_form_div_submit clearfix">
-            <input type="submit" name="submit1" value="Купить">                       
-          </div>
-        </div>
-      </form>
-    </div><!--/callback_popup-->
+    </div>
+    <!--/callback_popup-->
     
     <div class="popup callback_popup" id="login">
       <form method="post" class="login_form">

@@ -121,6 +121,15 @@ $( function() {
         });
     }
 
+    $(".form_one_buy").submit(function(e){
+        e.preventDefault();
+        $.post("/include/order_buy.php",$(this).serialize(),function(data){
+            if(data){
+                $(".open_thanks").trigger("click");
+            }
+        });
+    });
+
 });
 
 function DCCheckStatus(result){

@@ -310,6 +310,8 @@ else
 <?
 $res = CIBlockElement::GetByID($ElementID);
 if($ar_res = $res->GetNext()){
+	$arPrice = CCatalogProduct::GetOptimalPrice($ar_res["ID"], 1, $USER->GetUserGroupArray(), "N");
+	$price = CurrencyFormat($arPrice['RESULT_PRICE']['DISCOUNT_PRICE'],$arPrice['RESULT_PRICE']['CURRENCY']);
 	$element_name = $ar_res['NAME'];
 }else{
 	$element_name = "Название неопределенно";
@@ -338,4 +340,53 @@ if($ar_res = $res->GetNext()){
 		</div>
 	</form>
 </div>
+
+<div class="popup click_one_buy" id="click_one_buy">
+	<form method="post" class="form_one_buy">
+		<input type="hidden" name="link" value="<?=$ar_res['DETAIL_PAGE_URL'];?>">
+		<input type="hidden" name="product_name" value="<?=$ar_res['NAME'];?>">
+		<input type="hidden" name="price" value="<?=$arPrice['RESULT_PRICE']['DISCOUNT_PRICE'];?>">
+		<div class="the_form">
+			<p class="form_title">Заявка на покупку товара</p>
+
+			<ul class="media-list">
+				<li class="media">
+					<a class="pull-left" href="<?=$ar_res['DETAIL_PAGE_URL'];?>">
+						<img class="media-object img-thumbnail" width="80" height="80" src="<?=CFile::GetPath($ar_res['PREVIEW_PICTURE'])?>" alt="<?=$ar_res['NAME'];?>">
+					</a>
+					<div class="media-body">
+						<h4 class="media-heading"><?=$ar_res['NAME'];?></h4>
+						<p>Ваша цена: <?=$price?></p>
+						<div class="input-group">
+							<span class="input-group-addon">Количество: </span>
+							<input type="number" name="count" min="1" max="100" value="1" placeholder="1" size="4" class="form-control">
+							<span class="input-group-addon">шт.</span>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					Заполните форму быстрого заказа, наши менеджеры скоро свяжутся с вами.
+				</div>
+			</div>
+			<div class="the_form_div">
+				<label>Имя</label>
+				<input required type="text" name="name" placeholder="Кузнецов Александр Сергеевич">
+			</div>
+
+			<div class="the_form_div">
+				<label>Сотовый телефон</label>
+				<input required type="text" name="tel" placeholder="+7 (9ХХ) ХХХ-ХХ-ХХ">
+			</div>
+			<div class="the_form_div the_form_div_accept">
+				<label><input required type="checkbox" name="check" checked="checked"><span>Я согласен с <a href="/soglasie-na-obrabotku-personalnykh-dannykh/" target=_blank>условиями использования</a> моих персональных данных.</span></label>
+			</div>
+			<div class="the_form_div the_form_div_submit clearfix">
+				<input type="submit" name="submit1" value="Отправить">
+			</div>
+		</div>
+	</form>
+</div>
+<!--/callback_popup-->
 

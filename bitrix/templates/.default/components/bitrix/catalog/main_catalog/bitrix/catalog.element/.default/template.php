@@ -177,7 +177,6 @@ while ($arItems = $dbBasketItems->Fetch())
 				$new_url .= $url[$i]."/";
 			$url = $new_url;
 			$url .= "?action=BUY&id=".$arResult["ID"];
-
 			?>
 			<input type="hidden" name="to-cart-action" value="<?=$url?>" />
 			<div class="button_wrap">
@@ -197,17 +196,11 @@ while ($arItems = $dbBasketItems->Fetch())
 					}
 					else
 					{
-						?><a class="button" style="display:inline-block;padding-left:20px;padding-right:20px;">Товар в корзине</a><?
+						?><a class="button">Товар в корзине</a><?
 					}
 
-					if($USER->IsAuthorized())
-					{
-						?><a class="button one_click_button user_buy">Купить в один клик</a><?
-					}
-					else
-					{
-						?><a class="fancy button one_click_button" href="#one_click_popup">Купить в один клик</a><?
-					}
+					?><a class="fancy button one_click_button" href="#click_one_buy">Купить в один клик</a><?
+
 				?>
 			</div>
 			<?
@@ -217,16 +210,7 @@ while ($arItems = $dbBasketItems->Fetch())
 			?>
 			<div class="button_wrap">
 				<a class="fancy button call_me" href="#call_me">Сообщить о наличии</a>
-				<? 
-					if($USER->IsAuthorized())
-					{
-						?><a class="button one_click_button user_buy">Купить в один клик</a><?
-					}
-					else
-					{
-						?><a class="fancy button one_click_button" href="#one_click_popup">Купить в один клик</a><?
-					}
-				?>
+				<a class="fancy button one_click_button" href="#click_one_buy">Купить в один клик</a>
 			</div>
 			<?
 		}
