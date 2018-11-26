@@ -38,6 +38,8 @@ $APPLICATION->SetTitle("ќформление заказа");
 		"PRODUCT_COLUMNS_VISIBLE" => array(
 			0 => "PREVIEW_PICTURE",
 			1 => "PROPS",
+			2 => "DISCOUNT_PRICE_PERCENT_FORMATED",
+			3 => "PRICE_FORMATED",
 		),
 		"SEND_NEW_USER_NOTIFY" => "Y",
 		"SERVICES_IMAGES_SCALING" => "adaptive",
@@ -75,7 +77,9 @@ $APPLICATION->SetTitle("ќформление заказа");
 		"USE_PRELOAD" => "Y",
 		"USE_PREPAYMENT" => "N",
 		"USE_YM_GOALS" => "N",
-		"COMPONENT_TEMPLATE" => ".order.ajax"
+		"COMPONENT_TEMPLATE" => ".order.ajax",
+		"PROPS_FADE_LIST_1" => array(
+		)
 	),
 	false
 );?><br><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
