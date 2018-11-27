@@ -1,20 +1,20 @@
-2018-Nov-25 20:05:35 Наличие необходимых модулей php (check_php_modules): Ok
+2018-Nov-26 21:06:10 Наличие необходимых модулей php (check_php_modules): Ok
 Все необходимые модули установлены
-2018-Nov-25 20:05:35 Обязательные параметры PHP (check_php_settings): Ok
+2018-Nov-26 21:06:10 Обязательные параметры PHP (check_php_settings): Ok
 Настройки правильные
-2018-Nov-25 20:05:35 Модули веб-сервера (check_security): Ok
+2018-Nov-26 21:06:10 Модули веб-сервера (check_security): Ok
 Конфликтов не выявлено
-2018-Nov-25 20:05:35 Значения переменных сервера (check_server_vars): Ok
+2018-Nov-26 21:06:10 Значения переменных сервера (check_server_vars): Ok
 Корректные
-2018-Nov-25 20:05:35 Сохранение сессии (check_session): Ok
+2018-Nov-26 21:06:10 Сохранение сессии (check_session): Ok
 50% done
-2018-Nov-25 20:05:35 Параметры настройки UTF (mbstring и константа BX_UTF) (check_mbstring): Ok
+2018-Nov-26 21:06:10 Параметры настройки UTF (mbstring и константа BX_UTF) (check_mbstring): Ok
 Правильные. Сайт работает в однобайтовой кодировке
-2018-Nov-25 20:05:35 Служебные скрипты в корне сайта (check_install_scripts): Ok
+2018-Nov-26 21:06:10 Служебные скрипты в корне сайта (check_install_scripts): Ok
 Отсутствуют
-2018-Nov-25 20:05:35 Работа с сокетами (check_socket): Ok
+2018-Nov-26 21:06:10 Работа с сокетами (check_socket): Ok
 Connection to ssl://technoraum.ru:443	Success
 
 Успешно
-2018-Nov-25 20:05:35 Выполнение агентов на cron (check_bx_crontab): Warning
+2018-Nov-26 21:06:10 Выполнение агентов на cron (check_bx_crontab): Warning
 Замечание. Агенты выполняются на хитах, рекомендуется перевести выполнение агентов на cron
