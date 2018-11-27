@@ -25,50 +25,50 @@ if($_SERVER["REQUEST_URI"] != "/")
               <div class="footer_menu_div">  
                 <p class="title">Каталог</p>
                 <?$APPLICATION->IncludeComponent(
-  "bitrix:menu", 
-  "bottom_menu", 
-  array(
-    "ROOT_MENU_TYPE" => "bcat",
-    "MAX_LEVEL" => "1",
-    "CHILD_MENU_TYPE" => "left",
-    "USE_EXT" => "Y",
-    "MENU_CACHE_TYPE" => "A",
-    "MENU_CACHE_TIME" => "36000000",
-    "MENU_CACHE_USE_GROUPS" => "Y",
-    "MENU_CACHE_GET_VARS" => array(
-    ),
-    "COMPONENT_TEMPLATE" => "bottom_menu",
-    "DELAY" => "N",
-    "ALLOW_MULTI_SELECT" => "N"
-  ),
-  false,
-  array(
-    "ACTIVE_COMPONENT" => "Y"
-  )
-);
+                      "bitrix:menu",
+                      "bottom_menu",
+                      array(
+                        "ROOT_MENU_TYPE" => "bcat",
+                        "MAX_LEVEL" => "1",
+                        "CHILD_MENU_TYPE" => "left",
+                        "USE_EXT" => "Y",
+                        "MENU_CACHE_TYPE" => "A",
+                        "MENU_CACHE_TIME" => "36000000",
+                        "MENU_CACHE_USE_GROUPS" => "Y",
+                        "MENU_CACHE_GET_VARS" => array(
+                        ),
+                        "COMPONENT_TEMPLATE" => "bottom_menu",
+                        "DELAY" => "N",
+                        "ALLOW_MULTI_SELECT" => "N"
+                      ),
+                      false,
+                      array(
+                        "ACTIVE_COMPONENT" => "Y"
+                      )
+                    );
                 ?>
               </div>
               
               <div class="footer_menu_div">  
                 <p class="title">Навигация</p>
                 <?$APPLICATION->IncludeComponent("bitrix:menu", "bottom_menu", Array(
-  "ROOT_MENU_TYPE" => "bottom",  // Тип меню для первого уровня
-    "MAX_LEVEL" => "1",  // Уровень вложенности меню
-    "CHILD_MENU_TYPE" => "left",  // Тип меню для остальных уровней
-    "USE_EXT" => "Y",  // Подключать файлы с именами вида .тип_меню.menu_ext.php
-    "MENU_CACHE_TYPE" => "A",  // Тип кеширования
-    "MENU_CACHE_TIME" => "36000000",  // Время кеширования (сек.)
-    "MENU_CACHE_USE_GROUPS" => "Y",  // Учитывать права доступа
-    "MENU_CACHE_GET_VARS" => "",  // Значимые переменные запроса
-    "COMPONENT_TEMPLATE" => "top_menu",
-    "DELAY" => "N",  // Откладывать выполнение шаблона меню
-    "ALLOW_MULTI_SELECT" => "N",  // Разрешить несколько активных пунктов одновременно
-  ),
-  false,
-  array(
-  "ACTIVE_COMPONENT" => "Y"
-  )
-);
+                      "ROOT_MENU_TYPE" => "bottom",  // Тип меню для первого уровня
+                        "MAX_LEVEL" => "1",  // Уровень вложенности меню
+                        "CHILD_MENU_TYPE" => "left",  // Тип меню для остальных уровней
+                        "USE_EXT" => "Y",  // Подключать файлы с именами вида .тип_меню.menu_ext.php
+                        "MENU_CACHE_TYPE" => "A",  // Тип кеширования
+                        "MENU_CACHE_TIME" => "36000000",  // Время кеширования (сек.)
+                        "MENU_CACHE_USE_GROUPS" => "Y",  // Учитывать права доступа
+                        "MENU_CACHE_GET_VARS" => "",  // Значимые переменные запроса
+                        "COMPONENT_TEMPLATE" => "top_menu",
+                        "DELAY" => "N",  // Откладывать выполнение шаблона меню
+                        "ALLOW_MULTI_SELECT" => "N",  // Разрешить несколько активных пунктов одновременно
+                      ),
+                      false,
+                      array(
+                      "ACTIVE_COMPONENT" => "Y"
+                      )
+                    );
                 ?>
               </div>
             </nav>
@@ -84,7 +84,6 @@ if($_SERVER["REQUEST_URI"] != "/")
                     <a href="https://www.facebook.com/karcher.technoraum" rel="nofollow" target="_blank"><img src="<?=SITE_TEMPLATE_PATH?>/img/fb.png" alt="" /></a>
                   </noindex>
                 </div>
-                
           </div><!--/footer_right-->
           
           <div class="footer_bottom">
@@ -92,7 +91,6 @@ if($_SERVER["REQUEST_URI"] != "/")
               © ООО «ТехноРаум», 2018
             </p>            
           </div><!--/footer_bottom-->
-          
         </div>
       </footer>
     </div><!--container end-->    
@@ -280,6 +278,48 @@ if($_SERVER["REQUEST_URI"] != "/")
 				});
 			});
 		</script>
+
+        <!-- Yandex.Metrika counter -->
+        <script type="text/javascript" >
+            (function (d, w, c) {
+                (w[c] = w[c] || []).push(function() {
+                    try {
+                        w.yaCounter51314392 = new Ya.Metrika2({
+                            id:51314392,
+                            clickmap:true,
+                            trackLinks:true,
+                            accurateTrackBounce:true,
+                            webvisor:true
+                        });
+                    } catch(e) { }
+                });
+
+                var n = d.getElementsByTagName("script")[0],
+                    s = d.createElement("script"),
+                    f = function () { n.parentNode.insertBefore(s, n); };
+                s.type = "text/javascript";
+                s.async = true;
+                s.src = "https://mc.yandex.ru/metrika/tag.js";
+
+                if (w.opera == "[object Opera]") {
+                    d.addEventListener("DOMContentLoaded", f, false);
+                } else { f(); }
+            })(document, window, "yandex_metrika_callbacks2");
+        </script>
+        <noscript><div><img src="https://mc.yandex.ru/watch/51314392" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+        <!-- /Yandex.Metrika counter -->
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125578224-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-125578224-1');
+        </script>
+        <!-- /Global site tag (gtag.js) - Google Analytics -->
+
   </body>
 <?
 			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/jquery.fancybox.css");
