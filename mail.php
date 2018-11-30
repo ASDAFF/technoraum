@@ -35,8 +35,9 @@ elseif($_POST["form_id"] == 3)
 	$subject = "Заявка на отправу уведомления о наличии товара";
 	$message = "Поступила заявка с сайта TechnoRaum.ru на отправу уведомления о наличии товара:\n"."Имя:".$_POST["name"]."\nТелефон: ".$_POST["tel"]."\nТовар: ".$_POST["product_name"];
 }
-elseif($_POST["form_id"] == 4 || $_POST["form_id"] == 6)
-{
+elseif($_POST["form_id"] == 4 ||
+        $_POST["form_id"] == 6 ||
+        $_POST["form_id"] == 7){
 
     $page = iconv("UTF-8","CP1251",trim(strip_tags($_POST["name_page"])));
     $name = iconv("UTF-8","CP1251",trim(strip_tags($_POST["name"])));
@@ -54,6 +55,9 @@ elseif($_POST["form_id"] == 4 || $_POST["form_id"] == 6)
             break;
         case 6:
             $event = "ORDER_CONSULTANT";
+            break;
+        case 7:
+            $event = "CALL_BACK";
             break;
     }
 

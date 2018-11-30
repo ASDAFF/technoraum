@@ -84,11 +84,9 @@ if($ar_res = $res->GetNext()){
 			<input type="hidden" name="name_page" value="<?=$element_name?>" />
 			<p class="form_title">Заказать консультацию</p>
 			<div class="the_form_div">
-				<label>Ваше имя</label>
-				<input required type="text" name="name" placeholder="Кузнецов Александр Сергеевич">
+				<input required type="text" name="name" placeholder="Ваше имя">
 			</div>
 			<div class="the_form_div">
-				<label>Ваш телефон</label>
 				<input required type="text" name="tel" placeholder="+7 (9ХХ) ХХХ-ХХ-ХХ">
 			</div>
 			<div class="the_form_div the_form_div_accept">
