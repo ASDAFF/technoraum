@@ -75,10 +75,6 @@ $arFilter = array(
 	{
 		$arCurSection = array();
 	}
-	if ($verticalGrid)
-	{
-		?><div class="bx_sidebar"><?
-	}
 	?><?$APPLICATION->IncludeComponent(
 	"bitrix:catalog.smart.filter",
 	"visual_vertical",
@@ -111,13 +107,34 @@ $arFilter = array(
 ?>
 </div>
 <? } ?>
-<div class="the_content_right_column">
-<?
-if($_GET["pcount"])
-	$arParams["PAGE_ELEMENT_COUNT"] = $_GET["pcount"];
-//$GLOBALS["arrFilter"]["ID"] = 59;
 
-$APPLICATION->IncludeComponent(
+<?
+if($_REQUEST["PAGE_ELEMENT_COUNT"]){
+	session_start();
+	$_SESSION['PAGE_ELEMENT_COUNT'] = $_REQUEST["PAGE_ELEMENT_COUNT"];
+}
+?>
+<div class="the_content_right_column">
+
+	<div class="filter-count-pages">
+		<div class="title-count">
+			Показывать товаров:
+		</div>
+		<div class="page-count">
+			<?
+			$arPageCount = array(12,30,50,100,1000);
+			?>
+			<form action="" method="get">
+				<select name="PAGE_ELEMENT_COUNT" onchange="this.form.submit()">
+					<? foreach($arPageCount as $count):?>
+					<option value="<?=$count?>" <?if($_SESSION["PAGE_ELEMENT_COUNT"] == $count):?> selected <?endif?>><?=($count < 1000) ? $count : "Все"?></option>
+					<? endforeach; ?>
+				</select>
+			</form>
+		</div>
+	</div>
+
+<? $APPLICATION->IncludeComponent(
 	"bitrix:catalog.section",
 	"",
 	Array(
@@ -143,7 +160,7 @@ $APPLICATION->IncludeComponent(
 		"SET_TITLE" => $arParams["SET_TITLE"],
 		"SET_STATUS_404" => $arParams["SET_STATUS_404"],
 		"DISPLAY_COMPARE" => $arParams["USE_COMPARE"],
-		"PAGE_ELEMENT_COUNT" => $arParams["PAGE_ELEMENT_COUNT"],
+		"PAGE_ELEMENT_COUNT" => ($_SESSION['PAGE_ELEMENT_COUNT']) ? $_SESSION['PAGE_ELEMENT_COUNT'] : $arParams["PAGE_ELEMENT_COUNT"],
 		"LINE_ELEMENT_COUNT" => $arParams["LINE_ELEMENT_COUNT"],
 		"PRICE_CODE" => $arParams["PRICE_CODE"],
 		"USE_PRICE_COUNT" => $arParams["USE_PRICE_COUNT"],

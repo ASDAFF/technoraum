@@ -561,28 +561,12 @@ $(document).ready(function()
 	$(window).scroll(function() {
 		
 		fromTop=$(window).scrollTop();
-		/*
-		if (fromTop > 50) {$('header').addClass('active');}
-		if (fromTop < 50) {$('header').removeClass('active');}
-		
-		
-		if (fromTop > 1000) {$('a.to_top').addClass('active');}
-		if (fromTop < 1000) {$('a.to_top').removeClass('active');}
-		*/
+
 		
 	});
 	
-	//-
-	
-	
-	
-	if ($('select').length) {
-		$('select:not([name="locationCredit"])').selectBox({'keepInViewport':false});
-	}
-	
-	
-	
-	
+
+
 	//scroll to
 		$(".to_top a").add('.header_menu ul li a').add('.scroll_to_button').click(function() {
 			$("html, body").animate({
