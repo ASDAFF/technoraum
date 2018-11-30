@@ -587,8 +587,6 @@ if ($normalCount > 0):
 			</table>
 			<div style="clear:both;"></div>
 		</div>
-		<div style="clear:both;"></div>
-		<p style="float:right;">Итоговая скидка появится при оформлении заказа</p>
 		<div class="clear"></div>
 		<div class="bx_ordercart_order_pay_center">
 
