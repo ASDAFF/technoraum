@@ -21,8 +21,7 @@ $this->setFrameMode(true);
 		{
 			?>
 				<div class="contacts_page_div">
-					<input type="hidden" name="map" value="<?=$arItem["PROPERTIES"]["MAP"]["VALUE"]["TEXT"]?>" />
-					<a style="text-decoration:none;" href="#yamap" class="show_map"><p class="adress"><?=$arItem["NAME"]?></p></a>
+					<p class="adress"><?=$arItem["NAME"]?></p>
 					<p class="phone">
 					<?
 						for($i=0;$i<=count($arItem["PROPERTIES"]["PHONE"]["VALUE"])-1;$i++)

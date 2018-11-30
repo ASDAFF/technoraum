@@ -11,9 +11,7 @@ $APPLICATION->SetTitle("Контакты");
 			<a style="color:#000;text-decoration:none;" href="tel: <?=tplvar('phone');?>"><?= tplvar('phone');?></a>
 		</p>
 		<p>
-			Бесплатный звонок по РФ
-<br>
-<a href="mailto:info@technoraum.ru">info@technoraum.ru</a>
+			Бесплатный звонок по РФ<br><a href="mailto:info@technoraum.ru">info@technoraum.ru</a>
 		</p>
 	</div>
 </div>
@@ -21,8 +19,8 @@ $APPLICATION->SetTitle("Контакты");
 $GLOBALS['IBLOCK_SECTION_ID'] = 5;
 $GLOBALS['IBLOCK_SECTION_NAME'] = 'Краснодар';
 $APPLICATION->IncludeComponent(
-	"bitrix:news", 
-	"contacts", 
+	"bitrix:news",
+	"contacts",
 	array(
 		"ADD_ELEMENT_CHAIN" => "N",
 		"ADD_SECTIONS_CHAIN" => "N",
@@ -120,8 +118,8 @@ $APPLICATION->IncludeComponent(
 $GLOBALS['IBLOCK_SECTION_ID'] = 6;
 $GLOBALS['IBLOCK_SECTION_NAME'] = 'Славянск-на-кубани';
 $APPLICATION->IncludeComponent(
-	"bitrix:news", 
-	"contacts", 
+	"bitrix:news",
+	"contacts",
 	array(
 		"ADD_ELEMENT_CHAIN" => "N",
 		"ADD_SECTIONS_CHAIN" => "N",
@@ -218,8 +216,8 @@ $APPLICATION->IncludeComponent(
 $GLOBALS['IBLOCK_SECTION_ID'] = 25;
 $GLOBALS['IBLOCK_SECTION_NAME'] = 'Усть-Лабинск';
 $APPLICATION->IncludeComponent(
-	"bitrix:news", 
-	"contacts", 
+	"bitrix:news",
+	"contacts",
 	array(
 		"ADD_ELEMENT_CHAIN" => "N",
 		"ADD_SECTIONS_CHAIN" => "Y",
@@ -313,7 +311,9 @@ $APPLICATION->IncludeComponent(
 		)
 	),
 	false
-);?></div></div><section class="section map_section">
+);?>
+
+<section class="section map_section">
 <div class="map_block" id="yamap">
 	<div class="map_lock" onclick="$(this).css({&quot;display&quot; : &quot;none&quot;});">
 	</div>
