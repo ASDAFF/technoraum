@@ -28,4 +28,15 @@ $arResult['DIRECT_CREDIT'] = array(
 	'name' => $arResult["NAME"],
 	'id_order' => (time() + $arResult["ID"]),
 );
+
+if($arResult['CATALOG_WIDTH'] &&
+	$arResult['CATALOG_HEIGHT'] &&
+	$arResult['CATALOG_LENGTH'] &&
+	$arResult['CATALOG_WEIGHT']){
+	$arResult['CHECK_DELIVERY_TO_DOOR'] = "Y";
+}
+
+
+
+
 ?>

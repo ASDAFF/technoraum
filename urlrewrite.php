@@ -8,14 +8,6 @@ $arUrlRewrite=array (
     'PATH' => '/desktop_app/router.php',
     'SORT' => 100,
   ),
-  124 => 
-  array (
-    'CONDITION' => '#^ /catalog/([^/]+?)/\\??(.*)#',
-    'RULE' => 'SECTION_CODE=$1&$2',
-    'ID' => 'bitrix:catalog.top',
-    'PATH' => '/catalog/index.php',
-    'SORT' => 100,
-  ),
   135 => 
   array (
     'CONDITION' => '#^/online/(/?)([^/]*)#',
@@ -56,14 +48,6 @@ $arUrlRewrite=array (
     'PATH' => '/services/index.php',
     'SORT' => 100,
   ),
-  123 => 
-  array (
-    'CONDITION' => '#^/catalog/#',
-    'RULE' => '',
-    'ID' => 'bitrix:catalog',
-    'PATH' => '/catalog/index.php',
-    'SORT' => 100,
-  ),
   90 => 
   array (
     'CONDITION' => '#^/actions/#',
@@ -78,6 +62,14 @@ $arUrlRewrite=array (
     'RULE' => '',
     'ID' => 'bitrix:news',
     'PATH' => '/service/index.php',
+    'SORT' => 100,
+  ),
+  139 => 
+  array (
+    'CONDITION' => '#^/catalog/#',
+    'RULE' => '',
+    'ID' => 'bitrix:catalog',
+    'PATH' => '/catalog/index.php',
     'SORT' => 100,
   ),
   9 => 

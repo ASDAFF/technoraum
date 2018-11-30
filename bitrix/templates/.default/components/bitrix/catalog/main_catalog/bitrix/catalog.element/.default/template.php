@@ -53,17 +53,6 @@ while ($arItems = $dbBasketItems->Fetch())
 {
     $arBasketItems[] = $arItems;
 }
-
-	global $curr_weight;
-	global $curr_width;
-	global $curr_legnth;
-	global $curr_height;
-
-	$curr_weight = $arResult["CATALOG_WEIGHT"];
-	$curr_width = $arResult["CATALOG_WIDTH"];
-	$curr_length = $arResult["CATALOG_LENGTH"];
-	$curr_height = $arResult["CATALOG_HEIGHT"];
-
 ?> 
 <style>
 	.card_page_specs span.in_store{background: url(/bitrix/templates/TechnoRaum/img/green_check.png) no-repeat 0 4px}
@@ -301,101 +290,49 @@ while ($arItems = $dbBasketItems->Fetch())
 				<div>|</div>
 				<div><a class="fancy" href="#callback2_popup">Уточнить у менеджера</a></div>
 			</div>
-			<?
-				if(!empty($curr_weight) && !empty($curr_width) && !empty($curr_length) && !empty($curr_height))
-				{
-					?>
-						<div class="row">
-							<div><a style="text-decoration:none" class="card-scroll" data-id="2" href="#tabs"><span>Доставка до двери</span></a></div>
-							<div></div>
-							<div>|</div>
-							<div><a class="fancy" href="#callback2_popup">Уточнить у менеджера</a></div>
-						</div>
-					<?
-				}
-			?>
+
+			<div class="row">
+				<div><a style="text-decoration:none" class="card-scroll" data-id="2" href="#tabs"><span>Доставка до двери</span></a></div>
+				<div></div>
+				<div>|</div>
+				<div><a class="fancy" href="#callback2_popup">Уточнить у менеджера</a></div>
+			</div>
 		</div>
 
 	</div>
 </div>
+
+
 <div class="card_page_description clearfix">
+
 	<div class="card_page_properties">
 		<p class="title">Характеристики</p>
-		<?
-		$i=1;
-		while(true)
-		{
-			if($arResult["PROPERTIES"]["DETAIL_P".$i])
-			{
-				if(!empty($arResult["PROPERTIES"]["DETAIL_P".$i]["VALUE"]))
-				{
-					if($arResult["PROPERTIES"]["DETAIL_P".$i]["MULTIPLE"] == "N")
-					{
-						?>
+
+		<? foreach($arResult["DISPLAY_PROPERTIES"] as $display_prop): ?>
+			<? switch ($display_prop["PROPERTY_TYPE"]):
+
+				 case "S":
+					 if($display_prop["VALUE"]):
+						 foreach($display_prop["VALUE"] as $desc => $value): ?>
 							<p>
-								<b><?=$arResult["PROPERTIES"]["DETAIL_P".$i]["NAME"]?></b>
-								<i>
-									<?
-										if($arResult["PROPERTIES"]["DETAIL_P".$i]["VALUE"] == "yes")
-											echo '<img src="'.SITE_TEMPLATE_PATH.'/img/green_check.png" alt="" />';
-										else
-											echo "<a>".$arResult["PROPERTIES"]["DETAIL_P".$i]["VALUE"]."</a>";
-									?>
-								</i>
+								<b><?=$display_prop["DESCRIPTION"][$desc];?></b>
+								<i><a><?=($value == "Y")? '<img src="'.SITE_TEMPLATE_PATH.'/img/green_check.png" alt="">' : $value;?></a></i>
 							</p>
-						<?
-					}
-					else
-					{
-						?><p><b style="font-weight:600"><?=$arResult["PROPERTIES"]["DETAIL_P".$i]["NAME"]?>:</b></p><?
-						foreach($arResult["PROPERTIES"]["DETAIL_P".$i]["VALUE"] as $propv)
-						{
-							?>
-								<p>
-									<b> - <?=$propv?></b>
-									<i>
-										<img src="<?=SITE_TEMPLATE_PATH?>/img/green_check.png" alt="" />
-									</i>
-								</p>
-							<?
-							$p++;
-						}
-					}
-				}
-			}
-			else
+						<? endforeach;
+					 endif;
 				break;
-			$i++;
-		}
-		$i=1;
-		while(true)
-		{
-			if($arResult["PROPERTIES"]["COMP_P".$i])
-			{
-				if(!empty($arResult["PROPERTIES"]["COMP_P".$i]["VALUE"]))
-				{
-					?>
-						<p>
-							<b><?=$arResult["PROPERTIES"]["COMP_P".$i]["NAME"]?></b>
-							<i>
-								<?
-									if($arResult["PROPERTIES"]["COMP_P".$i]["VALUE"] == 1)
-										echo '<img src="'.SITE_TEMPLATE_PATH.'/img/green_check.png" alt="" />';
-									else
-									{
-										echo "<a>".$arResult["PROPERTIES"]["COMP_P".$i]["VALUE"]."</a>";
-									}
-								?>
-							</i>
-						</p>
-					<?
-				}
-			}
-			else
+
+				case "L":
+					if($display_prop["VALUE"]):?>
+							<p>
+								<b><?=$display_prop["NAME"];?></b>
+								<i><a><?=$display_prop["VALUE"]?></a></i>
+							</p>
+					<?endif;
 				break;
-			$i++;
-		}
-		?>
+
+			 endswitch; ?>
+		<? endforeach; ?>
 	</div>
 
 	<?
@@ -491,17 +428,23 @@ while ($arItems = $dbBasketItems->Fetch())
 		</div>
 		<div id="tabs-3">
 			<?
-			$APPLICATION->IncludeComponent(
-				"nbrains:sdek.ajax.delivery",
-				"",
-				Array(
-					"WIDTH" => $arResult['CATALOG_WIDTH'],
-					"HEIGHT" => $arResult['CATALOG_HEIGHT'],
-					"LENGTH" => $arResult['CATALOG_LENGTH'],
-					"WEIGHT" => $arResult['CATALOG_WEIGHT'],
-					"PRODUCT_ID" => $arResult['ID']
-				)
-			);?>
+			if($arResult['CHECK_DELIVERY_TO_DOOR'] == "Y"){
+
+				$APPLICATION->IncludeComponent(
+					"nbrains:sdek.ajax.delivery",
+					"",
+					Array(
+						"WIDTH" => $arResult['CATALOG_WIDTH'],
+						"HEIGHT" => $arResult['CATALOG_HEIGHT'],
+						"LENGTH" => $arResult['CATALOG_LENGTH'],
+						"WEIGHT" => $arResult['CATALOG_WEIGHT'],
+						"PRODUCT_ID" => $arResult['ID']
+					)
+				);
+			}else{
+				print "Расчет не выполнен! Неуказанны размеры текущего товара.";
+			}
+			?>
 		</div>
 	</div>
 <!--TABS-END-->
