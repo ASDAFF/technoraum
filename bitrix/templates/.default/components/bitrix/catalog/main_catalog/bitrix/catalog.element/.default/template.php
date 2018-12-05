@@ -327,17 +327,7 @@ while ($arItems = $dbBasketItems->Fetch())
 					if($display_prop["VALUE"]):?>
 							<p>
 								<b><?=$display_prop["NAME"];?></b>
-								<i><a>
-									<?if(is_array($display_prop["VALUE"])):?>
-										<ul>
-										<?foreach($display_prop["VALUE"] as $value):?>
-											<li><?=$value?></li>
-										<? endforeach; ?>
-										</ul>
-									<?else:?>
-										<?=$display_prop["VALUE"]?>
-									<?endif;?>
-									</a></i>
+								<i><a><?=(is_array($display_prop["VALUE"])) ? implode("<br> ",$display_prop["VALUE"]) : $display_prop["VALUE"]?></a></i>
 							</p>
 					<?endif;
 				break;
