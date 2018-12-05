@@ -34,6 +34,7 @@ $APPLICATION->SetTitle("ќформление заказа");
 		"PICKUPS_PER_PAGE" => "9",
 		"PICKUP_MAP_TYPE" => "yandex",
 		"PRODUCT_COLUMNS_HIDDEN" => array(
+			0 => "PROPERTY_GIFT",
 		),
 		"PRODUCT_COLUMNS_VISIBLE" => array(
 			0 => "PREVIEW_PICTURE",

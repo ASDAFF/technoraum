@@ -2,23 +2,44 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Корзина");
 ?>
-<style>
-	#basket_items tr td:nth-child(7){display:none}
-</style>
+
 <?$APPLICATION->IncludeComponent(
 	"bitrix:sale.basket.basket", 
-	"basket", 
+	".basket", 
 	array(
 		"ACTION_VARIABLE" => "basketAction",
+		"ADDITIONAL_PICT_PROP_8" => "-",
 		"AUTO_CALCULATION" => "Y",
+		"BASKET_IMAGES_SCALING" => "adaptive",
 		"COLUMNS_LIST" => array(
-			0 => "NAME",
-			1 => "DELETE",
-			2 => "PRICE",
-			3 => "QUANTITY",
+			0 => "PREVIEW_PICTURE",
+			1 => "DISCOUNT",
+			2 => "DELETE",
+			3 => "DELAY",
+			4 => "SUM",
+			5 => "PROPERTY_GIFT",
+		),
+		"COLUMNS_LIST_EXT" => array(
+			0 => "PREVIEW_PICTURE",
+			1 => "DISCOUNT",
+			2 => "DELETE",
+			3 => "DELAY",
+			4 => "SUM",
+			5 => "PROPERTY_GIFT",
+		),
+		"COLUMNS_LIST_MOBILE" => array(
+			0 => "PREVIEW_PICTURE",
+			1 => "DISCOUNT",
+			2 => "DELETE",
+			3 => "DELAY",
 			4 => "SUM",
 		),
-		"CORRECT_RATIO" => "N",
+		"COMPATIBLE_MODE" => "Y",
+		"CORRECT_RATIO" => "Y",
+		"DEFERRED_REFRESH" => "N",
+		"DISCOUNT_PERCENT_POSITION" => "bottom-right",
+		"DISPLAY_MODE" => "extended",
+		"EMPTY_BASKET_HINT_PATH" => "/",
 		"GIFTS_BLOCK_TITLE" => "Выберите один из подарков",
 		"GIFTS_CONVERT_CURRENCY" => "N",
 		"GIFTS_HIDE_BLOCK_TITLE" => "N",
@@ -30,20 +51,32 @@ $APPLICATION->SetTitle("Корзина");
 		"GIFTS_PRODUCT_PROPS_VARIABLE" => "prop",
 		"GIFTS_PRODUCT_QUANTITY_VARIABLE" => "quantity",
 		"GIFTS_SHOW_DISCOUNT_PERCENT" => "Y",
-		"GIFTS_SHOW_IMAGE" => "Y",
-		"GIFTS_SHOW_NAME" => "Y",
-		"GIFTS_SHOW_OLD_PRICE" => "N",
+		"GIFTS_SHOW_OLD_PRICE" => "Y",
 		"GIFTS_TEXT_LABEL_GIFT" => "Подарок",
-		"HIDE_COUPON" => "Y",
+		"HIDE_COUPON" => "N",
+		"LABEL_PROP" => array(
+		),
 		"PATH_TO_ORDER" => "/personal/order/make/",
+		"PRICE_DISPLAY_MODE" => "Y",
 		"PRICE_VAT_SHOW_VALUE" => "N",
-		"QUANTITY_FLOAT" => "N",
+		"PRODUCT_BLOCKS_ORDER" => "props,sku,columns",
+		"QUANTITY_FLOAT" => "Y",
 		"SET_TITLE" => "Y",
+		"SHOW_DISCOUNT_PERCENT" => "Y",
+		"SHOW_FILTER" => "Y",
+		"SHOW_RESTORE" => "Y",
 		"TEMPLATE_THEME" => "blue",
+		"TOTAL_BLOCK_DISPLAY" => array(
+			0 => "top",
+		),
+		"USE_DYNAMIC_SCROLL" => "Y",
 		"USE_ENHANCED_ECOMMERCE" => "N",
 		"USE_GIFTS" => "Y",
 		"USE_PREPAYMENT" => "N",
-		"COMPONENT_TEMPLATE" => "basket"
+		"USE_PRICE_ANIMATION" => "Y",
+		"COMPONENT_TEMPLATE" => ".basket",
 	),
 	false
-);?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+);?>
+
+<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

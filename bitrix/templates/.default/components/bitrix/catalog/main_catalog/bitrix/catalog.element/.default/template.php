@@ -308,7 +308,7 @@ while ($arItems = $dbBasketItems->Fetch())
 	<div class="card_page_properties">
 		<p class="title">Характеристики</p>
 
-		<? foreach($arResult["DISPLAY_PROPERTIES"] as $display_prop): ?>
+		<? foreach($arResult["DISPLAY_PROPERTIES"] as $display_prop):?>
 			<? switch ($display_prop["PROPERTY_TYPE"]):
 
 				 case "S":
@@ -322,11 +322,12 @@ while ($arItems = $dbBasketItems->Fetch())
 					 endif;
 				break;
 
+				case "N":
 				case "L":
 					if($display_prop["VALUE"]):?>
 							<p>
 								<b><?=$display_prop["NAME"];?></b>
-								<i><a><?=$display_prop["VALUE"]?></a></i>
+								<i><a><?=(is_array($display_prop["VALUE"])) ? implode(", ",$display_prop["VALUE"]) : $display_prop["VALUE"]?></a></i>
 							</p>
 					<?endif;
 				break;
