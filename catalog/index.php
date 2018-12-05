@@ -30,9 +30,10 @@ $APPLICATION->SetTitle("Каталог");
 		"DETAIL_META_DESCRIPTION" => "-",
 		"DETAIL_META_KEYWORDS" => "-",
 		"DETAIL_PROPERTY_CODE" => array(
-			0 => "WEIGTH",
-			1 => "CHARACTERISTIC",
-			2 => "",
+			0 => "ARTICLE",
+			1 => "WEIGTH",
+			2 => "CHARACTERISTIC",
+			3 => "",
 		),
 		"DETAIL_SET_CANONICAL_URL" => "Y",
 		"DETAIL_SET_VIEWED_IN_COMPONENT" => "N",
