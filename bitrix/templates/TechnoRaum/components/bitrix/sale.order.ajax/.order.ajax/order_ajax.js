@@ -403,6 +403,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 			if (this.loadingScreen && this.loadingScreen.isShown())
 			{
 				this.loadingScreen.close();
+				$("input[autocomplete='tel']").mask("+7 (999) 999 99-99");
 			}
 		},
 

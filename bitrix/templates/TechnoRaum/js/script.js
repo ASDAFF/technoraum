@@ -1,5 +1,7 @@
 $( function() {
 
+    $("input[autocomplete='tel']").mask("+7 (999) 999 99-99");
+
     $( "#tabs" ).tabs();
     $(".checkbox-toggle").tinyToggle();
 
