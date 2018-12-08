@@ -142,3 +142,5 @@
 [22-Nov-2018 16:32:03 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
 [27-Nov-2018 16:03:20 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
 [27-Nov-2018 16:03:22 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[06-Dec-2018 10:52:09 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[06-Dec-2018 10:52:17 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0

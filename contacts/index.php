@@ -5,13 +5,14 @@ $APPLICATION->SetTitle("Контакты");
 <div class="contacts_page_block">
 	<div class="contacts_page_div">
 		<p class="hot">
-			<b>Горячая линия</b>
+ <b>Горячая линия</b>
 		</p>
 		<p class="big_phone">
-			<a style="color:#000;text-decoration:none;" href="tel: <?=tplvar('phone');?>"><?= tplvar('phone');?></a>
+ <a style="color:#000;text-decoration:none;" href="tel: <?=tplvar('phone');?>"><?= tplvar('phone');?></a>
 		</p>
 		<p>
-			Бесплатный звонок по РФ<br><a href="mailto:info@technoraum.ru">info@technoraum.ru</a>
+			 Бесплатный звонок по РФ<br>
+			<a href="mailto:zakaz@technoraum.ru">zakaz@technoraum.ru</a>
 		</p>
 	</div>
 </div>
@@ -311,15 +312,13 @@ $APPLICATION->IncludeComponent(
 		)
 	),
 	false
-);?>
-
-<section class="section map_section">
+);?> <section class="section map_section">
 <div class="map_block" id="yamap">
 	<div class="map_lock" onclick="$(this).css({&quot;display&quot; : &quot;none&quot;});">
 	</div>
-	<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A52b8d7844d269606e5d24165e577d86e5137007a97b70f73ece1e00fc06724dc&amp;source=constructor" width="100%" height="500" frameborder="0"></iframe>
+	 <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A52b8d7844d269606e5d24165e577d86e5137007a97b70f73ece1e00fc06724dc&amp;source=constructor" width="100%" height="500" frameborder="0"></iframe>
 </div>
  </section> <section class="section the_content_section padd_bottom0">
 <div class="inner_section clearfix">
 </div>
-</section><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+ </section><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
