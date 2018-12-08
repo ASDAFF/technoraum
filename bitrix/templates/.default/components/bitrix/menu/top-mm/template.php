@@ -9,9 +9,9 @@
 	#horizontal-multilevel-menu li a.root-item-selected{background:#FFF !important}
 
 
-	#horizontal-multilevel-menu li a{padding: 3px 12px}
-	#horizontal-multilevel-menu li a.root-item{padding: 3px 12px}
-	#horizontal-multilevel-menu li a.root-item-selected{padding: 3px 12px}
+	#horizontal-multilevel-menu li a{padding: 0px 12px}
+	#horizontal-multilevel-menu li a.root-item{padding: 0px 12px}
+	#horizontal-multilevel-menu li a.root-item-selected{padding: 0px 12px}
 	#horizontal-multilevel-menu li a{color:#000 !important}
 	#horizontal-multilevel-menu li a:hover{text-decoration:underline}
 

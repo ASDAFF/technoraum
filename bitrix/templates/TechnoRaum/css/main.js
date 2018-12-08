@@ -72,67 +72,6 @@ $(document).ready(function()
 	
 	
 	$("input[name='accept']").attr("checked" , "checked");
-	$(document).scroll(function()
-	{
-		var scroll = $(this).scrollTop();
-		var obj = $("header");
-
-		var num = 50;
-
-		if(scroll >= num)
-		{
-			if(obj.hasClass("fixed") == false)
-			{
-				if($(".mobile_menu_toggler").hasClass("active") == true)
-				{
-					obj.addClass("fixed").animate({"top" : "0"},500);
-					$(".mobile_menu_toggler").css({"position" : "fixed"});
-				}
-				else
-				{
-					obj.addClass("fixed").animate({"top" : "0"},500);
-					$(".mobile_menu_toggler").css({"position" : "fixed"});
-					if(screen.width < 1024)
-						$(".header_menu").addClass("fixed");
-				}
-			}
-		}
-		else
-		{
-			if(obj.hasClass("fixed") == true)
-			{
-				obj.removeClass("fixed");
-				if(screen.width < 1024 && $(".mobile_menu_toggler").hasClass("active") == false)
-				{
-					var menu = $(".header_menu_wrap").html();
-					$(".header_menu_wrap").detach();
-					$("body").find("header").after("<div class='header_menu_wrap'>" + menu + "</div>");
-				}
-				$(".header_user").each(function()
-				{
-					if($(this).hasClass("open") == true)
-					{
-						$(this).removeClass("open");
-						$(".header_right .header_sub").css({"display" : "none"});
-						setTimeout(function()
-						{
-							$(".header_right").removeClass("open");
-							$(".header_user").css({"position" : "relative"}).animate({"left" : "0"},1);
-							
-						},1);
-					}
-				});
-				if(screen.width > 800)
-					var mtop = 89;
-				else
-					var mtop = 73;
-					
-				$(".mobile_menu_toggler").css({"top" : mtop + "px" , "position" : "absolute"});
-				obj.removeAttr("style");
-			}
-		}
-	});
-	
 	
 	$(".bx-price.all").each(function()
 	{
@@ -179,11 +118,9 @@ $(document).ready(function()
 			var url = $(this).attr("href");
 			$.post(url);
 			$(this).text("Добавлено в корзину").addClass("in_card_add");
-			
-			if($("header").hasClass("fixed") == true)
-				var obj = $("header.fixed .card_count").text() * 1;
-			else
-				var obj = $("header .card_count").text() * 1;
+
+			var obj = $("header .card_count").text() * 1;
+
 			if(obj)
 			{
 				obj++;

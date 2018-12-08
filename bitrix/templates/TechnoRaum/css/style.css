@@ -98,9 +98,7 @@ header {transition:0.5s;clear:both;position:relative;/*position:absolute;width:1
 header .inner_header {box-sizing:border-box;padding-top:21px;padding-bottom:21px;}
 header.fixed{position:fixed;width:100%;top:-150px;}
 
-.header_top {height: 70px; background:#fff; box-sizing:border-box;margin-top:-3px;}
-.header_top .inner_section {background:none;padding-top:7px;}
-
+.header_top {padding: 10px 0; background:#fff; box-sizing:border-box;}
 .header_search .altasib_geobase_link_city{font-weight:900;position:relative;top:1px}
 
 .header_search {width:184px;width:260px;float:left;position:relative;}
@@ -111,16 +109,16 @@ header.fixed{position:fixed;width:100%;top:-150px;}
 .header_search input[type="submit"]:hover {opacity:0.7;cursor:pointer;}
 .header_search:hover input[type="submit"] {opacity:0.7;cursor:pointer;}
 
-.header_top_menu {width:590px;max-width:100%;float:left;padding-top:2px;}
+.header_top_menu {width:590px;max-width:100%;float:left;}
 .header_top_menu > ul {list-style:none;text-align:center;margin:0;font-size:0;text-align: left;}
 .header_top_menu > ul > li {display:inline-block;text-align:center;position:relative;font-size: 12px;}
 .header_top_menu > ul > li > a {display:inline-block;text-decoration:none;text-align:center;padding:0px 13px 0px 13px;line-height:28px;font-size: 12px;  font-weight: normal;  color: #111111;text-transform:none;position:relative;-moz-transition:all 0.4s;-webkit-transition:all 0.4s;transition:all 0.4s;}
 .header_top_menu > ul > li:first-child > a {padding-left:0;}
 .header_top_menu > ul > li > a:hover {text-decoration:underline;}
 
-.header_top_right {width:305px;max-width:100%;float:right;padding-top:10px;}
+.header_top_right {float:right;}
 .header_top_right p {display:block;text-align:right;font-size:10px;color:#a1a1a0;line-height:28px;font-weight:300;}
-.header_top_right p a.phone {font-size:16px;color:#111111;font-weight:bold;padding-left:18px;display:inline-block;text-decoration:none;}
+.header_top_right p a.phone {font-size:16px;color:#111111;font-weight:bold;padding-left:18px;display:inline-block;text-decoration:none;white-space: nowrap;}
 .header_top_right p{line-height:16px}
 
 .logo {width:270px;float:left;margin-top:0px;}
@@ -1214,7 +1212,6 @@ form[name='bform'] input[type='submit']{font-weight: bold;border-color: #feee35;
 	
 	.header_top {height:auto;padding-bottom:10px;}
 	.header_search {/*float:none;margin:0 auto 10px;*/width:180px;}
-	.header_top_right {/*float:none;margin:0 auto 10px;*/width:150px;}
 	
 	.icons_wrap .icons_div {width:300px;margin-bottom:30px;}
 	.top_banner_slider_div p.title {font-size:32px;line-height:36px;}
