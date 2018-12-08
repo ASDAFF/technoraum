@@ -1,11 +1,21 @@
-function JCSmartFilter(ajaxURL, viewMode)
+function JCSmartFilter(ajaxURL, viewMode, params)
 {
 	this.ajaxURL = ajaxURL;
 	this.form = null;
 	this.timer = null;
 	this.cacheKey = '';
 	this.cache = [];
+	this.popups = [];
 	this.viewMode = viewMode;
+	if (params && params.SEF_SET_FILTER_URL)
+	{
+		this.bindUrlToButton('set_filter', params.SEF_SET_FILTER_URL);
+		this.sef = true;
+	}
+	if (params && params.SEF_DEL_FILTER_URL)
+	{
+		this.bindUrlToButton('del_filter', params.SEF_DEL_FILTER_URL);
+	}
 }
 
 JCSmartFilter.prototype.keyup = function(input)
@@ -65,6 +75,12 @@ JCSmartFilter.prototype.reload = function(input)
 		}
 		else
 		{
+			if (this.sef)
+			{
+				var set_filter = BX('set_filter');
+				set_filter.disabled = true;
+			}
+
 			this.curFilterinput = input;
 			BX.ajax.loadJSON(
 				this.ajaxURL,
@@ -85,14 +101,20 @@ JCSmartFilter.prototype.updateItem = function (PID, arItem)
 
 		if (trackBar && arItem.VALUES)
 		{
-			if (arItem.VALUES.MIN && arItem.VALUES.MIN.FILTERED_VALUE)
+			if (arItem.VALUES.MIN)
 			{
-				trackBar.setMinFilteredValue(arItem.VALUES.MIN.FILTERED_VALUE);
+				if (arItem.VALUES.MIN.FILTERED_VALUE)
+					trackBar.setMinFilteredValue(arItem.VALUES.MIN.FILTERED_VALUE);
+				else
+					trackBar.setMinFilteredValue(arItem.VALUES.MIN.VALUE);
 			}
 
-			if (arItem.VALUES.MAX && arItem.VALUES.MAX.FILTERED_VALUE)
+			if (arItem.VALUES.MAX)
 			{
-				trackBar.setMaxFilteredValue(arItem.VALUES.MAX.FILTERED_VALUE);
+				if (arItem.VALUES.MAX.FILTERED_VALUE)
+					trackBar.setMaxFilteredValue(arItem.VALUES.MAX.FILTERED_VALUE);
+				else
+					trackBar.setMaxFilteredValue(arItem.VALUES.MAX.VALUE);
 			}
 		}
 	}
@@ -143,6 +165,15 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 
 	if (!!result && !!result.ITEMS)
 	{
+		for(var popupId in this.popups)
+		{
+			if (this.popups.hasOwnProperty(popupId))
+			{
+				this.popups[popupId].destroy();
+			}
+		}
+		this.popups = [];
+
 		for(var PID in result.ITEMS)
 		{
 			if (result.ITEMS.hasOwnProperty(PID))
@@ -163,6 +194,7 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 
 			if (result.FILTER_AJAX_URL && result.COMPONENT_CONTAINER_ID)
 			{
+				BX.unbindAll(hrefFILTER[0]);
 				BX.bind(hrefFILTER[0], 'click', function(e)
 				{
 					url = BX.util.htmlspecialcharsback(result.FILTER_AJAX_URL);
@@ -182,14 +214,25 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 				{
 					modef.style.display = 'inline-block';
 				}
-				if (this.viewMode == "vertical")
+
+				if (this.viewMode == "VERTICAL")
 				{
-					curProp = BX.findChild(BX.findParent(this.curFilterinput, {'class':'bx_filter_parameters_box'}), {'class':'bx_filter_container_modef'}, true, false);
+					curProp = BX.findChild(BX.findParent(this.curFilterinput, {'class':'bx-filter-parameters-box'}), {'class':'bx-filter-container-modef'}, true, false);
 					curProp.appendChild(modef);
+				}
+
+				if (result.SEF_SET_FILTER_URL)
+				{
+					this.bindUrlToButton('set_filter', result.SEF_SET_FILTER_URL);
 				}
 			}
 		}
+	}
 
+	if (this.sef)
+	{
+		var set_filter = BX('set_filter');
+		set_filter.disabled = false;
 	}
 
 	if (!fromCache && this.cacheKey !== '')
@@ -197,6 +240,33 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 		this.cache[this.cacheKey] = result;
 	}
 	this.cacheKey = '';
+};
+
+JCSmartFilter.prototype.bindUrlToButton = function (buttonId, url)
+{
+	var button = BX(buttonId);
+	if (button)
+	{
+		var proxy = function(j, func)
+		{
+			return function()
+			{
+				return func(j);
+			}
+		};
+
+		if (button.type == 'submit')
+			button.type = 'button';
+
+		var set_filter = BX('set_filter');
+		set_filter.disabled = false;
+
+		BX.bind(button, 'click', proxy(url, function(url)
+		{
+			window.location.href = url;
+			return false;
+		}));
+	}
 };
 
 JCSmartFilter.prototype.gatherInputsValues = function (values, elements)
@@ -286,13 +356,13 @@ JCSmartFilter.prototype.values2post = function (values)
 
 JCSmartFilter.prototype.hideFilterProps = function(element)
 {
-	var easing;
-	var obj = element.parentNode;
-	var filterBlock = BX.findChild(obj, {className:"bx_filter_block"}, true, false);
+	var obj = element.parentNode,
+		filterBlock = obj.querySelector("[data-role='bx_filter_block']"),
+		propAngle = obj.querySelector("[data-role='prop_angle']");
 
-	if(BX.hasClass(obj, "active"))
+	if(BX.hasClass(obj, "bx-active"))
 	{
-		easing = new BX.easing({
+		new BX.easing({
 			duration : 300,
 			start : { opacity: 1,  height: filterBlock.offsetHeight },
 			finish : { opacity: 0, height:0 },
@@ -303,10 +373,12 @@ JCSmartFilter.prototype.hideFilterProps = function(element)
 			},
 			complete : function() {
 				filterBlock.setAttribute("style", "");
-				BX.removeClass(obj, "active");
+				BX.removeClass(obj, "bx-active");
 			}
-		});
-		easing.animate();
+		}).animate();
+
+		BX.addClass(propAngle, "fa-angle-down");
+		BX.removeClass(propAngle, "fa-angle-up");
 	}
 	else
 	{
@@ -317,7 +389,7 @@ JCSmartFilter.prototype.hideFilterProps = function(element)
 		var obj_children_height = filterBlock.offsetHeight;
 		filterBlock.style.height = 0;
 
-		easing = new BX.easing({
+		new BX.easing({
 			duration : 300,
 			start : { opacity: 0,  height: 0 },
 			finish : { opacity: 1, height: obj_children_height },
@@ -328,31 +400,34 @@ JCSmartFilter.prototype.hideFilterProps = function(element)
 			},
 			complete : function() {
 			}
-		});
-		easing.animate();
-		BX.addClass(obj, "active");
+		}).animate();
+
+		BX.addClass(obj, "bx-active");
+		BX.removeClass(propAngle, "fa-angle-down");
+		BX.addClass(propAngle, "fa-angle-up");
 	}
 };
 
 JCSmartFilter.prototype.showDropDownPopup = function(element, popupId)
 {
 	var contentNode = element.querySelector('[data-role="dropdownContent"]');
-	BX.PopupWindowManager.create("smartFilterDropDown"+popupId, element, {
+	this.popups["smartFilterDropDown"+popupId] = BX.PopupWindowManager.create("smartFilterDropDown"+popupId, element, {
 		autoHide: true,
 		offsetLeft: 0,
 		offsetTop: 3,
 		overlay : false,
 		draggable: {restrict:true},
 		closeByEsc: true,
-		content: contentNode
-	}).show();
+		content: BX.clone(contentNode)
+	});
+	this.popups["smartFilterDropDown"+popupId].show();
 };
 
 JCSmartFilter.prototype.selectDropDownItem = function(element, controlId)
 {
 	this.keyup(BX(controlId));
 
-	var wrapContainer = BX.findParent(BX(controlId), {className:"bx_filter_select_container"}, false);
+	var wrapContainer = BX.findParent(BX(controlId), {className:"bx-filter-select-container"}, false);
 
 	var currentOption = wrapContainer.querySelector('[data-role="currentOption"]');
 	currentOption.innerHTML = element.innerHTML;
@@ -362,6 +437,25 @@ JCSmartFilter.prototype.selectDropDownItem = function(element, controlId)
 BX.namespace("BX.Iblock.SmartFilter");
 BX.Iblock.SmartFilter = (function()
 {
+	/** @param {{
+			leftSlider: string,
+			rightSlider: string,
+			tracker: string,
+			trackerWrap: string,
+			minInputId: string,
+			maxInputId: string,
+			minPrice: float|int|string,
+			maxPrice: float|int|string,
+			curMinPrice: float|int|string,
+			curMaxPrice: float|int|string,
+			fltMinPrice: float|int|string|null,
+			fltMaxPrice: float|int|string|null,
+			precision: int|null,
+			colorUnavailableActive: string,
+			colorAvailableActive: string,
+			colorAvailableInactive: string
+		}} arParams
+	 */
 	var SmartFilter = function(arParams)
 	{
 		if (typeof arParams === 'object')
@@ -552,19 +646,20 @@ BX.Iblock.SmartFilter = (function()
 			this.minInput.value = newMinPrice;
 		else
 			this.minInput.value = "";
+		/** @global JCSmartFilter smartFilter */
 		smartFilter.keyup(this.minInput);
 	};
 
 	SmartFilter.prototype.recountMaxPrice = function()
 	{
 		var newMaxPrice = (this.priceDiff*this.rightPercent)/100;
-
 		newMaxPrice = (this.maxPrice - newMaxPrice).toFixed(this.precision);
 
 		if (newMaxPrice != this.maxPrice)
 			this.maxInput.value = newMaxPrice;
 		else
 			this.maxInput.value = "";
+		/** @global JCSmartFilter smartFilter */
 		smartFilter.keyup(this.maxInput);
 	};
 
@@ -604,7 +699,7 @@ BX.Iblock.SmartFilter = (function()
 
 	SmartFilter.prototype.makeLeftSliderMove = function(recountPrice)
 	{
-		recountPrice = (recountPrice === false) ? false : true;
+		recountPrice = (recountPrice !== false);
 
 		this.leftSlider.style.left = this.leftPercent + "%";
 		this.colorUnavailableActive.style.left = this.leftPercent + "%";
@@ -705,7 +800,8 @@ BX.Iblock.SmartFilter = (function()
 
 	SmartFilter.prototype.makeRightSliderMove = function(recountPrice)
 	{
-		recountPrice = (recountPrice === false) ? false : true;
+		recountPrice = (recountPrice !== false);
+
 		this.rightSlider.style.right = this.rightPercent + "%";
 		this.colorUnavailableActive.style.right = this.rightPercent + "%";
 
@@ -782,6 +878,7 @@ BX.Iblock.SmartFilter = (function()
 				document.ontouchmove = document.ontouchend = null;
 			};
 		}
+
 		return false;
 	};
 
