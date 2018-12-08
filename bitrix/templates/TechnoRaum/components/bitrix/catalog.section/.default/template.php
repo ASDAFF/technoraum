@@ -135,9 +135,31 @@ if($arParams["DISPLAY_BOTTOM_PAGER"])
 	?>
 	<div class="clear"></div>
 	<div class="pagination"><?=$arResult["NAV_STRING"]?></div>
-	<?
-}
-?>
+
+
+
+	<div class="filter-count-pages">
+		<div class="title-count">
+			Показывать товаров:
+		</div>
+		<div class="page-count">
+			<?
+			$arPageCount = array(12,30,50,100,1000);
+			?>
+			<form action="" method="get">
+				<select name="PAGE_ELEMENT_COUNT" onchange="this.form.submit()">
+					<? foreach($arPageCount as $count):?>
+						<option value="<?=$count?>" <?if($_SESSION["PAGE_ELEMENT_COUNT"] == $count):?> selected <?endif?>><?=($count < 1000) ? $count : "Все"?></option>
+					<? endforeach; ?>
+				</select>
+			</form>
+		</div>
+	</div>
+
+
+
+<?}?>
+
 <div class="clear"></div>
 <div><?=$GLOBALS["SECTION_DESCRIPTION"]?></div>
 
@@ -229,4 +251,6 @@ if($arParams["DISPLAY_BOTTOM_PAGER"])
 						$i++;
 					}
 				?>		
-		</div><!--/callback_popup-->
+			</div>
+		</div>
+		<!--/callback_popup-->

@@ -116,28 +116,10 @@ if($_REQUEST["PAGE_ELEMENT_COUNT"]){
 ?>
 <div class="the_content_right_column">
 
-	<div class="filter-count-pages">
-		<div class="title-count">
-			Показывать товаров:
-		</div>
-		<div class="page-count">
-			<?
-			$arPageCount = array(12,30,50,100,1000);
-			?>
-			<form action="" method="get">
-				<select name="PAGE_ELEMENT_COUNT" onchange="this.form.submit()">
-					<? foreach($arPageCount as $count):?>
-					<option value="<?=$count?>" <?if($_SESSION["PAGE_ELEMENT_COUNT"] == $count):?> selected <?endif?>><?=($count < 1000) ? $count : "Все"?></option>
-					<? endforeach; ?>
-				</select>
-			</form>
-		</div>
-	</div>
-
-<? $APPLICATION->IncludeComponent(
-	"bitrix:catalog.section",
-	"",
-	Array(
+	<? $APPLICATION->IncludeComponent(
+		"bitrix:catalog.section",
+		"",
+		Array(
 		"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
 		"IBLOCK_ID" => $arParams["IBLOCK_ID"],
 		"ELEMENT_SORT_FIELD" => $arParams["ELEMENT_SORT_FIELD"],

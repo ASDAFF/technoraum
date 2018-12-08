@@ -497,6 +497,7 @@ footer p.seo_by a {color: #009246;text-decoration:none;}
 .the_content_section .glav_news_block .glav_news_div {margin-bottom:60px;}
 
 .pagination {padding:30px 0;clear:both;}
+.pagination font{margin-right: 20px;}
 .pagination a {width: 40px;text-decoration:none; margin:0 0px; height: 40px;text-align:center; font-size: 16px;color:#111;font-weight:300;line-height:36px;box-sizing:border-box;  border: solid 2px transparent;-moz-border-radius:40px;-webkit-border-radius:40px;border-radius:40px;display:inline-block;vertical-align:middle;}
 .pagination a.active {border: solid 2px #feee35;background:#feee35;color:#111;font-weight:normal;}
 .pagination a:hover {border: solid 2px #feee35;background:#feee35;color:#111;}
@@ -919,8 +920,7 @@ form[name='bform'] input[type='submit']{font-weight: bold;border-color: #feee35;
 
 
 .filter-count-pages{
-    text-align: right;
-    margin-bottom: 10px;
+    display: inline-block;
 }
 .filter-count-pages div{
     display: inline-block;
