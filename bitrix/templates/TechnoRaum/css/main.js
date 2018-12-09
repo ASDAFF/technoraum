@@ -223,7 +223,10 @@ $(document).ready(function()
 		if(screen.width > 80 && $(this).hasClass("active") == false)
 		{
 			var name = $(this).closest(".glav_cat_div").find(".title").text();
-			var price = $(this).closest(".glav_cat_div").find(".the_price").find(".price span").text();
+			var arPrice = $(this).closest(".glav_cat_div").find(".the_price").find(".price");
+			var price = arPrice.text();
+			var sale = arPrice.attr('sale-procent');
+			var profit = arPrice.attr('profit');
 
 			
 			var img = $(this).closest(".glav_cat_div").find(".filter_opt").next(".img").children("img").attr("src");
@@ -250,8 +253,10 @@ $(document).ready(function()
 			
 			$("#shop_popup").find(".main_img").attr("src" , img);
 			$("#shop_popup").find(".main_name").text(name);
-			$("#shop_popup").find(".main_price").text(price);
-			
+			$("#shop_popup").find(".main_price").text("Стоимость " + price);
+			$("#shop_popup").find(".main_sale").text("Ваша скидка " + sale + " %");
+			$("#shop_popup").find(".main_profit").text("Экономия " + profit);
+
 
 		}
 		

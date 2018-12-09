@@ -111,16 +111,8 @@ $this->addExternalCss('/bitrix/css/main/bootstrap.css');
 						<a href="<?=$item["DETAIL_PAGE_URL"]?>"><?=$item["NAME"]?></a>
 					</p>
 					<div class="the_price">
-						<p class="old_price">
-						<?
-							if($item["PROPERTIES"]["OLD_PRICE"]["VALUE"] && $item["PROPERTIES"]["OLD_PRICE_VAL"]["VALUE"])
-							{
-								echo number_format($item["PROPERTIES"]["OLD_PRICE_VAL"]["VALUE"] , 0 , " " , " ")." &#8381;";
-							}
-							$price = number_format($item["PRICES"]["price"]["VALUE"], 0, ',', ' ');
-						?>
-						</p>
-						<p class="price"><span><?=$price?></span><span> &#8381;</span></p>
+						<p class="old_price"><?=$item["PRICES"]["price"]["PRINT_VALUE"];?></p>
+						<p class="price" sale-procent="<?=$item["PRICES"]["price"]["DISCOUNT_DIFF_PERCENT"]?>" profit="<?=$item["PRICES"]["price"]["PRINT_DISCOUNT_DIFF"]?>"><?=$item["PRICES"]["price"]["PRINT_DISCOUNT_VALUE"]?></p>
 					</div>
 					<a class="button to_cart_button" data-href="<?=$item["BUY_URL"]?>">В корзине</a>
 				</div>
@@ -208,6 +200,8 @@ if($arParams["DISPLAY_BOTTOM_PAGER"])
 					<div class="description">
 						<div class="name main_name">Мойка высокого давления K7 Premium</div>
 						<div class="price main_price"></div>
+						<div class="price main_sale"></div>
+						<div class="price main_profit"></div>
 						<div class="quantity gifts">
 							<div class="icon">
 
