@@ -2223,3 +2223,7 @@ div.bx-blue .btn.btn-default {
 .the_content_section table {
 	margin-bottom: 0px!important;
 }
+.basket-checkout-container #getCredit{
+	max-width: 100%;
+	line-height: 30px;
+}
