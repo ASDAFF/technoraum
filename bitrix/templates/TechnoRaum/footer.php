@@ -93,8 +93,26 @@ if($_SERVER["REQUEST_URI"] != "/")
           </div><!--/footer_bottom-->
         </div>
       </footer>
-    </div><!--container end-->    
+    </div><!--container end-->
 
+    <div id="dialog-form" title="Заявка на кредит">
+        <p class="validateTips"></p>
+
+        <form>
+            <fieldset>
+                <input type="hidden" name="sectionProd" id="sectionProd" value="">
+                <input type="text" name="nameCredit" id="nameCredit" value="" placeholder="Ваше имя" class="text ui-widget-content ui-corner-all" required>
+                <input type="text" name="phoneCredit" id="phoneCredit" value="" placeholder="+7 (9ХХ) ХХХ-ХХ-ХХ" class="text ui-widget-content ui-corner-all" required>
+                <select name="locationCredit" id="locationCredit" required>
+                    <option value="347344637">г. Краснодар, Красных Партизан ул, 371</option>
+                    <option value="347345501">г. Краснодар, Калинина ул, 15/2</option>
+                    <option value="9211625">г. Краснодар, Уральская ул 87</option>
+                    <option value="347347013">г. Славянск-на-Кубани, Батарейная ул, 262</option>
+                    <option value="347346613">г. Усть-Лабинск, Красная ул, 110</option>
+                </select>
+            </fieldset>
+        </form>
+    </div>
 
     <div class="popup callback_popup" id="callback_popup">
       <form method="post" class="mform">

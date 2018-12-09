@@ -283,6 +283,19 @@ if (empty($arResult['ERROR_MESSAGE']))
 			templateFolder: '<?=CUtil::JSEscape($templateFolder)?>'
 		});
 	</script>
+
+	<script type="text/javascript">
+		<? foreach($arResult["DIRECT_CREDIT"] as $key => $credit): ?>
+		arrProducts[<?=$key?>] = {
+			id : '<?=$credit['id']?>',
+			price: '<?=$credit['price']?>',
+			count: '<?=$credit['count']?>',
+			type: '<?=$credit['type']?>',
+			name: '<?=$credit['name']?>',
+			id_order: '<?=$credit['id_order']?>'
+		};
+		<?endforeach;?>
+	</script>
 	<?
 	if ($arParams['USE_GIFTS'] === 'Y' && $arParams['GIFTS_PLACE'] === 'BOTTOM')
 	{

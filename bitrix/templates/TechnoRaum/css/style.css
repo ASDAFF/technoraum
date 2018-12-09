@@ -1496,3 +1496,27 @@ form[name='bform'] input[type='submit']{font-weight: bold;border-color: #feee35;
     color: #21ba5a;
     border-bottom: 1px dashed #21ba5a;
 }
+
+#getCredit{
+    background: #d8ecf8;
+    border-color: #d8ecf8;
+    padding-left: 50px;
+    position: relative;
+    display: block;
+    height: 40px;
+    line-height: 37px;
+    max-width: max-content;
+    padding-right: 15px;
+    margin-bottom: 20px;
+}
+#getCredit:before{
+    content: "";
+    display: inline-block;
+    background: url(../images/icon-service-panel-credit.png);
+    width: 25px;
+    height: 33px;
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    margin-top: -15px;
+}

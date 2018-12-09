@@ -43,6 +43,7 @@ $( function() {
             fioCredit = $( "#nameCredit" ),
             phoneCredit = $( "#phoneCredit" ),
             locationCredit = $( "#locationCredit" ),
+            sectionProd = $( "#sectionProd" ),
 
             allFields = $( [] ).add( name ).add( phoneCredit ),
             tips = $( ".validateTips" );
@@ -76,6 +77,9 @@ $( function() {
             valid = valid && checkRegexp( fioCredit, /^[А-Я]([а-я])+$/i, "Только русские буквы без пробелов." );
             valid = valid && checkLength( phoneCredit, "Ваш телефон" );
             if ( valid ) {
+                if(arrProducts[0] == undefined){
+                    arrProducts[0] = JSON.parse(sectionProd.val());
+                }
                 var Order = {
                         firstName: fioCredit.val(),
                         order : arrProducts[0].id_order,
@@ -83,6 +87,7 @@ $( function() {
                         codeTT: locationCredit.val(),
                     };
                 dialog.dialog( "close" );
+                console.log(arrProducts,Order);
                 DCLoans(partnerID, 'delProduct', false, function(result){
                     if (result.status == true) {
                         DCLoans(partnerID, 'addProduct', { products : arrProducts }, function(result){
@@ -103,9 +108,6 @@ $( function() {
             modal: true,
             buttons: {
                 "Отправить": addUser,
-                "Выйти": function() {
-                    dialog.dialog( "close" );
-                }
             },
             close: function() {
                 form[ 0 ].reset();
@@ -118,7 +120,13 @@ $( function() {
             addUser();
         });
 
-        $( "#getCredit" ).on( "click", function() {
+        $( "body" ).on( "click","#getCredit", function() {
+            dialog.dialog( "open" );
+        });
+
+        $( ".direct-credit-section" ).on( "click", function() {
+            var arrProducts = $(this).attr("arrProducts");
+            $("#dialog-form").find("input[name='sectionProd']").val(arrProducts);
             dialog.dialog( "open" );
         });
     }

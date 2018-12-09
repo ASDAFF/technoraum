@@ -2208,10 +2208,17 @@ h2.basket-item-info-name {
 	font-size:16px;
 	margin-bottom:42px;
 }
+
 div.bx-blue .btn.btn-default {
 	border-color: #feee35!important;
 	background-color: #feee35!important;
 	color: #000!important;
+	display: block;
+	margin-bottom: 3px;
+}
+.basket-coupon-block-total-price-difference.credit {
+	cursor: pointer;
+	font-weight: bold;
 }
 .the_content_section table {
 	margin-bottom: 0px!important;

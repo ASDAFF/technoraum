@@ -7,6 +7,7 @@ $APPLICATION->SetTitle("Корзина");
 	"bitrix:sale.basket.basket", 
 	".basket", 
 	array(
+		"IBLOCK_ID" => "8",
 		"ACTION_VARIABLE" => "basketAction",
 		"ADDITIONAL_PICT_PROP_8" => "-",
 		"AUTO_CALCULATION" => "Y",

@@ -199,12 +199,12 @@ while ($arItems = $dbBasketItems->Fetch())
 			};
 		</script>
 
-		<div class="button_wrap">
-			<a href="javascript:void(0)" id="getCredit" style="text-decoration: none">
-				<span class="direct-credit">Купить в кредит</span>
-				<span class="direct-credit-green" id="getPaymentDc"></span>
-			</a>
-		</div>
+
+		<a href="javascript:void(0)" id="getCredit" style="text-decoration: none">
+			<span class="direct-credit">Купить в кредит</span>
+			<span class="direct-credit-green" id="getPaymentDc"></span>
+		</a>
+
 		<?
 
 		if($arResult["PROPERTIES"]["GIFT"]["VALUE"])

@@ -500,18 +500,21 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-dialog .ui-dialog-title {
 	float: left;
-	margin: .1em 0;
+	margin: 15px 15px 10px;
 	white-space: nowrap;
 	width: 90%;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	font-size: 24px;
+	color: #111;
+	font-weight: bold;
 }
 .ui-dialog .ui-dialog-titlebar-close {
 	position: absolute;
 	right: .3em;
 	top: 50%;
 	width: 20px;
-	margin: -10px 0 0 0;
+	margin: -15px 15px;
 	padding: 1px;
 	height: 20px;
 	background: none;
@@ -525,7 +528,6 @@ button.ui-button::-moz-focus-inner {
 	overflow: auto;
 }
 .ui-dialog .ui-dialog-buttonpane {
-	text-align: center;
 	border-width: 1px 0 0 0;
 	background-image: none;
 	padding: .3em 1em .5em .4em;
@@ -539,7 +541,7 @@ button.ui-button::-moz-focus-inner {
 	border: none;
 	padding: 15px 20px;
 	cursor: pointer;
-	margin: auto 5px;
+	margin: auto 20px;
 }
 .ui-dialog .ui-resizable-n {
 	height: 2px;
@@ -1260,11 +1262,14 @@ a.ui-button:active,
 }
 
 #dialog-form input{
-	height: 40px;
+	height: 55px;
 	width: 100%;
 	border: 2px solid #eee;
 	box-sizing: border-box;
 	padding: 0 20px;
+	font-size: 16px;
+	font-family: "Montserrat-SemiBold";
+	font-weight: 300;
 }
 
 #dialog-form .validateTips{
@@ -1276,7 +1281,24 @@ a.ui-button:active,
 
 #dialog-form #locationCredit{
 	border: 2px solid #eee;
-	height: 40px;
+	height: 55px;
 	padding: 0 20px;
 	width: 100%;
+	font-size: 16px;
+	font-family: "Montserrat-SemiBold";
+	font-weight: 300;
+}
+
+.ui-dialog .ui-dialog-titlebar-close{
+	background: url(images/ui-icons_777777_256x240.png) center center no-repeat;
+	position: absolute;
+	cursor: pointer;
+	z-index: 8040;
+	transition: all linear 0.5s;
+}
+.ui-dialog .ui-dialog-titlebar-close .ui-button:hover,
+.ui-dialog .ui-dialog-titlebar-close .ui-button:focus,
+.ui-button:active .ui-icon
+{
+	background-image: none;
 }

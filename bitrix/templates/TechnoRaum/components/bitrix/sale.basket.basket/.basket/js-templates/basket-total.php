@@ -71,6 +71,10 @@ use Bitrix\Main\Localization\Loc;
 						data-entity="basket-checkout-button">
 						<?=Loc::getMessage('SBB_ORDER')?>
 					</button>
+
+					<div class="basket-coupon-block-total-price-difference credit" id="getCredit">
+						Купить в кредит
+					</div>
 				</div>
 			</div>
 		</div>
