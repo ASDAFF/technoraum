@@ -115,8 +115,12 @@ $this->addExternalCss('/bitrix/css/main/bootstrap.css');
 						<a href="javascript:void(0)" style="color: #35a2e8;font-weight: normal;">Купить в кредит</a>
 					</p>
 					<div class="the_price">
-						<p class="old_price"><?=$item["PRICES"]["price"]["PRINT_VALUE"];?></p>
-						<p class="price" sale-procent="<?=$item["PRICES"]["price"]["DISCOUNT_DIFF_PERCENT"]?>" profit="<?=$item["PRICES"]["price"]["PRINT_DISCOUNT_DIFF"]?>"><?=$item["PRICES"]["price"]["PRINT_DISCOUNT_VALUE"]?></p>
+						<p class="old_price"></p>
+						<p class="price"
+						   sale-procent="<?=$item["PRICES"]["price"]["DISCOUNT_DIFF_PERCENT"]?>"
+						   profit="<?=$item["PRICES"]["price"]["PRINT_DISCOUNT_DIFF"]?>"
+						   old_price="<?=$item["PRICES"]["price"]["PRINT_VALUE"];?>"
+							><?=$item["PRICES"]["price"]["PRINT_VALUE"];?></p>
 					</div>
 					<a class="button to_cart_button" data-href="<?=$item["BUY_URL"]?>">В корзине</a>
 				</div>

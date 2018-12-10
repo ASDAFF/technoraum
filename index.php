@@ -714,6 +714,8 @@ $APPLICATION->IncludeComponent("bitrix:catalog", "home_categories", Array(
 					<div class="description">
 						<div class="name main_name">Мойка высокого давления K7 Premium</div>
 						<div class="price main_price"></div>
+						<div class="price main_sale"></div>
+						<div class="price main_profit"></div>
 						<div class="quantity gifts">
 							<div class="icon">
 
