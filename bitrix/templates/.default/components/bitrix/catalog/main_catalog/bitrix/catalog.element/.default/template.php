@@ -375,70 +375,6 @@ while ($arItems = $dbBasketItems->Fetch())
 </div>
 <div style="clear:both"></div>
 
-<!--TABS-->
-	<div id="tabs">
-		<ul>
-			<li><a href="#tabs-1">Самовывоз из магазина</a></li>
-			<li><a href="#tabs-2">Самовывоз из пункта выдачи</a></li>
-			<li><a href="#tabs-3">Доставка до двери</a></li>
-		</ul>
-		<div id="tabs-1">
-			<?$APPLICATION->IncludeComponent(
-				"nbrains:catalog.store.list",
-				".store.list",
-				Array(
-					"CACHE_TIME" => "36000000",
-					"CACHE_TYPE" => "A",
-					"MAP_TYPE" => "0",
-					"PATH_TO_ELEMENT" => "store/#store_id#",
-					"PHONE" => "Y",
-					"SCHEDULE" => "Y",
-					"SET_TITLE" => "N",
-					"TITLE" => "",
-					"PRODUCT_ID" => $arResult['ID']
-				)
-			);?>
-		</div>
-		<div id="tabs-2">
-			<? $APPLICATION->IncludeComponent("ipol:ipol.sdekPickup", ".sdekPickup", Array(
-				"CITIES" => "",	// Подключаемые города (если не выбрано ни одного - подключаются все)
-				"CNT_BASKET" => "N",	// Расчитывать доставку для корзины
-				"CNT_DELIV" => "Y",	// Расчитывать доставку при подключении
-				"COUNTRIES" => "",	// Подключенные страны
-				"FORBIDDEN" => "",	// Отключить расчет для профилей
-				"NOMAPS" => "Y",	// Не подключать Яндекс-карты (если их подключает что-то еще на странице)
-				"PAYER" => "1",	// Тип плательщика, от лица которого считать доставку
-				"PAYSYSTEM" => "",	// Тип платежной системы, с которой будет считатся доставка
-				"PRODUCT_ID" => $arResult['ID']
-			),
-				false
-			);?>
-		</div>
-		<div id="tabs-3">
-			<?
-			if($arResult['CHECK_DELIVERY_TO_DOOR'] == "Y"){
-
-				$APPLICATION->IncludeComponent(
-					"nbrains:sdek.ajax.delivery",
-					"",
-					Array(
-						"WIDTH" => $arResult['CATALOG_WIDTH'],
-						"HEIGHT" => $arResult['CATALOG_HEIGHT'],
-						"LENGTH" => $arResult['CATALOG_LENGTH'],
-						"WEIGHT" => $arResult['CATALOG_WEIGHT'],
-						"PRODUCT_ID" => $arResult['ID']
-					)
-				);
-			}else{
-				print "Расчет не выполнен! Неуказанны размеры текущего товара.";
-			}
-			?>
-		</div>
-	</div>
-<!--TABS-END-->
-
-
-
 <?
 	if($arResult["PROPERTIES"]["DN_FILES"]["VALUE"])
 	{
@@ -454,8 +390,9 @@ while ($arItems = $dbBasketItems->Fetch())
 				<?
 					foreach($arResult["PROPERTIES"]["DN_FILES"]["VALUE"] as $file)
 					{
+
 						$arFile = CFile::GetFileArray($file);
-						?><li><a href="<?=$arFile["SRC"]?>" target=_blank><?=$arFile["ORIGINAL_NAME"]?></li><?
+						?><li><a href="<?=$arFile["SRC"]?>" target=_blank><?=$arFile["ORIGINAL_NAME"]?></a></li><?
 					}
 				?>
 			</ul>

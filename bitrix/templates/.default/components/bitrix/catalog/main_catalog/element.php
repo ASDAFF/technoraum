@@ -39,7 +39,7 @@ else
 		"CHECK_SECTION_ID_VARIABLE" => (isset($arParams["DETAIL_CHECK_SECTION_ID_VARIABLE"]) ? $arParams["DETAIL_CHECK_SECTION_ID_VARIABLE"] : ''),
 		"PRODUCT_QUANTITY_VARIABLE" => $arParams["PRODUCT_QUANTITY_VARIABLE"],
 		"PRODUCT_PROPS_VARIABLE" => $arParams["PRODUCT_PROPS_VARIABLE"],
-		"CACHE_TYPE" => "N",
+		"CACHE_TYPE" => $arParams["CACHE_TYPE"],
 		"CACHE_TIME" => $arParams["CACHE_TIME"],
 		"CACHE_GROUPS" => $arParams["CACHE_GROUPS"],
 		"SET_TITLE" => $arParams["SET_TITLE"],
@@ -123,6 +123,72 @@ else
 	),
 	$component
 );?>
+
+<!--TABS-->
+<div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">Самовывоз из магазина</a></li>
+		<li><a href="#tabs-2">Самовывоз из пункта выдачи</a></li>
+		<li><a href="#tabs-3">Доставка до двери</a></li>
+	</ul>
+	<div id="tabs-1">
+		<?$APPLICATION->IncludeComponent(
+			"nbrains:catalog.store.list",
+			".store.list",
+			Array(
+				"CACHE_TIME" => "36000000",
+				"CACHE_TYPE" => "A",
+				"MAP_TYPE" => "0",
+				"PATH_TO_ELEMENT" => "store/#store_id#",
+				"PHONE" => "Y",
+				"SCHEDULE" => "Y",
+				"SET_TITLE" => "N",
+				"TITLE" => "",
+				"PRODUCT_ID" => $ElementID
+			)
+		);?>
+	</div>
+	<div id="tabs-2">
+		<? $APPLICATION->IncludeComponent("ipol:ipol.sdekPickup", ".sdekPickup", Array(
+			"CITIES" => "",	// Подключаемые города (если не выбрано ни одного - подключаются все)
+			"CNT_BASKET" => "N",	// Расчитывать доставку для корзины
+			"CNT_DELIV" => "Y",	// Расчитывать доставку при подключении
+			"COUNTRIES" => "",	// Подключенные страны
+			"FORBIDDEN" => "",	// Отключить расчет для профилей
+			"NOMAPS" => "Y",	// Не подключать Яндекс-карты (если их подключает что-то еще на странице)
+			"PAYER" => "1",	// Тип плательщика, от лица которого считать доставку
+			"PAYSYSTEM" => "",	// Тип платежной системы, с которой будет считатся доставка
+			"PRODUCT_ID" => $ElementID
+		),
+			false
+		);?>
+	</div>
+	<div id="tabs-3">
+		<?
+		$ar_res = CCatalogProduct::GetByID($ElementID);
+		if($ar_res["WEIGHT"] &&
+			$ar_res["WIDTH"] &&
+			$ar_res["HEIGHT"] &&
+			$ar_res["LENGTH"]){
+
+			$APPLICATION->IncludeComponent(
+				"nbrains:sdek.ajax.delivery",
+				"",
+				Array(
+					"WIDTH" => $ar_res["WIDTH"],
+					"HEIGHT" => $ar_res["HEIGHT"],
+					"LENGTH" => $ar_res["LENGTH"],
+					"WEIGHT" => $ar_res["WEIGHT"],
+					"PRODUCT_ID" => $ElementID
+				)
+			);
+		}else{
+			print "Расчет не выполнен! Неуказанны размеры текущего товара.";
+		}
+		?>
+	</div>
+</div>
+<!--TABS-END-->
 
 	<div class="the_section_head">
 		<p class="section_title">
