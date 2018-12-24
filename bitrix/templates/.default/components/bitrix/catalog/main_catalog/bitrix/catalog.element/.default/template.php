@@ -129,11 +129,15 @@ while ($arItems = $dbBasketItems->Fetch())
 	</div>
 	<div class="card_page_specs">
 		<div class="the_price">
-			<p class="old_price"><?=$arResult["PRICES"]["price"]["PRINT_VALUE"];?></p>
-			<input type="hidden" name="product_price" value="<?=$arResult["PRICES"]["price"]["VALUE"]?>" />
-			<p class="price">
-				<span><?=$arResult["PRICES"]["price"]["PRINT_DISCOUNT_VALUE"]?></span>
-
+			<? if($arResult["PROPERTIES"]["OLD_PRICE"]["VALUE"]):?>
+				<p class="old_price"><?=$arResult["PROPERTIES"]["OLD_PRICE_VAL"]["VALUE"];?> &#8381;</p>
+			<? endif; ?>
+			<p class="price"
+			   sale-procent="<?=$arResult["PRICES"]["price"]["DISCOUNT_DIFF_PERCENT"]?>"
+			   profit="<?=$arResult["PRICES"]["price"]["PRINT_DISCOUNT_DIFF"]?>"
+			   old_price="<?=$arResult["PRICES"]["price"]["PRINT_VALUE"];?>"
+				>
+				<span><?=$arResult["PRICES"]["price"]["PRINT_VALUE"]?></span>
 				<? if($arResult["PRODUCT"]["QUANTITY"]):?>
 					<span style="float:right;position:relative;top:20px" class="in_store">На складе</span>
 				<?else:?>
@@ -206,7 +210,6 @@ while ($arItems = $dbBasketItems->Fetch())
 		</a>
 
 		<?
-
 		if($arResult["PROPERTIES"]["GIFT"]["VALUE"])
 		{
 			$i = 0;
@@ -461,5 +464,6 @@ while ($arItems = $dbBasketItems->Fetch())
 
 	$GLOBALS["recom_filter"] = array("SECTION_ID" => $arResult["IBLOCK_SECTION_ID"]);
 ?>
+
 
 

@@ -174,48 +174,9 @@ $(document).ready(function()
 				});
 			},500);
 	});
-	
-	$(".card_page_specs .add_to_cart_button").click(function()
-	{
-		if(screen.width > 80 && $(this).hasClass("active") == false)
-		{
-			var name = $(".the_content_section").find("h1").text();
 
-			var cart_count = $(".header_cart .card_count");
-			if(cart_count.length)
-				cart_count = cart_count.text();
-			else
-				cart_count = 0;
-			
-			if(!cart_count)
-				cart_count = 0;
-			else
-				cart_count = cart_count  * 1;
-			
-			$("#shop_popup .cart_count span").text(cart_count);
-			$("#shop_popup .cart_summ").text("На сумму "+cart_total +" руб.");
-			
 
-			var img = $(".the_content_section").find(".big_img").find("img").attr("src");
-			var gift = $(".card_page_specs").find(".items");
-			if(gift)
-				gift = gift.html();
-			else
-				gift = $(".card_page_specs").find(".items").html();
-			
-			var gift_t = $(".card_page_specs").find(".icon").html();
-			
-			
-			$("#shop_popup").find(".quantity.gifts").find(".items").html(gift);
-			$("#shop_popup").find(".quantity.gifts").find(".icon").html(gift_t);
-			$("#shop_popup").find(".main_img").attr("src" , img);
-			$("#shop_popup").find(".main_name").text(name);
-			$("#shop_popup").find(".main_price").text(price);
-			$(".open_shop").trigger("click");
-		}
-	});
-	
-	
+
 	$(".button.to_cart_button").click(function(e)
 	{
 		e.preventDefault();
@@ -262,9 +223,63 @@ $(document).ready(function()
 		
 		if($(this).hasClass("active") == false)
 		{
-			var url = $(this).attr("data-href");
-			$.post(url);
 
+			setTimeout(function()
+			{
+				$.post("/basket-popup.php" , function(data)
+				{
+					if(data)
+					{
+						data = data.split("::::");
+						$("#shop_popup .cart_count span").text(data[0]);
+						$("#shop_popup .info").removeAttr("style").html(data[1]);
+						$(".open_shop").trigger("click");
+					}
+				});
+			},500);
+		}
+	});
+
+	$(".card_page_specs .add_to_cart_button").click(function(e)
+	{
+		e.preventDefault();
+
+		if(screen.width > 80 && $(this).hasClass("active") == false)
+		{
+			var name = $(".main_title > h1").text();
+			var arPrice = $(".the_price .price");
+			var price = arPrice.find("span:first-child").text();
+			var sale = arPrice.attr('sale-procent');
+			var profit = arPrice.attr('profit');
+
+
+			var img = $(".card_page_img .big_img img").attr("src");
+
+			var gift = $(".icon > span").text();
+
+			gift = gift.replace("Подарокна " , "");
+			$("#shop_popup .icon").html("");
+			$("#shop_popup .items.gg").html("");
+
+			var g_items = $(".card_page_specs .items").html();
+
+			if(gift)
+			{
+				$("#shop_popup .gifts .icon").html('<img src="/bitrix/templates/TechnoRaum/img/gift_icon.png"><span>'+gift+'</span>');
+				$("#shop_popup .items.gg").append(g_items);
+			}
+
+			$("#shop_popup").find(".main_img").attr("src" , img);
+			$("#shop_popup").find(".main_name").text(name);
+			$("#shop_popup").find(".main_price").text("Стоимость " + price);
+			$("#shop_popup").find(".main_sale").text("Ваша скидка " + sale + " %");
+			$("#shop_popup").find(".main_profit").text("Экономия " + profit);
+
+
+		}
+
+		if($(this).hasClass("active") == false)
+		{
 
 			setTimeout(function()
 			{

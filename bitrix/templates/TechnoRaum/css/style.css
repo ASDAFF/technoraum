@@ -557,7 +557,7 @@ body .display_filters_block_div p.title {display:block;font-size:16px;color:#111
 .header_top_right a.phone.fancy{font-weight: normal;color: #35a2e8;border-bottom: 1px dashed #35a2e8;text-decoration:none;font-size:12px}
 
 
-#shop_popup .ffclose , #shop_popup .row .name a{font-weight: normal;color: #35a2e8;border-bottom: 1px dashed #35a2e8;text-decoration:none}
+#shop_popup .ffclose , #shop_popup .row .name a{font-weight: normal;color: #35a2e8;text-decoration:none}
 #shop_popup .row .name a{font-size:13px}
 
 .card_page_specs .button_wrap .button{width:250px;min-width:250px;max-width:250px;padding:0 !important}

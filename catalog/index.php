@@ -258,4 +258,8 @@ $APPLICATION->SetTitle("Каталог");
 	false
 );?>
 
+<?
+require($_SERVER["DOCUMENT_ROOT"]."/include/product_popup.php");
+?>
+
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
