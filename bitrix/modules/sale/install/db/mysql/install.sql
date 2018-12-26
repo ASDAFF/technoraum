@@ -431,7 +431,8 @@ create table if not exists b_sale_location
 	index IXS_LOCATION_COUNTRY_ID(COUNTRY_ID),
 	index IXS_LOCATION_REGION_ID(REGION_ID),
 	index IXS_LOCATION_CITY_ID(CITY_ID),
-	index IXS_LOCATION_SORT(SORT)
+	index IXS_LOCATION_SORT(SORT),
+	index IX_SALE_LOCATION_TYPE_MARGIN (TYPE_ID, LEFT_MARGIN, RIGHT_MARGIN)
 );
 
 create table if not exists b_sale_loc_name
@@ -441,9 +442,11 @@ create table if not exists b_sale_loc_name
 	LOCATION_ID int not null,
 	NAME varchar(100) not null,
 	NAME_UPPER varchar(100) not null,
+  NAME_NORM varchar(100) null,
 	SHORT_NAME varchar(100),
 	primary key (ID),
 	index IX_SALE_L_NAME_NAME_UPPER(NAME_UPPER),
+  index IX_SALE_L_NAME_NAME_NORM(NAME_NORM),
 	index IX_SALE_L_NAME_LID_LID(LOCATION_ID, LANGUAGE_ID)
 );
 

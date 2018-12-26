@@ -336,7 +336,7 @@
 }
 
 .ui-checkbox-hidden-input .ui-checkbox:checked  + .ui-checkbox-hidden-input-inner {
-	height: 84px;
+	height: 108px;
 }
 
 .ui-form-right-cell-metrika .ui-checkbox-hidden-input:first-child .ui-checkbox:checked + .ui-checkbox-hidden-input-inner {
@@ -354,6 +354,10 @@
 
 .ui-checkbox-hidden-input-metrika:last-child {
 	margin-top: 5px;
+}
+
+.ui-form-right-cell-map .ui-input {
+	margin-bottom: 5px;
 }
 
 .ui-control-wrap {

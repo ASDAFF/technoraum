@@ -484,9 +484,13 @@ if (isset($arFilter["NAME"]))
 	{
 		foreach ($parsedNameWords as $nameWord)
 		{
-			$filterOr->where(Query::filter()
-				->whereLike($fieldId, new SqlExpression("'%".trim($nameWord)."%'"))
-			);
+			$nameWord = trim($nameWord);
+			if ($nameWord)
+			{
+				$filterOr->where(Query::filter()
+					->whereLike($fieldId, "%".$nameWord."%")
+				);
+			}
 		}
 	}
 	$userQuery->where($filterOr);
@@ -574,13 +578,13 @@ if (isset($arFilter["GROUPS_ID"]))
 if (!empty($arFilter["KEYWORDS"]))
 {
 	$listFields = array(
-		"PERSONAL_PROFESSION", "PERSONAL_WWW", "PERSONAL_ICQ", "PERSONAL_GENDER", "PERSONAL_PHOTO",
+		"PERSONAL_PROFESSION", "PERSONAL_WWW", "PERSONAL_ICQ", "PERSONAL_GENDER",
 		"PERSONAL_PHONE", "PERSONAL_FAX", "PERSONAL_MOBILE", "PERSONAL_PAGER", "PERSONAL_STREET", "PERSONAL_MAILBOX",
 		"PERSONAL_CITY", "PERSONAL_STATE", "PERSONAL_ZIP", "PERSONAL_COUNTRY", "PERSONAL_NOTES", "WORK_COMPANY",
 		"WORK_DEPARTMENT", "WORK_POSITION", "WORK_WWW", "WORK_PHONE", "WORK_FAX", "WORK_PAGER", "WORK_STREET",
 		"WORK_MAILBOX", "WORK_CITY", "WORK_STATE", "WORK_ZIP", "WORK_COUNTRY", "WORK_PROFILE", "WORK_NOTES",
 		"ADMIN_NOTES", "XML_ID", "LAST_NAME", "SECOND_NAME", "EXTERNAL_AUTH_ID", "CONFIRM_CODE",
-		"TIME_ZONE_OFFSET", "PASSWORD", "LID", "LANGUAGE_ID", "TITLE"
+		"PASSWORD", "LID", "LANGUAGE_ID", "TITLE"
 	);
 	$keyWords = $arFilter["KEYWORDS"];
 	$filterQueryObject = new CFilterQuery("and", "yes", "N", array(), "N", "Y", "N");
@@ -594,10 +598,13 @@ if (!empty($arFilter["KEYWORDS"]))
 		foreach ($parsedKeyWords as $keyWord)
 		{
 			$keyWord = trim($keyWord);
-			$filterOr->where(Query::filter()
-				->whereNotNull($fieldId)
-				->whereLike($fieldId, new SqlExpression("'".$keyWord."'"))
-			);
+			if ($keyWord)
+			{
+				$filterOr->where(Query::filter()
+					->whereNotNull($fieldId)
+					->whereLike($fieldId, "%".$keyWord."%")
+				);
+			}
 		}
 	}
 	$userQuery->where($filterOr);

@@ -13,7 +13,6 @@ return array(
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
 		    'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/holidays/holiday.valentine1/preview.jpg',
-			'THEME_CODE' => 'travel',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_VALENTINE1_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_VALENTINE1_DESCRIPTION'),
 			'METAMAIN_TITLE' => Loc::getMessage('LANDING_DEMO_VALENTINE1_TITLE'),
@@ -44,11 +43,8 @@ return array(
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
 					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-font-weight-700 g-font-size-11 g-pt-20 g-pt-0--lg ml-auto">
-						<li class="landing-block-node-menu-list-item nav-item g-mr-12--lg g-mb-7 g-mb-0--lg active">
-							<a href="#block@block[01.big_with_text_3]" class="landing-block-node-menu-list-item-link nav-link p-0">Home</a><span
- class="sr-only">(current)
-						</span
-></li>
+						<li class="landing-block-node-menu-list-item nav-item g-mr-12--lg g-mb-7 g-mb-0--lg ">
+							<a href="#block@block[01.big_with_text_3]" class="landing-block-node-menu-list-item-link nav-link p-0">Home</a></li>
 						<li class="landing-block-node-menu-list-item nav-item g-mx-12--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[43.1.big_tiles_with_slider]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">About us</a>
 						</li>
@@ -106,7 +102,7 @@ return array(
 		<div class="row no-gutters">
 			<div class="landing-block-node-img1 col-md-6 g-bg-img-hero g-min-height-400 js-animation fadeInLeft" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1200x781/img6.jpg\');" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb"></div>
 
-			<div class="col-md-6 d-flex align-items-center text-center g-pa-50 js-animation landing-block-node-block-bottom fadeInRight">
+			<div class="landing-block-node-block-top js-animation fadeInRight col-md-6 d-flex align-items-center text-center g-pa-50">
 				<div class="w-100">
 					<div class="g-mb-25">
 						<h4 class="landing-block-node-subtitle g-font-weight-700 g-color-primary g-mb-25 g-font-cormorant-infant g-font-size-35"><span style="font-style: italic;">
@@ -127,18 +123,18 @@ return array(
 		</div>
 
 		<div class="row no-gutters">
-			<div class="col-md-6 landing-block-node-block-bottom js-animation fadeInLeft">
-				<img class="landing-block-node-img2 img-fluid" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1200x781/img7.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
+			<div class="landing-block-node-block-bottom js-animation fadeInUp col-md-6 d-flex align-items-center g-max-height-300--md g-max-height-625--lg text-center g-overflow-hidden">
+				<img class="landing-block-node-img2 w-100 img-fluid" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1200x781/img7.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 			</div>
 
-			<div class="col-md-6 landing-block-node-block-bottom js-animation fadeInLeft">
+			<div class="landing-block-node-block-bottom js-animation fadeInUp col-md-6">
 				<div class="js-carousel" data-infinite="true" data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-55 g-font-size-12 g-color-gray-dark-v5 g-bg-white g-mt-minus-10" data-arrow-left-classes="fa fa-chevron-left g-left-0" data-arrow-right-classes="fa fa-chevron-right g-right-0">
-					<div class="landing-block-node-card js-slide">
-						<img class="landing-block-node-card-img img-fluid" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1200x781/img8.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
+					<div class="landing-block-node-card js-slide d-flex align-items-center g-max-height-300 g-max-height-625--lg">
+						<img class="landing-block-node-card-img w-100 img-fluid" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1200x781/img8.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 					</div>
 
-					<div class="landing-block-node-card js-slide">
-						<img class="landing-block-node-card-img img-fluid" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1200x781/img9.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
+					<div class="landing-block-node-card js-slide d-flex align-items-center g-max-height-300 g-max-height-625--lg">
+						<img class="landing-block-node-card-img w-100 img-fluid" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1200x781/img9.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 					</div>
 
 					

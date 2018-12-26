@@ -1,4 +1,5 @@
 <?
+$MESS["MAIN_MAIL_CONFIRM_DELETE"] = "Delete";
 $MESS["MAIN_MAIL_DELETE_SENDER_ERROR"] = "Error deleting sender";
 $MESS["MAIN_MAIL_CONFIRM_BACK"] = "Back";
 $MESS["MAIN_MAIL_CONFIRM_EMAIL_HINT_SMTP_2"] = "Enter name and email (provide <a href=\"#\" class=\"new-from-email-dialog-smtp-link\">SMTP server information</a> if required). The system will send you a confirmation message.";

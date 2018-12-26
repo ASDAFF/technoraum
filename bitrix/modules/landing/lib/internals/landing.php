@@ -79,7 +79,7 @@ class LandingTable extends Entity\DataManager
 			'TPL_ID' => new Entity\IntegerField('TPL_ID', array(
 				'title' => Loc::getMessage('LANDING_TABLE_FIELD_TPL_ID')
 			)),
-			'TPL_CODE' => new Entity\IntegerField('TPL_CODE', array(
+			'TPL_CODE' => new Entity\StringField('TPL_CODE', array(
 				'title' => Loc::getMessage('LANDING_TABLE_FIELD_TPL_CODE')
 			)),
 			'SITE_ID' => new Entity\IntegerField('SITE_ID', array(
@@ -542,6 +542,7 @@ class LandingTable extends Entity\DataManager
 
 		if (isset($primary['ID']))
 		{
+			\Bitrix\Landing\File::deleteFromLanding($primary['ID']);
 			\Bitrix\Landing\Syspage::deleteForLanding($primary['ID']);
 			\Bitrix\Landing\Hook::deleteForLanding($primary['ID']);
 			\Bitrix\Landing\TemplateRef::deleteArea($primary['ID']);

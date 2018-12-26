@@ -15,6 +15,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_PHOTOGRAPHY_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'photography',
+			'THEME_CODE_TYPO' => 'photography',
 			'B24BUTTON_CODE' => $buttons[0],
 			'UP_SHOW' => 'Y',
 		)

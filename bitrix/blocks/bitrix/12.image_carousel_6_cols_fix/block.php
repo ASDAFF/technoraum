@@ -6,6 +6,9 @@
 				 data-pause-hover="true"
                  data-infinite="true"
                  data-slides-show="6"
+				 data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-45 g-font-size-30 g-color-gray-light-v1"
+				 data-arrow-left-classes="fa fa-angle-left g-left-minus-20"
+				 data-arrow-right-classes="fa fa-angle-right g-right-minus-20"
 				 data-responsive='[{
 					 "breakpoint": 1200,
 					 "settings": {

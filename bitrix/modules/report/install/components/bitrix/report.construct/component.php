@@ -3,6 +3,8 @@
 
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
+$arParams['REPORT_ID'] = isset($arParams['REPORT_ID']) ? (int)$arParams['REPORT_ID'] : 0;
+
 $requiredModules = array('report');
 
 foreach ($requiredModules as $requiredModule)
@@ -14,7 +16,10 @@ foreach ($requiredModules as $requiredModule)
 	}
 }
 
-if (!isset($arParams['REPORT_HELPER_CLASS']) || strlen($arParams['REPORT_HELPER_CLASS']) < 1)
+if (!isset($arParams['REPORT_HELPER_CLASS'])
+	|| strlen($arParams['REPORT_HELPER_CLASS']) < 1
+	|| !class_exists($arParams['REPORT_HELPER_CLASS'])
+	|| !is_subclass_of($arParams['REPORT_HELPER_CLASS'], 'CReportHelper'))
 {
 	ShowError(GetMessage("REPORT_HELPER_NOT_DEFINED"));
 	return 0;

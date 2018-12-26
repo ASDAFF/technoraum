@@ -69,6 +69,10 @@ class Template
 						'class' => ($type == 'checkbox') ? 'ui-checkbox' : 'ui-input',
 						'name_format' => 'fields[ADDITIONAL_FIELDS][#field_code#]'
 					));
+					if ($help  = $field->getHelpValue())
+					{
+						echo $help;
+					}
 					if ($type == 'checkbox')
 					{
 						echo '<label for="field-' . strtolower($key) . '-use">' .

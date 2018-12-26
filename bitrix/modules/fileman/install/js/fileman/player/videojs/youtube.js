@@ -622,7 +622,7 @@ THE SOFTWARE. */
 
     // Tries to get the highest resolution thumbnail available for the video
     checkHighResPoster: function(){
-      var uri = 'https://img.youtube.com/vi/' + this.url.videoId + '/maxresdefault.jpg';
+      var uri = 'https://img.youtube.com/vi/' + this.url.videoId + '/hqdefault.jpg';
 
       try {
         var image = new Image();

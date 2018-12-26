@@ -455,6 +455,12 @@ final class CheckManager
 					'\Bitrix\Sale\Cashbox\CreditPaymentCheck',
 					'\Bitrix\Sale\Cashbox\CreditCheck',
 					'\Bitrix\Sale\Cashbox\CreditReturnCheck',
+					'\Bitrix\Sale\Cashbox\PrepaymentCheck',
+					'\Bitrix\Sale\Cashbox\PrepaymentReturnCheck',
+					'\Bitrix\Sale\Cashbox\PrepaymentReturnCashCheck',
+					'\Bitrix\Sale\Cashbox\FullPrepaymentCheck',
+					'\Bitrix\Sale\Cashbox\FullPrepaymentReturnCheck',
+					'\Bitrix\Sale\Cashbox\FullPrepaymentReturnCashCheck',
 				)
 			);
 		}
@@ -830,7 +836,9 @@ final class CheckManager
 					continue;
 
 				$service = $payment->getPaySystem();
-				if ($service->getField("CAN_PRINT_CHECK") !== 'Y')
+				if ($service === null
+					|| $service->getField("CAN_PRINT_CHECK") !== 'Y'
+				)
 				{
 					return false;
 				}

@@ -182,7 +182,7 @@ BXBlockEditorHelper.prototype.attr = function(node, attr, value)
 		}
 		else
 		{
-			node.setAttribute(attr, null);
+			node.removeAttribute(attr);
 		}
 	}
 

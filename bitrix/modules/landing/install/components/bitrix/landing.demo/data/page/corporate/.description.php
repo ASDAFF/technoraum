@@ -12,7 +12,6 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_CORPORATE_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
-			'THEME_CODE' => '3corporate',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/corporate/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_CORPORATE_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_CORPORATE_DESCRIPTION'),
@@ -40,8 +39,8 @@ return array(
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
 					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-letter-spacing-1 g-font-size-12 g-pt-20 g-pt-0--lg ml-auto">
-						<li class="landing-block-node-menu-list-item nav-item g-mr-15--lg g-mb-7 g-mb-0--lg active">
-							<a href="#block@block[46.7.cover_bgimg_text_blocks_with_icons]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">HOME</a><span class="sr-only">(current)</span>
+						<li class="landing-block-node-menu-list-item nav-item g-mr-15--lg g-mb-7 g-mb-0--lg ">
+							<a href="#block@block[46.7.cover_bgimg_text_blocks_with_icons]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">HOME</a>
 						</li>
 						<li class="landing-block-node-menu-list-item nav-item g-mx-15--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[02.three_cols_big_1]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">ABOUT</a>
@@ -493,6 +492,9 @@ return array(
 				 data-pause-hover="true"
                  data-infinite="true"
                  data-slides-show="6"
+                 data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-45 g-font-size-30 g-color-gray-light-v1"
+				 data-arrow-left-classes="fa fa-angle-left g-left-minus-20"
+				 data-arrow-right-classes="fa fa-angle-right g-right-minus-20"
 				 data-responsive=\'[{
 					 "breakpoint": 1200,
 					 "settings": {

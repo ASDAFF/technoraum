@@ -1,4 +1,12 @@
 <?
+$MESS["MAIN_OPTIONS_IMAGE_EDITOR"] = "Image editor";
+$MESS["MAIN_OPTION_IMAGE_EDITOR_PROXY_ENABLED"] = "Allow editing images received from external sites: ";
+$MESS["MAIN_OPTION_IMAGE_EDITOR_PROXY_ENABLED_NO"] = "No";
+$MESS["MAIN_OPTION_IMAGE_EDITOR_PROXY_ENABLED_YES_FOR_ALL"] = "Yes, from any site";
+$MESS["MAIN_OPTION_IMAGE_EDITOR_PROXY_ENABLED_YES_FROM_WHITE_LIST"] = "Yes, from allowed sites";
+$MESS["MAIN_OPTIONS_IMAGE_EDITOR_PROXY_WHITE_LIST"] = "Allowed sites: ";
+$MESS["MAIN_OPTIONS_IMAGE_EDITOR_PROXY_WHITE_LIST_ADD_HOST"] = "Add site";
+$MESS["MAIN_OPTIONS_IMAGE_EDITOR_PROXY_WHITE_LIST_PLACEHOLDER"] = "Example: cdn.bitrix24.site";
 $MESS["MAIN_OPT_PROFILE"] = "User profile";
 $MESS["MAIN_OPT_PROFILE_HYSTORY"] = "Keep history of user profile field updates:";
 $MESS["MAIN_REGISTER"] = "Enable self-registration for users";

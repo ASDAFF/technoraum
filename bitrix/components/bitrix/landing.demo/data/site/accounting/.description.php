@@ -15,6 +15,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_ACCOUNTING_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'accounting',
+			'THEME_CODE_TYPO' => 'accounting',
 			'B24BUTTON_CODE' => $buttons[0],
 			'UP_SHOW' => 'Y',
 		)

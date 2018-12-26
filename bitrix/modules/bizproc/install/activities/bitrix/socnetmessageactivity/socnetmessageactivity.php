@@ -171,7 +171,8 @@ class CBPSocNetMessageActivity
 				'FieldName' => 'message_user_to',
 				'Type' => 'user',
 				'Required' => true,
-				'Default' => 'author'
+				'Multiple' => true,
+				'Default' => \Bitrix\Bizproc\Automation\Helper::getResponsibleUserExpression($documentType)
 			),
 			'MessageText' => array(
 				'Name' => GetMessage('BPSNMA_MESSAGE'),

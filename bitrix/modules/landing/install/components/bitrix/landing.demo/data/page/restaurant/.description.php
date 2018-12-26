@@ -12,8 +12,6 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_RESTAURANT_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
-			'THEME_CODE' => 'restaurant',
-			'THEME_CODE_TYPO' => 'restaurant',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/restaurant/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_RESTAURANT_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_RESTAURANT_DESCRIPTION'),
@@ -43,8 +41,8 @@ return array(
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
 					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-font-weight-700 g-font-size-12 g-pt-20 g-pt-0--lg ml-auto">
-						<li class="landing-block-node-menu-list-item nav-item g-mr-10--lg g-mb-7 g-mb-0--lg active">
-							<a href="#block@block[41.1.big_image_slider_with_texts]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">HOME</a><span class="sr-only">(current)</span>
+						<li class="landing-block-node-menu-list-item nav-item g-mr-10--lg g-mb-7 g-mb-0--lg ">
+							<a href="#block@block[41.1.big_image_slider_with_texts]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">HOME</a>
 						</li>
 						<li class="landing-block-node-menu-list-item nav-item g-mx-10--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[10.2.two_cols_big_img_text_and_text_blocks_2]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">ABOUT</a>
@@ -94,7 +92,8 @@ return array(
 				'CODE' => '41.1.big_image_slider_with_texts',
 				'SORT' => '500',
 				'CONTENT' => '<section class="landing-block">
-	<div class="js-carousel" data-autoplay="true" data-infinite="true" data-speed="5000">
+	<div class="js-carousel" data-autoplay="true" data-infinite="true" data-speed="5000"
+	data-pagi-classes="u-carousel-indicators-v1--white g-absolute-centered--x g-bottom-20">
 		<div class="landing-block-node-card js-slide">
 			<div class="landing-block-node-card-bgimg g-flex-centered g-height-100vh g-min-height-500--md g-bg-pos-center g-bg-img-hero g-bg-cover g-bg-black-opacity-0_5--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1200x800/img21.jpg);">
 				<div class="text-center g-pos-rel container g-max-width-800 g-z-index-1 landing-block-node-card-container js-animation fadeInLeft">
@@ -298,11 +297,7 @@ return array(
 						</article>
 						<!-- End Article -->
 					</div>
-				</div>
-				<!-- End Products Block -->
-
-				<!-- Products Block -->
-				<div class="row">
+				
 					<div class="landing-block-node-card js-animation col-md-6 g-mb-50 fadeInUp animated landing-card">
 						<!-- Article -->
 						<article class="media">
@@ -360,11 +355,7 @@ return array(
 						</article>
 						<!-- End Article -->
 					</div>
-				</div>
-				<!-- End Products Block -->
 
-				<!-- Products Block -->
-				<div class="row">
 					<div class="landing-block-node-card js-animation col-md-6 g-mb-50 fadeInUp animated landing-card">
 						<!-- Article -->
 						<article class="media">
@@ -422,11 +413,7 @@ return array(
 						</article>
 						<!-- End Article -->
 					</div>
-				</div>
-				<!-- End Products Block -->
-
-				<!-- Products Block -->
-				<div class="row">
+				
 					<div class="landing-block-node-card js-animation col-md-6 g-mb-50 fadeInUp animated landing-card">
 						<!-- Article -->
 						<article class="media">

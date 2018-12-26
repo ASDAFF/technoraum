@@ -123,6 +123,8 @@ class LandingFilterComponent extends LandingBaseComponent
 			$this->checkParam('FOLDER_SITE_ID', 0);
 			$this->arParams['FILTER_TYPE'] = trim($this->arParams['FILTER_TYPE']);
 			$this->arParams['FILTER_ID'] = self::$prefix . $this->arParams['FILTER_TYPE'];
+			$this->arResult['NAVIGATION_ID'] = $this::NAVIGATION_ID;
+			$this->arResult['CURRENT_PAGE'] = $this->request($this::NAVIGATION_ID);
 		}
 
 		parent::executeComponent();

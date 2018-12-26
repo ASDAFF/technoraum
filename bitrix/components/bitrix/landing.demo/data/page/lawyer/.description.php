@@ -12,8 +12,6 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_LAWYER_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
-			'THEME_CODE' => 'lawyer',
-			'THEME_CODE_TYPO' => 'lawyer',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/lawyer/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_LAWYER_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_LAWYER_DESCRIPTION'),
@@ -44,7 +42,7 @@ return array(
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
 					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-font-weight-700 g-font-size-11 g-pt-20 g-pt-0--lg ml-auto">
-						<li class="landing-block-node-menu-list-item nav-item g-mr-15--lg g-mb-7 g-mb-0--lg active">
+						<li class="landing-block-node-menu-list-item nav-item g-mr-15--lg g-mb-7 g-mb-0--lg ">
 							<a href="#block@block[02.three_cols_big_1]" class="landing-block-node-menu-list-item-link nav-link p-0">About</a>
 						</li>
 						<li class="landing-block-node-menu-list-item nav-item g-mx-15--lg g-mb-7 g-mb-0--lg">
@@ -510,6 +508,9 @@ return array(
              data-infinite="true"
 			 data-speed="10000"
              data-slides-show="4"
+             data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-60 g-font-size-60 g-color-white g-bg-primary"
+			 data-arrow-left-classes="fa fa-angle-left g-left-10"
+			 data-arrow-right-classes="fa fa-angle-right g-right-10"
 			 data-responsive=\'[{
                "breakpoint": 1200,
                "settings": {
@@ -596,6 +597,9 @@ return array(
 				 data-pause-hover="true"
                  data-infinite="true"
                  data-slides-show="6"
+                 data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-45 g-font-size-30 g-color-gray-light-v1"
+				 data-arrow-left-classes="fa fa-angle-left g-left-minus-20"
+				 data-arrow-right-classes="fa fa-angle-right g-right-minus-20"
 				 data-responsive=\'[{
 					 "breakpoint": 1200,
 					 "settings": {

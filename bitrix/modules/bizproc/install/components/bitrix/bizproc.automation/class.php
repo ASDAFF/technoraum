@@ -166,7 +166,7 @@ class BizprocAutomationComponent extends \CBitrixComponent
 
 		$tplUser = new \CBPWorkflowTemplateUser(\CBPWorkflowTemplateUser::CurrentUser);
 
-		$canEdit = (
+		$canRead = $canEdit = (
 			$tplUser->isAdmin() ||
 			CBPDocument::CanUserOperateDocumentType(
 				CBPCanUserOperateOperation::CreateAutomation,
@@ -177,28 +177,36 @@ class BizprocAutomationComponent extends \CBitrixComponent
 		);
 		$documentId = $this->getDocumentId();
 
-		if (!$documentId && !$canEdit)
-		{
-			return $this->showError(Loc::getMessage('BIZPROC_AUTOMATION_NO_EDIT_PERMISSIONS'));
-		}
-
 		$target->setDocumentId($documentId);
 
-		if ($documentId)
+		if (!$canEdit)
 		{
-			$canRead = (
-				$tplUser->isAdmin() ||
-				CBPDocument::CanUserOperateDocument(
+			if ($documentId)
+			{
+				$canRead = CBPDocument::CanUserOperateDocument(
 					CBPCanUserOperateOperation::ReadDocument,
 					$GLOBALS["USER"]->GetID(),
 					[$documentType[0], $documentType[1], $documentId]
-				)
-			);
+				);
+			}
+			else
+			{
+				$canRead = CBPDocument::CanUserOperateDocumentType(
+					CBPCanUserOperateOperation::ReadDocument,
+					$GLOBALS["USER"]->GetID(),
+					$documentType
+				);
+			}
 
 			if (!$canRead)
 			{
 				return $this->showError(Loc::getMessage('BIZPROC_AUTOMATION_ACCESS_DENIED'));
 			}
+		}
+
+		if (!$canRead && !$canEdit)
+		{
+			return $this->showError(Loc::getMessage('BIZPROC_AUTOMATION_NO_EDIT_PERMISSIONS'));
 		}
 
 		if (isset($this->arParams['ACTION']) && $this->arParams['ACTION'] == 'ROBOT_SETTINGS')

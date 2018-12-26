@@ -48,8 +48,8 @@ if ($USER->CanDoOperation('catalog_read') || $USER->CanDoOperation('catalog_pric
 			'QUANTITY_RESERVED' => '',
 			'VAT_ID' => 0,
 			'VAT_INCLUDED' => $vatInclude,
-			'QUANTITY_TRACE_ORIG' => Catalog\ProductTable::STATUS_DEFAULT,
-			'CAN_BUY_ZERO_ORIG' => Catalog\ProductTable::STATUS_DEFAULT,
+			'QUANTITY_TRACE_ORIG' => Catalog\ProductTable::STATUS_NO,
+			'CAN_BUY_ZERO_ORIG' => Catalog\ProductTable::STATUS_NO,
 			'SUBSCRIBE_ORIG' => Catalog\ProductTable::STATUS_DEFAULT,
 			'SUBSCRIBE' => $strGlobalSubscribe,
 			'PURCHASING_PRICE' => '',
@@ -117,6 +117,11 @@ if ($USER->CanDoOperation('catalog_read') || $USER->CanDoOperation('catalog_pric
 		{
 			$arBaseProduct['QUANTITY'] = '';
 			$arBaseProduct['QUANTITY_RESERVED'] = '';
+		}
+		if (!empty($arBaseProduct) && $arMainCatalog['SUBSCRIPTION'] == 'Y')
+		{
+			$arBaseProduct['QUANTITY_TRACE_ORIG'] = Catalog\ProductTable::STATUS_NO;
+			$arBaseProduct['CAN_BUY_ZERO_ORIG'] = Catalog\ProductTable::STATUS_NO;
 		}
 	}
 	else

@@ -10,6 +10,17 @@ BX.UI.ActionPanel.Item = function(options)
 	this.type = options.type;
 	this.text = options.text;
 	this.icon = options.icon;
+	this.submenuOptions = {};
+	if (options.submenuOptions && BX.type.isString(options.submenuOptions))
+	{
+		try
+		{
+			this.submenuOptions = JSON.parse(options.submenuOptions);
+		}
+		catch (e)
+		{
+		}
+	}
 	this.buttonIconClass = options.buttonIconClass;
 	this.onclick = options.onclick;
 	this.href = options.href;
@@ -153,7 +164,7 @@ BX.UI.ActionPanel.Item.prototype =
 		}
 
 		var bindElement = this.layout.container;
-		var popupMenu = BX.PopupMenu.create("ui-action-panel-item-popup-menu", bindElement, this.items, {
+		var popupMenuOptions = {
 			className: "ui-action-panel-item-popup-menu",
 			angle: true,
 			offsetLeft: bindElement.offsetWidth / 2,
@@ -164,7 +175,9 @@ BX.UI.ActionPanel.Item.prototype =
 					BX.removeClass(bindElement, "ui-action-panel-item-active");
 				}
 			}
-		});
+		};
+		popupMenuOptions = BX.mergeEx(popupMenuOptions, this.submenuOptions);
+		var popupMenu = BX.PopupMenu.create("ui-action-panel-item-popup-menu", bindElement, this.items, popupMenuOptions);
 
 		popupMenu.layout.menuContainer.setAttribute("data-tile-grid", "tile-grid-stop-close");
 		popupMenu.show();

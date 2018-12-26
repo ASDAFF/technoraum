@@ -14,8 +14,6 @@ return array(
 	'sort' => 3,
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
-			'THEME_CODE' => '3corporate',
-			'THEME_CODE_TYPO' => '3corporate',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/bitrix24/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_B24_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_B24_DESCRIPTION'),
@@ -95,7 +93,7 @@ return array(
 
 	<div class="js-slide landing-block-node-card-bgimg landing-block-node-card g-bg-img-hero u-bg-overlay g-min-height-600 g-bg-black-opacity-0_4--after" style="background-image: url(\'https://cdn.bitrix24.ru/b1479079/landing/bcc/bcc5e00181ca124372c2a79e0f58146f/crm.jpg\');" data-fileid="5290" data-filehash="56853e1f1e8351d1d560a21625836590">
 			<div class="u-bg-overlay__inner g-flex-centered g-height-100vh">
-				<div class="container">
+				<div class="container g-mx-0">
 					<div class="landing-block-node-card-price u-ribbon-v1 text-uppercase g-pos-rel g-line-height-1_2 g-font-weight-700 g-font-size-16 g-font-size-18 g-color-white g-theme-travel-bg-black-v1 g-pa-10 g-mb-10">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_B24__TEXT9").'</div>
 					
 					<h3 class="landing-block-node-card-title text-uppercase g-pos-rel g-line-height-1 g-font-weight-700 g-color-white g-mb-10 g-font-montserrat g-font-size-60">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_B24__TEXT10").'<span style="color: rgb(3, 169, 244);">24</span><span style="color: rgb(245, 245, 245);">.CRM</span></h3>
@@ -110,7 +108,7 @@ return array(
 			</div>
 		</div><div class="js-slide landing-block-node-card-bgimg landing-block-node-card g-bg-img-hero u-bg-overlay g-min-height-600 g-bg-black-opacity-0_4--after" style="background-image: url(\'https://cdn.bitrix24.ru/b1479079/landing/aa2/aa214ffc8cfa81e01621511185960e3d/tasks.jpg\');" data-fileid="5292" data-filehash="d1811308789e697cf16abf52b786577e">
 			<div class="u-bg-overlay__inner g-flex-centered g-height-100vh">
-				<div class="container">
+				<div class="container g-mx-0">
 					<div class="landing-block-node-card-price u-ribbon-v1 text-uppercase g-pos-rel g-line-height-1_2 g-font-weight-700 g-font-size-16 g-font-size-18 g-color-white g-theme-travel-bg-black-v1 g-pa-10 g-mb-10">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_B24__TEXT13").'</div>
 					
 					<h3 class="landing-block-node-card-title text-uppercase g-pos-rel g-line-height-1 g-font-weight-700 g-color-white g-mb-10 g-font-montserrat g-font-size-60">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_B24__TEXT14").'<span style="color: rgb(3, 169, 244);">24</span><span style="color: rgb(245, 245, 245);">.'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_B24__TEXT15").'</span></h3>
@@ -125,7 +123,7 @@ return array(
 			</div>
 		</div><div class="js-slide landing-block-node-card-bgimg landing-block-node-card g-bg-img-hero u-bg-overlay g-min-height-600 g-bg-black-opacity-0_4--after" style="background-image: url(\'https://cdn.bitrix24.ru/b1479079/landing/f08/f08f15c846339599e39b11a6548d9e61/sites.jpg\');" data-fileid="5294" data-filehash="9c63c552345f7ffc15d95de365e4e317">
 			<div class="u-bg-overlay__inner g-flex-centered g-height-100vh">
-				<div class="container">
+				<div class="container g-mx-0">
 					<div class="landing-block-node-card-price u-ribbon-v1 text-uppercase g-pos-rel g-line-height-1_2 g-font-weight-700 g-font-size-16 g-font-size-18 g-color-white g-theme-travel-bg-black-v1 g-pa-10 g-mb-10">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_B24__TEXT18").'</div>
 					
 					<h3 class="landing-block-node-card-title text-uppercase g-pos-rel g-line-height-1 g-font-weight-700 g-color-white g-mb-10 g-font-montserrat g-font-size-60">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_B24__TEXT19").'<span style="color: rgb(3, 169, 244);">24</span><span style="color: rgb(245, 245, 245);">.'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_B24__TEXT20").'</span></h3>
@@ -140,7 +138,7 @@ return array(
 			</div>
 		</div><div class="js-slide landing-block-node-card-bgimg landing-block-node-card g-bg-img-hero u-bg-overlay g-min-height-600 g-bg-black-opacity-0_4--after" style="background-image: url(\'https://cdn.bitrix24.ru/b1479079/landing/5d5/5d5c83066ea04192506ede4f625bf598/olines.jpg\');" data-fileid="5296" data-filehash="da05172d4211b708b723d7ce262b50e0">
 			<div class="u-bg-overlay__inner g-flex-centered g-height-100vh">
-				<div class="container">
+				<div class="container g-mx-0">
 					<div class="landing-block-node-card-price u-ribbon-v1 text-uppercase g-pos-rel g-line-height-1_2 g-font-weight-700 g-font-size-16 g-font-size-18 g-color-white g-theme-travel-bg-black-v1 g-pa-10 g-mb-10">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_B24__TEXT23").'</div>
 					
 					<h3 class="landing-block-node-card-title text-uppercase g-pos-rel g-line-height-1 g-font-weight-700 g-color-white g-mb-10 g-font-montserrat g-font-size-60">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_B24__TEXT24").'<span style="color: rgb(3, 169, 244);">24</span><span style="color: rgb(245, 245, 245);">.'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_B24__TEXT25").'</span></h3>
@@ -155,7 +153,7 @@ return array(
 			</div>
 		</div><div class="js-slide landing-block-node-card-bgimg landing-block-node-card g-bg-img-hero u-bg-overlay g-min-height-600 g-bg-black-opacity-0_4--after" style="background-image: url(\'https://cdn.bitrix24.ru/b1479079/landing/a00/a008f81478fe28497216039f7dafad83/company.jpg\');" data-fileid="5298" data-filehash="af1baa0b3dd8733e61bd675a1817c947">
 			<div class="u-bg-overlay__inner g-flex-centered g-height-100vh">
-				<div class="container">
+				<div class="container g-mx-0">
 					<div class="landing-block-node-card-price u-ribbon-v1 text-uppercase g-pos-rel g-line-height-1_2 g-font-weight-700 g-font-size-16 g-font-size-18 g-color-white g-theme-travel-bg-black-v1 g-pa-10 g-mb-10">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_B24__TEXT28").'</div>
 					
 					<h3 class="landing-block-node-card-title text-uppercase g-pos-rel g-line-height-1 g-font-weight-700 g-color-white g-mb-10 g-font-montserrat g-font-size-60">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_B24__TEXT29").'<span style="color: rgb(3, 169, 244);">24</span><span style="color: rgb(245, 245, 245);">.'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_B24__TEXT30").'</span></h3>
@@ -783,6 +781,9 @@ return array(
 				 data-pause-hover="true"
                  data-infinite="true"
                  data-slides-show="6"
+                 data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-45 g-font-size-30 g-color-gray-light-v1"
+				 data-arrow-left-classes="fa fa-angle-left g-left-minus-20"
+				 data-arrow-right-classes="fa fa-angle-right g-right-minus-20"
 				 data-responsive=\'[{
 					 "breakpoint": 1200,
 					 "settings": {

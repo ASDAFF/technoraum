@@ -114,3 +114,6 @@ $MESS["MAIL_MAILBOX_LICENSE_SHARED_LIMIT_TITLE"] = "Общий доступ к почтовым ящик
 $MESS["MAIL_MAILBOX_LICENSE_SHARED_LIMIT_BODY"] = "Количество почтовых ящиков, общий доступ к которым можно дать сотрудникам, зависит от тарифного плана Битрикс24.
 <br><br>
 На вашем тарифе доступно общих почтовых ящиков: #LIMIT#";
+
+$MESS["MAIL_MAILBOX_REMOVE_CONFIRM_TEXT"] = "Вы действительно хотите отключить почтовый ящик?";
+$MESS["MAIL_MAILBOX_REMOVE_CONFIRM"] = "Отключить почтовый ящик?";

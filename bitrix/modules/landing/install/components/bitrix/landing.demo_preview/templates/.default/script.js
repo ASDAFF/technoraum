@@ -24,12 +24,14 @@
 		this.closeButton = document.querySelector(".landing-template-preview-close");
 		this.createButton = document.querySelector(".landing-template-preview-create");
 		this.palette = document.querySelector(".landing-template-preview-palette");
+		this.paletteSiteColor = document.querySelector(".landing-template-preview-palette-sitecolor");
 		this.imageContainer = document.querySelector(".preview-desktop-body-image");
 		this.loaderContainer = document.querySelector(".preview-desktop-body-loader-container");
 		this.previewFrame = document.querySelector(".preview-desktop-body-preview-frame");
 		this.loader = new BX.Loader({});
 		this.messages = params.messages || {};
 		this.loaderText = null;
+		this.progressBar = null;
 		this.IsLoadedFrame = false;
 		this.createStore = false;
 		if (BX.type.isBoolean(params.createStore))
@@ -63,18 +65,33 @@
 		 */
 		init: function()
 		{
-			slice(this.palette.children)
-				.forEach(this.initSelectableItem, this);
+			var colorItems = slice(this.palette.children);
+			if(this.paletteSiteColor)
+			{
+				colorItems = colorItems.concat(slice(this.paletteSiteColor.children));
+			}
+			colorItems.forEach(this.initSelectableItem, this);
 
 			bind(this.previewFrame, "load", this.onFrameLoad);
 			bind(this.closeButton, "click", this.onCancelButtonClick);
 			bind(this.createButton, "click", this.onCreateButtonClick);
 
-			void this.showPreview(data(this.palette.querySelector(".active"), "data-src"));
+			void this.showPreview(data(this.getActiveColorNode(), "data-src"));
 		},
 
 		onFrameLoad: function() {
 			this.IsLoadedFrame = true;
+		},
+
+		getActiveColorNode: function()
+		{
+			var active = this.palette.querySelector(".active");
+			if(!active && this.paletteSiteColor)
+			{
+				active = this.paletteSiteColor.querySelector(".active");
+			}
+
+			return active;
 		},
 
 		/**
@@ -196,7 +213,13 @@
 		getValue: function()
 		{
 			var result = {};
-			result[data(this.palette, "data-name")] = data(this.palette.querySelector(".active"), "data-value");
+
+			if(this.paletteSiteColor && this.getActiveColorNode().parentElement === this.paletteSiteColor)
+			{
+				// add theme_use_site flag
+				result[data(this.paletteSiteColor, "data-name")] = 'Y';
+			}
+			result[data(this.palette, "data-name")] = data(this.getActiveColorNode(), "data-value");
 
 			return result;
 		},
@@ -232,7 +255,15 @@
 				this.loaderText = BX.create("div", { props: { className: "landing-template-preview-loader-text"},
 					text: this.messages.LANDING_LOADER_WAIT});
 
+				this.progressBar = new BX.UI.ProgressBar({
+					column: true
+				});
+
+				this.progressBar.getContainer().classList.add("ui-progressbar-landing-preview");
+
 				this.loaderContainer.appendChild(this.loaderText);
+				this.loaderContainer.appendChild(this.progressBar.getContainer());
+
 			}
 
 			if (this.isStore())
@@ -258,6 +289,7 @@
 				this.ajaxUrl = this.createButton.getAttribute('data-href');
 			}
 			this.ajaxParams = this.getValue();
+			this.ajaxParams['start'] = 'Y';
 		},
 
 		createCatalog: function()
@@ -278,6 +310,9 @@
 		{
 			if (data.status === 'continue')
 			{
+				this.ajaxParams['start'] = 'N';
+				this.progressBar.update(data.progress);
+				this.progressBar.setTextAfter(data.message);
 				this.createCatalog();
 			}
 			else
@@ -303,12 +338,14 @@
 		{
 			event.preventDefault();
 
-			removeClass(event.currentTarget.parentElement.querySelector(".active"), "active");
-			addClass(event.currentTarget, "active");
-
-			if (event.currentTarget.parentElement === this.palette)
+			if (
+				event.currentTarget.parentElement === this.palette ||
+				(this.paletteSiteColor && event.currentTarget.parentElement === this.paletteSiteColor)
+			)
 			{
-				this.showPreview(data(event.currentTarget.parentElement.querySelector(".active"), "data-src"));
+				removeClass(this.getActiveColorNode(), "active");
+				addClass(event.currentTarget, "active");
+				this.showPreview(data(this.getActiveColorNode(), "data-src"));
 			}
 		},
 

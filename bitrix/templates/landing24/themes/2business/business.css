@@ -20903,10 +20903,6 @@ NAVBAR menus
   background-color: #333;
 }
 
-.u-header__section--light .navbar .active a, .u-header__section--light .navbar a:hover {
-  color: #3949a0 !important;
-}
-
 .u-navbar-color-primary {
   color: #3949a0 !important;
 }
@@ -23059,6 +23055,10 @@ NAVBAR menus
   color: #333 !important;
 }
 
+.g-color-main--hover:hover * {
+  color: #333 !important;
+}
+
 .g-color-main *, .g-color-main p {
   color: #333;
 }
@@ -23073,6 +23073,10 @@ NAVBAR menus
 }
 
 .g-color-primary--hover:hover {
+  color: #3949a0 !important;
+}
+
+.g-color-primary--hover:hover * {
   color: #3949a0 !important;
 }
 
@@ -23108,6 +23112,10 @@ NAVBAR menus
   color: rgba(57, 73, 160, 0.3) !important;
 }
 
+.g-color-primary-opacity-0_3--hover:hover * {
+  color: rgba(57, 73, 160, 0.3) !important;
+}
+
 .g-color-primary-opacity-0_4 {
   color: rgba(57, 73, 160, 0.4) !important;
 }
@@ -23128,6 +23136,10 @@ NAVBAR menus
   color: rgba(57, 73, 160, 0.4) !important;
 }
 
+.g-color-primary-opacity-0_4--hover:hover * {
+  color: rgba(57, 73, 160, 0.4) !important;
+}
+
 .g-color-primary-opacity-0_8 {
   color: rgba(57, 73, 160, 0.8) !important;
 }
@@ -23145,6 +23157,10 @@ NAVBAR menus
 }
 
 .g-color-primary-opacity-0_8--hover:hover {
+  color: rgba(57, 73, 160, 0.8) !important;
+}
+
+.g-color-primary-opacity-0_8--hover:hover * {
   color: rgba(57, 73, 160, 0.8) !important;
 }
 
@@ -23170,6 +23186,10 @@ NAVBAR menus
 }
 
 .g-color-secondary--hover:hover {
+  color: #e74b3c !important;
+}
+
+.g-color-secondary--hover:hover * {
   color: #e74b3c !important;
 }
 

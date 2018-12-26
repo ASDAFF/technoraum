@@ -17,6 +17,8 @@ return array(
 		'ADDITIONAL_FIELDS' => array(
 			'B24BUTTON_CODE' => $buttons[0],
 			'UP_SHOW' => 'Y',
+			'THEME_CODE' => 'travel',
+			'THEME_CODE_TYPO' => 'travel',
 		)
 	),
 	'items' => array (

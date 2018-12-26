@@ -5,6 +5,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 }
 
 return array(
-	"css" => "/bitrix/js/ui/progressbar/ui.progressbar.css",
-	"js" => "/bitrix/js/ui/progressbar/ui.progressbar.js"
+	"css" => array(
+		"/bitrix/js/ui/progressbar/ui.progressbar.css",
+		"/bitrix/js/ui/progressbar/ui.progressbar.ie.css"
+	),
+	"js" => "/bitrix/js/ui/progressbar/ui.progressbar.js",
+	"rel" => "ui.fonts.opensans"
 );

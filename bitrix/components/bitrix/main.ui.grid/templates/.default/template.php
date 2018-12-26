@@ -14,7 +14,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 }
 
-CJSCore::Init(array('popup', 'ui', 'resize_observer', 'loader', 'ui.actionpanel'));
+CJSCore::Init(array('popup', 'ui', 'resize_observer', 'loader', 'ui.actionpanel', 'ui.fonts.opensans'));
 
 \Bitrix\Main\Page\Asset::getInstance()->addJs('/bitrix/js/main/dd.js');
 
@@ -550,7 +550,7 @@ $displayedCount = count(
 										endif; ?><?
 										if ($item["TYPE"] === "DROPDOWN") :
 											?><span class="main-grid-panel-control-container<?=$item["DISABLED"] ? " main-grid-disable" : "";?>" id="<?=Text\HtmlFilter::encode($item["ID"])?>"><?
-												?><span class="main-dropdown main-grid-panel-control" id="<?=Text\HtmlFilter::encode($item["ID"])?>_control" data-name="<?=Text\HtmlFilter::encode($item["NAME"])?>" data-value="<?=Text\HtmlFilter::encode(CUtil::PhpToJSObject($item["ITEMS"][0]["VALUE"]))?>" data-items="<?=Text\HtmlFilter::encode(CUtil::PhpToJSObject($item["ITEMS"]))?>"><?
+												?><span class="main-dropdown main-grid-panel-control" data-popup-position="fixed" id="<?=Text\HtmlFilter::encode($item["ID"])?>_control" data-name="<?=Text\HtmlFilter::encode($item["NAME"])?>" data-value="<?=Text\HtmlFilter::encode(CUtil::PhpToJSObject($item["ITEMS"][0]["VALUE"]))?>" data-items="<?=Text\HtmlFilter::encode(CUtil::PhpToJSObject($item["ITEMS"]))?>"><?
 													?><span class="main-dropdown-inner"><?=$item["ITEMS"][0]["NAME"]?></span><?
 												?></span><?
 											?></span><?

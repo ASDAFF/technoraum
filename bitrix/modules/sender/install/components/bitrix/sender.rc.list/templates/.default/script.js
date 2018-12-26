@@ -28,7 +28,9 @@
 		this.buttonAdd = BX('SENDER_LETTER_BUTTON_ADD');
 		if (this.buttonAdd)
 		{
-			var menuItems = (params.messages || []).map(function (message) {
+			var menuItems = (params.messages || []).filter(function (message) {
+				return !message.IS_HIDDEN;
+			}).map(function (message) {
 				return {
 					'id': message.CODE,
 					'text': message.NAME,

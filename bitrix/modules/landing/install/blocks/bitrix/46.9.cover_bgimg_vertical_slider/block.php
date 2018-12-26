@@ -17,7 +17,7 @@
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_2--after"
 				 style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img25.jpg);">
-				<div class="landing-block-node-text-container js-animation fadeIn container text-center g-z-index-1">
+				<div class="landing-block-node-text-container js-animation fadeIn container text-center g-z-index-1 g-mx-0">
 					<h3 class="landing-block-node-card-subtitle h6 g-font-size-32 g-color-white g-mb-10 g-mb-25--md">
 						<span style="font-weight: bold;">$3.500</span> / per month
 					</h3>
@@ -36,7 +36,7 @@
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_2--after"
 				 style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img26.jpg);">
-				<div class="landing-block-node-text-container js-animation fadeIn container text-center g-z-index-1">
+				<div class="landing-block-node-text-container js-animation fadeIn container text-center g-z-index-1 g-mx-0">
 					<h3 class="landing-block-node-card-subtitle h6 g-font-size-32 g-color-white g-mb-10 g-mb-25--md">
 						<span style="font-weight: bold;">$3.500</span> / per month
 					</h3>
@@ -55,7 +55,7 @@
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_2--after"
 				 style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img27.jpg);">
-				<div class="landing-block-node-text-container js-animation fadeIn container text-center g-z-index-1">
+				<div class="landing-block-node-text-container js-animation fadeIn container text-center g-z-index-1 g-mx-0">
 					<h3 class="landing-block-node-card-subtitle h6 g-font-size-32 g-color-white g-mb-10 g-mb-25--md">
 						<span style="font-weight: bold;">$3.500</span> / per month
 					</h3>
@@ -75,7 +75,7 @@
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_2--after"
 				 style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img28.jpg);">
-				<div class="landing-block-node-text-container js-animation fadeIn container text-center g-z-index-1">
+				<div class="landing-block-node-text-container js-animation fadeIn container text-center g-z-index-1 g-mx-0">
 					<h3 class="landing-block-node-card-subtitle h6 g-font-size-32 g-color-white g-mb-10 g-mb-25--md">
 						<span style="font-weight: bold;">$3.500</span> / per month
 					</h3>

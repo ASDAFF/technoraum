@@ -94,7 +94,7 @@ if (
 	ModuleManager::isModuleInstalled('sale')
 )
 {
-	$syspages = \Bitrix\Landing\Syspage::get($landing->getSiteId());
+	$syspages = \Bitrix\Landing\Syspage::get($landing->getSiteId(), true);
 	if (
 		isset($syspages['compare']) &&
 		$settings['DISPLAY_COMPARE'] != 'N'
@@ -357,7 +357,8 @@ else
 						"USE_ENHANCED_ECOMMERCE" => $settings['USE_ENHANCED_ECOMMERCE'],
 						"DATA_LAYER_NAME" => $settings['DATA_LAYER_NAME'],
 						"BRAND_PROPERTY" => $settings['BRAND_PROPERTY'],
-						"CUSTOM_SITE_ID" => $siteId
+						"CUSTOM_SITE_ID" => $siteId,
+						"SECTIONS_CHAIN_START_FROM" => 1
 					),
 					false
 				);?>

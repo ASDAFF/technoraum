@@ -1,4 +1,5 @@
 <?
+$MESS["SALE_ORDER_BASKET_PRODUCT_UNAVAILABLE"] = "Product is unavailable for purchase";
 $MESS["SALE_ORDER_BASKET_COMPOSITION"] = "Order contents";
 $MESS["SALE_ORDER_BASKET_PRODUCT_ADD"] = "Add product";
 $MESS["SALE_ORDER_BASKET_PRODUCT_NEW"] = "New product";

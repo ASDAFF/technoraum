@@ -153,15 +153,31 @@
 		{
 			event.preventDefault();
 
+			var text;
+
 			// Prevents XSS and prevents insert potential dangerously code
 			if (event.clipboardData && event.clipboardData.getData)
 			{
-				document.execCommand("insertText", false, event.clipboardData.getData("text/plain"));
+				text = event.clipboardData.getData("text/plain");
+
+				if (!this.manifest.textOnly)
+				{
+					text = text.replace(new RegExp('\n', 'g'), '<br>');
+				}
+
+				document.execCommand("insertHTML", false, text);
 			}
 			else
 			{
 				// ie11
-				document.execCommand("paste", true, window.clipboardData.getData("text"));
+				text = window.clipboardData.getData("text");
+
+				if (!this.manifest.textOnly)
+				{
+					text = text.replace(new RegExp('\n', 'g'), '<br>');
+				}
+
+				document.execCommand("paste", true, text);
 			}
 
 			this.onChange();

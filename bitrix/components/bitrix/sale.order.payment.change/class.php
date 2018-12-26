@@ -442,6 +442,8 @@ class SaleOrderPaymentChange extends \CBitrixComponent
 			return;
 		}
 
+		\Bitrix\Sale\DiscountCouponsManagerBase::freezeCouponStorage();
+
 		/** @var \Bitrix\Sale\Payment $payment */
 		$paymentCollection = $this->order->getPaymentCollection();
 		$payment = $paymentCollection->getItemById($this->arResult['PAYMENT']['ID']);
@@ -453,6 +455,7 @@ class SaleOrderPaymentChange extends \CBitrixComponent
 
 		if (!$paymentResult->isSuccess())
 		{
+			\Bitrix\Sale\DiscountCouponsManagerBase::unFreezeCouponStorage();
 			$this->errorCollection->add($paymentResult->getErrors());
 			return;
 		}
@@ -470,6 +473,8 @@ class SaleOrderPaymentChange extends \CBitrixComponent
 		}
 
 		$resultSaving = $this->order->save();
+
+		\Bitrix\Sale\DiscountCouponsManagerBase::unFreezeCouponStorage();
 
 		if ($resultSaving->isSuccess())
 		{

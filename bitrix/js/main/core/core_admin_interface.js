@@ -5601,7 +5601,7 @@ BX.AdminFilter = function(filter_id, aRows)
 				switch(el.value)
 				{
 					case 'exact':
-						dateFrom = new Date(inputFrom.value.replace(/(\d+).(\d+).(\d+)/, '$3/$2/$1'));
+						dateFrom = BX.parseDate(inputFrom.value, false, phpVars.FORMAT_DATE, phpVars.FORMAT_DATETIME);
 						dateTo = dateFrom;
 						break;
 

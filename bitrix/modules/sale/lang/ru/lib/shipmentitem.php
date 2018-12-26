@@ -7,3 +7,4 @@ $MESS["SALE_EVENT_ON_BEFORE_SALESHIPMENTITEM_SET_FIELD_ERROR"] = "Ошибка события
 $MESS["SALE_SHIPMENT_ITEM_BASKET_ITEM_ID_EMPTY"] = "Создание элемента отгрузки невозможно, т.к. товар \"#PRODUCT_NAME#\" не добавлен в корзину.";
 $MESS["SALE_SHIPMENT_ITEM_BASKET_WRONG_BASKET_ITEM"] = "Некорректный объект корзины";
 $MESS["SALE_SHIPMENT_ITEM_BASKET_ITEM_NOT_FOUND"] = "Отсутствует связанная с элементом отгрузки ##SHIPMENT_ID# позиция в корзине ##BASKET_ITEM_ID#.";
+$MESS["SALE_SHIPMENT_ITEM_ERR_QUANTITY_EMPTY"] = "Количество #BASKET_ITEM_NAME# не может быть меньше или равны 0";

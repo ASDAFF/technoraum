@@ -13,6 +13,7 @@ use \Bitrix\Landing\Syspage;
 use \Bitrix\Landing\TemplateRef;
 use \Bitrix\Main\Localization\Loc;
 use \Bitrix\Main\EventManager;
+use \Bitrix\Main\Config\Option;
 
 Loc::loadMessages(__FILE__);
 
@@ -118,12 +119,20 @@ class LandingPubComponent extends LandingBaseComponent
 
 		if (isset($codes[$this->zone]))
 		{
-			return $codes[$this->zone];
+			$return = $codes[$this->zone];
 		}
 		else
 		{
-			return $codes['en'];
+			$return = $codes['en'];
 		}
+
+		$partnerId = Option::get('bitrix24', 'partner_id', 0);
+		if ($partnerId)
+		{
+			$return .= '&p=' . $partnerId;
+		}
+
+		return \htmlspecialcharsbx($return);
 	}
 
 	/**
@@ -248,14 +257,14 @@ class LandingPubComponent extends LandingBaseComponent
 		{
 			$filter = array(
 				'ID' => $matches[1],
-				'=ACTIVE' => 'Y'
+				'=DELETED' => ['Y', 'N']
 			);
 		}
 		else
 		{
 			$filter = array(
 				'=CODE' => '/' . $siteUrl . '/',//@todo fixme
-				'=ACTIVE' => 'Y'
+				'=DELETED' => ['Y', 'N']
 			);
 		}
 		if (
@@ -270,15 +279,10 @@ class LandingPubComponent extends LandingBaseComponent
 			}
 			$filter['=DOMAIN.DOMAIN'] = $serverHost;
 		}
-		if ($this->isPreviewMode)
-		{
-			unset($filter['=ACTIVE']);
-		}
 		$res = Site::getList(array(
 			'select' => array(
-				'ID',
-				'LANDING_ID_404',
-				'LANDING_ID_503',
+				'ID', 'ACTIVE', 'DELETED',
+				'LANDING_ID_404', 'LANDING_ID_503',
 				'LANDING_ID_INDEX'
 			),
 			'filter' => $filter
@@ -288,24 +292,71 @@ class LandingPubComponent extends LandingBaseComponent
 			return $landingIdExec;
 		}
 
+		// unactive site
+		if (
+			(
+				!$this->isPreviewMode &&
+				$site['ACTIVE'] == 'N'
+			)
+			||
+			$site['DELETED'] == 'Y'
+		)
+		{
+			if (Manager::isB24())
+			{
+				$this->setHttpStatusOnce($this::ERROR_STATUS_FORBIDDEN);
+			}
+			return $landingIdExec;
+		}
+
 		self::$landingMain['SITE_ID'] = $site['ID'];
 
 		// site is down
-//		dbg
-//		if ($site['LANDING_ID_503'])
-//		{
-//			\CHTTP::setStatus('503 Service Unavailable');
-//			return $site['LANDING_ID_503'];
-//		}
+		if ($site['LANDING_ID_503'])
+		{
+			$this->setHttpStatusOnce($this::ERROR_STATUS_UNAVAILABLE);
+			return $site['LANDING_ID_503'];
+		}
+
+		/**
+		 * Local function for iteration below,
+		 * if record is un active, send 403 status.
+		 * @param array $row Row array.
+		 * @return int|bool
+		 */
+		$checkExecId = function(array $row)
+		{
+			if (
+				(
+					!$this->isPreviewMode &&
+					$row['ACTIVE'] == 'N'
+				)
+				||
+				$row['DELETED'] == 'Y'
+			)
+			{
+				if (Manager::isB24())
+				{
+					$this->setHttpStatusOnce(
+						$this::ERROR_STATUS_FORBIDDEN
+					);
+				}
+				return false;
+			}
+
+			return $row['ID'];
+		};
 
 		// detect landing
 		$res = Landing::getList(array(
 			'select' => array(
-				'ID', 'CODE', 'RULE', 'FOLDER', 'ACTIVE'
+				'ID', 'CODE', 'RULE',
+				'FOLDER', 'ACTIVE', 'DELETED'
 			),
 			'filter' => array(
 				'SITE_ID' => $site['ID'],
 				'FOLDER_ID' => false,
+				'=DELETED' => ['Y', 'N'],
 				array(
 					'LOGIC' => 'OR',
 					'=CODE' => $landingUrl,
@@ -321,7 +372,7 @@ class LandingPubComponent extends LandingBaseComponent
 				? array()
 				: array(
 					'LOGIC' => 'OR',
-					'=ACTIVE' => 'Y',
+					'=ACTIVE' => ['Y', 'N'],
 					'ID' => $site['LANDING_ID_INDEX']
 				)
 			),
@@ -351,11 +402,11 @@ class LandingPubComponent extends LandingBaseComponent
 						// check landing in subfolder
 						$resSub = Landing::getList(array(
 							'select' => array(
-								'ID', 'CODE', 'RULE'
+								'ID', 'CODE', 'RULE', 'ACTIVE', 'DELETED'
 							),
 							'filter' => array(
 								'SITE_ID' => $site['ID'],
-								'=ACTIVE' => 'Y',
+								'=DELETED' => ['Y', 'N'],
 								array(
 									'LOGIC' => 'OR',
 									'ID' => $landing['ID'],
@@ -375,14 +426,14 @@ class LandingPubComponent extends LandingBaseComponent
 						{
 							if ($row['CODE'] == $landingSubUrl)
 							{
-								$landingIdExec = $row['ID'];
+								$landingIdExec = $checkExecId($row);
 							}
 							else if (
 								$row['RULE'] &&
 								preg_match('@^'. trim($row['RULE']) . '$@i', $landingSubUrl, $matches)
 							)
 							{
-								$landingIdExec = $row['ID'];
+								$landingIdExec = $checkExecId($row);
 								array_shift($matches);
 								$this->sefVariables = $matches;
 							}
@@ -391,7 +442,7 @@ class LandingPubComponent extends LandingBaseComponent
 				}
 				else
 				{
-					$landingIdExec = $landing['ID'];
+					$landingIdExec = $checkExecId($landing);
 				}
 			}
 			else if (
@@ -399,7 +450,7 @@ class LandingPubComponent extends LandingBaseComponent
 				preg_match('@^'. trim($landing['RULE']) . '$@i', $landingUrl, $matches)
 			)
 			{
-				$landingIdExec = $landing['ID'];
+				$landingIdExec = $checkExecId($landing);
 				array_shift($matches);
 				$this->sefVariables = $matches;
 			}
@@ -436,7 +487,7 @@ class LandingPubComponent extends LandingBaseComponent
 					else
 					{
 						$landingIdExec = $landingId404;
-						\CHTTP::setStatus('404 Not Found');
+						$this->setHttpStatusOnce($this::ERROR_STATUS_NOT_FOUND);
 					}
 				}
 				else
@@ -464,7 +515,7 @@ class LandingPubComponent extends LandingBaseComponent
 			else
 			{
 				$landingIdExec = $landingId404;
-				\CHTTP::setStatus('404 Not Found');
+				$this->setHttpStatusOnce($this::ERROR_STATUS_NOT_FOUND);
 			}
 		}
 
@@ -779,7 +830,9 @@ class LandingPubComponent extends LandingBaseComponent
 							if ($sitemap->fetch())
 							{
 								$robotsContent .= ($robotsContent ? PHP_EOL : '');
-								$robotsContent .= 'Sitemap: ' . Site::getPublicUrl($landing->getSiteId()) . '/sitemap.xml';
+								$robotsContent .= 'Sitemap: ' .
+												  Site::getPublicUrl($landing->getSiteId()) .
+												  '/sitemap.xml';
 							}
 							// out
 							if ($robotsContent)
@@ -789,7 +842,7 @@ class LandingPubComponent extends LandingBaseComponent
 							}
 							else
 							{
-								\CHTTP::setStatus('404 Not Found');
+								$this->setHttpStatusOnce($this::ERROR_STATUS_NOT_FOUND);
 							}
 							die();
 						}
@@ -806,7 +859,7 @@ class LandingPubComponent extends LandingBaseComponent
 						}
 						else
 						{
-							\CHTTP::setStatus('404 Not Found');
+							$this->setHttpStatusOnce($this::ERROR_STATUS_NOT_FOUND);
 						}
 						die();
 					}
@@ -826,6 +879,19 @@ class LandingPubComponent extends LandingBaseComponent
 					'MainClass',
 					'landing-public-mode'
 				);
+				if (
+					\Bitrix\Main\Loader::includeModule('crm') &&
+					method_exists(
+						'\Bitrix\Crm\UI\Webpack\CallTracker',
+						'getEmbeddedScript'
+					)
+				)
+				{
+					Manager::setPageView(
+						'FooterJS',
+						\Bitrix\Crm\UI\Webpack\CallTracker::instance()->getEmbeddedScript()
+					);
+				}
 				
 				// set og url
 				Manager::setPageView(
@@ -835,7 +901,7 @@ class LandingPubComponent extends LandingBaseComponent
 			}
 			else
 			{
-				\CHTTP::SetStatus('404 Not Found');
+				$this->setHttpStatusOnce($this::ERROR_STATUS_NOT_FOUND);
 				$this->addError(
 					'LANDING_CMP_SITE_NOT_FOUND',
 					Loc::getMessage('LANDING_CMP_SITE_NOT_FOUND')

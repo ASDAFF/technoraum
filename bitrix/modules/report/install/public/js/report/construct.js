@@ -1482,6 +1482,12 @@ function addFilterAndor(afterElem, sumColumnsCount)
 	var fcContainer = afterElem ? afterElem.parentNode : BX('reports-filter-columns-container'); // filter columns container
 	var level = fcContainer.getAttribute('level') - 0 + 1;
 
+	if (BX.type.isDomNode(afterElem) && afterElem.tagName === "SPAN" && BX.hasClass(afterElem, "report-filter-stub"))
+	{
+		BX.remove(afterElem);
+		afterElem = null;
+	}
+
 	if (level > 4) {
 		alert('too much');
 		return false;
@@ -1689,6 +1695,11 @@ function restoreSubFilter(parent, filter)
 		}
 		else if (subFilter.type == 'filter')
 		{
+			if (lastElem === null)
+			{
+				lastElem = BX.create("SPAN", {attrs: {className: "report-filter-stub"}});
+				container.appendChild(lastElem);
+			}
 			newCol = addFilterAndor(lastElem);
 			restoreSubFilter(newCol, filters[subFilter.name]);
 			lastElem = newCol;

@@ -500,6 +500,22 @@ BX.Fileman.Player.prototype.init = function()
 	this.vjsPlayer = videojs(this.id, this.params);
 	this.vjsPlayer.on('error', BX.proxy(function()
 	{
+		// try to play next source if there is any
+		if(BX.type.isArray(this.params.sources) && this.params.sources.length > 1)
+		{
+			for(var i in this.params.sources)
+			{
+				if(this.params.sources.hasOwnProperty(i))
+				{
+					if(this.getAbsoluteURL(this.params.sources[i].src) === this.getSource() && this.params.sources.length > i + 1)
+					{
+						console.log('set source');
+						this.setSource(this.params.sources[parseInt(i + 1)]);
+						return;
+					}
+				}
+			}
+		}
 		this.fireEvent('onError');
 		if(!this.isFlashErrrorShown && this.hasFlash)
 		{
@@ -628,6 +644,20 @@ BX.Fileman.Player.prototype.proxyEvents = function()
 	this.vjsPlayer.on('play', BX.proxy(function(){this.fireEvent('onPlay');}, this));
 	this.vjsPlayer.on('pause', BX.proxy(function(){this.fireEvent('onPause');}, this));
 	this.vjsPlayer.on('ended', BX.proxy(function(){this.fireEvent('onEnded');}, this));
-}
+};
+
+BX.Fileman.Player.prototype.getAbsoluteURL = function(url)
+{
+	// Check if absolute URL
+	if (!url.match(/^https?:\/\//)) {
+		// Convert to absolute URL. Flash hosted off-site needs an absolute URL.
+		var div = document.createElement('div');
+
+		div.innerHTML = '<a href="' + url + '">x</a>';
+		url = div.firstChild.href;
+	}
+
+	return url;
+};
 
 })(window);

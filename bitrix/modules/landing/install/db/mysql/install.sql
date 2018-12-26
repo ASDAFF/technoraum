@@ -198,7 +198,7 @@ create table if not exists b_landing_demo
     PREVIEW varchar(255) default null,
     PREVIEW2X varchar(255) default null,
     PREVIEW3X varchar(255) default null,
-    MANIFEST text default null,
+    MANIFEST mediumtext default null,
     CREATED_BY_ID int(18) not null,
     MODIFIED_BY_ID int(18) not null,
     DATE_CREATE timestamp null,

@@ -96,12 +96,12 @@
 			context = document.body;
 		}
 
-		var list;
+		var list = [];
 		if (context.tagName === 'A')
 		{
 			list = [context];
 		}
-		else
+		else if (context.nodeName !== '#text')
 		{
 			list = BX.convert.nodeListToArray(context.querySelectorAll('a'))
 		}

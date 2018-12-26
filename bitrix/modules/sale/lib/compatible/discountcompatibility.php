@@ -492,7 +492,6 @@ class DiscountCompatibility
 	/**
 	 * @param int|string $code				Basket code.
 	 * @param array $providerData			Product data from provider.
-	 * @throws Main\ArgumentNullException
 	 * @return void
 	 */
 	public static function setBasketItemData($code, $providerData)
@@ -620,7 +619,7 @@ class DiscountCompatibility
 					}
 				}
 			}
-
+			$basketItem['ACTION_APPLIED'] = 'N';
 			$basket[$basketCode] = $basketItem;
 		}
 
@@ -675,6 +674,18 @@ class DiscountCompatibility
 			$code = ($publicMode ? $basketItem['ID'] : $basketCode);
 			if (!static::calculateBasketItemDiscount($code, $basketItem))
 				return false;
+			if (!empty(self::$discountResult['BASKET'][$code]))
+			{
+				foreach (self::$discountResult['BASKET'][$code] as $row)
+				{
+					if ($row['RESULT']['APPLY'] == 'Y')
+					{
+						$basket[$basketCode]['ACTION_APPLIED'] = 'Y';
+						break;
+					}
+				}
+				unset($row);
+			}
 		}
 		unset($basketCode, $basketItem);
 
@@ -837,6 +848,21 @@ class DiscountCompatibility
 
 		if ($applied)
 		{
+			if (!empty($stepResult['BASKET']))
+			{
+				$publicMode = self::usedByClient();
+				foreach ($order['BASKET_ITEMS'] as $basketCode => $basketItem)
+				{
+					$code = ($publicMode ? $basketItem['ID'] : $basketCode);
+					if (empty($stepResult['BASKET'][$code]))
+						continue;
+					if ($stepResult['BASKET'][$code]['APPLY'] == 'Y')
+						$order['BASKET_ITEMS'][$basketCode]['ACTION_APPLIED'] = 'Y';
+				}
+				unset($code, $basketCode, $basketItem);
+				unset($publicMode);
+			}
+
 			self::$discountResult['ORDER'][] = array(
 				'DISCOUNT_ID' => $orderDiscountId,
 				'COUPON_ID' => $orderCouponId,
@@ -1330,10 +1356,10 @@ class DiscountCompatibility
 					'BASKET_ID' => $code,
 					'ACTION_BLOCK_LIST' => array_keys($basketResult)
 				);
-				if (is_array($result['BASKET'][$basketCode]['DESCR']))
-					$result['BASKET'][$basketCode]['DESCR'] = implode(', ', $result['BASKET'][$basketCode]['DESCR']);
+				if (is_array($result['BASKET'][$code]['DESCR']))
+					$result['BASKET'][$code]['DESCR'] = implode(', ', $result['BASKET'][$code]['DESCR']);
 			}
-			unset($basketCode, $basketResult);
+			unset($code, $basketCode, $basketResult);
 		}
 		unset($stepResult);
 

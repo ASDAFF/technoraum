@@ -59,9 +59,7 @@
 						</article>
 						<!-- End Article -->
 					</div>
-				<!-- End Products Block -->
-
-				<!-- Products Block -->
+					
 					<div class="landing-block-node-card js-animation fadeInUp col-md-6 col-lg-6 g-mb-50">
 						<!-- Article -->
 						<article class="media">
@@ -117,9 +115,7 @@
 						</article>
 						<!-- End Article -->
 					</div>
-				<!-- End Products Block -->
 
-				<!-- Products Block -->
 					<div class="landing-block-node-card js-animation fadeInUp col-md-6 col-lg-6 g-mb-50">
 						<!-- Article -->
 						<article class="media">
@@ -175,9 +171,7 @@
 						</article>
 						<!-- End Article -->
 					</div>
-				<!-- End Products Block -->
 
-				<!-- Products Block -->
 					<div class="landing-block-node-card js-animation fadeInUp col-md-6 col-lg-6 g-mb-50">
 						<!-- Article -->
 						<article class="media">

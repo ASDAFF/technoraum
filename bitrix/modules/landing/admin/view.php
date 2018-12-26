@@ -55,7 +55,7 @@ if ($request->get('IFRAME') == 'N')
 		window.top.location.href = "<?= \CUtil::JSEscape($redirect->getUri());?>";
 	</script>
 	<?
-	include '/bitrix/modules/landing/install/components/bitrix/landing.start/templates/.default/slider_header.php';;
+	include $_SERVER['DOCUMENT_ROOT'] . '/bitrix/components/bitrix/landing.start/templates/.default/slider_header.php';
 	\CMain::finalActions();
 	die();
 }

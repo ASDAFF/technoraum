@@ -778,7 +778,11 @@ else if ($_POST['IM_LOAD_LAST_MESSAGE'] == 'Y')
 	$entityId = '';
 	if ($_POST['CHAT'] == 'Y')
 	{
-		if (substr($_POST['USER_ID'], 0, 2) == 'sg')
+		if (substr($_POST['USER_ID'], 0, 3) == 'crm')
+		{
+			$chatId = CIMChat::GetCrmChatId(substr($_POST['USER_ID'], 4));
+		}
+		else if (substr($_POST['USER_ID'], 0, 2) == 'sg')
 		{
 			$chatId = CIMChat::GetSonetGroupChatId(substr($_POST['USER_ID'], 2));
 		}

@@ -55,7 +55,7 @@ if (
 	ModuleManager::isModuleInstalled('sale')
 )
 {
-	$syspages = \Bitrix\Landing\Syspage::get($landing->getSiteId());
+	$syspages = \Bitrix\Landing\Syspage::get($landing->getSiteId(), true);
 	if (
 		isset($syspages['compare']) &&
 		$settings['DISPLAY_COMPARE'] != 'N'
@@ -200,9 +200,9 @@ else
 						"CACHE_TYPE" => "A",
 						"CACHE_TIME" => "3600000",
 						"CACHE_GROUPS" => "N",
-						"META_KEYWORDS" => "KEYWORDS",
-						"META_DESCRIPTION" => "META_DESCRIPTION",
-						"BROWSER_TITLE" => "TITLE",
+						"META_KEYWORDS" => "-",
+						"META_DESCRIPTION" => "-",
+						"BROWSER_TITLE" => "-",
 						"SET_TITLE" => $setTitle,
 						"SET_STATUS_404" => $setStatus404,
 						"ADD_SECTIONS_CHAIN" => "Y",
@@ -323,7 +323,8 @@ else
 						"USE_ENHANCED_ECOMMERCE" => $settings['USE_ENHANCED_ECOMMERCE'],
 						"DATA_LAYER_NAME" => $settings['DATA_LAYER_NAME'],
 						"BRAND_PROPERTY" => $settings['BRAND_PROPERTY'],
-						"CUSTOM_SITE_ID" => $siteId
+						"CUSTOM_SITE_ID" => $siteId,
+						"SECTIONS_CHAIN_START_FROM" => 1
 					),
 					false
 				);?>

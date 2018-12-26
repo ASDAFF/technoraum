@@ -19,6 +19,8 @@ use Bitrix\Catalog;
 /** @global string $SUBCAT_WITHOUT_ORDER */
 /** @global string $SUBCAT_MEASURE_RATIO */
 /** @global string $SUBCAT_BASE_QUANTITY_RESERVED */
+/** @global string $SUBCAT_VAT_ID */
+/** @global string $SUBCAT_VAT_INCLUDED */
 /** @global array $arCatalogBaseGroup */
 /** @global array $arCatalogBasePrices */
 /** @global array $arCatalogPrices */
@@ -94,7 +96,6 @@ if ($USER->CanDoOperation('catalog_price'))
 				}
 
 				$arUpdatedIDs = array();
-				$availCanBuyZero = COption::GetOptionString("catalog", "default_can_buy_zero");
 				$quantityTrace = $_POST['SUBCAT_BASE_QUANTITY_TRACE'];
 				if(!$quantityTrace || $quantityTrace == '')
 					$quantityTrace = 'D';
@@ -252,6 +253,8 @@ if ($USER->CanDoOperation('catalog_price'))
 					$arFields["RECUR_SCHEME_LENGTH"] = $SUBCAT_RECUR_SCHEME_LENGTH;
 					$arFields["TRIAL_PRICE_ID"] = $SUBCAT_TRIAL_PRICE_ID;
 					$arFields["WITHOUT_ORDER"] = $SUBCAT_WITHOUT_ORDER;
+					$arFields["QUANTITY_TRACE"] = Catalog\ProductTable::STATUS_NO;
+					$arFields["CAN_BUY_ZERO"] = Catalog\ProductTable::STATUS_NO;
 				}
 
 				$iterator = Catalog\Model\Product::getList(array(

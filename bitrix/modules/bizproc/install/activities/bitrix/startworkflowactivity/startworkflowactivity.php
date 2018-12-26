@@ -204,10 +204,20 @@ class CBPStartWorkflowActivity
 		);
 		while ($row = $entityIterator->fetch())
 		{
+			//TODO: tmp
+			if ($row['MODULE_ID'] === 'tasks')
+			{
+				continue;
+			}
+
 			$entityName = $documentService->getEntityName($row['MODULE_ID'], $row['ENTITY']);
 			if ($entityName)
+			{
 				$entities[$row['MODULE_ID'].'@'.$row['ENTITY']] = $entityName;
+			}
 		}
+
+		asort($entities);
 
 		if (!is_array($currentValues))
 		{

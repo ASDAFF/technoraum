@@ -1,7 +1,7 @@
 .landing-layout-flex {
 	display:flex;
 	flex-wrap: nowrap;
-	overflow: hidden;
+	/*overflow: hidden;*/
 	flex-direction: column;
 }
 

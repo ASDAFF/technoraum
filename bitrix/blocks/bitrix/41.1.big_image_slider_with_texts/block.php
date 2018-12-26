@@ -1,5 +1,6 @@
 <section class="landing-block">
-	<div class="js-carousel" data-autoplay="true" data-infinite="true" data-speed="5000">
+	<div class="js-carousel" data-autoplay="true" data-infinite="true" data-speed="5000"
+		 data-pagi-classes="u-carousel-indicators-v1--white g-absolute-centered--x g-bottom-20">
 		<div class="landing-block-node-card js-slide">
 			<div class="landing-block-node-card-bgimg g-flex-centered g-height-100vh g-min-height-500--md g-bg-pos-center g-bg-img-hero g-bg-cover g-bg-black-opacity-0_5--after"
 				 style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1200x800/img21.jpg);">

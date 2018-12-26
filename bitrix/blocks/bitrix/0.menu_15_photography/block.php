@@ -4,21 +4,30 @@
 		<div class="container">
 			<div class="row flex-column flex-md-row align-items-center justify-content-md-end text-uppercase g-font-weight-700 g-font-size-13 g-mt-minus-10">
 				<div class="col-auto text-center text-md-left g-font-size-10 mr-md-auto g-mt-10">
-					<div class="landing-block-node-card-menu-contact d-inline-block g-mb-8 g-mb-0--md g-mr-10 g-mr-30--sm">
+					<div class="landing-block-node-card-menu-contact d-inline-block g-mb-8 g-mb-0--md g-mr-10 g-mr-30--sm" data-card-preset="contact-link">
 						<div class="landing-block-node-menu-contact-title d-inline-block g-color-gray-dark-v5">
 							Phone Number:
 						</div>
-						<div class="landing-block-node-menu-contact-text d-inline-block g-font-weight-900 g-color-gray-dark-v2">
-							<a href="tel:+4554554554">+4 554 554 554</a>
-						</div>
+						<a href="tel:+4554554554" class="landing-block-node-menu-contact-link d-inline-block g-font-weight-900 g-color-gray-dark-v2">
+							+4 554 554 554
+						</a>
 					</div>
 
-					<div class="landing-block-node-card-menu-contact d-inline-block g-mb-8 g-mb-0--md g-mr-10 g-mr-30--sm">
+					<div class="landing-block-node-card-menu-contact d-inline-block g-mb-8 g-mb-0--md g-mr-10 g-mr-30--sm" data-card-preset="contact-link">
 						<div class="landing-block-node-menu-contact-title d-inline-block g-color-gray-dark-v5">
 							Email:
 						</div>
+						<a href="mailto:support@company24.com" class="landing-block-node-menu-contact-link d-inline-block g-font-weight-900 g-color-gray-dark-v2">
+							support@company24.com
+						</a>
+					</div>
+
+					<div class="landing-block-node-card-menu-contact d-inline-block g-mb-8 g-mb-0--md g-mr-10 g-mr-30--sm" data-card-preset="contact-text">
+						<div class="landing-block-node-menu-contact-title d-inline-block g-color-gray-dark-v5">
+							Opening time:
+						</div>
 						<div class="landing-block-node-menu-contact-text d-inline-block g-font-weight-900 g-color-gray-dark-v2">
-							<a href="mailto:support@company24.com">support@company24.com</a>
+							Mon-Sat: 08.00 -18.00
 						</div>
 					</div>
 				</div>
@@ -42,9 +51,8 @@
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
 					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-font-weight-700 g-font-size-11 g-pt-20 g-pt-0--lg ml-auto">
-						<li class="landing-block-node-menu-list-item nav-item g-mx-25--lg g-mb-7 g-mb-0--lg active">
-							<a href="#home" class="landing-block-node-menu-list-item-link nav-link p-0">Home</a><span
-									class="sr-only">(current)</span>
+						<li class="landing-block-node-menu-list-item nav-item g-mx-25--lg g-mb-7 g-mb-0--lg">
+							<a href="#home" class="landing-block-node-menu-list-item-link nav-link p-0">Home</a>
 						</li>
 						<li class="landing-block-node-menu-list-item nav-item g-mx-25--lg g-mb-7 g-mb-0--lg">
 							<a href="#promo" class="landing-block-node-menu-list-item-link nav-link p-0">Promo</a>
@@ -85,6 +93,7 @@
                   </span>
                 </span>
 				</button>
+<!--				todo: social here-->
 				<!-- End Responsive Toggle Button -->
 			</div>
 		</nav>

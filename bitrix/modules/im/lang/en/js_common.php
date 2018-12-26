@@ -340,4 +340,9 @@ $MESS["IM_OL_CLIENT_NAME"] = "Client";
 $MESS["IM_TRANSFER_SCOPE_USERS"] = "Employees";
 $MESS["IM_TRANSFER_SCOPE_LINES"] = "Open Channels";
 $MESS["IM_TRANSFER_SCOPE_DEPARTMENTS"] = "Departments";
+
+$MESS["IM_M_OL_GOTO_CRM_LEAD"] = "View lead";
+$MESS["IM_M_OL_GOTO_CRM_COMPANY"] = "View company";
+$MESS["IM_M_OL_GOTO_CRM_CONTACT"] = "View contact";
+$MESS["IM_M_OL_GOTO_CRM_DEAL"] = "View deal";
 ?>

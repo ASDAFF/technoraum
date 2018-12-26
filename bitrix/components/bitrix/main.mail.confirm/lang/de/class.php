@@ -1,4 +1,5 @@
 <?
+$MESS["MAIN_MAIL_CONFIRM_DELETE"] = "Löschen";
 $MESS["MAIN_MAIL_DELETE_SENDER_ERROR"] = "Fehler beim Löschen des Absenders";
 $MESS["MAIN_MAIL_CONFIRM_BACK"] = "Zurück";
 $MESS["MAIN_MAIL_CONFIRM_EMAIL_HINT_SMTP_2"] = "Geben Sie Namen und E-Mail ein (geben Sie <a href=\"#\" class=\"new-from-email-dialog-smtp-link\">Informationen zum SMTP-Server</a> an, wenn erforderlich). Das System wird Ihnen eine Bestätigungsnachricht senden.";

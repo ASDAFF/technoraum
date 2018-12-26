@@ -98,6 +98,8 @@ $MESS["STOREAS_ITEMS_storeassist_crm_calls"] = "Обработка звонков в CRM ";
 $MESS["STOREAS_STEPS_HEALTH_BLOCK_1"] = "Скорость работы интернет-магазина";
 $MESS["STOREAS_ITEMS_site_speed"] = "Скорость сайта глазами посетителей";
 $MESS["STOREAS_ITEMS_composite"] = "Композитный режим работы";
+$MESS["STOREAS_ITEMS_composite_auto"] = "запустить автоматически";
+$MESS["STOREAS_ITEMS_composite_dev"] = "запустить через разработчика";
 $MESS["STOREAS_ITEMS_bitrixcloud_cdn"] = "Ускорение сайта, использование CDN";
 $MESS["STOREAS_ITEMS_perfmon_panel"] = "Монитор производительности ";
 

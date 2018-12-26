@@ -16,6 +16,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_RESTAURANT_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'restaurant',
+			'THEME_CODE_TYPO' => 'restaurant',
 			'B24BUTTON_CODE' => $buttons[0],
 			'UP_SHOW' => 'Y',
 		)

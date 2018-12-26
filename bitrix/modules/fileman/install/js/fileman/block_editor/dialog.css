@@ -109,6 +109,9 @@ WYSIWUG BUGFIXES
   	z-index: 2;
 }
 
+.bx-block-hide {
+	display: none !important;
+}
 
 .bx-block-editor-container .button-panel span{
 /*	display: inline-block;

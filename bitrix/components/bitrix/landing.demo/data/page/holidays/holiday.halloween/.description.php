@@ -18,15 +18,13 @@ return array(
 	'show_in_list' => 'Y',
 	'type' => 'page',
 	'version' => 2,
-	'sort' => 100,
+	'sort' => -131,
 	'fields' => array(
 		'TITLE' => Loc::getMessage("LANDING_DEMO___HALLOWEEN-TITLE"),
 		'RULE' => null,
 		'ADDITIONAL_FIELDS' => array(
 			'VIEW_USE' => 'N',
 			'VIEW_TYPE' => 'no',
-			'THEME_CODE' => 'shipping',
-			'THEME_CODE_TYPO' => 'shipping',
 			'SETTINGS_HIDE_NOT_AVAILABLE' => 'L',
 			'SETTINGS_HIDE_NOT_AVAILABLE_OFFERS' => 'N',
 			'SETTINGS_PRODUCT_SUBSCRIPTION' => 'Y',

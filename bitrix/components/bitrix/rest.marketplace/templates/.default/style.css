@@ -1,5 +1,6 @@
-.mp_wrap
-{
+.mp_wrap {
+	border-top: 1px solid rgba(255,255,255,.4);
+	padding-top: 15px;
 }
 
 .mp_top_nav
@@ -333,11 +334,6 @@
 	right: 10px;
 	top: 6px;
 	width: 16px;
-}
-
-.mp_section
-{
-	padding: 0 20px;
 }
 
 .mp_dt_title_icon

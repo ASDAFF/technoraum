@@ -1,4 +1,5 @@
 <?
+$MESS["SPOD_DISALLOW_CANCEL"] = "Заборонити скасування замовлення";
 $MESS["SPOD_DESC_YES"] = "Так";
 $MESS["SPOD_DESC_NO"] = "Ні";
 $MESS["SPOD_PATH_TO_LIST"] = "Сторінка зі списком замовлень";

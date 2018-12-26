@@ -1,4 +1,7 @@
 <?
+$MESS["MARKETPLACE_HIDDEN_BUY"] = "Містить вбудовані покупки";
+$MESS["MARKETPLACE_APP_DEVELOPER"] = "Розробник";
+$MESS["MARKETPLACE_MORE_BUTTON"] = "Ще";
 $MESS["REST_MP_INSTALL_REQUEST_CONFIRM"] = "Недостатньо прав на встановлення цього застосунку.<br/>Відправити запит на встановлення адміністраторам?";
 $MESS["REST_MP_APP_INSTALL_REQUEST"] = "Відправити";
 $MESS["MARKETPLACE_APP_INSTALL"] = "Встановити";

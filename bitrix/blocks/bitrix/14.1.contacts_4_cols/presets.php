@@ -25,9 +25,7 @@ return [
 			</div>',
 		'values' => [
 			'.landing-block-node-linkcontact-link' => [
-//				'text' => '1-800-643-4500',
 				'href' => 'tel:1-800-643-4500',
-//				'target' => '_blank',
 			],
 			'.landing-block-node-linkcontact-text' => '1-800-643-4500',
 			'.landing-block-node-linkcontact-icon' => [

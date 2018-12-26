@@ -13,7 +13,6 @@ return array(
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
 		    'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/holidays/holiday.valentine2/preview.jpg',
-			'THEME_CODE' => 'travel',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_VALENTINE2_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_VALENTINE2_DESCRIPTION'),
 			'METAMAIN_TITLE' => Loc::getMessage('LANDING_DEMO_VALENTINE2_TITLE'),
@@ -40,11 +39,8 @@ return array(
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
 					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav align-items-lg-center text-uppercase g-font-weight-700 g-font-size-11 g-pt-20 g-pt-0--lg mx-auto">
-						<li class="landing-block-node-menu-list-item nav-item g-mr-30--lg g-mb-7 g-mb-0--lg active">
-							<a href="#block@block[01.two_col_with_titles]" class="landing-block-node-menu-list-item-link nav-link p-0">Home</a><span
- class="sr-only">(current)
-						</span
-></li>
+						<li class="landing-block-node-menu-list-item nav-item g-mr-30--lg g-mb-7 g-mb-0--lg ">
+							<a href="#block@block[01.two_col_with_titles]" class="landing-block-node-menu-list-item-link nav-link p-0">Home</a></li>
 						<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[04.1.one_col_fix_with_title]" class="landing-block-node-menu-list-item-link nav-link p-0">About</a>
 						</li>
@@ -349,6 +345,9 @@ return array(
              data-infinite="true"
 			 data-speed="10000"
              data-slides-show="4"
+             data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-60 g-font-size-60 g-color-white g-bg-primary"
+			 data-arrow-left-classes="fa fa-angle-left g-left-10"
+			 data-arrow-right-classes="fa fa-angle-right g-right-10"
 			 data-responsive=\'[{
                "breakpoint": 1200,
                "settings": {
@@ -573,6 +572,9 @@ return array(
 			 data-pause-hover="true"
 			 data-infinite="true"
 			 data-slides-show="6"
+			 data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-45 g-font-size-30 g-color-white"
+			 data-arrow-left-classes="fa fa-angle-left g-left-minus-20"
+			 data-arrow-right-classes="fa fa-angle-right g-right-minus-20"
 			 data-responsive=\'[{
                  "breakpoint": 1200,
                  "settings": {

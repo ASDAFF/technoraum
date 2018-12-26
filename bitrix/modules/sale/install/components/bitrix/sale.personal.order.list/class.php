@@ -1180,7 +1180,14 @@ class CBitrixPersonalOrderListComponent extends CBitrixComponent
 
 				$this->formatDate($arOrder, $this->orderDateFields2Convert);
 
-				$arOrder["CAN_CANCEL"] = (($arOrder["CANCELED"] != "Y" && $arOrder["STATUS_ID"] != "F" && $arOrder["PAYED"] != "Y") ? "Y" : "N");
+				if ($this->arParams['DISALLOW_CANCEL'] === 'Y')
+				{
+					$arOrder["CAN_CANCEL"] = 'N';
+				}
+				else
+				{
+					$arOrder["CAN_CANCEL"] = ($arOrder["CANCELED"] != "Y" && $arOrder["STATUS_ID"] != "F" && $arOrder["PAYED"] != "Y") ? "Y" : "N";
+				}
 
 				$arOrder["URL_TO_DETAIL"] = CComponentEngine::makePathFromTemplate($this->arParams["PATH_TO_DETAIL"], array("ID" => urlencode(urlencode($arOrder["ACCOUNT_NUMBER"]))));
 				if (strpos($this->arParams["PATH_TO_COPY"], "COPY_ORDER"))

@@ -14,7 +14,7 @@ if (
 {
 	?>
 	<div class="g-min-height-200 g-flex-centered">
-		<div class="g-pa-10 g-brd-html-dashed">
+		<div class="g-pa-10 g-brd-html-dashed g-bg-white">
 			<?= Loc::getMessage('LANDING_TPL_NOT_IN_PREVIEW_MODE');?>
 		</div>
 	</div>

@@ -59,9 +59,7 @@ a.feed-time.feed-com-time:hover {
 	border-color: #ced2d6;
 }
 
-
 .feed-com-block .feed-post-text-more-but:before {
-	/*background: url("images/sprite.png?v=1") no-repeat 25px -12px #fff;*/
 	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%228%22%3E%3Cpath%20fill%3D%22%23535C69%22%20fill-rule%3D%22evenodd%22%20d%3D%22M6%204.829L10.243.586%2011.657%202%207.414%206.243%206%207.657.343%202%201.757.586%206%204.829z%22%20opacity%3D%22.789%22/%3E%3C/svg%3E');
 	background-repeat: no-repeat;
 	background-position: 25px center;
@@ -89,10 +87,6 @@ a.feed-time.feed-com-time:hover {
 
 .feed-com-main-content .feed-post-text-more-but {
 	border-bottom: 1px solid rgba(82,92,105,.14);
-}
-
-.feed-com-block .feed-post-text-more:hover .feed-post-text-more-but {
-	border-color: #ced2d6;
 }
 
 .feed-com-main-content .feed-post-text-more:hover .feed-post-text-more-but {

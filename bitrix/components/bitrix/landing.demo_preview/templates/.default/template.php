@@ -10,6 +10,7 @@ use \Bitrix\Main\UI\Extension;
 Extension::load('ui.buttons');
 Extension::load('ui.buttons.icons');
 Extension::load('ui.alerts');
+Extension::load('ui.progressbar');
 
 \CJSCore::init(array('landing_master'));
 \CJSCore::init('loader');
@@ -21,24 +22,14 @@ Extension::load('ui.alerts');
 	'/bitrix/components/bitrix/landing.site_edit/templates/.default/landing-forms.js'
 );
 
-$APPLICATION->setTitle(Loc::getMessage('LANDING_TPL_TITLE'));
+\Bitrix\Landing\Manager::setPageTitle(
+	Loc::getMessage('LANDING_TPL_TITLE')
+);
 $request = \Bitrix\Main\Application::getInstance()->getContext()->getRequest();
-$curUrl = $request->getRequestUri();
 $colors = $arResult['COLORS'];
-$themeCurr = $arResult['COLOR_CURRENT'];
+$themeCurr = $arResult['THEME_CURRENT'] ? $arResult['THEME_CURRENT'] : null;
+$themeSite = $arResult['THEME_SITE'] ? $arResult['THEME_SITE'] : $arResult['THEME_CURRENT'];
 $template = $arResult['TEMPLATE'];
-//if (isset($template['DATA']['fields']['ADDITIONAL_FIELDS']['THEME_CODE']))
-//{
-//	$themeCurr = $template['DATA']['fields']['ADDITIONAL_FIELDS']['THEME_CODE'];
-//	if (isset($colors[$themeCurr]))
-//	{
-//		$colors[$themeCurr]['base'] = true;
-//	}
-//}
-//else
-//{
-//	$themeCurr = array_shift(array_keys($colors));
-//}
 
 if (!$template)
 {
@@ -49,7 +40,7 @@ if (!$template)
 $createStore = ($arParams['SITE_ID'] <= 0 && $template['TYPE'] == 'STORE');
 if ($createStore)
 {
-	$uriSelect = new \Bitrix\Main\Web\Uri($curUrl);
+	$uriSelect = new \Bitrix\Main\Web\Uri($arResult['CUR_URI']);
 	$uriSelect->addParams(array(
 		'stepper' => 'store',
 		'param' => isset($template['DATA']['parent'])
@@ -60,7 +51,7 @@ if ($createStore)
 }
 else
 {
-	$uriSelect = new \Bitrix\Main\Web\Uri($curUrl);
+	$uriSelect = new \Bitrix\Main\Web\Uri($arResult['CUR_URI']);
 	$uriSelect->addParams(array(
 		'action' => 'select',
 		'param' => isset($template['DATA']['parent'])
@@ -69,9 +60,6 @@ else
 		'sessid' => bitrix_sessid()
 	));
 }
-$uriSelect->deleteParams(array(
-	'tpl'
-));
 ?>
 <div class="landing-template-preview-body">
     <div class="landing-template-preview">
@@ -105,7 +93,7 @@ $uriSelect->deleteParams(array(
                     </div>
 
 					<?if ($template['URL_PREVIEW']):?>
-                    <div class="landing-template-preview-settings">
+                    <div class="landing-template-preview-settings"<?= $template['REST'] > 0 ? ' style="display: none;"' : '';?>>
                         <div class="landing-template-preview-header">
 							<?= Loc::getMessage('LANDING_TPL_HEADER_COLOR');?>
                         </div>
@@ -121,9 +109,29 @@ $uriSelect->deleteParams(array(
 								?>class="landing-template-preview-palette-item<?= $themeCurr == $code ? ' active' : '';?>" <?
 									 ?>style="background-color: <?= $color['color'];?>;"><span></span></div>
 							<?endforeach;?>
-                        </div>
-                    </div>
-					<?endif;?>
+						</div>
+	
+						<? // add USE SITE COLOR setting only for adding page in exist site?>
+						<? // always ACTIVE by default!?>
+						<? if ($arParams['SITE_ID']): ?>
+							<div class="landing-template-preview-sitecolor">
+								<div class="landing-template-preview-palette-sitecolor" data-name="theme_use_site">
+									<div data-value="<?= $themeSite; ?>"
+										 data-src="<?= \htmlspecialcharsbx($template['URL_PREVIEW']); ?><?
+										 ?><?= strpos($template['URL_PREVIEW'],
+											 '?') === false ? '?' : '&amp;'; ?>theme=<?= $themeSite; ?>"
+										 class="landing-template-preview-palette-item active landing-template-preview-palette-item-sitecolor"
+										 style="background-color: <?= $colors[$themeSite]['color'];?>"><span></span>
+									</div>
+								</div>
+								<div class="landing-template-preview-header landing-template-preview-header-sitecolor">
+									&mdash;&nbsp;<?= Loc::getMessage('LANDING_TPL_COLOR_USE_SITE'); ?>
+								</div>
+
+							</div>
+						<? endif; ?>
+					</div>
+					<? endif; ?>
                 </div>
             </div>
         </div>

@@ -12,8 +12,6 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_REALESTATE_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
-			'THEME_CODE' => 'real-estate',
-			'THEME_CODE_TYPO' => 'real-estate',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/real-estate/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_REALESTATE_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_REALESTATE_DESCRIPTION'),
@@ -105,8 +103,8 @@ return array(
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row g-mr-40--sm" id="navBar">
 					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-font-weight-700 g-font-size-13 g-py-10--md mr-auto">
-						<li class="landing-block-node-menu-list-item nav-item g-mr-15--lg g-mb-7 g-mb-0--lg active">
-							<a href="#block@block[46.9.cover_bgimg_vertical_slider]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">HOME</a><span class="sr-only">(current)</span>
+						<li class="landing-block-node-menu-list-item nav-item g-mr-15--lg g-mb-7 g-mb-0--lg ">
+							<a href="#block@block[46.9.cover_bgimg_vertical_slider]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">HOME</a>
 						</li>
 						<li class="landing-block-node-menu-list-item nav-item g-mx-15--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[04.7.one_col_fix_with_title_and_text_2]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">APARTMENTS FOR RENT</a>
@@ -161,7 +159,7 @@ return array(
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_2--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img25.jpg);">
-				<div class="landing-block-node-text-container js-animation fadeIn container text-center g-z-index-1 animated">
+				<div class="landing-block-node-text-container js-animation fadeIn container text-center g-z-index-1 animated g-mx-0">
 					<h3 class="landing-block-node-card-subtitle h6 g-font-size-32 g-color-white g-mb-10 g-mb-25--md">
 						<span style="font-weight: bold;">$3.500</span> / per month
 					</h3>
@@ -178,7 +176,7 @@ return array(
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_2--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img26.jpg);">
-				<div class="landing-block-node-text-container js-animation fadeIn container text-center g-z-index-1 animated">
+				<div class="landing-block-node-text-container js-animation fadeIn container text-center g-z-index-1 animated g-mx-0">
 					<h3 class="landing-block-node-card-subtitle h6 g-font-size-32 g-color-white g-mb-10 g-mb-25--md">
 						<span style="font-weight: bold;">$3.500</span> / per month
 					</h3>
@@ -195,7 +193,7 @@ return array(
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_2--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img27.jpg);">
-				<div class="landing-block-node-text-container js-animation fadeIn container text-center g-z-index-1 animated">
+				<div class="landing-block-node-text-container js-animation fadeIn container text-center g-z-index-1 animated g-mx-0">
 					<h3 class="landing-block-node-card-subtitle h6 g-font-size-32 g-color-white g-mb-10 g-mb-25--md">
 						<span style="font-weight: bold;">$3.500</span> / per month
 					</h3>
@@ -213,7 +211,7 @@ return array(
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_2--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img28.jpg);">
-				<div class="landing-block-node-text-container js-animation fadeIn container text-center g-z-index-1 animated">
+				<div class="landing-block-node-text-container js-animation fadeIn container text-center g-z-index-1 animated g-mx-0">
 					<h3 class="landing-block-node-card-subtitle h6 g-font-size-32 g-color-white g-mb-10 g-mb-25--md">
 						<span style="font-weight: bold;">$3.500</span> / per month
 					</h3>
@@ -257,6 +255,9 @@ return array(
 	<div class="js-carousel"
 		 data-infinite="true"
 		 data-slides-show="5"
+		 data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-60 g-font-size-60 g-color-white g-bg-primary"
+		 data-arrow-left-classes="fa fa-angle-left g-left-10"
+		 data-arrow-right-classes="fa fa-angle-right g-right-10"
 		 data-responsive=\'[{
                "breakpoint": 1200,
                "settings": {
@@ -586,6 +587,9 @@ return array(
 	<div class="js-carousel"
 		 data-infinite="true"
 		 data-slides-show="5"
+		 data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-60 g-font-size-60 g-color-white g-bg-primary"
+		 data-arrow-left-classes="fa fa-angle-left g-left-10"
+		 data-arrow-right-classes="fa fa-angle-right g-right-10"
 		 data-responsive=\'[{
                "breakpoint": 1200,
                "settings": {
@@ -864,6 +868,9 @@ return array(
 	<div class="js-carousel"
 		 data-infinite="true"
 		 data-slides-show="5"
+		 data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-60 g-font-size-60 g-color-white g-bg-primary"
+		 data-arrow-left-classes="fa fa-angle-left g-left-10"
+		 data-arrow-right-classes="fa fa-angle-right g-right-10"
 		 data-responsive=\'[{
                "breakpoint": 1200,
                "settings": {
@@ -1139,13 +1146,14 @@ return array(
 				'CODE' => '01.big_with_text_blocks',
 				'SORT' => '4500',
 				'CONTENT' => '<section class="landing-block">
-	<div class="js-carousel g-overflow-hidden g-max-height-100vh " data-autoplay="true" data-infinite="true" data-speed="10000">
+	<div class="js-carousel g-overflow-hidden g-max-height-100vh " data-autoplay="true" data-infinite="true" data-speed="10000"
+	data-pagi-classes="u-carousel-indicators-v1--white g-absolute-centered--x g-bottom-20">
 
 
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1200x802/img1.jpg\');" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb">
-				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated">
+				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated g-mx-0">
 					<h2 class="landing-block-node-card-title text-uppercase g-font-weight-700 g-font-size-22 g-font-size-36--md g-color-white g-mb-20">Nunc sed trisrique mi</h2>
 					<div class="landing-block-node-card-text g-max-width-645 g-color-white-opacity-0_9 mx-auto g-mb-35"><p>Fusce dolor libero, efficitur et lobortis at, faucibus nec nunc. Proin fermentum turpis eget nisi facilisis lobortis. Praesent malesuada facilisis maximus.<br /><br /><span style="font-weight: bold;">For $2.500.000</span></p></div>
 					<div class="landing-block-node-card-button-container">
@@ -1158,7 +1166,7 @@ return array(
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1200x802/img2.jpg\');" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb">
-				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated">
+				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated g-mx-0">
 					<h2 class="landing-block-node-card-title text-uppercase g-font-weight-700 g-font-size-22 g-font-size-36--md g-color-white g-mb-20">Nunc sed trisrique mi</h2>
 					<div class="landing-block-node-card-text g-max-width-645 g-color-white-opacity-0_9 mx-auto g-mb-35"><p>Fusce dolor libero, efficitur et lobortis at, faucibus nec nunc. Proin fermentum turpis eget nisi facilisis lobortis. Praesent malesuada facilisis maximus.</p><p><span style="font-weight: bold;">For $2.500.000</span></p></div>
 					<div class="landing-block-node-card-button-container">
@@ -1171,7 +1179,7 @@ return array(
 		<div class="landing-block-node-card js-slide" >
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1200x802/img3.jpg\');" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb">
-				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated">
+				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated g-mx-0">
 					<h2 class="landing-block-node-card-title text-uppercase g-font-weight-700 g-font-size-22 g-font-size-36--md g-color-white g-mb-20">NUNC SED TRISRIQUE MI</h2>
 					<div class="landing-block-node-card-text g-max-width-645 g-color-white-opacity-0_9 mx-auto g-mb-35"><p>Fusce dolor libero, efficitur et lobortis at, faucibus nec nunc. Proin fermentum turpis eget nisi facilisis lobortis. Praesent malesuada facilisis maximus.</p><p><span style="font-weight: bold; color: rgb(244, 81, 30);">For $2.500.000</span></p></div>
 					<div class="landing-block-node-card-button-container">
@@ -1185,7 +1193,7 @@ return array(
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1200x802/img4.jpg\');" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb">
-				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated">
+				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated g-mx-0">
 					<h2 class="landing-block-node-card-title text-uppercase g-font-weight-700 g-font-size-22 g-font-size-36--md g-color-white g-mb-20">Nunc sed trisrique mi</h2>
 					<div class="landing-block-node-card-text g-max-width-645 g-color-white-opacity-0_9 mx-auto g-mb-35"><p>Fusce dolor libero, efficitur et lobortis at, faucibus nec nunc. Proin fermentum turpis eget nisi facilisis lobortis. Praesent malesuada facilisis maximus.</p><p><span style="font-weight: bold;">For $2.500.000</span></p></div>
 					<div class="landing-block-node-card-button-container">

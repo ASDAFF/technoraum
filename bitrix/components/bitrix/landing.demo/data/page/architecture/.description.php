@@ -13,8 +13,6 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_ARCHITECTURE_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
-			'THEME_CODE' => 'architecture',
-			'THEME_CODE_TYPO' => 'architecture',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/architecture/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_ARCHITECTURE_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_ARCHITECTURE_DESCRIPTION'),
@@ -47,21 +45,21 @@ return array(
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
 					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav align-items-lg-center text-uppercase g-font-weight-700 g-font-size-11 g-pt-20 g-pt-0--lg mx-auto">
-						<li class="landing-block-node-menu-list-item nav-item g-mr-30--lg g-mb-7 g-mb-0--lg active">
-							<a href="#block@block[01.big_with_text_3_1]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">HOME</a><span class="sr-only">(current)</span>
+						<li class="landing-block-node-menu-list-item nav-item g-mr-30--lg g-mb-7 g-mb-0--lg" data-card-preset="link">
+							<a href="#block@block[01.big_with_text_3_1]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">HOME</a>
 						</li>
-						<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg" data-card-preset="link">
 							<a href="#block@block[04.1.one_col_fix_with_title]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">ABOUT</a>
 						</li>
-						<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg" data-card-preset="link">
 							<a href="#block@block[04.3.one_col_fix_with_title_and_text]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">SERVICES</a>
 						</li>
-						<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg" data-card-preset="link">
 							<a href="#block@block[04.1.one_col_fix_with_title@2]" class="landing-block-node-menu-list-item-link nav-link  g-color-white p-0" target="_self">PROJECTS</a>
 						</li>
 
 						<!-- Logo -->
-						<li class="g-hidden-md-down nav-logo-item g-mx-15--lg">
+						<li class="landing-block-node-menu-list-item landing-block-node-menu-list-logo g-hidden-lg-down nav-logo-item g-mx-15--lg" data-card-preset="logo">
 							<a href="#team" class="landing-block-node-menu-logo-link navbar-brand mr-0">
 								<img class="landing-block-node-menu-logo d-block g-max-width-180"
 									 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/architecture-logo-light.png"
@@ -78,16 +76,16 @@ return array(
 						</li>
 						<!-- End Logo -->
 
-						<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg" data-card-preset="link">
 							<a href="#block@block[04.1.one_col_fix_with_title@3]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">TEAM</a>
 						</li>
-						<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg" data-card-preset="link">
 							<a href="#block@block[09.1.two_cols_fix_text_and_image_slider]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">PROCESSES</a>
 						</li>
-						<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg" data-card-preset="link">
 							<a href="#block@block[04.7.one_col_fix_with_title_and_text_2]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">AWARDS</a>
 						</li>
-						<li class="landing-block-node-menu-list-item nav-item g-ml-30--lg">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg" data-card-preset="link">
 							<a href="#block@block[04.1.one_col_fix_with_title@4]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">CONTACTS</a>
 						</li>
 					</ul>
@@ -113,7 +111,7 @@ return array(
 				'CODE' => '01.big_with_text_3_1',
 				'SORT' => '500',
 				'CONTENT' => '<section class="landing-block landing-block-node-img u-bg-overlay g-flex-centered g-height-100vh g-bg-img-hero g-bg-black-opacity-0_5--after g-pt-80 g-pb-80" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1600x1060/img1.jpg\');" data-fileid="-1">
-	<div class="landing-block-node-container container g-max-width-800 js-animation fadeInDown text-center u-bg-overlay__inner animated">
+	<div class="landing-block-node-container container g-max-width-800 js-animation fadeInDown text-center u-bg-overlay__inner animated g-mx-0">
 		<h2 class="landing-block-node-title text-uppercase g-line-height-1 g-font-weight-700 g-color-white g-mb-20 g-mt-20 g-font-size-70 g-letter-spacing-3">WE ARE COMPANY24</h2>
 
 		<div class="landing-block-node-text g-mb-35 g-letter-spacing-6 g-color-gray-light-v2 g-font-size-12">ARCHITECTURE COMPANY</div>

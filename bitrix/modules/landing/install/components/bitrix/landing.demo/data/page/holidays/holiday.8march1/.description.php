@@ -17,7 +17,6 @@ return array(
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_8MARCH1_DESCRIPTION'),
 			'METAMAIN_TITLE' => Loc::getMessage('LANDING_DEMO_8MARCH1_TITLE'),
 			'METAMAIN_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_8MARCH1_DESCRIPTION'),
-			'THEME_CODE' => 'wedding',
 		)
 	),
 	'sort' => -100,
@@ -47,8 +46,8 @@ return array(
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
 					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-font-weight-700 g-font-size-12 g-pt-20 g-pt-0--lg ml-auto">
-						<li class="landing-block-node-menu-list-item nav-item g-mr-10--lg g-mb-7 g-mb-0--lg active">
-							<a href="#block@block[41.1.big_image_slider_with_texts]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">HOME</a><span class="sr-only">(current)</span>
+						<li class="landing-block-node-menu-list-item nav-item g-mr-10--lg g-mb-7 g-mb-0--lg ">
+							<a href="#block@block[41.1.big_image_slider_with_texts]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">HOME</a>
 						</li>
 						<li class="landing-block-node-menu-list-item nav-item g-mx-10--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[10.2.two_cols_big_img_text_and_text_blocks_2]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">ABOUT</a>
@@ -87,7 +86,8 @@ return array(
 				'CODE' => '41.1.big_image_slider_with_texts',
 				'SORT' => '500',
 				'CONTENT' => '<section class="landing-block">
-	<div class="js-carousel" data-autoplay="true" data-infinite="true" data-speed="5000">
+	<div class="js-carousel" data-autoplay="true" data-infinite="true" data-speed="5000"
+	data-pagi-classes="u-carousel-indicators-v1--white g-absolute-centered--x g-bottom-20">
 		
 
 		
@@ -214,11 +214,7 @@ return array(
 						</article>
 						<!-- End Article -->
 					</div>
-				</div>
-				<!-- End Products Block -->
 
-				<!-- Products Block -->
-				<div class="row">
 					<div class="landing-block-node-card js-animation col-md-6 g-mb-50 fadeInUp">
 						<!-- Article -->
 						<article class="media">
@@ -270,11 +266,7 @@ return array(
 						</article>
 						<!-- End Article -->
 					</div>
-				</div>
-				<!-- End Products Block -->
 
-				<!-- Products Block -->
-				<div class="row">
 					<div class="landing-block-node-card js-animation col-md-6 g-mb-50 fadeInUp">
 						<!-- Article -->
 						<article class="media">
@@ -326,14 +318,6 @@ return array(
 						</article>
 						<!-- End Article -->
 					</div>
-				</div>
-				<!-- End Products Block -->
-
-				<!-- Products Block -->
-				<div class="row">
-				
-
-				
 				</div>
 				<!-- End Products Block -->
 			</div>

@@ -19,13 +19,12 @@ if ($arResult['FATAL'])
 }
 
 $request = \Bitrix\Main\Application::getInstance()->getContext()->getRequest();
-$curUrl = $request->getRequestUri();
 $folderId = $request->get($arParams['ACTION_FOLDER']);
 
 // title
 if (isset($arResult['SITES'][$arParams['SITE_ID']]))
 {
-	\Bitrix\Landing\Manager::getApplication()->setTitle(
+	\Bitrix\Landing\Manager::setPageTitle(
 		\htmlspecialcharsbx($arResult['SITES'][$arParams['SITE_ID']]['TITLE'])
 	);
 }
@@ -57,9 +56,9 @@ echo $siteSelector;
 	<div class="grid-tile-inner" id="grid-tile-inner">
 
 	<?if ($folderId):
-		$curUrlWoFolder = new \Bitrix\Main\Web\Uri($curUrl);
+		$curUrlWoFolder = new \Bitrix\Main\Web\Uri($arResult['CUR_URI']);
 		$curUrlWoFolder->deleteParams(array(
-			$arParams['ACTION_FOLDER'], 'IS_AJAX'
+			$arParams['ACTION_FOLDER']
 		));
 		?>
 		<div class="landing-item landing-item-add-new" style="display: <?=$arResult['IS_DELETED'] ? 'none' : 'block';?>;">
@@ -121,29 +120,25 @@ echo $siteSelector;
 		'sessid' => bitrix_sessid()
 	));
 
-	$uriCopy = new \Bitrix\Main\Web\Uri($curUrl);
+	$uriCopy = new \Bitrix\Main\Web\Uri($arResult['CUR_URI']);
 	$uriCopy->addParams(array(
 		'action' => 'copy',
 		'param' => $item['ID'],
 		'sessid' => bitrix_sessid()
 	));
-	$uriCopy->deleteParams(array(
-		'IS_AJAX'
-	));
 
 	if ($item['FOLDER'] == 'Y' && $item['ID'] != $folderId)
 	{
-		$uriFolder = new \Bitrix\Main\Web\Uri($curUrl);
+		$uriFolder = new \Bitrix\Main\Web\Uri($arResult['CUR_URI']);
 		$uriFolder->addParams(array(
 			$arParams['ACTION_FOLDER'] => $item['ID']
-		));
-		$uriFolder->deleteParams(array(
-			'IS_AJAX'
 		));
 	}
 	?>
 	<?if ($uriFolder):?>
-		<div class="landing-item landing-item-folder<?= $item['ACTIVE'] != 'Y' || $item['DELETED'] != 'N' ? ' landing-item-unactive' : ''?>">
+		<div class="landing-item landing-item-folder<?
+			?><?= $item['ACTIVE'] != 'Y' || $item['DELETED'] != 'N' ? ' landing-item-unactive' : '';?><?
+			?><?= $item['DELETED'] == 'Y' ? ' landing-item-deleted' : '';?>">
 			<div class="landing-title">
 				<div class="landing-title-wrap">
 					<div class="landing-title-overflow"><?= \htmlspecialcharsbx($item['TITLE'])?></div>
@@ -180,7 +175,9 @@ echo $siteSelector;
 			<?endif;?>
 		</div>
 	<?else:?>
-		<div class="landing-item<?= $item['ACTIVE'] != 'Y' || $item['DELETED'] != 'N' ? ' landing-item-unactive' : ''?>">
+		<div class="landing-item<?
+			?><?= $item['ACTIVE'] != 'Y' || $item['DELETED'] != 'N' ? ' landing-item-unactive' : '';?><?
+			?><?= $item['DELETED'] == 'Y' ? ' landing-item-deleted' : '';?>">
 			<div class="landing-item-inner">
 				<div class="landing-title">
 					<div class="landing-title-btn"
@@ -244,48 +241,68 @@ echo $siteSelector;
 </div>
 
 
+<?if ($arResult['NAVIGATION']->getPageCount() > 1):?>
+	<div class="<?= (defined('ADMIN_SECTION') && ADMIN_SECTION === true) ? '' : 'landing-navigation';?>">
+		<?$APPLICATION->IncludeComponent(
+			'bitrix:main.pagenavigation',
+			'',//grid
+			array(
+				'NAV_OBJECT' => $arResult['NAVIGATION'],
+				'SEF_MODE' => 'N',
+				'BASE_LINK' => $arResult['CUR_URI']
+			),
+			false
+		);?>
+	</div>
+<?endif;?>
+
+
 <script type="text/javascript">
-	BX.SidePanel.Instance.bindAnchors({
-		rules: [
-			{
-				condition: [
-					'<?= str_replace(
-						array(
-							'#landing_edit#', '?'
-						),
-						array(
-							'(\\\d+)', '\\\?'
-						),
-						\CUtil::jsEscape($arParams['PAGE_URL_LANDING_EDIT'])
-					);?>',
-					'<?= str_replace(
-						array(
-							'#landing_edit#', '?'
-						),
-						array(
-							'(\\\d+)', '\\\?'
-						),
-						\CUtil::jsEscape($arParams['PAGE_URL_LANDING_ADD'])
-					);?>'
-				],
-				stopParameters: [
-					'action',
-					'fields%5Bdelete%5D'
-				],
-                options: {
-					allowChangeHistory: false,
-					events: {
-						onOpen: function(event)
-						{
-							if (BX.hasClass(BX('landing-create-element'), 'ui-btn-disabled'))
+	BX.SidePanel.Instance.bindAnchors(
+		top.BX.clone({
+			rules: [
+				{
+					condition: [
+						'<?= str_replace(
+							array(
+								'#landing_edit#', '?'
+							),
+							array(
+								'(\\\d+)', '\\\?'
+							),
+							\CUtil::jsEscape($arParams['PAGE_URL_LANDING_EDIT'])
+						);?>',
+						'<?= str_replace(
+							array(
+								'#landing_edit#', '?'
+							),
+							array(
+								'(\\\d+)', '\\\?'
+							),
+							\CUtil::jsEscape($arParams['PAGE_URL_LANDING_ADD'])
+						);?>'
+					],
+					stopParameters: [
+						'action',
+						'fields%5Bdelete%5D',
+						'nav',
+						'slider'
+					],
+					options: {
+						allowChangeHistory: false,
+						events: {
+							onOpen: function(event)
 							{
-								event.denyAction();
+								if (BX.hasClass(BX('landing-create-element'), 'ui-btn-disabled'))
+								{
+									event.denyAction();
+								}
 							}
 						}
 					}
-				}
-			}]
-	});
+				}]
+		})
+    );
 
 	BX.bind(document.querySelector('.landing-item-add-new span.landing-item-inner'), 'click', function(event) {
 		BX.SidePanel.Instance.open(event.currentTarget.dataset.href, {
@@ -418,9 +435,6 @@ echo $siteSelector;
 					: '<?= \CUtil::jsEscape(Loc::getMessage('LANDING_TPL_ACTION_PUBLIC'));?>',
 				href: params.publicPage,
 				disabled: params.isDeleted,
-				<?if ($folderId):?>
-				disabled: params.isFolder,
-				<?endif;?>
 				onclick: function(event)
 				{
 					event.preventDefault();
@@ -440,12 +454,12 @@ echo $siteSelector;
 			{
 				text: params.isDeleted
 					? (
-						params.isFolder
+						(params.isFolder && <?= !$folderId ? 'true' : 'false';?>)
 						? '<?= \CUtil::jsEscape(Loc::getMessage('LANDING_TPL_ACTION_UNDELETE_FOLDER'));?>'
 						: '<?= \CUtil::jsEscape(Loc::getMessage('LANDING_TPL_ACTION_UNDELETE'));?>'
 					)
 					: (
-						params.isFolder
+						(params.isFolder && <?= !$folderId ? 'true' : 'false';?>)
 						? '<?= \CUtil::jsEscape(Loc::getMessage('LANDING_TPL_ACTION_DELETE_FOLDER'));?>'
 						: '<?= \CUtil::jsEscape(Loc::getMessage('LANDING_TPL_ACTION_DELETE'));?>'
 					),
@@ -472,7 +486,7 @@ echo $siteSelector;
 					{
 						BX.Landing.UI.Tool.ActionDialog.getInstance()
 							.show({
-								content: '<?= \CUtil::jsEscape(Loc::getMessage('LANDING_TPL_ACTION_DELETE_CONFIRM'));?>'
+								content: '<?= \CUtil::jsEscape(Loc::getMessage('LANDING_TPL_ACTION_REC_CONFIRM'));?>'
 							})
 							.then(
 								function() {

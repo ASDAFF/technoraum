@@ -6643,7 +6643,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 						for (i = 0; i < propNodes.length; i++)
 						{
 							locationString = this.getLocationString(propNodes[i]);
-							values.push(locationString.length ? locationString : BX.message('SOA_NOT_SELECTED'));
+							values.push(locationString.length ? BX.util.htmlspecialchars(locationString) : BX.message('SOA_NOT_SELECTED'));
 						}
 					}
 					propsItemNode.innerHTML += values.join('<br>');
@@ -6957,7 +6957,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 		{
 			var str = values.join(', ');
 
-			return str.length ? str : BX.message('SOA_NOT_SELECTED');
+			return str.length ? BX.util.htmlspecialchars(str) : BX.message('SOA_NOT_SELECTED');
 		},
 
 		alterProperty: function(settings, propContainer)

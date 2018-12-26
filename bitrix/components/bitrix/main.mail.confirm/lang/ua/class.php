@@ -1,4 +1,5 @@
 <?
+$MESS["MAIN_MAIL_CONFIRM_DELETE"] = "Видалити";
 $MESS["MAIN_MAIL_DELETE_SENDER_ERROR"] = "Помилка видалення відправника";
 $MESS["MAIN_MAIL_CONFIRM_BACK"] = "Назад";
 $MESS["MAIN_MAIL_CONFIRM_EMAIL_HINT_SMTP_2"] = "Введіть ім'я та email (і дані <a href=\"#\" class=\"new-from-email-dialog-smtp-link\">SMTP-сервера</a> при необхідності) в поля нижче. Вам буде відправлений лист з кодом підтвердження.";

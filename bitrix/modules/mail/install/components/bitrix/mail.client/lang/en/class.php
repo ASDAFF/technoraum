@@ -1,4 +1,5 @@
 <?
+$MESS["MAIL_CLIENT_MAILBOX_INDEX_BAR"] = "Indexing";
 $MESS["MAIL_CLIENT_HOME_TITLE"] = "Mail";
 $MESS["MAIL_CLIENT_AJAX_ERROR"] = "Error processing the request.";
 $MESS["MAIL_CLIENT_FORM_ERROR"] = "Error processing form";

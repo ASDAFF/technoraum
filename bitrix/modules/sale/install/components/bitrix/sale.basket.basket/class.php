@@ -3776,14 +3776,15 @@ class CBitrixBasketComponent extends CBitrixComponent
 		foreach ($basket as $basketItem)
 		{
 			if ($basketItem->getField('MODULE') !== 'catalog')
-				return $result;
+				continue;
 
 			if ($basketItem->isBundleParent() || $basketItem->isBundleChild())
-				return $result;
+				continue;
 
 			if ((int)$basketItem->getProductId() == $newProduct['ID'])
 			{
 				$existBasketItem = $basketItem;
+				break;
 			}
 		}
 		unset($basketItem);

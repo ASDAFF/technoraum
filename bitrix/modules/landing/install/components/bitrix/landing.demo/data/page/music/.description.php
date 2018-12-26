@@ -13,8 +13,6 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
-			'THEME_CODE' => 'music',
-			'THEME_CODE_TYPO' => 'music',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/music/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_DESCRIPTION'),
@@ -43,11 +41,8 @@ return array(
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
 					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-font-weight-700 g-font-size-11 g-pt-20 g-pt-0--lg ml-auto">
-						<li class="nav-item landing-block-node-menu-list-item g-mr-15--lg g-mb-7 g-mb-0--lg active">
-							<a href="#block@block[46.4.cover_with_slider_bgimg_right_buttons]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">Home</a><span
- class="sr-only">(current)
-						</span
-></li>
+						<li class="nav-item landing-block-node-menu-list-item g-mr-15--lg g-mb-7 g-mb-0--lg ">
+							<a href="#block@block[46.4.cover_with_slider_bgimg_right_buttons]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">Home</a></li>
 						<li class="nav-item landing-block-node-menu-list-item g-mx-15--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[04.7.one_col_fix_with_title_and_text_2]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">Music
 								albums</a>
@@ -691,7 +686,7 @@ return array(
 				</div>
 
 				<blockquote class="landing-block-node-card-text g-line-height-1_6 g-font-weight-600
-						g-font-size-22 g-font-size-27--md g-color-white g-mb-30">
+						g-font-size-27 g-color-white g-mb-30">
 					In eu augue massa. Phasellus
 					<a class="g-color-primary" href="#!">#rutrum</a>
 					velit diam, quis pellentesque libero hendrerit a.
@@ -714,7 +709,7 @@ return array(
 				</div>
 
 				<blockquote class="landing-block-node-card-text g-line-height-1_6 g-font-weight-600
-						g-font-size-22 g-font-size-27--md g-color-white g-mb-30">
+						g-font-size-27 g-color-white g-mb-30">
 					In eu augue massa. Phasellus
 					<a class="g-color-primary" href="#!">#rutrum</a>
 					velit diam, quis pellentesque libero hendrerit a.

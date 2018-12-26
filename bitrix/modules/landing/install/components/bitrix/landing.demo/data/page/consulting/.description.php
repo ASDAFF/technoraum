@@ -13,8 +13,6 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_CONSULTING_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
-			'THEME_CODE' => 'consulting',
-			'THEME_CODE_TYPO' => 'consulting',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/consulting/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_CONSULTING_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_CONSULTING_DESCRIPTION'),
@@ -33,11 +31,11 @@ return array(
 			<div class="container">
 				<!-- Logo -->
 				<a href="#" class="landing-block-node-menu-logo-link navbar-brand u-header__logo">
-					<img class="landing-block-node-menu-logo g-max-width-180"
+					<img class="landing-block-node-menu-logo g-max-width-180 d-block"
 						 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/consulting-logo-light.png" alt=""
 						 data-header-fix-moment-exclude="d-block"
 						 data-header-fix-moment-classes="d-none">
-					<img class="landing-block-node-menu-logo2 g-max-width-180"
+					<img class="landing-block-node-menu-logo2 g-max-width-180 d-none"
 						 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/consulting-logo-dark.png" alt=""
 						 data-header-fix-moment-exclude="d-none"
 						 data-header-fix-moment-classes="d-block">
@@ -47,7 +45,7 @@ return array(
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
 					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-letter-spacing-1 g-font-size-12 g-pt-20 g-pt-0--lg ml-auto">
-						<li class="landing-block-node-menu-list-item nav-item g-mr-15--lg g-mb-7 g-mb-0--lg active">
+						<li class="landing-block-node-menu-list-item nav-item g-mr-15--lg g-mb-7 g-mb-0--lg ">
 							<a href="#block@block[01.big_with_text_blocks]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">HOME</a>
 						</li>
 						<li class="landing-block-node-menu-list-item nav-item g-mx-15--lg g-mb-7 g-mb-0--lg">
@@ -89,14 +87,15 @@ return array(
 				'CODE' => '01.big_with_text_blocks',
 				'SORT' => '500',
 				'CONTENT' => '<section class="landing-block">
-	<div class="js-carousel g-overflow-hidden g-max-height-100vh " data-autoplay="true" data-infinite="true" data-speed="15000">
+	<div class="js-carousel g-overflow-hidden g-max-height-100vh " data-autoplay="true" data-infinite="true" data-speed="15000"
+	data-pagi-classes="u-carousel-indicators-v1--white g-absolute-centered--x g-bottom-20">
 
 
 
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1080/img1.jpg\');">
-				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated">
+				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated g-mx-0">
 					<h2 class="landing-block-node-card-title text-uppercase g-font-weight-700 g-font-size-36--md g-color-white g-mb-20 g-font-size-42">WE ARE CREATIVE TECHNOLOGY COMPANY </h2>
 					<div class="landing-block-node-card-text g-max-width-645 mx-auto g-mb-35 g-font-size-24 g-color-white g-line-height-1_2"><p>Creative freedom matters user experience.<br /><span style="font-size: 1.71429rem;">We minimize the gap between technology and its audience.</span></p></div>
 					<a class="landing-block-node-card-button btn btn-lg u-btn-primary g-font-weight-700 g-font-size-12 text-uppercase g-rounded-50 g-px-25 g-py-15" href="#" tabindex="-1" target="_self">LEARN MORE</a>
@@ -107,7 +106,7 @@ return array(
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1080/img2.jpg\');">
-				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated">
+				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated g-mx-0">
 					<h2 class="landing-block-node-card-title text-uppercase g-font-weight-700 g-font-size-36--md g-color-white g-mb-20 g-font-size-42">WE DO THINGS DIFFERENTLY </h2>
 					<div class="landing-block-node-card-text g-max-width-645 mx-auto g-mb-35 g-font-size-24 g-color-white g-line-height-1_2"><p>Creative freedom matters user experience.</p><p>We minimize the gap between technology and its audience.</p></div>
 					<div class="landing-block-node-card-button-container">
@@ -121,7 +120,7 @@ return array(
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1080/img3.jpg\');">
-				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated">
+				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated g-mx-0">
 					<h2 class="landing-block-node-card-title text-uppercase g-font-weight-700 g-font-size-36--md g-color-white g-mb-20 g-font-size-42">DEDICATED ADVANCED TEAM</h2>
 					<div class="landing-block-node-card-text g-max-width-645 mx-auto g-mb-35 g-font-size-24 g-color-white g-line-height-1_2"><p>We are creative technology company providing </p><p>key digital services on web and mobile.</p></div>
 					<div class="landing-block-node-card-button-container">
@@ -765,6 +764,9 @@ return array(
 				 data-pause-hover="true"
                  data-infinite="true"
                  data-slides-show="6"
+                 data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-45 g-font-size-30 g-color-gray-light-v1"
+				 data-arrow-left-classes="fa fa-angle-left g-left-minus-20"
+				 data-arrow-right-classes="fa fa-angle-right g-right-minus-20"
 				 data-responsive=\'[{
 					 "breakpoint": 1200,
 					 "settings": {

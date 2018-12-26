@@ -1,4 +1,5 @@
 <?
+$MESS["REPORT_CHART_ERR_49"] = "ѕомилка в налаштуванн€х д≥аграми";
 $MESS["TASKS_THIS_MONTH"] = "цей м≥с€ць";
 $MESS["TASKS_PREVIOUS_MONTH"] = "мин. м≥с€ць";
 $MESS["TASKS_THIS_WEEK"] = "цей тиждень";

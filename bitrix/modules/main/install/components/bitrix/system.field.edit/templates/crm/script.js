@@ -187,9 +187,10 @@ BX.CrmEntitySelector = (function ()
 
 	CrmEntitySelector.prototype.initWidgetEntitySelection = function()
 	{
+		BX.loadCSS('/bitrix/js/crm/css/crm.css');
+
 		if(typeof(CRM) == 'undefined')
 		{
-			BX.loadCSS('/bitrix/js/crm/css/crm.css');
 			BX.loadScript('/bitrix/js/crm/crm.js', BX[''+this.jsObject+''].initWidgetEntitySelection());
 			return;
 		}

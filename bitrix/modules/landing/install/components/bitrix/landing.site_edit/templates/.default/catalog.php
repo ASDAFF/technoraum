@@ -39,7 +39,9 @@ $hooks = $arResult['HOOKS'];
 $request = \bitrix\Main\HttpContext::getCurrent()->getRequest();
 
 // title
-$APPLICATION->setTitle(Loc::getMessage('LANDING_TPL_TITLE_EDIT_CATALOG'));
+Manager::setPageTitle(
+	Loc::getMessage('LANDING_TPL_TITLE_EDIT_CATALOG')
+);
 
 // assets
 \Bitrix\Main\UI\Extension::load('ui.buttons');

@@ -582,13 +582,13 @@ diskController.prototype = {
 				data['E' + id] = {
 					type: 'file',
 					id: id,
-					name: node.getAttribute("data-bx-title"),
-					size: node.getAttribute("data-bx-size"),
-					sizeInt: node.getAttribute("data-bx-size"),
+					name: node.getAttribute("data-bx-title") || node.getAttribute("data-title"),
+					size: node.getAttribute("data-bx-size") || '',
+					sizeInt: node.getAttribute("data-bx-size") || '',
 					width: node.getAttribute("data-bx-width"),
 					height: node.getAttribute("data-bx-height"),
 					storage: 'disk',
-					previewUrl: (node.tagName == "A" ? '' : node.getAttribute("data-bx-src")),
+					previewUrl: (node.tagName == "A" ? '' : node.getAttribute("data-bx-src") || node.getAttribute("data-src")),
 					fileId: node.getAttribute("bx-attach-file-id")
 				};
 				if (node.hasAttribute("bx-attach-xml-id"))

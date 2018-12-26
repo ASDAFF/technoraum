@@ -15,6 +15,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_GYM_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'gym',
+			'THEME_CODE_TYPO' => 'gym',
 			'B24BUTTON_CODE' => $buttons[0],
 			'UP_SHOW' => 'Y',
 		)

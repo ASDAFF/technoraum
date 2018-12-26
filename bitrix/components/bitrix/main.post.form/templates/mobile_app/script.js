@@ -191,9 +191,19 @@
 							for (ii = 0; ii < files.length; ii++)
 							{
 								file = files[ii];
-								if (file.propertyName == this.propertyName && parseInt(file.fileId) > 0)
+								if (file.propertyName == this.propertyName)
 								{
-									text = text.replace("[DISK FILE ID=n" + file.fileId + "]", "[DISK FILE ID=" + file.id + "]");
+									if (parseInt(file.fileId) > 0) // edit, already saved disk file
+									{
+										text = text.replace("[DISK FILE ID=n" + file.fileId + "]", "[DISK FILE ID=" + file.id + "]");
+									}
+									else if (
+										files.length == 1
+										&& BX.util.in_array(file.type, ['gif','jpg','jpeg','png','jpe','bmp'])
+									) // only one image in the attachment
+									{
+										text += "[DISK FILE ID=" + (file.fieldValue ? file.fieldValue : "n" + file.fileId) + "]";
+									}
 								}
 							}
 						}

@@ -326,6 +326,45 @@ class CMainUiFilter extends CBitrixComponent
 		return array_key_exists($field["NAME"], $presetFields) ? $presetFields[$field["NAME"]] : "";
 	}
 
+	protected static function prepareDestSelectorValue(Array $field, Array $presetFields = array())
+	{
+		$fieldName = $field["NAME"];
+		$fieldNameLabel = $fieldName."_label";
+		$fieldNameLabelAlias = $fieldName."_name";
+		$fieldNameValue = $fieldName."_value";
+		$result = array(
+			"_label" => "",
+			"_value" => ""
+		);
+
+		if (array_key_exists($fieldName, $presetFields))
+		{
+			$result["_value"] = $presetFields[$fieldName];
+		}
+
+		if (empty($result["_value"]) && array_key_exists($fieldNameValue, $presetFields))
+		{
+			$result["_value"] = $presetFields[$fieldNameValue];
+		}
+
+		if (array_key_exists($fieldNameLabel, $presetFields))
+		{
+			$result["_label"] = $presetFields[$fieldNameLabel];
+		}
+
+		if (empty($result["_label"]) && array_key_exists($fieldNameLabelAlias, $presetFields))
+		{
+			$result["_label"] = $presetFields[$fieldNameLabelAlias];
+		}
+
+		if (!empty($result["_value"]) && empty($result["_label"]))
+		{
+			$result["_label"] = "#".$result["_value"];
+		}
+
+		return $result;
+	}
+
 	protected static function compatibleDateselValue($value = "")
 	{
 		$dateMap = array(
@@ -378,8 +417,11 @@ class CMainUiFilter extends CBitrixComponent
 
 					case Type::MULTI_SELECT :
 					{
-						$value = is_array($value) ? $value : [$value];
-						$field["VALUE"] = self::prepareMultiselectValue($field["ITEMS"], $value);
+						if ($value !== "")
+						{
+							$value = is_array($value) ? $value : [$value];
+							$field["VALUE"] = self::prepareMultiselectValue($field["ITEMS"], $value);
+						}
 						break;
 					}
 
@@ -452,11 +494,18 @@ class CMainUiFilter extends CBitrixComponent
 						break;
 					}
 
+					case Type::DEST_SELECTOR :
+					{
+						$field["VALUES"] = self::prepareDestSelectorValue($field, $presetFields);
+						break;
+					}
+
 					case Type::STRING :
 					{
 						$field["VALUE"] = $value;
 						break;
 					}
+
 				}
 
 				$result[] = $field;

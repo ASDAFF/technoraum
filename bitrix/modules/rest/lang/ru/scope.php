@@ -28,4 +28,7 @@ $MESS["REST_SCOPE_PAY_SYSTEM"] = "Платежные системы";
 $MESS["REST_SCOPE_LANDING"] = "Сайты";
 $MESS["REST_SCOPE_FACEID"] = "Распознавание лиц";
 $MESS["REST_SCOPE_FORUM"] = "Форум";
+$MESS["REST_SCOPE_DOCUMENTGENERATOR"] = "Генератор документов";
+$MESS["REST_SCOPE_RATING"] = "Рейтинги";
+$MESS["REST_SCOPE_SMILE"] = "Смайлы";
 ?>

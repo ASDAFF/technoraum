@@ -195,7 +195,7 @@ return [
 		],
 	],
 	'vk' => [
-		'name' => '<i class="landing-block-card-social-icon fa fa-vk"></i> '.Loc::getMessage('LANDING_BLOCK_16_5_THREE_COLS_MAP--PRESET_VK'),
+		'name' => '<i class="landing-block-card-social-icon fa fa-vk"></i> '.Loc::getMessage('LANDING_BLOCK_16_5_TWO_COLS_MAP--PRESET_VK'),
 		'html' => '<li class="landing-block-card-social list-inline-item g-mr-10" data-card-preset="vk">
 							<a class="landing-block-card-social-link u-icon-v3 u-icon-size--xs g-width-35 g-height-35 g-color-primary g-color-white--hover g-bg-white g-bg-gray-dark-v2--hover g-transition-0_2 g-transition--ease-in" href=""><i class="landing-block-card-social-icon fa fa-vk"></i></a>
 						</li>',
@@ -207,12 +207,12 @@ return [
 			],
 			'.landing-block-card-social-icon' => [
 				'type' => 'icon',
-				'classList' => ['fa', 'fa-vkitter'],
+				'classList' => ['fa', 'fa-vk'],
 			],
 		],
 	],
 	'odnoklassniki' => [
-		'name' => '<i class="landing-block-card-social-icon fa fa-odnoklassniki"></i> '.Loc::getMessage('LANDING_BLOCK_16_5_THREE_COLS_MAP--PRESET_OK'),
+		'name' => '<i class="landing-block-card-social-icon fa fa-odnoklassniki"></i> '.Loc::getMessage('LANDING_BLOCK_16_5_TWO_COLS_MAP--PRESET_OK'),
 		'html' => '<li class="landing-block-card-social list-inline-item g-mr-10" data-card-preset="odnoklassniki">
 							<a class="landing-block-card-social-link u-icon-v3 u-icon-size--xs g-width-35 g-height-35 g-color-primary g-color-white--hover g-bg-white g-bg-gray-dark-v2--hover g-transition-0_2 g-transition--ease-in" href=""><i class="landing-block-card-social-icon fa fa-odnoklassniki"></i></a>
 						</li>',

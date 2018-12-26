@@ -998,7 +998,7 @@ BXBlockEditor.prototype.getContent = function(withoutPHP)
 
 		// get block content
 		var blockContent = BX.findChild(block, {'className': 'bx-content'}, true);
-		var blockContentChildren = blockContent.childNodes;
+		var blockContentChildren = BX.convert.nodeListToArray(blockContent.childNodes);
 
 		if(withoutPHP && block && block.getAttribute && block.getAttribute(this.CONST_ATTR_BLOCK) == 'component')
 		{

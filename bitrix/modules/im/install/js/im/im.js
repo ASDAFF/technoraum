@@ -5154,7 +5154,11 @@ BX.MessengerChat.prototype.openMessenger = function(userId, params)
 			userId = parseInt(userId);
 		}
 	}
-	else if (userId.toString().substr(0,4) == 'chat' || userId.toString().substr(0,2) == 'sg')
+	else if (
+		userId.toString().substr(0,4) == 'chat'
+		|| userId.toString().substr(0,2) == 'sg'
+		|| userId.toString().substr(0,3) == 'crm'
+	)
 	{
 		BX.MessengerCommon.getUserParam(userId);
 		this.openChatFlag = true;
@@ -7181,6 +7185,7 @@ BX.MessengerChat.prototype.redrawChatHeader = function(params)
 		removeClass.push('bx-messenger-chat-guest');
 		removeClass.push('bx-messenger-chat-open');
 		removeClass.push('bx-messenger-chat-lines');
+		removeClass.push('bx-messenger-chat-crm');
 		removeClass.push('bx-messenger-chat-general');
 		removeClass.push('bx-messenger-chat-general-first-open');
 		removeClass.push('bx-messenger-chat-general-access');
@@ -7211,7 +7216,7 @@ BX.MessengerChat.prototype.redrawChatHeader = function(params)
 		this.disk.avatarFormIsBlocked(chatId, 'popupMessengerPanelAvatarUpload2', this.popupMessengerPanelAvatarForm2);
 
 		this.popupMessengerPanelAvatarForm2.className = "bx-messenger-panel-avatar";
-		if (this.chat[chatId].type == 'lines' || this.chat[chatId].type == 'livechat' || this.chat[chatId].type == 'chat')
+		if (this.chat[chatId].type == 'lines' || this.chat[chatId].type == 'livechat' || this.chat[chatId].type == 'chat' || this.chat[chatId].entity_type == 'CRM')
 		{
 			var textareaDisabled = false;
 			if (this.chat[chatId].type == 'livechat')
@@ -7223,6 +7228,7 @@ BX.MessengerChat.prototype.redrawChatHeader = function(params)
 				addClass.push('bx-messenger-chat-livechat');
 				removeClass.push('bx-messenger-chat-chat');
 				removeClass.push('bx-messenger-chat-lines');
+				removeClass.push('bx-messenger-chat-crm');
 				BX.style(this.popupOpenLinesTransfer, 'display', 'none');
 			}
 			else if (this.chat[chatId].type == 'lines')
@@ -7235,6 +7241,7 @@ BX.MessengerChat.prototype.redrawChatHeader = function(params)
 				addClass.push('bx-messenger-chat-lines');
 				removeClass.push('bx-messenger-chat-chat');
 				removeClass.push('bx-messenger-chat-livechat');
+				removeClass.push('bx-messenger-chat-crm');
 
 				if (!BX.MessengerCommon.userInChat(chatId))
 				{
@@ -7292,9 +7299,21 @@ BX.MessengerChat.prototype.redrawChatHeader = function(params)
 			else
 			{
 				this.openLinesFlag = false;
-				BX.addClass(this.popupMessengerPanelAvatarForm2, 'bx-messenger-panel-avatar-chat');
 				BX.style(this.popupOpenLinesTransfer, 'display', 'none');
+				BX.addClass(this.popupMessengerPanelAvatarForm2, 'bx-messenger-panel-avatar-chat');
+
 				addClass.push('bx-messenger-chat-chat');
+
+				if (this.chat[chatId].entity_type == 'CRM')
+				{
+					addClass.push('bx-messenger-chat-crm');
+					BX.addClass(this.popupMessengerPanelAvatarForm2, 'bx-messenger-panel-avatar-type-crm');
+				}
+				else
+				{
+					removeClass.push('bx-messenger-chat-crm');
+				}
+
 				removeClass.push('bx-messenger-chat-livechat');
 				removeClass.push('bx-messenger-chat-lines');
 			}
@@ -7465,6 +7484,11 @@ BX.MessengerChat.prototype.redrawChatHeader = function(params)
 			{
 				BX.style(this.popupMessengerPanelCrm, 'display', 'none');
 			}
+		}
+		else if (this.chat[chatId].entity_type == 'CRM')
+		{
+			BX.addClass(this.popupMessengerPanelChatTitle, 'bx-messenger-chat-title-lines');
+			BX.style(this.popupMessengerPanelCrm, 'display', 'inline-block');
 		}
 		else if (this.chat[chatId].extranet)
 		{
@@ -8348,7 +8372,11 @@ BX.MessengerChat.prototype.openPopupMenu = function(bind, type, setAngle, params
 		menuItems = [
 			isOwner? {icon: 'bx-messenger-menu-pause', text: BX.message(session.pin == "Y"? "IM_M_OL_PAUSE_OFF": "IM_M_OL_PAUSE_ON"), onclick: BX.delegate(function(){  this.linesTogglePinMode();  this.closeMenuPopup(); }, this)}: null,
 			isOwner && session.crm != 'Y'? {icon: 'bx-messenger-menu-crm', text: BX.message("IM_M_OL_ADD_LEAD"), onclick: BX.delegate(function(){  this.linesCreateLead(); this.closeMenuPopup(); }, this)}: null,
-			session.crmLink? {icon: 'bx-messenger-menu-crm', text: BX.message('IM_M_OL_GOTO_CRM'), href: session.crmLink, target: '_blank', onclick: BX.delegate(function(){ this.closeMenuPopup(); }, this)}: null,
+			session.crmLink && session.crmLinkLead == 'undefined' && session.crmLinkCompany == 'undefined' && session.crmLinkContact == 'undefined' && session.crmLinkDeal == 'undefined'? {icon: 'bx-messenger-menu-crm', text: BX.message('IM_M_OL_GOTO_CRM'), href: session.crmLink, target: '_blank', onclick: BX.delegate(function(){ this.closeMenuPopup(); }, this)}: null,
+			session.crmLinkLead? {icon: 'bx-messenger-menu-crm', text: BX.message('IM_M_OL_GOTO_CRM_LEAD'), href: session.crmLinkLead, target: '_blank', onclick: BX.delegate(function(){ this.closeMenuPopup(); }, this)}: null,
+			session.crmLinkCompany? {icon: 'bx-messenger-menu-crm', text: BX.message('IM_M_OL_GOTO_CRM_COMPANY'), href: session.crmLinkCompany, target: '_blank', onclick: BX.delegate(function(){ this.closeMenuPopup(); }, this)}: null,
+			session.crmLinkContact? {icon: 'bx-messenger-menu-crm', text: BX.message('IM_M_OL_GOTO_CRM_CONTACT'), href: session.crmLinkContact, target: '_blank', onclick: BX.delegate(function(){ this.closeMenuPopup(); }, this)}: null,
+			session.crmLinkDeal? {icon: 'bx-messenger-menu-crm', text: BX.message('IM_M_OL_GOTO_CRM_DEAL'), href: session.crmLinkDeal, target: '_blank', onclick: BX.delegate(function(){ this.closeMenuPopup(); }, this)}: null,
 			//isOwner? {icon: 'bx-messenger-menu-close', text: BX.message("IM_M_OL_CLOSE"), onclick: BX.delegate(function(){  this.linesCloseDialog();  this.closeMenuPopup(); }, this)}: null,
 			{icon: 'bx-messenger-menu-history-2', text: BX.message("IM_M_HISTORY"), onclick: BX.delegate(function(){ this.openHistory(this.currentTab); this.closeMenuPopup(); }, this)},
 			session.id? {separator: true}:null,
@@ -8624,7 +8652,15 @@ BX.MessengerChat.prototype.openPopupMenu = function(bind, type, setAngle, params
 		}
 		if (userId == this.BXIM.userId)
 		{
-			var hideExit = BX.MessengerCommon.checkRestriction(chatId, 'LEAVE') || this.chat[chatId].type == 'lines' && (this.chat[chatId].owner == 0 || this.chat[chatId].owner == this.BXIM.userId);
+			var hideExit =  false;
+			if (BX.MessengerCommon.checkRestriction(chatId, isOwner? 'LEAVE_OWNER': 'LEAVE'))
+			{
+				hideExit = true;
+			}
+			else
+			{
+				hideExit = this.chat[chatId].type == 'lines' && (this.chat[chatId].owner == 0 || this.chat[chatId].owner == this.BXIM.userId);
+			}
 			menuItems = [
 				{icon: 'bx-messenger-menu-profile', text: BX.message('IM_M_OPEN_PROFILE'), href: this.BXIM.path.profile, onclick: BX.delegate(function(){ this.closeMenuPopup(); }, this)},
 				hideExit? null: {icon: 'bx-messenger-menu-chat-exit', text: BX.message('IM_M_CHAT_EXIT'), onclick: BX.delegate(function(){ BX.MessengerCommon.leaveFromChat(chatId); this.closeMenuPopup();}, this)}
@@ -8632,11 +8668,11 @@ BX.MessengerChat.prototype.openPopupMenu = function(bind, type, setAngle, params
 		}
 		else if (this.chat[chatId].type == 'lines' && this.users[userId].connector)
 		{
-			var session = BX.MessengerCommon.linesGetSession(this.chat[chatId]);
+			//var session = BX.MessengerCommon.linesGetSession(this.chat[chatId]);
 			menuItems = [
 				{icon: 'bx-messenger-menu-chat-put', text: BX.message('IM_M_CHAT_PUT'), onclick: BX.delegate(function(){ this.insertTextareaText(this.popupMessengerTextarea, ' '+BX.util.htmlspecialcharsback(this.users[userId].name)+' ', false); BX.MessengerCommon.addMentionList(this.currentTab, BX.util.htmlspecialcharsback(this.users[userId].name), userId); this.popupMessengerTextarea.focus(); this.closeMenuPopup(); }, this)},
-				isOwner && session.crm != 'Y'? {icon: 'bx-messenger-menu-crm', text: BX.message("IM_M_OL_ADD_LEAD"), onclick: BX.delegate(function(){  this.linesCreateLead(); this.closeMenuPopup(); }, this)}: null,
-				session.crmLink? {icon: 'bx-messenger-menu-crm', text: BX.message('IM_M_OL_GOTO_CRM'), href: session.crmLink, target: '_blank', onclick: BX.delegate(function(){ this.closeMenuPopup(); }, this)}: null,
+				//isOwner && session.crm != 'Y'? {icon: 'bx-messenger-menu-crm', text: BX.message("IM_M_OL_ADD_LEAD"), onclick: BX.delegate(function(){  this.linesCreateLead(); this.closeMenuPopup(); }, this)}: null,
+				//session.crmLink? {icon: 'bx-messenger-menu-crm', text: BX.message('IM_M_OL_GOTO_CRM'), href: session.crmLink, target: '_blank', onclick: BX.delegate(function(){ this.closeMenuPopup(); }, this)}: null,
 			];
 		}
 		else
@@ -8672,6 +8708,7 @@ BX.MessengerChat.prototype.openPopupMenu = function(bind, type, setAngle, params
 		var userId = bind.getAttribute('data-userId');
 		var userIsChat = bind.getAttribute('data-userIsChat') === true || bind.getAttribute('data-userIsChat') == "true";
 		var dialogIsPinned = bind.getAttribute('data-isPinned') === true || bind.getAttribute('data-isPinned') == "true";
+		var isOwner = userIsChat && this.chat[userId.toString().substr(4)].owner == this.BXIM.userId;
 
 		if (this.recentList || userIsChat)
 		{
@@ -8696,6 +8733,7 @@ BX.MessengerChat.prototype.openPopupMenu = function(bind, type, setAngle, params
 			var dialogPinnedText = BX.message(!dialogIsPinned? 'IM_M_OL_PIN_ON': 'IM_M_OL_PIN_OFF');
 
 			hideItem = !BX.MessengerCommon.userInChat(userId.toString().substr(4));
+
 			menuItems = [
 				isOpenlines? null: {icon: 'bx-messenger-menu-write', text: BX.message('IM_M_WRITE_MESSAGE'), onclick: BX.delegate(function(){ this.openMessenger(userId); this.closeMenuPopup(); }, this)},
 				isOpenlines? null: {icon: 'bx-messenger-menu-pin', text: dialogPinnedText, onclick: BX.delegate(function(){ BX.MessengerCommon.pinDialog(userId, !dialogIsPinned); this.closeMenuPopup(); }, this)},
@@ -8705,7 +8743,7 @@ BX.MessengerChat.prototype.openPopupMenu = function(bind, type, setAngle, params
 				!userIsChat? {icon: 'bx-messenger-menu-profile', text: BX.message('IM_M_OPEN_PROFILE'), href: this.users[userId].profile, onclick: BX.delegate(function(){ this.closeMenuPopup(); }, this)}: {},
 				!hideItem && userIsChat && this.chat[userId.toString().substr(4)].type != 'call' && !BX.MessengerCommon.checkRestriction(userId.toString().substr(4), 'RENAME') ? {icon: 'bx-messenger-menu-chat-rename', text: BX.message('IM_M_CHAT_RENAME'), onclick: BX.delegate(function(){ if (this.currentTab != userId) { this.openMessenger(userId); } else { this.renameChatDialog(); }   this.closeMenuPopup();}, this)}: {},
 				isOpenlines || userIsChat && !this.recentList? null: {icon: 'bx-messenger-menu-hide-'+(userIsChat? 'chat': 'dialog'), text: BX.message('IM_M_HIDE_'+(userIsChat? (this.chat[userId.toString().substr(4)].type == 'call'? 'CALL': 'CHAT'): 'DIALOG')), onclick: BX.delegate(function(){ BX.MessengerCommon.recentListHide(userId); this.closeMenuPopup();}, this)},
-				!hideItem && userIsChat && this.chat[userId.toString().substr(4)].type != 'call' && this.chat[userId.toString().substr(4)].type != 'lines' && !BX.MessengerCommon.checkRestriction(userId.toString().substr(4), 'LEAVE')? {icon: 'bx-messenger-menu-chat-exit', text: BX.message('IM_M_CHAT_EXIT'), onclick: BX.delegate(function(){ BX.MessengerCommon.leaveFromChat(userId.toString().substr(4)); this.closeMenuPopup();}, this)}: {}
+				!hideItem && userIsChat && this.chat[userId.toString().substr(4)].type != 'call' && this.chat[userId.toString().substr(4)].type != 'lines' && !BX.MessengerCommon.checkRestriction(userId.toString().substr(4), (isOwner? 'LEAVE_OWNER': 'LEAVE'))? {icon: 'bx-messenger-menu-chat-exit', text: BX.message('IM_M_CHAT_EXIT'), onclick: BX.delegate(function(){ BX.MessengerCommon.leaveFromChat(userId.toString().substr(4)); this.closeMenuPopup();}, this)}: {}
 			];
 		}
 		else

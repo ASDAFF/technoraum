@@ -872,7 +872,8 @@
 				{
 					autoHide: true,
 					offsetLeft: (BX.pos(button)['width'] / 2),
-					angle: { position: 'top', offset: 0 }
+					angle: { position: 'top', offset: 0 },
+					maxHeight: 550
 				}
 			);
 		},
@@ -947,6 +948,17 @@
 				this.robots.push(robot);
 			}
 			this.modified = true;
+		},
+		getNextRobot: function(robot)
+		{
+			for (var i = 0; i < this.robots.length; ++i)
+			{
+				if (this.robots[i] === robot)
+				{
+					return (this.robots[i + 1] || null);
+				}
+			}
+			return null;
 		},
 		deleteRobot: function(robot, callback)
 		{
@@ -1054,7 +1066,7 @@
 			}
 
 			var me = this, popup = new BX.PopupWindow(Component.generateUniqueId(), null, {
-				titleBar: robot.getProperty('Title') || robot.getDescriptionTitle(),
+				titleBar: robot.getTitle(),
 				content: form,
 				closeIcon: true,
 				width: popupWidth,
@@ -1121,58 +1133,57 @@
 		initRobotSettingsControls: function(robot, node)
 		{
 			if (!BX.type.isArray(this.robotSettingsControls))
+			{
 				this.robotSettingsControls = [];
-
-			var i, userSelectors = node.querySelectorAll('[data-role="user-selector"]');
-			for (i = 0; i < userSelectors.length; ++i)
-			{
-				this.robotSettingsControls.push(
-					new Destination(this.manager.component, userSelectors[i])
-				);
 			}
 
-			var FileSelectors = node.querySelectorAll('[data-role="file-selector"]');
-			for (i = 0; i < FileSelectors.length; ++i)
+			var controlNodes = node.querySelectorAll('[data-role]');
+			for (var i = 0; i < controlNodes.length; ++i)
 			{
-				this.robotSettingsControls.push(
-					new FileSelector(this.manager.component, FileSelectors[i])
-				);
+				this.initRobotSettingsControl(robot, controlNodes[i]);
+			}
+		},
+		initRobotSettingsControl: function(robot, controlNode)
+		{
+			if (!BX.type.isArray(this.robotSettingsControls))
+			{
+				this.robotSettingsControls = [];
 			}
 
-			var inlineSelectors = node.querySelectorAll('[data-role="inline-selector-target"]');
-			for (i = 0; i < inlineSelectors.length; ++i)
+			var control = null;
+			var role = controlNode.getAttribute('data-role');
+
+			if (role === 'user-selector')
 			{
-				this.robotSettingsControls.push(
-					new InlineSelector(this.manager.component, inlineSelectors[i])
-				);
+				control = BX.Bizproc.UserSelector.decorateNode(controlNode);
+			}
+			else if (role === 'file-selector')
+			{
+				control = new FileSelector(robot, controlNode);
+			}
+			else if (role === 'inline-selector-target')
+			{
+				control = new InlineSelector(robot, controlNode);
+			}
+			else if (role === 'inline-selector-html')
+			{
+				control = new InlineSelectorHtml(robot, controlNode);
+			}
+			else if (role === 'time-selector')
+			{
+				control = new TimeSelector(controlNode);
+			}
+			else if (role === 'save-state-checkbox')
+			{
+				control = new SaveStateCheckbox(controlNode, robot);
 			}
 
-			var inlineHtmlSelectors = node.querySelectorAll('[data-role="inline-selector-html"]');
-			for (i = 0; i < inlineHtmlSelectors.length; ++i)
-			{
-				this.robotSettingsControls.push(
-					new InlineSelectorHtml(this.manager.component, inlineHtmlSelectors[i])
-				);
-			}
+			BX.UI.Hint.init(controlNode);
 
-			var timeSelectors = node.querySelectorAll('[data-role="time-selector"]');
-			for (i = 0; i < timeSelectors.length; ++i)
+			if (control)
 			{
-				this.robotSettingsControls.push(
-					new TimeSelector(timeSelectors[i])
-				);
+				this.robotSettingsControls.push(control);
 			}
-
-			var saveStateCheckboxes = node.querySelectorAll('[data-role="save-state-checkbox"]');
-			for (i = 0; i < saveStateCheckboxes.length; ++i)
-			{
-				this.robotSettingsControls.push(
-					new SaveStateCheckbox(saveStateCheckboxes[i], robot)
-				);
-			}
-
-			//init modern Help tips
-			BX.UI.Hint.init(node);
 		},
 		destroyRobotSettingsControls: function ()
 		{
@@ -1288,8 +1299,10 @@
 				for (i = 0; i < this.component.data['DOCUMENT_FIELDS'].length; ++i)
 				{
 					field = this.component.data['DOCUMENT_FIELDS'][i];
-					if (field['Type'] == 'date' || field['Type'] == 'datetime' || field['Type'] == 'UF:date')
+					if (field['Type'] == 'date' || field['Type'] == 'datetime')
+					{
 						basisFields.push(field);
+					}
 				}
 			}
 
@@ -1437,7 +1450,6 @@
 			robot.setCondition(conditionGroup);
 			return this;
 		},
-
 		saveRobotSettings: function(form, robot, callback)
 		{
 			this.onBeforeSaveRobotSettings();
@@ -1714,8 +1726,6 @@
 				titleClassName += ' bizproc-automation-robot-title-text-editable';
 			}
 
-			var title = this.getProperty('Title') || this.getDescriptionTitle();
-
 			var div = BX.create("div", {
 				attrs: {
 					className: "bizproc-automation-robot-container",
@@ -1742,7 +1752,7 @@
 										attrs: {
 											className: titleClassName
 										},
-										html: this.clipTitle(title),
+										html: this.clipTitle(this.getTitle()),
 										events: {
 											click: this.viewMode === Component.ViewMode.Edit ?
 												this.onTitleEditClick.bind(this) : null
@@ -1789,24 +1799,49 @@
 					},
 					text: BX.message('BIZPROC_AUTOMATION_CMP_EDIT')
 				});
-				BX.bind(div, 'click', function(e)
-				{
-					me.onSettingsButtonClick(this);
-				});
+				BX.bind(div, 'click', me.onSettingsButtonClick.bind(me));
 				div.appendChild(settingsBtn);
 				BX.addClass(div.firstChild, 'bizproc-automation-robot-container-wrapper-border');
+
+				var copyBtn = BX.create('div', {
+					attrs: {
+						className: 'bizproc-automation-robot-btn-copy'
+					},
+					text: BX.message('BIZPROC_AUTOMATION_CMP_COPY') || 'copy'
+				});
+				BX.bind(copyBtn, 'click', me.onCopyButtonClick.bind(me));
+				div.appendChild(copyBtn);
 			}
 
 			return div;
 		},
-		onDeleteButtonClick: function(button)
+		onDeleteButtonClick: function()
 		{
 			BX.remove(this.node);
 			this.template.deleteRobot(this);
 		},
-		onSettingsButtonClick: function(button)
+		onSettingsButtonClick: function()
 		{
 			this.template.openRobotSettingsDialog(this);
+		},
+		onCopyButtonClick: function(event)
+		{
+			event.stopPropagation();
+
+			var robot = new Robot(this.template);
+			var beforeRobot = this.template.getNextRobot(this);
+			var robotData = this.serialize();
+			delete robotData['Name'];
+			delete robotData['DelayName'];
+			if (robotData['Properties'] && robotData['Properties']['Title'])
+			{
+				robotData['Properties']['Title'] += ' ' + BX.message('BIZPROC_AUTOMATION_CMP_COPY_CAPTION');
+			}
+
+			robot.init(robotData, this.viewMode);
+
+			this.template.insertRobot(robot, beforeRobot);
+			this.template.insertRobotNode(robot.node, beforeRobot ? beforeRobot.node : null);
 		},
 		onTitleEditClick: function(e)
 		{
@@ -1822,8 +1857,6 @@
 				style: {"min-width": '540px'}
 			});
 
-			var title = this.getProperty('Title') || this.getDescriptionTitle();
-
 			form.appendChild(BX.create("span", {
 				attrs: { className: "bizproc-automation-popup-settings-title bizproc-automation-popup-settings-title-autocomplete" },
 				text: BX.message('BIZPROC_AUTOMATION_CMP_ROBOT_NAME') + ':'
@@ -1836,7 +1869,7 @@
 						className: 'bizproc-automation-popup-input',
 						type: "text",
 						name: "name",
-						value: title
+						value: this.getTitle()
 					}
 				})]
 			}));
@@ -2120,6 +2153,10 @@
 			}
 			return settings;
 		},
+		getTitle: function()
+		{
+			return  this.getProperty('Title') || this.getDescriptionTitle();
+		},
 		getDescriptionTitle: function()
 		{
 			var name = 'untitled';
@@ -2133,6 +2170,28 @@
 				name = description['ROBOT_SETTINGS']['TITLE'];
 			}
 			return name;
+		},
+		getReturnFieldsDescription: function()
+		{
+			var fields = [];
+			var description = this.templateManager.getRobotDescription(this.data['Type']);
+			if (description && description['RETURN'])
+			{
+				for (var fieldId in description['RETURN'])
+				{
+					if (description['RETURN'].hasOwnProperty(fieldId))
+					{
+						var field = description['RETURN'][fieldId];
+						fields.push({
+							Id: fieldId,
+							Name: field['NAME'],
+							Type: field['TYPE'],
+							Expression: '{{~'+this.getId()+':'+fieldId+' # '+this.getTitle()+': '+field['NAME']+'}}'
+						});
+					}
+				}
+			}
+			return fields;
 		}
 	};
 
@@ -2443,11 +2502,6 @@
 				})]
 			}));
 
-			if (!BX.type.isPlainObject(trigger.data['APPLY_RULES']))
-			{
-				trigger.data['APPLY_RULES'] = {};
-			}
-
 			//TODO: refactoring
 			var triggerData = this.getAvailableTrigger(trigger.data['CODE']);
 			if (trigger.data['CODE'] === 'WEBHOOK')
@@ -2518,6 +2572,43 @@
 				}));
 			}
 			else if (trigger.data['CODE'] == 'WEBFORM')
+			{
+				if (triggerData && triggerData['WEBFORM_LIST'])
+				{
+					var select = BX.create('select', {
+						attrs: {className: 'bizproc-automation-popup-settings-dropdown'},
+						props: {
+							name: 'form_id',
+							value: ''
+						},
+						children: [BX.create('option', {
+							props: {value: ''},
+							text: BX.message('BIZPROC_AUTOMATION_TRIGGER_WEBFORM_ANY')
+						})]
+					});
+
+					for (var i = 0; i < triggerData['WEBFORM_LIST'].length; ++i)
+					{
+						var item = triggerData['WEBFORM_LIST'][i];
+						select.appendChild(BX.create('option', {
+							props: {value: item['ID']},
+							text: item['NAME']
+						}));
+					}
+					if (BX.type.isPlainObject(trigger.data['APPLY_RULES']) && trigger.data['APPLY_RULES']['form_id'])
+					{
+						select.value = trigger.data['APPLY_RULES']['form_id'];
+					}
+
+					var div = BX.create('div', {attrs: {className: 'bizproc-automation-popup-settings'},
+						children: [BX.create('span', {attrs: {
+								className: 'bizproc-automation-popup-settings-title'
+							}, text: BX.message('BIZPROC_AUTOMATION_TRIGGER_WEBFORM_LABEL') + ':'}), select]
+					});
+					form.appendChild(div);
+				}
+			}
+			else if (trigger.data['CODE'] == 'CALLBACK')
 			{
 				if (triggerData && triggerData['WEBFORM_LIST'])
 				{
@@ -2628,7 +2719,7 @@
 					form.appendChild(div);
 				}
 			}
-			else if (trigger.data['CODE'] == 'OPENLINE')
+			else if (trigger.data['CODE'] == 'OPENLINE' || trigger.data['CODE'] == 'OPENLINE_MSG')
 			{
 				if (triggerData && triggerData['CONFIG_LIST'])
 				{
@@ -2666,8 +2757,37 @@
 				}
 			}
 
+			form.appendChild(BX.create("div", {
+				attrs: { className: "bizproc-automation-popup-checkbox" },
+				children: [
+					BX.create("div", {
+						attrs: { className: "bizproc-automation-popup-checkbox-item" },
+						children: [
+							BX.create("label", {
+								attrs: { className: "bizproc-automation-popup-chk-label" },
+								children: [
+									BX.create("input", {
+										attrs: {
+											className: 'bizproc-automation-popup-chk',
+											type: "checkbox",
+											name: "allow_backwards",
+											value: 'Y'
+										},
+										props: {
+											checked: trigger.isBackwardsAllowed()
+										}
+									}),
+									document.createTextNode(BX.message('BIZPROC_AUTOMATION_CMP_TRIGGER_ALLOW_REVERSE'))
+								]
+							})
+						]
+					})
+				]
+			}));
+
 			BX.addClass(this.component.node, 'automation-base-blocked');
 
+			Designer.component = this.component;
 			var popup = new BX.PopupWindow(Component.generateUniqueId(), null, {
 				titleBar: title,
 				content: form,
@@ -2701,19 +2821,25 @@
 										form_id:  formData['data']['form_id']
 									}
 								}
+								if (trigger.data['CODE'] === 'CALLBACK')
+								{
+									trigger.data['APPLY_RULES'] = {
+										form_id:  formData['data']['form_id']
+									}
+								}
 								if (trigger.data['CODE'] === 'STATUS')
 								{
 									trigger.data['APPLY_RULES'] = {
 										STATUS:  formData['data']['STATUS']
 									}
 								}
-								if (trigger.data['CODE'] === 'CALL' && formData['data']['LINE_NUMBER'])
+								if (trigger.data['CODE'] === 'CALL' && 'LINE_NUMBER' in formData['data'])
 								{
 									trigger.data['APPLY_RULES'] = {
 										LINE_NUMBER:  formData['data']['LINE_NUMBER']
 									}
 								}
-								if (trigger.data['CODE'] === 'OPENLINE')
+								if (trigger.data['CODE'] === 'OPENLINE' || trigger.data['CODE'] === 'OPENLINE_MSG')
 								{
 									trigger.data['APPLY_RULES'] = {
 										config_id:  formData['data']['config_id']
@@ -2735,6 +2861,7 @@
 								}
 
 								me.setConditionSettingsFromForm(formData['data'], trigger);
+								trigger.setAllowBackwards(formData['data']['allow_backwards'] === 'Y');
 
 								if (trigger.draft)
 								{
@@ -2871,10 +2998,14 @@
 	{
 		init: function(data, viewMode)
 		{
-			if (data)
-				this.data = data;
+			this.data = data || {};
 
-			if (this.data && this.data.APPLY_RULES && this.data.APPLY_RULES.Condition)
+			if (!BX.type.isPlainObject(this.data['APPLY_RULES']))
+			{
+				this.data['APPLY_RULES'] = {};
+			}
+
+			if (this.data.APPLY_RULES.Condition)
 			{
 				this.condition = new ConditionGroup(this.data.APPLY_RULES.Condition);
 			}
@@ -2916,6 +3047,15 @@
 		setCondition: function(condition)
 		{
 			this.condition = condition;
+			return this;
+		},
+		isBackwardsAllowed: function()
+		{
+			return (this.data['APPLY_RULES']['ALLOW_BACKWARDS'] === 'Y');
+		},
+		setAllowBackwards: function(flag)
+		{
+			this.data['APPLY_RULES']['ALLOW_BACKWARDS'] = flag ? 'Y' : 'N';
 			return this;
 		},
 		createNode: function()
@@ -3254,417 +3394,8 @@
 		}
 	};
 
-	// -> Destination
-	var Destination = function(component, container)
-	{
-		var me = this;
-
-		var config, configString = container.getAttribute('data-config');
-		if (configString)
-		{
-			config = BX.parseJSON(configString);
-		}
-
-		if (!BX.type.isPlainObject(config))
-			config = {};
-
-		this.container = container;
-		this.itemsNode = BX.create('span');
-		this.inputBoxNode = BX.create('span', {
-			attrs: {
-				className: 'feed-add-destination-input-box'
-			}
-		});
-		this.inputNode = BX.create('input', {
-			props: {
-				type: 'text'
-			},
-			attrs: {
-				className: 'feed-add-destination-inp'
-			}
-		});
-
-		this.inputBoxNode.appendChild(this.inputNode);
-
-		this.tagNode = BX.create('a', {
-			attrs: {
-				className: 'feed-add-destination-link'
-			}
-		});
-
-		BX.addClass(container, 'bizproc-automation-popup-autocomplete');
-
-		container.appendChild(this.itemsNode);
-		container.appendChild(this.inputBoxNode);
-		container.appendChild(this.tagNode);
-
-		this.component = component;
-		this.itemTpl = config.itemTpl;
-
-		this.data = null;
-		this.dialogId = Component.generateUniqueId();
-		this.createValueNode(config.valueInputName || '');
-		this.selected = config.selected ? BX.clone(config.selected) : [];
-		this.selectOne = !config.multiple;
-		this.required = config.required || false;
-		this.additionalFields = BX.type.isArray(config.additionalFields) ? config.additionalFields : [];
-
-		BX.bind(this.tagNode, 'focus', function(e) {
-			e.preventDefault();
-			me.openDialog({bByFocusEvent: true});
-		});
-		BX.bind(this.container, 'click', function(e) {
-			e.preventDefault();
-			me.openDialog();
-		});
-
-		this.addItems(this.selected);
-
-		this.tagNode.innerHTML = (
-			this.selected.length <= 0
-				? BX.message('BIZPROC_AUTOMATION_CMP_CHOOSE')
-				: BX.message('BIZPROC_AUTOMATION_CMP_EDIT')
-		);
-	};
-
-	Destination.prototype = {
-		getData: function(next)
-		{
-			var me = this;
-
-			if (me.ajaxProgress)
-				return;
-
-			me.ajaxProgress = true;
-			BX.ajax({
-				method: 'POST',
-				dataType: 'json',
-				url: me.component.getAjaxUrl(),
-				data: {
-					ajax_action: 'get_destination_data',
-					document_signed: me.component.documentSigned
-				},
-				onsuccess: function (response)
-				{
-					me.data = response.DATA || {};
-					me.ajaxProgress = false;
-					me.initDialog(next);
-				}
-			});
-		},
-		initDialog: function(next)
-		{
-			var i, me = this, data = this.data;
-
-			if (!data)
-			{
-				me.getData(next);
-				return;
-			}
-
-			var itemsSelected = {};
-			for (i = 0; i < me.selected.length; ++i)
-			{
-				itemsSelected[me.selected[i].id] = me.selected[i].entityType
-			}
-
-			var items = {
-				users : data.USERS || {},
-				department : data.DEPARTMENT || {},
-				departmentRelation : data.DEPARTMENT_RELATION || {},
-				bpuserroles : data.ROLES || {}
-			};
-			var itemsLast =  {
-				users: data.LAST.USERS || {},
-				bpuserroles : data.LAST.ROLES || {}
-			};
-
-			for (i = 0; i < this.additionalFields.length; ++i)
-			{
-				items.bpuserroles[this.additionalFields[i]['id']] = this.additionalFields[i];
-			}
-
-			if (!items["departmentRelation"])
-			{
-				items["departmentRelation"] = BX.SocNetLogDestination.buildDepartmentRelation(items["department"]);
-			}
-
-			if (!me.inited)
-			{
-				me.inited = true;
-				var destinationInput = me.inputNode;
-				destinationInput.id = me.dialogId + 'input';
-
-				var destinationInputBox = me.inputBoxNode;
-				destinationInputBox.id = me.dialogId + 'input-box';
-
-				var tagNode = this.tagNode;
-				tagNode.id = this.dialogId + 'tag';
-
-				var itemsNode = me.itemsNode;
-
-				BX.SocNetLogDestination.init({
-					name : me.dialogId,
-					searchInput : destinationInput,
-					extranetUser :  false,
-					bindMainPopup : {node: me.container, offsetTop: '5px', offsetLeft: '15px'},
-					bindSearchPopup : {node: me.container, offsetTop : '5px', offsetLeft: '15px'},
-					departmentSelectDisable: true,
-					sendAjaxSearch: true,
-					callback : {
-						select : function(item, type, search, bUndeleted)
-						{
-							me.addItem(item, type);
-							if (me.selectOne)
-								BX.SocNetLogDestination.closeDialog();
-						},
-						unSelect : function (item)
-						{
-							if (me.selectOne)
-								return;
-							me.unsetValue(item.entityId);
-							BX.SocNetLogDestination.BXfpUnSelectCallback.call({
-								formName: me.dialogId,
-								inputContainerName: itemsNode,
-								inputName: destinationInput.id,
-								tagInputName: tagNode.id,
-								tagLink1: BX.message('BIZPROC_AUTOMATION_CMP_CHOOSE'),
-								tagLink2: BX.message('BIZPROC_AUTOMATION_CMP_EDIT')
-							}, item)
-						},
-						openDialog : BX.delegate(BX.SocNetLogDestination.BXfpOpenDialogCallback, {
-							inputBoxName: destinationInputBox.id,
-							inputName: destinationInput.id,
-							tagInputName: tagNode.id
-						}),
-						closeDialog : BX.delegate(BX.SocNetLogDestination.BXfpCloseDialogCallback, {
-							inputBoxName: destinationInputBox.id,
-							inputName: destinationInput.id,
-							tagInputName: tagNode.id
-						}),
-						openSearch : BX.delegate(BX.SocNetLogDestination.BXfpOpenDialogCallback, {
-							inputBoxName: destinationInputBox.id,
-							inputName: destinationInput.id,
-							tagInputName: tagNode.id
-						}),
-						closeSearch : BX.delegate(BX.SocNetLogDestination.BXfpCloseSearchCallback, {
-							inputBoxName: destinationInputBox.id,
-							inputName: destinationInput.id,
-							tagInputName: tagNode.id
-						})
-					},
-					items : items,
-					itemsLast : itemsLast,
-					itemsSelected : itemsSelected,
-					useClientDatabase: false,
-					destSort: data.DEST_SORT || {},
-					allowAddUser: false
-				});
-
-				BX.onCustomEvent(BX.SocNetLogDestination, "onTabsAdd", [me.dialogId, {
-					id: 'bpuserrole',
-					name: BX.message('BIZPROC_AUTOMATION_CMP_USER_SELECTOR_TAB'),
-					itemType: 'bpuserroles',
-					dialogGroup: {
-						groupCode: 'bpuserroles',
-						title: BX.message('BIZPROC_AUTOMATION_CMP_USER_SELECTOR_TAB')
-					}
-				}]);
-
-				BX.bind(destinationInput, 'keyup', BX.delegate(BX.SocNetLogDestination.BXfpSearch, {
-					formName: me.dialogId,
-					inputName: destinationInput.id,
-					tagInputName: tagNode.id
-				}));
-				BX.bind(destinationInput, 'keydown', BX.delegate(BX.SocNetLogDestination.BXfpSearchBefore, {
-					formName: me.dialogId,
-					inputName: destinationInput.id
-				}));
-
-				BX.SocNetLogDestination.BXfpSetLinkName({
-					formName: me.dialogId,
-					tagInputName: tagNode.id,
-					tagLink1: BX.message('BIZPROC_AUTOMATION_CMP_CHOOSE'),
-					tagLink2: BX.message('BIZPROC_AUTOMATION_CMP_EDIT')
-				});
-			}
-			next();
-		},
-		addItem: function(item, type)
-		{
-			var me = this;
-			var destinationInput = this.inputNode;
-			var tagNode = this.tagNode;
-			var items = this.itemsNode;
-
-			if (!BX.findChild(items, { attr : { 'data-id' : item.id }}, false, false))
-			{
-				if (me.selectOne && me.inited)
-				{
-					var toRemove = [];
-					for (var i = 0; i < items.childNodes.length; ++i)
-					{
-						toRemove.push({
-							itemId: items.childNodes[i].getAttribute('data-id'),
-							itemType: items.childNodes[i].getAttribute('data-type')
-						})
-					}
-
-					me.initDialog(function() {
-						for (var i = 0; i < toRemove.length; ++i)
-						{
-							BX.SocNetLogDestination.deleteItem(toRemove[i].itemId, toRemove[i].itemType, me.dialogId);
-						}
-					});
-
-					BX.cleanNode(items);
-					me.cleanValue();
-				}
-
-				var container = this.createItemNode({
-					text: item.name,
-					deleteEvents: {
-						click: function(e) {
-							if (me.selectOne && me.required)
-							{
-								me.openDialog();
-							}
-							else
-							{
-								me.initDialog(function() {
-									BX.SocNetLogDestination.deleteItem(item.id, type, me.dialogId);
-									BX.remove(container);
-									me.unsetValue(item.entityId);
-								});
-							}
-							e.preventDefault();
-						}
-					}
-				});
-
-				this.setValue(item.entityId);
-
-				container.setAttribute('data-id', item.id);
-				container.setAttribute('data-type', type);
-
-				items.appendChild(container);
-
-				if (!item.entityType)
-				{
-					item.entityType = type;
-				}
-			}
-
-			destinationInput.value = '';
-			tagNode.innerHTML = BX.message('BIZPROC_AUTOMATION_CMP_EDIT');
-		},
-		addItems: function(items)
-		{
-			for(var i = 0; i < items.length; ++i)
-			{
-				this.addItem(items[i], items[i].entityType)
-			}
-		},
-		openDialog: function(params)
-		{
-			var me = this;
-			this.initDialog(function()
-			{
-				BX.SocNetLogDestination.openDialog(me.dialogId, params);
-			})
-		},
-		destroy: function()
-		{
-			if (this.inited)
-			{
-				if (BX.SocNetLogDestination.isOpenDialog())
-				{
-					BX.SocNetLogDestination.closeDialog();
-				}
-				BX.SocNetLogDestination.closeSearch();
-			}
-		},
-		createItemNode: function(options)
-		{
-			return BX.create('span', {
-				attrs: {
-					className: 'bizproc-automation-popup-autocomplete-item'
-				},
-				children: [
-					BX.create('span', {
-						attrs: {
-							className: 'bizproc-automation-popup-autocomplete-name'
-						},
-						html: options.text || ''
-					}),
-					BX.create('span', {
-						attrs: {
-							className: 'bizproc-automation-popup-autocomplete-delete'
-						},
-						events: options.deleteEvents
-					})
-				]
-			});
-		},
-		createValueNode: function(valueInputName)
-		{
-			this.valueNode = BX.create('input', {
-				props: {
-					type: 'hidden',
-					name: valueInputName
-				}
-			});
-
-			this.container.appendChild(this.valueNode);
-		},
-		setValue: function(value)
-		{
-			if (/^\d+$/.test(value))
-				value = '['+ value +']';
-
-			if (this.selectOne)
-				this.valueNode.value = value;
-			else
-			{
-				var i, newVal = [], pairs = this.valueNode.value.split(';');
-				for (i = 0; i < pairs.length; ++i)
-				{
-					if (!pairs[i] || value == pairs[i])
-						continue;
-					newVal.push(pairs[i]);
-				}
-				newVal.push(value);
-				this.valueNode.value = newVal.join(';');
-			}
-
-		},
-		unsetValue: function(value)
-		{
-			if (/^\d+$/.test(value))
-				value = '['+ value +']';
-
-			if (this.selectOne)
-				this.valueNode.value = '';
-			else
-			{
-				var i, newVal = [], pairs = this.valueNode.value.split(';');
-				for (i = 0; i < pairs.length; ++i)
-				{
-					if (!pairs[i] || value == pairs[i])
-						continue;
-					newVal.push(pairs[i]);
-				}
-				this.valueNode.value = newVal.join(';');
-			}
-		},
-		cleanValue: function()
-		{
-			this.valueNode.value = '';
-		}
-	};
-	// <- Destination
 	// -> FileSelector
-	var FileSelector = function(component, container)
+	var FileSelector = function(robot, container)
 	{
 		var config, configString = container.getAttribute('data-config');
 		if (configString)
@@ -3693,7 +3424,7 @@
 		this.labelFile = config.labelFile || 'File';
 		this.labelDisk = config.labelDisk || 'Disk';
 
-		this.setFileFields(component.data['DOCUMENT_FIELDS']);
+		this.setFileFields(robot.component.data['DOCUMENT_FIELDS']);
 		this.createDom();
 
 		if (config.selected && config.selected.length > 0)
@@ -4075,10 +3806,16 @@
 	};
 	// <- FileSelector
 	// -> InlineSelector
-	var InlineSelector = function(component, targetInput)
+	/**
+	 * @param {Robot} robot
+	 * @param {Node} targetInput
+	 *
+	 */
+	var InlineSelector = function(robot, targetInput)
 	{
 		var me = this;
-		this.component = component;
+		this.robot = robot;
+		this.component = robot.component;
 		this.documentFields = this.component.data['DOCUMENT_FIELDS'];
 		this.targetInput = BX.clone(targetInput);
 		this.menuButton = BX.create('span', {
@@ -4104,7 +3841,7 @@
 		this.targetInput.setAttribute('autocomplete', 'off');
 
 		var fieldType = this.targetInput.getAttribute('data-selector-type');
-		if (fieldType === 'date' || fieldType === 'UF:date' || fieldType === 'datetime')
+		if (fieldType === 'date' || fieldType === 'datetime')
 		{
 			this.initDateTimeControl(fieldType);
 		}
@@ -4123,7 +3860,7 @@
 		},
 		openMenu: function(e)
 		{
-			var me = this, i, field, fields = this.documentFields;
+			var me = this, i, field, fields = this.getFields();
 
 			var itemClickHandler = function(e, item)
 			{
@@ -4163,6 +3900,39 @@
 					field: field,
 					onclick: itemClickHandler
 				});
+			}
+
+			var skipId = this.robot.getId();
+			var robotResults = [];
+			this.robot.template.robots.forEach(function(robot)
+			{
+				if (robot.getId() !== skipId)
+				{
+					var fields = [];
+					robot.getReturnFieldsDescription().forEach(function(field)
+					{
+						fields.push({
+							text: field['Name'] || field['Id'],
+							field: field,
+							onclick: itemClickHandler
+						});
+					});
+					if (fields.length)
+					{
+						robotResults.push({
+							text: robot.getTitle(),
+							items: fields
+						});
+					}
+				}
+			});
+
+			if (robotResults.length)
+			{
+				menuGroups['__RESULT'] = {
+					text: BX.message('BIZPROC_AUTOMATION_CMP_ROBOT_LIST'),
+					items: robotResults
+				};
 			}
 
 			if (Object.keys(menuGroups).length < 2)
@@ -4208,13 +3978,13 @@
 		{
 			if (this.replaceOnWrite)
 			{
-				this.targetInput.value = '{{' + field['Name'] + '}}';
+				this.targetInput.value = field['Expression'];
 				this.targetInput.selectionEnd = this.targetInput.value.length;
 			}
 			else
 			{
 				var beforePart = this.targetInput.value.substr(0, this.targetInput.selectionEnd),
-					middlePart = '{{' + field['Name'] + '}}',
+					middlePart = field['Expression'],
 					afterPart = this.targetInput.value.substr(this.targetInput.selectionEnd);
 
 				this.targetInput.value = beforePart + middlePart + afterPart;
@@ -4230,8 +4000,6 @@
 		},
 		initDateTimeControl: function(fieldType)
 		{
-			this.targetInput.setAttribute('readonly', 'readonly');
-
 			var basisFields = [];
 			if (BX.type.isArray(this.component.data['DOCUMENT_FIELDS']))
 			{
@@ -4239,8 +4007,10 @@
 				for (i = 0; i < this.component.data['DOCUMENT_FIELDS'].length; ++i)
 				{
 					field = this.component.data['DOCUMENT_FIELDS'][i];
-					if (field['Type'] == 'date' || field['Type'] == 'datetime' || field['Type'] == 'UF:date')
+					if (field['Type'] == 'date' || field['Type'] == 'datetime')
+					{
 						basisFields.push(field);
+					}
 				}
 			}
 
@@ -4257,14 +4027,66 @@
 			});
 
 			delayIntervalSelector.init(DelayInterval.fromString(this.targetInput.value, basisFields));
+		},
+		getFields: function()
+		{
+			var printablePrefix = BX.message('BIZPROC_AUTOMATION_CMP_MOD_PRINTABLE_PREFIX');
+			var names = [];
+			this.documentFields.forEach(function(field)
+			{
+				names.push(field['Name']);
+			});
+
+			var namesStr = names.join('\n');
+
+			var fields = [];
+
+			this.documentFields.forEach(function(field)
+			{
+				var custom = (field['BaseType'] === 'string' && field['Type'] !== 'string');
+
+				if (!custom)
+				{
+					fields.push(field);
+				}
+
+				if (
+					field['Type'] === 'user'
+					||
+					field['Type'] === 'bool'
+					||
+					field['Type'] === 'file'
+					||
+					custom
+				)
+				{
+					var printableName = field['Name'] + ' ' + printablePrefix;
+
+					if (namesStr.indexOf(printableName) < 0)
+					{
+						var printableField = BX.clone(field);
+						var printableTag = (field['Type'] === 'user') ? 'friendly' : 'printable';
+
+						printableField['Name'] = printableName;
+						printableField['Type'] = 'string';
+						printableField['SystemExpression'] = '{=Document:'+printableField['Id']+' > '+printableTag+'}';
+						printableField['Expression'] = '{{'+field['Name']+' > '+printableTag+'}}';
+
+						fields.push(printableField);
+					}
+				}
+			});
+
+			return fields;
 		}
 	};
 	// <- InlineSelector
 	// -> InlineSelectorHtml
-	var InlineSelectorHtml = function(component, targetNode)
+	var InlineSelectorHtml = function(robot, targetNode)
 	{
 		var me = this;
-		this.component = component;
+		this.robot = robot;
+		this.component = robot.component;
 		this.documentFields = this.component.data['DOCUMENT_FIELDS'];
 		this.editorNode = targetNode.firstElementChild.firstElementChild;
 		this.menuButton = BX.create('span', {
@@ -4771,7 +4593,7 @@
 				children: [
 					BX.create('span', {
 						attrs: {className: 'bizproc-automation-popup-settings-title'},
-						text: BX.message('BIZPROC_AUTOMATION_CMP_THROUGH_2')
+						text: BX.message('BIZPROC_AUTOMATION_CMP_THROUGH_3')
 					}),
 					valueNode,
 					this.createValueTypeSelector('value_type_after')
@@ -4875,13 +4697,13 @@
 				children: [
 					BX.create('span', {
 						attrs: {className: 'bizproc-automation-popup-settings-title'},
-						text: BX.message('BIZPROC_AUTOMATION_CMP_FOR_TIME_2')
+						text: BX.message('BIZPROC_AUTOMATION_CMP_FOR_TIME_3')
 					}),
 					valueNode,
 					this.createValueTypeSelector('value_type_before'),
 					BX.create('span', {
 						attrs: {className: 'bizproc-automation-popup-settings-title bizproc-automation-popup-settings-title-auto-width'},
-						text: BX.message('BIZPROC_AUTOMATION_CMP_BEFORE')
+						text: BX.message('BIZPROC_AUTOMATION_CMP_BEFORE_1')
 					})
 				]
 			});
@@ -5213,6 +5035,7 @@
 		setRobotSettingsDialog: function(dialog)
 		{
 			this.robotSettingsDialog = dialog;
+			this.component = dialog ? dialog.robot.component : null;
 		},
 		getRobotSettingsDialog: function()
 		{
@@ -5564,7 +5387,18 @@
 	};
 
 	ConditionGroup.Type = {Field: 'field'};
-	ConditionGroup.Joiner = {And: 'AND', Or: 'OR'};
+	ConditionGroup.Joiner = {
+		And: 'AND',
+		Or: 'OR',
+		message: function(type)
+		{
+			if (type === this.Or)
+			{
+				return BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_OR');
+			}
+			return BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_AND');
+		}
+	};
 
 	ConditionGroup.prototype = {
 		/**
@@ -5617,13 +5451,14 @@
 			this.conditionGroup.items.forEach(function(item)
 			{
 				var conditionSelector = new ConditionSelector(item[0], {
-					fields: fields
+					fields: fields,
+					joiner: item[1]
 				});
 
 				conditionNodes.push(conditionSelector.createNode());
 			});
 
-			conditionNodes.push(BX.create("span", {
+			conditionNodes.push(BX.create("a", {
 				attrs: { className: "bizproc-automation-popup-settings-link" },
 				text: '[+]',
 				events: {
@@ -5656,11 +5491,16 @@
 	{
 		this.condition = condition;
 		this.fields = [];
+		this.joiner = ConditionGroup.Joiner.And;
 		if (BX.type.isPlainObject(options))
 		{
 			if (BX.type.isArray(options.fields))
 			{
 				this.fields = options.fields;
+			}
+			if (options.joiner && options.joiner === ConditionGroup.Joiner.Or)
+			{
+				this.joiner = ConditionGroup.Joiner.Or;
 			}
 		}
 	};
@@ -5690,11 +5530,11 @@
 				}
 			});
 
-			var conditionJoinerNode = BX.create("input", {
+			var conditionJoinerNode = this.joinerNode = BX.create("input", {
 				attrs: {
 					type: "hidden",
 					name: "condition_joiner[]",
-					value: ConditionGroup.Joiner.And
+					value: this.joiner
 				}
 			});
 
@@ -5716,15 +5556,25 @@
 				}
 			});
 
+			var joinerButtonNode = BX.create("span", {
+				attrs: {
+					className: "bizproc-automation-popup-settings-link bizproc-automation-condition-joiner"
+				},
+				text: ConditionGroup.Joiner.message(this.joiner)
+			});
+
+			BX.bind(joinerButtonNode, 'click', this.changeJoiner.bind(this, joinerButtonNode));
+
 			this.node = BX.create("span", {
-				attrs: { className: "bizproc-automation-popup-settings-link-wrapper" },
+				attrs: { className: "bizproc-automation-popup-settings-link-wrapper bizproc-automation-condition-wrapper" },
 				children: [
 					conditionFieldNode,
 					conditionOperatorNode,
 					conditionValueNode,
 					conditionJoinerNode,
 					labelNode,
-					removeButtonNode
+					removeButtonNode,
+					joinerButtonNode
 				]
 			});
 
@@ -5747,15 +5597,10 @@
 			if (this.condition.field !== '')
 			{
 				var field = this.getField(this.condition.field) || '?';
-				var valueLabel = this.condition.value;
-				if (valueLabel && field['Type'] === 'bool')
-				{
-					valueLabel = BX.message(this.condition.value === 'Y' ? 'BIZPROC_AUTOMATION_YES' : 'BIZPROC_AUTOMATION_NO');
-				}
-				else if (valueLabel && field['Type'] === 'select' && field['Options'][this.condition.value])
-				{
-					valueLabel = field['Options'][this.condition.value];
-				}
+				var valueLabel = BX.Bizproc.FieldType.formatValuePrintable(
+					field,
+					this.condition.value
+				);
 
 				this.labelNode.appendChild(BX.create("span", {
 					attrs: {
@@ -5820,7 +5665,7 @@
 				selectedField = fields[0];
 
 			var valueInput = (this.condition.operator.indexOf('empty') < 0)
-				? this.createValueNode(selectedField) : null;
+				? this.createValueNode(selectedField, this.condition.value) : null;
 
 			var valueWrapper = BX.create('div', {attrs: {className: 'bizproc-automation-popup-settings'},
 				children: [valueInput]
@@ -5835,10 +5680,6 @@
 			{
 				fieldSelect.value = this.condition.field;
 				operatorSelect.value = this.condition.operator;
-				if (valueInput)
-				{
-					valueInput.value = this.condition.value;
-				}
 			}
 
 			var form = BX.create("form", {
@@ -5861,7 +5702,7 @@
 
 			var popup = new BX.PopupWindow('bizproc-automation-popup-set', this.labelNode, {
 				className: 'bizproc-automation-popup-set',
-				autoHide: true,
+				autoHide: false,
 				closeByEsc: true,
 				closeIcon: false,
 				titleBar: false,
@@ -5874,13 +5715,15 @@
 						text: BX.message('BIZPROC_AUTOMATION_CMP_CHOOSE'),
 						className: "webform-button webform-button-create" ,
 						events: {
-							click: function(){
+							click: function() {
 								me.condition.setField(fieldSelect.value);
 								me.condition.setOperator(operatorWrapper.firstChild.value);
 
-								if (valueWrapper.firstChild)
+								var valueInput = valueWrapper.querySelector('[name="condition_value"]');
+
+								if (valueInput)
 								{
-									me.condition.setValue(valueWrapper.firstChild.value);
+									me.condition.setValue(valueInput.value);
 								}
 								else
 								{
@@ -5890,7 +5733,17 @@
 								me.setLabelText();
 								me.updateValueNodes();
 								this.popupWindow.close();
-							}}
+							}
+						}
+					}),
+					new BX.PopupWindowButtonLink({
+						text : BX.message('JS_CORE_WINDOW_CANCEL'),
+						className : "popup-window-button-link-cancel",
+						events : {
+							click: function(){
+								this.popupWindow.close()
+							}
+						}
 					})
 				],
 				overlay: { backgroundColor: 'transparent' }
@@ -5957,38 +5810,34 @@
 		},
 		getOperators: function(fieldType)
 		{
-			var list;
+			var list = {
+				'!empty': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_NOT_EMPTY'),
+				'empty': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_EMPTY'),
+				'=': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_EQ'),
+				'!=': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_NE')
+			};
 			switch (fieldType)
 			{
-				case 'bool':
-				case 'select':
-					list = {
-						'!empty': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_NOT_EMPTY'),
-						'empty': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_EMPTY'),
-						'=': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_EQ'),
-						'!=': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_NE')
-					};
-					break;
-				case 'date':
-				case 'datetime':
+				case 'file':
 					list = {
 						'!empty': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_NOT_EMPTY'),
 						'empty': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_EMPTY')
 					};
 					break;
+				case 'bool':
+				case 'select':
+					break;
+				case 'user':
+					list['in'] = BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_IN');
+					list['contain'] = BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_CONTAIN');
+					break;
 				default:
-					list = {
-						'!empty': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_NOT_EMPTY'),
-						'empty': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_EMPTY'),
-						'=': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_EQ'),
-						'>': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_GT'),
-						'>=': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_GTE'),
-						'<': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_LT'),
-						'<=': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_LTE'),
-						'!=': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_NE'),
-						'in': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_IN'),
-						'contain': BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_CONTAIN')
-					};
+					list['in'] = BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_IN');
+					list['contain'] = BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_CONTAIN');
+					list['>'] = BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_GT');
+					list['>='] = BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_GTE');
+					list['<'] = BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_LT');
+					list['<='] = BX.message('BIZPROC_AUTOMATION_ROBOT_CONDITION_LTE');
 			}
 
 			return list;
@@ -6006,68 +5855,34 @@
 				if (
 					type == 'bool'
 					|| type == 'date'
-					|| type == 'datetime' // TODO: add relative date selector (today, tomorrow etc.)
+					|| type == 'datetime'
 					|| type == 'double'
+					|| type == 'file'
 					|| type == 'int'
 					|| type == 'select'
 					|| type == 'string'
 					|| type == 'text'
+					|| type == 'user'
+					|| type == 'UF:money'
 				)
 				{
 					filtered.push(this.fields[i]);
 				}
+				else
+				{
+					//TODO add support of custom types
+				}
 			}
 			return filtered;
 		},
-		createValueNode: function(field)
+		createValueNode: function(field, value)
 		{
-			var node;
-
-			switch (field['Type'])
-			{
-				case 'bool':
-					node = BX.create('select', {
-						attrs: {className: 'bizproc-automation-popup-settings-dropdown'},
-						children: [
-							BX.create('option', {
-								props: {value: 'Y'},
-								text: BX.message('BIZPROC_AUTOMATION_YES')
-							}),
-							BX.create('option', {
-								props: {value: 'N'},
-								text: BX.message('BIZPROC_AUTOMATION_NO')
-							})
-						]
-					});
-					break;
-
-				case 'select':
-					node = BX.create('select', {
-						attrs: {className: 'bizproc-automation-popup-settings-dropdown'}
-					});
-
-					var options = field['Options'];
-					for (var optionId in options)
-					{
-						if (!options.hasOwnProperty(optionId))
-							continue;
-						node.appendChild(BX.create('option', {
-							props: {value: optionId},
-							text: options[optionId]
-						}));
-					}
-					break;
-
-				default:
-					node = BX.create("input", {
-						attrs: {
-							className: 'bizproc-automation-popup-input',
-							type: "text"
-						}
-					});
-			}
-
-			return node;
+			return BX.Bizproc.FieldType.renderControl(
+				Designer.component.documentType,
+				field,
+				'condition_value',
+				value
+			);
 		},
 		createOperatorNode: function(field, valueWrapper)
 		{
@@ -6105,6 +5920,22 @@
 			this.labelNode = this.fieldNode = this.operatorNode = this.valueNode = this.node = null;
 
 			e.stopPropagation();
+		},
+		/**
+		 * @param {Element} btn
+		 * @param {Event} e
+		 */
+		changeJoiner: function(btn, e)
+		{
+			this.joiner = (this.joiner === ConditionGroup.Joiner.Or ? ConditionGroup.Joiner.And : ConditionGroup.Joiner.Or);
+			btn.textContent = ConditionGroup.Joiner.message(this.joiner);
+
+			if (this.joinerNode)
+			{
+				this.joinerNode.value = this.joiner;
+			}
+
+			e.preventDefault();
 		}
 	};
 	// <- ConditionSelector
@@ -6131,7 +5962,7 @@
 		else if (delay.value)
 		{
 			prefix = delay.type == DelayInterval.Type.After ?
-				BX.message('BIZPROC_AUTOMATION_CMP_THROUGH') : BX.message('BIZPROC_AUTOMATION_CMP_FOR_TIME');
+				BX.message('BIZPROC_AUTOMATION_CMP_THROUGH') : BX.message('BIZPROC_AUTOMATION_CMP_FOR_TIME_1');
 
 			str = prefix + ' ' + getFormattedPeriodLabel(delay.value, delay.valueType);
 
@@ -6141,7 +5972,7 @@
 				{
 					if (delay.basis == fields[i].SystemExpression)
 					{
-						str += ' ' + BX.message('BIZPROC_AUTOMATION_CMP_BEFORE') + ' ' + fields[i].Name;
+						str += ' ' + BX.message('BIZPROC_AUTOMATION_CMP_BEFORE_1') + ' ' + fields[i].Name;
 						break;
 					}
 				}

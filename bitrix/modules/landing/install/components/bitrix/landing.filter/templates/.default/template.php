@@ -18,11 +18,10 @@ if ($arResult['FATAL'])
 }
 
 // some vars
-$request = \Bitrix\Main\Application::getInstance()->getContext()->getRequest();
-$curUrl = $request->getRequestUri();
-$uriAjax = new \Bitrix\Main\Web\Uri($curUrl);
+$uriAjax = new \Bitrix\Main\Web\Uri($arResult['CUR_URI']);
 $uriAjax->addParams(array(
-	'IS_AJAX' => 'Y'
+	'IS_AJAX' => 'Y',
+	$arResult['NAVIGATION_ID'] => $arResult['CURRENT_PAGE']
 ));
 if (defined('SITE_TEMPLATE_ID'))
 {
@@ -82,38 +81,40 @@ if ($isBitrix24Template)
 
 	<div class="landing-filter-buttons-container">
 
-		<span class="ui-btn ui-btn-light-border ui-btn-themes" id="landing-recycle-bin">
+		<span class="ui-btn ui-btn-light-border ui-btn-themes landing-recycle-bin-btn" id="landing-recycle-bin">
 			<?= Loc::getMessage('LANDING_TPL_RECYCLE_BIN');?>
 		</span>
 
 		<?if ($arParams['SETTING_LINK']):?>
 			<script type="text/javascript">
 				var lastLocation = top.location.toString();
-				BX.SidePanel.Instance.bindAnchors({
-					rules: [
-						{
-							condition: [
-								'<?= str_replace('?', '\\\?', \CUtil::jsEscape($arParams['SETTING_LINK']));?>'
-							],
-							options: {
-								events: {
-									onClose: function()
-									{
-										if (window['landingSettingsSaved'] === true)
+				BX.SidePanel.Instance.bindAnchors(
+					top.BX.clone({
+						rules: [
+							{
+								condition: [
+									'<?= str_replace('?', '\\\?', \CUtil::jsEscape($arParams['SETTING_LINK']));?>'
+								],
+								options: {
+									events: {
+										onClose: function()
 										{
-											top.location = lastLocation;
-										}
+											if (window['landingSettingsSaved'] === true)
+											{
+												top.location = lastLocation;
+											}
 
-										if (BX.PopupMenu.getCurrentMenu())
-										{
-											BX.PopupMenu.getCurrentMenu().close();
+											if (BX.PopupMenu.getCurrentMenu())
+											{
+												BX.PopupMenu.getCurrentMenu().close();
+											}
 										}
-									}
-								},
-								allowChangeHistory: false
-							}
-						}]
-				});
+									},
+									allowChangeHistory: false
+								}
+							}]
+					})
+                );
 			</script>
 			<a class="ui-btn ui-btn-light-border ui-btn-themes ui-btn-icon-setting" href="<?= $arParams['SETTING_LINK'];?>"></a>
 		<?endif;?>

@@ -311,6 +311,9 @@ if ($arResult['DO_NOT_CACHE'] || $this->StartResultCache($arParams["CACHE_TIME"]
 		case \Bitrix\Forum\Comments\CalendarEntity::ENTITY_TYPE:
 			$auxSuffix = 'CALENDAR';
 			break;
+		case \Bitrix\Forum\Comments\WorkflowEntity::ENTITY_TYPE:
+			$auxSuffix = 'WF';
+			break;
 		default:
 			$auxSuffix = false;
 	}

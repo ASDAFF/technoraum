@@ -14,6 +14,11 @@ use \Bitrix\Main\Entity;
 class LandingLandingsComponent extends LandingBaseComponent
 {
 	/**
+	 * Count items per page.
+	 */
+	const COUNT_PER_PAGE = 23;
+
+	/**
 	 * Copy some landing.
 	 * @param int $id Landing id.
 	 * @param array $additional Additional params.
@@ -89,6 +94,7 @@ class LandingLandingsComponent extends LandingBaseComponent
 			$this->checkParam('PAGE_URL_LANDING_EDIT', '');
 			$this->checkParam('PAGE_URL_LANDING_VIEW', '');
 
+			// make filter
 			$filter = LandingFilterComponent::getFilter(
 				LandingFilterComponent::TYPE_LANDING
 			);
@@ -108,6 +114,8 @@ class LandingLandingsComponent extends LandingBaseComponent
 
 			$this->arResult['IS_DELETED'] = LandingFilterComponent::isDeleted();
 			$this->arResult['SITES'] = $sites = $this->getSites();
+
+			// get list
 			$this->arResult['LANDINGS'] = $this->getLandings(array(
 				'select' => array(
 					'*',
@@ -121,12 +129,14 @@ class LandingLandingsComponent extends LandingBaseComponent
 				),
 				'order' => $this->arResult['IS_DELETED']
 					? array(
-						'DATE_MODIFY' => 'DESC'
+						'DATE_MODIFY' => 'desc'
 					)
 					: array(
-						'ID' => 'ASC'
-					)
+						'ID' => 'desc'
+					),
+				'navigation' => $this::COUNT_PER_PAGE
 			));
+			$this->arResult['NAVIGATION'] = $this->getLastNavigation();
 
 			// base data
 			$firstItem = false;
@@ -145,7 +155,8 @@ class LandingLandingsComponent extends LandingBaseComponent
 					$firstItem = &$item;
 				}
 				$landing = Landing::createInstance($item['ID'], array(
-					'blocks_limit' => 1
+					'blocks_limit' => 1,
+					'force_deleted' => true
 				));
 				$item['PUBLIC_URL'] = '';
 				$item['PREVIEW'] = $landing->getPreview();
@@ -160,6 +171,7 @@ class LandingLandingsComponent extends LandingBaseComponent
 				}
 			}
 
+			// checking areas
 			$areas = \Bitrix\Landing\TemplateRef::landingIsArea(
 				array_keys($this->arResult['LANDINGS'])
 			);

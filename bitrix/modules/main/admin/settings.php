@@ -48,7 +48,13 @@ foreach($adminPage->aModules as $module)
 		$arModules[$module]["SORT"] = $info->MODULE_SORT;
 	}
 }
-uasort($arModules, create_function('$a, $b', 'if($a["SORT"] == $b["SORT"]) return strcasecmp($a["NAME"], $b["NAME"]); return ($a["SORT"] < $b["SORT"])? -1 : 1;'));
+\Bitrix\Main\Type\Collection::sortByColumn(
+	$arModules,
+	['SORT' => SORT_ASC, 'NAME' => SORT_STRING],
+	'',
+	null,
+	true
+);
 
 $mid = $_REQUEST["mid"];
 if($mid == "" || !isset($arModules[$mid]) || !file_exists($arModules[$mid]["PAGE"]))

@@ -1,8 +1,8 @@
 <?
 $MESS["IMAGE_EDITOR_NEW"] = "Загрузить";
-$MESS["IMAGE_EDITOR_EXPORT"] = "Применить";
+$MESS["IMAGE_EDITOR_EXPORT"] = "Сохранить";
 $MESS["IMAGE_EDITOR_CANCEL"] = "Отменить";
-$MESS["IMAGE_EDITOR_CLOSE"] = "Закрыть";
+$MESS["IMAGE_EDITOR_CLOSE"] = "Отменить";
 $MESS["IMAGE_EDITOR_LIBRARY_TITLE"] = "Изображения";
 $MESS["IMAGE_EDITOR_LIBRARY_SEARCH"] = "Поиск по изображениям";
 $MESS["IMAGE_EDITOR_LIBRARY_DROP_ZONE"] = "Загрузить";
@@ -87,3 +87,5 @@ $MESS["IMAGE_EDITOR_ERROR_FONT_LOADING_ERROR"] = "Не удалось загрузить шрифт \${
 $MESS["IMAGE_EDITOR_ERROR_WEBCAM_NOT_SUPPORTED"] = "Ваш браузер не поддерживает вебкамеру";
 $MESS["IMAGE_EDITOR_ERROR_WEBCAM_UNAVAILABLE"] = "Вебкамера не доступна";
 $MESS["IMAGE_EDITOR_ERROR_UNSUPPORTED_FILE_TYPE"] = "\${fileType} файлы не поддерживаются";
+$MESS["IMAGE_EDITOR_POPUP_ERROR_MESSAGE_TEXT"] = "Не&nbsp;удалось загрузить изображение. <br>Возможно файл поврежден, такой тип не&nbsp;поддерживается или редактирование этого файла запрещено.";
+$MESS["IMAGE_EDITOR_CLOSE_POPUP"] = "Закрыть";

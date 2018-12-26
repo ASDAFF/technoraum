@@ -77,6 +77,13 @@ BX.UI.TooltipBalloon = function(params)
 	this.userId = params.userId;
 	this.loader = (BX.type.isNotEmptyString(params.loader) ? params.loader : '');
 
+	this.version = (
+		typeof params.version != 'undefined'
+		&& parseInt(params.version) > 0
+			? parseInt(params.version)
+			: (BX.type.isNotEmptyString(this.loader) ? 2 : 3)
+	);
+
 	this.tracking = false;
 	this.active = false;
 
@@ -355,30 +362,145 @@ BX.UI.TooltipBalloon.prototype.showTooltip = function()
 	{
 		stubCreated = true;
 
-		var url = loader +
-			(loader.indexOf('?') >= 0 ? '&' : '?') +
-			'MODE=UI&MUL_MODE=INFO&USER_ID=' + _this.userId +
-			'&site=' + (BX.message('SITE_ID') || '') +
-			'&version=2' +
-			(
-				typeof _this.params != 'undefined'
-				&& typeof _this.params.entityType != 'undefined'
-				&& _this.params.entityType.length > 0
-					? '&entityType=' + _this.params.entityType
-					: ''
-			) +
-			(
-				typeof _this.params != 'undefined'
-				&& typeof _this.params.entityId != 'undefined'
-				&& parseInt(_this.params.entityId) > 0
-					? '&entityId=' + parseInt(_this.params.entityId)
-					: ''
-			);
+		if (_this.version >= 3)
+		{
+			BX.ajax.runComponentAction('bitrix:ui.tooltip', 'getData', {
+				mode: 'ajax', //это означает, что мы хотим вызывать действие из class.php
+				data: {
+					userId: _this.userId,
+					params: (typeof _this.params != 'undefined' ? _this.params : {})
+				}
+			}).then(function (response) {
 
-		BX.ajax.get(url, BX.proxy(function(data) {
-			_this.insertData(data);
-			_this.adjustPosition();
-		}, _this));
+				var detailUrl = ((BX.type.isNotEmptyString(response.data.user.detailUrl)) ? response.data.user.detailUrl : '');
+				var cardUserName = '';
+
+				if (BX.type.isNotEmptyString(response.data.user.nameFormatted))
+				{
+					if (BX.type.isNotEmptyString(detailUrl))
+					{
+						cardUserName = '<a href="' + detailUrl + '">' + response.data.user.nameFormatted + '</a>';
+					}
+					else
+					{
+						cardUserName = response.data.user.nameFormatted;
+					}
+				}
+
+				var cardFields = '<div class="bx-ui-tooltip-info-data-info">';
+				for (var fieldCode in response.data.user.cardFields)
+				{
+					if (response.data.user.cardFields.hasOwnProperty(fieldCode))
+					{
+						cardFields += '<span class="field-row field-row-' + fieldCode.toLowerCase() + '"><span class="field-name">' + response.data.user.cardFields[fieldCode].name + '</span>: <span class="field-value">' + response.data.user.cardFields[fieldCode].value + '</span></span>';
+					}
+				}
+				cardFields += '</div>';
+
+				var cardFieldsClassName = (
+					parseInt(BX.message('USER_ID')) > 0
+					&& response.data.currentUserPerms.operations.videocall
+						? 'bx-ui-tooltip-info-data-cont-video'
+						: 'bx-ui-tooltip-info-data-cont'
+				);
+				cardFields = '<div id="bx_user_info_data_cont_' + response.data.user.id + '" class="' + cardFieldsClassName + '">' + cardFields + '</div>';
+
+				var photo = '';
+				var photoClassName = 'bx-ui-tooltip-info-data-photo no-photo';
+
+				if (BX.type.isNotEmptyString(response.data.user.photo))
+				{
+					photo = response.data.user.photo;
+					photoClassName = 'bx-ui-tooltip-info-data-photo';
+				}
+
+				photo = (
+					BX.type.isNotEmptyString(detailUrl)
+						? '<a href="' + detailUrl + '" class="' + photoClassName + '">' + photo + '</a>'
+						: '<span class="' + photoClassName + '">' + photo + '</span>'
+				);
+
+				var toolbar = toolbar2 = '';
+
+				if (
+					parseInt(BX.message('USER_ID')) > 0
+					&& response.data.user.active
+					&& response.data.user.id != BX.message('USER_ID')
+					&& response.data.currentUserPerms.operations.message
+				)
+				{
+					toolbar2 += '<li class="bx-icon bx-icon-message"><span onclick="return BX.tooltip.openIM(' + response.data.user.id +');">' + BX.message('MAIN_UL_TOOLBAR_MESSAGES_CHAT') + '</span></li>';
+					toolbar2 += '<li id="im-video-call-button' + response.data.user.id + '" class="bx-icon bx-icon-video"><span onclick="return BX.tooltip.openCallTo(' + response.data.user.id +');">' + BX.message('MAIN_UL_TOOLBAR_VIDEO_CALL') + '</span></li>';
+					toolbar2 += '<script type="text/javascript">BX.ready(function() {BX.tooltip.checkCallTo("im-video-call-button' + response.data.user.id + '"); };</script>';
+				}
+
+				toolbar2 = (BX.type.isNotEmptyString(toolbar2) ? '<div class="bx-ui-tooltip-info-data-separator"></div><ul>' + toolbar2 + '</ul>' : '');
+
+				if (response.data.user.hasBirthday)
+				{
+					toolbar += '<li class="bx-icon bx-icon-birth">' + BX.message('MAIN_UL_TOOLBAR_BIRTHDAY') + '</li>';
+				}
+
+				if (response.data.user.hasHonour)
+				{
+					toolbar += '<li class="bx-icon bx-icon-featured">' + BX.message('MAIN_UL_TOOLBAR_HONORED') + '</li>';
+				}
+
+				if (response.data.user.hasAbsence)
+				{
+					toolbar += '<li class="bx-icon bx-icon-away">' + BX.message('MAIN_UL_TOOLBAR_ABSENT') + '</li>';
+				}
+
+				toolbar = (BX.type.isNotEmptyString(toolbar) ? '<ul>' + toolbar + '</ul>' : '');
+
+				_this.insertData({
+					RESULT: {
+						Name: cardUserName,
+						Position: (BX.type.isNotEmptyString(response.data.user.position) ? response.data.user.position : ''),
+						Card: cardFields,
+						Photo: photo,
+						Toolbar: toolbar,
+						Toolbar2: toolbar2
+					}
+				});
+				_this.adjustPosition();
+
+			}, function (response) {
+				/**
+				 {
+					 "status": "error",
+					 "errors": [...]
+				 }
+				 **/
+			});
+		}
+		else
+		{
+			var url = loader +
+				(loader.indexOf('?') >= 0 ? '&' : '?') +
+				'MODE=UI&MUL_MODE=INFO&USER_ID=' + _this.userId +
+				'&site=' + (BX.message('SITE_ID') || '') +
+				'&version=' + _this.version +
+				(
+					typeof _this.params != 'undefined'
+					&& typeof _this.params.entityType != 'undefined'
+					&& _this.params.entityType.length > 0
+						? '&entityType=' + _this.params.entityType
+						: ''
+				) +
+				(
+					typeof _this.params != 'undefined'
+					&& typeof _this.params.entityId != 'undefined'
+					&& parseInt(_this.params.entityId) > 0
+						? '&entityId=' + parseInt(_this.params.entityId)
+						: ''
+				);
+
+			BX.ajax.get(url, BX.proxy(function(data) {
+				_this.insertData(data);
+				_this.adjustPosition();
+			}, _this));
+		}
 
 		_this.DIV.id = BX.UI.Tooltip.getIdPrefix() + _this.userId;
 
@@ -463,9 +585,22 @@ BX.UI.TooltipBalloon.prototype.insertData = function(data)
 {
 	var _this = this;
 
-	if (null != data && data.length > 0)
+	if (
+		null != data
+		&& (
+			_this.version >= 3
+			|| data.length > 0
+		)
+	)
 	{
-		eval('_this.INFO = ' + data);
+		if (_this.version >= 3)
+		{
+			_this.INFO = data;
+		}
+		else
+		{
+			eval('_this.INFO = ' + data);
+		}
 
 		var cardEl = BX(BX.UI.Tooltip.getIdPrefix() + 'data-card-' + _this.userId);
 		cardEl.innerHTML = '';

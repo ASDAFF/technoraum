@@ -82,7 +82,10 @@
 
 .adm-workarea input[type="submit"],
 .adm-workarea input[type="button"],
-.adm-workarea input[type="reset"] {padding:1px 13px 3px;}
+.adm-workarea input[type="reset"] {
+	padding:1px 13px 3px;
+	margin: 2px;
+}
 
 .adm-workarea input.adm-btn-big {
 	margin-bottom:15px;

@@ -449,6 +449,7 @@ CModule::AddAutoloadClasses(
 		"CSaleCondCtrlGroup" => "general/sale_cond.php",
 		"CSaleCondCtrlBasketGroup" => "general/sale_cond.php",
 		"CSaleCondCtrlBasketFields" => "general/sale_cond.php",
+		"CSaleCondCtrlBasketItemConditions" => "general/sale_cond.php",
 		"CSaleCondCtrlBasketProperties" => "general/sale_cond.php",
 		"CSaleCondCtrlOrderFields" => "general/sale_cond.php",
 		"CSaleCondCtrlCommon" => "general/sale_cond.php",
@@ -639,7 +640,17 @@ CModule::AddAutoloadClasses(
 		
 		'\Bitrix\Sale\Delivery\Packing\Packer' => '/lib/delivery/packing/packer.php',
 
-		'\Bitrix\Sale\Recurring' => '/lib/recurring.php'
+		'\Bitrix\Sale\Recurring' => '/lib/recurring.php',
+
+		'\Bitrix\Sale\Location\Normalizer\Builder' => '/lib/location/normalizer/builder.php',
+		'\Bitrix\Sale\Location\Normalizer\IBuilder' => '/lib/location/normalizer/ibuilder.php',
+		'\Bitrix\Sale\Location\Normalizer\Normalizer' => '/lib/location/normalizer/normalizer.php',
+		'\Bitrix\Sale\Location\Normalizer\INormalizer' => '/lib/location/normalizer/inormalizer.php',
+		'\Bitrix\Sale\Location\Normalizer\CommonNormalizer' => '/lib/location/normalizer/commonnormalizer.php',
+		'\Bitrix\Sale\Location\Normalizer\NullNormalizer' => '/lib/location/normalizer/nullnormalizer.php',
+		'\Bitrix\Sale\Location\Normalizer\SpaceNormalizer' => '/lib/location/normalizer/spacenormalizer.php',
+		'\Bitrix\Sale\Location\Normalizer\LanguageNormalizer' => '/lib/location/normalizer/languagenormalizer.php',
+		'\Bitrix\Sale\Location\Normalizer\Helper' => '/lib/location/normalizer/helper.php'
 	)
 );
 

@@ -31,23 +31,13 @@ CUtil::InitJSCore(array('socnetlogdest'));
 			{
 				foreach ($template["PARAMETERS"] as $parameterKey => $arParameter)
 				{
-					$userSelected = null;
-					if ($arParameter['Type'] === 'user')
-					{
-						$userSelected = \Bitrix\Bizproc\Automation\Helper::prepareUserSelectorEntities(
-							$arParams["DOCUMENT_TYPE"],
-							$arParameter['Default']
-						);
-					}
-
 					?>
 					<div class="bizproc-modern-type-control-container">
 						<span class="bizproc-modern-type-control-container-title bizproc-modern-type-control-container-title-top"
 							<? if ($arParameter["Description"]):?> title="<?=htmlspecialcharsbx($arParameter["Description"])?>"<?endif;?>>
 							<?=htmlspecialcharsbx($arParameter['Name'])?><?=($arParameter["Required"] ? "<span class=\"required\">*</span> " : "")?>:
 						</span>
-						<div class="bizproc-modern-type-control-wrapper bizproc-modern-type-control-wrapper-<?=htmlspecialcharsbx($arParameter["Type"])?>"
-							<?if ($userSelected):?> data-user-selected="<?=htmlspecialcharsbx(\Bitrix\Main\Web\Json::encode($userSelected))?>" <?endif;?>>
+						<div class="bizproc-modern-type-control-wrapper">
 						<?
 								echo $documentService->GetFieldInputControl(
 									$arParams["DOCUMENT_TYPE"],
@@ -55,7 +45,6 @@ CUtil::InitJSCore(array('socnetlogdest'));
 									array(
 										"Form" => "start_workflow_form1",
 										"Field" => $parameterKey,
-										'ClassNamePrefix' => 'bizproc-modern-type-control',
 									),
 									$arParameter['Default'],
 									false,

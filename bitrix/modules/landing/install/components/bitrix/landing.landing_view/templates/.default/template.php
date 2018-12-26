@@ -14,6 +14,7 @@ Extension::load([
 	'ui.buttons',
 	'ui.buttons.icons',
 	'ui.alerts',
+	'ui.fonts.opensans',
 	'sidepanel',
 	'popup_menu',
 	'marketplace',
@@ -48,10 +49,31 @@ if ($arResult['ERRORS'])
 		</div>
 		<?
 	}
+	elseif (isset($errors['SITE_IS_NOW_CREATING']))
+	{
+		?>
+		<div class="landing-view-loader-container">
+			<div class="main-ui-loader main-ui-show" data-is-shown="true" style="">
+				<svg class="main-ui-loader-svg" viewBox="25 25 50 50">
+					<circle class="main-ui-loader-svg-circle" cx="50" cy="50" r="20" fill="none" stroke-miterlimit="10"></circle>
+				</svg>
+			</div>
+			<div class="landing-view-loader-text"><?= Loc::getMessage('LANDING_WAIT_WHILE_CREATING');?></div>
+		</div>
+		<script type="text/javascript">
+			BX.ready(function()
+			{
+				setTimeout(function() {
+					window.location.href = "<?= \CUtil::jsEscape($arResult['LANDING_FULL_URL']);?>"
+				}, 3000);
+			});
+		</script>
+		<?
+	}
 	else
 	{
 		\showError(
-			implode("\n", $arResult['ERRORS'])
+			implode("\n", $errors)
 		);
 	}
 	return;
@@ -60,7 +82,7 @@ if ($arResult['ERRORS'])
 $site = $arResult['SITE'];
 $context = \Bitrix\Main\Application::getInstance()->getContext();
 $request = $context->getRequest();
-$curUrl = $request->getRequestUri();
+$curUrl = $arResult['CUR_URI'];
 
 // common url
 $uriEdit = new \Bitrix\Main\Web\Uri($curUrl);
@@ -98,11 +120,14 @@ if (!$request->offsetExists('landing_mode')):
 		'code' => $arResult['LANDING']->getXmlId(),
 		'sessid' => bitrix_sessid()
 	));
-	\Bitrix\Landing\Landing::setPreviewMode(true);
-	$uriPreview = new \Bitrix\Main\Web\Uri(
-		$arResult['LANDING']->getPublicUrl(false, true, true)
-	);
-	\Bitrix\Landing\Landing::setPreviewMode(false);
+	$uriPreview = new \Bitrix\Main\Web\Uri($curUrl);
+	$uriPreview->addParams(array(
+		'action' => 'preview',
+		'landing_mode' => 'preview',
+		'param' => $arResult['LANDING']->getId(),
+		'code' => $arResult['LANDING']->getXmlId(),
+		'sessid' => bitrix_sessid()
+	));
 	// b24 title
 	$b24Title = \Bitrix\Main\Config\Option::get('bitrix24', 'site_title', '');
 	$b24Logo = \Bitrix\Main\Config\Option::get('bitrix24', 'logo24show', 'Y');
@@ -143,14 +168,14 @@ if (!$request->offsetExists('landing_mode')):
 				echo $title;
 				?>
 			</a><?
-			?><strong class="landing-ui-panel-top-chain-link-sites">&thinsp;&ndash;&thinsp;</strong>
+			?><strong class="landing-ui-panel-top-chain-link-separator"><span></span></strong>
 			<?endif;?><?
 				$sitesCount = $component->getSitesCount();
 				$pagesCount = $component->getPagesCount();
 			?><<?=$sitesCount <= 1 ? "a href=\"".$arParams['PAGE_URL_LANDINGS']."\"" : "span"?> class="ui-btn ui-btn-xs ui-btn-light ui-btn-round landing-ui-panel-top-chain-link landing-ui-panel-top-chain-link-site<?=($sitesCount <= 1 ? " landing-ui-no-icon" : "")?>" title="<?= \htmlspecialcharsbx($site['TITLE']);?>">
 				<?= \htmlspecialcharsbx($site['TITLE']);?>
 			</<?=$sitesCount <= 1 ? "a" : "span"?>><?
-			?><strong>&thinsp;&ndash;&thinsp;</strong><?
+			?><strong class="landing-ui-panel-top-chain-link-separator"><span></span></strong><?
 			?><span class="ui-btn ui-btn-xs ui-btn-light ui-btn-round landing-ui-panel-top-chain-link landing-ui-panel-top-chain-link-page<?=($pagesCount <= 1 ? " landing-ui-no-icon" : "")?>" title="<?= \htmlspecialcharsbx($arResult['LANDING']->getTitle());?>"><?
 				echo \htmlspecialcharsbx($arResult['LANDING']->getTitle());
 			?></span>
@@ -167,13 +192,13 @@ if (!$request->offsetExists('landing_mode')):
 			<span class="landing-ui-panel-top-history-button landing-ui-panel-top-history-redo landing-ui-disabled"></span>
 		</div>
 		<div class="landing-ui-panel-top-menu">
-			<span class="ui-btn ui-btn-link ui-btn-icon-setting landing-ui-panel-top-menu-link landing-ui-panel-top-menu-link-settings" title="<?= Loc::getMessage('LANDING_TPL_SETTINGS_URL');?>">&nbsp;</span>
+			<span class="ui-btn ui-btn-link ui-btn-icon-setting landing-ui-panel-top-menu-link landing-ui-panel-top-menu-link-settings" title="<?= Loc::getMessage('LANDING_TPL_SETTINGS_URL');?>"></span>
 			<span class="ui-btn ui-btn-xs ui-btn-light ui-btn-round landing-ui-panel-top-chain-link landing-ui-panel-top-menu-link-settings">
 				<?= Loc::getMessage('LANDING_TPL_SETTINGS_URL');?>
 			</span><?
-			?><a href="<?= $uriPreview->getUri();?>" class="ui-btn ui-btn-light-border landing-ui-panel-top-menu-link" target="_blank"><?= Loc::getMessage('LANDING_TPL_PREVIEW_URL');?></a><?
+			?><a href="<?= $uriPreview->getUri();?>" class="ui-btn ui-btn-light-border landing-ui-panel-top-menu-link landing-btn-menu" target="_blank"><?= Loc::getMessage('LANDING_TPL_PREVIEW_URL');?></a><?
 			?>
-			<div class="ui-btn-double ui-btn-primary">
+			<div class="ui-btn-split ui-btn-primary landing-btn-menu">
 				<a href="<?= $arParams['TYPE'] == 'STORE' ? $uriPubAll->getUri() : $uriPub->getUri();?>" id="landing-publication" class="ui-btn-main" target="_blank">
 					<?= Loc::getMessage('LANDING_TPL_PUBLIC_URL');?>
 				</a>
@@ -196,6 +221,12 @@ if (!$request->offsetExists('landing_mode')):
 	<?php
 endif;
 
+?>
+<script type="text/javascript">
+	var landingParams = <?= \CUtil::phpToJSObject($arParams);?>;
+</script>
+<?
+
 if ($request->offsetExists('landing_mode'))
 {
 	if ($request->get('landing_mode') == 'edit')
@@ -215,7 +246,7 @@ if ($request->offsetExists('landing_mode'))
     {
     ?>
         <script>
-            BX.namespace("BX.Landing");
+            BX.namespace('BX.Landing');
 
             BX.Landing.Block = function() {};
             BX.Landing.Main = function() {};
@@ -244,7 +275,7 @@ else
 		$hooksLanding['THEME']->exec();
 	}
 	// title
-	Manager::getApplication()->setTitle(
+	Manager::setPageTitle(
 			\htmlspecialcharsbx($arResult['LANDING']->getTitle())
 	);
 	?>

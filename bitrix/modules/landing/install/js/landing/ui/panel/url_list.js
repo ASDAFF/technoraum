@@ -17,6 +17,7 @@
 	var isString = BX.Landing.Utils.isString;
 	var isPlainObject = BX.Landing.Utils.isPlainObject;
 	var isArray = BX.Landing.Utils.isArray;
+	var addQueryParams = BX.Landing.Utils.addQueryParams;
 	var Cache = BX.Landing.Cache;
 
 	var TYPE_PAGE = "landing";
@@ -174,6 +175,18 @@
 				}, this);
 
 				this.getLandings(currentSiteId).then(function(landings) {
+					if (isPlainObject(landings))
+					{
+						landings = Object.keys(landings).reduce(function(acc, key) {
+							if (isPlainObject(landings[key]) && isArray(landings[key].result))
+							{
+								acc = acc.concat(landings[key].result);
+							}
+
+							return acc;
+						}, []);
+					}
+
 					landings.forEach(function(landing) {
 						if (!landing.IS_AREA || (landing.IS_AREA && options.enableAreas))
 						{
@@ -369,7 +382,14 @@
 
 		buildLandingPreviewUrl: function(landing)
 		{
-			return "/sites/site/"+landing.SITE_ID+"/view/"+landing.ID+"/?forceLoad=true&landing_mode=edit";
+			var editorUrl = BX.Landing.Main.getInstance().options.params.sef_url.landing_view;
+			editorUrl = editorUrl.replace("#site_show#", landing.SITE_ID);
+			editorUrl = editorUrl.replace("#landing_edit#", landing.ID);
+
+			return addQueryParams(editorUrl, {
+				forceLoad: true,
+				landing_mode: "edit"
+			});
 		},
 
 		loadPreviewSrc: function(src)
@@ -544,6 +564,18 @@
 			this.showLoader();
 
 			this.getLandings(siteId).then(function(landings) {
+				if (isPlainObject(landings))
+				{
+					landings = Object.keys(landings).reduce(function(acc, key) {
+						if (isPlainObject(landings[key]) && isArray(landings[key].result))
+						{
+							acc = acc.concat(landings[key].result);
+						}
+
+						return acc;
+					}, []);
+				}
+
 				landings.forEach(function(landing) {
 					if (!landing.IS_AREA || (landing.IS_AREA && enableAreas))
 					{

@@ -37,27 +37,66 @@ class LandingSiteDemoPreviewComponent extends LandingSiteDemoComponent
 				$this->arResult['COLORS'] = \Bitrix\Landing\Hook\Page\Theme::getColorCodes();
 				$this->arResult['TEMPLATE'] = $demo[$code];
 				$this->arResult['TEMPLATE']['URL_PREVIEW'] = $this->getUrlPreview($code);
+//				first color by default
+				$this->arResult['THEME_CURRENT'] = array_shift(array_keys($this->arResult['COLORS']));
 
-//				match COLOR THEME
-//				get from page
-				if (!($themeCurr = $this->arResult['TEMPLATE']['DATA']['fields']['ADDITIONAL_FIELDS']['THEME_CODE']))
+//				new page in EXIST SITE - use site theme always. Find parent site hook
+				if ($this->arParams['SITE_ID'])
 				{
-//					if note set page theme - get from site
-					$siteCode = $demo[$code]['DATA']['parent'] ? $demo[$code]['DATA']['parent'] : $demo[$code]['id'];
-//					todo: cant use PARENT in one-pages templates. Need another
-					$demoSite = $this->getDemoSite()[$siteCode];
-					if (!($themeCurr = $demoSite['DATA']['fields']['ADDITIONAL_FIELDS']['THEME_CODE']))
+					$classFull = $this->getValidClass('Site');
+					if ($classFull && method_exists($classFull, 'getHooks'))
 					{
-//						of get first element from theme list
-						$themeCurr = array_shift(array_keys($this->arResult['COLORS']));
+						\Bitrix\Landing\Hook::setEditMode();
+						$hooks = $classFull::getHooks($this->arParams['SITE_ID']);
+					}
+					
+					if (isset($hooks['THEME']) && isset($hooks['THEME']->getPageFields()['THEME_CODE']))
+					{
+						$this->arResult['THEME_SITE'] = $hooks['THEME']->getPageFields()['THEME_CODE']->getValue();
+					}
+					else
+					{
+						$this->arResult['THEME_SITE'] = $this->arResult['THEME_CURRENT'];
+					}
+					unset($this->arResult['THEME_CURRENT']);
+
+//					add color to PALLETE
+					if (isset($this->arResult['COLORS'][$this->arResult['THEME_SITE']]))
+					{
+						$this->arResult['COLORS'][$this->arResult['THEME_SITE']]['base'] = true;
 					}
 				}
-
-//				need add current theme to base-list
-				$this->arResult['COLOR_CURRENT'] = $themeCurr;
-				if (isset($this->arResult['COLORS'][$themeCurr]))
+				
+//				NEW SITE - match
+				else
 				{
-					$this->arResult['COLORS'][$themeCurr]['base'] = true;
+					$themeCurr = $this->arResult['THEME_CURRENT'];
+//					form SITE
+					if (!isset($this->arResult['TEMPLATE']['DATA']['fields']['ADDITIONAL_FIELDS']['THEME_CODE']))
+					{
+//						find PARENT site for multipages, or site with equal ID
+						$siteCode = (isset($demo[$code]['DATA']['parent']) && $demo[$code]['DATA']['parent'])
+							? $demo[$code]['DATA']['parent']
+							: $demo[$code]['ID'];
+						$demoSite = $this->getDemoSite()[$siteCode];
+						if ($demoSite['DATA']['fields']['ADDITIONAL_FIELDS']['THEME_CODE'])
+						{
+							$themeCurr = $demoSite['DATA']['fields']['ADDITIONAL_FIELDS']['THEME_CODE'];
+						}
+					}
+//					if note set site theme - get from parent PAGE
+					else
+					{
+						$themeCurr = $this->arResult['TEMPLATE']['DATA']['fields']['ADDITIONAL_FIELDS']['THEME_CODE'];
+					}
+					
+//					add to PALLETE
+					if (isset($this->arResult['COLORS'][$themeCurr]))
+					{
+						$this->arResult['COLORS'][$themeCurr]['base'] = true;
+					}
+					
+					$this->arResult['THEME_CURRENT'] = $themeCurr;
 				}
 			}
 			else

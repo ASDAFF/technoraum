@@ -55,7 +55,7 @@ $addMailboxMenuItem = array(
 );
 
 $userMailboxesLimit = $arResult['MAX_ALLOWED_CONNECTED_MAILBOXES'];
-if ($userMailboxesLimit >= 0 && count($arResult['USER_OWNED_MAILBOXES_COUNT']) >= $userMailboxesLimit)
+if ($userMailboxesLimit >= 0 && $arResult['USER_OWNED_MAILBOXES_COUNT'] >= $userMailboxesLimit)
 {
 	if (\CModule::includeModule('bitrix24'))
 	{
@@ -99,7 +99,7 @@ $settingsMenu = [
 		'text' => Loc::getMessage('MAIL_MESSAGE_LIST_SETTINGS_LINK'),
 		'className' => '',
 		'href' => htmlspecialcharsbx($configPath),
-		'disabled' => $USER->getId() != $arResult['MAILBOX']['USER_ID'],
+		'disabled' => $USER->getId() != $arResult['MAILBOX']['USER_ID'] && !$USER->isAdmin() && !$USER->canDoOperation('bitrix24_config'),
 	],
 	[
 		'text' => Loc::getMessage('MAIL_MESSAGE_LIST_SIGNATURE_LINK'),
@@ -263,15 +263,30 @@ if ($arResult['MAILBOX']['SYNC_LOCK'] > 0)
 
 ?>
 
-<div id="mail-msg-sync-stepper" class="main-stepper main-stepper-show"
-	style="animation-duration: 0s; <? if (!$showStepper): ?> display: none; <? endif ?>">
-	<div class="main-stepper-info"><?=Loc::getMessage('MAIL_CLIENT_MAILBOX_SYNC_BAR') ?></div>
-	<div class="main-stepper-inner">
-		<div class="main-stepper-bar">
-			<div class="main-stepper-bar-line" style="width: 0%;"></div>
+<div class="mail-msg-list-stepper-wrapper">
+
+	<div id="mail-msg-sync-stepper" class="main-stepper main-stepper-show"
+		<? if (!$showStepper): ?> style=" display: none; "<? endif ?>>
+		<div class="main-stepper-info"><?=Loc::getMessage('MAIL_CLIENT_MAILBOX_SYNC_BAR') ?></div>
+		<div class="main-stepper-inner">
+			<div class="main-stepper-bar">
+				<div class="main-stepper-bar-line" style="width: 0%;"></div>
+			</div>
+			<div class="main-stepper-steps"></div>
 		</div>
-		<div class="main-stepper-steps"></div>
 	</div>
+
+	<?=Main\Update\Stepper::getHtml(
+		array(
+			'mail' => array(
+				'Bitrix\Mail\Helper\MessageIndexStepper',
+				'Bitrix\Mail\Helper\ContactsStepper',
+				'Bitrix\Mail\Helper\MessageClosureStepper',
+			),
+		),
+		Loc::getMessage('MAIL_CLIENT_MAILBOX_INDEX_BAR')
+	) ?>
+
 </div>
 
 <?
@@ -555,24 +570,24 @@ $APPLICATION->includeComponent(
 			ERROR_CODE_CAN_NOT_DELETE: 'MAIL_CLIENT_TRASH_FOLDER_NOT_SELECTED_ERROR'
 		});
 		BX.message({
-			MAIL_MESSAGE_LIST_NOTIFY_MESSAGE_SENT: '<?= Loc::getMessage('MAIL_MESSAGE_LIST_NOTIFY_MESSAGE_SENT') ?>',
-			MAIL_MESSAGE_LIST_COLUMN_BIND_TASKS_TASK: '<?= Loc::getMessage('MAIL_MESSAGE_LIST_COLUMN_BIND_TASKS_TASK') ?>',
-			MAIL_MESSAGE_LIST_COLUMN_BIND_CRM_ACTIVITY: '<?= Loc::getMessage('MAIL_MESSAGE_LIST_COLUMN_BIND_CRM_ACTIVITY') ?>',
-			MAIL_CLIENT_AJAX_ERROR: '<?= Loc::getMessage('MAIL_CLIENT_AJAX_ERROR') ?>',
-			MAIL_MESSAGE_LIST_BTN_SEEN: '<?= Loc::getMessage('MAIL_MESSAGE_LIST_BTN_SEEN') ?>',
-			MAIL_MESSAGE_LIST_BTN_UNSEEN: '<?= Loc::getMessage('MAIL_MESSAGE_LIST_BTN_UNSEEN') ?>',
-			MAIL_MESSAGE_LIST_BTN_DELETE: '<?= Loc::getMessage('MAIL_MESSAGE_LIST_BTN_DELETE') ?>',
-			MAIL_MESSAGE_LIST_BTN_NOT_SPAM: '<?= Loc::getMessage('MAIL_MESSAGE_LIST_BTN_NOT_SPAM') ?>',
-			MAIL_MESSAGE_LIST_BTN_SPAM: '<?= Loc::getMessage('MAIL_MESSAGE_LIST_BTN_SPAM') ?>',
-			MAIL_MESSAGE_LIST_CONFIRM_DELETE: '<?= Loc::getMessage('MAIL_MESSAGE_LIST_CONFIRM_DELETE') ?>',
-			MAIL_MESSAGE_LIST_CONFIRM_DELETE_BTN: '<?= Loc::getMessage('MAIL_MESSAGE_LIST_CONFIRM_DELETE_BTN') ?>',
-			MAIL_MESSAGE_LIST_CONFIRM_TITLE: '<?= Loc::getMessage('MAIL_MESSAGE_LIST_CONFIRM_TITLE') ?>',
-			MAIL_MESSAGE_LIST_NOTIFY_ADDED_TO_CRM: '<?= Loc::getMessage('MAIL_MESSAGE_LIST_NOTIFY_ADDED_TO_CRM') ?>',
-			MAIL_MESSAGE_LIST_NOTIFY_NOT_ADDED_TO_CRM: '<?= Loc::getMessage('MAIL_MESSAGE_LIST_NOTIFY_NOT_ADDED_TO_CRM') ?>',
-			MAIL_MESSAGE_LIST_NOTIFY_EXCLUDED_FROM_CRM: '<?= Loc::getMessage('MAIL_MESSAGE_LIST_NOTIFY_EXCLUDED_FROM_CRM') ?>',
-			MAIL_MESSAGE_LIST_NOTIFY_SUCCESS: '<?= Loc::getMessage('MAIL_MESSAGE_LIST_NOTIFY_SUCCESS') ?>',
-			MAIL_MESSAGE_LIST_CONFIRM_CANCEL_BTN: '<?= Loc::getMessage('MAIL_MESSAGE_LIST_CONFIRM_CANCEL_BTN') ?>',
-			MAIL_MAILBOX_LICENSE_CONNECTED_MAILBOXES_LIMIT_TITLE: '<?= Loc::getMessage('MAIL_MAILBOX_LICENSE_CONNECTED_MAILBOXES_LIMIT_TITLE') ?>'
+			MAIL_MESSAGE_LIST_COLUMN_BIND_TASKS_TASK: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MESSAGE_LIST_COLUMN_BIND_TASKS_TASK')) ?>',
+			MAIL_MESSAGE_LIST_COLUMN_BIND_CRM_ACTIVITY: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MESSAGE_LIST_COLUMN_BIND_CRM_ACTIVITY')) ?>',
+			MAIL_CLIENT_AJAX_ERROR: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_CLIENT_AJAX_ERROR')) ?>',
+			MAIL_MESSAGE_LIST_BTN_SEEN: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MESSAGE_LIST_BTN_SEEN')) ?>',
+			MAIL_MESSAGE_LIST_BTN_UNSEEN: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MESSAGE_LIST_BTN_UNSEEN')) ?>',
+			MAIL_MESSAGE_LIST_BTN_DELETE: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MESSAGE_LIST_BTN_DELETE')) ?>',
+			MAIL_MESSAGE_LIST_BTN_NOT_SPAM: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MESSAGE_LIST_BTN_NOT_SPAM')) ?>',
+			MAIL_MESSAGE_LIST_BTN_SPAM: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MESSAGE_LIST_BTN_SPAM')) ?>',
+			MAIL_MESSAGE_LIST_CONFIRM_DELETE: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MESSAGE_LIST_CONFIRM_DELETE')) ?>',
+			MAIL_MESSAGE_LIST_CONFIRM_DELETE_BTN: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MESSAGE_LIST_CONFIRM_DELETE_BTN')) ?>',
+			MAIL_MESSAGE_LIST_CONFIRM_TITLE: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MESSAGE_LIST_CONFIRM_TITLE')) ?>',
+			MAIL_MESSAGE_LIST_NOTIFY_ADDED_TO_CRM: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MESSAGE_LIST_NOTIFY_ADDED_TO_CRM')) ?>',
+			MAIL_MESSAGE_LIST_NOTIFY_NOT_ADDED_TO_CRM: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MESSAGE_LIST_NOTIFY_NOT_ADDED_TO_CRM')) ?>',
+			MAIL_MESSAGE_LIST_NOTIFY_EXCLUDED_FROM_CRM: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MESSAGE_LIST_NOTIFY_EXCLUDED_FROM_CRM')) ?>',
+			MAIL_MESSAGE_LIST_NOTIFY_SUCCESS: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MESSAGE_LIST_NOTIFY_SUCCESS')) ?>',
+			MAIL_MESSAGE_LIST_CONFIRM_CANCEL_BTN: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MESSAGE_LIST_CONFIRM_CANCEL_BTN')) ?>',
+			MAIL_MAILBOX_LICENSE_CONNECTED_MAILBOXES_LIMIT_TITLE: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MAILBOX_LICENSE_CONNECTED_MAILBOXES_LIMIT_TITLE')) ?>',
+			MAIL_MESSAGE_SYNC_BTN_HINT: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_MESSAGE_SYNC_BTN_HINT')) ?>'
 		});
 
 		var mailboxData = <?=Main\Web\Json::encode(array(

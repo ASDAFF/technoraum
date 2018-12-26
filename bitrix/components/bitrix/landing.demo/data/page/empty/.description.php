@@ -13,8 +13,6 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_EMPTY_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
-			'THEME_CODE' => 'app',
-			'THEME_CODE_TYPO' => 'app',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/empty/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_EMPTY_TITLE_PAGE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_EMPTY_DESCRIPTION'),

@@ -30,6 +30,11 @@ class LandingBaseComponent extends \CBitrixComponent
 	const ERROR_STATUS_UNAVAILABLE = '503 Service Unavailable';
 
 	/**
+	 * Navigation id.
+	 */
+	const NAVIGATION_ID = 'nav';
+
+	/**
 	 * Current errors.
 	 * @var array
 	 */
@@ -40,6 +45,12 @@ class LandingBaseComponent extends \CBitrixComponent
 	 * @var string
 	 */
 	protected $template = '';
+
+	/**
+	 * Last navigation result.
+	 * @var \Bitrix\Main\UI\PageNavigation
+	 */
+	protected $lastNavigation = null;
 
 	/**
 	 * Init class' vars, check conditions.
@@ -270,6 +281,15 @@ class LandingBaseComponent extends \CBitrixComponent
 	}
 
 	/**
+	 * Gets last navigation object.
+	 * @return \Bitrix\Main\UI\PageNavigation
+	 */
+	public function getLastNavigation()
+	{
+		return $this->lastNavigation;
+	}
+
+	/**
 	 * Get items from some table.
 	 * @param string $class Class code.
 	 * @param array $params Params.
@@ -282,6 +302,19 @@ class LandingBaseComponent extends \CBitrixComponent
 
 		if ($class)
 		{
+			// make navigation
+			if (isset($params['navigation']))
+			{
+				$this->lastNavigation = new \Bitrix\Main\UI\PageNavigation(
+					$this::NAVIGATION_ID
+				);
+				$this->lastNavigation->allowAllRecords(false)
+									->setPageSize($params['navigation'])
+									->initFromUri();
+				$params['offset'] = $this->lastNavigation->getOffset();
+				$params['limit'] = $this->lastNavigation->getLimit();
+			}
+
 			/** @var Entity\DataManager $class */
 			$res = $class::getList(array(
 				'select' => array_merge(array(
@@ -309,14 +342,28 @@ class LandingBaseComponent extends \CBitrixComponent
 							),
 				'limit' => isset($params['limit'])
 							? $params['limit']
-							: 0,
+							: null,
+				'offset' => isset($params['offset'])
+							? $params['offset']
+							: null,
 				'runtime' => isset($params['runtime'])
 							? $params['runtime']
-							: array()
+							: array(),
+				'count_total' => isset($params['navigation'])
+							? true
+							: null
 			));
 			while ($row = $res->fetch())
 			{
 				$items[$row['ID']] = $row;
+			}
+
+			// make navigation
+			if (isset($params['navigation']))
+			{
+				$this->lastNavigation->setRecordCount(
+					$res->getCount()
+				);
 			}
 		}
 
@@ -438,43 +485,7 @@ class LandingBaseComponent extends \CBitrixComponent
 	 */
 	public function getRestPath()
 	{
-		static $staticPath = null;
-
-		if ($staticPath !== null)
-		{
-			return $staticPath;
-		}
-
-		$path = 'https://repo.bitrix24.site/rest/1/w1uqy3swvyp50bso/';
-		//$path = 'https://repo-dev.bitrix24.site/rest/1/w1uqy3swvyp50bso/';
-
-		if (
-			!defined('LANDING_DISABLE_CLOUD') ||
-			LANDING_DISABLE_CLOUD !== true
-		)
-		{
-			\Bitrix\Main\Config\Option::set(
-				'landing',
-				'block_vendor_bitrix',
-				$path
-			);
-		}
-		else
-		{
-			if (Manager::getOption('block_vendor_bitrix'))
-			{
-				\Bitrix\Main\Config\Option::delete(
-					'landing',
-					array(
-						'name' => 'block_vendor_bitrix'
-					)
-				);
-			}
-		}
-
-		$staticPath = $path;
-
-		return $staticPath;
+		return Manager::getRestPath();
 	}
 
 	/**
@@ -484,7 +495,36 @@ class LandingBaseComponent extends \CBitrixComponent
 	 */
 	protected function getTimestampUrl($url)
 	{
-		return rtrim($url, '/') . '/?ts=' . time();
+		if (Manager::isB24())
+		{
+			return rtrim($url, '/') . '/?ts=' . time();
+		}
+		else
+		{
+			return $url;
+		}
+	}
+
+	/**
+	 * Get URI without some external params.
+	 * @return string
+	 */
+	protected function getUri()
+	{
+		static $uri = null;
+
+		if ($uri === null)
+		{
+			$request = \Bitrix\Main\Application::getInstance()->getContext()->getRequest();
+			$curUri = new \Bitrix\Main\Web\Uri($request->getRequestUri());
+			$curUri->deleteParams(array(
+				'sessid', 'action', 'param', 'additional', 'code', 'tpl',
+				'stepper', 'start', 'IS_AJAX', $this::NAVIGATION_ID
+			));
+			$uri = $curUri->getUri();
+		}
+
+		return $uri;
 	}
 
 	/**
@@ -498,6 +538,7 @@ class LandingBaseComponent extends \CBitrixComponent
 		$action = $this->request('action');
 		$param = $this->request('param');
 		$additional = $this->request('additional');
+		$this->arResult['CUR_URI'] = $this->getUri();
 
 		// some action
 		if ($action && is_callable(array($this, 'action' . $action)))
@@ -508,10 +549,7 @@ class LandingBaseComponent extends \CBitrixComponent
 				|| !check_bitrix_sessid()
 			)
 			{
-				$request = \Bitrix\Main\Application::getInstance()->getContext()->getRequest();
-				$curUri = new \Bitrix\Main\Web\Uri($request->getRequestUri());
-				$curUri->deleteParams(array('sessid', 'action', 'param', 'additional', 'code'));
-				\localRedirect($curUri->getUri());
+				\localRedirect($this->arResult['CUR_URI']);
 			}
 		}
 

@@ -444,9 +444,16 @@ else
 							<div class="col-auto sale-order-list-repeat-container">
 								<a class="g-font-size-15 sale-order-list-repeat-link" href="<?=htmlspecialcharsbx($order["ORDER"]["URL_TO_COPY"])?>"><?=Loc::getMessage('SPOL_TPL_REPEAT_ORDER')?></a>
 							</div>
-							<div class="col-auto sale-order-list-cancel-container">
-								<a class="g-font-size-15 sale-order-list-cancel-link" href="<?=htmlspecialcharsbx($order["ORDER"]["URL_TO_CANCEL"])?>"><?=Loc::getMessage('SPOL_TPL_CANCEL_ORDER')?></a>
-							</div>
+							<?
+							if ($order['ORDER']['CAN_CANCEL'] !== 'N')
+							{
+								?>
+								<div class="col-auto sale-order-list-cancel-container">
+									<a class="g-font-size-15 sale-order-list-cancel-link" href="<?=htmlspecialcharsbx($order["ORDER"]["URL_TO_CANCEL"])?>"><?=Loc::getMessage('SPOL_TPL_CANCEL_ORDER')?></a>
+								</div>
+								<?
+							}
+							?>
 						</div>
 					</div>
 				</div>

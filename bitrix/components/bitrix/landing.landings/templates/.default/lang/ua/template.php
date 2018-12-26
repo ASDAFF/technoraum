@@ -1,4 +1,5 @@
 <?
+$MESS["LANDING_TPL_ACTION_REC_CONFIRM"] = "Перемістити в кошик?";
 $MESS["LANDING_TPL_TTL_DELETE"] = "До остаточного видалення";
 $MESS["LANDING_TPL_TTL_DELETE_D"] = "д.";
 $MESS["LANDING_TPL_ACTION_DELETE_CONFIRM"] = "Видалити сторінку?";

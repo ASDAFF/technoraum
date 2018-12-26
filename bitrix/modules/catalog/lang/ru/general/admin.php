@@ -37,6 +37,7 @@ $MESS["SETUP_LOAD_DATA"] = "Импорт данных";
 $MESS["SETUP_LOAD_DATA_ALT"] = "Настройка импорта данных в каталог";
 $MESS["CM_SUBSCRIPTION_PRODUCT"] = "Подписка на товары";
 $MESS["CAT_MENU_CATALOG_MARKETPLACE_ADD"] = "Установить из Маркетплейс";
+$MESS["CAT_MENU_CATALOG_MARKETPLACE_CATALOG_TOOLS"] = "Установить инструменты из Маркетплейс";
 $MESS["SALE_MENU_MARKETPLACE_MARKETING_ADD"] = "Установить из Маркетплейс";
 $MESS["SALE_MENU_MARKETPLACE_SETTINGS_ADD"] = "Установить из Маркетплейс импорт/экспорт";
 ?>

@@ -46,3 +46,16 @@
 		transform: scale(1);
 	}
 }
+
+.main-image-editor-error {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate3d(-50%, -50%, 0);
+	max-width: 400px;
+	color: #fafafa;
+}
+
+.main-image-editor-error .main-image-editor-error-text {
+	padding-bottom: 10px;
+}

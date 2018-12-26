@@ -21,7 +21,8 @@ return array(
 	'cards' => array(
 		'.landing-block-node-menu-list-item' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULISTITEMLINK'),
-			'label' => array('.landing-block-node-menu-list-item-link'),
+			'label' => array('.landing-block-node-menu-list-item-link', '.landing-block-node-menu-logo'),
+			'presets' => include __DIR__ . '/presets.php',
 		),
 	),
 	'nodes' => array(

@@ -619,13 +619,32 @@
 					BX.unbind(this.getScrollContainer(), 'scroll', adjustEmptyBlockPosition);
 					BX.bind(this.getScrollContainer(), 'scroll', adjustEmptyBlockPosition);
 
+					var parent = this.getContainer();
+					var paddingOffset = 0;
+
+					while (parent = parent.parentElement)
+					{
+						var parentPaddingTop = parseFloat(BX.style(parent, "padding-top"));
+						var parentPaddingBottom = parseFloat(BX.style(parent, "padding-bottom"));
+
+						if (!isNaN(parentPaddingTop))
+						{
+							paddingOffset += parentPaddingTop;
+						}
+
+						if (!isNaN(parentPaddingBottom))
+						{
+							paddingOffset += parentPaddingBottom;
+						}
+					}
+
 					if (diff > 0)
 					{
-						BX.style(this.getTable(), 'min-height', (gridRect.height - diff - panelsHeight) + 'px');
+						BX.style(this.getTable(), 'min-height', (gridRect.height - diff - panelsHeight - paddingOffset) + 'px');
 					}
 					else
 					{
-						BX.style(this.getTable(), 'min-height', (gridRect.height + Math.abs(diff) - panelsHeight) + 'px');
+						BX.style(this.getTable(), 'min-height', (gridRect.height + Math.abs(diff) - panelsHeight - paddingOffset) + 'px');
 					}
 				}
 				else

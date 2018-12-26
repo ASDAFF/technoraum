@@ -10,7 +10,7 @@ Loc::loadMessages(__FILE__);
 
 $this->setFrameMode(true);
 
-\Bitrix\Landing\Manager::getApplication()->setTitle(
+\Bitrix\Landing\Manager::setPageTitle(
 	Loc::getMessage('LANDING_TPL_TITLE')
 );
 

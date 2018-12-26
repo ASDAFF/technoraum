@@ -60,7 +60,16 @@ class CBPPropertyVariableCondition
 		return sizeof($result) > 0 ? true : false;
 	}
 
-	private function CheckCondition($field, $operation, $value, $type = null, $rootActivity = null, $property = null)
+	/**
+	 * @param $field
+	 * @param $operation
+	 * @param $value
+	 * @param null $baseType
+	 * @param CBPActivity $rootActivity
+	 * @param null $property
+	 * @return bool
+	 */
+	private function CheckCondition($field, $operation, $value, $baseType, $rootActivity, $property = null)
 	{
 		if ($operation === 'empty')
 		{
@@ -72,9 +81,10 @@ class CBPPropertyVariableCondition
 		}
 
 		$result = false;
+		$type = is_array($property) ? $property['Type'] : $baseType;
 
-		$value = $rootActivity->ParseValue($value, is_array($property) ? $property['Type'] : $type);
-		if ($type == "user")
+		$value = $rootActivity->ParseValue($value, $type);
+		if ($baseType == "user")
 		{
 			$field = CBPHelper::ExtractUsersFromUserGroups($field, $rootActivity);
 			$value = CBPHelper::ExtractUsersFromUserGroups($value, $rootActivity);
@@ -154,7 +164,7 @@ class CBPPropertyVariableCondition
 			$f1 = ($fieldCount > $i) ? $field[$i] : $field[$fieldCount - 1];
 			$v1 = ($valueCount > $i) ? $value[$i] : $value[$valueCount - 1];
 
-			if ($type == "datetime" || $type == "date")
+			if ($baseType == "datetime" || $baseType == "date")
 			{
 				if (($f1Tmp = MakeTimeStamp($f1, FORMAT_DATETIME)) === false)
 				{
@@ -183,31 +193,45 @@ class CBPPropertyVariableCondition
 				$v1 = $v1Tmp;
 			}
 
-			if ($type === 'bool')
+			if ($baseType === 'bool')
 			{
 				$f1 = CBPHelper::getBool($f1);
 				$v1 = CBPHelper::getBool($v1);
 			}
 
+			/** @var \Bitrix\Bizproc\BaseType\Base $classType */
+			$classType = \Bitrix\Bizproc\BaseType\Base::class;
+			if ($type)
+			{
+				$fieldType = $rootActivity->workflow
+					->GetService('DocumentService')
+					->getFieldTypeObject($rootActivity->GetDocumentType(), ['Type' => $type]);
+				if ($fieldType)
+				{
+					$classType = $fieldType->getTypeClass();
+				}
+			}
+			$compareResult = $classType::compareValues($f1, $v1);
+
 			switch ($operation)
 			{
 				case ">":
-					$result = ($f1 > $v1);
+					$result = ($compareResult === 1);
 					break;
 				case ">=":
-					$result = ($f1 >= $v1);
+					$result = ($compareResult >= 0);
 					break;
 				case "<":
-					$result = ($f1 < $v1);
+					$result = ($compareResult === -1);
 					break;
 				case "<=":
-					$result = ($f1 <= $v1);
+					$result = ($compareResult <= 0);
 					break;
 				case "!=":
-					$result = ($f1 != $v1);
+					$result = ($compareResult !== 0);
 					break;
 				default:
-					$result = ($f1 == $v1);
+					$result = ($compareResult === 0);
 			}
 
 			if (!$result)

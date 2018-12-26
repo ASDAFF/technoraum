@@ -80,6 +80,7 @@ $filterFields = array(
 	array(
 		"id" => "ID",
 		"name" => "ID",
+		"type" => "number",
 		"filterable" => "=",
 		"default" => true
 	),
@@ -435,6 +436,25 @@ if (!isset($by))
 if (!isset($order))
 	$order = 'ASC';
 
+$usePageNavigation = true;
+$navyParams = array();
+if (isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'excel')
+{
+	$usePageNavigation = false;
+}
+else
+{
+	$navyParams = CDBResult::GetNavParams(CAdminUiResult::GetNavSize($adminListTableID));
+	if ($navyParams['SHOW_ALL'])
+	{
+		$usePageNavigation = false;
+	}
+	else
+	{
+		$navyParams['PAGEN'] = (int)$navyParams['PAGEN'];
+		$navyParams['SIZEN'] = (int)$navyParams['SIZEN'];
+	}
+}
 $getListParams = array(
 	'select' => array_keys($selectFields),
 	'filter' => $filter,
@@ -452,8 +472,42 @@ if(Option::get('sale', 'use_sale_discount_only', false) === 'Y' && Loader::inclu
 	$getListParams['select']['CATALOG_DISCOUNT_ID'] = 'CATALOG_DISCOUNT.ID';
 }
 
+if ($usePageNavigation)
+{
+	$getListParams['limit'] = $navyParams['SIZEN'];
+	$getListParams['offset'] = $navyParams['SIZEN']*($navyParams['PAGEN']-1);
+}
+$totalCount = 0;
+$totalPages = 0;
+if ($usePageNavigation)
+{
+	$totalCount = Sale\Internals\DiscountTable::getCount($getListParams['filter']);
+	if ($totalCount > 0)
+	{
+		$totalPages = ceil($totalCount/$navyParams['SIZEN']);
+		if ($navyParams['PAGEN'] > $totalPages)
+			$navyParams['PAGEN'] = $totalPages;
+	}
+	else
+	{
+		$navyParams['PAGEN'] = 1;
+	}
+	$getListParams['limit'] = $navyParams['SIZEN'];
+	$getListParams['offset'] = $navyParams['SIZEN']*($navyParams['PAGEN']-1);
+}
+
 $discountIterator = new CAdminUiResult(Sale\Internals\DiscountTable::getList($getListParams), $adminListTableID);
-$discountIterator->NavStart();
+if ($usePageNavigation)
+{
+	$discountIterator->NavStart($getListParams['limit'], $navyParams['SHOW_ALL'], $navyParams['PAGEN']);
+	$discountIterator->NavRecordCount = $totalCount;
+	$discountIterator->NavPageCount = $totalPages;
+	$discountIterator->NavPageNomer = $navyParams['PAGEN'];
+}
+else
+{
+	$discountIterator->NavStart();
+}
 $adminList->SetNavigationParams($discountIterator, array("BASE_LINK" => $selfFolderUrl."sale_discount.php"));
 
 $userList = array();

@@ -512,12 +512,12 @@ class SaleOrderAjax extends \CBitrixComponent
 			$propsByPersonType = [];
 
 			$props = Sale\Property::getList([
-				'select' => ['ID', 'PERSON_TYPE_ID', 'IS_LOCATION', 'IS_ZIP'],
+				'select' => ['ID', 'PERSON_TYPE_ID', 'IS_LOCATION', 'IS_ZIP', 'DEFAULT_VALUE'],
 				'filter' => [
 					[
 						'LOGIC' => 'OR',
-						'IS_ZIP' => 'Y',
-						'IS_LOCATION' => 'Y',
+						'=IS_ZIP' => 'Y',
+						'=IS_LOCATION' => 'Y',
 					],
 					[
 						'@PERSON_TYPE_ID' => [$currentPersonType, $lastPersonType],
@@ -527,6 +527,11 @@ class SaleOrderAjax extends \CBitrixComponent
 
 			foreach ($props as $prop)
 			{
+				if ($prop['PERSON_TYPE_ID'] == $currentPersonType && !empty($prop['DEFAULT_VALUE']))
+				{
+					continue;
+				}
+
 				if ($prop['IS_LOCATION'] === 'Y')
 				{
 					$propsByPersonType[$prop['PERSON_TYPE_ID']]['IS_LOCATION'] = $prop['ID'];
@@ -666,12 +671,13 @@ class SaleOrderAjax extends \CBitrixComponent
 		$this->initUserProfiles($order, $isPersonTypeChanged);
 
 		$firstLoad = $this->request->getRequestMethod() === 'GET';
-		$isProfileChanged = $this->arUserResult['PROFILE_CHANGE'] === 'Y';
-
-		$loadFromProfile = $firstLoad || $isProfileChanged || $isPersonTypeChanged;
 		$justAuthorized = $this->request->get('do_authorize') === 'Y' || $this->request->get('do_register') === 'Y';
-		$haveProfileId = intval($this->arUserResult['PROFILE_ID']) > 0;
-		$useProfileProperties = ($loadFromProfile || $justAuthorized) && $haveProfileId;
+
+		$isProfileChanged = $this->arUserResult['PROFILE_CHANGE'] === 'Y';
+		$haveProfileId = (int)$this->arUserResult['PROFILE_ID'] > 0;
+
+		$shouldUseProfile = ($firstLoad || $justAuthorized || $isPersonTypeChanged || $isProfileChanged);
+		$willUseProfile = $shouldUseProfile && $haveProfileId;
 
 		$profileProperties = array();
 
@@ -701,7 +707,7 @@ class SaleOrderAjax extends \CBitrixComponent
 					$curVal = '';
 				}
 				elseif (
-					$useProfileProperties
+					$willUseProfile
 					|| (!isset($orderProperties[$arProperty['ID']]) && isset($profileProperties[$arProperty['ID']]))
 				)
 				{
@@ -718,7 +724,7 @@ class SaleOrderAjax extends \CBitrixComponent
 			}
 			else
 			{
-				$curVal = $orderProperties[$arProperty['ID']];
+				$curVal = isset($orderProperties[$arProperty['ID']]) ? $orderProperties[$arProperty['ID']] : '';
 			}
 
 			if ($arResult['HAVE_PREPAYMENT'] && !empty($arResult['PREPAY_ORDER_PROPS'][$arProperty['CODE']]))
@@ -766,10 +772,11 @@ class SaleOrderAjax extends \CBitrixComponent
 
 			if (empty($curVal))
 			{
-				// getting default value for all properties except LOCATION (LOCATION - only for first load or person type change)
-				if ($arProperty['TYPE'] !== 'LOCATION' || $firstLoad || $isPersonTypeChanged)
+				// getting default value for all properties except LOCATION
+				// (LOCATION - just for first load or person type change or new profile)
+				if ($arProperty['TYPE'] !== 'LOCATION' || !$willUseProfile)
 				{
-					if ($loadFromProfile || $justAuthorized)
+					if ($willUseProfile)
 					{
 						$curVal = $this->getValueFromCUser($arProperty);
 					}
@@ -783,7 +790,8 @@ class SaleOrderAjax extends \CBitrixComponent
 
 			if ($arProperty['TYPE'] === 'LOCATION')
 			{
-				if ((!$loadFromProfile || $this->request->get('PROFILE_ID') === '0')
+				if (
+					(!$shouldUseProfile || $this->request->get('PROFILE_ID') === '0')
 					&& $this->request->get('location_type') != 'code'
 				)
 				{
@@ -794,8 +802,8 @@ class SaleOrderAjax extends \CBitrixComponent
 			$this->arUserResult['ORDER_PROP'][$arProperty['ID']] = $curVal;
 		}
 
-		$this->checkZipProperty($order, $useProfileProperties);
-		$this->checkAltLocationProperty($order, $useProfileProperties, $profileProperties);
+		$this->checkZipProperty($order, $willUseProfile);
+		$this->checkAltLocationProperty($order, $willUseProfile, $profileProperties);
 
 		foreach (GetModuleEvents('sale', 'OnSaleComponentOrderProperties', true) as $arEvent)
 			ExecuteModuleEventEx($arEvent, array(&$this->arUserResult, $this->request, &$this->arParams, &$this->arResult));
@@ -1526,8 +1534,16 @@ class SaleOrderAjax extends \CBitrixComponent
 		if (!empty($payerName))
 		{
 			$arNames = explode(' ', $payerName);
-			$newName = $arNames[1];
-			$newLastName = $arNames[0];
+
+			if (isset($arNames[1]))
+			{
+				$newName = $arNames[1];
+				$newLastName = $arNames[0];
+			}
+			else
+			{
+				$newName = $arNames[0];
+			}
 		}
 
 		$groupIds = [];

@@ -247,7 +247,10 @@ if($USER->CanDoOperation('view_other_settings') || $USER->CanDoOperation('manage
 
 					$aModuleItems[] = $aModule;
 				}
-				usort($aModuleItems, create_function('$a, $b', 'if($a["sort"] == $b["sort"]) return strcasecmp($a["text"], $b["text"]); return ($a["sort"] < $b["sort"])? -1 : 1;'));
+				\Bitrix\Main\Type\Collection::sortByColumn(
+					$aModuleItems,
+					['sort' => SORT_ASC, 'text' => SORT_STRING]
+				);
 			}
 		}
 
@@ -300,6 +303,10 @@ if($USER->CanDoOperation('view_other_settings') || $USER->CanDoOperation('manage
 				)
 			)
 		);
+	}
+
+	if($USER->CanDoOperation('view_other_settings'))
+	{
 
 		$urlItems[] = array(
 			"text" => GetMessage("MAIN_MENU_RATING_RULE_LIST"),

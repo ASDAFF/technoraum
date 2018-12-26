@@ -13,10 +13,9 @@
 					<!-- Navigation -->
 					<div class="align-items-center flex-sm-row w-100">
 						<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav g-flex-right--xs text-uppercase w-100 g-font-weight-700 g-font-size-11 g-pt-20 g-pt-0--lg">
-							<li class="landing-block-node-menu-list-item nav-item g-mx-15--lg g-mb-7 g-mb-0--lg active">
+							<li class="landing-block-node-menu-list-item nav-item g-mx-15--lg g-mb-7 g-mb-0--lg">
 								<a href="#home"
-								   class="landing-block-node-menu-list-item-link nav-link p-0">Home</a><span
-										class="sr-only">(current)</span>
+								   class="landing-block-node-menu-list-item-link nav-link p-0">Home</a>
 							</li>
 							<li class="landing-block-node-menu-list-item nav-item g-mx-15--lg g-mb-7 g-mb-0--lg">
 								<a href="#about" class="landing-block-node-menu-list-item-link nav-link p-0">About</a>

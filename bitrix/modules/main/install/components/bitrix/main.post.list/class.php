@@ -606,7 +606,8 @@ HTML;
 		if (is_array($res["UF"]))
 		{
 			ob_start();
-			foreach ($res["UF"] as $arPostField)
+			$uf = (isset($res["WEB"]['UF']) ? $res["WEB"]['UF'] : $res['UF']);
+			foreach ($uf as $arPostField)
 			{
 				if(!empty($arPostField["VALUE"]))
 				{
@@ -628,7 +629,8 @@ HTML;
 
 			ob_start();
 
-			foreach ($res["UF"] as $arPostField)
+			$uf = (isset($res["MOBILE"]['UF']) ? $res["MOBILE"]['UF'] : $res['UF']);
+			foreach ($uf as $arPostField)
 			{
 				if(!empty($arPostField["VALUE"]))
 				{
@@ -1063,7 +1065,11 @@ HTML;
 			$messageList = $SHParser->getInnerHTML('<!--LOAD_SCRIPT-->', '<!--END_LOAD_SCRIPT-->').
 				$FHParser->getInnerHTML('<!--RCRDLIST_'.$arParams["ENTITY_XML_ID"].'-->', '<!--RCRDLIST_END_'.$arParams["ENTITY_XML_ID"].'-->');
 
-			$messageNavigation = $FHParser->getTagHTML('a[class=feed-com-all]');
+			$messageNavigation = $FHParser->getTagHTML(
+					$this->scope == self::STATUS_SCOPE_MOBILE
+						? 'a[class=post-comments-link]'
+						: 'a[class=feed-com-all]'
+			);
 
 			$JSResult += array(
 				'status' => "success",

@@ -513,16 +513,16 @@ button.ui-ctl-after {
 }
 
 /*calendar*/
-.ui-ctl-icon-calendar { background-image: url(images/calendar.svg); }
+.ui-ctl-icon-calendar { background-image: url(/bitrix/js/ui/forms/images/calendar.svg); }
 
 /*clock*/
-.ui-ctl-icon-clock { background-image: url(images/clock.svg); }
+.ui-ctl-icon-clock { background-image: url(/bitrix/js/ui/forms/images/clock.svg); }
 
 /*search*/
-.ui-ctl-icon-search { background-image: url(images/search.svg); }
+.ui-ctl-icon-search { background-image: url(/bitrix/js/ui/forms/images/search.svg); }
 
 /*Loader*/
-.ui-ctl-icon-loader { background-image: url(images/loader.svg); }
+.ui-ctl-icon-loader { background-image: url(/bitrix/js/ui/forms/images/loader.svg); }
 
 /*angel*/
 .ui-ctl-icon-angle { }

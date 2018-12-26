@@ -1,12 +1,15 @@
-label { margin: 0; }
-html { box-sizing: content-box;}
-body {
-	line-height: normal;
-	height: auto!important;
+label {
+	margin: 0;
 }
 
+html {
+	box-sizing: content-box;
+}
 
-
+body {
+	line-height: normal;
+	height: auto !important;
+}
 
 .landing-template-preview-body {
 	background: #eef2f4 !important;
@@ -32,7 +35,7 @@ body {
 
 .preview-desktop {
 	background: #FFFFFF;
-	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.34);
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 	border-radius: 4px;
 	padding: 11px;
 	overflow: hidden;
@@ -45,14 +48,14 @@ body {
 }
 
 .pagetitle {
-	font-size: 30px!important;
-	line-height: 34px!important;
-	padding: 0!important;
+	font-size: 30px !important;
+	line-height: 34px !important;
+	padding: 0 !important;
 }
 
 .pagetitle-wrap {
-	min-height: 34px!important;
-	padding-top: 16px!important;
+	min-height: 34px !important;
+	padding-top: 16px !important;
 }
 
 .landing-template-preview-info {
@@ -73,11 +76,28 @@ body {
 	padding-right: 6px;
 }
 
+.landing-template-preview-sitecolor {
+	margin-top: 21px;
+	padding-left: 6px;
+	display: flex;
+}
+
+.landing-template-preview-palette-sitecolor {
+	display: block;
+	padding: 0;
+}
+
 .landing-template-preview-palette-item {
 	flex-grow: 1;
 	border-radius: 50%;
 	position: relative;
 	cursor: pointer;
+}
+
+.landing-template-preview-palette-item-sitecolor {
+	width: 21px;
+	height: 21px;
+	margin-right: 10px;
 }
 
 .landing-template-preview-palette-item + .landing-template-preview-palette-item {
@@ -114,6 +134,11 @@ body {
 	padding-top: 20px;
 	padding-bottom: 12px;
 	color: #828B95;
+}
+
+.landing-template-preview-header-sitecolor {
+	padding: 0;
+	line-height: 21px;
 }
 
 .preview-desktop-body {
@@ -194,7 +219,7 @@ body {
 }
 
 .landing-slider-pagetitle-wrap {
-	display: none!important;
+	display: none !important;
 }
 
 .bx-session-message {
@@ -215,4 +240,12 @@ body {
 	-o-transform: translate3d(-50%, -50%, 0);
 	transform: translate3d(-50%, -50%, 0);
 	will-change: transform;
+}
+
+.ui-progressbar-landing-preview {
+	position: absolute;
+	top: 80%;
+	left: 50%;
+	transform: translate3d(-50%, -50%, 0);
+	width: 500px;
 }

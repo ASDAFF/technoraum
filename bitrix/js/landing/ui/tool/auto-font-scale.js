@@ -117,7 +117,7 @@
 		 */
 		onAddBlock: function(event)
 		{
-			var elements = slice(event.block.querySelectorAll("h1, h2, h3, h4, h5"));
+			var elements = slice(event.block.querySelectorAll("h1, h2, h3, h4, h5, [data-auto-font-scale]"));
 			this.addElements(elements);
 		}
 	}

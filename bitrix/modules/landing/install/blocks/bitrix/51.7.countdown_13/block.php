@@ -1,5 +1,5 @@
 <section
-		class="landing-block landing-block-node-img g-flex-centered g-bg-black-opacity-0_8--after g-pt-60 g-pb-45">
+		class="landing-block g-flex-centered g-bg-black-opacity-0_8--after g-pt-60 g-pb-45">
 	<div class="landing-block-node-container container">
 		<div class="text-center g-mb-40 g-mb-60--sm container g-max-width-800">
 			<h2 class="landing-block-node-title g-color-gray-dark-v1 g-font-weight-300">Upcoming event</h2>

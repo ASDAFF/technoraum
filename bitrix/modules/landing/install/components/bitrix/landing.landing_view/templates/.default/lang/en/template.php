@@ -1,4 +1,6 @@
 <?
+$MESS["LANDING_WAIT_WHILE_CREATING"] = "Please wait, your site is now being published...";
+$MESS["LANDING_WAIT_WHILE_CREATING_FORCE"] = "Open site";
 $MESS["LANDING_TPL_PUBLIC_URL"] = "Publish";
 $MESS["LANDING_TPL_PUBLIC_URL_PAGE"] = "Publish page";
 $MESS["LANDING_TPL_PUBLIC_URL_ALL"] = "Publish all pages";

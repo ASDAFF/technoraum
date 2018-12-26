@@ -113,7 +113,6 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 				'filter' => array(
 					'=ID' => $_REQUEST['id'],
 					'=ACTIVE' => 'Y',
-					'=USER_ID' => $USER->getId(),
 					'=SERVER_TYPE' => 'imap',
 				),
 			))->fetch();
@@ -121,6 +120,12 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 			if (empty($mailbox))
 			{
 				showError(Loc::getMessage('MAIL_CLIENT_ELEMENT_NOT_FOUND'));
+				return;
+			}
+
+			if ($USER->getId() != $mailbox['USER_ID'] && !$USER->isAdmin() && !$USER->canDoOperation('bitrix24_config'))
+			{
+				showError(Loc::getMessage('MAIL_CLIENT_DENIED'));
 				return;
 			}
 
@@ -148,7 +153,6 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 					'filter' => array(
 						'IS_CONFIRMED' => true,
 						'=EMAIL' => $mailbox['EMAIL'],
-						//'=USER_ID' => $USER->getId(),
 					),
 					'order' => array(
 						'ID' => 'DESC',
@@ -168,6 +172,8 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 			{
 				$mailbox['__crm'] = true;
 			}
+
+			$this->arParams['PASSWORD_PLACEHOLDER'] = '000000000000';
 
 			$this->arParams['MAILBOX'] = $mailbox;
 
@@ -229,8 +235,11 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 			}
 		}
 
+		$ownerId = $new ? $USER->getId() : $mailbox['USER_ID'];
 		$access = array(
-			'users' => array(),
+			'users' => array(
+				sprintf('U%u', $ownerId) => $ownerId,
+			),
 		);
 
 		if (!$new)
@@ -249,34 +258,24 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 					$access['users'][$item['ACCESS_CODE']] = $matches[2];
 				}
 			}
+		}
 
-			if (!empty($access['users']))
-			{
-				$res = Main\UserTable::getList(array(
-					'filter' => array(
-						'@ID' => array_values($access['users']),
-					),
-				));
+		$res = Main\UserTable::getList(array(
+			'filter' => array(
+				'@ID' => array_values($access['users']),
+			),
+		));
 
-				while ($item = $res->fetch())
-				{
-					if ($USER->getId() == $item['ID'])
-					{
-						continue;
-					}
-
-					$id = sprintf('U%u', $item['ID']);
-					$access['users'][$id] = array(
-						'id'       => $id,
-						'entityId' => $item['ID'],
-						'name'     => \CUser::formatName(\CSite::getNameFormat(), $item, true),
-						'avatar'   => '',
-						'desc'     => $item['WORK_POSITION'] ?: $item['PERSONAL_PROFESSION'] ?: '&nbsp;'
-					);
-				}
-			}
-
-			$this->arParams['PASSWORD_PLACEHOLDER'] = '000000000000';
+		while ($item = $res->fetch())
+		{
+			$id = sprintf('U%u', $item['ID']);
+			$access['users'][$id] = array(
+				'id'       => $id,
+				'entityId' => $item['ID'],
+				'name'     => \CUser::formatName(\CSite::getNameFormat(), $item, true),
+				'avatar'   => '',
+				'desc'     => $item['WORK_POSITION'] ?: $item['PERSONAL_PROFESSION'] ?: '&nbsp;'
+			);
 		}
 
 		$this->arParams['ACCESS_LIST'] = array_map(
@@ -374,7 +373,7 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 				{
 					$this->arParams['CRM_QUEUE'] = \Bitrix\Main\UserTable::getList(array(
 						'filter' => array(
-							'ID' => $USER->getId(),
+							'ID' => $new ? $USER->getId() : $mailbox['USER_ID'],
 						),
 					))->fetchAll();
 				}
@@ -393,7 +392,7 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 		}
 		if (!empty($mailbox))
 		{
-			$mailboxSyncManager = new Mail\Helper\Mailbox\MailboxSyncManager(Main\Engine\CurrentUser::get()->getId());
+			$mailboxSyncManager = new Mail\Helper\Mailbox\MailboxSyncManager($mailbox['USER_ID']);
 			$this->arResult['LAST_MAIL_CHECK_DATE'] = $mailboxSyncManager->getLastMailboxSyncTime($mailbox['ID']);
 			if ($this->arResult['LAST_MAIL_CHECK_DATE'] !== null)
 			{
@@ -444,10 +443,14 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 				'filter' => array(
 					'=ID' => $fields['mailbox_id'],
 					'=ACTIVE' => 'Y',
-					'=USER_ID' => $USER->getId(),
 					'=SERVER_TYPE' => 'imap',
 				),
 			))->fetch();
+
+			if ($USER->getId() != $mailbox['USER_ID'] && !$USER->isAdmin() && !$USER->canDoOperation('bitrix24_config'))
+			{
+				return $this->error(Loc::getMessage('MAIL_CLIENT_DENIED'));
+			}
 
 			if (!empty($mailbox))
 			{
@@ -508,6 +511,7 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 				'USERNAME' => trim($fields['sender']),
 				'LOGIN'    => $mailbox['LOGIN'],
 				'PASSWORD' => $mailbox['PASSWORD'],
+				'PERIOD_CHECK' => 60 * 24,
 				'OPTIONS'  => (array) $mailbox['OPTIONS'],
 			);
 
@@ -592,7 +596,10 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 			}
 
 			$mailboxData['EMAIL'] = $address->getEmail();
+		}
 
+		if (empty($mailbox))
+		{
 			$mailbox = Mail\MailboxTable::getList(array(
 				'filter' => array(
 					'=EMAIL' => $mailboxData['EMAIL'],
@@ -683,7 +690,7 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 
 		if (!empty($fields['use_smtp']) && !empty($mailboxData['EMAIL']))
 		{
-			$smtpConfig = array();
+			$smtpConfirmed = array();
 
 			$senderFields = array(
 				'NAME' => $mailboxData['USERNAME'],
@@ -707,16 +714,25 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 			));
 			while ($item = $res->fetch())
 			{
-				if (!empty($item['OPTIONS']['smtp']['server']) && empty($item['OPTIONS']['smtp']['encrypted']))
+				if (empty($smtpConfirmed))
 				{
-					$smtpConfig = $smtpConfirmed = $item['OPTIONS']['smtp'];
+					if (!empty($item['OPTIONS']['smtp']['server']) && empty($item['OPTIONS']['smtp']['encrypted']))
+					{
+						$smtpConfirmed = $item['OPTIONS']['smtp'];
+					}
+				}
 
+				if ($senderFields['USER_ID'] == $item['USER_ID'] && $senderFields['NAME'] == $item['NAME'])
+				{
 					$senderFields = $item;
 					$senderFields['OPTIONS']['__replaces'] = $item['ID'];
 
 					unset($senderFields['ID']);
 
-					break;
+					if (!empty($smtpConfirmed))
+					{
+						break;
+					}
 				}
 			}
 
@@ -724,7 +740,7 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 				'server'   => $service['SMTP_SERVER'] ?: trim($fields['server_smtp']),
 				'port'     => $service['SMTP_PORT'] ?: (int) $fields['port_smtp'],
 				'login'    => $service['SMTP_LOGIN_AS_IMAP'] == 'Y' ? $mailboxData['LOGIN'] : $fields['login_smtp'],
-				'password' => $smtpConfig['password'],
+				'password' => $smtpConfirmed['password'],
 			);
 
 			if ($service['SMTP_PASSWORD_AS_IMAP'] == 'Y' && !$fields['oauth_uid'])
@@ -757,13 +773,10 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 
 			$senderFields['OPTIONS']['smtp'] = $smtpConfig;
 
-			if (!empty($smtpConfirmed))
-			{
-				$senderFields['IS_CONFIRMED'] = !array_diff(
-					array('server', 'port', 'login', 'password'),
-					array_keys(array_intersect_assoc($smtpConfig, $smtpConfirmed))
-				);
-			}
+			$senderFields['IS_CONFIRMED'] = !array_diff(
+				array('server', 'port', 'login', 'password'),
+				array_keys(array_intersect_assoc($smtpConfig, $smtpConfirmed))
+			);
 		}
 
 		if ($fields['use_crm'] == 'Y')
@@ -793,6 +806,8 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 
 					if ($fields['crm_public'] == 'Y')
 					{
+						$interval = (int) Main\Config\Option::get('mail', 'public_mailbox_sync_interval', 0);
+						$mailboxData['PERIOD_CHECK'] = $interval > 0 ? $interval : 10;
 						$mailboxData['OPTIONS']['flags'][] = 'crm_public_bind';
 					}
 
@@ -851,13 +866,13 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 					}
 					if (empty($mailboxData['OPTIONS']['crm_lead_resp']))
 					{
-						$mailboxData['OPTIONS']['crm_lead_resp'] = array($USER->getId());
+						$mailboxData['OPTIONS']['crm_lead_resp'] = array(empty($mailbox) ? $USER->getId() : $mailbox['USER_ID']);
 					}
 				}
 			}
 		}
 
-		if (!empty($senderFields))
+		if (!empty($senderFields) && empty($senderFields['IS_CONFIRMED']))
 		{
 			Main\Mail\Sender::add($senderFields);
 
@@ -904,7 +919,7 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 			)
 		));
 
-		$ownerAccessCode = 'U' . $USER->getId(); // @TODO: mailbox.USER_ID
+		$ownerAccessCode = 'U' . (empty($mailbox) ? $USER->getId() : $mailbox['USER_ID']);
 		$access = array($ownerAccessCode);
 		if (!empty($fields['access']) && is_array($fields['access']))
 		{
@@ -988,22 +1003,27 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 			'filter' => array(
 				'=ID' => $id,
 				'=ACTIVE' => 'Y',
-				'=USER_ID' => $USER->getId(),
 				'=SERVER_TYPE' => 'imap',
 			),
 		))->fetch();
 
 		if (empty($mailbox))
 		{
-			showError(Loc::getMessage('MAIL_CLIENT_ELEMENT_NOT_FOUND'));
-			return;
+			return $this->error(Loc::getMessage('MAIL_CLIENT_ELEMENT_NOT_FOUND'));
 		}
 
-		\CMailbox::delete($mailbox['ID']);
+		if ($USER->getId() != $mailbox['USER_ID'] && !$USER->isAdmin() && !$USER->canDoOperation('bitrix24_config'))
+		{
+			return $this->error(Loc::getMessage('MAIL_CLIENT_DENIED'));
+		}
+
+		\CMailbox::update($mailbox['ID'], array('ACTIVE' => 'N'));
 
 		\CUserCounter::clear($USER->getId(), 'mail_unseen', $mailbox['LID']);
 		$mailboxSyncManager = new \Bitrix\Mail\Helper\Mailbox\MailboxSyncManager($mailbox['USER_ID']);
 		$mailboxSyncManager->deleteSyncData($mailbox['ID']);
+
+		\CAgent::addAgent(sprintf('Bitrix\Mail\Helper::deleteMailboxAgent(%u);', $mailbox['ID']), 'mail', 'N', 60);
 	}
 
 	protected function canConnectNewMailbox()

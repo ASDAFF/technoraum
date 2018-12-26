@@ -1158,7 +1158,8 @@
 						break;
 					}
 
-					case this.parent.types.CUSTOM_ENTITY : {
+					case this.parent.types.CUSTOM_ENTITY :
+					case this.parent.types.DEST_SELECTOR : {
 						if (current.MULTIPLE)
 						{
 							var label = !!current.VALUES._label ? current.VALUES._label : [];

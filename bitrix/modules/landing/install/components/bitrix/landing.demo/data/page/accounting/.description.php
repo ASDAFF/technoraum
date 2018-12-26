@@ -13,8 +13,6 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_ACCOUNTING_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
-			'THEME_CODE' => 'accounting',
-			'THEME_CODE_TYPO' => 'accounting',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/accounting/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_ACCOUNTING_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_ACCOUNTING_DESCRIPTION'),
@@ -43,8 +41,8 @@ return array(
 					<!-- Navigation -->
 					<div class="align-items-center flex-sm-row w-100">
 						<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-font-weight-700 g-font-size-13 g-py-20 g-py-0--lg">
-							<li class="landing-block-node-menu-list-item nav-item g-mr-10--lg g-mr-15--xl g-my-7 g-mb-0--lg active">
-								<a href="#block@block[01.big_with_text_blocks]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">HOME</a><span class="sr-only">(current)</span>
+							<li class="landing-block-node-menu-list-item nav-item g-mr-10--lg g-mr-15--xl g-my-7 g-mb-0--lg ">
+								<a href="#block@block[01.big_with_text_blocks]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">HOME</a>
 							</li>
 							<li class="landing-block-node-menu-list-item nav-item g-mx-10--lg g-mx-15--xl g-my-7 g-mb-0--lg">
 								<a href="#block@block[02.three_cols_big_2]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">ABOUT</a>
@@ -89,13 +87,14 @@ return array(
 				'CODE' => '01.big_with_text_blocks',
 				'SORT' => '500',
 				'CONTENT' => '<section class="landing-block">
-	<div class="js-carousel g-overflow-hidden g-max-height-100vh " data-autoplay="true" data-infinite="true" data-speed="15000">
+	<div class="js-carousel g-overflow-hidden g-max-height-100vh " data-autoplay="true" data-infinite="true" data-speed="15000"
+	data-pagi-classes="u-carousel-indicators-v1--white g-absolute-centered--x g-bottom-20">
 
 
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1900x1265/img1.jpg);">
-				<div class="container text-center g-max-width-840 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated">
+				<div class="container text-center g-max-width-840 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated g-mx-0">
 					<h2 class="landing-block-node-card-title text-uppercase g-font-weight-700 g-font-size-22 g-font-size-36--md g-color-white g-mb-20">We are an accounting firm company24
 						<br /> providing <span style="color: rgb(165, 195, 60);">tax</span> and <span style="color: rgb(165, 195, 60);">accounting</span> services</h2>
 					<div class="landing-block-node-card-text g-max-width-645 g-color-white-opacity-0_9 mx-auto g-mb-35 g-color-white g-font-size-15"><p>Maecenas ut mauris risus. Quisque mi urna, mattis id varius nec, convallis eu odio.
@@ -111,7 +110,7 @@ return array(
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1900x1265/img2.jpg);">
-				<div class="container text-center g-max-width-840 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated">
+				<div class="container text-center g-max-width-840 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated g-mx-0">
 					<h2 class="landing-block-node-card-title text-uppercase g-font-weight-700 g-font-size-22 g-font-size-36--md g-color-white g-mb-20">We are an accounting firm company24
 						<br /> providing <span style="color: rgb(165, 195, 60);">tax</span> and <span style="color: rgb(165, 195, 60);">accounting</span> services</h2>
 					<div class="landing-block-node-card-text g-hidden-xs-down g-max-width-645 g-color-white-opacity-0_9 mx-auto g-mb-35 g-color-white g-font-size-15"><p>
@@ -128,7 +127,7 @@ return array(
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1900x1265/img3.jpg);">
-				<div class="container text-center g-max-width-840 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated">
+				<div class="container text-center g-max-width-840 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated g-mx-0">
 					<h2 class="landing-block-node-card-title text-uppercase g-font-weight-700 g-font-size-22 g-font-size-36--md g-color-white g-mb-20">We are an accounting firm company24
 						<br /> providing <span style="color: rgb(165, 195, 60);">tax</span> and <span style="color: rgb(165, 195, 60);">accounting</span> services</h2>
 					<div class="landing-block-node-card-text g-max-width-645 g-color-white-opacity-0_9 mx-auto g-mb-35 g-color-white g-font-size-15"><p>Maecenas ut mauris risus. Quisque mi urna, mattis id varius nec, convallis eu odio.
@@ -145,7 +144,7 @@ return array(
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
 			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1900x1265/img4.jpg);">
-				<div class="container text-center g-max-width-840 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated">
+				<div class="container text-center g-max-width-840 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated g-mx-0">
 					<h2 class="landing-block-node-card-title text-uppercase g-font-weight-700 g-font-size-22 g-font-size-36--md g-color-white g-mb-20">We are an accounting firm company24
 						<br /> providing <span style="color: rgb(165, 195, 60);">tax</span> and <span style="color: rgb(165, 195, 60);">accounting</span> services</h2>
 					<div class="landing-block-node-card-text g-max-width-645 g-color-white-opacity-0_9 mx-auto g-mb-35 g-color-white g-font-size-15"><p>Maecenas ut mauris risus. Quisque mi urna, mattis id varius nec, convallis eu odio.

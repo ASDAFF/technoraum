@@ -406,10 +406,18 @@
 			}
 			BX.onCustomEvent(this.eventNode, 'OnUCFormSubmit', [this, post_data]);
 			BX.onCustomEvent(window, 'OnUCFormSubmit', [this.id[0], this.id[1], this, post_data]);
+
+			var actionUrl = this.form.action;
+			actionUrl = BX.util.remove_url_param(actionUrl, [ 'b24statAction' ]);
+			actionUrl = BX.util.add_url_param(actionUrl, {
+				b24statAction: (this.id[1] > 0 ? 'editComment' : 'addComment')
+			});
+			this.form.action = actionUrl;
+
 			BX.ajax({
-				'method': 'POST',
-				'url': this.form.action,
-				'data': post_data,
+				method: 'POST',
+				url: this.form.action,
+				data: post_data,
 				dataType: 'json',
 				onsuccess: BX.proxy(function(data) {
 					this.closeWait();

@@ -188,9 +188,9 @@ if($isSavingOperation || $needFieldsRestore)
 				}
 
 				if(isset($_POST["save"]))
-					LocalRedirect("/bitrix/admin/sale_order.php?lang=".LANGUAGE_ID.GetFilterParams("filter_", false));
+					LocalRedirect("/bitrix/admin/sale_order.php?lang=".LANGUAGE_ID);
 				else
-					LocalRedirect("/bitrix/admin/sale_order_edit.php?lang=".LANGUAGE_ID."&ID=".$order->getId().GetFilterParams("filter_", false));
+					LocalRedirect("/bitrix/admin/sale_order_edit.php?lang=".LANGUAGE_ID."&ID=".$order->getId());
 			}
 			else
 			{
@@ -463,7 +463,7 @@ elseif($isRestoringOrderOperation) // Restore order from archive
 
 	if (!in_array($archivedOrder->getField("STATUS_ID"), $allowedStatusUpdate))
 	{
-		LocalRedirect("/bitrix/admin/sale_order_archive.php?lang=".LANGUAGE_ID.GetFilterParams("filter_", false));
+		LocalRedirect("/bitrix/admin/sale_order_archive.php?lang=".LANGUAGE_ID);
 	}
 
 	if ($saleModulePermissions == 'P')
@@ -474,7 +474,7 @@ elseif($isRestoringOrderOperation) // Restore order from archive
 			&& $archivedOrder->getField('RESPONSIBLE_ID') !== $USER->GetID()
 		) 
 		{
-			LocalRedirect("/bitrix/admin/sale_order_archive.php?lang=".LANGUAGE_ID.GetFilterParams("filter_", false));
+			LocalRedirect("/bitrix/admin/sale_order_archive.php?lang=".LANGUAGE_ID);
 		}
 	}
 	
@@ -714,7 +714,7 @@ if ($isRestoringOrderOperation)
 		"ICON" => "btn_list",
 		"TEXT" => Loc::getMessage("SALE_OK_ARCHIVE_LIST"),
 		"TITLE"=> Loc::getMessage("SALE_OK_ARCHIVE_LIST_TITLE"),
-		"LINK" => "/bitrix/admin/sale_order_archive.php?lang=".LANGUAGE_ID.GetFilterParams("filter_")
+		"LINK" => "/bitrix/admin/sale_order_archive.php?lang=".LANGUAGE_ID
 	);
 }
 else
@@ -723,7 +723,7 @@ else
 		"ICON" => "btn_list",
 		"TEXT" => Loc::getMessage("SALE_OK_LIST"),
 		"TITLE"=> Loc::getMessage("SALE_OK_LIST_TITLE"),
-		"LINK" => "/bitrix/admin/sale_order.php?lang=".LANGUAGE_ID.GetFilterParams("filter_")
+		"LINK" => "/bitrix/admin/sale_order.php?lang=".LANGUAGE_ID
 	);
 }
 
@@ -783,7 +783,7 @@ $aTabs = array(
 	array("DIV" => "tab_order", "TAB" => Loc::getMessage("SALE_OK_TAB_ORDER"), "SHOW_WRAP" => "N", "IS_DRAGGABLE" => "Y"),
 );
 
-?><form method="POST" action="<?=$APPLICATION->GetCurPage()."?lang=".LANGUAGE_ID."&SITE_ID=".$siteId.GetFilterParams("filter_", false)?>" name="<?=$formId?>_form" id="<?=$formId?>_form" enctype="multipart/form-data"><?
+?><form method="POST" action="<?=$APPLICATION->GetCurPage()."?lang=".LANGUAGE_ID."&SITE_ID=".$siteId?>" name="<?=$formId?>_form" id="<?=$formId?>_form" enctype="multipart/form-data"><?
 $tabControl = new CAdminTabControlDrag($formId, $aTabs, $moduleId, false, true);
 $tabControl->AddTabs($customTabber);
 $tabControl->Begin();
@@ -899,7 +899,7 @@ $tabControl->EndTab();
 
 $tabControl->Buttons(
 	array(
-		"back_url" => "/bitrix/admin/sale_order_create.php?lang=".LANGUAGE_ID."&SITE_ID=".$siteId.GetFilterParams("filter_"))
+		"back_url" => "/bitrix/admin/sale_order_create.php?lang=".LANGUAGE_ID."&SITE_ID=".$siteId)
 );
 
 $tabControl->End();

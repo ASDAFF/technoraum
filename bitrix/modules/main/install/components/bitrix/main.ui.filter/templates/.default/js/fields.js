@@ -80,7 +80,6 @@
 
 		render: function(template, data)
 		{
-
 			var dataKeys, result, tmp, placeholder;
 
 			if (BX.type.isPlainObject(data) && BX.type.isNotEmptyString(template))
@@ -134,6 +133,140 @@
 			};
 
 			return BX.decl(field);
+		},
+
+		createDestSelector: function(fieldData)
+		{
+			var input, square;
+			var field = {
+				block: 'main-ui-control-field',
+				mix: this.parent.getParam('ENABLE_LABEL') ? [this.parent.settings.classFieldWithLabel] : null,
+				deleteButton: true,
+				valueDelete: true,
+				name: fieldData.NAME,
+				type: fieldData.TYPE,
+				label: this.parent.getParam('ENABLE_LABEL') ? fieldData.LABEL : '',
+				dragTitle: this.parent.getParam('MAIN_UI_FILTER__DRAG_FIELD_TITLE'),
+				deleteTitle: this.parent.getParam('MAIN_UI_FILTER__REMOVE_FIELD'),
+				content: {
+					block: 'main-ui-control-entity',
+					mix: 'main-ui-control',
+					attrs: {
+						'data-multiple': JSON.stringify(fieldData.MULTIPLE)
+					},
+					content: []
+				}
+			};
+
+			if ('_label' in fieldData.VALUES && !!fieldData.VALUES._label)
+			{
+				if (fieldData.MULTIPLE)
+				{
+					var label = !!fieldData.VALUES._label ? fieldData.VALUES._label : [];
+
+					if (BX.type.isPlainObject(label))
+					{
+						label = Object.keys(label).map(function(key) {
+							return label[key];
+						});
+					}
+
+					if (!BX.type.isArray(label))
+					{
+						label = [ label ];
+					}
+
+					var value = !!fieldData.VALUES._value ? fieldData.VALUES._value : [];
+					if (BX.type.isPlainObject(value))
+					{
+						value = Object.keys(value).map(function(key) {
+							return value[key];
+						});
+					}
+
+					if (!BX.type.isArray(value))
+					{
+						value = [ value ];
+					}
+
+					label.forEach(function(currentLabel, index) {
+						field.content.content.push({
+							block: 'main-ui-square',
+							tag: 'span',
+							name: currentLabel,
+							item: {_label: currentLabel, _value: value[index]}
+						});
+					});
+				}
+				else
+				{
+					field.content.content.push({
+						block: 'main-ui-square',
+						tag: 'span',
+						name: '_label' in fieldData.VALUES ? fieldData.VALUES['_label'] : '',
+						item: fieldData.VALUES
+					});
+				}
+			}
+
+			field.content.content.push(
+				{
+					block: 'main-ui-square-search',
+					tag: 'span',
+					content: {
+						block: 'main-ui-control-string',
+						name: fieldData.NAME + '_label',
+						tabindex: fieldData.TABINDEX,
+						type: 'text',
+						placeholder: fieldData.PLACEHOLDER || ''
+					}
+				},
+				{
+					block: 'main-ui-control-string',
+					name: fieldData.NAME,
+					type: 'hidden',
+					placeholder: fieldData.PLACEHOLDER || '',
+					value: '_value' in fieldData.VALUES ? fieldData.VALUES['_value'] : '',
+					tabindex: fieldData.TABINDEX
+				}
+			);
+
+			field = BX.decl(field);
+
+			input = BX.Filter.Utils.getBySelector(field, '.main-ui-control-string[type="text"]');
+			BX.addClass(input, 'main-ui-square-search-item');
+
+			BX.bind(input, 'focus', function(event)
+			{
+				BX.fireEvent(event.currentTarget, 'click');
+			});
+
+
+			BX.bind(input, 'click', BX.proxy(this._onCustomEntityInputClick, this));
+
+			if (!this.bindDocument)
+			{
+				BX.bind(document, 'click', BX.proxy(this._onCustomEntityBlur, this));
+				document.addEventListener('focus', BX.proxy(this._onDocumentFocus, this), true);
+				this.bindDocument = true;
+			}
+
+			BX.bind(input, 'keydown', BX.proxy(this._onCustomEntityKeydown, this));
+			BX.bind(field, 'click', BX.proxy(this._onCustomEntityFieldClick, this));
+
+
+			BX.ready(BX.proxy(function() {
+				BX.Filter.DestinationSelector.create(
+					fieldData.NAME,
+					{
+						filterId: this.parent.getParam('FILTER_ID'),
+						fieldId: fieldData.NAME
+					}
+				);
+			}, this));
+
+			return field;
+
 		},
 
 		createCustomEntity: function(fieldData)
@@ -235,7 +368,7 @@
 
 			field = BX.decl(field);
 			input = BX.Filter.Utils.getBySelector(field, '.main-ui-control-string[type="text"]');
-			BX.addClass(input, 'main-ui-square-search-item')
+			BX.addClass(input, 'main-ui-square-search-item');
 
 			BX.bind(input, 'focus', BX.proxy(this._onCustomEntityInputFocus, this));
 			BX.bind(input, 'click', BX.proxy(this._onCustomEntityInputClick, this));

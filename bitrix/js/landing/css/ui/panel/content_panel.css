@@ -155,6 +155,7 @@
 .landing-ui-panel-content-body {
 	display: flex;
 	height: calc(100% - 73px);
+	overflow: auto;
 }
 
 .landing-ui-panel-content-footer {

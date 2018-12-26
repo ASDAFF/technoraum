@@ -75,6 +75,10 @@
 	padding-top: 100%;
 }
 
+.ui-grid-tile-item-fixed-height:before {
+	display: none;
+}
+
 .ui-grid-tile-item-to-fade {
 	pointer-events: none;
 	opacity: 0;

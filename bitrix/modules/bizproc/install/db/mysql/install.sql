@@ -50,12 +50,21 @@ CREATE TABLE b_bp_workflow_permissions (
 
 CREATE TABLE b_bp_workflow_instance (
 	ID varchar(32) NOT NULL,
+	MODULE_ID varchar(32) NULL,
+	ENTITY varchar(64) NOT NULL,
+	DOCUMENT_ID varchar(128) NOT NULL,
+	WORKFLOW_TEMPLATE_ID int NOT NULL,
 	WORKFLOW mediumblob NULL,
+	STARTED datetime NULL,
+	STARTED_BY int NULL,
+	STARTED_EVENT_TYPE tinyint NOT NULL DEFAULT 0,
 	STATUS int NULL,
 	MODIFIED datetime NOT NULL,
 	OWNER_ID varchar(32) NULL,
 	OWNED_UNTIL datetime NULL,
-	primary key (ID)
+	primary key (ID),
+	index ix_bp_wi_document(DOCUMENT_ID, ENTITY, MODULE_ID, STARTED_EVENT_TYPE),
+	index ix_bp_wi_started_by(STARTED_BY)
 );
 
 CREATE TABLE b_bp_tracking (

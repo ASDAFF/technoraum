@@ -87,7 +87,8 @@ try
 					if($actionSave)
 						$saveUrl = $returnUrl ? $returnUrl : $listUrl; // go to the parent page
 
-					// $actionApply : do nothing
+					if($actionApply)
+						$applyUrl = $returnUrl ? $returnUrl : Helper::getEditUrl($saveAsId);
 				}
 			}
 			else // new or copyed item

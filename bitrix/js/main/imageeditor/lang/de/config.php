@@ -1,4 +1,6 @@
 <?
+$MESS["IMAGE_EDITOR_POPUP_ERROR_MESSAGE_TEXT"] = "Bild kann nicht geladen werden.<br>Die Datei kann beschädigt oder nur zum Lesen verfügbar sein, oder dieser Bildtyp wird nicht unterstützt.";
+$MESS["IMAGE_EDITOR_CLOSE_POPUP"] = "Schließen";
 $MESS["IMAGE_EDITOR_NEW"] = "Hochladen";
 $MESS["IMAGE_EDITOR_EXPORT"] = "Anwenden";
 $MESS["IMAGE_EDITOR_CANCEL"] = "Abbrechen";

@@ -13,8 +13,6 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
-			'THEME_CODE' => 'app',
-			'THEME_CODE_TYPO' => 'app',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/app/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_DESCRIPTION'),
@@ -42,8 +40,8 @@ return array(
 					<!-- Navigation -->
 					<div class="align-items-center flex-sm-row w-100">
 						<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav g-flex-right--xs text-uppercase w-100 g-font-weight-700 g-font-size-11 g-pt-20 g-pt-0--lg">
-							<li class="landing-block-node-menu-list-item nav-item g-mr-15--lg g-mb-7 g-mb-0--lg active">
-								<a href="#block@block[19.5.cover_with_img_text_and_buttons]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">HOME</a><span class="sr-only">(current)</span>
+							<li class="landing-block-node-menu-list-item nav-item g-mr-15--lg g-mb-7 g-mb-0--lg ">
+								<a href="#block@block[19.5.cover_with_img_text_and_buttons]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">HOME</a>
  </li>
 							<li class="landing-block-node-menu-list-item nav-item g-mx-15--lg g-mb-7 g-mb-0--lg">
 								<a href="#block@block[44.2.four_columns_with_img_and_text]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">ABOUT</a>

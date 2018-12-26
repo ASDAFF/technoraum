@@ -99,11 +99,13 @@ $containerId = 'sender-letter-time';
 		<?if (!empty($arResult['LIMITATION'])):?>
 			<div class="sender-letter-info">
 				<?=htmlspecialcharsbx($arResult['LIMITATION']['TEXT'])?>
-				<a href="<?=htmlspecialcharsbx($arResult['LIMITATION']['SETUP_URI'])?>">
-					<div class="sender-hint">
-						<div class="sender-hint-icon"></div>
-					</div>
-				</a>
+				<?if ($arResult['LIMITATION']['SETUP_URI']):?>
+					<a href="<?=htmlspecialcharsbx($arResult['LIMITATION']['SETUP_URI'])?>">
+						<div class="sender-hint">
+							<div class="sender-hint-icon"></div>
+						</div>
+					</a>
+				<?endif;?>
 			</div>
 		<?endif;?>
 

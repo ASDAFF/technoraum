@@ -74,8 +74,6 @@ $return = array(
 							),
 							'HIDE_NOT_AVAILABLE_OFFERS' => array(
 							),
-							'PAGE_ELEMENT_COUNT' => array(
-							),
 							// sort
 							'ELEMENT_SORT_FIELD' => array(
 							),

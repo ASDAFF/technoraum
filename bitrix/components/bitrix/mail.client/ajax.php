@@ -513,7 +513,7 @@ class CMailClientAjaxController extends \Bitrix\Main\Engine\Controller
 
 				$attachments[] = array(
 					'ID'           => $contentId,
-					'NAME'         => $file['name'],
+					'NAME'         => $diskFile->getName(),
 					'PATH'         => $file['tmp_name'],
 					'CONTENT_TYPE' => $file['type'],
 				);

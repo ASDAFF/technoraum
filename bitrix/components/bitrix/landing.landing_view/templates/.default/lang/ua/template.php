@@ -1,4 +1,6 @@
 <?
+$MESS["LANDING_WAIT_WHILE_CREATING"] = "Ѕудь ласка, зачекайте, ваш сайт скоро опубл≥куЇтьс€Е";
+$MESS["LANDING_WAIT_WHILE_CREATING_FORCE"] = "ѕерейти на сайт";
 $MESS["LANDING_TPL_PUBLIC_URL"] = "ќпубл≥кувати";
 $MESS["LANDING_TPL_PUBLIC_URL_PAGE"] = "ќпубл≥кувати стор≥нку";
 $MESS["LANDING_TPL_PUBLIC_URL_ALL"] = "ќпубл≥кувати вс≥ стор≥нки";

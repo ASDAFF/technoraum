@@ -210,7 +210,7 @@ $queryObject = Catalog\SubscribeTable::getList(array(
 	'order' => array($by => $order),
 ));
 
-$queryObject = new CAdminUiResult($queryObject, $sTableID);
+$queryObject = new CAdminUiResult($queryObject, $tableId);
 $queryObject->NavStart();
 
 $listObject->SetNavigationParams($queryObject, array("BASE_LINK" => $selfFolderUrl."cat_subscription_list.php"));

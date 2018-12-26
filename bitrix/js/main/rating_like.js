@@ -1075,9 +1075,24 @@ RatingLike.Vote = function(likeId, voteAction, voteReaction, voteReactionOld)
 		callbackSuccessName = (BMAjaxWrapper ? 'callback' : 'onsuccess'),
 		callbackFailureName = (BMAjaxWrapper ? 'callback_failure' : 'onfailure');
 
+	var actionUrl = BXRL[likeId].pathToAjax;
+	actionUrl = BX.util.add_url_param(actionUrl, {
+		b24statAction: 'addLike'
+	});
+
+	if (
+		BXRL[likeId].version >= 2
+		&& BXRL.manager.mobile
+	)
+	{
+		actionUrl = BX.util.add_url_param(actionUrl, {
+			b24statContext: 'mobile'
+		});
+	}
+
 	var ajaxProperties = {
-		url: BXRL[likeId].pathToAjax,
-			method: 'POST',
+		url: actionUrl,
+		method: 'POST',
 		dataType: 'json',
 		type: 'json',
 		data: {

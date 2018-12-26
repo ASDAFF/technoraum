@@ -24,7 +24,9 @@ BX.UI.ActionPanel = function(options)
 	this.hiddenItems = [];
 	this.grid = null;
 	this.tileGrid = null;
+	this.maxHeight = options.maxHeight;
 	this.params = options.params || {};
+	this.parentPosition = options.parentPosition;
 	this.mutationObserver = null;
 	this.panelIsFixed = null;
 	this.removeLeftPosition = options.removeLeftPosition;
@@ -209,7 +211,7 @@ BX.UI.ActionPanel.prototype =
 			}
 		});
 
-		this.removeLeftPosition ? this.layout.reset.style.order = "0" : null;
+		this.removeLeftPosition ? BX.addClass(this.layout.reset, "ui-action-panel-reset-ordert-first") : null;
 
 		BX.bind(this.layout.reset, "click", function()
 		{
@@ -378,6 +380,8 @@ BX.UI.ActionPanel.prototype =
 				this.showResetAllBlock? this.getResetAllBlock() : null
 			]
 		});
+
+		this.maxHeight ? this.layout.container.style.maxHeight = this.maxHeight + "px" : null;
 	},
 
 	getItemContainer: function()
@@ -396,7 +400,7 @@ BX.UI.ActionPanel.prototype =
 	{
 		return this.layout.totalSelected = BX.create('div', {
 			props: {
-				className: 'ui-action-panel-total'
+				className: this.removeLeftPosition ? 'ui-action-panel-total ui-action-panel-total-without-border' : 'ui-action-panel-total'
 			},
 			dataset: {
 				role: 'action-panel-total'
@@ -429,8 +433,15 @@ BX.UI.ActionPanel.prototype =
 	{
 		var parentContainerParam = BX.pos(this.resolveRenderContainer());
 
+		var offsetTop = 0;
+		
+		if(this.maxHeight)
+		{
+			offsetTop = parentContainerParam.height - this.maxHeight;
+		}
+
 		this.layout.container.style.width = parentContainerParam.width + "px";
-		this.layout.container.style.top = parentContainerParam.top + "px";
+		this.layout.container.style.top = (parentContainerParam.top + offsetTop) + "px";
 
 		this.panelIsFixed ?
 			this.layout.container.style.left = this.resolveRenderContainer().getBoundingClientRect().left + 'px' :
@@ -616,6 +627,7 @@ BX.UI.ActionPanel.prototype =
 					id: item.ID || item.VALUE,
 					text: item.TEXT || item.NAME,
 					icon: item.ICON,
+					submenuOptions: item.SUBMENU_OPTIONS || {},
 					disabled: item.DISABLED,
 					items: item.ITEMS
 				});
@@ -639,6 +651,7 @@ BX.UI.ActionPanel.prototype =
 		BX.addClass(this.layout.container, "ui-action-panel-show-animate");
 
 		var parentContainerParam = BX.pos(this.resolveRenderContainer());
+
 		this.layout.container.style.height = parentContainerParam.height + "px";
 
 		setTimeout(function() {

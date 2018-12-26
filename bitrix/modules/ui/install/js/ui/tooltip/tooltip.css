@@ -385,7 +385,8 @@
 .bx-ui-tooltip-tb-control .bx-icon-video{background-position: 0 -178px;}
 
 li.bx-icon-message span, li.bx-icon-video span { cursor: pointer; text-decoration: none; }
-li.bx-icon-message span.bx-icon-underline, li.bx-icon-video span.bx-icon-underline { cursor: pointer; text-decoration: none; }
+/*li.bx-icon-message span.bx-icon-underline, li.bx-icon-video span.bx-icon-underline { cursor: pointer; text-decoration: none; }*/
+li.bx-icon-message span:hover, li.bx-icon-video span:hover { cursor: pointer; text-decoration: none; }
 
 .bx-ui-tooltip-info-thumbnail img
 {

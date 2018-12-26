@@ -1111,7 +1111,11 @@
 		userId = typeof(userId) == 'undefined'? this.BXIM.userId: userId;
 		reset = typeof(reset) == 'boolean'? reset: false;
 
-		if (userId.toString().substr(0, 4) == 'chat' || userId.toString().substr(0, 2) == 'sg')
+		if (
+			userId.toString().substr(0, 4) == 'chat'
+			|| userId.toString().substr(0, 2) == 'sg'
+			|| userId.toString().substr(0, 3) == 'crm'
+		)
 		{
 			var chatId = userId.toString().substr(0, 4) == 'chat'? userId.toString().substr(4): userId;
 			if (reset || !(this.BXIM.messenger.chat[chatId] && this.BXIM.messenger.chat[chatId].id))
@@ -1567,13 +1571,21 @@
 
 		var entityType = this.BXIM.messenger.chat[chatId].entity_type;
 
-		if (typeof(this.BXIM.messenger.userChatOptions[entityType]) == 'undefined')
-			return null;
+		if (entityType == 'CRM')
+		{
+			var entityParams = this.BXIM.messenger.chat[chatId].entity_id.toString().split('|');
+			return {'PATH': this.BXIM.path.crm[entityParams[0]].replace('#ID#', entityParams[1]), 'TITLE': BX.message('IM_M_OL_GOTO_CRM')};
+		}
+		else
+		{
+			if (typeof(this.BXIM.messenger.userChatOptions[entityType]) == 'undefined')
+				return null;
 
-		if (!this.BXIM.messenger.userChatOptions[entityType]['PATH'])
-			return null;
+			if (!this.BXIM.messenger.userChatOptions[entityType]['PATH'])
+				return null;
 
-		return {'PATH': this.BXIM.messenger.userChatOptions[entityType]['PATH'].replace('#ID#', this.BXIM.messenger.chat[chatId].entity_id), 'TITLE': this.BXIM.messenger.userChatOptions[entityType]['PATH_TITLE']};
+			return {'PATH': this.BXIM.messenger.userChatOptions[entityType]['PATH'].replace('#ID#', this.BXIM.messenger.chat[chatId].entity_id), 'TITLE': this.BXIM.messenger.userChatOptions[entityType]['PATH_TITLE']};
+		}
 	}
 
 	MessengerCommon.prototype.renameChat = function(chatId, title)
@@ -3490,6 +3502,11 @@
 				var session = this.linesGetSession(this.BXIM.messenger.chat[params.id.substr(4)]);
 				showCrm = session.crm == 'Y';
 				chatStatus += " bx-messenger-cl-avatar-"+this.linesGetSource(this.BXIM.messenger.chat[params.id.substr(4)]);
+			}
+			else if (params.data.entity_type == 'CRM')
+			{
+				showCrm = true;
+				chatStatus += " bx-messenger-cl-avatar-type-crm";
 			}
 			else
 			{
@@ -8884,6 +8901,11 @@
 			chatId = userId.toString().substr(2);
 			userIsChat = true;
 		}
+		else if (userId.toString().substr(0,3) == 'crm')
+		{
+			chatId = userId.toString().substr(4);
+			userIsChat = true;
+		}
 
 		this.BXIM.messenger.historyWindowBlock = true;
 
@@ -8986,6 +9008,17 @@
 				if (userIsChat)
 				{
 					if (data.USER_ID.toString().substr(0,2) == 'sg')
+					{
+						if (this.BXIM.messenger.currentTab == data.USER_ID)
+						{
+							this.BXIM.messenger.currentTab = 'chat'+data.CHAT_ID;
+						}
+						delete this.BXIM.messenger.chat[data.USER_ID];
+
+						data.USER_ID = 'chat'+data.CHAT_ID;
+						BX.MessengerCommon.getUserParam(data.USER_ID);
+					}
+					else if (data.USER_ID.toString().substr(0,3) == 'crm')
 					{
 						if (this.BXIM.messenger.currentTab == data.USER_ID)
 						{
@@ -13547,6 +13580,7 @@
 		session.canVoteHead = this.linesCanVoteAsHead(source[1]);
 
 		var sessionData = chatData.entity_data_1.toString().split('|');
+		var crmData = chatData.entity_data_2.toString().split('|');
 
 		session.crm = typeof(sessionData[0]) != 'undefined' && sessionData[0] == 'Y'? 'Y': 'N';
 		session.crmEntityType = typeof(sessionData[1]) != 'undefined'? sessionData[1]: 'NONE';
@@ -13556,11 +13590,47 @@
 		session.wait = typeof(sessionData[4]) != 'undefined' && sessionData[4] == 'Y'? 'Y': 'N';
 		session.id = typeof(sessionData[5]) != 'undefined'? parseInt(sessionData[5]): Math.round(new Date()/1000)+chatData.id;
 		session.dateCreate = typeof(sessionData[6]) != 'undefined' || sessionData[6] > 0? parseInt(sessionData[6]): session.id;
-		session.crmDealId = typeof(sessionData[7]) != 'undefined'? sessionData[7]: 0;
 
-		if(session.crmDealId != 0)
+		session.crmLinkLead = '';
+		session.crmLead = 0;
+		session.crmLinkCompany = '';
+		session.crmCompany = 0;
+		session.crmLinkContact = '';
+		session.crmContact = 0;
+		session.crmLinkDeal = '';
+		session.crmDeal = 0;
+
+		if(crmData)
 		{
-			session.crmLink = this.linesGetCrmPath('DEAL', session.crmDealId);
+			var index;
+
+			for (index = 0; index < crmData.length; index = index+2)
+			{
+				if(crmData[index] == 'LEAD' && crmData[index+1] != 0 && crmData[index+1] != 'undefined')
+				{
+					session.crmLinkLead = this.linesGetCrmPath('LEAD', crmData[index+1]);
+					session.crmLead = crmData[index+1];
+				}
+				if(crmData[index] == 'COMPANY' && crmData[index+1] != 0 && crmData[index+1] != 'undefined')
+				{
+					session.crmLinkCompany = this.linesGetCrmPath('COMPANY', crmData[index+1]);
+					session.crmCompany = crmData[index+1];
+				}
+				if(crmData[index] == 'CONTACT' && crmData[index+1] != 0 && crmData[index+1] != 'undefined')
+				{
+					session.crmLinkContact = this.linesGetCrmPath('CONTACT', crmData[index+1]);
+					session.crmContact = crmData[index+1];
+				}
+				if(crmData[index] == 'DEAL' && crmData[index+1] != 0 && crmData[index+1] != 'undefined')
+				{
+					session.crmLinkDeal = this.linesGetCrmPath('DEAL', crmData[index+1]);
+					session.crmDeal = crmData[index+1];
+				}
+				else
+				{
+					session.crmDeal = 0;
+				}
+			}
 		}
 		else if (session.crmEntityType != 'NONE')
 		{
@@ -13605,8 +13675,25 @@
 		{
 			session.dateCreate = params.dateCreate;
 		}
+		if (typeof(params.crmLead) != "undefined")
+		{
+			session.crmLead = params.crmLead;
+		}
+		if (typeof(params.crmCompany) != "undefined")
+		{
+			session.crmCompany = params.crmCompany;
+		}
+		if (typeof(params.crmContact) != "undefined")
+		{
+			session.crmContact = params.crmContact;
+		}
+		if (typeof(params.crmDeal) != "undefined")
+		{
+			session.crmDeal = params.crmDeal;
+		}
 
-		this.BXIM.messenger.chat[chatId].entity_data_1 = [session.crm, session.crmEntityType, session.crmEntityId, session.pin, session.wait, session.id, session.dateCreate].join('|')
+		this.BXIM.messenger.chat[chatId].entity_data_1 = [session.crm, session.crmEntityType, session.crmEntityId, session.pin, session.wait, session.id, session.dateCreate].join('|');
+		this.BXIM.messenger.chat[chatId].entity_data_2 = 'LEAD|' + session.crmLead + '|COMPANY|' + session.crmCompany + '|CONTACT|' + session.crmContact + '|DEAL|' + session.crmDeal;
 
 		return session;
 	}
@@ -13815,10 +13902,6 @@
 			timeout: 60,
 			data: {'COMMAND': 'closeDialog', 'CHAT_ID' : chatId, 'IM_OPEN_LINES' : 'Y', 'IM_AJAX_CALL' : 'Y', 'sessid': BX.bitrix_sessid()},
 			onsuccess: BX.delegate(function(){
-				if (this.closeSlider())
-				{
-					return true;
-				}
 				this.BXIM.messenger.blockJoinChat[chatId] = false;
 				BX.MessengerCommon.linesSetSession(chatId, {'wait': 'Y'});
 				this.BXIM.messenger.redrawChatHeader({userRedraw: false});

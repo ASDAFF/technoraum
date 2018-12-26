@@ -17,11 +17,8 @@ if ($arResult['FATAL'])
 	return;
 }
 
-$request = \Bitrix\Main\Application::getInstance()->getContext()->getRequest();
-$curUrl = $request->getRequestUri();
-
 // title
-$APPLICATION->setTitle(
+\Bitrix\Landing\Manager::setPageTitle(
 	$this->__component->getMessageType('LANDING_TPL_TITLE')
 );
 
@@ -73,7 +70,9 @@ $APPLICATION->SetPageProperty('BodyClass', ($bodyClass ? $bodyClass.' ' : '') . 
 				'sessid' => bitrix_sessid()
 			));
 			?>
-			<div class="landing-item <?= $item['ACTIVE'] != 'Y' || $item['DELETED'] != 'N' ? 'landing-item-unactive' : ''?>">
+			<div class="landing-item <?
+					?><?= $item['ACTIVE'] != 'Y' || $item['DELETED'] != 'N' ? ' landing-item-unactive' : '';?><?
+					?><?= $item['DELETED'] == 'Y' ? ' landing-item-deleted' : '';?>">
 				<div class="landing-item-inner">
 					<div class="landing-title">
 						<div class="landing-title-btn"
@@ -127,7 +126,20 @@ $APPLICATION->SetPageProperty('BodyClass', ($bodyClass ? $bodyClass.' ' : '') . 
 	</div>
 </div>
 
-
+<?if ($arResult['NAVIGATION']->getPageCount() > 1):?>
+	<div class="<?= (defined('ADMIN_SECTION') && ADMIN_SECTION === true) ? '' : 'landing-navigation';?>">
+			<?$APPLICATION->IncludeComponent(
+				'bitrix:main.pagenavigation',
+				'',//grid
+				array(
+					'NAV_OBJECT' => $arResult['NAVIGATION'],
+					'SEF_MODE' => 'N',
+					'BASE_LINK' => $arResult['CUR_URI']
+				),
+				false
+			);?>
+	</div>
+<?endif;?>
 
 
 <script type="text/javascript">
@@ -136,31 +148,33 @@ $APPLICATION->SetPageProperty('BodyClass', ($bodyClass ? $bodyClass.' ' : '') . 
 		typeof BX.SidePanel.Instance !== 'undefined'
 	)
 	{
-		BX.SidePanel.Instance.bindAnchors({
-			rules: [
-				{
-					condition: [
-						'<?= str_replace('#site_edit#', '(\\\d+)', \CUtil::jsEscape($arParams['PAGE_URL_SITE_EDIT']));?>',
-						'<?= str_replace(array('#site_show#', '#landing_edit#'), '(\\\d+)', \CUtil::jsEscape($arParams['PAGE_URL_LANDING_EDIT']));?>'
-					],
-					stopParameters: [
-						'action',
-						'fields%5Bdelete%5D'
-					],
-					options: {
-						allowChangeHistory: false,
-						events: {
-							onOpen: function(event)
-							{
-								if (BX.hasClass(BX('landing-create-element'), 'ui-btn-disabled'))
+		BX.SidePanel.Instance.bindAnchors(
+			top.BX.clone({
+				rules: [
+					{
+						condition: [
+							'<?= str_replace('#site_edit#', '(\\\d+)', \CUtil::jsEscape($arParams['PAGE_URL_SITE_EDIT']));?>',
+							'<?= str_replace(array('#site_show#', '#landing_edit#'), '(\\\d+)', \CUtil::jsEscape($arParams['PAGE_URL_LANDING_EDIT']));?>'
+						],
+						stopParameters: [
+							'action',
+							'fields%5Bdelete%5D'
+						],
+						options: {
+							allowChangeHistory: false,
+							events: {
+								onOpen: function(event)
 								{
-									event.denyAction();
+									if (BX.hasClass(BX('landing-create-element'), 'ui-btn-disabled'))
+									{
+										event.denyAction();
+									}
 								}
 							}
 						}
-					}
-				}]
-		});
+					}]
+			})
+        );
 	}
 
     BX.bind(document.querySelector('.landing-item-add-new span.landing-item-inner'), 'click', function(event) {

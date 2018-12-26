@@ -53,14 +53,20 @@ class CMailUfMessageComponent extends CBitrixComponent
 						'join_type' => 'INNER',
 					)
 				),
+				new Main\Entity\ReferenceField(
+					'CLOSURE',
+					Mail\Internals\MessageClosureTable::class,
+					array(
+						'=this.ID' => 'ref.MESSAGE_ID',
+					)
+				),
 			),
 			'select' => array(
 				new Main\Entity\ExpressionField('NEW_COUNT', 'COUNT(DISTINCT %s)', 'ID'),
 			),
 			'filter' => array(
 				'=MAILBOX_ID' => $message['MAILBOX_ID'],
-				'>LEFT_MARGIN' => $message['LEFT_MARGIN'],
-				'<RIGHT_MARGIN' => $message['RIGHT_MARGIN'],
+				'=CLOSURE.PARENT_ID' => $message['ID'],
 				'!@MESSAGE_UID.IS_SEEN' => array('Y', 'S'),
 			),
 		))->fetch();

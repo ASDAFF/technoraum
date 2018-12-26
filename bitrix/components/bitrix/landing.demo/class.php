@@ -27,6 +27,11 @@ use Bitrix\Main;
 class LandingSiteDemoComponent extends LandingBaseComponent
 {
 	/**
+	 * Count items per page.
+	 */
+	const COUNT_PER_PAGE = 48;
+
+	/**
 	 * Tag for managed cache.
 	 */
 	const DEMO_TAG = 'landing_demo';
@@ -81,6 +86,13 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 	 */
 	protected function redirectToLanding($landingId)
 	{
+		if (
+			isset($this->arParams['DISABLE_REDIRECT']) &&
+			$this->arParams['DISABLE_REDIRECT'] == 'Y'
+		)
+		{
+			return true;
+		}
 		$landing = Landing::createInstance($landingId);
 		if ($landing->exist())
 		{
@@ -101,12 +113,68 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 		}
 		return true;
 	}
-
+	
+	
+	/**
+	 * For page need match USE SITE THEME setting
+	 * @param $data
+	 * @return array
+	 */
+	protected function prepareAdditionalFieldsPage($data)
+	{
+		$data = $this->prepareAdditionalFields($data);
+		
+//		for NEW SITE pages - always set THEME_USE_SITE
+		if($this->arParams['SITE_ID'] === 0)
+		{
+			unset($data['ADDITIONAL_FIELDS']['THEME_CODE']);
+			unset($data['ADDITIONAL_FIELDS']['THEME_CODE_TYPO']);
+		}
+		
+//		for new page in EXISTING SITES - match value
+		elseif ($this->request('theme'))
+		{
+			if ($this->request('theme_use_site') && $this->request('theme_use_site') == 'Y')
+			{
+				unset($data['ADDITIONAL_FIELDS']['THEME_CODE']);
+				unset($data['ADDITIONAL_FIELDS']['THEME_CODE_TYPO']);
+			}
+			else
+			{
+				$data['ADDITIONAL_FIELDS']['THEME_CODE'] = $this->request('theme');
+				$data['ADDITIONAL_FIELDS']['THEME_CODE_TYPO'] = $this->request('theme');
+			}
+		}
+		
+		return $data;
+	}
+	
+	/**
+	 * For SITE always add theme from request. It is may be original theme, or user change
+	 *
+	 * @param $data
+	 * @return array
+	 */
+	protected function prepareAdditionalFieldsSite($data)
+	{
+		$data = $this->prepareAdditionalFields($data);
+		
+		if ($this->request('theme'))
+		{
+			$data['ADDITIONAL_FIELDS']['THEME_CODE'] = $this->request('theme');
+			$data['ADDITIONAL_FIELDS']['THEME_CODE_TYPO'] = $this->request('theme');
+		}
+		
+		return $data;
+	}
+	
+	
 	/**
 	 * Prepare array of additional data.
 	 * @param array $data Data item array.
 	 * @return array
 	 */
+	
 	protected function prepareAdditionalFields($data)
 	{
 		if (
@@ -116,15 +184,7 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 		{
 			$data['ADDITIONAL_FIELDS'] = array();
 		}
-//		Rewrite only if theme set. If have not theme - it means it page with "get theme from site" option
-		if (
-			$this->request('theme') &&
-			isset($data['ADDITIONAL_FIELDS']['THEME_CODE'])
-		)
-		{
-			$data['ADDITIONAL_FIELDS']['THEME_CODE'] = $this->request('theme');
-			$data['ADDITIONAL_FIELDS']['THEME_CODE_TYPO'] = $this->request('theme');
-		}
+		
 		return $data;
 	}
 
@@ -172,7 +232,10 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 			}
 			$data = $demo[$code]['DATA'];
 			$pageData = $data['fields'];
-			$pageData = $this->prepareAdditionalFields($pageData);
+			if ($demo[$code]['REST'] <= 0)
+			{
+				$pageData = $this->prepareAdditionalFieldsPage($pageData);
+			}
 			$pageData['SITE_ID'] = $siteId;
 			$pageData['ACTIVE'] = 'N';
 			$pageData['PUBLIC'] = 'N';
@@ -199,6 +262,7 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 					$blocks = array();
 					$blocksIds = array();
 					$blocksCodes = array();
+					$blocksAccess = array();
 					foreach ($data['items'] as $k => $block)
 					{
 						if (is_array($block))
@@ -240,6 +304,10 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 													: ''
 									)
 								);
+								if (isset($block['access']))
+								{
+									$blocksAccess[$blockId] = $block['access'];
+								}
 								$blocksIds[$block['old_id']] = $blockId;
 								$sort += 500;
 								$blocks[$blockId] = $k;
@@ -452,6 +520,18 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 							$block->saveContent($content);
 							$block->save();
 						}
+						if (
+							isset($blocksAccess[$block->getId()]) &&
+							$blocksAccess[$block->getId()] != \Bitrix\Landing\Block::ACCESS_X
+						)
+						{
+							\Bitrix\Landing\Internals\BlockTable::update(
+								$block->getId(),
+								[
+									'ACCESS' => $blocksAccess[$block->getId()]
+								]
+							);
+						}
 					}
 					return $landing->getId();
 				}
@@ -644,7 +724,7 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 	 * @param mixed $additional Data from form.
 	 * @return boolean
 	 */
-	protected function actionSelect($code, $additional = null)
+	public function actionSelect($code, $additional = null)
 	{
 		// create page in the site
 		if (
@@ -682,7 +762,10 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 			$data = $demo[$code]['DATA'];
 			$version = $data['version'];
 			$siteData = $data['fields'];
-			$siteData = $this->prepareAdditionalFields($siteData);
+			if ($demo[$code]['REST'] <= 0)
+			{
+				$siteData = $this->prepareAdditionalFieldsSite($siteData);
+			}
 			$siteData['DOMAIN_ID'] = $this->getDomainId();
 			$siteData['ACTIVE'] = 'N';
 			$siteData['CODE'] = str_replace(
@@ -705,7 +788,6 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 			}
 			else
 			{
-				// callback (@todo must be changed in future)
 				if (
 					$siteData['TYPE'] == 'STORE' &&
 					Manager::isB24()
@@ -713,45 +795,12 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 				{
 					$settings = Settings::getDataForSite();
 					// if shop section exist, save for site, else make import
-					$res = \Bitrix\Iblock\SectionTable::getList(array(
-						'select' => array(
-							'ID'
-						),
-						'filter' => array(
-							'IBLOCK_ID' => $settings['IBLOCK_ID'],
-							'=CODE' => 'clothes',
-							'=XML_ID' => '666',
-						)
-					));
-					if ($row = $res->fetch())
+					$sectionId = $this->getParentCatalogSectionId($settings['IBLOCK_ID']);
+					if ($sectionId !== null)
 					{
-						$siteData['ADDITIONAL_FIELDS']['SETTINGS_SECTION_ID'] = $row['ID'];
+						$siteData['ADDITIONAL_FIELDS']['SETTINGS_SECTION_ID'] = $sectionId;
 					}
-					else
-					{
-/*						$callbackRes = $this->createCatalog($code);
-						if ($callbackRes !== true)
-						{
-							$this->addError('CALLBACK_ERROR', $callbackRes);
-							return false;
-						}
-						// gets new added section and save it for site
-						$res = \Bitrix\Iblock\SectionTable::getList(array(
-							'select' => array(
-								'ID'
-							),
-							'filter' => array(
-								'IBLOCK_ID' => $settings['IBLOCK_ID'],
-								'=CODE' => 'clothes',
-								'=XML_ID' => '666',
-							)
-						));
-						if ($row = $res->fetch())
-						{
-							$siteData['ADDITIONAL_FIELDS']['SETTINGS_SECTION_ID'] = $row['ID'];
-						} */
-					}
-
+					unset($sectionId);
 				}
 				$buttons = \Bitrix\Landing\Hook\Page\B24button::getButtons();
 				$buttons = array_keys($buttons);
@@ -1010,7 +1059,8 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 		$result = [
 			'STATUS' => self::STEP_STATUS_COMPLETE,
 			'MESSAGE' => '',
-			'FINAL' => true
+			'FINAL' => true,
+			'PROGRESS' => 0
 		];
 
 		$demo = $this->getDemoSite();
@@ -1032,12 +1082,14 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 				{
 					$result['MESSAGE'] = $internalResult['MESSAGE'];
 				}
+				$result['PROGRESS'] = 100;
 			}
 			else
 			{
 				$result['STATUS'] = self::STEP_STATUS_CONTINUE;
 				$result['MESSAGE'] = $internalResult['MESSAGE'];
 				$result['FINAL'] = false;
+				$result['PROGRESS'] = $internalResult['PROGRESS'];
 			}
 		}
 
@@ -1048,7 +1100,7 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 	{
 		$request = \Bitrix\Main\Application::getInstance()->getContext()->getRequest();
 		$uriSelect = new \Bitrix\Main\Web\Uri($request->getRequestUri());
-		$uriSelect->deleteParams(array('sessid', 'stepper', 'action', 'param', 'additional', 'code'));
+		$uriSelect->deleteParams(array('sessid', 'stepper', 'action', 'param', 'additional', 'code', 'start'));
 		$uriSelect->addParams(array(
 			'action' => 'select',
 			'param' => $code,
@@ -1072,7 +1124,6 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 			// fill from rest
 			if (!empty($data))
 			{
-				//$last = array_pop(array_values($data));
 				$sort = 0;
 				if ($code)
 				{
@@ -1688,7 +1739,8 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 		$result = [
 			'STATUS' => self::STEP_STATUS_ERROR,
 			'MESSAGE' => '',
-			'FINAL' => true
+			'FINAL' => true,
+			'PROGRESS' => 0
 		];
 
 		if (
@@ -1700,13 +1752,6 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 			return $result;
 		}
 
-		// ru-zones
-		/*if (!in_array(LANGUAGE_ID, ['ru']))
-		{
-			$result['MESSAGE'] = Loc::getMessage('LANDING_CMP_ERROR_MASTER_NO_DATA');
-			return $result;
-		}*/
-
 		$this->initStepStorage();
 
 		$result['STATUS'] = self::STEP_STATUS_CONTINUE;
@@ -1716,16 +1761,21 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 			case self::STEP_ID_HIGHLOADBLOCK:
 				$this->createHLblocks();
 				$this->nextStep();
-				$result['MESSAGE'] = ''; // technical step
+				$result['MESSAGE'] = Loc::getMessage('LANDING_CMP_LD_MESS_DATA_PREPARE');
+				$result['PROGRESS'] = 50;
 				break;
 			case self::STEP_ID_PREPARE_CRM_CATALOG:
 				$this->transferCrmCatalogXmlId();
 				$this->nextStep();
-				$result['MESSAGE'] = ''; // technical step
+				$result['MESSAGE'] = Loc::getMessage('LANDING_CMP_LD_MESS_DATA_PREPARE');
+				$result['PROGRESS'] = 100;
 				break;
 			case self::STEP_ID_XML_IMPORT:
 				$importResult = $this->importXmlFile();
 				$result['MESSAGE'] = $importResult['MESSAGE'];
+				$result['PROGRESS'] = $importResult['PROGRESS'];
+				if ($result['PROGRESS'] > 100)
+					$result['PROGRESS'] = $result['PROGRESS'] % 100;
 				if ($importResult['FINAL'])
 				{
 					if ($importResult['STATUS'] == self::STEP_STATUS_ERROR)
@@ -1746,7 +1796,8 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 					$this->getXmlIblockId('catalog_sku')
 				);
 				$this->nextStep();
-				$result['MESSAGE'] = ''; // technical step
+				$result['MESSAGE'] = Loc::getMessage('LANDING_CMP_LD_MESS_CATALOG_UPDATE');
+				$result['PROGRESS'] = 50;
 				break;
 			case self::STEP_ID_CATALOG_REINDEX:
 				$this->reindexCatalog(
@@ -1754,13 +1805,15 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 					$this->getXmlIblockId('catalog_sku')
 				);
 				$this->nextStep();
-				$result['MESSAGE'] = ''; // technical step
+				$result['MESSAGE'] = Loc::getMessage('LANDING_CMP_LD_MESS_CATALOG_UPDATE');
+				$result['PROGRESS'] = 100;
 				break;
 			case self::STEP_ID_FINAL:
 				$result = [
 					'STATUS' => self::STEP_STATUS_COMPLETE,
 					'MESSAGE' => Loc::getMessage('LANDING_CMP_LD_MESS_IMPORT_COMPLETE'),
-					'FINAL' => true
+					'FINAL' => true,
+					'PROGRESS' => 100
 				];
 				break;
 			default:
@@ -1828,6 +1881,29 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 
 				}
 			}
+
+			// init nav
+			$this->lastNavigation = new \Bitrix\Main\UI\PageNavigation('nav');
+			$this->lastNavigation->allowAllRecords(false)
+								 ->setPageSize($this::COUNT_PER_PAGE)
+								 ->initFromUri();
+			// emulate from db
+			$res = new \CDBResult;
+			$res->initFromArray($this->arResult['DEMO']);
+			$res->navStart(
+				$this::COUNT_PER_PAGE,
+				false,
+				$this->lastNavigation->getCurrentPage()
+			);
+			$this->lastNavigation->setRecordCount(
+				count($this->arResult['DEMO'])
+			);
+			$this->arResult['DEMO'] = [];
+			while ($row = $res->fetch())
+			{
+				$this->arResult['DEMO'][] = $row;
+			}
+			$this->arResult['NAVIGATION'] = $this->getLastNavigation();
 		}
 
 		$action = $this->request('stepper');
@@ -1840,13 +1916,27 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 		{
 			if (!check_bitrix_sessid())
 			{
-				$request = \Bitrix\Main\Application::getInstance()->getContext()->getRequest();
-				$curUri = new \Bitrix\Main\Web\Uri($request->getRequestUri());
-				$curUri->deleteParams(array('sessid', 'stepper', 'action', 'param', 'additional', 'code'));
-				\localRedirect($curUri->getUri());
+				\localRedirect($this->getUri());
 			}
 			else
 			{
+				if ($this->request('start') === 'Y')
+				{
+					$settings = Settings::getDataForSite();
+					// if shop section exist, save for site, else make import
+					$sectionId = $this->getParentCatalogSectionId($settings['IBLOCK_ID']);
+					if ($sectionId !== null)
+					{
+						$result = [
+							'status' => 'final',
+							'message' => '',
+							'url' => $this->{$stepperFinalUrl}($param, $additional)
+						];
+						$APPLICATION->RestartBuffer();
+						echo Main\Web\Json::encode($result);
+						die();
+					}
+				}
 				/** @var array $result */
 				$stepperResult = $this->{$stepper}($param, $additional);
 				switch ($stepperResult['STATUS'])
@@ -1854,7 +1944,8 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 					case self::STEP_STATUS_CONTINUE:
 						$result = [
 							'status' => 'continue',
-							'message' => $stepperResult['MESSAGE']
+							'message' => $stepperResult['MESSAGE'],
+							'progress' => $stepperResult['PROGRESS']
 						];
 						$APPLICATION->RestartBuffer();
 						echo Main\Web\Json::encode($result);
@@ -1867,6 +1958,7 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 						$result = [
 							'status' => 'final',
 							'message' => $stepperResult['MESSAGE'],
+							'progress' => $stepperResult['PROGRESS'],
 							'url' => $this->{$stepperFinalUrl}($param, $additional)
 						];
 						$APPLICATION->RestartBuffer();
@@ -1874,10 +1966,7 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 						die();
 						break;
 					default:
-						$request = \Bitrix\Main\Application::getInstance()->getContext()->getRequest();
-						$curUri = new \Bitrix\Main\Web\Uri($request->getRequestUri());
-						$curUri->deleteParams(array('sessid', 'stepper', 'action', 'param', 'additional', 'code'));
-						\localRedirect($curUri->getUri());
+						\localRedirect($this->getUri());
 						break;
 				}
 			}
@@ -1979,7 +2068,8 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 		$result = [
 			'STATUS' => self::STEP_STATUS_CONTINUE,
 			'MESSAGE' => '',
-			'FINAL' => true
+			'FINAL' => true,
+			'PROGRESS' => 0
 		];
 
 		$importer = new \CIBlockXmlImport();
@@ -2001,7 +2091,7 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 		$config = [
 			'USE_CRC' => false,
 			'PREVIEW_PICTURE_SETTINGS' => false,
-			'DETAIL_PICTURE_SETTINGS' => false,
+			'DETAIL_PICTURE_SETTINGS' => false
 		];
 
 		$importer->init($parameters, $config);
@@ -2025,20 +2115,23 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 					$result = [
 						'STATUS' => self::STEP_STATUS_COMPLETE,
 						'MESSAGE' => Loc::getMessage('LANDING_CMP_LD_MESS_XML_IMPORT_COMPLETE'),
-						'FINAL' => true
+						'FINAL' => true,
+						'PROGRESS' => 100
 					];
 					$this->resetStepParameters();
 				}
 				else
 				{
 					$this->setCurrentXml($nextXml);
-					$result['MESSAGE'] = $this->importXmlFileResultMessage($xml);
+					$result['MESSAGE'] = $this->importXmlFileResultMessage($xml, true);
 					$result['FINAL'] = false;
+					$result['PROGRESS'] = 100;
 				}
 			}
 			else
 			{
-				$result['MESSAGE'] = $importResult['MESSAGE'];
+				$result['MESSAGE'] = $this->importXmlFileResultMessage($xml, false);
+				$result['PROGRESS'] = $this->getCurrentXmlProgress();
 				$result['FINAL'] = false;
 			}
 		}
@@ -2118,43 +2211,19 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 				),
 				'LIST_MODE' => 'S'
 			));
-			// delete all props
-			$toDelete = array(
-				/*'CML2_TAXES', 'CML2_BASE_UNIT', 'CML2_TRAITS', 'CML2_ATTRIBUTES', 'CML2_ARTICLE',
-				'CML2_BAR_CODE', 'CML2_MANUFACTURER', */'CML2_PICTURES', 'CML2_FILES'
-			);
-			foreach ($toDelete as $code)
-			{
-				$res = \CIBlockProperty::getList(
-					array(),
-					array(
-						'IBLOCK_ID' => $iblockId,
-						'XML_ID' => $code
-					)
-				);
-				if($row = $res->Fetch())
-				{
-					\CIBlockProperty::delete($row['ID']);
-				}
-			}
 		}
 	}
 
 	private function reindexCatalog($parentIblock, $offerIblock)
 	{
-		$iterator = Iblock\SectionTable::getList([
-			'select' => ['ID'],
-			'filter' => ['=IBLOCK_ID' => $parentIblock, '=XML_ID' => '666']
-		]);
-		$parentSection = $iterator->fetch();
-		unset($iterator);
-		if (empty($parentSection))
+		$parentSectionId = $this->getParentCatalogSectionId($parentIblock);
+		if ($parentSectionId === null)
 			return;
 		$iterator = \CIBlockElement::GetList(
 			['ID' => 'ASC'],
 			[
 				'IBLOCK_ID' => $parentIblock,
-				'SECTION_ID' => $parentSection['ID'], 'INCLUDE_SUBSECTIONS' => 'Y',
+				'SECTION_ID' => $parentSectionId, 'INCLUDE_SUBSECTIONS' => 'Y',
 				'CHECK_PERMISSIONS' => 'N'
 			],
 			false,
@@ -2248,8 +2317,13 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 	private function getCurrentXml()
 	{
 		if (!isset($_SESSION['LANDING_DEMO_STORAGE']['STEP_PARAMETERS']['CURRENT_XML']))
-			$_SESSION['LANDING_DEMO_STORAGE']['STEP_PARAMETERS']['CURRENT_XML'] = 'catalog';
-		return $_SESSION['LANDING_DEMO_STORAGE']['STEP_PARAMETERS']['CURRENT_XML'];
+		{
+			$_SESSION['LANDING_DEMO_STORAGE']['STEP_PARAMETERS']['CURRENT_XML'] = [
+				'CODE' => 'catalog',
+				'PROGRESS' => 0
+			];
+		}
+		return $_SESSION['LANDING_DEMO_STORAGE']['STEP_PARAMETERS']['CURRENT_XML']['CODE'];
 	}
 
 	private function getNextXml()
@@ -2263,7 +2337,14 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 
 	private function setCurrentXml($xmlId)
 	{
-		$_SESSION['LANDING_DEMO_STORAGE']['STEP_PARAMETERS']['CURRENT_XML'] = $xmlId;
+		$_SESSION['LANDING_DEMO_STORAGE']['STEP_PARAMETERS']['CURRENT_XML']['CODE'] = $xmlId;
+		$_SESSION['LANDING_DEMO_STORAGE']['STEP_PARAMETERS']['CURRENT_XML']['PROGRESS'] = 0;
+	}
+
+	private function getCurrentXmlProgress()
+	{
+		$_SESSION['LANDING_DEMO_STORAGE']['STEP_PARAMETERS']['CURRENT_XML']['PROGRESS'] += 5;
+		return $_SESSION['LANDING_DEMO_STORAGE']['STEP_PARAMETERS']['CURRENT_XML']['PROGRESS'];
 	}
 
 	private function getXmlIblockId($xmlId)
@@ -2276,23 +2357,44 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 		$_SESSION['LANDING_DEMO_STORAGE']['IBLOCK_ID'][$xmlId] = $iblockId;
 	}
 
-	private function importXmlFileResultMessage($xmlId)
+	private function importXmlFileResultMessage($xmlId, $complete = true)
 	{
 		$result = '';
-		switch ($xmlId)
+		if ($complete)
 		{
-			case 'catalog':
-				$result = Loc::getMessage('LANDING_CMP_LD_MESS_XML_IMPORT_CATALOG_COMPLETE');
-				break;
-			case 'catalog_prices':
-				$result = Loc::getMessage('LANDING_CMP_LD_MESS_XML_IMPORT_CATALOG_PRICES_COMPLETE');
-				break;
-			case 'catalog_sku':
-				$result = Loc::getMessage('LANDING_CMP_LD_MESS_XML_IMPORT_CATALOG_OFFERS_COMPLETE');
-				break;
-			case 'catalog_prices_sku':
-				$result = Loc::getMessage('LANDING_CMP_LD_MESS_XML_IMPORT_CATALOG_OFFER_PRICES_COMPLETE');
-				break;
+			switch ($xmlId)
+			{
+				case 'catalog':
+					$result = Loc::getMessage('LANDING_CMP_LD_MESS_XML_IMPORT_CATALOG_COMPLETE');
+					break;
+				case 'catalog_prices':
+					$result = Loc::getMessage('LANDING_CMP_LD_MESS_XML_IMPORT_CATALOG_PRICES_COMPLETE');
+					break;
+				case 'catalog_sku':
+					$result = Loc::getMessage('LANDING_CMP_LD_MESS_XML_IMPORT_CATALOG_OFFERS_COMPLETE');
+					break;
+				case 'catalog_prices_sku':
+					$result = Loc::getMessage('LANDING_CMP_LD_MESS_XML_IMPORT_CATALOG_OFFER_PRICES_COMPLETE');
+					break;
+			}
+		}
+		else
+		{
+			switch ($xmlId)
+			{
+				case 'catalog':
+					$result = Loc::getMessage('LANDING_CMP_LD_MESS_XML_IMPORT_CATALOG_PROGRESS');
+					break;
+				case 'catalog_prices':
+					$result = Loc::getMessage('LANDING_CMP_LD_MESS_XML_IMPORT_CATALOG_PRICES_PROGRESS');
+					break;
+				case 'catalog_sku':
+					$result = Loc::getMessage('LANDING_CMP_LD_MESS_XML_IMPORT_CATALOG_OFFERS_PROGRESS');
+					break;
+				case 'catalog_prices_sku':
+					$result = Loc::getMessage('LANDING_CMP_LD_MESS_XML_IMPORT_CATALOG_OFFER_PRICES_PROGRESS');
+					break;
+			}
 		}
 		return $result;
 	}
@@ -2301,5 +2403,20 @@ class LandingSiteDemoComponent extends LandingBaseComponent
 	{
 		if (array_key_exists('LANDING_DEMO_STORAGE', $_SESSION))
 			unset($_SESSION['LANDING_DEMO_STORAGE']);
+	}
+
+	private function getParentCatalogSectionId($iblockId)
+	{
+		$iterator = Iblock\SectionTable::getList([
+			'select' => ['ID'],
+			'filter' => [
+				'=IBLOCK_ID' => $iblockId,
+				'=CODE' => 'clothes',
+				'=XML_ID' => '666',
+			]
+		]);
+		$row = $iterator->fetch();
+		unset($iterator);
+		return (!empty($row) ? (int)$row['ID'] : null);
 	}
 }

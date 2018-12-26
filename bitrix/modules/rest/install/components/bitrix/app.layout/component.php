@@ -457,6 +457,12 @@ if(
 
 		CJSCore::Init(array('applayout'));
 
+		if($arResult['APP_STATUS']['PAYMENT_ALLOW'] === 'Y')
+		{
+			\Bitrix\Rest\StatTable::logPlacement($arResult['APP_ID'], $arParams['PLACEMENT']);
+			\Bitrix\Rest\StatTable::finalize();
+		}
+
 		$this->IncludeComponentTemplate();
 
 		if($arParams['POPUP'])

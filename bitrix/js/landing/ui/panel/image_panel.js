@@ -218,36 +218,17 @@
 
 		/**
 		 * Handles on change event
-		 * @param {object|string} value
+		 * @param {object} value
 		 */
 		onChange: function(value)
 		{
-			var data = {picture: value};
-
-			if (typeof value === "object")
-			{
-				data = {picture: value.link};
-
-				if (!!value.ext && typeof value.ext === "string")
-				{
-					data.ext = value.ext;
-				}
-			}
-
-			if (this.params)
-			{
-				data.params = this.params;
-			}
-
-			if (this.externalLoader)
-			{
-				this.externalLoader.show();
-			}
-
-			BX.Landing.Backend.getInstance()
-				.action("Block::uploadFile", data, {}, this.uploadParams).then(function(response) {
-					this.promiseResolve(response);
-				}.bind(this));
+			BX.Landing.Utils.urlToBlob(value.link)
+				.then(function(/* File|Blob */blob) {
+					blob.lastModifiedDate = new Date();
+					blob.name = value.name;
+					return blob;
+				})
+				.then(this.promiseResolve.bind(this));
 
 			this.hide();
 		}

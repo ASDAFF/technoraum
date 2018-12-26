@@ -1,5 +1,4 @@
 /*!
-
  * jQuery JavaScript Library v3.2.1
  * https://jquery.com/
  *
@@ -25152,7 +25151,7 @@ appear = (function(){
       var Section = $(el).data('HSScrollNavSection'),
           $section = Section.section;
 
-      if(scrollTop > Section.offset) {
+      if(scrollTop >= Section.offset) {
         current = Section;
       }
 

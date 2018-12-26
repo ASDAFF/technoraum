@@ -20,8 +20,6 @@ Loc::loadMessages(__FILE__);
 $context = \Bitrix\Main\Application::getInstance()->getContext();
 $request = $context->getRequest();
 
-$APPLICATION->setTitle(Loc::getMessage('LANDING_TPL_TITLE'));
-
 \Bitrix\Main\UI\Extension::load("ui.buttons");
 
 if ($arResult['ERRORS'])
@@ -71,11 +69,15 @@ if (isset($domains[$domainId]))
 // title
 if ($arParams['LANDING_ID'])
 {
-	$APPLICATION->setTitle(Loc::getMessage('LANDING_TPL_TITLE_EDIT'));
+	Manager::setPageTitle(
+		Loc::getMessage('LANDING_TPL_TITLE_EDIT')
+	);
 }
 else
 {
-	$APPLICATION->setTitle(Loc::getMessage('LANDING_TPL_TITLE_ADD'));
+	Manager::setPageTitle(
+		Loc::getMessage('LANDING_TPL_TITLE_ADD')
+	);
 }
 
 // assets
@@ -96,6 +98,26 @@ $uriSave = new \Bitrix\Main\Web\Uri(\htmlspecialcharsback(POST_FORM_ACTION_URI))
 $uriSave->addParams(array(
 	'action' => 'save'
 ));
+?>
+
+<script type="text/javascript">
+	BX.ready(function()
+	{
+		var editComponent = new BX.Landing.EditComponent();
+		top.window['landingSettingsSaved'] = false;
+		<?if ($arParams['SUCCESS_SAVE']):?>
+		top.window['landingSettingsSaved'] = true;
+		top.BX.onCustomEvent("BX.Main.Filter:apply");
+		editComponent.actionClose();
+		<?endif;?>
+	});
+</script>
+
+<?
+if ($arParams['SUCCESS_SAVE'])
+{
+	return;
+}
 ?>
 
 <form action="<?= \htmlspecialcharsbx($uriSave->getUri());?>" method="post" class="ui-form ui-form-gray-padding landing-form-collapsed landing-form-settings landing-page-set-form" id="landing-page-set-form">
@@ -792,14 +814,6 @@ $uriSave->addParams(array(
 		<?endif;?>
 		new BX.Landing.EditTitleForm(BX('ui-editable-title'), 600);
 		new BX.Landing.ToggleFormFields(BX('landing-page-set-form'));
-		// for save
 		new BX.Landing.SaveBtn(BX('landing-save-btn'));
-		var editComponent = new BX.Landing.EditComponent();
-		top.window['landingSettingsSaved'] = false;
-	<?if ($arParams['SUCCESS_SAVE']):?>
-		top.window['landingSettingsSaved'] = true;
-		top.BX.onCustomEvent("BX.Main.Filter:apply");
-		editComponent.actionClose();
-	<?endif;?>
 	});
 </script>

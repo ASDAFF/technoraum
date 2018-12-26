@@ -775,7 +775,11 @@ BX.ajax.loadJSON = function(url, data, callback, callback_failure)
 var prepareAjaxGetParameters = function(config)
 {
 	var getParameters = {};
-	if (typeof config.analyticsLabel !== 'undefined')
+	if (BX.type.isNotEmptyString(config.analyticsLabel))
+	{
+		getParameters.analyticsLabel = config.analyticsLabel;
+	}
+	else if (BX.type.isNotEmptyObject(config.analyticsLabel))
 	{
 		getParameters.analyticsLabel = config.analyticsLabel;
 	}
@@ -912,7 +916,7 @@ var buildAjaxPromiseToRestoreCsrf = function(config, withoutRestoringCsrf)
  *
  * @param {string} action
  * @param {Object} config
- * @param {?string} [config.analyticsLabel]
+ * @param {?string|?Object} [config.analyticsLabel]
  * @param {string} [config.method='POST']
  * @param {Object} [config.data]
  * @param {?Object} [config.headers]
@@ -926,7 +930,7 @@ BX.ajax.runAction = function(action, config)
 	var getParameters = prepareAjaxGetParameters(config);
 	getParameters.action = action;
 
-	var url = BX.util.add_url_param('/bitrix/services/main/ajax.php', getParameters);
+	var url = '/bitrix/services/main/ajax.php?' + BX.ajax.prepareData(getParameters);
 
 	return buildAjaxPromiseToRestoreCsrf({
 		method: config.method,
@@ -944,7 +948,7 @@ BX.ajax.runAction = function(action, config)
  * @param {string} component
  * @param {string} action
  * @param {Object} config
- * @param {?string} [config.analyticsLabel]
+ * @param {?string|?Object} [config.analyticsLabel]
  * @param {?string} [config.signedParameters]
  * @param {string} [config.method='POST']
  * @param {string} [config.mode='ajax'] Ajax or class.
@@ -962,7 +966,7 @@ BX.ajax.runComponentAction = function (component, action, config)
 	getParameters.c = component;
 	getParameters.action = action;
 
-	var url = BX.util.add_url_param('/bitrix/services/main/ajax.php', getParameters);
+	var url = '/bitrix/services/main/ajax.php?' + BX.ajax.prepareData(getParameters);
 
 	return buildAjaxPromiseToRestoreCsrf({
 		method: config.method,

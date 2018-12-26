@@ -53,3 +53,8 @@
 .menu-popup-item.menu-popup-no-icon[data-is-disabled=true] {
 	opacity: 0.4;
 }
+
+.mail-msg-list-stepper-wrapper .main-stepper.main-stepper-show,
+.mail-msg-list-stepper-wrapper .main-stepper.main-stepper-hide {
+	animation-duration: 0s;
+}

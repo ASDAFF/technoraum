@@ -420,6 +420,7 @@ class main extends CModule
 			CAgent::AddAgent("CSiteCheckerTest::CommonTest();", "main", "N", 86400, "", "Y", ConvertTimeStamp(strtotime(date('Y-m-d 03:00:00', time() + 86400)), 'FULL'));
 		CAgent::AddAgent('\\Bitrix\\Main\\Analytics\\CounterDataTable::submitData();', "main", "N", 60);
 		CAgent::AddAgent('CUserCounter::DeleteOld();', "main", "N", 60*60*24);
+		CAgent::AddAgent('\\Bitrix\\Main\\UI\\Viewer\\FilePreviewTable::deleteOldAgent();', 'main');
 
 		$eventManager = \Bitrix\Main\EventManager::getInstance();
 

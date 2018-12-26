@@ -1,4 +1,7 @@
 <?
+$MESS["MARKETPLACE_HIDDEN_BUY"] = "Containts in-app purchases";
+$MESS["MARKETPLACE_APP_DEVELOPER"] = "Developer:";
+$MESS["MARKETPLACE_MORE_BUTTON"] = "More...";
 $MESS["REST_MP_INSTALL_REQUEST_CONFIRM"] = "Insufficient permissions to install this app.<br/>Do you want to send a request to the administrators to install it?";
 $MESS["REST_MP_APP_INSTALL_REQUEST"] = "Send";
 $MESS["MARKETPLACE_APP_INSTALL"] = "Install";

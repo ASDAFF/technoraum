@@ -74,7 +74,7 @@ $arWorkflowParameterTypesTmp = $documentService->GetDocumentFieldTypes(array(MOD
 $arWorkflowParameterTypes = array();
 foreach ($arWorkflowParameterTypesTmp as $key => $value)
 {
-	if ($key === 'N:Sequence')
+	if (in_array($key, ['N:Sequence', 'UF:resourcebooking']))
 	{
 		continue;
 	}

@@ -61,83 +61,86 @@
 
 				<h3 class="h4 g-color-white mb-4 landing-block-node-title">Contact Info</h3>
 
-				<!-- Icon Block -->
-				<div class="landing-block-node-card-contact">
-					<div class="media align-items-center mb-4">
-						<div class="d-flex">
+				<div class="landing-block-node-card-contact-container">
+					<!-- Icon Block -->
+					<div class="landing-block-node-card-contact">
+						<div class="media align-items-center mb-4">
+							<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
 								  <i class="landing-block-card-contact-icon icon-hotel-restaurant-235 u-line-icon-pro"></i>
 								</span>
-						</div>
-						<div class="media-body">
-							<div class="landing-block-node-contact-text g-color-white-opacity-0_6 mb-0">5B Streat, City 50987 New Town US
+							</div>
+							<div class="media-body">
+								<div class="landing-block-node-contact-text g-color-white-opacity-0_6 mb-0">5B Streat, City
+									50987 New Town US
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<!-- End Icon Block -->
+					<!-- End Icon Block -->
 
-				<!-- Icon Block -->
-				<div class="landing-block-node-card-contact">
-					<div class="media align-items-center mb-4">
-						<div class="d-flex">
+					<!-- Icon Block -->
+					<div class="landing-block-node-card-contact">
+						<div class="media align-items-center mb-4">
+							<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
 								  <i class="landing-block-card-contact-icon icon-communication-033 u-line-icon-pro"></i>
 								</span>
+							</div>
+							<div class="media-body">
+								<div class="landing-block-node-contact-text g-color-white-opacity-0_6">
+									<a href="tel:+32(0)333444555">+32 (0) 333 444 555</a>
+								</div>
+							</div>
 						</div>
-						<div class="media-body">
+					</div>
+					<!-- End Icon Block -->
+
+					<!-- Icon Block -->
+					<div class="landing-block-node-card-contact">
+						<div class="media align-items-center mb-4">
+							<div class="d-flex">
+								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
+								  <i class="landing-block-card-contact-icon icon-communication-033 u-line-icon-pro"></i>
+								</span>
+							</div>
 							<div class="landing-block-node-contact-text g-color-white-opacity-0_6">
-								<a href="tel:+32(0)333444555">+32 (0) 333 444 555</a>
+								<a href="tel:+32(0)333444666">+32 (0) 333 444 666</a>
 							</div>
 						</div>
 					</div>
-				</div>
-				<!-- End Icon Block -->
+					<!-- End Icon Block -->
 
-				<!-- Icon Block -->
-				<div class="landing-block-node-card-contact">
-					<div class="media align-items-center mb-4">
-						<div class="d-flex">
+					<!-- Icon Block -->
+					<div class="landing-block-node-card-contact">
+						<div class="media align-items-center mb-4">
+							<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
 								  <i class="landing-block-card-contact-icon icon-communication-033 u-line-icon-pro"></i>
 								</span>
-						</div>
-						<div class="landing-block-node-contact-text g-color-white-opacity-0_6">
-							<a href="tel:+32(0)333444666">+32 (0) 333 444 666</a>
-						</div>
-					</div>
-				</div>
-				<!-- End Icon Block -->
-
-				<!-- Icon Block -->
-				<div class="landing-block-node-card-contact">
-					<div class="media align-items-center mb-4">
-						<div class="d-flex">
-								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
-								  <i class="landing-block-card-contact-icon icon-communication-033 u-line-icon-pro"></i>
-								</span>
-						</div>
-						<div class="landing-block-node-contact-text g-color-white-opacity-0_6">
-							<a href="tel:+32(0)333444777">+32 (0) 333 444 777</a>
+							</div>
+							<div class="landing-block-node-contact-text g-color-white-opacity-0_6">
+								<a href="tel:+32(0)333444777">+32 (0) 333 444 777</a>
+							</div>
 						</div>
 					</div>
-				</div>
-				<!-- End Icon Block -->
+					<!-- End Icon Block -->
 
-				<!-- Icon Block -->
-				<div class="landing-block-node-card-contact">
-					<div class="media align-items-center mb-4">
-						<div class="d-flex">
+					<!-- Icon Block -->
+					<div class="landing-block-node-card-contact">
+						<div class="media align-items-center mb-4">
+							<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
 								  <i class="landing-block-card-contact-icon icon-communication-062 u-line-icon-pro"></i>
 								</span>
-						</div>
-						<div class="landing-block-node-contact-text g-color-white-opacity-0_6">
-							<a href="mailto:info@company24.com">info@company24.com</a>
+							</div>
+							<div class="landing-block-node-contact-text g-color-white-opacity-0_6">
+								<a href="mailto:info@company24.com">info@company24.com</a>
+							</div>
 						</div>
 					</div>
+					<!-- End Icon Block -->
 				</div>
-				<!-- End Icon Block -->
 			</div>
 
 

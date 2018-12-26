@@ -14,16 +14,6 @@
 		return;
 	}
 
-	var destroyAndOpenPage = function (event, link) {
-		if (BX.SidePanel.Instance && BX.SidePanel.Instance.getTopSlider())
-		{
-			BX.onCustomEvent("SidePanel:destroy", [BX.SidePanel.Instance.getTopSlider().getUrl()]);
-			BX.SidePanel.Instance.open(link.url);
-		}
-	};
-
-	BX.SidePanel.Instance.bindAnchors({
-		rules: []
-	});
+	//todo
 
 })();

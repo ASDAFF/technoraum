@@ -2321,13 +2321,34 @@
 
 			for (var i in data.basket)
 			{
-				if (data.basket.hasOwnProperty(i) && i.indexOf('QUANTITY_') >= 0)
+				if (data.basket.hasOwnProperty(i))
 				{
-					itemId = i.substr(9);
-
-					if (this.items[itemId])
+					if (i.indexOf('QUANTITY_') >= 0)
 					{
-						itemsDiff[itemId] = parseFloat(data.basket[i]) - parseFloat(BX(this.ids.quantity + itemId).getAttribute('data-value'));
+						itemId = i.substr(9);
+
+						if (this.items[itemId])
+						{
+							itemsDiff[itemId] = parseFloat(data.basket[i]) - parseFloat(BX(this.ids.quantity + itemId).getAttribute('data-value'));
+						}
+					}
+					else if (i.indexOf('DELETE_') >= 0)
+					{
+						itemId = i.substr(7);
+
+						if (this.items[itemId])
+						{
+							itemsDiff[itemId] = -parseFloat(this.items[itemId].QUANTITY);
+						}
+					}
+					else if (i.indexOf('RESTORE_') >= 0)
+					{
+						itemId = i.substr(8);
+
+						if (this.items[itemId])
+						{
+							itemsDiff[itemId] = parseFloat(this.items[itemId].QUANTITY);
+						}
 					}
 				}
 			}

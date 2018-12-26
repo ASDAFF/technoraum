@@ -1,4 +1,5 @@
 <?
+$MESS["LANDING_TPL_ACTION_REC_CONFIRM"] = "In den Papierkorb verschieben?";
 $MESS["LANDING_TPL_TTL_DELETE"] = "Tage bis zum endgültigen Löschen";
 $MESS["LANDING_TPL_TTL_DELETE_D"] = "Tage";
 $MESS["LANDING_TPL_ACTION_DELETE_CONFIRM"] = "Möchten Sie die Seite löschen?";

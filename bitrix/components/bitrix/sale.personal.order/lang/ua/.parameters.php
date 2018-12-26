@@ -1,4 +1,5 @@
 <?
+$MESS["SPO_DISALLOW_CANCEL"] = "Заборонити скасування замовлення";
 $MESS["SPO_ORDERS_PER_PAGE"] = "Кількість замовлень на одній сторінці";
 $MESS["SPO_DESC_YES"] = "Так";
 $MESS["SPO_DESC_NO"] = "Ні";

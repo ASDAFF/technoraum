@@ -13,10 +13,6 @@ return array(
 		'version' => '18.5.5',
 	),
 	'nodes' => array(
-		'.landing-block-node-img' => array(
-			'name' => Loc::getMessage('LANDING_BLOCK_51_7_COUNTDOWN_13--IMG'),
-			'type' => 'img',
-		),
 		'.landing-block-node-title' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_51_7_COUNTDOWN_13--TITLE'),
 			'type' => 'text',

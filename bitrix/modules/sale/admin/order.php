@@ -104,10 +104,18 @@ $arFilterFields = array(
 
 $arOrderProps = array();
 $arOrderPropsCode = array();
-$dbProps = \Bitrix\Sale\Internals\OrderPropsTable::getList(array(
-	'order' => array("PERSON_TYPE_ID" => "ASC", "SORT" => "ASC"),
-	'select' => array("ID", "NAME", "PERSON_TYPE_NAME" => "PERSON_TYPE.NAME", "LID" => "PERSON_TYPE.LID", "PERSON_TYPE_ID", "SORT", "IS_FILTERED", "TYPE", "CODE", "SETTINGS"),
-));
+$dbProps = \Bitrix\Sale\Internals\OrderPropsTable::getList(
+	array(
+		'filter' => array(
+			'=ACTIVE' => 'Y'
+		),
+		'order' => array(
+			"PERSON_TYPE_ID" => "ASC", "SORT" => "ASC"
+		),
+		'select' => array(
+			"ID", "NAME", "PERSON_TYPE_NAME" => "PERSON_TYPE.NAME", "LID" => "PERSON_TYPE.LID", "PERSON_TYPE_ID", "SORT", "IS_FILTERED", "TYPE", "CODE", "SETTINGS"
+		),
+	));
 
 while ($arProps = $dbProps->fetch())
 {
@@ -3331,13 +3339,24 @@ if($saleModulePermissions == "W" || ($saleModulePermissions >= 'P' && !empty($al
 	$arSitesShop = array();
 	$arSitesTmp = array();
 	$rsSites = CSite::GetList($b = "id", $o = "asc", Array("ACTIVE" => "Y"));
+
 	while ($arSite = $rsSites->GetNext())
 	{
+		if($saleModulePermissions < "W" && count($arAccessibleSites) > 0)
+		{
+			if(!in_array($arSite['ID'], $arAccessibleSites))
+			{
+				continue;
+			}
+		}
+
 		$site = Option::get("sale", "SHOP_SITE_".$arSite["ID"], "");
+
 		if($arSite["ID"] == $site)
 		{
 			$arSitesShop[] = array("ID" => $arSite["ID"], "NAME" => $arSite["NAME"]);
 		}
+
 		$arSitesTmp[] = array("ID" => $arSite["ID"], "NAME" => $arSite["NAME"]);
 	}
 
@@ -4136,6 +4155,7 @@ $lAdmin->DisplayList();
 echo BeginNote();
 ?>
 <span id="order_sum"><? echo $order_sum;?></span>
+<?echo EndNote();?>
 
 <script type="text/javascript">
 	function sendDeliveryRequestsForCurrentOrders(selectedOnly)
@@ -4171,5 +4191,4 @@ echo BeginNote();
 	}
 </script>
 
-<?echo EndNote();
-require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_admin.php");
+<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_admin.php");

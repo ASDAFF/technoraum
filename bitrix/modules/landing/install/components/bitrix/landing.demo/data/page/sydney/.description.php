@@ -17,8 +17,6 @@ return array(
 	'sort' => 2,
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
-			'THEME_CODE' => '3corporate',
-			'THEME_CODE_TYPO' => 'app',
 			'BACKGROUND_USE' => 'Y',
 			'BACKGROUND_COLOR' => '#000000',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/sydney/preview.jpg',

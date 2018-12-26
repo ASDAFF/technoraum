@@ -635,7 +635,10 @@
 				}
 			}
 
-			if (field.TYPE === this.parent.types.CUSTOM_ENTITY)
+			if (
+				field.TYPE === this.parent.types.CUSTOM_ENTITY
+				|| field.TYPE === this.parent.types.DEST_SELECTOR
+			)
 			{
 				if (BX.type.isPlainObject(field.VALUES))
 				{
@@ -953,6 +956,11 @@
 
 				case this.parent.types.CUSTOM_DATE : {
 					control = this.parent.getFields().createCustomDate(fieldData);
+					break;
+				}
+
+				case this.parent.types.DEST_SELECTOR : {
+					control = this.parent.getFields().createDestSelector(fieldData);
 					break;
 				}
 

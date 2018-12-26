@@ -13,7 +13,6 @@ return array(
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
 		    'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/holidays/holiday.23february.2/preview.jpg',
-			'THEME_CODE' => 'spa',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_23FEB2_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_23FEB2_DESCRIPTION'),
 			'METAMAIN_TITLE' => Loc::getMessage('LANDING_DEMO_23FEB2_TITLE'),
@@ -25,7 +24,6 @@ return array(
 		'ONLY_IN' => array('ru', 'kz', 'by'),
 		'EXCEPT' => array()
 	)),
-	'active' => true,
 	'items' => array (
 		'0.menu_04' =>
 			array (
@@ -51,9 +49,8 @@ return array(
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
 					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav align-items-lg-center text-uppercase g-font-weight-700 g-font-size-11 g-pt-20 g-pt-0--lg mx-auto">
-						<li class="landing-block-node-menu-list-item nav-item g-mr-30--lg g-mb-7 g-mb-0--lg active">
-							<a href="#block@block[41.3.announcement_with_slider]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_23FEB2_TEXT1").'</a><span class="sr-only">(current)
-						</span></li>
+						<li class="landing-block-node-menu-list-item nav-item g-mr-30--lg g-mb-7 g-mb-0--lg ">
+							<a href="#block@block[41.3.announcement_with_slider]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_23FEB2_TEXT1").'</a></li>
 						<li class="landing-block-node-menu-list-item nav-item g-mx-30--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[01.two_col_with_titles]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_23FEB2_TEXT2").'</a>
 						</li>
@@ -378,6 +375,9 @@ return array(
              data-infinite="true"
 			 data-speed="10000"
              data-slides-show="4"
+             data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-60 g-font-size-60 g-color-white g-bg-primary"
+			 data-arrow-left-classes="fa fa-angle-left g-left-10"
+			 data-arrow-right-classes="fa fa-angle-right g-right-10"
 			 data-responsive=\'[{
                "breakpoint": 1200,
                "settings": {
@@ -602,6 +602,9 @@ return array(
 			 data-pause-hover="true"
 			 data-infinite="true"
 			 data-slides-show="6"
+			 data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-45 g-font-size-30 g-color-white"
+			 data-arrow-left-classes="fa fa-angle-left g-left-minus-20"
+			 data-arrow-right-classes="fa fa-angle-right g-right-minus-20"
 			 data-responsive=\'[{
                  "breakpoint": 1200,
                  "settings": {

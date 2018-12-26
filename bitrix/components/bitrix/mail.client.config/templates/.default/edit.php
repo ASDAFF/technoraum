@@ -309,15 +309,18 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 		</div>
 
 		<? if (!empty($arParams['IS_SMTP_AVAILABLE'])): ?>
+			<? $hasSmtpFields = empty($settings['smtp']['server']) || !$settings['smtp']['login'] || !$settings['smtp']['password'] || !empty($settings['oauth']); ?>
 			<div class="mail-connect-section-block">
 				<div class="mail-connect-title-block">
 					<div class="mail-connect-title"><?=Loc::getMessage('MAIL_CLIENT_CONFIG_SMTP') ?></div>
 				</div>
-				<div class="<? if (empty($mailbox['__smtp'])): ?>mail-connect-form-hidden-block<? endif ?>">
-					<? if (empty($mailbox['__smtp'])): ?>
+				<div class="<? if (empty($mailbox['__smtp']) || !$hasSmtpFields): ?>mail-connect-form-hidden-block<? endif ?>">
+					<? if (empty($mailbox['__smtp']) || !$hasSmtpFields): ?>
 						<div class="mail-connect-option-email">
 							<input class="mail-connect-form-input mail-connect-form-input-check" type="checkbox"
 								name="fields[use_smtp]" value="1" id="mail_connect_mb_server_smtp_switch"
+								<? if (empty($mailbox)): ?> checked <? endif ?>
+								<? if (!empty($mailbox['__smtp'])): ?> checked disabled <? endif ?>
 								onchange="BX('mail_connect_mb_server_smtp_form').style.display = this.checked ? '' : 'none'; ">
 							<label class="mail-connect-form-label mail-connect-form-label-check" for="mail_connect_mb_server_smtp_switch"><?=Loc::getMessage('MAIL_CLIENT_CONFIG_SMTP_ACTIVE') ?></label>
 						</div>
@@ -325,14 +328,12 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 						<input type="hidden" name="fields[use_smtp]" value="1">
 					<? endif ?>
 					<div class="mail-connect-form-inner" id="mail_connect_mb_server_smtp_form"
-						<? if (empty($mailbox['__smtp'])): ?> style="display: none; " <? endif ?>>
-						<?
-						if(empty($settings['smtp']['server']) || !$settings['smtp']['login'] || !$settings['smtp']['password'] || !empty($settings['oauth']))
-						{?>
-						<div class="mail-connect-warning-block">
-							<div class="mail-connect-warning-text"><?=Loc::getMessage('MAIL_CLIENT_CONFIG_SMTP_WARNING') ?></div>
-						</div>
-						<?}?>
+						<? if (!empty($mailbox) && empty($mailbox['__smtp'])): ?> style="display: none; " <? endif ?>>
+						<? if ($hasSmtpFields): ?>
+							<div class="mail-connect-warning-block">
+								<div class="mail-connect-warning-text"><?=Loc::getMessage('MAIL_CLIENT_CONFIG_SMTP_WARNING') ?></div>
+							</div>
+						<? endif ?>
 						<? if (empty($settings['smtp']['server'])): ?>
 							<div class="mail-connect-form-item">
 								<label class="mail-connect-form-label" for="mail_connect_mb_server_smtp_field"><?=Loc::getMessage('MAIL_CLIENT_CONFIG_SMTP_SERVER') ?></label>
@@ -347,33 +348,31 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 								<div class="mail-connect-form-error"></div>
 							</div>
 						<? endif ?>
-						<? if (!$settings['smtp']['login'])
-						{?>
-						<div class="mail-connect-form-item">
-							<label class="mail-connect-form-label" for="mail_connect_mb_login_smtp_field"><?=Loc::getMessage('MAIL_CLIENT_CONFIG_SMTP_LOGIN') ?></label>
-							<input class="mail-connect-form-input" type="text"
-								name="fields[login_smtp]" id="mail_connect_mb_login_smtp_field"
-								onchange="this['__filled'] = this.value.length > 0; "
-								<? if (!empty($mailbox['__smtp'])): ?> value="<?=htmlspecialcharsbx($mailbox['__smtp']['login']) ?>" <? endif ?>>
-							<div class="mail-connect-form-error"></div>
-						</div>
-						<?}?>
-						<? if (!$settings['smtp']['password'] || !empty($settings['oauth']))
-						{?>
-						<div class="mail-connect-form-item">
-							<label class="mail-connect-form-label" for="mail_connect_mb_pass_smtp_field"><?=Loc::getMessage('MAIL_CLIENT_CONFIG_SMTP_PASS') ?></label>
-							<input class="mail-connect-form-input" type="password"
-								name="fields[pass_smtp]" id="mail_connect_mb_pass_smtp_field"
-								onchange="this['__filled'] = this.value.length > 0; "
-								<? if (!empty($mailbox['__smtp'])): ?>
-									data-placeholder="<?=htmlspecialcharsbx($arParams['PASSWORD_PLACEHOLDER']) ?>"
-									onfocus="if (this.value == this.getAttribute('data-placeholder')) this.value = ''; "
-									onblur="if ('' == this.value) this.value = this.getAttribute('data-placeholder'); "
-									value="<?=htmlspecialcharsbx($arParams['PASSWORD_PLACEHOLDER']) ?>"
-								<? endif ?>>
-							<div class="mail-connect-form-error"></div>
-						</div>
-						<?}?>
+						<? if (!$settings['smtp']['login']): ?>
+							<div class="mail-connect-form-item">
+								<label class="mail-connect-form-label" for="mail_connect_mb_login_smtp_field"><?=Loc::getMessage('MAIL_CLIENT_CONFIG_SMTP_LOGIN') ?></label>
+								<input class="mail-connect-form-input" type="text"
+									name="fields[login_smtp]" id="mail_connect_mb_login_smtp_field"
+									onchange="this['__filled'] = this.value.length > 0; "
+									<? if (!empty($mailbox['__smtp'])): ?> value="<?=htmlspecialcharsbx($mailbox['__smtp']['login']) ?>" <? endif ?>>
+								<div class="mail-connect-form-error"></div>
+							</div>
+						<? endif ?>
+						<? if (!$settings['smtp']['password'] || !empty($settings['oauth'])): ?>
+							<div class="mail-connect-form-item">
+								<label class="mail-connect-form-label" for="mail_connect_mb_pass_smtp_field"><?=Loc::getMessage('MAIL_CLIENT_CONFIG_SMTP_PASS') ?></label>
+								<input class="mail-connect-form-input" type="password"
+									name="fields[pass_smtp]" id="mail_connect_mb_pass_smtp_field"
+									onchange="this['__filled'] = this.value.length > 0; "
+									<? if (!empty($mailbox['__smtp'])): ?>
+										data-placeholder="<?=htmlspecialcharsbx($arParams['PASSWORD_PLACEHOLDER']) ?>"
+										onfocus="if (this.value == this.getAttribute('data-placeholder')) this.value = ''; "
+										onblur="if ('' == this.value) this.value = this.getAttribute('data-placeholder'); "
+										value="<?=htmlspecialcharsbx($arParams['PASSWORD_PLACEHOLDER']) ?>"
+									<? endif ?>>
+								<div class="mail-connect-form-error"></div>
+							</div>
+						<? endif ?>
 					</div>
 				</div>
 			</div>
@@ -619,13 +618,13 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 			offsetLeft: '15px'
 		},
 		callback : {
-			select : function(item, type, search)
+			select : function(item, type, search, undeleted)
 			{
 				BX.SocNetLogDestination.BXfpSelectCallback({
 					item: item,
 					type: type,
 					varName: 'fields[access]',
-					bUndeleted: false,
+					bUndeleted: undeleted,
 					containerInput: BX('mail_connect_mb_access_item'),
 					valueInput: BX('mail_connect_mb_access_input'),
 					formName: 'mail_connect_mb_access_selector',
@@ -640,7 +639,8 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 				inputName: 'mail_connect_mb_access_input',
 				tagInputName: 'mail_connect_mb_access_tag',
 				tagLink1: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_CLIENT_CONFIG_ACCESS_ADD')) ?>',
-				tagLink2: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_CLIENT_CONFIG_ACCESS_ADD')) ?>'
+				tagLink2: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_CLIENT_CONFIG_ACCESS_ADD')) ?>',
+				undeleteClassName: 'feed-add-post-destination-undelete'
 			}),
 			openDialog : BX.delegate(BX.SocNetLogDestination.BXfpOpenDialogCallback, {
 				inputBoxName: 'mail_connect_mb_access_input_box',
@@ -672,6 +672,7 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 			groups : {}
 		},
 		itemsSelected: <?=CUtil::phpToJSObject($accessSelected) ?>,
+		itemsSelectedUndeleted: <?=\CUtil::phpToJsObject(array(sprintf('U%u', empty($mailbox) ? $USER->getId() : $mailbox['USER_ID']))) ?>,
 		destSort: {}
 	});
 
@@ -1351,6 +1352,32 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 			return result;
 		};
 
+		var closeForm = function (id)
+		{
+			id = id > 0 ? id : <?=intval($mailbox['ID']) ?>;
+
+			var slider = top.BX.SidePanel.Instance.getSliderByWindow(window);
+			if (slider)
+			{
+				slider.setCacheable(false);
+				slider.close();
+			}
+			else
+			{
+				if (id > 0)
+				{
+					window.location.href = BX.util.add_url_param(
+						'<?=\CUtil::jsEscape($arParams['PATH_TO_MAIL_MSG_LIST']) ?>'.replace('#id#', id),
+						{ 'strict': 'N' }
+					);
+				}
+				else
+				{
+					window.location.href = '<?=\CUtil::jsEscape($arParams['PATH_TO_MAIL_HOME']) ?>';
+				}
+			}
+		};
+
 		var submitForm = function (e)
 		{
 			if (e && e.preventDefault)
@@ -1445,9 +1472,7 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 								);
 							}
 
-							var slider = top.BX.SidePanel.Instance.getSliderByWindow(window);
-							slider.setCacheable(false);
-							slider.close();
+							closeForm(json.data ? json.data.id : 0);
 						}
 					},
 					onfailure: function(json)
@@ -1493,14 +1518,13 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 			'click',
 			function (e)
 			{
-				var slider = top.BX.SidePanel.Instance.getSliderByWindow(window);
-				slider.setCacheable(false);
-				slider.close();
+				closeForm();
 			}
 		);
 
 		<? if (!empty($mailbox)): ?>
 
+		var deletePopup = false;
 		BX.bind(
 			BX('mail_connect_disconnect_btn'),
 			'click',
@@ -1516,38 +1540,75 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 				BX.addClass(button, 'ui-btn-wait');
 				button.disabled = true;
 
-				var pr = BX.ajax.runComponentAction(
-					'bitrix:mail.client.config',
-					'delete',
-					{
-						mode: 'class',
-						data: {
-							id: form.elements['fields[mailbox_id]'].value
-						}
-					}
-				);
+				if (deletePopup === false)
+				{
+					deletePopup = new BX.PopupWindow('delete-mailbox-confirm', null, {
+						closeIcon: true,
+						closeByEsc: true,
+						overlay: true,
+						lightShadow: true,
+						titleBar: '<?=\CUtil::jsEscape(getMessage('MAIL_MAILBOX_REMOVE_CONFIRM')) ?>',
+						content: '<?=\CUtil::jsEscape(getMessage('MAIL_MAILBOX_REMOVE_CONFIRM_TEXT')) ?>',
+						buttons: [
+							new BX.PopupWindowButton({
+								className: 'popup-window-button-decline',
+								text: '<?=\CUtil::jsEscape(getMessage('MAIL_CLIENT_CONFIG_BTN_DISCONNECT')) ?>',
+								events: {
+									click: function()
+									{
+										this.popupWindow.close();
 
-				pr.then(
-					function (json)
-					{
-						top.BX.SidePanel.Instance.postMessage(
-							window,
-							'mail-mailbox-config-delete',
-							{
-								id: form.elements['fields[mailbox_id]'].value
-							}
-						);
+										var pr = BX.ajax.runComponentAction(
+											'bitrix:mail.client.config',
+											'delete',
+											{
+												mode: 'class',
+												data: {
+													id: form.elements['fields[mailbox_id]'].value
+												}
+											}
+										);
 
-						var slider = top.BX.SidePanel.Instance.getSliderByWindow(window);
-						slider.setCacheable(false);
-						slider.close();
-					},
-					function (json)
-					{
-						button.disabled = false;
-						BX.removeClass(button, 'ui-btn-wait');
-					}
-				);
+										pr.then(
+											function (json)
+											{
+												top.BX.SidePanel.Instance.postMessage(
+													window,
+													'mail-mailbox-config-delete',
+													{
+														id: form.elements['fields[mailbox_id]'].value
+													}
+												);
+
+												closeForm();
+											},
+											function (json)
+											{
+												button.disabled = false;
+												BX.removeClass(button, 'ui-btn-wait');
+											}
+										);
+									}
+								}
+							}),
+							new BX.PopupWindowButtonLink({
+								text: '<?=CUtil::jsEscape(getMessage('MAIL_CLIENT_CONFIG_BTN_CANCEL')) ?>',
+								className: 'popup-window-button-link',
+								events: {
+									click: function()
+									{
+										this.popupWindow.close();
+
+										button.disabled = false;
+										BX.removeClass(button, 'ui-btn-wait');
+									}
+								}
+							})
+						]
+					});
+				}
+
+				deletePopup.show();
 			}
 		);
 

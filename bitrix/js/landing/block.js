@@ -505,13 +505,16 @@
 		 */
 		onGroupClick: function(group)
 		{
-			this.showContentPanel({
-				name: group.name,
-				nodes: group.nodes,
-				compact: true,
-				nodesOnly: true,
-				showAll: true
-			});
+			if (!BX.Landing.UI.Panel.StylePanel.getInstance().isShown())
+			{
+				this.showContentPanel({
+					name: group.name,
+					nodes: group.nodes,
+					compact: true,
+					nodesOnly: true,
+					showAll: true
+				});
+			}
 		},
 
 
@@ -980,30 +983,16 @@
 			var blockRect = rect(this.node);
 			var contentActionsPanel = this.panels.get("content_actions");
 			var blockActionsPanel = this.panels.get("block_action");
+			var action = blockRect.height < 80 ? addClass : removeClass;
 
-			if (blockRect.height < 80)
+			if (contentActionsPanel)
 			{
-				if (contentActionsPanel)
-				{
-					addClass(contentActionsPanel.layout, "landing-ui-panel-actions-compact");
-				}
-
-				if (blockActionsPanel)
-				{
-					addClass(blockActionsPanel.layout, "landing-ui-panel-actions-compact");
-				}
+				action(contentActionsPanel.layout, "landing-ui-panel-actions-compact");
 			}
-			else
-			{
-				if (contentActionsPanel)
-				{
-					removeClass(contentActionsPanel.layout, "landing-ui-panel-actions-compact");
-				}
 
-				if (blockActionsPanel)
-				{
-					removeClass(blockActionsPanel.layout, "landing-ui-panel-actions-compact");
-				}
+			if (blockActionsPanel)
+			{
+				action(blockActionsPanel.layout, "landing-ui-panel-actions-compact");
 			}
 		},
 
@@ -3186,7 +3175,6 @@
 				.reduce(proxy(this.appendAttrFieldValue, this), requestData);
 
 			forms.cards
-				.fetchChanges()
 				.reduce(proxy(this.appendCardsFormValue, this), requestData);
 
 			forms.attrs

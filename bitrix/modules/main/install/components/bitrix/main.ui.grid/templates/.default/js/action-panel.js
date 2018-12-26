@@ -164,7 +164,8 @@
 					name: data.NAME,
 					'data-name': data.NAME,
 					'data-items': JSON.stringify(data.ITEMS),
-					'data-value': data.ITEMS[0].VALUE
+					'data-value': data.ITEMS[0].VALUE,
+					'data-popup-position': 'fixed'
 				},
 				children: [BX.create('span', {
 					props: {className: 'main-dropdown-inner'},

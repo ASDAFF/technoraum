@@ -221,4 +221,12 @@ $MESS["MAIN_OPTIONS_PHONE_NUMBER_FORMAT"] = "Форматирование телефонных номеров";
 $MESS["MAIN_OPTIONS_PHONE_NUMBER_DEFAULT_COUNTRY"] = "Страна по умолчанию:";
 $MESS["MAIN_OPT_PROFILE"] = "Профиль пользователя";
 $MESS["MAIN_OPT_PROFILE_HYSTORY"] = "Сохранять историю изменения полей профиля пользователя:";
+$MESS["MAIN_OPTIONS_IMAGE_EDITOR"] = "Редактор изображений";
+$MESS["MAIN_OPTION_IMAGE_EDITOR_PROXY_ENABLED"] = "Разрешить редактирование изображений с внешних сайтов: ";
+$MESS["MAIN_OPTION_IMAGE_EDITOR_PROXY_ENABLED_NO"] = "Нет";
+$MESS["MAIN_OPTION_IMAGE_EDITOR_PROXY_ENABLED_YES_FOR_ALL"] = "Да, с любых сайтов";
+$MESS["MAIN_OPTION_IMAGE_EDITOR_PROXY_ENABLED_YES_FROM_WHITE_LIST"] = "Да, только с разрешенных";
+$MESS["MAIN_OPTIONS_IMAGE_EDITOR_PROXY_WHITE_LIST"] = "Список разрешенных сайтов: ";
+$MESS["MAIN_OPTIONS_IMAGE_EDITOR_PROXY_WHITE_LIST_ADD_HOST"] = "Добавить сайт";
+$MESS["MAIN_OPTIONS_IMAGE_EDITOR_PROXY_WHITE_LIST_PLACEHOLDER"] = "Например: cdn.bitrix24.site";
 ?>

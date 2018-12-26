@@ -146,6 +146,12 @@ abstract class CAllMain
 	public function GetCurPageParam($strParam="", $arParamKill=array(), $get_index_page=null)
 	{
 		$sUrlPath = $this->GetCurPage($get_index_page);
+
+		if (Bitrix\Main\Grid\Context::isInternalRequest())
+		{
+			$arParamKill = array_merge($arParamKill, array("internal", "grid_id", "grid_action", "bxajaxid", "sessid"));
+		}
+
 		$strNavQueryString = DeleteParam($arParamKill);
 		if($strNavQueryString <> "" && $strParam <> "")
 			$strNavQueryString = "&".$strNavQueryString;

@@ -14,10 +14,9 @@
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
 					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-font-weight-700 g-font-size-12 g-pt-20 g-pt-0--lg g-mb-20 g-mb-0--lg ml-auto g-mr-20">
-						<li class="landing-block-node-menu-list-item nav-item g-mx-3--lg g-mb-5 g-mb-0--lg active">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-3--lg g-mb-5 g-mb-0--lg">
 							<a href="#home"
-							   class="landing-block-node-menu-list-item-link nav-link">Home</a><span
-									class="sr-only">(current)</span>
+							   class="landing-block-node-menu-list-item-link nav-link">Home</a>
 						</li>
 						<li class="landing-block-node-menu-list-item nav-item g-mx-3--lg g-mb-5 g-mb-0--lg">
 							<a href="#about"

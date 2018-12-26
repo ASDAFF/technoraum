@@ -41,7 +41,8 @@ $arParams['PAGE_URL_LANDING_VIEW'] = str_replace(
 		array(
 			'CODE' => $template,
 			'TYPE' => 'PAGE',//$arParams['TYPE'],
-			'PAGE_URL_BACK' => $arParams['PAGE_URL_SITE_SHOW']
+			'PAGE_URL_BACK' => $arParams['PAGE_URL_SITE_SHOW'],
+			'SITE_ID' => $arResult['VARS']['site_show'],
 		),
 		$component
 	);?>

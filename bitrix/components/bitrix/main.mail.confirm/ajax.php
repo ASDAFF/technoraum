@@ -34,8 +34,9 @@ class MainMailConfirmAjax
 				case 'add':
 					$result = (array) self::executeAdd($error);
 					break;
+				case 'delete':
 				case 'deleteSender':
-					$result = (array) self::executeDeleteSender($error);
+					$result = (array) self::executeDelete($error);
 					break;
 				default:
 					$error = getMessage('MAIN_MAIL_CONFIRM_AJAX_ERROR');
@@ -192,6 +193,39 @@ class MainMailConfirmAjax
 		}
 	}
 
+	private static function executeDelete(&$error)
+	{
+		global $USER;
+
+		$error = false;
+
+		$isAdmin = Main\Loader::includeModule('bitrix24') ? \CBitrix24::isPortalAdmin($USER->getId()) : $USER->isAdmin();
+
+		$senderId = Main\Application::getInstance()->getContext()->getRequest()->getPost('senderId');
+
+		$item = Main\Mail\Internal\SenderTable::getList(array(
+			'filter' => array(
+				'=ID' => $senderId,
+			),
+		))->fetch();
+
+		if (empty($item))
+		{
+			$error = getMessage('MAIN_MAIL_CONFIRM_AJAX_ERROR');
+			return;
+		}
+
+		if ($USER->getId() != $item['USER_ID'] && !($item['IS_PUBLIC'] && $isAdmin))
+		{
+			$error = getMessage('MAIN_MAIL_CONFIRM_AJAX_ERROR');
+			return;
+		}
+
+		Main\Mail\Sender::delete([$senderId]);
+
+		return [];
+	}
+
 	private static function returnJson($data)
 	{
 		global $APPLICATION;
@@ -200,14 +234,6 @@ class MainMailConfirmAjax
 
 		header('Content-Type: application/x-javascript; charset=UTF-8');
 		echo Main\Web\Json::encode($data);
-	}
-
-	private static function executeDeleteSender(&$error)
-	{
-		$senderId = Main\Application::getInstance()->getContext()->getRequest()->getPost('senderId');
-		Main\Mail\Sender::delete([$senderId]);
-
-		return [];
 	}
 
 }

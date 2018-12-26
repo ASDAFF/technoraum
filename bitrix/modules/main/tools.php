@@ -4348,7 +4348,7 @@ class CJSCore
 	ex: CJSCore::RegisterExt('timeman', array(
 		'js' => '/bitrix/js/timeman/core_timeman.js',
 		'css' => '/bitrix/js/timeman/css/core_timeman.css',
-		'lang' => '/bitrix/modules/timeman/lang/#LANG#/js_core_timeman.php',
+		'lang' => '/bitrix/modules/timeman/js_core_timeman.php',
 		'rel' => array(needed extensions for automatic inclusion),
 		'use' => CJSCore::USE_ADMIN|CJSCore::USE_PUBLIC
 	));
@@ -4370,6 +4370,11 @@ class CJSCore
 
 				break;
 			}
+		}
+
+		if (isset($arPaths['lang']))
+		{
+			$arPaths['lang'] = str_replace("/lang/".LANGUAGE_ID."/", "/", $arPaths['lang']);
 		}
 
 		self::$arRegisteredExt[$name] = $arPaths;
@@ -4419,9 +4424,12 @@ class CJSCore
 		$ret = '';
 		if ($bNeedCore && !self::$arCurrentlyLoadedExt['core'])
 		{
-			$ret .= self::_loadCSS('/bitrix/js/main/core/css/core.css', $bReturn);
-			$ret .= self::_loadJS('/bitrix/js/main/core/core.js', $bReturn);
-			$ret .= self::_loadLang(BX_ROOT.'/modules/main/lang/'.LANGUAGE_ID.'/js_core.php', $bReturn);
+			$config = self::GetCoreConfig();
+
+			$ret .= self::_loadCSS($config['css'], $bReturn);
+			$ret .= self::_loadJS($config['js'], $bReturn);
+			$ret .= self::_loadLang($config['lang'], $bReturn);
+
 			self::$arCurrentlyLoadedExt['core'] = true;
 		}
 
@@ -4449,6 +4457,16 @@ class CJSCore
 	public static function IsCoreLoaded()
 	{
 		return isset(self::$arCurrentlyLoadedExt["core"]);
+	}
+
+	/**
+	 * Returns true if JS extension was loaded.
+	 * @param string $code Code of JS extension.
+	 * @return bool
+	 */
+	public static function isExtensionLoaded($code)
+	{
+		return isset(self::$arCurrentlyLoadedExt[$code]);
 	}
 
 	public static function GetCoreMessagesScript($compositeMode = false)
@@ -4658,6 +4676,15 @@ JS;
 		return $scriptsList;
 	}
 
+	public static function GetCoreConfig()
+	{
+		return Array(
+			'css' => '/bitrix/js/main/core/css/core.css',
+			'js' => '/bitrix/js/main/core/core.js',
+			'lang' => BX_ROOT.'/modules/main/js_core.php',
+		);
+	}
+
 	private static function _loadExt($ext, $bReturn)
 	{
 		$ret = '';
@@ -4790,6 +4817,21 @@ JS;
 		return self::$arRegisteredExt[$ext];
 	}
 
+	public static function getAutoloadExtInfo()
+	{
+		$result = Array();
+
+		foreach(self::$arRegisteredExt as $ext => $info)
+		{
+			if ($info['autoload'])
+			{
+				$result[$ext] = $info;
+			}
+		}
+
+		return $result;
+	}
+
 	private static function _RegisterStandardExt()
 	{
 		require_once($_SERVER['DOCUMENT_ROOT'].BX_ROOT.'/modules/main/jscore.php');
@@ -4828,8 +4870,7 @@ JS;
 
 		if ($lang)
 		{
-			$lang_filename = $_SERVER['DOCUMENT_ROOT'].str_replace("/lang/".LANGUAGE_ID."/", "/", $lang);
-			$mess_lang = \Bitrix\Main\Localization\Loc::loadLanguageFile($lang_filename);
+			$mess_lang = \Bitrix\Main\Localization\Loc::loadLanguageFile($_SERVER['DOCUMENT_ROOT'].$lang);
 
 			if (!empty($mess_lang))
 			{

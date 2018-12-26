@@ -22,6 +22,7 @@ return array(
 		'.landing-block-node-card-menu-contact' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENU_CARD_CONTACT'),
 			'label' => array('.landing-block-node-menu-contact-title'),
+			'presets' => include __DIR__ . '/presets.php',
 		),
 		'.landing-block-node-menu-list-item' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULISTITEMLINK'),
@@ -33,9 +34,8 @@ return array(
 			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENUCONTACTTITLE_NEW'),
 			'type' => 'text',
 		),
-//		deprecated
 		'.landing-block-node-menu-contact-link' => array(
-			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENUCONTACTLINK'),
+			'name' => Loc::getMessage('LANDING_BLOCK_MENU_15_NODE_MENUCONTACTLINK'),
 			'type' => 'link',
 		),
 		'.landing-block-node-menu-contact-text' => array(
@@ -92,7 +92,11 @@ return array(
 				'type' => 'typo',
 			),
 			'.landing-block-node-menu-contact-link' => array(
-				'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_STYLE_LANDINGBLOCKNODEMENUCONTACTLINK'),
+				'name' => Loc::getMessage('LANDING_BLOCK_MENU_15_NODE_MENUCONTACTLINK'),
+				'type' => 'link',
+			),
+			'.landing-block-node-menu-contact-text' => array(
+				'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENUCONTACT_TEXT'),
 				'type' => 'typo',
 			),
 			//			'.landing-block-node-menu-social-list-item' =>

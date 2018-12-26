@@ -1,60 +1,14 @@
-@font-face{
-	font-family: 'OpenSans-Regular';
-	src: url('/bitrix/fonts/opensans-regular.eot');
-	src: local('Open Sans'),
-	url('/bitrix/fonts/opensans-regular.woff') format('woff'),
-	url('/bitrix/fonts/opensans-regular.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face{
-	font-family: 'OpenSans-Light';
-	src: url('/bitrix/fonts/opensans-light.eot');
-	src: local('Open Sans Light'),
-	url('/bitrix/fonts/opensans-light.woff') format('woff'),
-	url('/bitrix/fonts/opensans-light.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face{
-	font-family: 'OpenSans-Semibold';
-	src: url('/bitrix/fonts/opensans-semibold.eot');
-	src: local('Open Sans Semibold'),
-	url('/bitrix/fonts/opensans-semibold.woff') format('woff'),
-	url('/bitrix/fonts/opensans-semibold.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'OpenSans-Bold';
-	src: url('/bitrix/fonts/opensans-bold.eot');
-	src: local('Open Sans Bold'),
-	url('/bitrix/fonts/opensans-bold.woff') format('woff'),
-	url('/bitrix/fonts/opensans-bold.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
-
 body {
 	padding: 0;
 	margin: 0;
 }
 
-[hidden] {
-	display: none!important;
-}
+[hidden] { display: none!important; }
 
 .landing-ui-hide-controls .landing-ui-panel,
-.landing-ui-hide-controls .landing-ui-overlay {
-	display: none!important;
-}
+.landing-ui-hide-controls .landing-ui-overlay { display: none!important; }
 
-.landing-ui-hide-controls .block-wrapper::after {
-	display: none;
-}
+.landing-ui-hide-controls .block-wrapper::after { display: none; }
 
 .block-container-all {
     position: fixed;
@@ -189,7 +143,7 @@ main .landing-footer > .landing-ui-button[data-id="insert_first_block"] {
 	display: none;
 }
 
-main > .landing-main:first-child [class~='block-wrapper']:last-of-type,
+main > .landing-main [class~='block-wrapper']:last-of-type,
 main > .landing-footer [class~='block-wrapper']:last-of-type {
 	margin-bottom: 40px;
 }
@@ -391,7 +345,7 @@ body[style*="cursor: move;"] .landing-ui-panel-block-card-action {
 .landing-ui-form-style .landing-ui-align em::before,
 .landing-ui-form-style .landing-ui-align::after,
 .landing-ui-form-style .landing-ui-align em::after {
-	background: #828B95;
+	background: #333333;
 	height: 2px;
 }
 
@@ -437,7 +391,7 @@ body[style*="cursor: move;"] .landing-ui-panel-block-card-action {
 	background: none!important;
 	border: none!important;
 	box-shadow: none!important;
-	opacity: .8;
+	opacity: .4;
 	transition: opacity 200ms ease;
 }
 

@@ -1,10 +1,13 @@
 <?php
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 \Bitrix\Main\Loader::includeModule('socialnetwork');
-CUtil::InitJSCore(array('tooltip', 'socnetlogdest', 'admin_interface', 'date', 'uploader', 'file_dialog'));
+CUtil::InitJSCore(
+	['tooltip', 'admin_interface', 'date', 'uploader', 'file_dialog', 'bp_user_selector', 'bp_field_type']
+);
 \Bitrix\Main\UI\Extension::load(['ui.buttons', 'ui.hint']);
 /**
  * @var array $arResult
+ * @var array $arParams
  * @var CBitrixComponentTemplate $this
  */
 
@@ -18,6 +21,11 @@ if ($arResult['USE_DISK'])
 }
 $messages = \Bitrix\Main\Localization\Loc::loadLanguageFile(__FILE__);
 
+if (isset($arParams['~MESSAGES']) && is_array($arParams['MESSAGES']))
+{
+	$messages = $arParams['~MESSAGES'] + $messages;
+}
+
 if (!$arResult['WORKFLOW_EDIT_URL'] && \Bitrix\Main\Loader::includeModule('bitrix24'))
 {
 	\CBitrix24::initLicenseInfoPopupJS();
@@ -28,9 +36,9 @@ if (\Bitrix\Main\Loader::includeModule('rest'))
 	CJSCore::Init(array('marketplace'));
 }
 
-$getHint = function ($messageCode)
+$getHint = function ($messageCode) use ($messages)
 {
-	$text = GetMessage($messageCode);
+	$text = isset($messages[$messageCode]) ? $messages[$messageCode] : GetMessage($messageCode);
 	return htmlspecialcharsbx(nl2br($text));
 };
 ?>
@@ -81,7 +89,7 @@ $getHint = function ($messageCode)
 				<span class="bizproc-automation-status-line"></span>
 			</div>
 			<div class="bizproc-automation-status-list">
-			<? foreach (array_keys($arResult['STATUSES']) as $statusId):?>
+			<?foreach (array_keys($arResult['STATUSES']) as $statusId):?>
 				<div class="bizproc-automation-status-list-item" data-type="column-trigger">
 					<div data-role="trigger-list" class="bizproc-automation-trigger-list" data-status-id="<?=htmlspecialcharsbx($statusId)?>"></div>
 					<div data-role="trigger-buttons" data-status-id="<?=htmlspecialcharsbx($statusId)?>" class="bizproc-automation-robot-btn-block"></div>

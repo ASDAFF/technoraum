@@ -104,14 +104,18 @@ else
 }
 
 $data = $result->getData();
+
 if(is_array($data))
+{
 	$arResult = array_merge($arResult, $data);
+}
 unset($data);
 
 $arResult = AjaxProcessor::convertEncodingArray($arResult, SITE_CHARSET, 'UTF-8');
 
-header('Content-Type: application/json');
+$APPLICATION->RestartBuffer();
 
+header('Content-Type: application/json');
 echo json_encode($arResult);
 \CMain::FinalActions();
 die();
@@ -401,30 +405,35 @@ class AjaxProcessor
 		/** @var \Bitrix\Sale\Result $res */
 		$res = $saleOrder->setField("CANCELED", $canceled == "Y" ? "N" : "Y");
 
-		if(!$res->isSuccess())
-			$errors = array_merge($errors, $res->getErrorMessages());
-
-		$saleOrder->setField("REASON_CANCELED", $canceled == "N" ? $comment : "");
-
-		$res = $saleOrder->save();
-		if($res->isSuccess())
-		{
-			Sale\Provider::resetTrustData($saleOrder->getSiteId());
-		}
-		else
+		if (!$res->isSuccess())
 		{
 			$errors = array_merge($errors, $res->getErrorMessages());
 		}
 
-		$canceled = $saleOrder->getField("CANCELED");
-		$this->addResultData("CANCELED", $canceled);
-
-		if($canceled == "Y")
+		if (!$errors)
 		{
-			$userInfo = Admin\Blocks\OrderStatus::getUserInfo($saleOrder->getField("EMP_CANCELED_ID"));
-			$this->addResultData("DATE_CANCELED", $saleOrder->getField("DATE_CANCELED")->toString());
-			$this->addResultData("EMP_CANCELED_ID", $saleOrder->getField("EMP_CANCELED_ID"));
-			$this->addResultData("EMP_CANCELED_NAME", $userInfo["NAME"]." (".$userInfo["LOGIN"].")");
+			$saleOrder->setField("REASON_CANCELED", $canceled == "N" ? $comment : "");
+
+			$res = $saleOrder->save();
+			if ($res->isSuccess())
+			{
+				Sale\Provider::resetTrustData($saleOrder->getSiteId());
+			}
+			else
+			{
+				$errors = array_merge($errors, $res->getErrorMessages());
+			}
+
+			$canceled = $saleOrder->getField("CANCELED");
+			$this->addResultData("CANCELED", $canceled);
+
+			if ($canceled == "Y")
+			{
+				$userInfo = Admin\Blocks\OrderStatus::getUserInfo($saleOrder->getField("EMP_CANCELED_ID"));
+				$this->addResultData("DATE_CANCELED", $saleOrder->getField("DATE_CANCELED")->toString());
+				$this->addResultData("EMP_CANCELED_ID", $saleOrder->getField("EMP_CANCELED_ID"));
+				$this->addResultData("EMP_CANCELED_NAME", $userInfo["NAME"]." (".$userInfo["LOGIN"].")");
+			}
 		}
 
 		if (!empty($errors))
@@ -1869,6 +1878,9 @@ class AjaxProcessor
 		if(!isset($this->request["coupon"])) throw new ArgumentNullException("coupon");
 		if(!isset($this->request["orderId"])) throw new ArgumentNullException("orderId");
 
+		Admin\OrderEdit::$needUpdateNewProductPrice = true;
+		Admin\OrderEdit::$isTrustProductFormData = false;
+
 		$saleModulePermissions = $APPLICATION->GetGroupRight("sale");
 
 		if ($saleModulePermissions == 'P')
@@ -1923,6 +1935,9 @@ class AjaxProcessor
 		if(!isset($this->request["userId"])) throw new ArgumentNullException("userId");
 		if(!isset($this->request["coupon"])) throw new ArgumentNullException("coupon");
 		if(!isset($this->request["orderId"])) throw new ArgumentNullException("orderId");
+
+		Admin\OrderEdit::$needUpdateNewProductPrice = true;
+		Admin\OrderEdit::$isTrustProductFormData = false;
 
 		$saleModulePermissions = $APPLICATION->GetGroupRight("sale");
 

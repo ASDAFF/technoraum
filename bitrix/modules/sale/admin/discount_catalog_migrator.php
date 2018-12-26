@@ -945,18 +945,22 @@ final class DiscountCatalogMigrator
 
 	protected function createApplicationStructureForGeneralDiscount(array $catalogRow)
 	{
+		$type = '';
 		$unit = '';
 		if($catalogRow['VALUE_TYPE'] === \CCatalogDiscount::TYPE_PERCENT)
 		{
-			$unit = 'Perc';
+			$type = \CSaleActionCtrlBasketGroup::ACTION_TYPE_DISCOUNT;
+			$unit = \CSaleActionCtrlBasketGroup::VALUE_UNIT_PERCENT;
 		}
 		elseif($catalogRow['VALUE_TYPE'] === \CCatalogDiscount::TYPE_FIX)
 		{
-			$unit = 'CurEach';
+			$type = \CSaleActionCtrlBasketGroup::ACTION_TYPE_DISCOUNT;
+			$unit = \CSaleActionCtrlBasketGroup::VALUE_UNIT_CURRENCY;
 		}
 		elseif($catalogRow['VALUE_TYPE'] === \CCatalogDiscount::TYPE_SALE)
 		{
-			//todo ????
+			$type = \CSaleActionCtrlBasketGroup::ACTION_TYPE_CLOSEOUT;
+			$unit = \CSaleActionCtrlBasketGroup::VALUE_UNIT_CURRENCY;
 		}
 
 		$structure = array(
@@ -968,7 +972,7 @@ final class DiscountCatalogMigrator
 				array(
 					'CLASS_ID' => 'ActSaleBsktGrp',
 					'DATA' => array(
-						'Type' => 'Discount',
+						'Type' => $type,
 						'Value' => $catalogRow['VALUE'],
 						'Unit' => $unit,
 						'All' => 'AND',

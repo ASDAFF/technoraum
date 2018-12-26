@@ -93,4 +93,5 @@ $MESS["MAIL_MAILBOX_LICENSE_SHARED_LIMIT_TITLE"] = "Shared mailboxes in Bitrix24
 $MESS["MAIL_MAILBOX_LICENSE_SHARED_LIMIT_BODY"] = "The number of shared mailboxes depends on the active Bitrix24 plan.
 <br><br>
 Your current plan allows #LIMIT# shared mailboxes.";
-?>
+$MESS["MAIL_MAILBOX_REMOVE_CONFIRM"] = "Disconnect mailbox?";
+$MESS["MAIL_MAILBOX_REMOVE_CONFIRM_TEXT"] = "Are you sure you want to disconnect the mailbox?";

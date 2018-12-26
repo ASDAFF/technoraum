@@ -6,6 +6,7 @@
 
 	var isPlainObject = BX.Landing.Utils.isPlainObject;
 	var isNumber = BX.Landing.Utils.isNumber;
+	var isArray = BX.Landing.Utils.isArray;
 	var isEmpty = BX.Landing.Utils.isEmpty;
 	var isString = BX.Landing.Utils.isString;
 	var decodeDataValue = BX.Landing.Utils.decodeDataValue;
@@ -13,6 +14,8 @@
 	var create = BX.Landing.Utils.create;
 	var fireCustomEvent = BX.Landing.Utils.fireCustomEvent;
 	var changeExtension = BX.Landing.Utils.changeExtension;
+	var getFileName = BX.Landing.Utils.getFileName;
+	var getFileExtension = BX.Landing.Utils.getFileExtension;
 
 	/**
 	 * Implements interface for works with image field in editor
@@ -33,6 +36,10 @@
 		this.type = this.content.type || "image";
 		this.input.innerText = this.content.src;
 		this.input.hidden = true;
+		this.input2x = this.createInput();
+		this.input2x.innerText = this.content.src2x;
+		this.input2x.hidden = true;
+
 		this.disableAltField = typeof data.disableAltField === "boolean" ? data.disableAltField : false;
 
 		this.fileInput = createFileInput(this.selector);
@@ -64,6 +71,7 @@
 		this.image.appendChild(this.preview);
 		this.image.appendChild(this.icon);
 		this.image.dataset.fileid = this.content.id;
+		this.image.dataset.fileid2x = this.content.id2x;
 
 		this.hiddenImage = create("img", {
 			props: {className: "landing-ui-field-image-hidden"}
@@ -458,13 +466,11 @@
 		onFileChange: function(file)
 		{
 			this.showLoader();
-			BX.Landing.Backend.getInstance()
-				.uploadImage(this.form, file, this.dimensions, this.uploadParams)
-				.then(function(response) {
-					this.setValue(response);
-					this.hideLoader();
-				}.bind(this))
-				.catch(function() {
+			this.upload(file)
+				.then(this.setValue.bind(this))
+				.then(this.hideLoader.bind(this))
+				.catch(function(err) {
+					console.error(err);
 					this.hideLoader();
 				}.bind(this));
 		},
@@ -536,10 +542,15 @@
 		onUnsplashShow: function()
 		{
 			this.uploadMenu.close();
+			this.showLoader();
+
 			BX.Landing.UI.Panel.Image.getInstance()
 				.show("unsplash", this.dimensions, this.loader, this.uploadParams)
-				.then(function(response) {
-					this.setValue(response);
+				.then(this.upload.bind(this))
+				.then(this.setValue.bind(this))
+				.then(this.hideLoader.bind(this))
+				.catch(function(err) {
+					console.error(err);
 					this.hideLoader();
 				}.bind(this));
 		},
@@ -547,14 +558,17 @@
 		onGoogleShow: function()
 		{
 			this.uploadMenu.close();
+			this.showLoader();
 
-			var self = this;
 			BX.Landing.UI.Panel.Image.getInstance()
-				.show("google", this.dimensions, self.loader, self.uploadParams)
-				.then(function(response) {
-					self.setValue(response);
-					self.hideLoader();
-				});
+				.show("google", this.dimensions, this.loader, this.uploadParams)
+				.then(this.upload.bind(this))
+				.then(this.setValue.bind(this))
+				.then(this.hideLoader.bind(this))
+				.catch(function(err) {
+					console.error(err);
+					this.hideLoader();
+				}.bind(this));
 		},
 
 		onUploadShow: function()
@@ -621,7 +635,13 @@
 
 		showLoader: function()
 		{
-			this.loader.show();
+			if (this.dropzone && !this.dropzone.hidden)
+			{
+				this.loader.show(this.dropzone);
+				return;
+			}
+
+			this.loader.show(this.preview);
 		},
 
 
@@ -709,20 +729,16 @@
 				else
 				{
 					this.input.innerText = value.src;
-					this.preview.style.backgroundImage = "url(\""+value.src+"\")";
+					this.input2x.innerText = value.src2x;
+					this.preview.style.backgroundImage = "url(\""+(value.src2x || value.src)+"\")";
 					this.preview.id = BX.util.getRandomString();
-					this.hiddenImage.src = value.src;
+					this.hiddenImage.src = value.src2x || value.src;
 					this.showPreview();
 				}
 
-				if (!value || !value.id)
-				{
-					this.image.dataset.fileid = -1;
-				}
-				else
-				{
-					this.image.dataset.fileid = value.id;
-				}
+				this.image.dataset.fileid = value && value.id ? value.id : -1;
+				this.image.dataset.fileid2x = value && value.id2x ? value.id2x : -1;
+
 				this.classList = [];
 			}
 			else
@@ -769,21 +785,28 @@
 		getValue: function()
 		{
 			var fileId = parseInt(this.image.dataset.fileid);
+			var fileId2x = parseInt(this.image.dataset.fileid2x);
 			fileId = fileId === fileId ? fileId : -1;
-			var value = {type: "", src: "", id: fileId, alt: "", url: ""};
+			fileId2x = fileId2x === fileId2x ? fileId2x : -1;
+
+			var value = {type: "", src: "", id: fileId, id2x: fileId2x, src2x: "", alt: "", url: ""};
 
 			if (this.type === "background")
 			{
 				value.type = "background";
 				value.src = this.input.innerText.trim();
+				value.src2x = this.input2x.innerText.trim();
 				value.id = fileId;
+				value.id2x = fileId2x;
 			}
 
 			if (this.type === "image")
 			{
 				value.type = "image";
 				value.src = this.input.innerText.trim();
+				value.src2x = this.input2x.innerText.trim();
 				value.id = fileId;
+				value.id2x = fileId2x;
 				value.alt = this.altField.getValue();
 			}
 
@@ -872,13 +895,15 @@
 
 				editOptions = {
 					image: data.src,
-					megapixels: (dimension.width * dimension.height) / 1000000,
+					megapixels: 100,
 					proxy: "/bitrix/tools/landing/proxy.php",
 					assets: {
 						resolver: pathResolver
 					},
 					"export": {
-						format: "image/" + (imageExtension === "jpg" ? "jpeg" : imageExtension)
+						format: "image/" + (imageExtension === "jpg" ? "jpeg" : imageExtension),
+						type: BX.Main.ImageEditor.renderType.BLOB,
+						quality: 1
 					},
 					controlsOptions: {
 						transform: {
@@ -957,20 +982,16 @@
 			BX.Main.ImageEditor.getInstance()
 				.edit(editOptions)
 				.then(function(file) {
-					this.showLoader();
-					var data = {};
-
-					file[0] = changeExtension(file[0], imageExtension);
-					data.picture = file;
-					data.params = this.dimensions;
-
 					BX.Main.ImageEditor.getInstance().SDKInstance = null;
-					BX.Landing.Backend.getInstance()
-						.action("Block::uploadFile", data, {}, this.uploadParams)
-						.then(function(response) {
-							this.setValue(response);
-							this.hideLoader();
-						}.bind(this));
+					file.name = BX.Landing.Utils.getFileName(data.src);
+					return file;
+				})
+				.then(this.upload.bind(this))
+				.then(this.setValue.bind(this))
+				.then(this.hideLoader.bind(this))
+				.catch(function(err) {
+					console.error(err);
+					this.hideLoader();
 				}.bind(this));
 
 			var waitSDK = function() {
@@ -983,6 +1004,49 @@
 			};
 
 			requestAnimationFrame(waitSDK);
+		},
+
+		/**
+		 * @param {File|Blob} file
+		 */
+		upload: function(file)
+		{
+			return Promise.all([
+				BX.Landing.ImageCompressor
+					.compress(file, this.dimensions)
+					.then(function(blob) {
+						return BX.Landing.Backend.getInstance()
+							.upload(blob, this.uploadParams)
+							.catch(console.error);
+					}.bind(this)),
+				BX.Landing.ImageCompressor
+					.compress(file, Object.assign({}, this.dimensions, {retina: true}))
+					.then(function(blob) {
+						if (blob instanceof File)
+						{
+							var name = blob.name;
+							Object.defineProperty(blob, 'name', {
+								get: function() {
+									return BX.Landing.Utils.rename2x(name);
+								},
+								configurable: true
+							});
+						}
+						else
+						{
+							blob.name = BX.Landing.Utils.rename2x(blob.name);
+						}
+						return BX.Landing.Backend.getInstance()
+							.upload(blob, this.uploadParams)
+							.catch(console.error);
+					}.bind(this))
+			])
+			.then(function(result) {
+				return Object.assign({}, result[0], {
+					src2x: result[1].src,
+					id2x: result[1].id
+				})
+			})
 		}
 	}
 })();

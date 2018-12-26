@@ -65,7 +65,13 @@ foreach($folders as $folder)
 		closedir($handle);
 	}
 }
-uasort($arModules, create_function('$a, $b', 'if($a["MODULE_SORT"] == $b["MODULE_SORT"]) return strcasecmp($a["MODULE_NAME"], $b["MODULE_NAME"]); return ($a["MODULE_SORT"] < $b["MODULE_SORT"])? -1 : 1;'));
+\Bitrix\Main\Type\Collection::sortByColumn(
+	$arModules,
+	['MODULE_SORT' => SORT_ASC, 'MODULE_NAME' => SORT_STRING],
+	'',
+	null,
+	true
+);
 
 $fb = ($id == 'fileman' && !$USER->CanDoOperation('fileman_install_control'));
 if($isAdmin && !$fb && check_bitrix_sessid())

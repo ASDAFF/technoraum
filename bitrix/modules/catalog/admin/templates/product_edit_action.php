@@ -18,6 +18,8 @@ use Bitrix\Catalog;
 /** @global string $CAT_TRIAL_PRICE_ID */
 /** @global string $CAT_WITHOUT_ORDER */
 /** @global string $CAT_MEASURE_RATIO */
+/** @global string $CAT_VAT_ID */
+/** @global string $CAT_VAT_INCLUDED */
 /** @global array $arCatalogBaseGroup */
 /** @global array $arCatalogBasePrices */
 /** @global array $arCatalogPrices */
@@ -37,6 +39,7 @@ if ($USER->CanDoOperation('catalog_price'))
 
 		if (CIBlockElementRights::UserHasRightTo($IBLOCK_ID, $PRODUCT_ID, "element_edit_price"))
 		{
+
 			IncludeModuleLangFile($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/catalog/templates/product_edit_action.php');
 			if ('' == $strWarning)
 			{
@@ -92,7 +95,6 @@ if ($USER->CanDoOperation('catalog_price'))
 				}
 
 				$arUpdatedIDs = array();
-				$availCanBuyZero = COption::GetOptionString("catalog", "default_can_buy_zero");
 				$quantityTrace = $_POST['CAT_BASE_QUANTITY_TRACE'];
 				if(!$quantityTrace || $quantityTrace == '')
 					$quantityTrace = 'D';
@@ -265,6 +267,8 @@ if ($USER->CanDoOperation('catalog_price'))
 					$arFields["RECUR_SCHEME_LENGTH"] = $CAT_RECUR_SCHEME_LENGTH;
 					$arFields["TRIAL_PRICE_ID"] = $CAT_TRIAL_PRICE_ID;
 					$arFields["WITHOUT_ORDER"] = $CAT_WITHOUT_ORDER;
+					$arFields["QUANTITY_TRACE"] = Catalog\ProductTable::STATUS_NO;
+					$arFields["CAN_BUY_ZERO"] = Catalog\ProductTable::STATUS_NO;
 				}
 
 				$iterator = Catalog\Model\Product::getList(array(

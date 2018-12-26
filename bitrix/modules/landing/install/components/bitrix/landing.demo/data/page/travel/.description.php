@@ -13,8 +13,6 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
-			'THEME_CODE' => 'travel',
-			'THEME_CODE_TYPO' => 'travel',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/travel/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_DESCRIPTION'),
@@ -42,9 +40,9 @@ return array(
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
 					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-font-weight-700 g-font-size-11 g-pt-20 g-pt-0--lg ml-auto">
-						<li class="landing-block-node-menu-list-item nav-item g-mr-15--lg g-mb-7 g-mb-0--lg active">
+						<li class="landing-block-node-menu-list-item nav-item g-mr-15--lg g-mb-7 g-mb-0--lg ">
 							<a href="#block@block[04.1.one_col_fix_with_title]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">Our
-								tours</a><span class="sr-only">(current)</span>
+								tours</a>
 						</li>
 						<li class="landing-block-node-menu-list-item nav-item g-mx-15--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[04.7.one_col_fix_with_title_and_text_2]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">Popular
@@ -94,7 +92,7 @@ return array(
 	<div class="js-carousel g-overflow-hidden g-max-height-100vh" data-autoplay="true" data-infinite="true" data-fade="true" data-speed="5000" data-pagi-classes="u-carousel-indicators-v1 g-absolute-centered--x g-bottom-30">
 		<div class="js-slide landing-block-node-card-bgimg landing-block-node-card g-bg-img-hero u-bg-overlay g-min-height-600 g-bg-black-opacity-0_4--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img19.jpg)">
 			<div class="u-bg-overlay__inner g-flex-centered g-height-100vh">
-				<div class="container landing-block-node-card-container js-animation fadeIn">
+				<div class="container landing-block-node-card-container js-animation fadeIn g-mx-0">
 					<div class="landing-block-node-card-price u-ribbon-v1 text-uppercase g-pos-rel g-line-height-1_2 g-font-weight-700 g-font-size-16 g-font-size-18 g-color-white g-theme-travel-bg-black-v1 g-pa-10 g-mb-10">
 						Only From
 						<span style="color: #ee4136;">$150.00</span></div>
@@ -121,7 +119,7 @@ return array(
 
 		<div class="js-slide landing-block-node-card-bgimg landing-block-node-card g-bg-img-hero u-bg-overlay g-min-height-600 g-bg-black-opacity-0_4--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img11.jpg)">
 			<div class="u-bg-overlay__inner g-flex-centered g-height-100vh">
-				<div class="container landing-block-node-card-container js-animation fadeIn">
+				<div class="container landing-block-node-card-container js-animation fadeIn g-mx-0">
 					<div class="landing-block-node-card-price u-ribbon-v1 text-uppercase g-pos-rel g-line-height-1_2 g-font-weight-700 g-font-size-16 g-font-size-18 g-color-white g-theme-travel-bg-black-v1 g-pa-10 g-mb-10">
 						Only From
 						<span style="color: #ee4136;">$550.00</span></div>
@@ -148,7 +146,7 @@ return array(
 
 		<div class="js-slide landing-block-node-card-bgimg landing-block-node-card g-bg-img-hero u-bg-overlay g-min-height-600 g-bg-black-opacity-0_4--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img20.jpg)">
 			<div class="u-bg-overlay__inner g-flex-centered g-height-100vh">
-				<div class="container landing-block-node-card-container js-animation fadeIn">
+				<div class="container landing-block-node-card-container js-animation fadeIn g-mx-0">
 					<div class="landing-block-node-card-price u-ribbon-v1 text-uppercase g-pos-rel g-line-height-1_2 g-font-weight-700 g-font-size-16 g-font-size-18 g-color-white g-theme-travel-bg-black-v1 g-pa-10 g-mb-10">
 						Only From
 						<span style="color: #ee4136;">$360.00</span></div>
@@ -174,7 +172,7 @@ return array(
 
 		<div class="js-slide landing-block-node-card-bgimg landing-block-node-card g-bg-img-hero u-bg-overlay g-min-height-600 g-bg-black-opacity-0_4--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img17.jpg)">
 			<div class="u-bg-overlay__inner g-flex-centered g-height-100vh">
-				<div class="container landing-block-node-card-container js-animation fadeIn">
+				<div class="container landing-block-node-card-container js-animation fadeIn g-mx-0">
 					<div class="landing-block-node-card-price u-ribbon-v1 text-uppercase g-pos-rel g-line-height-1_2 g-font-weight-700 g-font-size-16 g-font-size-18 g-color-white g-theme-travel-bg-black-v1 g-pa-10 g-mb-10">
 						Only From
 						<span style="color: #ee4136;">$1300.00</span></div>
@@ -200,7 +198,7 @@ return array(
 
 		<div class="js-slide landing-block-node-card-bgimg landing-block-node-card g-bg-img-hero u-bg-overlay g-min-height-600 g-bg-black-opacity-0_4--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img14.jpg)">
 			<div class="u-bg-overlay__inner g-flex-centered g-height-100vh">
-				<div class="container landing-block-node-card-container js-animation fadeIn">
+				<div class="container landing-block-node-card-container js-animation fadeIn g-mx-0">
 					<div class="landing-block-node-card-price u-ribbon-v1 text-uppercase g-pos-rel g-line-height-1_2 g-font-weight-700 g-font-size-16 g-font-size-18 g-color-white g-theme-travel-bg-black-v1 g-pa-10 g-mb-10">
 						Only From
 						<span style="color: #ee4136;">$1300.00</span></div>
@@ -226,7 +224,7 @@ return array(
 
 		<div class="js-slide landing-block-node-card-bgimg landing-block-node-card g-bg-img-hero u-bg-overlay g-min-height-600 g-bg-black-opacity-0_4--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img13.jpg)">
 			<div class="u-bg-overlay__inner g-flex-centered g-height-100vh">
-				<div class="container landing-block-node-card-container js-animation fadeIn">
+				<div class="container landing-block-node-card-container js-animation fadeIn g-mx-0">
 					<div class="landing-block-node-card-price u-ribbon-v1 text-uppercase g-pos-rel g-line-height-1_2 g-font-weight-700 g-font-size-16 g-font-size-18 g-color-white g-theme-travel-bg-black-v1 g-pa-10 g-mb-10">
 						Only From
 						<span style="color: #ee4136;">$610.00</span></div>
@@ -253,7 +251,7 @@ return array(
 
 		<div class="js-slide landing-block-node-card-bgimg landing-block-node-card g-bg-img-hero u-bg-overlay g-min-height-600 g-bg-black-opacity-0_4--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img18.jpg)">
 			<div class="u-bg-overlay__inner g-flex-centered g-height-100vh">
-				<div class="container landing-block-node-card-container js-animation fadeIn">
+				<div class="container landing-block-node-card-container js-animation fadeIn g-mx-0">
 					<div class="landing-block-node-card-price u-ribbon-v1 text-uppercase g-pos-rel g-line-height-1_2 g-font-weight-700 g-font-size-16 g-font-size-18 g-color-white g-theme-travel-bg-black-v1 g-pa-10 g-mb-10">
 						Only From
 						<span style="color: #ee4136;">$340.00</span></div>
@@ -280,7 +278,7 @@ return array(
 
 		<div class="js-slide landing-block-node-card-bgimg landing-block-node-card g-bg-img-hero u-bg-overlay g-min-height-600 g-bg-black-opacity-0_4--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img15.jpg)">
 			<div class="u-bg-overlay__inner g-flex-centered g-height-100vh">
-				<div class="container landing-block-node-card-container js-animation fadeIn">
+				<div class="container landing-block-node-card-container js-animation fadeIn g-mx-0">
 					<div class="landing-block-node-card-price u-ribbon-v1 text-uppercase g-pos-rel g-line-height-1_2 g-font-weight-700 g-font-size-16 g-font-size-18 g-color-white g-theme-travel-bg-black-v1 g-pa-10 g-mb-10">
 						Only From
 						<span style="color: #ee4136;">$2400.00</span></div>
@@ -306,7 +304,7 @@ return array(
 
 		<div class="js-slide landing-block-node-card-bgimg landing-block-node-card g-bg-img-hero u-bg-overlay g-min-height-600 g-bg-black-opacity-0_4--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img16.jpg)">
 			<div class="u-bg-overlay__inner g-flex-centered g-height-100vh">
-				<div class="container landing-block-node-card-container js-animation fadeIn">
+				<div class="container landing-block-node-card-container js-animation fadeIn g-mx-0">
 					<div class="landing-block-node-card-price u-ribbon-v1 text-uppercase g-pos-rel g-line-height-1_2 g-font-weight-700 g-font-size-16 g-font-size-18 g-color-white g-theme-travel-bg-black-v1 g-pa-10 g-mb-10">
 						Only From
 						<span style="color: #ee4136;">$540.00</span></div>
@@ -332,7 +330,7 @@ return array(
 
 		<div class="js-slide landing-block-node-card-bgimg landing-block-node-card g-bg-img-hero u-bg-overlay g-min-height-600 g-bg-black-opacity-0_4--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1280/img12.jpg)">
 			<div class="u-bg-overlay__inner g-flex-centered g-height-100vh">
-				<div class="container landing-block-node-card-container js-animation fadeIn">
+				<div class="container landing-block-node-card-container js-animation fadeIn g-mx-0">
 					<div class="landing-block-node-card-price u-ribbon-v1 text-uppercase g-pos-rel g-line-height-1_2 g-font-weight-700 g-font-size-16 g-font-size-18 g-color-white g-theme-travel-bg-black-v1 g-pa-10 g-mb-10">
 						Only From
 						<span style="color: #ee4136;">$5240.00</span></div>
@@ -1176,6 +1174,9 @@ return array(
              data-infinite="true"
 			 data-speed="10000"
              data-slides-show="4"
+             data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-60 g-font-size-60 g-color-white g-bg-primary"
+			 data-arrow-left-classes="fa fa-angle-left g-left-10"
+			 data-arrow-right-classes="fa fa-angle-right g-right-10"
 			 data-responsive=\'[{
                "breakpoint": 1200,
                "settings": {

@@ -1679,7 +1679,7 @@ class CBitrixPersonalOrderDetailComponent extends CBitrixComponent
 	 */
 	protected function formatResultUrls()
 	{
-		if ( $this->arResult["CAN_CANCEL"] === "Y")
+		if ($this->arResult["CAN_CANCEL"] === "Y")
 		{
 			$this->arResult["URL_TO_CANCEL"] = CComponentEngine::makePathFromTemplate($this->arParams["PATH_TO_CANCEL"], array("ID" => urlencode(urlencode( $this->arResult["ACCOUNT_NUMBER"])))).'CANCEL=Y';
 		}
@@ -1724,7 +1724,15 @@ class CBitrixPersonalOrderDetailComponent extends CBitrixComponent
 
 		if (doubleval($arResult["DISCOUNT_VALUE"]))
 			$arResult["DISCOUNT_VALUE_FORMATED"] = SaleFormatCurrency($arResult["DISCOUNT_VALUE"], $arResult["CURRENCY"]);
-		$arResult["CAN_CANCEL"] = (($arResult["CANCELED"]!="Y" && $arResult["STATUS_ID"]!="F" && $arResult["PAYED"]!="Y") ? "Y" : "N");
+
+		if ($this->arParams['DISALLOW_CANCEL'] === 'Y')
+		{
+			$arResult["CAN_CANCEL"] = 'N';
+		}
+		else
+		{
+			$arResult["CAN_CANCEL"] = (($arResult["CANCELED"]!="Y" && $arResult["STATUS_ID"]!="F" && $arResult["PAYED"]!="Y") ? "Y" : "N");
+		}
 	}
 
 	/**
@@ -1912,7 +1920,6 @@ class CBitrixPersonalOrderDetailComponent extends CBitrixComponent
 
 		$this->formatDate($this->arResult);
 		$this->formatResultStatus();
-		$this->formatResultUrls();
 		$this->formatResultUser();
 		$this->formatResultPerson();
 		$this->formatResultDeliverySystem();
@@ -1920,6 +1927,7 @@ class CBitrixPersonalOrderDetailComponent extends CBitrixComponent
 		$this->formatResultBasket();
 		$this->formatResultTaxes();
 		$this->formatResultPrices();
+		$this->formatResultUrls();
 	}
 
 	/**

@@ -1,4 +1,5 @@
 <?
+$MESS["REPORT_CHART_ERR_49"] = "Diagramm-Parameter sind nicht korrekt";
 $MESS["TASKS_THIS_MONTH"] = "diesen Monat";
 $MESS["TASKS_PREVIOUS_MONTH"] = "letzten Monat";
 $MESS["TASKS_THIS_WEEK"] = "diese Woche";

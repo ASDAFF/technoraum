@@ -5,7 +5,6 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true)
 }
 
 use \Bitrix\Main\Localization\Loc;
-Loc::loadLanguageFile(__FILE__);
 
 $buttons = \Bitrix\Landing\Hook\Page\B24button::getButtons();
 $buttons = array_keys($buttons);
@@ -21,7 +20,7 @@ return array(
 	'show_in_list' => 'Y',
 //	'type' => 'page',
 	'version' => 2,
-	'sort' => 100,
+	'sort' => -131,
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
 			'B24BUTTON_CODE' => $buttons[0],

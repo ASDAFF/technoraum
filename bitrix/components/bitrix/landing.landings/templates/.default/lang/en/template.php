@@ -1,4 +1,5 @@
 <?
+$MESS["LANDING_TPL_ACTION_REC_CONFIRM"] = "Move to the Recycle Bin?";
 $MESS["LANDING_TPL_TTL_DELETE"] = "Days until permanent deletion";
 $MESS["LANDING_TPL_TTL_DELETE_D"] = "days";
 $MESS["LANDING_TPL_ACTION_DELETE_CONFIRM"] = "Do you want to delete page?";

@@ -99,9 +99,6 @@ class MailMessageTable extends Entity\DataManager
 				'data_type' => 'boolean',
 				'values'    => array('N', 'Y'),
 			),
-			'FOR_SPAM_TEST' => array(
-				'data_type' => 'text',
-			),
 			'EXTERNAL_ID' => array(
 				'data_type' => 'string',
 			),
@@ -119,6 +116,9 @@ class MailMessageTable extends Entity\DataManager
 			),
 			'SEARCH_CONTENT' => array(
 				'data_type' => 'string',
+			),
+			'INDEX_VERSION' => array(
+				'data_type' => 'integer',
 			),
 			new DatetimeField('READ_CONFIRMED'),
 			new TextField('OPTIONS',[

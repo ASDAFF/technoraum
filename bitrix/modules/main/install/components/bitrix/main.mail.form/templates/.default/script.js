@@ -27,21 +27,6 @@
 		return BXMainMailForm.__forms[id];
 	};
 
-	BXMainMailForm.removeSenderFromPopup = function(fieldId, senderId)
-	{
-		var menu = BX.PopupMenu.getMenuById(fieldId + '-menu');
-		if (menu)
-		{
-			var item = menu.getMenuItem(senderId);
-			var input = BX(fieldId + '_value');
-			if(item && input && input.value == item.title)
-			{
-				menu.getMenuItems().slice(0, 1)[0].onItemClick();
-			}
-			menu.removeMenuItem(senderId);
-		}
-	};
-
 	BXMainMailForm.prototype.getField = function (name)
 	{
 		for (var i = this.fields.length; i-- > 0;)
@@ -614,6 +599,8 @@
 		var selector = BX.findChildByClassName(field.params.__row, 'main-mail-form-field-value-menu', true);
 		BX.bind(selector, 'click', function()
 		{
+			var items = [];
+
 			var input = BX(field.fieldId+'_value');
 			var apply = function(value, text)
 			{
@@ -623,11 +610,40 @@
 			};
 			var handler = function(event, item)
 			{
-				apply(item.title, item.text);
-				item.menuWindow.close();
+				var action = 'apply';
+
+				if (event && event.target)
+				{
+					var deleteIconClass = 'main-mail-form-field-from-menu-delete-icon';
+					if (BX.hasClass(event.target, deleteIconClass) || BX.findParent(event.target, {class: deleteIconClass}, item.layout.item))
+					{
+						action = 'delete';
+					}
+				}
+
+				if ('delete' == action)
+				{
+					BXMainMailConfirm.deleteSender(
+						item.id,
+						function ()
+						{
+							item.menuWindow.removeMenuItem(item.id);
+
+							if (input.value == item.title)
+							{
+								apply(items[0].title, items[0].text);
+							}
+						}
+					);
+				}
+				else
+				{
+					apply(item.title, item.text);
+					item.menuWindow.close();
+				}
 			};
 
-			var items = [], itemText, itemClass, itemId;
+			var itemText, itemClass;
 
 			if (!field.params.required)
 			{
@@ -643,14 +659,12 @@
 			{
 				for (var i in field.params.mailboxes)
 				{
-					itemClass = null;
+					itemClass = 'menu-popup-no-icon';
 					itemText = BX.util.htmlspecialchars(field.params.mailboxes[i].formated);
-					if(field.params.mailboxes[i].id && field.params.mailboxes[i].id > 0)
+					if (field.params.mailboxes[i]['can_delete'] && field.params.mailboxes[i].id > 0)
 					{
-						itemId = 'main-mail-popup-sender-item-' + field.params.mailboxes[i].id;
-						itemText += '<span class="delete-sender" onclick="BXMainMailConfirm.deleteSender(event, \'' + field.params.mailboxes[i].id + '\', function(){ BXMainMailForm.removeSenderFromPopup(\'' + field.fieldId + '\', \'' + itemId + '\') });">' +
-							'<img src="data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%2010%2010%22%3E%3Cpath%20fill%3D%22%23535C69%22%20fill-rule%3D%22evenodd%22%20d%3D%22M5.065%203.682L2.377.994%201.01%202.362%203.696%205.05.99%207.757l1.368%201.37%202.708-2.71%202.7%202.703%201.37-1.368-2.702-2.7%202.682-2.684L7.748%201%205.065%203.682z%22/%3E%3C/svg%3E" />' +
-							'</span>';
+						itemText += '<span class="main-mail-form-field-from-menu-delete-icon popup-window-close-icon popup-window-titlebar-close-icon"\
+							title="' + BX.util.htmlspecialchars(BX.message('MAIN_MAIL_CONFIRM_DELETE')) + '"></span>';
 						itemClass = 'menu-popup-no-icon menu-popup-right-icon';
 					}
 					items.push({
@@ -658,7 +672,7 @@
 						title: field.params.mailboxes[i].formated,
 						onclick: handler,
 						className: itemClass,
-						id: itemId
+						id: field.params.mailboxes[i].id
 					});
 				}
 

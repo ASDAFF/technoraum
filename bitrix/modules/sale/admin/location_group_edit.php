@@ -70,8 +70,10 @@ try
 
 				if($res['success']) // on successfull update ...
 				{
-					if($actionSave)
+					if ($actionSave)
 						$saveUrl = $returnUrl ? $returnUrl : $listUrl; // go to the page of just created item
+					elseif ($actionApply)
+						$applyUrl = $returnUrl ? $returnUrl : Helper::getEditUrl(array('id' => $saveAsId));
 
 					// $actionApply : do nothing
 				}

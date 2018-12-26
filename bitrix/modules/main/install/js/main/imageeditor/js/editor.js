@@ -179,6 +179,7 @@
 			logLevel: "error",
 			language: "ru",
 			editor: {
+				preferredRenderer: 'canvas',
 				maxMegaPixels: {
 					desktop: megapixels
 				},
@@ -348,7 +349,39 @@
 					return new Promise(function(resolve) {
 						resolver = resolve;
 					});
+				}.bind(this))
+				.catch(function() {
+					this.loader.hide();
+					this.popup.setContent(this.createErrorMessage());
+					return Promise.reject();
 				}.bind(this));
+		},
+
+
+		createErrorMessage: function()
+		{
+			return BX.create("div", {
+				props: {className: 'main-image-editor-error'},
+				children: [
+					BX.create('div', {
+						props: {className: 'main-image-editor-error-text'},
+						html: BX.message('IMAGE_EDITOR_POPUP_ERROR_MESSAGE_TEXT')
+					}),
+					BX.create('div', {
+						children: [
+							BX.create('button', {
+								props: {className: 'ui-btn'},
+								text: BX.message('IMAGE_EDITOR_CLOSE_POPUP'),
+								events: {
+									click: function() {
+										this.popup.close();
+									}.bind(this)
+								}
+							})
+						]
+					})
+				]
+			})
 		},
 
 
@@ -375,9 +408,13 @@
 		 */
 		onPopupClose: function()
 		{
-			this.SDKInstance.off("export", BX.proxy(this.onExport, this));
-			this.SDKInstance.off("close", BX.proxy(this.popup.close, this.popup));
-			this.SDKInstance.dispose();
+			if (this.SDKInstance)
+			{
+				this.SDKInstance.off("export", BX.proxy(this.onExport, this));
+				this.SDKInstance.off("close", BX.proxy(this.popup.close, this.popup));
+				this.SDKInstance.dispose();
+			}
+
 			this.popup.contentContainer.innerHTML = "";
 			document.documentElement.style.overflow = null;
 
@@ -395,7 +432,13 @@
 			if (editor.getOptions().editor.export.type === BX.Main.ImageEditor.renderType.BASE64)
 			{
 				var fileName = getFileName(currentImage.src);
-				result = [fileName, result.split(',')[1]];
+				var splitted = result.split(",");
+				var base64Data = splitted[1];
+				var format = splitted[0].match(new RegExp("data\:image\/(.*);base64"))[1];
+				format = format === "jpeg" ? "jpg" : format;
+				fileName = fileName.replace(/\.[^\.]+$/, "." + format);
+
+				result = [fileName, base64Data];
 			}
 
 			resolver(result);

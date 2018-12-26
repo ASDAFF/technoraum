@@ -16,7 +16,8 @@ $emptyPath = '#system_mainpage';
 if (isset($landing))
 {
 	$syspages = \Bitrix\Landing\Syspage::get(
-		$landing->getSiteId()
+		$landing->getSiteId(),
+		true
 	);
 	if (isset($syspages['catalog']))
 	{
@@ -35,7 +36,7 @@ if (isset($landing))
 				"ONLY_FULL_PAY_FROM_ACCOUNT" => "N",
 				"COUNT_DELIVERY_TAX" => "N",
 				"ALLOW_AUTO_REGISTER" => "Y",
-				"SEND_NEW_USER_NOTIFY" => "N",
+				"SEND_NEW_USER_NOTIFY" => "Y",
 				"DELIVERY_NO_AJAX" => "N",
 				"TEMPLATE_LOCATION" => "popup",
 				"PATH_TO_BASKET" => "#system_cart",

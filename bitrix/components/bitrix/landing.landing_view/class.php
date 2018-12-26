@@ -28,6 +28,58 @@ class LandingViewComponent extends LandingBaseComponent
 	protected $pagesCount;
 
 	/**
+	 * Just redirect to the landing preview page.
+	 * @param int $id Landing id.
+	 * @return boolean
+	 */
+	protected function actionPreview($id)
+	{
+		\Bitrix\Landing\Landing::setPreviewMode(true);
+
+		$landing = Landing::createInstance($id);
+		if ($landing->exist())
+		{
+			\localRedirect(
+				$landing->getPublicUrl(false, true, true),
+				true
+			);
+		}
+
+		\Bitrix\Landing\Landing::setPreviewMode(false);
+
+		$this->setErrors(
+			$landing->getError()->getErrors()
+		);
+
+		return false;
+	}
+
+	/**
+	 * In some times we need show popup about site is now creating.
+	 * @param int $siteId Site id.
+	 * @return boolean
+	 */
+	protected function isNeedFirstPreparePopup($siteId)
+	{
+		if (!Manager::isB24())
+		{
+			return false;
+		}
+		$date = new \Bitrix\Main\Type\DateTime;
+		$res = Site::getList(array(
+			'filter' => array(
+				'ID' => $siteId,
+				'>DOMAIN.DATE_MODIFY' => $date->add('-15 seconds')
+			)
+		));
+		if ($row = $res->fetch())
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Publication landing.
 	 * @param int $id Landing id.
 	 * @param bool $disabledRedirect Disable redirect after publication.
@@ -100,8 +152,18 @@ class LandingViewComponent extends LandingBaseComponent
 				{
 					return $publicIds[$id];
 				}
-				$url = $landing->getPublicUrl(false, true, true);
-				\localRedirect($this->getTimestampUrl($url), true);
+				if ($this->isNeedFirstPreparePopup($landing->getSiteId()))
+				{
+					$this->addError(
+						'SITE_IS_NOW_CREATING'
+					);
+					return false;
+				}
+				else
+				{
+					$url = $landing->getPublicUrl(false, true, true);
+					\localRedirect($this->getTimestampUrl($url), true);
+				}
 			}
 		}
 
@@ -115,7 +177,7 @@ class LandingViewComponent extends LandingBaseComponent
 
 	/**
 	 * Publication all landing in site of current landing.
-	 * @param int $id Site id.
+	 * @param int $id Landing id.
 	 * @return boolean
 	 */
 	protected function actionPublicationAll($id)
@@ -135,6 +197,13 @@ class LandingViewComponent extends LandingBaseComponent
 				{
 					return false;
 				}
+			}
+			if ($this->isNeedFirstPreparePopup($landing->getSiteId()))
+			{
+				$this->addError(
+					'SITE_IS_NOW_CREATING'
+				);
+				return false;
 			}
 			$url = $landing->getPublicUrl(false, true, true);
 			\localRedirect($this->getTimestampUrl($url), true);
@@ -443,6 +512,10 @@ class LandingViewComponent extends LandingBaseComponent
 			$landing = Landing::createInstance($this->arParams['LANDING_ID']);
 
 			$this->arResult['LANDING'] = $landing;
+			$this->arResult['~LANDING_FULL_URL'] = $landing->getPublicUrl(false, true, true);
+			$this->arResult['LANDING_FULL_URL'] = $this->getTimestampUrl(
+				$this->arResult['~LANDING_FULL_URL']
+			);
 
 			if ($landing->exist())
 			{

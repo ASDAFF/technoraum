@@ -13,6 +13,10 @@ use \Bitrix\Landing\Manager;
 
 class LandingSitesComponent extends LandingBaseComponent
 {
+	/**
+	 * Count items per page.
+	 */
+	const COUNT_PER_PAGE = 11;
 
 	/**
 	 * Base executable method.
@@ -41,12 +45,14 @@ class LandingSitesComponent extends LandingBaseComponent
 				'filter' => $filter,
 				'order' => $this->arResult['IS_DELETED']
 					? array(
-						'DATE_MODIFY' => 'DESC'
+						'DATE_MODIFY' => 'desc'
 					)
 					: array(
-						'ID' => 'ASC'
-					)
+						'ID' => 'desc'
+					),
+				'navigation' => $this::COUNT_PER_PAGE
 			));
+			$this->arResult['NAVIGATION'] = $this->getLastNavigation();
 
 			// detect preview of sites
 			foreach ($this->arResult['SITES'] as &$item)

@@ -16,6 +16,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_COURSES_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'courses',
+			'THEME_CODE_TYPO' => 'courses',
 			'B24BUTTON_CODE' => $buttons[0],
 			'UP_SHOW' => 'Y',
 		)

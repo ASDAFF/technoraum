@@ -78,7 +78,27 @@ class SaleProductsGiftBasketComponent extends ElementList
 			}
 		}
 
-		$this->arParams['PRICE_CODE'] = [$this->getPriceCode($this->fetchProductPriceId())];
+		//TODO: change price types selection to api
+		$this->arParams['PRICE_CODE'] = [];
+		$fullPriceTypeList = \CCatalogGroup::GetListArray();
+		if (!empty($fullPriceTypeList))
+		{
+			$iterator = \Bitrix\Catalog\GroupAccessTable::getList([
+				'select' => array('CATALOG_GROUP_ID'),
+				'filter' => array('@GROUP_ID' => $this->getUserGroups(), '=ACCESS' => \Bitrix\Catalog\GroupAccessTable::ACCESS_BUY),
+			]);
+			while ($row = $iterator->fetch())
+			{
+				$id = (int)$row['CATALOG_GROUP_ID'];
+				if (!isset($fullPriceTypeList[$id]))
+					continue;
+				$this->arParams['PRICE_CODE'][$id] = $fullPriceTypeList[$id]['NAME'];
+			}
+			unset($id, $row, $iterator);
+			if (!empty($this->arParams['PRICE_CODE']))
+				$this->arParams['PRICE_CODE'] = array_values($this->arParams['PRICE_CODE']);
+		}
+		unset($fullPriceTypeList);
 
 		$this->storage['IBLOCK_PARAMS'] = $this->getMultiIblockParams($this->arParams);
 	}
@@ -176,16 +196,14 @@ class SaleProductsGiftBasketComponent extends ElementList
 	 */
 	private function isExtendedCatalogProvider(\Bitrix\Sale\BasketItem $item)
 	{
+		$providerName = $item->getProvider();
+
 		return
-			$item->getField('MODULE') === 'catalog' &&
-			(
-				$item->getProvider() &&
-				(
-					$item->getProvider() === 'CCatalogProductProvider'
-					|| $item->getProvider() === '\Bitrix\Catalog\Product\CatalogProvider'
-					|| array_key_exists('CCatalogProductProvider', class_parents($item->getProvider()))
-					|| array_key_exists('\Bitrix\Catalog\Product\CatalogProvider', class_parents($item->getProvider()))
-				)
+			$item->getField('MODULE') === 'catalog'
+			&& $providerName
+			&& (
+				array_key_exists('Bitrix\Sale\SaleProviderBase', class_parents($providerName))
+				|| array_key_exists('IBXSaleProductProvider', class_implements($providerName))
 			);
 	}
 
@@ -231,46 +249,6 @@ class SaleProductsGiftBasketComponent extends ElementList
 		}
 
 		return $properties;
-	}
-
-	private function getPriceCode($productPriceId)
-	{
-		if (!$productPriceId)
-		{
-			return null;
-		}
-
-		$rsPrices = CPrice::GetListEx(
-			[],
-			['ID' => $productPriceId],
-			false,
-			false,
-			[
-				'ID',
-				'CATALOG_GROUP_CODE',
-			]
-		);
-		if (!$rsPrices)
-		{
-			return null;
-		}
-		$price = $rsPrices->fetch();
-
-		return $price['CATALOG_GROUP_CODE'] ?: null;
-	}
-
-	private function fetchProductPriceId()
-	{
-		/** @var \Bitrix\Sale\BasketItem $item */
-		foreach ($this->getBasket() as $item)
-		{
-			if ($this->isExtendedCatalogProvider($item))
-			{
-				return $item->getField('PRODUCT_PRICE_ID');
-			}
-		}
-
-		return null;
 	}
 
 	protected function checkModules()

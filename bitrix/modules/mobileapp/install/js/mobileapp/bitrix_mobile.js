@@ -1393,10 +1393,20 @@
 			|| !BX.type.isNotEmptyString(_params.backgroundColor)
 		)
 		{
-			var bodySelector = (document.body.className.length>0
-					? document.querySelector("."+document.body.className)
-					: null
-			);
+			var bodySelector = null;
+
+			try
+			{
+				bodySelector = (document.body.className != null && document.body.className.length>0
+						? document.querySelector("."+document.body.className)
+						: null
+				);
+			}
+			catch (e)
+			{
+				//do nothing
+			}
+
 			if(bodySelector != null)
 			{
 				var bodyStyles = getComputedStyle(bodySelector);

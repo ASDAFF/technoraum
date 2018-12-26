@@ -24,3 +24,4 @@ $MESS['LANDING_TPL_MODIF'] = 'Изменена';
 $MESS['LANDING_TPL_TTL_DELETE'] = 'До окончательного удаления';
 $MESS['LANDING_TPL_TTL_DELETE_D'] = 'д.';
 $MESS['LANDING_TPL_ACTION_DELETE_CONFIRM'] = 'Удалить страницу?';
+$MESS['LANDING_TPL_ACTION_REC_CONFIRM'] = 'Переместить в корзину?';

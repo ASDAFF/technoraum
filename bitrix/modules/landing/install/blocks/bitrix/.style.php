@@ -130,6 +130,7 @@ return array(
 			'property' => 'letter-spacing',
 			'type' => 'slider',
 			'items' => array(
+				array('name' => Loc::getMessage('LANDING_STYLE_AUTO'), 'value' => 'g-letter-spacing-inherit'),
 				array('name' => '-2', 'value' => 'g-letter-spacing-minus-2'),
 				array('name' => '0', 'value' => 'g-letter-spacing-0'),
 				array('name' => '0.5', 'value' => 'g-letter-spacing-0_5'),

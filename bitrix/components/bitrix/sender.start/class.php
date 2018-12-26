@@ -68,6 +68,11 @@ class SenderStartComponent extends CBitrixComponent
 		foreach ($messages as $message)
 		{
 			$message = new Message\Adapter($message);
+			if ($message->isHidden())
+			{
+				continue;
+			}
+
 			if ($message->isAds())
 			{
 				$pathToAdd = $pathToAdsAdd;

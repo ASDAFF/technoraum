@@ -1,4 +1,6 @@
 <?
+$MESS["IMAGE_EDITOR_POPUP_ERROR_MESSAGE_TEXT"] = "Cannot load image.<br>The file may be damaged or read-only, or this image type is not supported.";
+$MESS["IMAGE_EDITOR_CLOSE_POPUP"] = "Close";
 $MESS["IMAGE_EDITOR_NEW"] = "Upload";
 $MESS["IMAGE_EDITOR_EXPORT"] = "Apply";
 $MESS["IMAGE_EDITOR_CANCEL"] = "Cancel";

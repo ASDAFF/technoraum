@@ -138,54 +138,79 @@ class CMailClientMessageViewComponent extends CBitrixComponent implements \Bitri
 			'B' => array(),
 		);
 
-		if ($message['RIGHT_MARGIN'] - $message['LEFT_MARGIN'] > 1)
+		$res = Mail\MailMessageTable::getList(array(
+			'runtime' => array(
+				new Main\Entity\ReferenceField(
+					'CLOSURE',
+					Mail\Internals\MessageClosureTable::class,
+					array(
+						'=this.ID' => 'ref.MESSAGE_ID',
+					)
+				),
+			),
+			'select' => array(
+				'ID', 'MAILBOX_ID',
+				'FIELD_DATE', 'SUBJECT',
+				'FIELD_FROM', 'FIELD_REPLY_TO',
+				'FIELD_TO', 'FIELD_CC', 'FIELD_BCC',
+				'ATTACHMENTS',
+				'OPTIONS', 'READ_CONFIRMED'
+			),
+			'filter' => array(
+				'=MAILBOX_ID' => $message['MAILBOX_ID'],
+				'=CLOSURE.PARENT_ID' => $message['ID'],
+			),
+			'order' => array(
+				'FIELD_DATE' => 'ASC',
+			),
+			'offset' => 1,
+			'limit' => $pageSize,
+		));
+
+		while ($item = $res->fetch())
 		{
-			$res = \Bitrix\Mail\MailMessageTable::getList(array(
-				'select' => array(
-					'*', // @TODO
-				),
-				'filter' => array(
-					'=MAILBOX_ID' => $message['MAILBOX_ID'],
-					'>LEFT_MARGIN' => $message['LEFT_MARGIN'],
-					'<RIGHT_MARGIN' => $message['RIGHT_MARGIN'],
-				),
-				'order' => array(
-					'LEFT_MARGIN' => 'ASC',
-				),
-				'limit' => $pageSize,
-			));
+			$item['MAILBOX_EMAIL'] = $message['MAILBOX_EMAIL'];
+			$item['MAILBOX_NAME'] = $message['MAILBOX_NAME'];
+			$item['MAILBOX_LOGIN'] = $message['MAILBOX_LOGIN'];
 
-			while ($item = $res->fetch())
-			{
-				$item['MAILBOX_EMAIL'] = $message['MAILBOX_EMAIL'];
-				$item['MAILBOX_NAME'] = $message['MAILBOX_NAME'];
-				$item['MAILBOX_LOGIN'] = $message['MAILBOX_LOGIN'];
+			$item = $this->prepareMessage($item);
+			$item['SENDER_EMAIL'] = $this->getEmailFromFieldFrom($item['FIELD_FROM']);
 
-				$item = $this->prepareMessage($item);
-				$item['SENDER_EMAIL'] = $this->getEmailFromFieldFrom($item['FIELD_FROM']);
+			$item['__log'] = 'A';
 
-				$item['__log'] = 'A';
-
-				$this->arResult['LOG']['A'][] = $item;
-			}
-
-			$this->arResult['LOG']['A'] = array_reverse($this->arResult['LOG']['A']);
+			$this->arResult['LOG']['A'][] = $item;
 		}
+
+		$this->arResult['LOG']['A'] = array_reverse($this->arResult['LOG']['A']);
 
 		if ($message['__access_level'] == 'full')
 		{
 			$res = \Bitrix\Mail\MailMessageTable::getList(array(
+				'runtime' => array(
+					new Main\Entity\ReferenceField(
+						'CLOSURE',
+						Mail\Internals\MessageClosureTable::class,
+						array(
+							'=this.ID' => 'ref.PARENT_ID',
+						)
+					),
+				),
 				'select' => array(
-					'*', // @TODO
+					'ID', 'MAILBOX_ID',
+					'FIELD_DATE', 'SUBJECT',
+					'FIELD_FROM', 'FIELD_REPLY_TO',
+					'FIELD_TO', 'FIELD_CC', 'FIELD_BCC',
+					'ATTACHMENTS',
+					'OPTIONS', 'READ_CONFIRMED'
 				),
 				'filter' => array(
 					'=MAILBOX_ID' => $message['MAILBOX_ID'],
-					'<LEFT_MARGIN' => $message['LEFT_MARGIN'],
-					'>RIGHT_MARGIN' => $message['RIGHT_MARGIN'],
+					'=CLOSURE.MESSAGE_ID' => $message['ID'],
 				),
 				'order' => array(
-					'LEFT_MARGIN' => 'DESC',
+					'FIELD_DATE' => 'DESC',
 				),
+				'offset' => 1,
 				'limit' => $pageSize,
 			));
 
@@ -255,7 +280,7 @@ class CMailClientMessageViewComponent extends CBitrixComponent implements \Bitri
 
 		$message = Mail\MailMessageTable::getList(array(
 			'select' => array(
-				'*',
+				'ID', 'MAILBOX_ID',
 				'MAILBOX_EMAIL' => 'MAILBOX.EMAIL',
 				'MAILBOX_NAME' => 'MAILBOX.NAME',
 				'MAILBOX_LOGIN' => 'MAILBOX.LOGIN',
@@ -279,13 +304,34 @@ class CMailClientMessageViewComponent extends CBitrixComponent implements \Bitri
 
 		if ('A' == $type)
 		{
-			$filter = array(
-				'>LEFT_MARGIN' => $message['LEFT_MARGIN'],
-				'<RIGHT_MARGIN' => $message['RIGHT_MARGIN'],
-			);
-			$order = array(
-				'LEFT_MARGIN' => 'ASC',
-			);
+			$res = Mail\MailMessageTable::getList(array(
+				'runtime' => array(
+					new Main\Entity\ReferenceField(
+						'CLOSURE',
+						Mail\Internals\MessageClosureTable::class,
+						array(
+							'=this.ID' => 'ref.MESSAGE_ID',
+						)
+					),
+				),
+				'select' => array(
+					'ID', 'MAILBOX_ID',
+					'FIELD_DATE', 'SUBJECT',
+					'FIELD_FROM', 'FIELD_REPLY_TO',
+					'FIELD_TO', 'FIELD_CC', 'FIELD_BCC',
+					'ATTACHMENTS',
+					'OPTIONS', 'READ_CONFIRMED'
+				),
+				'filter' => array(
+					'=MAILBOX_ID' => $message['MAILBOX_ID'],
+					'=CLOSURE.PARENT_ID' => $message['ID'],
+				),
+				'order' => array(
+					'FIELD_DATE' => 'ASC',
+				),
+				'offset' => $offset + 1,
+				'limit' => $size > 0 ? $size : 5,
+			));
 		}
 		else
 		{
@@ -295,27 +341,35 @@ class CMailClientMessageViewComponent extends CBitrixComponent implements \Bitri
 				return;
 			}
 
-			$filter = array(
-				'<LEFT_MARGIN' => $message['LEFT_MARGIN'],
-				'>RIGHT_MARGIN' => $message['RIGHT_MARGIN'],
-			);
-			$order = array(
-				'LEFT_MARGIN' => 'DESC',
-			);
+			$res = \Bitrix\Mail\MailMessageTable::getList(array(
+				'runtime' => array(
+					new Main\Entity\ReferenceField(
+						'CLOSURE',
+						Mail\Internals\MessageClosureTable::class,
+						array(
+							'=this.ID' => 'ref.PARENT_ID',
+						)
+					),
+				),
+				'select' => array(
+					'ID', 'MAILBOX_ID',
+					'FIELD_DATE', 'SUBJECT',
+					'FIELD_FROM', 'FIELD_REPLY_TO',
+					'FIELD_TO', 'FIELD_CC', 'FIELD_BCC',
+					'ATTACHMENTS',
+					'OPTIONS', 'READ_CONFIRMED'
+				),
+				'filter' => array(
+					'=MAILBOX_ID' => $message['MAILBOX_ID'],
+					'=CLOSURE.MESSAGE_ID' => $message['ID'],
+				),
+				'order' => array(
+					'FIELD_DATE' => 'DESC',
+				),
+				'offset' => $offset + 1,
+				'limit' => $size > 0 ? $size : 5,
+			));
 		}
-
-		$res = \Bitrix\Mail\MailMessageTable::getList(array(
-			'select' => array(
-				'*', // @TODO
-			),
-			'filter' => array(
-				'=MAILBOX_ID' => $message['MAILBOX_ID'],
-				$filter
-			),
-			'order' => $order,
-			'offset' => $offset,
-			'limit' => $size > 0 ? $size : 5,
-		));
 
 		$log = array();
 		while ($item = $res->fetch())

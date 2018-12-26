@@ -1,4 +1,5 @@
 <?
+$MESS["SPOL_DISALLOW_CANCEL"] = "Заборонити скасування замовлення";
 $MESS["SPOL_DESC_YES"] = "Так";
 $MESS["SPOL_DESC_NO"] = "Ні";
 $MESS["SPOL_PATH_TO_DETAIL"] = "Сторінка c докладною інформацією про замовлення";

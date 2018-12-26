@@ -412,6 +412,13 @@
 	margin: 0 4px 4px 0;
 }
 
+.mail-connect-access-user-block .feed-add-post-destination.feed-add-post-destination-undelete {
+	padding-left: 13px;
+	padding-right: 13px;
+	background-color: #e2e3e5;
+	color: #535c69 !important;
+}
+
 .mail-connect-access-user-block .feed-add-destination-inp {
 	margin: 0 4px 4px 0;
 	padding-left: 5px;

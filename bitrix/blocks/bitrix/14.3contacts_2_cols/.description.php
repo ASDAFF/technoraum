@@ -28,25 +28,25 @@ return array(
 		'.landing-block-node-linkcontact-icon' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_7_CONTACTS_4_COLS_NODES_LANDINGBLOCKNODECONTACTIMG'),
 			'type' => 'icon',
-			'group' => 'icon',
+			'group' => 'contact',
 		),
 		'.landing-block-node-linkcontact-link' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_7_CONTACTS_4_COLS_STYLE_LANDINGBLOCKNODECONTACTLINK'),
 			'type' => 'link',
-			'group' => 'icon',
+			'group' => 'contact',
 			'skipContent' => true,
 		),
 		'.landing-block-node-linkcontact-title' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_7_CONTACTS_4_COLS_NODES_LANDINGBLOCKNODECONTACTTITLE'),
 			'type' => 'text',
-			'group' => 'icon',
+			'group' => 'contact',
 			'allowInlineEdit' => false,
 			'textOnly' => true,
 		),
 		'.landing-block-node-linkcontact-text' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_7_CONTACTS_4_COLS_NODES_LANDINGBLOCKNODECONTACTTEXT'),
 			'type' => 'text',
-			'group' => 'icon',
+			'group' => 'contact',
 			'allowInlineEdit' => false,
 			'textOnly' => true,
 		),
@@ -101,6 +101,6 @@ return array(
 		),
 	),
 	'groups' => array(
-		'icon' => Loc::getMessage('LANDING_BLOCK_7_CONTACTS_4_COLS_NODES_LANDINGBLOCKNODE_CARD'),
+		'contact' => Loc::getMessage('LANDING_BLOCK_7_CONTACTS_4_COLS_NODES_LANDINGBLOCKNODE_CARD'),
 	),
 );

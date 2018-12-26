@@ -10,6 +10,7 @@
 use Bitrix\Main\Loader;
 use Bitrix\Main\ModuleManager;
 use Bitrix\Main\Web\Json;
+use Bitrix\Iblock;
 
 if (!Loader::includeModule('iblock') || !Loader::includeModule('sale'))
 	return;
@@ -17,11 +18,15 @@ if (!Loader::includeModule('iblock') || !Loader::includeModule('sale'))
 $boolCatalog = Loader::includeModule('catalog');
 CBitrixComponent::includeComponentClass($componentName);
 
+$usePropertyFeatures = Iblock\Model\PropertyFeature::isEnabledFeatures();
+
+$iblockExists = (!empty($arCurrentValues['IBLOCK_ID']) && (int)$arCurrentValues['IBLOCK_ID'] > 0);
+
 $defaultValue = array('-' => GetMessage('CP_SPGB_TPL_PROP_EMPTY'));
 $arSKU = false;
 $boolSKU = false;
 $filterDataValues = array();
-if ($boolCatalog && (isset($arCurrentValues['IBLOCK_ID']) && 0 < intval($arCurrentValues['IBLOCK_ID'])))
+if ($boolCatalog && $iblockExists)
 {
 	$arSKU = CCatalogSku::GetInfoByProductIBlock($arCurrentValues['IBLOCK_ID']);
 	$boolSKU = !empty($arSKU) && is_array($arSKU);
@@ -69,7 +74,7 @@ $arAllPropList = array();
 $arFilePropList = $defaultValue;
 $arListPropList = array();
 
-if (isset($arCurrentValues['IBLOCK_ID']) && intval($arCurrentValues['IBLOCK_ID']) > 0)
+if ($iblockExists)
 {
 	$rsProps = CIBlockProperty::GetList(
 		array('SORT' => 'ASC', 'ID' => 'ASC'),
@@ -97,11 +102,31 @@ if (isset($arCurrentValues['IBLOCK_ID']) && intval($arCurrentValues['IBLOCK_ID']
 		}
 	}
 
-	if (!empty($arCurrentValues['PROPERTY_CODE']))
+	$showedProperties = [];
+	if ($usePropertyFeatures)
+	{
+		if ($iblockExists)
+		{
+			$showedProperties = Iblock\Model\PropertyFeature::getListPageShowPropertyCodes(
+				$arCurrentValues['IBLOCK_ID'],
+				['CODE' => 'Y']
+			);
+			if ($showedProperties === null)
+				$showedProperties = [];
+		}
+	}
+	else
+	{
+		if (!empty($arCurrentValues['PROPERTY_CODE']) && is_array($arCurrentValues['PROPERTY_CODE']))
+		{
+			$showedProperties = $arCurrentValues['PROPERTY_CODE'];
+		}
+	}
+	if (!empty($showedProperties))
 	{
 		$selected = array();
 
-		foreach ($arCurrentValues['PROPERTY_CODE'] as $code)
+		foreach ($showedProperties as $code)
 		{
 			if (isset($arAllPropList[$code]))
 			{
@@ -117,6 +142,7 @@ if (isset($arCurrentValues['IBLOCK_ID']) && intval($arCurrentValues['IBLOCK_ID']
 			'VALUES' => $selected
 		);
 	}
+	unset($showedProperties);
 
 	$pageElementCount = (int)$arCurrentValues['PAGE_ELEMENT_COUNT'] ?: 4;
 
@@ -126,7 +152,7 @@ if (isset($arCurrentValues['IBLOCK_ID']) && intval($arCurrentValues['IBLOCK_ID']
 		'TYPE' => 'CUSTOM',
 		'BIG_DATA' => 'N',
 		'COUNT_PARAM_NAME' => 'PAGE_ELEMENT_COUNT',
-		'JS_FILE' => SaleProductsGiftComponent::getSettingsScript($componentPath, 'dragdrop_add'),
+		'JS_FILE' => SaleProductsGiftBasketComponent::getSettingsScript($componentPath, 'dragdrop_add'),
 		'JS_EVENT' => 'initDraggableAddControl',
 		'JS_MESSAGES' => Json::encode(array(
 			'variant' => GetMessage('CP_SPGB_TPL_SETTINGS_VARIANT'),
@@ -134,8 +160,8 @@ if (isset($arCurrentValues['IBLOCK_ID']) && intval($arCurrentValues['IBLOCK_ID']
 			'quantity' => GetMessage('CP_SPGB_TPL_SETTINGS_QUANTITY'),
 			'quantityBigData' => GetMessage('CP_SPGB_TPL_SETTINGS_QUANTITY_BIG_DATA')
 		)),
-		'JS_DATA' => Json::encode(SaleProductsGiftComponent::getTemplateVariantsMap()),
-		'DEFAULT' => Json::encode(SaleProductsGiftComponent::predictRowVariants($pageElementCount, $pageElementCount))
+		'JS_DATA' => Json::encode(SaleProductsGiftBasketComponent::getTemplateVariantsMap()),
+		'DEFAULT' => Json::encode(SaleProductsGiftBasketComponent::predictRowVariants($pageElementCount, $pageElementCount))
 	);
 
 	$arTemplateParameters['ENLARGE_PRODUCT'] = array(
@@ -170,7 +196,7 @@ if (isset($arCurrentValues['IBLOCK_ID']) && intval($arCurrentValues['IBLOCK_ID']
 		'PARENT' => 'VISUAL',
 		'NAME' => GetMessage('CP_SPGB_TPL_PRODUCT_BLOCKS_ORDER'),
 		'TYPE' => 'CUSTOM',
-		'JS_FILE' => SaleProductsGiftComponent::getSettingsScript($componentPath, 'dragdrop_order'),
+		'JS_FILE' => SaleProductsGiftBasketComponent::getSettingsScript($componentPath, 'dragdrop_order'),
 		'JS_EVENT' => 'initDraggableOrderControl',
 		'JS_DATA' => Json::encode(array(
 			'price' => GetMessage('CP_SPGB_TPL_PRODUCT_BLOCK_PRICE'),
@@ -281,7 +307,7 @@ if (isset($arCurrentValues['IBLOCK_ID']) && intval($arCurrentValues['IBLOCK_ID']
 			'PARENT' => 'VISUAL',
 			'NAME' => GetMessage('CP_SPGB_TPL_LABEL_PROP_POSITION'),
 			'TYPE' => 'CUSTOM',
-			'JS_FILE' => SaleProductsGiftComponent::getSettingsScript($componentPath, 'position'),
+			'JS_FILE' => SaleProductsGiftBasketComponent::getSettingsScript($componentPath, 'position'),
 			'JS_EVENT' => 'initPositionControl',
 			'JS_DATA' => Json::encode(
 				array(
@@ -335,16 +361,19 @@ if (isset($arCurrentValues['IBLOCK_ID']) && intval($arCurrentValues['IBLOCK_ID']
 			'DEFAULT' => '-',
 			'VALUES' => $arFileOfferPropList
 		);
-		$arTemplateParameters['OFFER_TREE_PROPS'] = array(
-			'PARENT' => 'VISUAL',
-			'NAME' => GetMessage('CP_SPGB_TPL_OFFER_TREE_PROPS'),
-			'TYPE' => 'LIST',
-			'MULTIPLE' => 'Y',
-			'ADDITIONAL_VALUES' => 'N',
-			'REFRESH' => 'N',
-			'DEFAULT' => '-',
-			'VALUES' => $arTreeOfferPropList
-		);
+		if (!$usePropertyFeatures)
+		{
+			$arTemplateParameters['OFFER_TREE_PROPS'] = array(
+				'PARENT' => 'VISUAL',
+				'NAME' => GetMessage('CP_SPGB_TPL_OFFER_TREE_PROPS'),
+				'TYPE' => 'LIST',
+				'MULTIPLE' => 'Y',
+				'ADDITIONAL_VALUES' => 'N',
+				'REFRESH' => 'N',
+				'DEFAULT' => '-',
+				'VALUES' => $arTreeOfferPropList
+			);
+		}
 	}
 }
 
@@ -370,7 +399,7 @@ if ($boolCatalog)
 			'PARENT' => 'VISUAL',
 			'NAME' => GetMessage('CP_SPGB_TPL_DISCOUNT_PERCENT_POSITION'),
 			'TYPE' => 'CUSTOM',
-			'JS_FILE' => SaleProductsGiftComponent::getSettingsScript($componentPath, 'position'),
+			'JS_FILE' => SaleProductsGiftBasketComponent::getSettingsScript($componentPath, 'position'),
 			'JS_EVENT' => 'initPositionControl',
 			'JS_DATA' => Json::encode(
 				array(

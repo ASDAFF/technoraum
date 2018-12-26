@@ -354,28 +354,34 @@ foreach ($catalogs as $catalog)
 		);
 	}
 
-	$arComponentParameters["PARAMETERS"]['PROPERTY_CODE_' . $iblock['ID']] = array(
-		"PARENT" => $groupId,
-		"NAME" => GetMessage("CATALOG_RECOMMENDED_PRODUCTS_COMPONENT_PROPERTY_DISPLAY"),
-		"TYPE" => "LIST",
-		"MULTIPLE" => "Y",
-		"VALUES" => $allProperties,
-		"ADDITIONAL_VALUES" => "Y",
-		"DEFAULT" => "",
-		"HIDDEN" => (!$catalog['VISIBLE'] ? 'Y' : 'N')
-	);
+	if (!$usePropertyFeatures)
+	{
+		$arComponentParameters["PARAMETERS"]['PROPERTY_CODE_'.$iblock['ID']] = array(
+			"PARENT" => $groupId,
+			"NAME" => GetMessage("CATALOG_RECOMMENDED_PRODUCTS_COMPONENT_PROPERTY_DISPLAY"),
+			"TYPE" => "LIST",
+			"MULTIPLE" => "Y",
+			"VALUES" => $allProperties,
+			"ADDITIONAL_VALUES" => "Y",
+			"DEFAULT" => "",
+			"HIDDEN" => (!$catalog['VISIBLE'] ? 'Y' : 'N')
+		);
+	}
 
 	// 3. Cart properties
-	$arComponentParameters["PARAMETERS"]['CART_PROPERTIES_' . $iblock['ID']] = array(
-		"PARENT" => $groupId,
-		"NAME" => GetMessage("CATALOG_RECOMMENDED_PRODUCTS_COMPONENT_PROPERTY_ADD_TO_BASKET"),
-		"TYPE" => "LIST",
-		"MULTIPLE" => "Y",
-		"VALUES" => $treeProperties,
-		"ADDITIONAL_VALUES" => "Y",
-		"HIDDEN" => ((isset($arCurrentValues['ADD_PROPERTIES_TO_BASKET']) && $arCurrentValues['ADD_PROPERTIES_TO_BASKET'] == 'N') ||
+	if (!$usePropertyFeatures)
+	{
+		$arComponentParameters["PARAMETERS"]['CART_PROPERTIES_'.$iblock['ID']] = array(
+			"PARENT" => $groupId,
+			"NAME" => GetMessage("CATALOG_RECOMMENDED_PRODUCTS_COMPONENT_PROPERTY_ADD_TO_BASKET"),
+			"TYPE" => "LIST",
+			"MULTIPLE" => "Y",
+			"VALUES" => $treeProperties,
+			"ADDITIONAL_VALUES" => "Y",
+			"HIDDEN" => ((isset($arCurrentValues['ADD_PROPERTIES_TO_BASKET']) && $arCurrentValues['ADD_PROPERTIES_TO_BASKET'] == 'N') ||
 			!$catalog['VISIBLE'] ? 'Y' : 'N')
-	);
+		);
+	}
 
 	// 2. Additional Image
 	$arComponentParameters["PARAMETERS"]['ADDITIONAL_PICT_PROP_' . $iblock['ID']] = array(

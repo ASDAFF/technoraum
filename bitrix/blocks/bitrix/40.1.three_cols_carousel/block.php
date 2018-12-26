@@ -4,6 +4,9 @@
 			 data-infinite="true"
 			 data-autoplay="true"
 			 data-slides-show="3"
+			 data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-45 g-font-size-40 g-color-white g-bg-primary"
+			 data-arrow-left-classes="fa fa-angle-left g-left-minus-25"
+			 data-arrow-right-classes="fa fa-angle-right g-right-minus-25"
 			 data-responsive='[{
                  "breakpoint": 1200,
                  "settings": {

@@ -9,6 +9,7 @@ $MESS['MAIN_MAIL_CONFIRM_GET_CODE'] = 'Получить код';
 $MESS['MAIN_MAIL_CONFIRM_SAVE'] = 'Сохранить';
 $MESS['MAIN_MAIL_CONFIRM_CANCEL'] = 'Отменить';
 $MESS['MAIN_MAIL_CONFIRM_BACK'] = 'Назад';
+$MESS['MAIN_MAIL_CONFIRM_DELETE'] = 'Удалить';
 
 $MESS['MAIN_MAIL_CONFIRM_EMAIL_HINT'] = 'Введите имя и email в поля ниже. Вам будет отправлено письмо с кодом подтверждения.';
 $MESS['MAIN_MAIL_CONFIRM_EMAIL_HINT_SMTP'] = 'Введите имя и email в поля ниже. Подтвердите кодом из письма, отправленного на этот адрес, либо введите данные <a href="#" class="new-from-email-dialog-smtp-link">SMTP-сервера</a>.';

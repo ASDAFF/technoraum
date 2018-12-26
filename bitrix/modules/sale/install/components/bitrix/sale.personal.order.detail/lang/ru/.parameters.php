@@ -27,4 +27,5 @@ $MESS ["SPOD_ONLY_INNER_FULL"] = "–азрешить оплату с внутреннего счета только в 
 $MESS ["SPOD_RESTRICT_CHANGE_PAYSYSTEM"] = "«апретить смену платежной системы у заказов в статусах";
 $MESS ["SPOD_REFRESH_PRICE_AFTER_PAYSYSTEM_CHANGE"] = "ѕересчитывать заказ после смены платежной системы";
 $MESS ["SPOD_NOT_CHOSEN"] = "(не выбрано)";
+$MESS ["SPOD_DISALLOW_CANCEL"] = "«апретить отмену заказа";
 ?>

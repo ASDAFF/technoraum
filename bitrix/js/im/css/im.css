@@ -946,6 +946,7 @@
 
 .bx-messenger-panel-avatar-chat { overflow: hidden; }
 .bx-messenger-panel-avatar-open { overflow: hidden; }
+.bx-messenger-panel-avatar-type-crm {overflow: initial; }
 .bx-messenger-panel-avatar-img-default { background: #77828e url("./../images/im-sprite-v37.png") repeat scroll -40px -1903px;}
 .bx-messenger-panel-avatar-chat .bx-messenger-panel-avatar-img-default { background-position: -1px -1903px; }
 .bx-messenger-panel-avatar-open .bx-messenger-panel-avatar-img-default { background-position: -90px -1984px; }
@@ -1123,6 +1124,8 @@
 .bx-messenger-chat-lines .bx-messenger-panel-close { display: block; }
 .bx-messenger-chat-lines .bx-messenger-panel-mute,
 .bx-messenger-chat-lines .bx-messenger-panel-history,
+.bx-messenger-chat-crm .bx-messenger-panel-history { display: none; }
+.bx-messenger-chat-crm .bx-messenger-panel-menu { display: block; }
 .bx-messenger-chat-load-last-message .bx-messenger-panel-menu,
 .bx-messenger-chat-load-last-message .bx-messenger-panel-spam,
 .bx-messenger-chat-load-last-message .bx-messenger-panel-close,
@@ -1241,6 +1244,8 @@
 
 .bx-messenger-cl-avatar-status-hide .bx-messenger-cl-status,
 .bx-messenger-panel-avatar-status-hide { display: none; }
+.bx-messenger-cl-avatar-type-crm .bx-messenger-cl-status,
+.bx-messenger-panel-avatar-type-crm .bx-messenger-panel-avatar-status { display: none}
 .bx-messenger-panel-avatar-chat .bx-messenger-panel-avatar-status,
 .bx-messenger-cl-avatar-chat .bx-messenger-cl-status { background-position: -26px -232px;  }
 .bx-messenger-panel-avatar-telegrambot .bx-messenger-panel-avatar-status,

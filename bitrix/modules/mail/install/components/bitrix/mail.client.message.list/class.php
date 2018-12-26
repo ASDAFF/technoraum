@@ -63,8 +63,15 @@ class CMailClientMessageListComponent extends CBitrixComponent
 
 		if (empty($mailbox))
 		{
-			showError(Loc::getMessage('MAIL_CLIENT_ELEMENT_NOT_FOUND'));
-			return;
+			if (isset($_REQUEST['strict']) && 'N' == $_REQUEST['strict'])
+			{
+				localRedirect($this->arParams['PATH_TO_MAIL_HOME'], true);
+			}
+			else
+			{
+				showError(Loc::getMessage('MAIL_CLIENT_ELEMENT_NOT_FOUND'));
+				return;
+			}
 		}
 
 		if (empty($mailbox['OPTIONS']['imap']['dirs']) || !is_array($mailbox['OPTIONS']['imap']['dirs']))

@@ -20,7 +20,6 @@ $MESS["SDSN_XML_ID"] = "Внешний код";
 $MESS["SDSN_USE_COUPONS"] = "Купоны";
 $MESS["SDSN_PRESET_ID"] = "Пресет";
 $MESS["BT_SALE_DISCOUNT_LIST_MESS_TITLE"] = "Правила работы с корзиной";
-$MESS["BT_SALE_DISCOUNT_LIST_MESS_NAV"] = "Правила";
 $MESS["BT_SALE_DISCOUNT_LIST_ERR_DELETE_DISCOUNT"] = "Ошибка удаления правила";
 $MESS["BT_SALE_DISCOUNT_LIST_MESS_EDIT_DISCOUNT"] = "Изменить параметры правила";
 $MESS["BT_SALE_DISCOUNT_LIST_MESS_EDIT_DISCOUNT_SHORT"] = "Изменить";

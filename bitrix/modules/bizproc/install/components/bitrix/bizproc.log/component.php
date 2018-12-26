@@ -55,7 +55,14 @@ if (array_key_exists("COMPONENT_VERSION", $arParams) && $arParams["COMPONENT_VER
 		$runtime->StartRuntime();
 		$documentService = $runtime->GetService("DocumentService");
 
-		$documentType = $documentService->GetDocumentType($documentId);
+		try
+		{
+			$documentType = $documentService->GetDocumentType($documentId);
+		}
+		catch (Exception $e)
+		{
+			$documentType = $documentId;
+		}
 
 		$arResult["GRID_ID"] = "bizproc_loggrid_".$arWorkflowState["WORKFLOW_TEMPLATE_ID"];
 

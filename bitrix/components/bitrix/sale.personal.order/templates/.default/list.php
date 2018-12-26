@@ -21,6 +21,7 @@ $arChildParams = array(
 	"CACHE_TIME" => $arParams["CACHE_TIME"],
 	"CACHE_GROUPS" => $arParams["CACHE_GROUPS"],
 	"DEFAULT_SORT" => $arParams["ORDER_DEFAULT_SORT"],
+	"DISALLOW_CANCEL" => $arParams["DISALLOW_CANCEL"],
 	"RESTRICT_CHANGE_PAYSYSTEM" => $arParams["RESTRICT_CHANGE_PAYSYSTEM"],
 	"REFRESH_PRICES" => $arParams["REFRESH_PRICES"]
 );

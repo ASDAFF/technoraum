@@ -577,10 +577,10 @@ foreach($arResult['changeableFilters'] as $chFilter)
 
 <?php
 // determine column data type
-function getResultColumnDataType(&$viewColumnInfo, &$customColumnTypes = array(), $helperClassName)
+function getResultColumnDataType(&$viewColumnInfo, &$customColumnTypes, $helperClassName)
 {
 	$dataType = null;
-	if (array_key_exists($viewColumnInfo['fieldName'], $customColumnTypes))
+	if (is_array($customColumnTypes) && array_key_exists($viewColumnInfo['fieldName'], $customColumnTypes))
 	{
 		$dataType = $customColumnTypes[$viewColumnInfo['fieldName']];
 	}
@@ -1440,25 +1440,54 @@ unset($arGroupingResult['html']);
 	function prepareChartData(&$arResult, &$arGroupingResult = null)
 	{
 		$nMaxValues = 500;
+		$result = array('requestData' => array(), 'columnsNames' => array(), 'err' => 0);
 
 		// check
 		$chartSettings = $arResult['settings']['chart'];
 		if (!isset($chartSettings['x_column']))
-			return null;
+		{
+			$result['err'] = 49;
+		}
 		$xColumnIndex = $chartSettings['x_column'];
+		if (!is_array($arResult['viewColumns'][$xColumnIndex]))
+		{
+			$result['err'] = 49;
+			return $result;
+		}
 		if (!is_array($chartSettings['y_columns']))
-			return null;
+		{
+			$result['err'] = 49;
+			return $result;
+		}
 		$yColumnsCount = count($chartSettings['y_columns']);
-		if ($yColumnsCount === 0) return null;
+		if ($yColumnsCount === 0)
+		{
+			$result['err'] = 49;
+			return $result;
+		}
+		foreach ($chartSettings['y_columns'] as $yColumnIndex)
+		{
+			if (!is_array($arResult['viewColumns'][$yColumnIndex]))
+			{
+				$result['err'] = 49;
+				break;
+			}
+		}
+		if ($result['err'] !== 0)
+		{
+			return $result;
+		}
+
 		$chartTypeIds = array();
-		foreach ($arResult['chartTypes'] as $chartTypeInfo)
-			$chartTypeIds[] = $chartTypeInfo['id'];
+		foreach ($arResult['chartTypes'] as $chartTypeInfo) $chartTypeIds[] = $chartTypeInfo['id'];
 		if (!is_set($chartSettings['type'])
 			|| empty($chartSettings['type'])
 			|| !in_array($chartSettings['type'], $chartTypeIds))
 		{
-			return null;
+			$result['err'] = 49;
+			return $result;
 		}
+
 		$chartType = $chartSettings['type'];
 		if ($chartType === 'pie')
 			$yColumnsCount = 1;    // pie chart has only one array of a values
@@ -1512,7 +1541,10 @@ unset($arGroupingResult['html']);
 			}
 		}
 
-		return array('requestData' => $requestData, 'columnsNames' => $columnsHumanTitles);
+		$result['requestData'] = $requestData;
+		$result['columnsNames'] = $columnsHumanTitles;
+
+		return $result;
 	}
 
 	/*
@@ -1586,6 +1618,10 @@ unset($arGroupingResult['html']);
 	);
 	*/
 	$chartData = prepareChartData($arResult, $arGroupingResult['chart']);
+	if (is_array($chartData) && isset($chartData['err']) && $chartData['err'] !== 0)
+	{
+		$chartData = null;
+	}
 	unset($arGroupingResult);
 ?>
 <div style="font-size: 14px; margin: 40px 2px 2px 2px;"><?php echo GetMessage('REPORT_CHART').':'; ?></div>

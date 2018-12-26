@@ -133,9 +133,33 @@ abstract class Mailbox
 		$success = $count !== false && empty($this->errors);
 
 		$syncUnlock = $this->isTimeQuotaExceeded() ? 0 : -1;
+
+		$interval = max(1, (int) $this->mailbox['PERIOD_CHECK']) * 60;
+		$syncErrors = max(0, (int) $this->mailbox['OPTIONS']['sync_errors']);
+
+		if ($count === false)
+		{
+			$syncErrors++;
+
+			$maxInterval = 3600 * 24 * 7;
+			for ($i = 1; $i < $syncErrors && $interval < $maxInterval; $i++)
+			{
+				$interval = min($interval * ($i + 1), $maxInterval);
+			}
+		}
+		else
+		{
+			$syncErrors = 0;
+
+			$interval = $syncUnlock < 0 ? $interval : min($count > 0 ? 60 : 600, $interval);
+		}
+
+		$this->mailbox['OPTIONS']['sync_errors'] = $syncErrors;
+		$this->mailbox['OPTIONS']['next_sync'] = time() + $interval;
+
 		$unlockSql = sprintf(
-			'UPDATE b_mail_mailbox SET SYNC_LOCK = %d WHERE ID = %u AND SYNC_LOCK = %u',
-			$syncUnlock, $this->mailbox['ID'], $this->mailbox['SYNC_LOCK']
+			"UPDATE b_mail_mailbox SET SYNC_LOCK = %d, OPTIONS = '%s' WHERE ID = %u AND SYNC_LOCK = %u",
+			$syncUnlock, $DB->forSql(serialize($this->mailbox['OPTIONS'])), $this->mailbox['ID'], $this->mailbox['SYNC_LOCK']
 		);
 		if ($DB->query($unlockSql)->affectedRowsCount())
 		{
@@ -332,7 +356,7 @@ abstract class Mailbox
 				'Bitrix\Mail\Helper::syncOutgoingAgent(%u);',
 				$this->mailbox['ID']
 			),
-			'mail'
+			'mail', 'N', 60
 		);
 	}
 
@@ -389,6 +413,7 @@ abstract class Mailbox
 				'select' => array(
 					'*',
 					'__' => 'MESSAGE.*',
+					'UPLOAD_STAGE' => 'UPLOAD_QUEUE.SYNC_STAGE',
 				),
 				'filter' => array(
 					'>=UPLOAD_QUEUE.SYNC_STAGE' => 0,
@@ -414,9 +439,10 @@ abstract class Mailbox
 		global $DB;
 
 		$lockSql = sprintf(
-			"UPDATE b_mail_message_upload_queue SET SYNC_LOCK = %u, SYNC_STAGE = 1
+			"UPDATE b_mail_message_upload_queue SET SYNC_LOCK = %u, SYNC_STAGE = %u
 				WHERE ID = '%s' AND MAILBOX_ID = %u AND SYNC_LOCK < %u",
 			$syncLock = time(),
+			max(1, $excerpt['UPLOAD_STAGE']),
 			$DB->forSql($excerpt['ID']),
 			$excerpt['MAILBOX_ID'],
 			$syncLock - static::SYNC_TIMEOUT
@@ -531,21 +557,31 @@ abstract class Mailbox
 		$context->setCategory(Main\Mail\Context::CAT_EXTERNAL);
 		$context->setPriority(Main\Mail\Context::PRIORITY_NORMAL);
 
-		Main\Mail\Mail::send(array_merge(
-			$outgoingParams,
-			array(
-				'TRACK_READ' => array(
-					'MODULE_ID' => 'mail',
-					'FIELDS'    => array('msgid' => $excerpt['__MSG_ID']),
-					'URL_PAGE' => '/pub/mail/read.php',
-				),
-				//'TRACK_CLICK' => array(
-				//	'MODULE_ID' => 'mail',
-				//	'FIELDS'    => array('msgid' => $excerpt['__MSG_ID']),
-				//),
-				'CONTEXT' => $context,
-			)
-		));
+		if ($excerpt['UPLOAD_STAGE'] < 2)
+		{
+			$success = Main\Mail\Mail::send(array_merge(
+				$outgoingParams,
+				array(
+					'TRACK_READ' => array(
+						'MODULE_ID' => 'mail',
+						'FIELDS'    => array('msgid' => $excerpt['__MSG_ID']),
+						'URL_PAGE' => '/pub/mail/read.php',
+					),
+					//'TRACK_CLICK' => array(
+					//	'MODULE_ID' => 'mail',
+					//	'FIELDS'    => array('msgid' => $excerpt['__MSG_ID']),
+					//),
+					'CONTEXT' => $context,
+				)
+			));
+
+			if (!$success)
+			{
+				// @TODO: to limit attempts
+
+				return false;
+			}
+		}
 
 		$needUpload = empty($this->mailbox['OPTIONS']['deny_upload_outcome']);
 
@@ -557,6 +593,16 @@ abstract class Mailbox
 
 		if ($needUpload)
 		{
+			Mail\Internals\MessageUploadQueueTable::update(
+				array(
+					'ID' => $excerpt['ID'],
+					'MAILBOX_ID' => $excerpt['MAILBOX_ID'],
+				),
+				array(
+					'SYNC_STAGE' => 2,
+				)
+			);
+
 			class_exists('Bitrix\Mail\Helper');
 
 			$message = new Mail\DummyMail(array_merge(
@@ -597,6 +643,9 @@ abstract class Mailbox
 		return;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function resortTree($message = null)
 	{
 		global $DB;
@@ -687,7 +736,10 @@ abstract class Mailbox
 			}
 
 			$item = $DB->query(sprintf(
-				'SELECT MAX(RIGHT_MARGIN) AS I FROM b_mail_message WHERE MAILBOX_ID = %u',
+				'SELECT GREATEST(M1, M2) AS I FROM (SELECT
+					(SELECT RIGHT_MARGIN FROM b_mail_message WHERE MAILBOX_ID = %1$u AND RIGHT_MARGIN > 0 ORDER BY LEFT_MARGIN ASC LIMIT 1) M1,
+					(SELECT RIGHT_MARGIN FROM b_mail_message WHERE MAILBOX_ID = %1$u AND RIGHT_MARGIN > 0 ORDER BY LEFT_MARGIN DESC LIMIT 1) M2
+				) M',
 				$this->mailbox['ID']
 			))->fetch();
 
@@ -707,7 +759,7 @@ abstract class Mailbox
 			$res = $DB->query(sprintf(
 				"SELECT ID, MSG_ID FROM b_mail_message M WHERE MAILBOX_ID = %u AND (
 					IN_REPLY_TO IS NULL OR IN_REPLY_TO = '' OR NOT EXISTS (
-						SELECT 1 FROM b_mail_message WHERE MSG_ID = M.IN_REPLY_TO
+						SELECT 1 FROM b_mail_message WHERE MAILBOX_ID = M.MAILBOX_ID AND MSG_ID = M.IN_REPLY_TO
 					)
 				)",
 				$this->mailbox['ID']
@@ -721,8 +773,8 @@ abstract class Mailbox
 			// crosslinked messages
 			$query = sprintf(
 				'SELECT ID, MSG_ID FROM b_mail_message
-					WHERE MAILBOX_ID = %u AND LEFT_MARGIN = 0 AND RIGHT_MARGIN = 0
-					ORDER BY FIELD_DATE ASC',
+					WHERE MAILBOX_ID = %u AND LEFT_MARGIN = 0
+					ORDER BY FIELD_DATE ASC LIMIT 1',
 				$this->mailbox['ID']
 			);
 			while ($item = $DB->query($query)->fetch())
@@ -732,6 +784,9 @@ abstract class Mailbox
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function incrementTree($message)
 	{
 		if (empty($message['ID']))

@@ -207,7 +207,7 @@ return [
 			],
 			'.landing-block-card-social-icon' => [
 				'type' => 'icon',
-				'classList' => ['fa', 'fa-vkitter'],
+				'classList' => ['fa', 'fa-vk'],
 			],
 		],
 	],

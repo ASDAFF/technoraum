@@ -31,10 +31,17 @@
 
 				var linkOptions = BX.Landing.Utils.data(this, "data-pseudo-url");
 
-				if (linkOptions.href)
+				if (linkOptions.href && linkOptions.enabled)
 				{
+					var src = linkOptions.href;
+
+					if (BX.type.isPlainObject(linkOptions.attrs) &&
+						linkOptions.attrs['data-url'])
+					{
+						src = linkOptions.attrs['data-url'];
+					}
 					$.fancybox.open({
-							src: linkOptions.href,
+							src: src,
 							type: "iframe",
 							afterShow: afterFancyboxIframeShow
 						},

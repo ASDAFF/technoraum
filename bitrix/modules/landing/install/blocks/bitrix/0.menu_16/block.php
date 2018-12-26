@@ -1,68 +1,101 @@
 <header class="landing-block landing-block-menu u-header u-header--floating u-header--floating-relative">
-	<div class="landing-block-node-top-block text-center text-lg-left u-header__section u-header__section--hidden u-header__section--light g-bg-white g-brd-bottom g-brd-gray-light-v4 g-py-20">
+	<div class="landing-block-node-top-block u-header__section u-header__section--hidden u-header__section--light g-bg-white g-brd-bottom g-brd-gray-light-v4 g-py-10 g-py-20--sm">
 		<div class="container">
-			<div class="row flex-lg-row align-items-center justify-content-lg-start">
-				<div class="col-6 col-sm-3 col-lg-2">
+			<div class="row no-gutters flex-lg-row align-items-center justify-content-lg-start">
+				<div class="col-12 col-sm-3 col-lg-2 text-center text-md-left">
 					<!-- Logo -->
-					<a href="#" class="navbar-brand landing-block-node-menu-logo-link">
-						<img class="landing-block-node-menu-logo img-fluid g-max-width-180"
+					<a href="#" class="navbar-brand landing-block-node-menu-logo-link g-mb-10 g-mb-0--sm g-mr-0">
+						<img class="landing-block-node-menu-logo img-fluid g-max-width-100x"
 							 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/real-estate-logo.png"
 							 alt="Logo">
 					</a>
 					<!-- End Logo -->
 				</div>
 
-				<div class="col-6 col-sm-9 col-lg-10">
-					<div class="row">
-						<div class="landing-block-card-menu-contact col-sm g-brd-right--sm g-brd-gray-light-v4">
-							<div class="g-pa-10--lg">
-								<div class="landing-block-node-menu-contact-img-container g-font-size-18 g-line-height-1 d-lg-inline-block g-valign-top g-color-primary g-mr-5">
-									<i class="landing-block-node-menu-contact-img icon icon-screen-smartphone"></i>
+				<div class="col-12 col-sm-9 col-lg-10">
+					<div class="row g-ml-20--sm">
+						<div class="landing-block-card-menu-contact-container col-sm-8 col-md-9">
+							<div class="landing-block-card-menu-contact-container-inner row">
+								<div class="landing-block-card-menu-contact col-md g-mb-10 g-mb-0--md g-brd-right--md g-brd-gray-light-v4"
+									 data-card-preset="contact-link">
+
+									<a href="tel:+469548521" class="landing-block-node-menu-contactlink-link g-pa-10--md row align-items-center justify-content-center justify-content-sm-start justify-content-md-center justify-content-lg-start g-text-decoration-none--hover">
+										<span class="landing-block-node-menu-contact-img-container text-left text-md-center text-lg-left w-auto g-width-100x--md g-width-auto--lg g-font-size-18 g-line-height-1 d-none d-sm-inline-block g-valign-top g-color-primary g-mr-10 g-mr-0--md g-mr-10--lg">
+											<i class="landing-block-node-menu-contact-img icon icon-screen-smartphone"></i>
+										</span>
+										<span class="landing-block-node-menu-contactlink-text-container d-block text-center text-sm-left text-md-center text-lg-left d-inline-block">
+											<span class="landing-block-node-menu-contactlink-title  landing-block-node-menu-contact-title-style g-color-main d-block text-uppercase g-font-size-13">
+												Call Us
+											</span>
+											<span class="landing-block-node-menu-contactlink-text landing-block-node-menu-contact-text-style d-block g-color-gray-dark-v2 g-font-weight-700 g-text-decoration-none g-text-underline--hover">
+												+469 548 521
+											</span>
+										</span>
+									</a>
 								</div>
-								<div class="landing-block-node-menu-contact-text-container d-inline-block">
-									<div class="landing-block-node-menu-contact-title text-uppercase g-font-size-13">
-										Call Us
+
+								<div class="landing-block-card-menu-contact col-md g-mb-10 g-mb-0--md g-brd-right--md g-brd-gray-light-v4"
+									 data-card-preset="contact-text">
+									<div class="g-pa-10--md row align-items-center justify-content-center justify-content-sm-start justify-content-md-center justify-content-lg-start">
+										<div class="landing-block-node-menu-contact-img-container text-left text-md-center text-lg-left w-auto g-width-100x--md g-width-auto--lg g-font-size-18 g-line-height-1 d-none d-sm-inline-block g-valign-top g-color-primary g-mr-10 g-mr-0--md g-mr-10--lg">
+											<i class="landing-block-node-menu-contact-img icon icon-clock"></i>
+										</div>
+										<div class="landing-block-node-menu-contact-text-container text-center text-sm-left text-md-center text-lg-left d-inline-block">
+											<div class="landing-block-node-menu-contact-title landing-block-node-menu-contact-title-style g-color-main text-uppercase g-font-size-13">
+												Opening time
+											</div>
+											<div class="landing-block-node-menu-contact-value landing-block-node-menu-contact-text-style g-color-gray-dark-v2 g-font-weight-700">
+												Mon-Sat: 08.00 -18.00
+											</div>
+										</div>
 									</div>
-									<div class="landing-block-node-menu-contact-value g-color-gray-dark-v2 g-font-weight-700">
-										<a href="tel:+469548521">+469 548 521</a>
-									</div>
+								</div>
+
+								<div class="landing-block-card-menu-contact col-md g-mb-10 g-mb-0--md g-brd-right--md g-brd-gray-light-v4"
+									 data-card-preset="contact-link">
+
+									<a href="mailto:info@company24.com" class="landing-block-node-menu-contactlink-link g-pa-10--md row align-items-center justify-content-center justify-content-sm-start justify-content-md-center justify-content-lg-start g-text-decoration-none--hover">
+										<span class="landing-block-node-menu-contact-img-container text-left text-md-center text-lg-left w-auto g-width-100x--md g-width-auto--lg g-font-size-18 g-line-height-1 d-none d-sm-inline-block g-valign-top g-color-primary g-mr-10 g-mr-0--md g-mr-10--lg">
+											<i class="landing-block-node-menu-contactlink-img icon icon-envelope"></i>
+										</span>
+										<span class="landing-block-node-menu-contactlink-text-container d-block text-center text-sm-left text-md-center text-lg-left d-inline-block">
+											<span class="landing-block-node-menu-contactlink-title  landing-block-node-menu-contact-title-style g-color-main d-block text-uppercase g-font-size-13">
+												Email us
+											</span>
+											<span class="landing-block-node-menu-contactlink-text landing-block-node-menu-contact-text-style d-block g-color-gray-dark-v2 g-font-weight-700 g-text-decoration-none g-text-underline--hover">
+												info@company24.com
+											</span>
+										</span>
+									</a>
+									
 								</div>
 							</div>
 						</div>
 
-						<div class="landing-block-card-menu-contact col-sm g-hidden-md-down g-brd-right--sm g-brd-gray-light-v4">
-							<div class="g-pa-10--lg">
-								<div class="landing-block-node-menu-contact-img-container g-font-size-18 g-line-height-1 d-lg-inline-block g-valign-top g-color-primary g-mr-5">
-									<i class="landing-block-node-menu-contact-img icon icon-clock"></i>
-								</div>
-								<div class="landing-block-node-menu-contact-text-container d-inline-block">
-									<div class="landing-block-node-menu-contact-title text-uppercase g-font-size-13">
-										Opening time
-									</div>
-									<div class="landing-block-node-menu-contact-value g-color-gray-dark-v2 g-font-weight-700">
-										Mon-Sat: 08.00 -18.00
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="landing-block-card-menu-contact col-sm g-hidden-sm-down g-brd-right--sm g-brd-gray-light-v4">
-							<div class="g-pa-10--lg">
-								<div class="landing-block-node-menu-contact-img-container g-font-size-18 g-line-height-1 d-lg-inline-block g-valign-top g-color-primary g-mr-5">
-									<i class="landing-block-node-menu-contact-img icon icon-envelope"></i>
-								</div>
-								<div class="landing-block-node-menu-contact-text-container d-inline-block">
-									<div class="landing-block-node-menu-contact-title text-uppercase g-font-size-13">
-										Email us
-									</div>
-									<div class="landing-block-node-menu-contact-value g-color-gray-dark-v2 g-font-weight-700">
-										<a href="mailto:info@company24.com">info@company24.com</a>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-sm g-hidden-sm-down">
+						<div class="landing-block-socials-container col-sm-4 col-md-3 g-mb-10 g-mb-0--md">
+							<ul class="landing-block-cards-social list-inline g-pa-10--md g-mb-0 row align-items-center justify-content-center justify-content-sm-start">
+								<li class="landing-block-card-social list-inline-item g-valign-middle g-mx-3 g-mb-6"
+									data-card-preset="facebook">
+									<a class="landing-block-card-social-icon-link d-block u-icon-v3 u-icon-size--sm g-rounded-50x g-bg-gray-light-v4 g-color-gray-light-v1 g-bg-primary--hover g-color-white--hover g-font-size-14"
+									   href="https://facebook.com">
+										<i class="landing-block-card-social-icon fa fa-facebook"></i>
+									</a>
+								</li>
+								<li class="landing-block-card-social list-inline-item g-valign-middle g-mx-3 g-mb-6"
+									data-card-preset="twitter">
+									<a class="landing-block-card-social-icon-link d-block u-icon-v3 u-icon-size--sm g-rounded-50x g-bg-gray-light-v4 g-color-gray-light-v1 g-bg-primary--hover g-color-white--hover g-font-size-14"
+									   href="https://twitter.com">
+										<i class="landing-block-card-social-icon fa fa-twitter"></i>
+									</a>
+								</li>
+								<li class="landing-block-card-social list-inline-item g-valign-middle g-mx-3 g-mb-6"
+									data-card-preset="instagram">
+									<a class="landing-block-card-social-icon-link d-block u-icon-v3 u-icon-size--sm g-rounded-50x g-bg-gray-light-v4 g-color-gray-light-v1 g-bg-primary--hover g-color-white--hover g-font-size-14"
+									   href="https://instagram.com">
+										<i class="landing-block-card-social-icon fa fa-instagram"></i>
+									</a>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
@@ -70,17 +103,17 @@
 		</div>
 	</div>
 
-	<div class="landing-block-node-bottom-block u-header__section g-bg-black g-py-15"
+	<div class="landing-block-node-bottom-block u-header__section g-bg-black g-py-15--lg g-py-10--md g-py-0"
 		 data-header-fix-moment-classes="u-shadow-v18">
 		<nav class="navbar navbar-expand-lg py-0">
 			<div class="container">
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row g-mr-40--sm" id="navBar">
-					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-font-weight-700 g-font-size-13 g-py-10--md mr-auto">
-						<li class="landing-block-node-menu-list-item nav-item g-mx-15--lg g-mb-7 g-mb-0--lg active">
+					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav w-100 justify-content-start g-ml-minus-15--lg text-uppercase g-font-weight-700 g-font-size-13 g-py-10--md">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-15--lg g-mb-7 g-mb-0--lg">
 							<a href="#home"
 							   class="landing-block-node-menu-list-item-link nav-link p-0">Home
-							</a><span class="sr-only">(current)</span>
+							</a>
 						</li>
 						<li class="landing-block-node-menu-list-item nav-item g-mx-15--lg g-mb-7 g-mb-0--lg">
 							<a href="#flatsForRent"

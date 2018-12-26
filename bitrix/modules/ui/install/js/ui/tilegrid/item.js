@@ -41,13 +41,16 @@ BX.TileGrid.Item.prototype =
 
 		this.layout.container = BX.create('div', {
 			attrs: {
-				className: 'ui-grid-tile-item'
+				className: this.gridTile.itemHeight ? 'ui-grid-tile-item ui-grid-tile-item-fixed-height' : 'ui-grid-tile-item'
+			},
+			style: {
+				height: this.gridTile.itemHeight ? this.gridTile.itemHeight + 'px' : null
 			},
 			dataset: {
 				id: this.id
 			},
 			children: [
-				this.getCheckBox(),
+				this.gridTile.checkBoxing ? this.getCheckBox() : null,
 				this.layout.content = BX.create('div', {
 					attrs: {
 						className: 'ui-grid-tile-item-content'

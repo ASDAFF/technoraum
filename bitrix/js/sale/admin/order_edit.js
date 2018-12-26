@@ -108,7 +108,7 @@ BX.Sale.Admin.OrderEditPage =
 				content: BX.create(
 					'span',
 					{
-						html: text,
+						html: BX.util.htmlspecialchars(text),
 						style: {backgroundColor: "white"}
 					}
 				)
@@ -420,7 +420,7 @@ BX.Sale.Admin.OrderEditPage =
 	{
 		var isMobile = BX.browser.IsMobile();
 		BX.Sale.Admin.OrderEditPage.desktopRunningCheck(
-			function(){ location.href = 'bx://callto/phone/' + encodeURIComponent(phone); },
+			function(){ location.href = 'bx://v2/' + location.hostname + '/callto/phone/' + encodeURIComponent(phone); },
 			function(){ location.href = (isMobile ? 'tel:' : 'callto:') + encodeURIComponent(phone); }
 		);
 	},

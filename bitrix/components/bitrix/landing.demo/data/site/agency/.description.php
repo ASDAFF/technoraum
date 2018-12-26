@@ -16,6 +16,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_AGENCY_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'agency',
+			'THEME_CODE_TYPO' => 'agency',
 			'B24BUTTON_CODE' => $buttons[0],
 			'UP_SHOW' => 'Y',
 		)

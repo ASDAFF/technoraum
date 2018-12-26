@@ -1,4 +1,6 @@
 <?
+$MESS["LANDING_WAIT_WHILE_CREATING"] = "Bitte warten Sie, Ihre Website wird bald veröffentlicht...";
+$MESS["LANDING_WAIT_WHILE_CREATING_FORCE"] = "Website öffnen";
 $MESS["LANDING_TPL_PUBLIC_URL"] = "Veröffentlichen";
 $MESS["LANDING_TPL_PUBLIC_URL_PAGE"] = "Seite veröffentlichen";
 $MESS["LANDING_TPL_PUBLIC_URL_ALL"] = "Alle Seiten veröffentlichen";

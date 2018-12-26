@@ -87,7 +87,7 @@ foreach ($sites as $row)
 
 $menu['items'][] = array(
 	'text' => Loc::getMessage('LANDING_MENU_SITE_ADD'),
-	'url' => 'site_edit.php?lang=' . LANGUAGE_ID
+	'url' => 'site_edit.php?lang=' . LANGUAGE_ID . '&landing=Y'
 );
 
 

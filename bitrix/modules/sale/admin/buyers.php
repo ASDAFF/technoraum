@@ -236,6 +236,10 @@ if ($publicMode && \Bitrix\Main\Loader::includeModule('crm'))
 	{
 		$userBy = $by;
 	}
+	elseif ($by === 'USER_ID')
+	{
+		$userBy = 'ID';
+	}
 	else
 	{
 		$userBy = 'NAME';
@@ -258,18 +262,51 @@ if ($publicMode && \Bitrix\Main\Loader::includeModule('crm'))
 	$selectColumns = array_merge($gridColumns, ['ID']);
 	$selectColumns = array_intersect($selectColumns, array_keys(\Bitrix\Main\UserTable::getMap()));
 
+	$navyParams = CDBResult::GetNavParams(CAdminUiResult::GetNavSize($sTableID));
+	$navyParams['PAGEN'] = (int)$navyParams['PAGEN'];
+	$navyParams['SIZEN'] = (int)$navyParams['SIZEN'];
+
+	$groupReference = new \Bitrix\Main\Entity\ReferenceField(
+		'GROUP',
+		'\Bitrix\Main\UserGroupTable',
+		['=ref.USER_ID' => 'this.ID'],
+		['join_type' => 'LEFT']
+	);
+
+	$query = (new \Bitrix\Main\Entity\Query(\Bitrix\Main\UserTable::getEntity()))
+		->registerRuntimeField('', $groupReference)
+		->addFilter('!=ID', \Bitrix\Crm\Order\Manager::getAnonymousUserID())
+		->addFilter('=GROUP.GROUP_ID', \Bitrix\Crm\Order\BuyerGroup::getSystemGroupId())
+		->countTotal(true);
+
+	$totalCount = $query->exec()->getCount();
+
+	if ($totalCount > 0)
+	{
+		$totalPages = ceil($totalCount / $navyParams['SIZEN']);
+
+		if ($navyParams['PAGEN'] > $totalPages)
+		{
+			$navyParams['PAGEN'] = $totalPages;
+		}
+
+		$navLimit = $navyParams['SIZEN'];
+		$navOffset = $navyParams['SIZEN'] * ($navyParams['PAGEN'] - 1);
+	}
+	else
+	{
+		$navyParams['PAGEN'] = 1;
+		$navLimit = $navyParams['SIZEN'];
+		$navOffset = 0;
+	}
+
 	$buyersData = \Bitrix\Main\UserTable::getList([
 		'select' => $selectColumns,
 		'filter' => $filter,
 		'order' => [$userBy => $order],
-		'runtime' => [
-			new \Bitrix\Main\Entity\ReferenceField(
-				'GROUP',
-				'\Bitrix\Main\UserGroupTable',
-				['=ref.USER_ID' => 'this.ID'],
-				['join_type' => 'LEFT']
-			),
-		],
+		'offset' => $navOffset,
+		'limit' => $navLimit,
+		'runtime' => [$groupReference],
 	]);
 	while ($user = $buyersData->Fetch())
 	{
@@ -373,7 +410,19 @@ if (!empty($userIdList) && is_array($userIdList))
 }
 
 $resultUsersList = new CAdminUiResult($buyersData, $sTableID);
-$resultUsersList->NavStart();
+
+if (isset($navyParams, $navLimit))
+{
+	$resultUsersList->NavStart($navLimit, $navyParams['SHOW_ALL'], $navyParams['PAGEN']);
+	$resultUsersList->NavRecordCount = $totalCount;
+	$resultUsersList->NavPageCount = $totalPages;
+	$resultUsersList->NavPageNomer = $navyParams['PAGEN'];
+}
+else
+{
+	$resultUsersList->NavStart();
+}
+
 $lAdmin->SetNavigationParams($resultUsersList, array("BASE_LINK" => $selfFolderUrl."sale_buyers.php"));
 
 while ($arBuyers = $resultUsersList->Fetch())

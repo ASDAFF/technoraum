@@ -1,4 +1,6 @@
 <?
+$MESS["IMAGE_EDITOR_POPUP_ERROR_MESSAGE_TEXT"] = "Не&nbsp;вдалося завантажити зображення. <br>Можливо файл пошкоджений, такий тип не&nbsp;підтримується або редагування цього файлу заборонене.";
+$MESS["IMAGE_EDITOR_CLOSE_POPUP"] = "Закрити";
 $MESS["IMAGE_EDITOR_NEW"] = "Завантажити";
 $MESS["IMAGE_EDITOR_EXPORT"] = "Застосувати";
 $MESS["IMAGE_EDITOR_CANCEL"] = "Скасувати";

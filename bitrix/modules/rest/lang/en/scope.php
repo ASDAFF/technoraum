@@ -28,4 +28,5 @@ $MESS["REST_SCOPE_MOBILE"] = "Mobile application";
 $MESS["REST_SCOPE_LANDING"] = "Sites";
 $MESS["REST_SCOPE_FACEID"] = "Face recognition";
 $MESS["REST_SCOPE_FORUM"] = "Forum";
+$MESS["REST_SCOPE_DOCUMENTGENERATOR"] = "Document Generator";
 ?>

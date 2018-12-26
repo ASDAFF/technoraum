@@ -17,7 +17,7 @@
 				</div>
 
 				<blockquote class="landing-block-node-card-text g-line-height-1_6 g-font-weight-600
-						g-font-size-22 g-font-size-27--md g-color-white g-mb-30">
+						g-font-size-27 g-color-white g-mb-30">
 					In eu augue massa. Phasellus
 					<a class="g-color-primary" href="#!">#rutrum</a>
 					velit diam, quis pellentesque libero hendrerit a.
@@ -40,7 +40,7 @@
 				</div>
 
 				<blockquote class="landing-block-node-card-text g-line-height-1_6 g-font-weight-600
-						g-font-size-22 g-font-size-27--md g-color-white g-mb-30">
+						g-font-size-27 g-color-white g-mb-30">
 					In eu augue massa. Phasellus
 					<a class="g-color-primary" href="#!">#rutrum</a>
 					velit diam, quis pellentesque libero hendrerit a.

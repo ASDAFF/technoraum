@@ -6,6 +6,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 	die();
 }
 
+$arParams['REPORT_ID'] = isset($arParams['REPORT_ID']) ? (int)$arParams['REPORT_ID'] : 0;
+
 $isStExportEnabled = (is_array($arParams['~STEXPORT_PARAMS']));
 $isStExport = false;
 $stExportOptions = array();
@@ -71,7 +73,10 @@ foreach ($requiredModules as $requiredModule)
 	}
 }
 
-if (!isset($arParams['REPORT_HELPER_CLASS']) || strlen($arParams['REPORT_HELPER_CLASS']) < 1)
+if (!isset($arParams['REPORT_HELPER_CLASS'])
+	|| strlen($arParams['REPORT_HELPER_CLASS']) < 1
+	|| !class_exists($arParams['REPORT_HELPER_CLASS'])
+	|| !is_subclass_of($arParams['REPORT_HELPER_CLASS'], 'CReportHelper'))
 {
 	$errorMessage = GetMessage("REPORT_HELPER_NOT_DEFINED");
 	if ($isStExport)
@@ -972,7 +977,7 @@ try
 						$fElem_end['value'] = ConvertTimeStamp($dtValue->getTimestamp(), 'FULL');
 
 						// replace filter by subfilter
-						$settings['filter'][] = array('LOGIC' => 'AND', $fElem_start, $fElem_end);
+						$settings['filter'][] = array('LOGIC' => 'OR', $fElem_start, $fElem_end);
 						end($settings['filter']);
 						$lastFilterNum = key($settings['filter']);
 
@@ -1715,6 +1720,12 @@ $arResult['customChartData'] = $customChartData;
 $arResult['customChartTotal'] = $customChartTotal;
 
 $arResult['ufInfo'] = call_user_func(array($arParams['REPORT_HELPER_CLASS'], 'getUFInfo'));
+
+$arResult['allowHorizontalScroll'] = (
+	!isset($arParams['ALLOW_HORIZONTAL_SCROLL'])
+	|| $arParams['ALLOW_HORIZONTAL_SCROLL'] === 'Y'
+	|| $arParams['ALLOW_HORIZONTAL_SCROLL'] === true
+);
 // </editor-fold>
 
 

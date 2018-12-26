@@ -5,6 +5,13 @@ use Bitrix\Main\Localization\Loc;
 use Bitrix\Sale\Location;
 
 Loc::loadMessages(__FILE__);
+
+global $adminSidePanelHelper;
+if (!is_object($adminSidePanelHelper))
+{
+	require_once($_SERVER["DOCUMENT_ROOT"].BX_ROOT."/modules/main/interface/admin_lib.php");
+	$adminSidePanelHelper = new \CAdminSidePanelHelper();
+}
 ?>
 
 <?if(!empty($arResult['ERRORS']['FATAL'])):?>
@@ -151,8 +158,9 @@ Loc::loadMessages(__FILE__);
 
 											<?else:?>
 												<div class="adm-loc-error">
+													<? $importUrl = $adminSidePanelHelper->editUrlToPublicPage((string) $arParams['PATH_TO_LOCATION_IMPORT'] != '' ? $arParams['PATH_TO_LOCATION_IMPORT'] : Location\Admin\Helper::getImportUrl());?>
 													<?=Loc::getMessage('SALE_SLSS_NO_LOCATIONS', array(
-														'#ANCHOR_IMPORT#' => '<a href="'.((string) $arParams['PATH_TO_LOCATION_IMPORT'] != '' ? $arParams['PATH_TO_LOCATION_IMPORT'] : Location\Admin\Helper::getImportUrl()).'" target="_blank">',
+														'#ANCHOR_IMPORT#' => '<a href="'.$importUrl.'" target="_blank">',
 														'#ANCHOR_END#' => '</a>'
 													))?>
 												</div>

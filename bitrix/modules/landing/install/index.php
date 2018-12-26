@@ -1,5 +1,7 @@
 <?php
 use \Bitrix\Landing\Template;
+use \Bitrix\Landing\Landing as LandingCore;
+use \Bitrix\Landing\Site;
 use \Bitrix\Main\Localization\Loc;
 use \Bitrix\Main\ModuleManager;
 use \Bitrix\Main\Config\Option;
@@ -94,7 +96,9 @@ class Landing extends \CModule
 		}
 		elseif ($step == 2)
 		{
-			$this->uninstallDB(array('savedata' => isset($_GET['savedata']) && $_GET['savedata'] == 'Y'));
+			$this->uninstallDB(array(
+				'savedata' => isset($_GET['savedata']) && $_GET['savedata'] == 'Y'
+			));
 			$this->uninstallFiles();
 			$APPLICATION->includeAdminFile(
 				Loc::getMessage('LANDING_UNINSTALL_TITLE'),
@@ -112,7 +116,10 @@ class Landing extends \CModule
 		global $DB, $APPLICATION;
 
 		// db
-		$errors = $DB->runSQLBatch($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/landing/install/db/' . strtolower($DB->type) . '/install.sql');
+		$errors = $DB->runSQLBatch(
+			$this->docRoot . '/bitrix/modules/landing/install/db/' .
+			strtolower($DB->type) . '/install.sql'
+		);
 		if ($errors !== false)
 		{
 			$APPLICATION->throwException(implode('', $errors));
@@ -145,6 +152,20 @@ class Landing extends \CModule
 			'\Bitrix\Landing\Manager',
 			'addPanelButtons'
 		);
+		$eventManager->registerEventHandler(
+			'main',
+			'OnBeforeSiteDelete',
+			$this->MODULE_ID,
+			'\Bitrix\Landing\Site',
+			'onBeforeMainSiteDelete'
+		);
+		$eventManager->registerEventHandler(
+			'main',
+			'OnSiteDelete',
+			$this->MODULE_ID,
+			'\Bitrix\Landing\Site',
+			'onMainSiteDelete'
+		);
 		if ($this->isB24())
 		{
 			$eventManager->registerEventHandler(
@@ -165,6 +186,21 @@ class Landing extends \CModule
 				'updateFormDomainByConnector'
 			);
 		}
+
+		// agents
+		\CAgent::addAgent(
+			'Bitrix\Landing\Agent::clearRecycle();',
+			$this->MODULE_ID,
+			'N',
+			7200
+		);
+		// agents
+		\CAgent::addAgent(
+			'Bitrix\Landing\Agent::clearFiles();',
+			$this->MODULE_ID,
+			'N',
+			3600
+		);
 
 		// templates
 		if (\Bitrix\Main\Loader::includeModule($this->MODULE_ID))
@@ -440,6 +476,47 @@ class Landing extends \CModule
 	}
 
 	/**
+	 * Remove all pages and sites first.
+	 * @return void
+	 */
+	public function removeData()
+	{
+		if (\Bitrix\Main\Loader::includeModule($this->MODULE_ID))
+		{
+			// first delete landings
+			$res = LandingCore::getList([
+				'select' => [
+					'ID'
+				],
+				'filter' => [
+					'=DELETED' => ['Y', 'N'],
+					'=SITE.DELETED' => ['Y', 'N']
+				]
+			]);
+			while ($row = $res->fetch())
+			{
+				$resDel = LandingCore::delete($row['ID'], true);
+				$resDel->isSuccess();// for trigger
+			}
+
+			// then delete sites
+			$res = Site::getList([
+				'select' => [
+					'ID'
+				],
+				'filter' => [
+					'=DELETED' => ['Y', 'N']
+				],
+			]);
+			while ($row = $res->fetch())
+			{
+				$resDel = Site::delete($row['ID']);
+				$resDel->isSuccess();// for trigger
+			}
+		}
+	}
+
+	/**
 	 * Uninstall DB, events, etc.
 	 * @param array $arParams Some params.
 	 * @return boolean
@@ -450,11 +527,14 @@ class Landing extends \CModule
 
 		$errors = false;
 
+		$this->removeData();
+
 		// delete DB
 		if (isset($arParams['savedata']) && !$arParams['savedata'])
 		{
 			$errors = $DB->runSQLBatch(
-				$this->docRoot . '/bitrix/modules/landing/install/db/' . strtolower($DB->type) . '/uninstall.sql'
+				$this->docRoot . '/bitrix/modules/landing/install/db/' .
+				strtolower($DB->type) . '/uninstall.sql'
 			);
 		}
 		if ($errors !== false)
@@ -462,6 +542,8 @@ class Landing extends \CModule
 			$APPLICATION->throwException(implode('', $errors));
 			return false;
 		}
+
+		\CAgent::removeModuleAgents($this->MODULE_ID);
 
 		// unregister events
 		$eventManager = Bitrix\Main\EventManager::getInstance();
@@ -485,6 +567,20 @@ class Landing extends \CModule
 			$this->MODULE_ID,
 			'\Bitrix\Landing\Manager',
 			'addPanelButtons'
+		);
+		$eventManager->unregisterEventHandler(
+			'main',
+			'OnBeforeSiteDelete',
+			$this->MODULE_ID,
+			'\Bitrix\Landing\Site',
+			'onBeforeMainSiteDelete'
+		);
+		$eventManager->unregisterEventHandler(
+			'main',
+			'OnSiteDelete',
+			$this->MODULE_ID,
+			'\Bitrix\Landing\Site',
+			'onMainSiteDelete'
 		);
 		if ($this->isB24())
 		{

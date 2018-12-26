@@ -7,15 +7,25 @@ BX.viewElementBind = function(div, params, isTarget, groupBy)
 {
 	var obElementViewer = new BX.CViewer(params);
 
-	if(!isTarget)
-		isTarget = function(node){
+	if (!isTarget)
+	{
+		isTarget = function (node) {
 			return BX.type.isElementNode(node) && (node.getAttribute('data-bx-viewer') || node.tagName.toUpperCase() == 'IMG');
 		}
-;
+	}
 
-	BX.ready(function(){
-		_viewerElementBind(div, isTarget, groupBy, obElementViewer);
-	});
+	if (BX.getClass('BX.UI.Viewer') && BX(div))
+	{
+		BX.ready(function(){
+			BX.UI.Viewer.bind(BX(div), isTarget);
+		});
+	}
+	else
+	{
+		BX.ready(function(){
+			_viewerElementBind(div, isTarget, groupBy, obElementViewer);
+		});
+	}
 
 	return obElementViewer;
 };

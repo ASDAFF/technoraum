@@ -13,6 +13,7 @@ $MESS["MAIL_CLIENT_DENIED"] = "Доступ запрещен";
 $MESS['MAIL_CLIENT_MAILBOX_ADD'] = "Подключить новый";
 
 $MESS['MAIL_CLIENT_MAILBOX_SYNC_BAR'] = "Синхронизация";
+$MESS['MAIL_CLIENT_MAILBOX_INDEX_BAR'] = "Индексация";
 
 $MESS["MAIL_MESSAGE_NEW_EMPTY_RCPT"] = "Пожалуйста, укажите получателей в поле 'Кому'";
 $MESS["MAIL_MESSAGE_NEW_UPLOADING"] = "Пожалуйста, дождитесь окончания загрузки вложений";

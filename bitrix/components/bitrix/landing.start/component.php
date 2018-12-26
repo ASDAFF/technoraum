@@ -51,7 +51,7 @@ if (Loader::includeModule('bitrix24'))
 		&& !\CBitrix24::isPortalAdmin(Manager::getUserId())
 	)
 	{
-		Manager::getApplication()->setTitle(
+		Manager::setPageTitle(
 			Loc::getMessage('LANDING_CMP_TITLE')
 		);
 		Manager::getApplication()->showAuthForm(
@@ -64,7 +64,7 @@ else
 {
 	if (Manager::getApplication()->getGroupRight('landing') < 'W')
 	{
-		Manager::getApplication()->setTitle(
+		Manager::setPageTitle(
 			Loc::getMessage('LANDING_CMP_TITLE')
 		);
 		Manager::getApplication()->showAuthForm(

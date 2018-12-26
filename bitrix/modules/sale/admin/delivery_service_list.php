@@ -22,6 +22,15 @@ $oSort = new CAdminSorting($sTableID, "ID", "asc");
 $lAdmin = new CAdminUiList($sTableID, $oSort);
 $adminNotes = array();
 
+//Base::isHandlerCompatible() - small temporary hack usage to know if we can use locations.
+if((int)\Bitrix\Main\Config\Option::get('sale', 'location', 0) <= 0 && \Bitrix\Sale\Delivery\Services\Base::isHandlerCompatible())
+{
+	$adminNotes[] = Loc::getMessage('SALE_SDL_LOCATION_NOTE', [
+		'#A1#' => '<a href="/bitrix/admin/settings.php?lang='.LANGUAGE_ID.'&mid=sale">',
+		'#A2#' => '</a>'
+	]);
+}
+
 global $by, $order;
 if(!isset($by))
 	$by = 'ID';
@@ -268,7 +277,7 @@ if (strlen($siteId) > 0 || in_array('SITES', $arVisibleColumns))
 	);
 }
 
-$backUrl = urlencode($APPLICATION->GetCurPageParam("", array("mode")));
+$backUrl = urlencode($APPLICATION->GetCurPageParam("", array("mode", "internal", "grid_id", "grid_action", "bxajaxid", "sessid"))); //todo replace to $lAdmin->getCurPageParam()
 $dbResultList = \Bitrix\Sale\Delivery\Services\Table::getList($glParams);
 $dbResultList = new CAdminUiResult($dbResultList, $sTableID);
 
@@ -511,7 +520,6 @@ $APPLICATION->SetTitle(Loc::getMessage("SALE_SDL_TITLE"));
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_after.php");
 
 $lAdmin->DisplayFilter($filterFields);
-$lAdmin->DisplayList();
 
 if(!empty($adminNotes))
 {
@@ -520,4 +528,15 @@ if(!empty($adminNotes))
 	echo EndNote();
 }
 
+$lAdmin->DisplayList();
+
+?>
+<script language="JavaScript">
+	BX.message({
+		SALE_DSE_CHOOSE_GROUP_TITLE: '<?=Loc::getMessage("SALE_DSE_CHOOSE_GROUP_TITLE")?>',
+		SALE_DSE_CHOOSE_GROUP_HEAD: '<?=Loc::getMessage("SALE_DSE_CHOOSE_GROUP_HEAD")?>',
+		SALE_DSE_CHOOSE_GROUP_SAVE: '<?=Loc::getMessage("SALE_DSE_CHOOSE_GROUP_SAVE")?>'
+	});
+</script>
+<?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_admin.php");

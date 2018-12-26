@@ -76,6 +76,15 @@
 				});
 			}
 		}
+
+		if (this.isMSBrowser())
+		{
+			this.context.classList.add('bx-sender-letter-ms-ie');
+		}
+	};
+	Letter.prototype.isMSBrowser = function ()
+	{
+		return window.navigator.userAgent.match(/(Trident\/|MSIE|Edge\/)/) !== null;
 	};
 	Letter.prototype.getPatternTitle = function (name)
 	{

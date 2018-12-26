@@ -21,7 +21,18 @@ return array(
 	'cards' => array(
 		'.landing-block-card-menu-contact' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENUCONTACT'),
-			'label' => array('.landing-block-node-menu-contact-title')
+			'label' => array(
+				'.landing-block-node-menu-contact-img',
+				'.landing-block-node-menu-contactlink-img',
+				'.landing-block-node-menu-contact-title',
+				'.landing-block-node-menu-contactlink-title'
+			),
+			'presets' => include __DIR__ . '/presets.php',
+		),
+		'.landing-block-card-social' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-SOCIAL_CARD'),
+			'label' => array('.landing-block-card-social-icon'),
+			'presets' => include __DIR__ . '/presets_social.php',
 		),
 		'.landing-block-node-menu-list-item' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULISTITEMLINK'),
@@ -29,52 +40,75 @@ return array(
 		),
 	),
 	'nodes' => array(
-		'.landing-block-node-menu-contact-img' => array(
-			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENUCONTACT_IMG'),
-			'type' => 'icon',
-		),
-		'.landing-block-node-menu-contact-title' => array(
-			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENUCONTACTTITLE'),
-			'type' => 'text',
-		),
-		'.landing-block-node-menu-contact-value' => array(
-			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENUCONTACT_VALUE'),
-			'type' => 'text',
-		),
-		'.landing-block-node-menu-contact-link' => array(
-			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_STYLE_LANDINGBLOCKNODEMENUCONTACT_LINK'),
-			'type' => 'link',
-		),
-		//todo: social
-		//			'.landing-block-node-menu-list-social' =>
-		//				array(
-		//					'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULISTSOCIAL'),
-		//					'type' => 'ul',
-		//				),
-		//			'.landing-block-node-menu-social-list-item-link' =>
-		//				array(
-		//					'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENUSOCIALLISTITEMLINK'),
-		//					'type' => 'link',
-		//				),
-		//			'.landing-block-node-menu-social-list-item-img' =>
-		//				array(
-		//					'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENUSOCIALLISTITEMIMG'),
-		//					'type' => 'img',
-		//				),
-		'.landing-block-node-menu-list-item-link' => array(
-			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULISTITEMLINK'),
-			'type' => 'link',
+		'.landing-block-node-menu-logo' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULOGO'),
+			'type' => 'img',
+			'group' => 'logo',
+			'dimensions' => array('width' => 180, 'height' => 60),
 		),
 		'.landing-block-node-menu-logo-link' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULOGOLINK'),
 			'type' => 'link',
 			'group' => 'logo',
 		),
-		'.landing-block-node-menu-logo' => array(
-			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULOGO'),
-			'type' => 'img',
-			'group' => 'logo',
-			'dimensions' => array('width' => 180, 'height' => 60),
+
+//		contact-text
+		'.landing-block-node-menu-contact-img' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-CONTACT_ICON'),
+			'type' => 'icon',
+		),
+		'.landing-block-node-menu-contact-title' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-CONTACT_TITLE'),
+			'type' => 'text',
+		),
+		'.landing-block-node-menu-contact-value' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-CONTACT_TEXT'),
+			'type' => 'text',
+		),
+		
+//		contact-link
+		'.landing-block-node-menu-contactlink-link' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_STYLE_LANDINGBLOCKNODEMENUCONTACT_LINK'),
+			'type' => 'link',
+			'group' => 'contact',
+			'skipContent' => true,
+		),
+		'.landing-block-node-menu-contactlink-img' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-CONTACT_ICON'),
+			'type' => 'icon',
+			'group' => 'contact',
+		),
+		'.landing-block-node-menu-contactlink-title' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-CONTACT_TITLE'),
+			'type' => 'text',
+			'group' => 'contact',
+			'allowInlineEdit' => false,
+			'textOnly' => true,
+		),
+		'.landing-block-node-menu-contactlink-text' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-CONTACT_TEXT'),
+			'type' => 'text',
+			'group' => 'contact',
+			'allowInlineEdit' => false,
+			'textOnly' => true,
+		),
+		
+		
+//		menu
+		'.landing-block-node-menu-list-item-link' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULISTITEMLINK'),
+			'type' => 'link',
+		),
+
+		
+//		social
+		'.landing-block-card-social-icon' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-SOCIAL_ICON'),
+			'type' => 'icon',
+		),
+		'.landing-block-card-social-icon-link' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-SOCIAL_LINK'),
+			'type' => 'link',
 		),
 	),
 	'style' => array(
@@ -84,33 +118,38 @@ return array(
 		'nodes' => array(
 			'.landing-block-node-top-block' => array(
 				'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_STYLE_LANDINGBLOCKNODE_TOP_BLOCK'),
-				'type' => array('background-color', 'background-gradient'),
+				'type' => ['bg'],
 			),
 			'.landing-block-node-bottom-block' => array(
 				'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_STYLE_LANDINGBLOCKNODE_BOTTOM_BLOCK'),
-				'type' => array('background-color', 'background-gradient'),
+				'type' => ['bg'],
 			),
+			
+//			contact text
 			'.landing-block-node-menu-contact-title' => array(
-				'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_STYLE_LANDINGBLOCKNODEMENUCONTACTTITLE'),
-				'type' => 'typo',
-			),
-			'.landing-block-node-menu-contact-value' => array(
-				'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_STYLE_LANDINGBLOCKNODEMENUCONTACT_VALUE'),
-				'type' => 'typo',
-			),
-			'.landing-block-node-menu-contact-img-container' => array(
-				'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENUCONTACT_IMG'),
-				'type' => 'color',
-			),
-			//			'.landing-block-node-menu-social-list-item' =>
-			//				array(
-			//					'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_STYLE_LANDINGBLOCKNODEMENUSOCIALLISTITEM'),
-			//					'type' => 'box',
-			//				),
-			'.landing-block-node-menu-contact-link' => array(
-				'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_STYLE_LANDINGBLOCKNODEMENUCONTACT_LINK'),
+				//deprecated
+				'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-CONTACT_TITLE'),
 				'type' => ['typo'],
 			),
+			'.landing-block-node-menu-contact-title-style' => array(
+				'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-CONTACT_TITLE'),
+				'type' => ['typo'],
+			),
+			'.landing-block-node-menu-contact-value' => array(
+				//deprecated
+				'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-CONTACT_TEXT'),
+				'type' => ['typo'],
+			),
+			'.landing-block-node-menu-contact-text-style' => array(
+				'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-CONTACT_TEXT'),
+				'type' => ['typo'],
+			),
+			'.landing-block-node-menu-contact-img-container' => array(
+				'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-CONTACT_ICON'),
+				'type' => ['color'],
+			),
+
+//			menu
 			'.landing-block-node-menu-list-item-link' => array(
 				'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_STYLE_LANDINGBLOCKNODEMENULISTITEMLINK'),
 				'type' => ['typo-simple']
@@ -119,6 +158,12 @@ return array(
 				'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_STYLE_LANDINGBLOCKNODEMENULIST'),
 				'type' => ['navbar'],
 			),
+			
+//			social
+			'.landing-block-card-social-icon-link' => array(
+				'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-SOCIAL_ICON'),
+				'type' => ['color', 'color-hover', 'background-color', 'background-hover']
+			),
 		),
 	),
 	'assets' => array(
@@ -126,5 +171,6 @@ return array(
 	),
 	'groups' => array(
 		'logo' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULOGO'),
+		'contact' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENUCONTACT'),
 	),
 );

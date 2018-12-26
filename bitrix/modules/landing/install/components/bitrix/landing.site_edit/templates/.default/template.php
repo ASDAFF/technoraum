@@ -42,11 +42,11 @@ $request = $context->getRequest();
 // title
 if ($arParams['SITE_ID'])
 {
-	$APPLICATION->setTitle($this->__component->getMessageType('LANDING_TPL_TITLE_EDIT'));
+	Manager::setPageTitle(Loc::getMessage('LANDING_TPL_TITLE_EDIT'));
 }
 else
 {
-	$APPLICATION->setTitle($this->__component->getMessageType('LANDING_TPL_TITLE_ADD'));
+	Manager::setPageTitle(Loc::getMessage('LANDING_TPL_TITLE_ADD'));
 }
 
 // assets
@@ -66,6 +66,25 @@ $uriSave = new \Bitrix\Main\Web\Uri(\htmlspecialcharsback(POST_FORM_ACTION_URI))
 $uriSave->addParams(array(
 	'action' => 'save'
 ));
+?>
+
+<script type="text/javascript">
+	BX.ready(function(){
+		var editComponent = new BX.Landing.EditComponent();
+		top.window['landingSettingsSaved'] = false;
+		<?if ($arParams['SUCCESS_SAVE']):?>
+		top.window['landingSettingsSaved'] = true;
+		top.BX.onCustomEvent('BX.Main.Filter:apply');
+		editComponent.actionClose();
+		<?endif;?>
+	});
+</script>
+
+<?
+if ($arParams['SUCCESS_SAVE'])
+{
+	return;
+}
 ?>
 
 <form method="post" action="/bitrix/tools/landing/ajax.php?action=Site::uploadFile" enctype="multipart/form-data" id="landing-form-favicon-form">
@@ -529,7 +548,7 @@ $uriSave->addParams(array(
 				<?if (isset($hooks['GMAP'])):?>
 				<tr class="landing-form-hidden-row">
 					<td class="ui-form-label ui-form-label-align-top"><?= Loc::getMessage('LANDING_TPL_HOOK_GMAP');?></td>
-					<td class="ui-form-right-cell">
+					<td class="ui-form-right-cell ui-form-right-cell-map">
 						<?$template->showSimple('GMAP');?>
 					</td>
 				</tr>
@@ -787,6 +806,7 @@ $uriSave->addParams(array(
 										<?= Loc::getMessage('LANDING_TPL_PAGE_503_USE');?>
 									</label>
 									<select name="fields[LANDING_ID_503]" class="ui-select" id="landing-form-503-select">
+										<option></option>
 										<?foreach ($arResult['LANDINGS'] as $item):
 											if ($item['IS_AREA'])
 											{
@@ -894,18 +914,7 @@ $uriSave->addParams(array(
 				errorEmpty:'<?= \CUtil::jsEscape(Loc::getMessage('LANDING_TPL_DOMAIN_ERROR_EMPTY'));?>'
 			}
 		});
-
-		// for save
-
 		new BX.Landing.SaveBtn(BX('landing-save-btn'));
-
-		var editComponent = new BX.Landing.EditComponent();
-		top.window['landingSettingsSaved'] = false;
-	<?if ($arParams['SUCCESS_SAVE']):?>
-		top.window['landingSettingsSaved'] = true;
-		top.BX.onCustomEvent('BX.Main.Filter:apply');
-		editComponent.actionClose();
-	<?endif;?>
 	});
 
 </script>

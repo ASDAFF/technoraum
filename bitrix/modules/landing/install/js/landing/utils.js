@@ -1643,6 +1643,16 @@
 	};
 
 	/**
+	 * @param path
+	 * @return {*}
+	 */
+	BX.Landing.Utils.rename2x = function(path)
+	{
+		path = path.replace(/@2x/, "");
+		return !!path ? path.replace(/\.[^\.]+$/, "@2x." + BX.util.getExtension(path)) : path;
+	};
+
+	/**
 	 * Gets delta from event
 	 * @param event
 	 * @return {{x, y: number}}
@@ -1678,6 +1688,87 @@
 		}
 
 		return {x: deltaX, y: deltaY};
+	};
+
+	/**
+	 * Loads file as blob
+	 * @param url
+	 * @return {Promise<Blob, string>}
+	 */
+	BX.Landing.Utils.urlToBlob = function(url)
+	{
+		if (!BX.type.isString(url))
+		{
+			return Promise.resolve(url);
+		}
+
+		return new Promise(function(resolve, reject) {
+			try {
+				var xhr = BX.ajax.xhr();
+				xhr.open("GET", url);
+				xhr.responseType = "blob";
+				xhr.onerror = function()
+				{
+					reject("Network error.")
+				};
+				xhr.onload = function()
+				{
+					if (xhr.status === 200)
+					{
+						resolve(xhr.response);
+					}
+					else
+					{
+						reject("Loading error:" + xhr.statusText);
+					}
+				};
+				xhr.send();
+			}
+			catch(err)
+			{
+				reject(err.message);
+			}
+		});
+	};
+
+	/**
+	 * Makes user friendly file size
+	 * @param {Number} size
+	 * @return {*}
+	 */
+	BX.Landing.Utils.fileSize = function(size)
+	{
+		var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+		var mysize;
+
+		sizes.forEach(function(unit, id) {
+			var s = Math.pow(1024, id);
+			var fixed;
+
+			if (size >= s)
+			{
+				fixed = String((size / s).toFixed(1));
+
+				if (fixed.indexOf('.0') === fixed.length - 2)
+				{
+					fixed = fixed.slice(0, -2);
+				}
+
+				mysize = fixed + ' ' + unit;
+			}
+		});
+
+		if (!mysize)
+		{
+			mysize = '0 ' + sizes[0];
+		}
+
+		return mysize;
+	};
+
+	BX.Landing.Utils.getFileName = function(path)
+	{
+		return path.split('\\').pop().split('/').pop();
 	};
 
 	/**

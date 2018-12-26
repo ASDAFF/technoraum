@@ -73,7 +73,7 @@
 
 		getTileCalculating : function()
 		{
-			var wrapperWidth = this.wrapper.clientWidth;
+			var wrapperWidth = this.wrapper.clientWidth - 12; // margin-right for wrapper
 			var wholeMarginSize =  wrapperWidth / 100 * 6; // 6% of whole width for margins
 			var width = 0,
 				tileAmountInRow = 0;

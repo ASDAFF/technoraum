@@ -339,13 +339,31 @@ if (!isset($by))
 if (!isset($order))
 	$order = 'ASC';
 
-
-
 $userList = array();
 $userIDs = array();
 $nameFormat = CSite::GetNameFormat(true);
 
 $rowList = array();
+$usePageNavigation = true;
+$navyParams = array();
+if ($request['mode'] == 'excel')
+{
+	$usePageNavigation = false;
+}
+else
+{
+	$navyParams = CDBResult::GetNavParams(CAdminUiResult::GetNavSize($adminListTableID));
+	if ($navyParams['SHOW_ALL'])
+	{
+		$usePageNavigation = false;
+	}
+	else
+	{
+		$navyParams['PAGEN'] = (int)$navyParams['PAGEN'];
+		$navyParams['SIZEN'] = (int)$navyParams['SIZEN'];
+	}
+}
+
 if ($selectFields['TYPE'])
 	$selectFields['USE_COUNT'] = true;
 if (isset($selectFields['DISCOUNT']))
@@ -367,9 +385,43 @@ $getListParams = array(
 	'filter' => $filter,
 	'order' => array($by => $order)
 );
+if ($usePageNavigation)
+{
+	$getListParams['limit'] = $navyParams['SIZEN'];
+	$getListParams['offset'] = $navyParams['SIZEN']*($navyParams['PAGEN']-1);
+}
+$totalPages = 0;
+if ($usePageNavigation)
+{
+	$totalCount = Internals\DiscountCouponTable::getCount($getListParams['filter']);
+	if ($totalCount > 0)
+	{
+		$totalPages = ceil($totalCount/$navyParams['SIZEN']);
+		if ($navyParams['PAGEN'] > $totalPages)
+			$navyParams['PAGEN'] = $totalPages;
+		$getListParams['limit'] = $navyParams['SIZEN'];
+		$getListParams['offset'] = $navyParams['SIZEN']*($navyParams['PAGEN']-1);
+	}
+	else
+	{
+		$navyParams['PAGEN'] = 1;
+		$getListParams['limit'] = $navyParams['SIZEN'];
+		$getListParams['offset'] = 0;
+	}
+}
 
 $couponIterator = new CAdminUiResult(Internals\DiscountCouponTable::getList($getListParams), $adminListTableID);
-$couponIterator->NavStart();
+if ($usePageNavigation)
+{
+	$couponIterator->NavStart($getListParams['limit'], $navyParams['SHOW_ALL'], $navyParams['PAGEN']);
+	$couponIterator->NavRecordCount = $totalCount;
+	$couponIterator->NavPageCount = $totalPages;
+	$couponIterator->NavPageNomer = $navyParams['PAGEN'];
+}
+else
+{
+	$couponIterator->NavStart();
+}
 
 CTimeZone::Disable();
 $adminList->SetNavigationParams($couponIterator, array("BASE_LINK" => $selfFolderUrl."sale_discount_coupons.php"));

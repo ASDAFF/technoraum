@@ -48,23 +48,13 @@ elseif ($arResult["SHOW_MODE"] == "WorkflowParameters")
 			{
 				continue;
 			}
-
-			$userSelected = null;
-			if ($arParameter['Type'] === 'user')
-			{
-				$userSelected = \Bitrix\Bizproc\Automation\Helper::prepareUserSelectorEntities(
-					$arParams["DOCUMENT_TYPE"],
-					$arResult["PARAMETERS_VALUES"][$parameterKey]
-				);
-			}
 ?>
 			<div class="bizproc-modern-type-control-container">
 				<span class="bizproc-modern-type-control-container-title bizproc-modern-type-control-container-title-top"
 				<? if ($arParameter["Description"]):?> title="<?=htmlspecialcharsbx($arParameter["Description"])?>"<?endif;?>>
 					<?=htmlspecialcharsbx($arParameter['Name'])?><?=($arParameter["Required"] ? "<span class=\"required\">*</span> " : "")?>:
 				</span>
-				<div class="bizproc-modern-type-control-wrapper bizproc-modern-type-control-wrapper-<?=htmlspecialcharsbx($arParameter["Type"])?>"
-					<?if ($userSelected):?> data-user-selected="<?=htmlspecialcharsbx(\Bitrix\Main\Web\Json::encode($userSelected))?>" <?endif;?>>
+				<div class="bizproc-modern-type-control-wrapper">
 				<?
 				echo $documentService->GetFieldInputControl(
 					$arParams["DOCUMENT_TYPE"],
@@ -72,7 +62,6 @@ elseif ($arResult["SHOW_MODE"] == "WorkflowParameters")
 					array(
 						"Form" => "start_workflow_form1",
 						"Field" => $parameterKey,
-						'ClassNamePrefix' => 'bizproc-modern-type-control'
 					),
 					$arResult["PARAMETERS_VALUES"][$parameterKey],
 					false,

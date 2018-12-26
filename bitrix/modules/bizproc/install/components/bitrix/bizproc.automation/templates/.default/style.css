@@ -830,6 +830,24 @@
 	opacity: 1;
 }
 
+.bizproc-automation-robot-btn-copy {
+	position: absolute;
+	bottom: 15px;
+	left: 5px;
+	z-index: 9;
+	width: 13px;
+	height: 13px;
+	opacity: .4;
+	cursor: pointer;
+	-webkit-transition: .1s;
+	-moz-transition: .1s;
+	transition: .1s;
+	color: #b1b7c5;
+}
+.bizproc-automation-robot-btn-copy:hover {
+	opacity: 1;
+}
+
 .bizproc-automation-robot-btn-settings {
 	clear: both;
 	display: block;
@@ -1784,3 +1802,11 @@
 }
 
 .bizproc-automation-popup-sms-symbol-counter-number-overhead { color: #d0011b; }
+.bizproc-automation-condition-wrapper:last-of-type .bizproc-automation-condition-joiner {
+	display: none;
+}
+
+.bizproc-automation-condition-joiner {
+	color: #80868e;
+	border-bottom-color: #80868e;
+}

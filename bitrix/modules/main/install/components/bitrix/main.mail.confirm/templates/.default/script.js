@@ -335,15 +335,14 @@
 				nameField.focus();
 			}
 		},
-		deleteSender: function (event, senderId, callback)
+		deleteSender: function (senderId, callback)
 		{
 			if(senderId > 0)
 			{
-				event.stopPropagation();
 				if(confirm(BX.message('MAIN_MAIL_CONFIRM_DELETE_SENDER_CONFIRM')))
 				{
 					BX.ajax({
-						'url': '/bitrix/components/bitrix/main.mail.confirm/ajax.php?act=deleteSender',
+						'url': '/bitrix/components/bitrix/main.mail.confirm/ajax.php?act=delete',
 						'method': 'POST',
 						'dataType': 'json',
 						'data': {
@@ -367,7 +366,9 @@
 						},
 						onfailure: function(data)
 						{
-
+							BX.UI.Notification.Center.notify({
+								content: BX.message('MAIN_MAIL_DELETE_SENDER_ERROR')
+							});
 						}
 					});
 				}

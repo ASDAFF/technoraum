@@ -1,4 +1,6 @@
 <?php
+\Bitrix\Main\UI\Extension::load("ui.buttons");
+\Bitrix\Main\UI\Extension::load("ui.buttons.icons");
 
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
@@ -6,6 +8,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
 /** @global CMain $APPLICATION */
 global $APPLICATION;
+
+$resultTableId = 'report-result-table';
 
 /**
  * @param CBitrixComponentTemplate &$component
@@ -51,18 +55,18 @@ function reportViewShowTopButtons(&$component, &$arParams, &$arResult)
 							} :
 							{
 								text: '<?=GetMessage('REPORT_EXCEL_EXPORT')?>',
-								href: '<?php echo $APPLICATION->GetCurPageParam("EXCEL=Y&ncc=1")?>',
+								href: '<?=CUtil::JSEscape($APPLICATION->GetCurPageParam("EXCEL=Y&ncc=1"));?>',
 								className: 'reports-title-excel-icon'
 							},
 							{
 								text: '<?=GetMessage('REPORT_COPY')?>',
-								href: '<?=CComponentEngine::MakePathFromTemplate($arParams["PATH_TO_REPORT_CONSTRUCT"], array("report_id" => $arParams['REPORT_ID'], 'action' => 'copy'));?>',
+								href: '<?=CUtil::JSEscape(CComponentEngine::MakePathFromTemplate($arParams["PATH_TO_REPORT_CONSTRUCT"], array("report_id" => $arParams['REPORT_ID'], 'action' => 'copy')));?>',
 								className: 'reports-title-copy-icon'
 							}
 							<? if ($arResult['MARK_DEFAULT'] <= 0 && $arResult['AUTHOR']) : ?>
 							,{
 								text: '<?=GetMessage('REPORT_EDIT')?>',
-								href: '<?=CComponentEngine::MakePathFromTemplate($arParams["PATH_TO_REPORT_CONSTRUCT"], array("report_id" => $arParams['REPORT_ID'], 'action' => 'edit'));?>',
+								href: '<?=CUtil::JSEscape(CComponentEngine::MakePathFromTemplate($arParams["PATH_TO_REPORT_CONSTRUCT"], array("report_id" => $arParams['REPORT_ID'], 'action' => 'edit')));?>',
 								className: 'reports-title-edit-icon'
 							}
 							<? endif; ?>
@@ -81,13 +85,9 @@ function reportViewShowTopButtons(&$component, &$arParams, &$arResult)
 	})();
 </script>
 
-<div class="webform-small-button webform-small-button-transparent webform-cogwheel" data-role="action-report">
-	<div class="webform-button-icon"></div>
-</div>	&nbsp;
-<a class="webform-small-button webform-small-button-blue webform-small-button-back" href="<?=CComponentEngine::MakePathFromTemplate($arParams["PATH_TO_REPORT_LIST"], array());?>">
-	<span class="webform-small-button-icon"></span>
-	<span class="webform-small-button-text"><?=GetMessage('REPORT_RETURN_TO_LIST')?></span>
-</a>
+<button class="ui-btn ui-btn-light-border ui-btn-icon-setting ui-btn-themes" data-role="action-report"></button>
+<a class="ui-btn ui-btn-primary ui-btn-icon-back" href="<?=CComponentEngine::MakePathFromTemplate($arParams["PATH_TO_REPORT_LIST"], array());?>">
+	<?=GetMessage('REPORT_RETURN_TO_LIST')?></a>
 
 <?php
 	$component->EndViewTarget();
@@ -131,10 +131,10 @@ $GLOBALS['APPLICATION']->SetAdditionalCSS('/bitrix/js/report/css/report.css');
 $APPLICATION->SetTitle($arResult['report']['TITLE']);
 
 // determine column data type
-function getResultColumnDataType(&$viewColumnInfo, &$customColumnTypes = array(), $helperClassName)
+function getResultColumnDataType(&$viewColumnInfo, &$customColumnTypes, $helperClassName)
 {
 	$dataType = null;
-	if (array_key_exists($viewColumnInfo['fieldName'], $customColumnTypes))
+	if (is_array($customColumnTypes) && array_key_exists($viewColumnInfo['fieldName'], $customColumnTypes))
 	{
 		$dataType = $customColumnTypes[$viewColumnInfo['fieldName']];
 	}
@@ -210,19 +210,53 @@ function getResultColumnDataType(&$viewColumnInfo, &$customColumnTypes = array()
 	function prepareChartData(&$arResult, &$arGroupingResult = null)
 	{
 		$nMaxValues = 500;
+		$result = array('requestData' => array(), 'columnsNames' => array(), 'err' => 0);
 
 		// check
 		$chartSettings = $arResult['settings']['chart'];
-		if (!isset($chartSettings['x_column'])) return null;
+		if (!isset($chartSettings['x_column']))
+		{
+			$result['err'] = 49;
+		}
 		$xColumnIndex = $chartSettings['x_column'];
-		if (!is_array($chartSettings['y_columns'])) return null;
+		if (!is_array($arResult['viewColumns'][$xColumnIndex]))
+		{
+			$result['err'] = 49;
+			return $result;
+		}
+		if (!is_array($chartSettings['y_columns']))
+		{
+			$result['err'] = 49;
+			return $result;
+		}
 		$yColumnsCount = count($chartSettings['y_columns']);
-		if ($yColumnsCount === 0) return null;
+		if ($yColumnsCount === 0)
+		{
+			$result['err'] = 49;
+			return $result;
+		}
+		foreach ($chartSettings['y_columns'] as $yColumnIndex)
+		{
+			if (!is_array($arResult['viewColumns'][$yColumnIndex]))
+			{
+				$result['err'] = 49;
+				break;
+			}
+		}
+		if ($result['err'] !== 0)
+		{
+			return $result;
+		}
+
 		$chartTypeIds = array();
 		foreach ($arResult['chartTypes'] as $chartTypeInfo) $chartTypeIds[] = $chartTypeInfo['id'];
 		if (!is_set($chartSettings['type'])
 			|| empty($chartSettings['type'])
-			|| !in_array($chartSettings['type'], $chartTypeIds)) return null;
+			|| !in_array($chartSettings['type'], $chartTypeIds))
+		{
+			$result['err'] = 49;
+			return $result;
+		}
 		$chartType = $chartSettings['type'];
 		if ($chartType === 'pie') $yColumnsCount = 1;    // pie chart has only one array of a values
 		$xColumnDataType = getResultColumnDataType($arResult['viewColumns'][$xColumnIndex],
@@ -373,7 +407,10 @@ function getResultColumnDataType(&$viewColumnInfo, &$customColumnTypes = array()
 			}
 		}
 
-		return array('requestData' => $requestData, 'columnsNames' => $columnsHumanTitles);
+		$result['requestData'] = $requestData;
+		$result['columnsNames'] = $columnsHumanTitles;
+
+		return $result;
 	}
 	function validateChartData(&$chartInfo)
 	{
@@ -769,9 +806,16 @@ function getResultColumnDataType(&$viewColumnInfo, &$customColumnTypes = array()
 	}
 
 	$chartInfo = prepareChartData($arResult);
-	$amChartData = prepareChartDataForAmCharts($chartInfo);
+	if (is_array($chartInfo) && isset($chartInfo['err']) && $chartInfo['err'] !== 0)
+	{
+		$chartErrorCode = $chartInfo['err'];
+	}
+	else
+	{
+		$amChartData = prepareChartDataForAmCharts($chartInfo);
+		$chartErrorCode = $amChartData['err'];
+	}
 	unset($chartInfo);
-	$chartErrorCode = $amChartData['err'];
 	$chartErrorMessage = '';
 	if ($chartErrorCode !== 0)
 	{
@@ -979,10 +1023,18 @@ function getResultColumnDataType(&$viewColumnInfo, &$customColumnTypes = array()
 		<? endif; // if ($chartErrorCode === 0) ?>
 	</script>
 	<?php endif; // if ($arParams['USE_CHART'] && $arResult['settings']['chart']['display']): ?>
-	<div class="report-table-wrap">
+	<div class="report-table-wrap<? echo ($arResult['allowHorizontalScroll'] ? ' main-grid-fade' : ''); ?>"><?
+		if ($arResult['allowHorizontalScroll']) : ?><?
+			?><div class="main-grid-fade-shadow-left"></div><?
+			?><div class="main-grid-fade-shadow-right"></div><?
+			?><div class="main-grid-ear main-grid-ear-left"></div><?
+			?><div class="main-grid-ear main-grid-ear-right"></div><?
+		endif; ?>
+		<div class="main-grid-container">
 		<div class="reports-list-left-corner"></div>
 		<div class="reports-list-right-corner"></div>
-		<table cellspacing="0" class="reports-list-table" id="report-result-table">
+		<table cellspacing="0" class="reports-list-table" id="<?= $resultTableId ?>">
+			<thead>
 			<!-- head -->
 			<tr>
 				<? $i = 0; foreach($arResult['viewColumns'] as $colId => $col): ?>
@@ -1031,7 +1083,8 @@ function getResultColumnDataType(&$viewColumnInfo, &$customColumnTypes = array()
 					</th>
 				<? endforeach; ?>
 			</tr>
-
+			</thead>
+			<tbody>
 			<!-- data -->
 			<? $rowNum = 0; ?>
 			<? foreach ($arResult['data'] as $row): ?>
@@ -1189,11 +1242,12 @@ function getResultColumnDataType(&$viewColumnInfo, &$customColumnTypes = array()
 				<td class="<?=$td_class?>"><?=array_key_exists('TOTAL_'.$col['resultName'], $arResult['total']) ? $arResult['total']['TOTAL_'.$col['resultName']] : '&mdash;'?></td>
 				<? endforeach; ?>
 			</tr>
-
+			</tbody>
 		</table>
+		</div>
 		<script type="text/javascript">
 		BX.ready(function(){
-			var rows = BX.findChildren(BX('report-result-table'), {tag:'th'}, true);
+			var rows = BX.findChildren(BX('<?= $resultTableId ?>'), {tag:'th'}, true);
 			for (i = 0 ; i < rows.length ; i++)
 			{
 				var ds = rows[i].getAttribute('defaultSort');
@@ -1895,6 +1949,38 @@ function getResultColumnDataType(&$viewColumnInfo, &$customColumnTypes = array()
 <? endif; ?>
 
 <?php
+
+if ($arResult['allowHorizontalScroll'])
+{
+	Bitrix\Main\Page\Asset::getInstance()->addJs('/bitrix/components/bitrix/main.ui.grid/templates/.default/js/utils.js');
+	Bitrix\Main\Page\Asset::getInstance()->addJs('/bitrix/components/bitrix/main.ui.grid/templates/.default/js/fader.js');
+
+	$hScrollSettings = array(
+		'tableId' => $resultTableId,
+		'allowHorizontalScroll' => $arResult['allowHorizontalScroll'],
+		'allowPinHeader' => false,
+		'classHide' => 'main-grid-hide',
+		'classShow' => 'show',
+		'classEarLeft' => 'main-grid-ear-left',
+		'classEarRight' => 'main-grid-ear-right',
+		'classFadeContainerLeft' => 'main-grid-fade-left',
+		'classFadeContainerRight' => 'main-grid-fade-right',
+		'classFadeShadowLeft' => 'main-grid-fade-shadow-left',
+		'classFadeShadowRight' => 'main-grid-fade-shadow-right'
+	);
+	?>
+	<script type="text/javascript">
+		BX.ready(
+			function()
+			{
+				BX.Report.View.HScroll.create(
+					"<?=CUtil::JSEscape($resultTableId.'_hscroll')?>",
+					<?=CUtil::PhpToJSObject($hScrollSettings)?>
+				);
+			}
+		);
+	</script><?php
+}
 
 if (is_array($arResult['STEXPORT_PARAMS']))
 {

@@ -135,32 +135,39 @@ window.BX = function(node, bCache)
 BX.debugEnableFlag = true;
 
 // language utility
-BX.message = function(mess)
+// Attention: If you change this function, dont forget to synchronize it with main/install/js/main/core/core_message.js
+BX.message = function(message)
 {
-	if (BX.type.isString(mess))
+	if (message === '' || typeof message === "string" || message instanceof String)
 	{
-		if (typeof BX.message[mess] == "undefined")
+		// try to define message by event
+		if (typeof BX.message[message] == "undefined" && typeof BX.onCustomEvent !== 'undefined')
 		{
-			BX.onCustomEvent("onBXMessageNotFound", [mess]);
-			if (typeof BX.message[mess] == "undefined")
-			{
-				BX.debug("message undefined: " + mess);
-				BX.message[mess] = "";
-			}
-
+			BX.onCustomEvent("onBXMessageNotFound", [message]);
 		}
 
-		return BX.message[mess];
+		if (typeof BX.message[message] == "undefined")
+		{
+			if (typeof BX.debug !== "undefined")
+			{
+				BX.debug("message undefined: " + message);
+			}
+
+			BX.message[message] = "";
+		}
+
+		return BX.message[message];
 	}
-	else
+	else if (typeof message === 'object' && message)
 	{
-		for (var i in mess)
+		for (var i in message)
 		{
-			if (mess.hasOwnProperty(i))
+			if (message.hasOwnProperty(i))
 			{
-				BX.message[i] = mess[i];
+				BX.message[i] = message[i];
 			}
 		}
+
 		return true;
 	}
 };
@@ -5619,14 +5626,17 @@ BX.LazyLoad = {
 		background: 2
 	},
 
-	registerImage: function(id, isImageVisibleCallback)
+	registerImage: function(id, isImageVisibleCallback, options)
 	{
+		options = options || {};
+
 		if (BX.type.isNotEmptyString(id))
 		{
 			this.images.push({
 				id: id,
 				node: null,
 				src: null,
+				dataSrcName: options.dataSrcName || 'src',
 				type: null,
 				func: BX.type.isFunction(isImageVisibleCallback) ? isImageVisibleCallback : null,
 				status: this.imageStatus.undefined
@@ -5634,13 +5644,13 @@ BX.LazyLoad = {
 		}
 	},
 
-	registerImages: function(ids, isImageVisibleCallback)
+	registerImages: function(ids, isImageVisibleCallback, options)
 	{
 		if (BX.type.isArray(ids))
 		{
 			for (var i = 0, length = ids.length; i < length; i++)
 			{
-				this.registerImage(ids[i], isImageVisibleCallback);
+				this.registerImage(ids[i], isImageVisibleCallback, options);
 			}
 		}
 	},
@@ -5695,7 +5705,7 @@ BX.LazyLoad = {
 					image.node.style.backgroundImage = "url('" + image.src + "')";
 				}
 
-				image.node.setAttribute("data-src", "");
+				image.node.dataset[image.dataSrcName] = "";
 				image.status = this.imageStatus.loaded;
 			}
 		}
@@ -5707,7 +5717,7 @@ BX.LazyLoad = {
 		var node = BX(image.id);
 		if (node)
 		{
-			var src = node.getAttribute("data-src");
+			var src = node.dataset[image.dataSrcName];
 			if (BX.type.isNotEmptyString(src))
 			{
 				image.node = node;

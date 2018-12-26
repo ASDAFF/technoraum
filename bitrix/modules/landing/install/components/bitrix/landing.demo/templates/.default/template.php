@@ -8,6 +8,7 @@ use \Bitrix\Landing\Manager;
 use \Bitrix\Main\Page\Asset;
 use \Bitrix\Main\Localization\Loc;
 use \Bitrix\Main\ModuleManager;
+\Bitrix\Main\UI\Extension::load("ui.fonts.opensans");
 Loc::loadMessages(__FILE__);
 
 // some errors
@@ -65,14 +66,15 @@ if ($arResult['FATAL'])
 	return;
 }
 
-// some vars
-$request = \Bitrix\Main\Application::getInstance()->getContext()->getRequest();
-$curUrl = $request->getRequestUri();
-
 // title
 $bodyClass = $APPLICATION->GetPageProperty('BodyClass');
-$APPLICATION->SetPageProperty('BodyClass', ($bodyClass ? $bodyClass.' ' : '') . 'no-all-paddings no-background');
-$APPLICATION->setTitle(Loc::getMessage('LANDING_TPL_TITLE'));
+$APPLICATION->SetPageProperty(
+	'BodyClass',
+	($bodyClass ? $bodyClass.' ' : '') . 'no-all-paddings no-background'
+);
+\Bitrix\Landing\Manager::setPageTitle(
+	Loc::getMessage('LANDING_TPL_TITLE')
+);
 
 // additional assets
 \CJSCore::Init(array('popup', 'action_dialog', 'loader', 'sidepanel'));
@@ -85,11 +87,7 @@ Asset::getInstance()->addJS('/bitrix/components/bitrix/landing.sites/templates/.
 
 <?
 foreach ($arResult['DEMO'] as $item):
-	if ($item['HIDE'])
-	{
-		continue;
-	}
-	$uriSelect = new \Bitrix\Main\Web\Uri($curUrl);
+	$uriSelect = new \Bitrix\Main\Web\Uri($arResult['CUR_URI']);
 	$uriSelect->addParams(array(
 		'tpl' => (
 					(
@@ -154,8 +152,23 @@ foreach ($arResult['DEMO'] as $item):
 	</div>
 </div>
 
-<?if (0):?>
-<a class="landing-license-banner" href="javascript:void(0)" onclick="BX.SidePanel.Instance.open('<?=SITE_DIR?>marketplace/category/sites/');">
+<?if ($arResult['NAVIGATION']->getPageCount() > 1):?>
+	<div class="<?= (defined('ADMIN_SECTION') && ADMIN_SECTION === true) ? '' : 'landing-navigation';?>">
+		<?$APPLICATION->IncludeComponent(
+			'bitrix:main.pagenavigation',
+			'',//grid
+			array(
+				'NAV_OBJECT' => $arResult['NAVIGATION'],
+				'SEF_MODE' => 'N',
+				'BASE_LINK' => $arResult['CUR_URI'] .
+							   ((defined('ADMIN_SECTION') && ADMIN_SECTION === true) ? '&slider' : '')//@tmp bug #105866
+			),
+			false
+		);?>
+	</div>
+<?endif;?>
+
+<a class="landing-license-banner" href="javascript:void(0)" onclick="BX.SidePanel.Instance.open('<?= SITE_DIR;?>marketplace/?placement=site_templates');">
 	<div class="landing-license-banner-icon">
 		<div class="landing-license-banner-icon-arrow"></div>
 	</div>
@@ -163,7 +176,6 @@ foreach ($arResult['DEMO'] as $item):
 		<?= Loc::getMessage('LANDING_TPL_LOAD_APP_TEMPLATE');?>
 	</div>
 </a>
-<?endif;?>
 
 <script type="text/javascript">
 	BX.ready(function ()

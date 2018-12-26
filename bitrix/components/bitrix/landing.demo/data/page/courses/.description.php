@@ -12,8 +12,6 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_COURSES_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
-			'THEME_CODE' => 'courses',
-			'THEME_CODE_TYPO' => 'courses',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/courses/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_COURSES_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_COURSES_DESCRIPTION'),
@@ -41,8 +39,8 @@ return array(
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
 					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-font-weight-700 g-font-size-12 g-pt-20 g-pt-0--lg g-mb-20 g-mb-0--lg ml-auto g-mr-20">
-						<li class="landing-block-node-menu-list-item nav-item g-mr-3--lg g-mb-5 g-mb-0--lg active">
-							<a href="#block@block[40.1.three_cols_carousel]" class="landing-block-node-menu-list-item-link nav-link" target="_self">HOME</a><span class="sr-only">(current)</span>
+						<li class="landing-block-node-menu-list-item nav-item g-mr-3--lg g-mb-5 g-mb-0--lg ">
+							<a href="#block@block[40.1.three_cols_carousel]" class="landing-block-node-menu-list-item-link nav-link" target="_self">HOME</a>
 						</li>
 						<li class="landing-block-node-menu-list-item nav-item g-mx-3--lg g-mb-5 g-mb-0--lg">
 							<a href="#block@block[31.1.two_cols_text_img]" class="landing-block-node-menu-list-item-link nav-link" target="_self">ABOUT</a>
@@ -100,6 +98,9 @@ return array(
 			 data-infinite="true"
 			 data-autoplay="true"
 			 data-slides-show="3"
+			 data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-45 g-font-size-40 g-color-white g-bg-primary"
+			 data-arrow-left-classes="fa fa-angle-left g-left-minus-25"
+			 data-arrow-right-classes="fa fa-angle-right g-right-minus-25"
 			 data-responsive=\'[{
                  "breakpoint": 1200,
                  "settings": {
@@ -895,6 +896,9 @@ return array(
 		<div class="js-carousel g-pos-rel g-mx-minus-15"
 			 data-infinite="true"
 			 data-slides-show="2"
+			 data-arrows-classes="u-arrow-v1 g-absolute-centered--y g-width-45 g-height-45 g-font-size-40 g-color-white g-bg-primary"
+			 data-arrow-left-classes="fa fa-angle-left g-left-minus-25"
+			 data-arrow-right-classes="fa fa-angle-right g-right-minus-25"
 			 data-responsive=\'[{
                  "breakpoint": 1200,
                  "settings": {
