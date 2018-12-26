@@ -36,10 +36,10 @@ $templateData = array(
 					if ($arItem["VALUES"]["MAX"]["VALUE"] - $arItem["VALUES"]["MIN"]["VALUE"] <= 0)
 						continue;
 
-					$min_price = ($arItem["VALUES"]["MIN"]["HTML_VALUE"]) ? $arItem["VALUES"]["MIN"]["HTML_VALUE"] : $arItem["VALUES"]["MIN"]["VALUE"];
+					$min_price = ($arItem["VALUES"]["MIN"]["HTML_VALUE"]) ? $arItem["VALUES"]["MIN"]["HTML_VALUE"] : "";
 					$min_price = number_format($min_price, 0, '.', '');
 
-					$max_price = ($arItem["VALUES"]["MAX"]["HTML_VALUE"]) ? $arItem["VALUES"]["MAX"]["HTML_VALUE"] : $arItem["VALUES"]["MAX"]["VALUE"];
+					$max_price = ($arItem["VALUES"]["MAX"]["HTML_VALUE"]) ? $arItem["VALUES"]["MAX"]["HTML_VALUE"] : "";
 					$max_price = number_format($max_price, 0, '.', '');
 					?>
 					<div class="bx_filter_parameters_box active cat_filter_block_div">
@@ -55,6 +55,7 @@ $templateData = array(
 											name="<?echo $arItem["VALUES"]["MIN"]["CONTROL_NAME"]?>"
 											id="<?echo $arItem["VALUES"]["MIN"]["CONTROL_ID"]?>"
 											value="<?=$min_price?>"
+											placeholder="<?=number_format($arItem["VALUES"]["MIN"]["VALUE"], 0, '.', '')?>"
 											size="5"
 											onkeyup="smartFilter.keyup(this)"
 										/>
@@ -68,6 +69,7 @@ $templateData = array(
 											name="<?echo $arItem["VALUES"]["MAX"]["CONTROL_NAME"]?>"
 											id="<?echo $arItem["VALUES"]["MAX"]["CONTROL_ID"]?>"
 											value="<?=$max_price?>"
+											placeholder="<?=number_format($arItem["VALUES"]["MAX"]["VALUE"], 0, '.', '')?>"
 											size="5"
 											onkeyup="smartFilter.keyup(this)"
 										/>
@@ -176,7 +178,8 @@ $templateData = array(
 											type="text"
 											name="<?echo $arItem["VALUES"]["MIN"]["CONTROL_NAME"]?>"
 											id="<?echo $arItem["VALUES"]["MIN"]["CONTROL_ID"]?>"
-											value="<?echo number_format(($arItem["VALUES"]["MIN"]["HTML_VALUE"]) ? $arItem["VALUES"]["MIN"]["HTML_VALUE"] : $arItem["VALUES"]["MIN"]["VALUE"] , 1 , "." , " ")?>"
+											value="<?echo number_format(($arItem["VALUES"]["MIN"]["HTML_VALUE"]) ? $arItem["VALUES"]["MIN"]["HTML_VALUE"] : "" , 1 , "." , " ")?>"
+											placeholder="<?=number_format($arItem["VALUES"]["MIN"]["VALUE"], 1, '.', '')?>"
 											size="5"
 											onkeyup="smartFilter.keyup(this)"
 										/>
@@ -189,7 +192,8 @@ $templateData = array(
 											type="text"
 											name="<?echo $arItem["VALUES"]["MAX"]["CONTROL_NAME"]?>"
 											id="<?echo $arItem["VALUES"]["MAX"]["CONTROL_ID"]?>"
-											value="<?echo number_format(($arItem["VALUES"]["MAX"]["HTML_VALUE"]) ? $arItem["VALUES"]["MAX"]["HTML_VALUE"] : $arItem["VALUES"]["MAX"]["VALUE"] , 1 , "." , " ")?>"
+											value="<?echo number_format(($arItem["VALUES"]["MAX"]["HTML_VALUE"]) ? $arItem["VALUES"]["MAX"]["HTML_VALUE"] : "" , 1 , "." , " ")?>"
+											placeholder="<?=number_format($arItem["VALUES"]["MAX"]["VALUE"], 1, '.', '')?>"
 											size="5"
 											onkeyup="smartFilter.keyup(this)"
 										/>
