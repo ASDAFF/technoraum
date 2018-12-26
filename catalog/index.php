@@ -242,6 +242,8 @@ $APPLICATION->SetTitle("Каталог");
 		"COMPARE_POSITION_FIXED" => "Y",
 		"COMPARE_POSITION" => "top left",
 		"TOP_ROTATE_TIMER" => "30",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO",
 		"SEF_URL_TEMPLATES" => array(
 			"sections" => "",
 			"section" => "#SECTION_CODE#/",
