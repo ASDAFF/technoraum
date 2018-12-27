@@ -223,6 +223,8 @@ $(document).ready(function()
 		
 		if($(this).hasClass("active") == false)
 		{
+			var url = $(this).attr("data-href");
+			$.post(url);
 
 			setTimeout(function()
 			{
