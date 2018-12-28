@@ -585,6 +585,8 @@ BX.Iblock.SmartFilter = (function()
 			var priceDiff = this.maxPrice - this.fltMaxPrice;
 			this.fltMaxPercent = (priceDiff*100)/this.priceDiff;
 
+			console.log(this.fltMaxPercent);
+
 			if (this.rightPercent > this.fltMaxPercent)
 				this.colorAvailableActive.style.right = this.rightPercent + "%";
 			else
