@@ -72,8 +72,9 @@ use Bitrix\Main\Localization\Loc;
 						<?=Loc::getMessage('SBB_ORDER')?>
 					</button>
 
-					<div class="basket-coupon-block-total-price-difference credit" id="getCredit">
-						Купить в кредит
+					<div class="i_creditbtn_first" id="getCredit" style="width:180px">
+						<p id="getPaymentDcAll"></p>
+						<a class="i_creditgreen" href="javascript:void(0)" style="padding: 2px 0px;width: 105px;">В кредит</a>
 					</div>
 				</div>
 			</div>

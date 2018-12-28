@@ -110,10 +110,12 @@ $this->addExternalCss('/bitrix/css/main/bootstrap.css');
 					<p class="title">
 						<a href="<?=$item["DETAIL_PAGE_URL"]?>"><?=$item["NAME"]?></a>
 					</p>
-					<p class="direct-credit-section" arrProducts='<?=\Bitrix\Main\Web\Json::encode($item['DIRECT_CREDIT'],null)?>'>
 
-						<a href="javascript:void(0)" style="color: #35a2e8;font-weight: normal;">Купить в кредит</a>
-					</p>
+					<div class="i_creditbtn_first direct-credit-section" arrProducts='<?=\Bitrix\Main\Web\Json::encode($item['DIRECT_CREDIT'],null)?>'>
+						<p class="getPaymentDcSection<?=$item['ID']?>"></p>
+						<a class="i_creditgreen" href="javascript:void(0)">Купить в кредит</a>
+					</div>
+
 					<div class="the_price">
 						<? if($item["PROPERTIES"]["OLD_PRICE"]["VALUE"]):?>
 							<p class="old_price"><?=$item["PROPERTIES"]["OLD_PRICE_VAL"]["VALUE"];?> &#8381;</p>

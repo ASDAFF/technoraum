@@ -32,9 +32,30 @@ $( function() {
 
     if(arrProducts) {
 
+        var arrProd = [];
+        $('.direct-credit-section').each(function(li, el){
+            arrProd[li] = JSON.parse($(el).attr("arrProducts"));
+        });
+        DCLoans(partnerID, 'getPayment', { products : arrProd }, function(result){
+            if(result.status == true){
+                $.each(result.payments, function( index, value ) {
+                    if(value){
+                        $('.getPaymentDcSection' + index).html(value.payment + "<span>руб/мес</span>");
+                    }
+                });
+            }
+        });
+
         DCLoans(partnerID, 'getPayment', { products : arrProducts }, function(result){
             if(result.status == true){
-                $('#getPaymentDc').text("от " + result.payments[arrProducts[0].id].payment + " руб./мес.");
+                $('#getPaymentDc').html(result.payments[arrProducts[0].id].payment + "<span>руб/мес</span>");
+                var paymentAll = 0;
+                $.each(result.payments, function( index, value ) {
+                    if(value){
+                        paymentAll += value.payment;
+                    }
+                });
+                $('#getPaymentDcAll').html(paymentAll + "<span>руб/мес</span>");
             }
         });
 
