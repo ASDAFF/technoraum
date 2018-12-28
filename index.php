@@ -66,217 +66,34 @@ $APPLICATION->SetTitle("Купить технику Karcher в Краснодаре на официальном сайте
 	</div>
 
  </section>
-<?
-$main_sections = array(7, 8, 11);
-$APPLICATION->IncludeComponent("bitrix:catalog", "home_categories", Array(
-	"ACTION_VARIABLE" => "action",	// Название переменной, в которой передается действие
-		"ADD_ELEMENT_CHAIN" => "Y",	// Включать название элемента в цепочку навигации
-		"ADD_PROPERTIES_TO_BASKET" => "Y",	// Добавлять в корзину свойства товаров и предложений
-		"ADD_SECTIONS_CHAIN" => "Y",	// Включать раздел в цепочку навигации
-		"AJAX_MODE" => "N",	// Включить режим AJAX
-		"AJAX_OPTION_ADDITIONAL" => "",	// Дополнительный идентификатор
-		"AJAX_OPTION_HISTORY" => "N",	// Включить эмуляцию навигации браузера
-		"AJAX_OPTION_JUMP" => "N",	// Включить прокрутку к началу компонента
-		"AJAX_OPTION_STYLE" => "Y",	// Включить подгрузку стилей
-		"BASKET_URL" => "/personal/cart/",	// URL, ведущий на страницу с корзиной покупателя
-		"CACHE_FILTER" => "N",	// Кешировать при установленном фильтре
-		"CACHE_GROUPS" => "Y",	// Учитывать права доступа
-		"CACHE_TIME" => "36000000",	// Время кеширования (сек.)
-		"CACHE_TYPE" => "A",	// Тип кеширования
-		"COMPATIBLE_MODE" => "Y",	// Включить режим совместимости
-		"CONVERT_CURRENCY" => "N",	// Показывать цены в одной валюте
-		"DETAIL_BACKGROUND_IMAGE" => "-",	// Установить фоновую картинку для шаблона из свойства
-		"DETAIL_BROWSER_TITLE" => "-",	// Установить заголовок окна браузера из свойства
-		"DETAIL_CHECK_SECTION_ID_VARIABLE" => "N",	// Использовать код группы из переменной, если не задан раздел элемента
-		"DETAIL_META_DESCRIPTION" => "-",	// Установить описание страницы из свойства
-		"DETAIL_META_KEYWORDS" => "-",	// Установить ключевые слова страницы из свойства
-		"DETAIL_PROPERTY_CODE" => array(	// Свойства
-			0 => "ARTICLE",
-			1 => "BRAND",
-			2 => "DETAIL_P7",
-			3 => "DETAIL_P8",
-			4 => "PRESSURE",
-			5 => "DETAIL_P1",
-			6 => "OLD_PRICE",
-			7 => "DETAIL_P3",
-			8 => "POWER",
-			9 => "TENSION",
-			10 => "DETAIL_P4",
-			11 => "DETAIL_P5",
-			12 => "PERFOMANCE",
-			13 => "DETAIL_P2",
-			14 => "DETAIL_P6",
-			15 => "OLD_PRICE_VAL",
-			16 => "STICKER",
-			17 => "",
-		),
-		"DETAIL_SET_CANONICAL_URL" => "N",	// Устанавливать канонический URL
-		"DETAIL_SET_VIEWED_IN_COMPONENT" => "N",	// Включить сохранение информации о просмотре товара на детальной странице для старых шаблонов
-		"DETAIL_SHOW_PICTURE" => "Y",	// Показывать изображение
-		"DETAIL_STRICT_SECTION_CHECK" => "N",	// Строгая проверка раздела для детального показа элемента
-		"DISABLE_INIT_JS_IN_COMPONENT" => "N",	// Не подключать js-библиотеки в компоненте
-		"DISPLAY_BOTTOM_PAGER" => "Y",	// Выводить под списком
-		"DISPLAY_TOP_PAGER" => "N",	// Выводить над списком
-		"ELEMENT_SORT_FIELD" => "sort",	// По какому полю сортируем товары в разделе
-		"ELEMENT_SORT_FIELD2" => "id",	// Поле для второй сортировки товаров в разделе
-		"ELEMENT_SORT_ORDER" => "asc",	// Порядок сортировки товаров в разделе
-		"ELEMENT_SORT_ORDER2" => "desc",	// Порядок второй сортировки товаров в разделе
-		"GIFTS_DETAIL_BLOCK_TITLE" => "Выберите один из подарков",	// Текст заголовка "Подарки" в детальном просмотре
-		"GIFTS_DETAIL_HIDE_BLOCK_TITLE" => "N",	// Скрыть заголовок "Подарки" в детальном просмотре
-		"GIFTS_DETAIL_PAGE_ELEMENT_COUNT" => "4",	// Количество элементов в блоке "Подарки" в строке в детальном просмотре
-		"GIFTS_DETAIL_TEXT_LABEL_GIFT" => "Подарок",	// Текст метки "Подарка" в детальном просмотре
-		"GIFTS_MAIN_PRODUCT_DETAIL_BLOCK_TITLE" => "Выберите один из товаров, чтобы получить подарок",	// Текст заголовка "Товары к подарку"
-		"GIFTS_MAIN_PRODUCT_DETAIL_HIDE_BLOCK_TITLE" => "N",	// Скрыть заголовок "Товары к подарку" в детальном просмотре
-		"GIFTS_MAIN_PRODUCT_DETAIL_PAGE_ELEMENT_COUNT" => "4",	// Количество элементов в блоке "Товары к подарку" в строке в детальном просмотре
-		"GIFTS_MESS_BTN_BUY" => "Выбрать",	// Текст кнопки "Выбрать"
-		"GIFTS_SECTION_LIST_BLOCK_TITLE" => "Подарки к товарам этого раздела",	// Текст заголовка "Подарки" в списке
-		"GIFTS_SECTION_LIST_HIDE_BLOCK_TITLE" => "N",	// Скрыть заголовок "Подарки" в списке
-		"GIFTS_SECTION_LIST_PAGE_ELEMENT_COUNT" => "4",	// Количество элементов в блоке "Подарки" строке в списке
-		"GIFTS_SECTION_LIST_TEXT_LABEL_GIFT" => "Подарок",	// Текст метки "Подарка" в списке
-		"GIFTS_SHOW_DISCOUNT_PERCENT" => "Y",	// Показывать процент скидки
-		"GIFTS_SHOW_IMAGE" => "Y",	// Показывать изображение
-		"GIFTS_SHOW_NAME" => "Y",	// Показывать название
-		"GIFTS_SHOW_OLD_PRICE" => "Y",	// Показывать старую цену
-		"HIDE_NOT_AVAILABLE" => "N",	// Недоступные товары
-		"HIDE_NOT_AVAILABLE_OFFERS" => "N",	// Недоступные торговые предложения
-		"IBLOCK_ID" => "8",	// Инфоблок
-		"IBLOCK_TYPE" => "catalog",	// Тип инфоблока
-		"INCLUDE_SUBSECTIONS" => "Y",	// Показывать элементы подразделов раздела
-		"INCLUDE_IBLOCK_INTO_CHAIN" => "Y",
-		"LINE_ELEMENT_COUNT" => "3",	// Количество элементов, выводимых в одной строке таблицы
-		"LINK_ELEMENTS_URL" => "link.php?PARENT_ELEMENT_ID=#ELEMENT_ID#",	// URL на страницу, где будет показан список связанных элементов
-		"LINK_IBLOCK_ID" => "",	// ID инфоблока, элементы которого связаны с текущим элементом
-		"LINK_IBLOCK_TYPE" => "",	// Тип инфоблока, элементы которого связаны с текущим элементом
-		"LINK_PROPERTY_SID" => "",	// Свойство, в котором хранится связь
-		"LIST_BROWSER_TITLE" => "-",	// Установить заголовок окна браузера из свойства раздела
-		"LIST_META_DESCRIPTION" => "-",	// Установить описание страницы из свойства раздела
-		"LIST_META_KEYWORDS" => "-",	// Установить ключевые слова страницы из свойства раздела
-		"LIST_PROPERTY_CODE" => array(	// Свойства
-			0 => "",
-			1 => "DESC",
-			2 => "",
-		),
-		"MESSAGE_404" => "",
-		"PAGER_BASE_LINK_ENABLE" => "N",	// Включить обработку ссылок
-		"PAGER_DESC_NUMBERING" => "N",	// Использовать обратную навигацию
-		"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",	// Время кеширования страниц для обратной навигации
-		"PAGER_SHOW_ALL" => "N",	// Показывать ссылку "Все"
-		"PAGER_SHOW_ALWAYS" => "N",	// Выводить всегда
-		"PAGER_TEMPLATE" => ".default",	// Шаблон постраничной навигации
-		"PAGER_TITLE" => "Товары",	// Название категорий
-		"PAGE_ELEMENT_COUNT" => "12",	// Количество элементов на странице
-		"PARTIAL_PRODUCT_PROPERTIES" => "N",	// Разрешить добавлять в корзину товары, у которых заполнены не все характеристики
-		"PRICE_CODE" => array(	// Тип цены
-			0 => "price",
-		),
-		"PRICE_VAT_INCLUDE" => "Y",	// Включать НДС в цену
-		"PRICE_VAT_SHOW_VALUE" => "N",	// Отображать значение НДС
-		"PRODUCT_ID_VARIABLE" => "id",	// Название переменной, в которой передается код товара для покупки
-		"PRODUCT_PROPERTIES" => "",	// Характеристики товара, добавляемые в корзину
-		"PRODUCT_PROPS_VARIABLE" => "prop",	// Название переменной, в которой передаются характеристики товара
-		"PRODUCT_QUANTITY_VARIABLE" => "quantity",	// Название переменной, в которой передается количество товара
-		"SECTION_BACKGROUND_IMAGE" => "-",	// Установить фоновую картинку для шаблона из свойства
-		"SECTION_COUNT_ELEMENTS" => "Y",	// Показывать количество элементов в разделе
-		"SECTION_ID_VARIABLE" => "SECTION_ID",	// Название переменной, в которой передается код группы
-		"SECTION_SHOW_PARENT_NAME" => "Y",	// Показывать заголовок раздела
-		"SECTION_TOP_DEPTH" => "2",	// Максимальная отображаемая глубина разделов
-		"SEF_MODE" => "Y",	// Включить поддержку ЧПУ
-		"SET_LAST_MODIFIED" => "N",	// Устанавливать в заголовках ответа время модификации страницы
-		"SET_STATUS_404" => "Y",	// Устанавливать статус 404
-		"SET_TITLE" => "Y",	// Устанавливать заголовок страницы
-		"SHOW_404" => "Y",	// Показ специальной страницы
-		"SHOW_DEACTIVATED" => "N",	// Показывать деактивированные товары
-		"SHOW_PRICE_COUNT" => "1",	// Выводить цены для количества
-		"SHOW_TOP_ELEMENTS" => "Y",	// Выводить топ элементов
-		"TOP_ELEMENT_COUNT" => "1",	// Количество выводимых элементов
-		"TOP_ELEMENT_SORT_FIELD" => "sort",	// По какому полю сортируем товары в разделе
-		"TOP_ELEMENT_SORT_FIELD2" => "id",	// Поле для второй сортировки товаров в разделе
-		"TOP_ELEMENT_SORT_ORDER" => "asc",	// Порядок сортировки товаров в разделе
-		"TOP_ELEMENT_SORT_ORDER2" => "desc",	// Порядок второй сортировки товаров в разделе
-		"TOP_LINE_ELEMENT_COUNT" => "3",	// Количество элементов, выводимых в одной строке таблицы
-		"TOP_PROPERTY_CODE" => array(	// Свойства
-			0 => "",
-			1 => "",
-		),
-		"USER_CONSENT" => "N",	// Запрашивать согласие
-		"USER_CONSENT_ID" => "0",	// Соглашение
-		"USER_CONSENT_IS_CHECKED" => "Y",	// Галка по умолчанию проставлена
-		"USER_CONSENT_IS_LOADED" => "N",	// Загружать текст сразу
-		"USE_ALSO_BUY" => "N",	// Показывать блок "С этим товаром покупают"
-		"USE_COMPARE" => "N",	// Разрешить сравнение товаров
-		"USE_ELEMENT_COUNTER" => "Y",	// Использовать счетчик просмотров
-		"USE_FILTER" => "Y",	// Показывать фильтр
-		"USE_GIFTS_DETAIL" => "Y",	// Показывать блок "Подарки" в детальном просмотре
-		"USE_GIFTS_MAIN_PR_SECTION_LIST" => "Y",	// Показывать блок "Товары к подарку" в детальном просмотре
-		"USE_GIFTS_SECTION" => "Y",	// Показывать блок "Подарки" в списке
-		"USE_MAIN_ELEMENT_SECTION" => "N",	// Использовать основной раздел для показа элемента
-		"USE_PRICE_COUNT" => "N",	// Использовать вывод цен с диапазонами
-		"USE_PRODUCT_QUANTITY" => "N",	// Разрешить указание количества товара
-		"USE_REVIEW" => "N",	// Разрешить отзывы
-		"USE_STORE" => "N",	// Показывать блок "Количество товара на складе"
-		"COMPONENT_TEMPLATE" => "main_catalog",
-		"SEF_FOLDER" => "/",	// Каталог ЧПУ (относительно корня сайта)
-		"FILE_404" => "",	// Страница для показа (по умолчанию /404.php)
-		"FILTER_NAME" => "",	// Фильтр
-		"FILTER_FIELD_CODE" => array(	// Поля
-			0 => "",
-			1 => "",
-		),
-		"FILTER_PROPERTY_CODE" => array(	// Свойства
-			0 => "",
-			1 => "",
-		),
-		"FILTER_PRICE_CODE" => array(	// Тип цены
-			0 => "price",
-		),
-		"TEMPLATE_THEME" => "blue",
-		"ADD_PICT_PROP" => "-",
-		"LABEL_PROP" => "-",
-		"COMMON_SHOW_CLOSE_POPUP" => "N",
-		"SHOW_DISCOUNT_PERCENT" => "N",
-		"SHOW_OLD_PRICE" => "N",
-		"DETAIL_SHOW_MAX_QUANTITY" => "N",
-		"MESS_BTN_BUY" => "Купить",
-		"MESS_BTN_ADD_TO_BASKET" => "В корзину",
-		"MESS_BTN_COMPARE" => "Сравнение",
-		"MESS_BTN_DETAIL" => "Подробнее",
-		"MESS_NOT_AVAILABLE" => "Нет в наличии",
-		"DETAIL_USE_VOTE_RATING" => "N",
-		"DETAIL_USE_COMMENTS" => "N",
-		"DETAIL_BRAND_USE" => "N",
-		"USE_SALE_BESTSELLERS" => "Y",
-		"FILTER_VIEW_MODE" => "VERTICAL",
-		"USE_COMMON_SETTINGS_BASKET_POPUP" => "N",
-		"COMMON_ADD_TO_BASKET_ACTION" => "ADD",
-		"TOP_ADD_TO_BASKET_ACTION" => "ADD",
-		"SECTION_ADD_TO_BASKET_ACTION" => "ADD",
-		"DETAIL_ADD_TO_BASKET_ACTION" => array(
-			0 => "BUY",
-		),
-		"TOP_VIEW_MODE" => "SECTION",
-		"SECTIONS_VIEW_MODE" => "LIST",
-		"SECTIONS_SHOW_PARENT_NAME" => "Y",
-		"DETAIL_DISPLAY_NAME" => "Y",
-		"DETAIL_DETAIL_PICTURE_MODE" => "IMG",
-		"DETAIL_ADD_DETAIL_TO_SLIDER" => "N",
-		"DETAIL_DISPLAY_PREVIEW_TEXT_MODE" => "E",
-		"USE_BIG_DATA" => "Y",
-		"BIG_DATA_RCM_TYPE" => "bestsell",
-		"SEF_URL_TEMPLATES" => array(
-			"sections" => "",
-			"section" => "#SECTION_CODE_PATH#/",
-			"element" => "#SECTION_CODE_PATH#/#ELEMENT_CODE#/",
-			"compare" => "compare.php?action=#ACTION_CODE#",
-			"smart_filter" => "#SECTION_CODE_PATH#/filter/#SMART_FILTER_PATH#/apply/",
-		),
-		"VARIABLE_ALIASES" => array(
-			"compare" => array(
-				"ACTION_CODE" => "action",
-			),
-		)
+
+<?$APPLICATION->IncludeComponent("bitrix:news.line", ".block.home", Array(
+	"ACTIVE_DATE_FORMAT" => "d.m.Y",	// Формат показа даты
+	"CACHE_GROUPS" => "Y",	// Учитывать права доступа
+	"CACHE_TIME" => "300",	// Время кеширования (сек.)
+	"CACHE_TYPE" => "A",	// Тип кеширования
+	"DETAIL_URL" => "",	// URL, ведущий на страницу с содержимым элемента раздела
+	"FIELD_CODE" => array(	// Поля
+		0 => "CODE",
+		1 => "NAME",
+		2 => "PREVIEW_TEXT",
+		3 => "PREVIEW_PICTURE",
+		4 => "",
 	),
+	"IBLOCKS" => array(	// Код информационного блока
+		0 => "12",
+	),
+	"IBLOCK_TYPE" => "materials",	// Тип информационного блока
+	"NEWS_COUNT" => "3",	// Количество новостей на странице
+	"SORT_BY1" => "SORT",	// Поле для первой сортировки новостей
+	"SORT_BY2" => "SORT",	// Поле для второй сортировки новостей
+	"SORT_ORDER1" => "ASC",	// Направление для первой сортировки новостей
+	"SORT_ORDER2" => "ASC",	// Направление для второй сортировки новостей
+),
 	false
 );?>
+
+
 <section class="section glav_cat_section hits_section">
 <div class="inner_section clearfix">
 	<div class="the_section_head">

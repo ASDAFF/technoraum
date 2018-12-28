@@ -246,7 +246,7 @@ nav.header_menu > ul > li > ul > li.has_ul > a:after {display:block;}
 .glav_services_div .text p.title {font-weight:bold;font-size:20px;line-height:24px;color:#fff;padding-bottom:10px;}
 .glav_services_div:hover .text p {color:#111;}
 .glav_services_div:hover .text p.title {color:#111;}
-.glav_services_div .text a.button {width:98px;height:42px;border:0;line-height:42px;font-weight:bold;font-size:14px;color:#fff;background:#616569;}
+.glav_services_div .text a.button {border:0;line-height:42px;font-weight:bold;font-size:14px;color:#fff;background:#616569;padding: 10px 15px;}
 .glav_services_div .text a.button:hover {background:#515559;}
 
 .middle_consult_section {}
