@@ -103,12 +103,20 @@ JCSmartFilter.prototype.updateItem = function (PID, arItem)
 		{
 			if (arItem.VALUES.MIN)
 			{
-				trackBar.setMinFilteredValue(arItem.VALUES.MIN.VALUE);
+				if (arItem.VALUES.MIN.FILTERED_VALUE)
+					trackBar.setMinFilteredValue(arItem.VALUES.MIN.FILTERED_VALUE);
+				else
+					trackBar.setMinFilteredValue(arItem.VALUES.MIN.VALUE);
 			}
 
 			if (arItem.VALUES.MAX)
 			{
-				trackBar.setMaxFilteredValue(arItem.VALUES.MAX.VALUE);
+				console.log(arItem.VALUES.MAX.FILTERED_VALUE);
+				console.log(arItem.VALUES.MAX.VALUE);
+				if (arItem.VALUES.MAX.FILTERED_VALUE)
+					trackBar.setMaxFilteredValue(arItem.VALUES.MAX.FILTERED_VALUE);
+				else
+					trackBar.setMaxFilteredValue(arItem.VALUES.MAX.VALUE);
 			}
 		}
 	}
