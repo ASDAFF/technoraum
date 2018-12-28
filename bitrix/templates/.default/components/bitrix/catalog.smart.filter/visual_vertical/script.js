@@ -111,8 +111,6 @@ JCSmartFilter.prototype.updateItem = function (PID, arItem)
 
 			if (arItem.VALUES.MAX)
 			{
-				console.log(arItem.VALUES.MAX.FILTERED_VALUE);
-				console.log(arItem.VALUES.MAX.VALUE);
 				if (arItem.VALUES.MAX.FILTERED_VALUE)
 					trackBar.setMaxFilteredValue(arItem.VALUES.MAX.FILTERED_VALUE);
 				else
