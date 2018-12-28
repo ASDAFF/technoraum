@@ -111,6 +111,7 @@ JCSmartFilter.prototype.updateItem = function (PID, arItem)
 
 			if (arItem.VALUES.MAX)
 			{
+console.log(arItem.VALUES.MAX.FILTERED_VALUE);
 				if (arItem.VALUES.MAX.FILTERED_VALUE)
 					trackBar.setMaxFilteredValue(arItem.VALUES.MAX.FILTERED_VALUE);
 				else
@@ -579,13 +580,12 @@ BX.Iblock.SmartFilter = (function()
 
 	SmartFilter.prototype.setMaxFilteredValue = function (fltMaxPrice)
 	{
+		console.log(fltMaxPrice);
 		this.fltMaxPrice = parseFloat(fltMaxPrice);
 		if (this.fltMaxPrice <= this.maxPrice)
 		{
 			var priceDiff = this.maxPrice - this.fltMaxPrice;
 			this.fltMaxPercent = (priceDiff*100)/this.priceDiff;
-
-			console.log(this.fltMaxPercent);
 
 			if (this.rightPercent > this.fltMaxPercent)
 				this.colorAvailableActive.style.right = this.rightPercent + "%";
