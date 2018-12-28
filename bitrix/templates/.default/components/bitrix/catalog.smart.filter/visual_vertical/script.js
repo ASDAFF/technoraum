@@ -103,19 +103,12 @@ JCSmartFilter.prototype.updateItem = function (PID, arItem)
 		{
 			if (arItem.VALUES.MIN)
 			{
-				if (arItem.VALUES.MIN.FILTERED_VALUE)
-					trackBar.setMinFilteredValue(arItem.VALUES.MIN.FILTERED_VALUE);
-				else
-					trackBar.setMinFilteredValue(arItem.VALUES.MIN.VALUE);
+				trackBar.setMinFilteredValue(arItem.VALUES.MIN.VALUE);
 			}
 
 			if (arItem.VALUES.MAX)
 			{
-console.log(arItem.VALUES.MAX.FILTERED_VALUE);
-				if (arItem.VALUES.MAX.FILTERED_VALUE)
-					trackBar.setMaxFilteredValue(arItem.VALUES.MAX.FILTERED_VALUE);
-				else
-					trackBar.setMaxFilteredValue(arItem.VALUES.MAX.VALUE);
+				trackBar.setMaxFilteredValue(arItem.VALUES.MAX.VALUE);
 			}
 		}
 	}
@@ -580,7 +573,6 @@ BX.Iblock.SmartFilter = (function()
 
 	SmartFilter.prototype.setMaxFilteredValue = function (fltMaxPrice)
 	{
-		console.log(fltMaxPrice);
 		this.fltMaxPrice = parseFloat(fltMaxPrice);
 		if (this.fltMaxPrice <= this.maxPrice)
 		{
