@@ -13,6 +13,13 @@ $aMenuLinks = Array(
 		Array(), 
 		Array(), 
 		"" 
+	),
+	Array(
+		"Покупка товара «В кредит»",
+		"/pay/pokupka-tovara-v-kredit/",
+		Array(),
+		Array(),
+		""
 	)
 );
 ?>
