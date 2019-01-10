@@ -137,7 +137,13 @@ while ($arItems = $dbBasketItems->Fetch())
 			   profit="<?=$arResult["PRICES"]["price"]["PRINT_DISCOUNT_DIFF"]?>"
 			   old_price="<?=$arResult["PRICES"]["price"]["PRINT_VALUE"];?>"
 				>
-				<span><?=$arResult["PRICES"]["price"]["PRINT_VALUE"]?></span>
+				<span>
+					<?if($arResult["PRICES"]["price"]["VALUE"]):?>
+						<?=$arResult["PRICES"]["price"]["PRINT_VALUE"]?>
+					<?else:?>
+						По запросу
+					<?endif;?>
+				</span>
 				<? if($arResult["PRODUCT"]["QUANTITY"]):?>
 					<span style="float:right;position:relative;top:20px" class="in_store">На складе</span>
 				<?else:?>
@@ -169,7 +175,13 @@ while ($arItems = $dbBasketItems->Fetch())
 					}
 					if($h == 0)
 					{
-						?><a class="button add_to_cart_button" href="<?=$url?>">Добавить в корзину</a><?
+						?>
+						<?if($arResult["PRICES"]["price"]["VALUE"]):?>
+							<a class="button add_to_cart_button" href="<?=$url?>">Добавить в корзину</a>
+						<?else:?>
+							<a class="fancy button request-a-price" data-name="<?=$arResult['NAME']?>" href="#request-a-price">Запросить цену</a>
+						<?endif;?>
+						<?
 					}
 					else
 					{

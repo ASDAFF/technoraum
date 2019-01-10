@@ -117,16 +117,26 @@ $this->addExternalCss('/bitrix/css/main/bootstrap.css');
 					</div>
 
 					<div class="the_price">
+						<p class="old_price">
 						<? if($item["PROPERTIES"]["OLD_PRICE"]["VALUE"]):?>
-							<p class="old_price"><?=$item["PROPERTIES"]["OLD_PRICE_VAL"]["VALUE"];?> &#8381;</p>
+							<?=$item["PROPERTIES"]["OLD_PRICE_VAL"]["VALUE"];?> &#8381;
 						<? endif; ?>
+						</p>
 						<p class="price"
 						   sale-procent="<?=$item["PRICES"]["price"]["DISCOUNT_DIFF_PERCENT"]?>"
 						   profit="<?=$item["PRICES"]["price"]["PRINT_DISCOUNT_DIFF"]?>"
 						   old_price="<?=$item["PRICES"]["price"]["PRINT_VALUE"];?>"
-							><?=$item["PRICES"]["price"]["PRINT_VALUE"];?></p>
+							>
+							<?if($item["PRICES"]["price"]["VALUE"]):?>
+								<?=$item["PRICES"]["price"]["PRINT_VALUE"]?>
+							<?else:?>
+								<span style="font-size: 16px;">По запросу</span>
+							<?endif;?>
+						</p>
 					</div>
-					<a class="button to_cart_button" data-href="<?=$item["BUY_URL"]?>">В корзине</a>
+					<?if($item["PRICES"]["price"]["VALUE"]):?>
+						<a class="button to_cart_button" data-href="<?=$item["BUY_URL"]?>">В корзине</a>
+					<?endif;?>
 				</div>
 			</div>
 			<?

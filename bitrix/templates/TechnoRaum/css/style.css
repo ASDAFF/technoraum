@@ -265,6 +265,10 @@ nav.header_menu > ul > li > ul > li.has_ul > a:after {display:block;}
 .the_form .the_form_div input[type="text"] {display:block;width:348px;height:54px;padding:0 20px;font-size: 16px;font-family: "Montserrat-SemiBold";font-weight: 300;  text-align: left;  color: #000;background-color: #ffffff;  border: solid 2px #eeeeee;outline:none;box-sizing:border-box;-moz-border-radius:0px;-webkit-border-radius:0px;border-radius:0px;}
 .the_form .the_form_div input[type="text"]::-webkit-input-placeholder {font-size: 16px;  color: #a1a1a0;font-weight:300;font-family: "Montserrat-SemiBold";}
 .the_form .the_form_div input[type="text"]:-moz-placeholder {font-size: 16px;  color: #a1a1a0;font-weight:300;font-family: "Montserrat-SemiBold";}
+
+.the_form .the_form_div textarea::-webkit-input-placeholder {font-size: 16px;  color: #a1a1a0;font-weight:300;font-family: "Montserrat-SemiBold";}
+.the_form .the_form_div textarea:-moz-placeholder {font-size: 16px;  color: #a1a1a0;font-weight:300;font-family: "Montserrat-SemiBold";}
+
 .the_form .the_form_div input[type="email"] {display:block;width:348px;height:54px;padding:0 20px;font-size: 16px;font-family: "Montserrat-SemiBold";font-weight: 300;  text-align: left;  color: #000;background-color: #ffffff;  border: solid 2px #eeeeee;outline:none;box-sizing:border-box;-moz-border-radius:0px;-webkit-border-radius:0px;border-radius:0px;}
 .the_form .the_form_div input[type="email"]::-webkit-input-placeholder {font-size: 16px;  color: #a1a1a0;font-weight:300;font-family: "Montserrat-SemiBold";}
 .the_form .the_form_div input[type="email"]:-moz-placeholder {font-size: 16px;  color: #a1a1a0;font-weight:300;font-family: "Montserrat-SemiBold";}
@@ -444,7 +448,7 @@ footer p.seo_by a {color: #009246;text-decoration:none;}
 .register-form input[type='submit']{padding: 10px 20px 10px 20px;background: #feee35;border: none;box-shadow: 0 0 5px #bfbebe;margin: 10px 0 10px 0;}
 .register-form .field{line-height:40px;}
 
-.popup .the_form .the_form_div textarea {resize:none;display:block;width:100%;padding:10px 15px;box-sizing:border-box; height: 200px;  border-radius: 0px; outline:none; background-color: #ffffff;  border: solid 1px #dddddd;}
+.popup .the_form .the_form_div textarea {resize:none;display:block;width:100%;padding:10px 15px;box-sizing:border-box; height: 200px;  border-radius: 0px; outline:none; background-color: #ffffff;  border: solid 2px #eee;}
 .popup p.form_title {font-size: 20px;padding-top:0;  font-weight: bold;  text-align: left;line-height:25px;  color: #000000;display:block;padding-bottom:21px;}
 .popup p.note {display:block;font-size:14px;color:#000;text-align:left;padding-bottom:10px;}
 .popup .the_form_div.the_form_div_submit {padding:15px 0 0 0;}
@@ -675,9 +679,14 @@ input.button.filter_clear_button:hover {border-color:transparent;text-decoration
 .card_page_specs .button_wrap a.button {font-size:16px;color:#111;font-weight:bold;margin-bottom:15px;}
 .card_page_specs a.button.add_to_cart_button {float:left;width:266px;height:56px;line-height:56px;border-color:#feee35;background:#feee35 url(../img/cart1.png) no-repeat 25px center;text-indent:15px;}
 .card_page_specs a.button.add_to_cart_button:hover {background-color:#eede25;border-color:#eede25;}
-.card_page_specs a.button.one_click_button {padding-left:0 !important;float:right;border-color:#feee35;background:none;width:238px;height:56px;line-height:56px;}
+.card_page_specs a.button.one_click_button {padding-left:0 !important;float:right;border-color:#feee35;background:none;width:238px;line-height:50px;}
 .card_page_specs a.button.one_click_button:hover {background-color:#eede25;border-color:#eede25;}
 .in_card_add{background: #feee35 url(../img/check.png) no-repeat !important;background-size: 25px 25px !important;background-position: 15px center !important;}
+
+.card_page_specs a.button.request-a-price {
+    display: inline-block;
+    line-height: 50px;
+}
 
 .card_page_specs span.in_store {font-size:16px;color:#111;padding-left:25px;display:block;background:url(../img/red_check.png) no-repeat 0 4px;line-height:22px;padding-bottom:20px;}
 .card_page_specs ul {list-style-image:url(../img/blue_ul.png);margin:0 0 10px 15px;}

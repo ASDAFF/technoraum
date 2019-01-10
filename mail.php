@@ -68,6 +68,26 @@ elseif($_POST["form_id"] == 5)
 	$subject = "Заявка на заказ услуги";
 	$message = "Поступила заявка с сайта TechnoRaum.ru на заказ услуги:\n"."Имя:".$_POST["name"]."\nТелефон: ".$_POST["tel"]."\nУслуга: ".$_POST["service"];
 }
+elseif($_POST["form_id"] == 8)
+{
+    $page = iconv("UTF-8","CP1251",trim(strip_tags($_POST["name_page"])));
+    $name = iconv("UTF-8","CP1251",trim(strip_tags($_POST["name"])));
+    $phone = iconv("UTF-8","CP1251",trim(strip_tags($_POST["tel"])));
+    $email = iconv("UTF-8","CP1251",trim(strip_tags($_POST["email"])));
+    $msg = iconv("UTF-8","CP1251",trim(strip_tags($_POST["msg"])));
+
+    $arEventFields = array(
+        "PAGE" => $page,
+        "NAME" => $name,
+        "PHONE" => $phone,
+        "EMAIL" => $email,
+        "MSG" => $msg
+    );
+
+    $event = "REQUEST_PRICE";
+
+    CEvent::Send($event, SITE_ID, $arEventFields);
+}
 
 if($subject && $message){
     mail($to, $subject, $message, $headers);
