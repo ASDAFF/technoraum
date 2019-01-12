@@ -328,10 +328,23 @@ a.ref {display:block;text-decoration:none;position:absolute;top:0;left:0;width:1
 .glav_cat_div .text .the_price p.price {font-size: 24px;line-height:42px;  font-weight: bold;color:#111111;position:relative;}
 .glav_cat_div .text .the_price p.old_price {font-size: 14px;min-height:22px;line-height:22px; text-decoration:line-through;  color: #a1a1a0;}
 
-.glav_cat_div .text a.button {-moz-transition:all 0s;-webkit-transition:all 0s;transition:all 0s;display:inline-block;vertical-align:bottom;width: 68px;background:url(../img/cart1.png) no-repeat center center;  height: 38px;line-height:38px;margin:0 0 3px 48px;font-size: 0px;text-indent:20px;border-width:2px;border-color:#feee35;color: #111111;  border-radius: 0px;  border: solid 2px #feee35;}
+.glav_cat_div .text a.button {-moz-transition:all 0s;-webkit-transition:all 0s;transition:all 0s;display:inline-block;vertical-align:bottom;width: 68px;background:url(../img/cart1.png) no-repeat center center;  height: 38px;line-height:38px;margin:0 0 3px 48px;font-size: 0px;text-indent:20px;border-width:2px;border-color:#feee35;color: #111111;  border-radius: 0px;  border: solid 2px #feee35;cursor: pointer;}
 .glav_cat_div .text a.button:hover {background:#feee35 url(../img/cart1.png) no-repeat center center;}
 .glav_cat_div .text a.button.active {margin-left:0;font-size: 12px;width:116px;background-image:url(../img/in_cart_check.png);background-color:#feee35;background-position:13px center;}
 
+.glav_cat_div .text a.request-a-price{
+    display: inline-block;
+    color: black;
+    font-size: 12px;
+    line-height: 10px;
+    padding: 15px 10px;
+    border: 2px solid #feee35;
+    text-decoration: none;
+}
+.glav_cat_div .text a.request-a-price:hover{
+    text-decoration: none;
+    background: #feee35;
+}
 
 
 .glav_news_section {padding:50px 0 55px 0;}

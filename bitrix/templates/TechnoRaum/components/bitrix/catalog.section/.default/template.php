@@ -136,6 +136,8 @@ $this->addExternalCss('/bitrix/css/main/bootstrap.css');
 					</div>
 					<?if($item["PRICES"]["price"]["VALUE"]):?>
 						<a class="button to_cart_button" data-href="<?=$item["BUY_URL"]?>">В корзине</a>
+					<?else:?>
+						<a class="fancy request-a-price" data-name="<?=$item['NAME']?>" href="#request-a-price">Запросить</a>
 					<?endif;?>
 				</div>
 			</div>

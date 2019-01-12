@@ -1,5 +1,20 @@
 $(document).ready(function(){
 
+    $(".request-a-price").click(function(){
+        var name = $(this).attr("data-name");
+        $(".rform").attr("data-name",name);
+    });
+    $(".rform").submit(function(e){
+        e.preventDefault();
+        var name = $(this).attr("data-name");
+        $.post("/mail.php",$(this).serialize() + "&name_page=" + name,function(data){
+            $(".fancybox-close").trigger("click");
+            setTimeout(function(){
+                $(".open_thanks").trigger("click");
+            },500);
+        });
+    });
+
     $(".mform").submit(function(e){
         e.preventDefault();
         $.post("/mail.php",$(this).serialize(),function(data){
