@@ -482,3 +482,14 @@ RBS PAYMENT https://securepayments.sberbank.ru/payment/rest/register.do REQUEST:
 	/home/t/technoraum/technoraum.ru/public_html/bitrix/php_interface/include/sale_payment/payment/payment.php:2
 	/home/t/technoraum/technoraum.ru/public_html/bitrix/modules/sale/lib/paysystem/compatibilityhandler.php:205
 ----------
+Host: technoraum.ru
+Date: 2019-01-11 09:44:40
+Module: sberbank.ecom
+RBS PAYMENT https://securepayments.sberbank.ru/payment/rest/register.do REQUEST: {"orderNumber":"287_0","language":"ru","amount":499000,"returnUrl":"https:\/\/technoraum.ru\/sale\/payment\/result.php?ID=287","description":"","currency":643,"userName":"technoraum-api","password":"Password*2","CMS":"Bitrix 18.1.5","jsonParams":"{\"CMS\":\"Bitrix 18.1.5\",\"Module-Version\":\"3.2.0\"}"} RESPONSE: {"orderId":"9cb197c1-8e09-7c17-9c27-f6e30015cc46","formUrl":"https:\/\/securepayments.sberbank.ru\/payment\/merchants\/sbersafe\/payment_ru.html?mdOrder=9cb197c1-8e09-7c17-9c27-f6e30015cc46"}
+    RBS::logger < RBS::gateway < RBS::register_order < require_once < require
+	/home/t/technoraum/technoraum.ru/public_html/bitrix/modules/sberbank.ecom/payment/rbs.php:122
+	/home/t/technoraum/technoraum.ru/public_html/bitrix/modules/sberbank.ecom/payment/rbs.php:169
+	/home/t/technoraum/technoraum.ru/public_html/bitrix/modules/sberbank.ecom/payment/payment.php:242
+	/home/t/technoraum/technoraum.ru/public_html/bitrix/php_interface/include/sale_payment/payment/payment.php:2
+	/home/t/technoraum/technoraum.ru/public_html/bitrix/modules/sale/lib/paysystem/compatibilityhandler.php:205
+----------
