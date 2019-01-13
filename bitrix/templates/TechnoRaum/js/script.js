@@ -65,6 +65,7 @@ $( function() {
             phoneCredit = $( "#phoneCredit" ),
             locationCredit = $( "#locationCredit" ),
             sectionProd = $( "#sectionProd" ),
+            rule = $( "#rule" ),
 
             allFields = $( [] ).add( name ).add( phoneCredit ),
             tips = $( ".validateTips" );
@@ -91,12 +92,22 @@ $( function() {
                 return true;
             }
         }
+        function checkCheckbox( o, n ) {
+            if (!o.is( ":checked" )) {
+                o.addClass( "ui-state-error" );
+                updateTips( "Поле " + n + " обязательное." );
+                return false;
+            } else {
+                return true;
+            }
+        }
 
         function addUser() {
             var valid = true;
             allFields.removeClass( "ui-state-error" );
             valid = valid && checkRegexp( fioCredit, /^[А-Я]([а-я])+$/i, "Только русские буквы без пробелов." );
             valid = valid && checkLength( phoneCredit, "Ваш телефон" );
+            valid = valid && checkCheckbox( rule, "Подтвердите согласие на обработку персональных данных." );
             if ( valid ) {
                 if(arrProducts[0] == undefined){
                     arrProducts[0] = JSON.parse(sectionProd.val());
@@ -124,7 +135,7 @@ $( function() {
         }
         dialog = $( "#dialog-form" ).dialog({
             autoOpen: false,
-            height: 400,
+            height: 440,
             width: 500,
             modal: true,
             buttons: {

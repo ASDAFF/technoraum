@@ -1261,7 +1261,7 @@ a.ui-button:active,
 	color: #23527c;
 }
 
-#dialog-form input{
+#dialog-form input[type="text"]{
 	height: 55px;
 	width: 100%;
 	border: 2px solid #eee;
@@ -1270,6 +1270,10 @@ a.ui-button:active,
 	font-size: 16px;
 	font-family: "Montserrat-SemiBold";
 	font-weight: 300;
+}
+
+#dialog-form select{
+	margin-bottom: 15px;
 }
 
 #dialog-form .validateTips{
