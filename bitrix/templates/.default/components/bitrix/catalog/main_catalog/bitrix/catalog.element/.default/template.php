@@ -95,9 +95,15 @@ while ($arItems = $dbBasketItems->Fetch())
 						unset($block);
 						break;
 				}
-				if($block)
-					echo '<div class="flag">'.$block.'</div>';
 			?>
+			<div class="flag">
+				<?=$block?>
+				<? if($arResult["PROPERTIES"]["STICKER_WARRANTY"]["VALUE"]):?>
+				<div class="line">
+					<img src="<?=CFile::ResizeImageGet($arResult["PROPERTIES"]["STICKER_WARRANTY"]["VALUE"], array('width' => 80, 'height' => 80), BX_RESIZE_IMAGE_PROPORTIONAL, true)['src']?>" alt="<?=$arResult['NAME']?>">
+				</div>
+				<? endif; ?>
+			</div>
 		</div>
 		<?
 			if($arResult["PROPERTIES"]["PHOTO"]["VALUE"])

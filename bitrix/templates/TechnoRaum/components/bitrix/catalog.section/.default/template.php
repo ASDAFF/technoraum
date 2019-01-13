@@ -27,8 +27,6 @@ $this->addExternalCss('/bitrix/css/main/bootstrap.css');
 			?>
 			<div class="glav_cat_div">
 				<?
-					if($item["PROPERTIES"]["GIFT"]["VALUE"])
-					{
 						$i = 0;
 						$summ = 0;
 						foreach($item["PROPERTIES"]["GIFT"]["VALUE"] as $gifts)
@@ -50,11 +48,23 @@ $this->addExternalCss('/bitrix/css/main/bootstrap.css');
 						$summ = number_format($summ , 0 , " " , " ");
 						?>
 						<div class="gift">
-							<div class="l"><img src="<?=SITE_TEMPLATE_PATH?>/img/gift_icon.png" /></div>
-							<div class="r">
-								<p style="font-weight:500">Подарок<br>на <span style="font-weight:500"><?=$summ?> &#8381;</span></p>
+							<?if($summ):?>
+							<div class="line">
+								<div class="l"><img src="<?=SITE_TEMPLATE_PATH?>/img/gift_icon.png" /></div>
+								<div class="r">
+									<p>Подарок<br>на <?=$summ?> &#8381;</p>
+								</div>
 							</div>
+							<? endif; ?>
+
+							<? if($item["PROPERTIES"]["STICKER_WARRANTY"]["VALUE"]):?>
+							<div class="line">
+								<img src="<?=CFile::ResizeImageGet($item["PROPERTIES"]["STICKER_WARRANTY"]["VALUE"], array('width'=>75, 'height'=> 75), BX_RESIZE_IMAGE_PROPORTIONAL, true)['src']?>" alt="<?=$item['NAME']?>">
+							</div>
+							<? endif; ?>
 						</div>
+
+						<? if($g_products): ?>
 						<div class="gift_popup">
 						<?
 							foreach($g_products as $product)
@@ -70,9 +80,8 @@ $this->addExternalCss('/bitrix/css/main/bootstrap.css');
 							}
 						?>
 						</div>
-						<?
-					}
-				?>
+						<? endif; ?>
+
 				<div class="filter_opt">
 					<?
 						foreach($item["PROPERTIES"] as $prop)

@@ -316,7 +316,7 @@ a.ref {display:block;text-decoration:none;position:absolute;top:0;left:0;width:1
 .glav_cat_div .flag span.hit {background:#fe8a35;}
 .glav_cat_div .flag span.action {background:#f22534;}
 .flag {position:absolute;top:10px;right:11px;}
-.flag span {line-height:33px;padding:0 10px;margin-right:4px;display:inline-block;vertical-align:middle;font-size:12px;color:#fff;background:#1fb959;}
+.flag span {line-height:33px;padding:0 10px;margin-right:4px;display:block;vertical-align:middle;font-size:12px;color:#fff;background:#1fb959;}
 .flag span.hit {background:#fe8a35;}
 .flag span.action {background:#f22534;}
 .glav_cat_div .text {padding:0px 10px 0px 25px;box-sizing:border-box;font-size:0;}
@@ -344,6 +344,10 @@ a.ref {display:block;text-decoration:none;position:absolute;top:0;left:0;width:1
 .glav_cat_div .text a.request-a-price:hover{
     text-decoration: none;
     background: #feee35;
+}
+
+.line{
+    margin: 5px auto;
 }
 
 
@@ -558,9 +562,9 @@ body .display_filters_block_div p.title {display:block;font-size:16px;color:#111
 
 .glav_cat_wrap.glav_cat_wrap_mark2.flexslider.glav_cat_slider .flex-direction-nav {display:none;}
 
-.gift{position:absolute;top:0;left:12px;display:flex;z-index:5;width:150px;cursor:pointer}
-.gift .r p{font-weight: bold;font-size: 13px;line-height: 17px;}
-.gift .l, .gift .r{display:flex}
+.gift{position:absolute;top:0;left:12px;z-index:5;width:150px;cursor:pointer}
+.gift .r p{font-weight: 500;font-size: 13px;line-height: 17px;}
+.gift .l, .gift .r{display:table-cell;}
 .gift img , .gift .r p{margin:auto}
 
 .gift_popup{padding:10px;display:none;position: absolute;top: -50px;right: -150px;background: #FFF;z-index: 6;box-shadow: 0 6px 27px -4px #96969685;}
