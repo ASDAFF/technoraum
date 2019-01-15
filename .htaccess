@@ -121,3 +121,9 @@ RewriteRule ^(.*)$ https://technoraum.ru/$1/ [L,R=301]
   mod_gzip_item_exclude mime ^image/.* 
   mod_gzip_item_include handler ^cgi-script$
 </ifModule>
+
+Redirect 301 /catalog/prinadlezhnosti-i-aksessuary/filtr-dlya-avd/ https://technoraum.ru/catalog/element/filtr-dlya-avd/
+Redirect 301 /catalog/khimiya/zhidkiy-vosk-dlya-kuzova-avtomobilya-tutela/ https://technoraum.ru/catalog/element/zhidkiy-vosk-dlya-kuzova-avtomobilya-tutela/
+Redirect 301 /catalog/khimiya/kontsentrirovannoe-sredstvo-dlya-obshchey-chistki-sanuzlov-karcher-ca-10-c-1l-chistyashchee-sredstvo/ https://technoraum.ru/catalog/element/kontsentrirovannoe-sredstvo-dlya-obshchey-chistki-sanuzlov-karcher-ca-10-c-1l-chistyashchee-sredstvo/
+Redirect 301 /catalog/khimiya/antinakipin-palochki-rm-511/ https://technoraum.ru/catalog/element/antinakipin-palochki-rm-511/
+Redirect 301 /catalog/khimiya/kontsentrat-sredstva-dlya-stekloochistitelya/ https://technoraum.ru/catalog/element/kontsentrat-sredstva-dlya-stekloochistitelya/
