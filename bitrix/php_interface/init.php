@@ -1,4 +1,5 @@
 <?php
+define("LOG_FILENAME", $_SERVER["DOCUMENT_ROOT"]."/upload/log.txt");
 
 if(CModule::IncludeModule("altasib.geobase")) {
     session_start();
