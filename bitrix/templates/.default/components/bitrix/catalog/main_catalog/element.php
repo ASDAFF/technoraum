@@ -125,6 +125,9 @@ else
 );?>
 
 <!--TABS-->
+<?
+$ar_res = CCatalogProduct::GetByID($ElementID);
+?>
 <div id="tabs">
 	<ul>
 		<li><a href="#tabs-1">Самовывоз из магазина</a></li>
@@ -149,28 +152,32 @@ else
 		);?>
 	</div>
 	<div id="tabs-2">
-		<? $APPLICATION->IncludeComponent("ipol:ipol.sdekPickup", ".sdekPickup", Array(
+		<? $APPLICATION->IncludeComponent("nbrains:ipol.sdekPickup", ".sdekPickup", Array(
 			"CITIES" => "",	// Подключаемые города (если не выбрано ни одного - подключаются все)
 			"CNT_BASKET" => "N",	// Расчитывать доставку для корзины
 			"CNT_DELIV" => "Y",	// Расчитывать доставку при подключении
 			"COUNTRIES" => "",	// Подключенные страны
-			"FORBIDDEN" => "",	// Отключить расчет для профилей
+			"FORBIDDEN" => array(
+				0 => "courier",
+				1 => "inpost",
+			),
 			"NOMAPS" => "Y",	// Не подключать Яндекс-карты (если их подключает что-то еще на странице)
 			"PAYER" => "1",	// Тип плательщика, от лица которого считать доставку
 			"PAYSYSTEM" => "",	// Тип платежной системы, с которой будет считатся доставка
-			"PRODUCT_ID" => $ElementID
+			"PRODUCT_ID" => $ElementID,
+			"WIDTH" => $ar_res["WIDTH"],
+			"HEIGHT" => $ar_res["HEIGHT"],
+			"LENGTH" => $ar_res["LENGTH"],
+			"WEIGHT" => $ar_res["WEIGHT"]
 		),
 			false
 		);?>
 	</div>
 	<div id="tabs-3">
-		<?
-		$ar_res = CCatalogProduct::GetByID($ElementID);
-		if($ar_res["WEIGHT"] &&
+		<? if($ar_res["WEIGHT"] &&
 			$ar_res["WIDTH"] &&
 			$ar_res["HEIGHT"] &&
 			$ar_res["LENGTH"]){
-
 			$APPLICATION->IncludeComponent(
 				"nbrains:sdek.ajax.delivery",
 				"",
