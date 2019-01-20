@@ -3,352 +3,1442 @@
 		<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 <url>
 	<loc>https://technoraum.ru/</loc>
-	<lastmod>2018-09-13T12:52:11+01:00</lastmod>
+	<lastmod>2019-01-16T11:24:49+01:00</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
+	<loc>https://technoraum.ru/about/</loc>
+	<lastmod>2019-01-16T11:24:49+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
 	<loc>https://technoraum.ru/discont/</loc>
-	<lastmod>2018-09-13T12:52:11+01:00</lastmod>
+	<lastmod>2019-01-16T11:24:49+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://technoraum.ru/pay/</loc>
-	<lastmod>2018-09-13T12:52:12+01:00</lastmod>
+	<lastmod>2019-01-16T11:24:50+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://technoraum.ru/pay/dostavka/</loc>
-	<lastmod>2018-09-13T12:52:13+01:00</lastmod>
+	<lastmod>2019-01-16T11:24:50+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
 	<loc>https://technoraum.ru/pay/garantiya/</loc>
-	<lastmod>2018-09-13T12:52:13+01:00</lastmod>
+	<lastmod>2019-01-16T11:24:51+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/about/</loc>
-	<lastmod>2018-09-13T12:52:14+01:00</lastmod>
-	<priority>0.8</priority>
+	<loc>https://technoraum.ru/pay/pokupka-tovara-v-kredit/</loc>
+	<lastmod>2019-01-16T11:24:51+01:00</lastmod>
+	<priority>0.6</priority>
 </url>
 <url>
 	<loc>https://technoraum.ru/compare/</loc>
-	<lastmod>2018-09-13T12:52:14+01:00</lastmod>
+	<lastmod>2019-01-16T11:24:52+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://technoraum.ru/catalog/</loc>
-	<lastmod>2018-09-13T12:52:15+01:00</lastmod>
+	<lastmod>2019-01-16T11:24:52+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/</loc>
-	<lastmod>2018-09-13T12:52:16+01:00</lastmod>
+	<lastmod>2019-01-16T11:24:54+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/moyki-vysokogo-davleniya/</loc>
-	<lastmod>2018-09-13T12:52:16+01:00</lastmod>
-	<priority>0.4</priority>
-</url>
-<url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/portativnaya-moyka/</loc>
-	<lastmod>2018-09-13T12:52:17+01:00</lastmod>
-	<priority>0.4</priority>
-</url>
-<url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/nasosy/</loc>
-	<lastmod>2018-09-13T12:52:18+01:00</lastmod>
-	<priority>0.4</priority>
-</url>
-<url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/sistemy-poliva-i-orosheniya/</loc>
-	<lastmod>2018-09-13T12:52:22+01:00</lastmod>
-	<priority>0.4</priority>
-</url>
-<url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/ruchnye-podmetalnye-mashiny/</loc>
-	<lastmod>2018-09-13T12:52:22+01:00</lastmod>
-	<priority>0.4</priority>
-</url>
-<url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/pylesosy/</loc>
-	<lastmod>2018-09-13T12:52:23+01:00</lastmod>
-	<priority>0.4</priority>
-</url>
-<url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/stekloochistiteli/</loc>
-	<lastmod>2018-09-13T12:52:25+01:00</lastmod>
-	<priority>0.4</priority>
-</url>
-<url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/paroochistiteli/</loc>
-	<lastmod>2018-09-13T12:52:24+01:00</lastmod>
-	<priority>0.4</priority>
-</url>
-<url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/paropylesosy/</loc>
-	<lastmod>2018-09-13T12:52:26+01:00</lastmod>
-	<priority>0.4</priority>
-</url>
-<url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/gladilnye-sistemy/</loc>
-	<lastmod>2018-09-13T12:52:27+01:00</lastmod>
-	<priority>0.4</priority>
-</url>
-<url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/elektroveniki/</loc>
-	<lastmod>2018-09-13T12:52:28+01:00</lastmod>
-	<priority>0.4</priority>
-</url>
-<url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/tekhnika-dlya-vlazhnoy-uborki-pola/</loc>
-	<lastmod>2018-09-13T12:52:28+01:00</lastmod>
-	<priority>0.4</priority>
-</url>
-<url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/poloter/</loc>
-	<lastmod>2018-09-13T12:52:29+01:00</lastmod>
-	<priority>0.4</priority>
-</url>
-<url>
 	<loc>https://technoraum.ru/catalog/professionalnaya-tekhnika/</loc>
-	<lastmod>2018-09-13T12:52:30+01:00</lastmod>
+	<lastmod>2019-01-16T11:24:54+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
 	<loc>https://technoraum.ru/catalog/prinadlezhnosti-i-aksessuary/</loc>
-	<lastmod>2018-09-13T12:52:31+01:00</lastmod>
+	<lastmod>2019-01-16T11:24:55+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
 	<loc>https://technoraum.ru/catalog/khimiya/</loc>
-	<lastmod>2018-09-13T12:52:31+01:00</lastmod>
+	<lastmod>2019-01-16T11:24:56+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/zapchasti/</loc>
-	<lastmod>2018-09-13T12:52:33+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/moyki-vysokogo-davleniya/</loc>
+	<lastmod>2019-01-16T11:24:57+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/pylesosy/</loc>
+	<lastmod>2019-01-16T11:24:58+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/ruchnye-podmetalnye-mashiny/</loc>
+	<lastmod>2019-01-16T11:24:59+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/stekloochistiteli/</loc>
+	<lastmod>2019-01-16T11:24:59+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/paroochistiteli/</loc>
+	<lastmod>2019-01-16T11:25:00+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/paropylesosy/</loc>
+	<lastmod>2019-01-16T11:25:01+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/gladilnye-sistemy/</loc>
+	<lastmod>2019-01-16T11:25:01+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/elektroveniki/</loc>
+	<lastmod>2019-01-16T11:25:03+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/professionalnye-moyki-vysokogo-davleniya/</loc>
+	<lastmod>2019-01-16T11:25:03+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/professionalnye-pylesosy/</loc>
+	<lastmod>2019-01-16T11:25:03+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/aksessuary-dlya-bytovykh-pylesosov/</loc>
+	<lastmod>2019-01-16T11:25:05+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/aksessuary-k-avd/</loc>
+	<lastmod>2019-01-16T11:25:05+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/aksessuary-dlya-paroochistiteley/</loc>
+	<lastmod>2019-01-16T11:25:05+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/aksessuary-dlya-professionalnykh-avd/</loc>
+	<lastmod>2019-01-16T11:25:07+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/aksessuary-dlya-professionalnykh-pylesosov/</loc>
+	<lastmod>2019-01-16T11:25:07+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/aksessuary-dlya-stekloochistiteley/</loc>
+	<lastmod>2019-01-16T11:25:07+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
 	<loc>https://technoraum.ru/service/</loc>
-	<lastmod>2018-09-13T12:52:33+01:00</lastmod>
+	<lastmod>2019-01-16T11:25:09+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/service/usluga-1/</loc>
-	<lastmod>2018-09-13T12:52:34+01:00</lastmod>
+	<loc>https://technoraum.ru/service/Remont-tekhniki-Karcher/</loc>
+	<lastmod>2019-01-16T11:25:09+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/service/usluga-2/</loc>
-	<lastmod>2018-09-13T12:52:35+01:00</lastmod>
+	<loc>https://technoraum.ru/service/Remont-professionalnoj-tekhniki/</loc>
+	<lastmod>2019-01-16T11:25:10+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/service/usluga-3/</loc>
-	<lastmod>2018-09-13T12:52:35+01:00</lastmod>
+	<loc>https://technoraum.ru/service/Remont-nasadok-i-aksessuarov-Kerher/</loc>
+	<lastmod>2019-01-16T11:25:11+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/service/izgotovlenie-shlangov-vysokogo-davleniya/</loc>
+	<lastmod>2019-01-16T11:25:12+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
 	<loc>https://technoraum.ru/news/</loc>
-	<lastmod>2018-09-13T12:52:36+01:00</lastmod>
+	<lastmod>2019-01-16T11:25:12+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://technoraum.ru/actions/</loc>
-	<lastmod>2018-09-13T12:52:37+01:00</lastmod>
+	<lastmod>2019-01-16T11:25:13+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://technoraum.ru/contacts/</loc>
-	<lastmod>2018-09-13T12:52:38+01:00</lastmod>
+	<lastmod>2019-01-16T11:25:14+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/moyki-vysokogo-davleniya/vertikalnyy-pylesos-vc-55222/</loc>
-	<lastmod>2018-09-13T12:52:40+01:00</lastmod>
-	<priority>0.2</priority>
+	<loc>https://technoraum.ru/catalog/element/moyka-karcher-k-5-compact/</loc>
+	<lastmod>2019-01-16T11:25:16+01:00</lastmod>
+	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/moyki-vysokogo-davleniya/vertikalnyy-pylesos-vc-552/</loc>
-	<lastmod>2018-09-13T12:52:40+01:00</lastmod>
-	<priority>0.2</priority>
+	<loc>https://technoraum.ru/catalog/element/moyka-karcher-k-7-compact/</loc>
+	<lastmod>2019-01-16T11:25:18+01:00</lastmod>
+	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/moyki-vysokogo-davleniya/vertikalnyy-pylesos-vc-55/</loc>
-	<lastmod>2018-09-13T12:52:42+01:00</lastmod>
-	<priority>0.2</priority>
+	<loc>https://technoraum.ru/catalog/element/pylesos-wd-3-p-premium/</loc>
+	<lastmod>2019-01-16T11:25:20+01:00</lastmod>
+	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/moyki-vysokogo-davleniya/vertikalnyy-pylesos-vc-5/</loc>
-	<lastmod>2018-09-13T12:52:43+01:00</lastmod>
-	<priority>0.2</priority>
+	<loc>https://technoraum.ru/catalog/element/sc-4-easyfix-eu-paroochistitel/</loc>
+	<lastmod>2019-01-16T11:25:22+01:00</lastmod>
+	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/moyki-vysokogo-davleniya/pistolet-g-145-q-full-control/</loc>
-	<lastmod>2018-09-13T12:52:43+01:00</lastmod>
-	<priority>0.2</priority>
+	<loc>https://technoraum.ru/catalog/element/se-5-100-bytovoy-moyushchiy-pylesos/</loc>
+	<lastmod>2019-01-16T11:25:24+01:00</lastmod>
+	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/moyki-vysokogo-davleniya/s-650-plusssssss2/</loc>
-	<lastmod>2018-09-13T12:52:44+01:00</lastmod>
-	<priority>0.2</priority>
+	<loc>https://technoraum.ru/catalog/element/moyka-karcher-k-5/</loc>
+	<lastmod>2019-01-16T11:25:26+01:00</lastmod>
+	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/moyki-vysokogo-davleniya/s-650-plusssssss/</loc>
-	<lastmod>2018-09-13T12:52:45+01:00</lastmod>
-	<priority>0.2</priority>
+	<loc>https://technoraum.ru/catalog/element/paropylesos-sv-7/</loc>
+	<lastmod>2019-01-16T11:25:26+01:00</lastmod>
+	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/moyki-vysokogo-davleniya/vertikalnyy-pylesos-vc-55555/</loc>
-	<lastmod>2018-09-13T12:52:45+01:00</lastmod>
-	<priority>0.2</priority>
+	<loc>https://technoraum.ru/catalog/element/pylesos-wd-3-home/</loc>
+	<lastmod>2019-01-16T11:25:28+01:00</lastmod>
+	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/moyki-vysokogo-davleniya/k5-premium-full-2-control-plus/</loc>
-	<lastmod>2018-09-13T12:52:47+01:00</lastmod>
-	<priority>0.2</priority>
+	<loc>https://technoraum.ru/catalog/element/stekloochistitel-wv2-10-years-edition/</loc>
+	<lastmod>2019-01-16T11:25:30+01:00</lastmod>
+	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/moyki-vysokogo-davleniya/s-650-pluss/</loc>
-	<lastmod>2018-09-13T12:52:48+01:00</lastmod>
-	<priority>0.2</priority>
+	<loc>https://technoraum.ru/catalog/element/sc-4-easyfix-iron-paroochistitel/</loc>
+	<lastmod>2019-01-16T11:25:32+01:00</lastmod>
+	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/moyki-vysokogo-davleniya/s-66650-plus/</loc>
-	<lastmod>2018-09-13T12:52:48+01:00</lastmod>
-	<priority>0.2</priority>
-</url>
-<url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/moyki-vysokogo-davleniya/k55-premium-full-control-plus/</loc>
-	<lastmod>2018-09-13T12:52:49+01:00</lastmod>
-	<priority>0.2</priority>
+	<loc>https://technoraum.ru/catalog/element/pylesos-vc-3-/</loc>
+	<lastmod>2019-01-16T11:25:33+01:00</lastmod>
+	<priority>0.4</priority>
 </url>
 <url>
 	<loc>https://technoraum.ru/soglasie-na-obrabotku-personalnykh-dannykh/</loc>
-	<lastmod>2018-09-13T12:52:50+01:00</lastmod>
+	<lastmod>2019-01-16T11:25:32+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/news/news6/</loc>
-	<lastmod>2018-09-13T12:52:50+01:00</lastmod>
+	<loc>https://technoraum.ru/news/My_zamorozili%20ceny_2018_goda/</loc>
+	<lastmod>2019-01-16T11:25:34+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/news/news1/</loc>
-	<lastmod>2018-09-13T12:52:51+01:00</lastmod>
+	<loc>https://technoraum.ru/news/S-Novym-godom/</loc>
+	<lastmod>2019-01-16T11:25:34+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/news/news2/</loc>
-	<lastmod>2018-09-13T12:52:52+01:00</lastmod>
+	<loc>https://technoraum.ru/news/Navodim-poryadok-k-zime/</loc>
+	<lastmod>2019-01-16T11:25:35+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/news/news4/</loc>
-	<lastmod>2018-09-13T12:52:52+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/professionalnye-podmetalnye-mashiny/</loc>
+	<lastmod>2019-01-16T11:25:43+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/news/news7/</loc>
-	<lastmod>2018-09-13T12:52:54+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/polomoechnye-mashiny/</loc>
+	<lastmod>2019-01-16T11:25:45+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/news/news3/</loc>
-	<lastmod>2018-09-13T12:52:54+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/stekloochistiteli-professionalnye/</loc>
+	<lastmod>2019-01-16T11:25:45+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/news/news5/</loc>
-	<lastmod>2018-09-13T12:52:54+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:25:47+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/filtr-dlya-avd/</loc>
+	<lastmod>2019-01-16T11:25:49+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/shchetka-601/</loc>
+	<lastmod>2019-01-16T11:25:51+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/moyka-karcher-k-2-basic/</loc>
+	<lastmod>2019-01-16T11:25:53+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/minimoyka-kerkher-k-2/</loc>
+	<lastmod>2019-01-16T11:25:55+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/shchetka-602/</loc>
+	<lastmod>2019-01-16T11:25:59+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/moyka-kerkher-k-3/</loc>
+	<lastmod>2019-01-16T11:25:59+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/moyka-vysokogo-davleniya-k-3-full-control/</loc>
+	<lastmod>2019-01-16T11:25:59+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/moyki-vysokogo-davleniya-k-4-basic/</loc>
+	<lastmod>2019-01-16T11:26:04+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/moyka-kerkher-k-4-compact/</loc>
+	<lastmod>2019-01-16T11:26:04+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/moyka-karcher-k-4-full-control/</loc>
+	<lastmod>2019-01-16T11:26:05+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/komplekt-peskostruynyy-s-plastikovym-nakonechnikom-tipa-karcher/</loc>
+	<lastmod>2019-01-16T11:26:09+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/salfetka-iz-iskusstvennoy-zamshi/</loc>
+	<lastmod>2019-01-16T11:26:09+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/moyka-karcher-k-5-full-control/</loc>
+	<lastmod>2019-01-16T11:26:09+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/moyka-karcher-k-5-premium-full-control-plus/</loc>
+	<lastmod>2019-01-16T11:26:14+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/professionalnaya-tekhnika/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:26:12+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/pennyy-komplekt-premium-tipa-kw-dlya-karcher-easy-lock/</loc>
+	<lastmod>2019-01-16T11:26:15+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/hd-5-12-c-apparat-vysokogo-davleniya/</loc>
+	<lastmod>2019-01-16T11:26:16+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/hd-5-15-s-profi-moyka-vd-bez-nagreva/</loc>
+	<lastmod>2019-01-16T11:26:19+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/kanalopromyvochnyy-shlang-10-metrov-s-vrashchayushcheysya-forsunkoy/</loc>
+	<lastmod>2019-01-16T11:26:19+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/pennaya-nasadka-ls3-premium-dlya-professionalnykh-avd-kerkher/</loc>
+	<lastmod>2019-01-16T11:26:22+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/hd-5-17-c-eu-apparat-vysokogo-davleniya/</loc>
+	<lastmod>2019-01-16T11:26:24+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/hd-6-15-m-eu-zamenen-na-1-524-930-0/</loc>
+	<lastmod>2019-01-16T11:26:25+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/hd-6-16-4-m-eu-zamenen-na-1-524-930-0/</loc>
+	<lastmod>2019-01-16T11:26:26+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/kanalopromyvochnyy-shlang-15-metrov-forsunka-1-3-s-boem-vpered-nazad/</loc>
+	<lastmod>2019-01-16T11:26:29+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/hd-7-14-4m-moyka-vysokogo-davleniya/</loc>
+	<lastmod>2019-01-16T11:26:29+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/apparat-vysokogo-davleniya-hd-7-16-4m/</loc>
+	<lastmod>2019-01-16T11:26:34+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/hd-7-18-4-m-classic-moyka-vysokogo-davleniya/</loc>
+	<lastmod>2019-01-16T11:26:36+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/apparat-vysokogo-davleniya-hd-9-20-4-m/</loc>
+	<lastmod>2019-01-16T11:26:34+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/hd-10-21-4-s-eu-i-apparat-vysokogo-davleniya/</loc>
+	<lastmod>2019-01-16T11:26:38+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/hd-10-23-4-s-apparat-vysokogo-davleniya/</loc>
+	<lastmod>2019-01-16T11:26:39+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/hd-10-25-4-s-apparat-vysokogo-davleniya/</loc>
+	<lastmod>2019-01-16T11:26:40+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/prinadlezhnosti-i-aksessuary/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:26:40+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/kanalopromyvochnyy-shlang-20-metrov-s-vrashch-forsunkoy/</loc>
+	<lastmod>2019-01-16T11:26:43+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/kanalopromyvochnyy-shlang-15-metrov-s-vrashch-forsunkoy/</loc>
+	<lastmod>2019-01-16T11:26:45+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/kruglaya-shchetka-so-skrebkom/</loc>
+	<lastmod>2019-01-16T11:26:44+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/komplekt-dlya-pola-classic-k-sc-1-shvabra-salfetka/</loc>
+	<lastmod>2019-01-16T11:26:48+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/vsasyvayushchiy-shlang-dlya-pylesosov-wd-2-200-3-200-3-300-3-500-3-800-2-m-/</loc>
+	<lastmod>2019-01-16T11:26:50+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/vsasyvayushchiy-shlang-dn-35-dlya-pylesosov-serii-wd-4-khkhkh-i-5-khkhkh-2-2-m-/</loc>
+	<lastmod>2019-01-16T11:26:49+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/filtr-tonkoy-ochistki-vody-v-patrubok-avd-/</loc>
+	<lastmod>2019-01-16T11:26:53+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/bystrosyemnaya-mufta-dlya-bytovykh-moek-/</loc>
+	<lastmod>2019-01-16T11:26:55+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/khimiya/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:26:53+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/goryachiy-vosk-hot-wax-1-kg-/</loc>
+	<lastmod>2019-01-16T11:26:57+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/kislotnoe-sredstvo-dlya-ochistki-fasadov-acid-cleaner-5-9-kg/</loc>
+	<lastmod>2019-01-16T11:26:58+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/ochistitel-bitumnykh-pyaten-antibitum-0-5-kg/</loc>
+	<lastmod>2019-01-16T11:26:59+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/kholodnyy-vosk-cherry-wax-1-kg-/</loc>
+	<lastmod>2019-01-16T11:27:03+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/nanoshampun-nano-shampoo-1-kg/</loc>
+	<lastmod>2019-01-16T11:27:03+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/ochistitel-naturalnoy-kozhi-leather-cleaner-0-5-kg/</loc>
+	<lastmod>2019-01-16T11:27:05+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/sredstvo-dlya-ochistki-stekol-i-zerkal-clean-glass-1-kg/</loc>
+	<lastmod>2019-01-16T11:27:07+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/sredstvo-dlya-ochistki-stekol-i-zerkal-clean-glass-0-5-kg-/</loc>
+	<lastmod>2019-01-16T11:27:09+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/sredstvo-dlya-ochistki-stekol-clean-glass-concentrate-5-kg/</loc>
+	<lastmod>2019-01-16T11:27:09+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/sredstvo-dlya-ochistki-stekol-clean-glass-concentrate-1-kg-/</loc>
+	<lastmod>2019-01-16T11:27:13+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/goryachiy-vosk-hot-wax-5-kg-/</loc>
+	<lastmod>2019-01-16T11:27:13+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/chernitel-reziny-black-rubber-5-7-kg/</loc>
+	<lastmod>2019-01-16T11:27:14+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/moyki-vysokogo-davleniya/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:27:15+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/avtomobilnye-pylesosy/</loc>
+	<lastmod>2019-01-16T11:27:15+01:00</lastmod>
 	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/moyki-vysokogo-davleniya/s-650-plus-2/</loc>
-	<lastmod>2018-09-13T12:52:56+01:00</lastmod>
-	<priority>0.2</priority>
+	<loc>https://technoraum.ru/catalog/vertikalnye-pylesosy/</loc>
+	<lastmod>2019-01-16T11:27:16+01:00</lastmod>
+	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/moyki-vysokogo-davleniya/s-6500-plus/</loc>
-	<lastmod>2018-09-13T12:52:57+01:00</lastmod>
-	<priority>0.2</priority>
+	<loc>https://technoraum.ru/catalog/pylesosy-s-meshkom/</loc>
+	<lastmod>2019-01-16T11:27:17+01:00</lastmod>
+	<priority>0.6</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/prinadlezhnosti-i-aksessuary/filtr-dlya-avd/</loc>
-	<lastmod>2018-09-13T12:52:57+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/moyushchie-pylesosy/</loc>
+	<lastmod>2019-01-16T11:27:18+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/nedorogie-pylesosy/</loc>
+	<lastmod>2019-01-16T11:27:19+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/pylesosy-bez-meshka/</loc>
+	<lastmod>2019-01-16T11:27:20+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/pylesosy-dlya-vlazhnoy-i-sukhoy-uborki/</loc>
+	<lastmod>2019-01-16T11:27:20+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/pylesosy-dlya-sukhoy-uborki/</loc>
+	<lastmod>2019-01-16T11:27:21+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/pylesosy-kerkher-s-akvafiltrom/</loc>
+	<lastmod>2019-01-16T11:27:22+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/ruchnye-pylesosy/</loc>
+	<lastmod>2019-01-16T11:27:22+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/sadovye-pylesosy/</loc>
+	<lastmod>2019-01-16T11:27:23+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/stroitelnye-pylesosy/</loc>
+	<lastmod>2019-01-16T11:27:24+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/khozyaystvennye-pylesosy/</loc>
+	<lastmod>2019-01-16T11:27:24+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/pylesosy/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:27:25+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/pylesos-ipc-portotecnica-plus-1-w-1-32-s/</loc>
+	<lastmod>2019-01-16T11:27:28+01:00</lastmod>
 	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/prinadlezhnosti-i-aksessuary/shlang-kanalopromyvochnyy-7-5-m-s-plastikovym-nakonechnikom-tipa-kerkher/</loc>
-	<lastmod>2018-09-13T12:52:58+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/element/pylesos-ipc-portotecnica-vacuum-cleaner-fox/</loc>
+	<lastmod>2019-01-16T11:27:31+01:00</lastmod>
 	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/k-5-compact/</loc>
-	<lastmod>2018-09-13T12:52:59+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/element/pylesos-ipc-portotecnica-vacuum-cleaner-yp-1-20-w-dtc/</loc>
+	<lastmod>2019-01-16T11:27:32+01:00</lastmod>
 	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/vertikalnyy-pylesos-vc-55222/</loc>
-	<lastmod>2018-09-13T12:52:59+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/element/pylesos-ipc-portotecnica-ys-1-20-w-d-verde/</loc>
+	<lastmod>2019-01-16T11:27:36+01:00</lastmod>
 	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/vertikalnyy-pylesos-vc-552/</loc>
-	<lastmod>2018-09-13T12:53:01+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/element/pylesos-ipc-portotecnica-yp-1400-20/</loc>
+	<lastmod>2019-01-16T11:27:36+01:00</lastmod>
 	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/s-650-plusssssss2/</loc>
-	<lastmod>2018-09-13T12:53:02+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/element/pylesos-ipc-portotecnica-yp-1400-6-eco-b/</loc>
+	<lastmod>2019-01-16T11:27:40+01:00</lastmod>
 	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/s-650-plusssssss/</loc>
-	<lastmod>2018-09-13T12:53:02+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/element/apparat-dlya-vlazhnoy-uborki-pola-fc-5/</loc>
+	<lastmod>2019-01-16T11:27:41+01:00</lastmod>
 	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/vertikalnyy-pylesos-vc-55555/</loc>
-	<lastmod>2018-09-13T12:53:03+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/element/khozyaystvennyy-pylesos-wd-3-car-/</loc>
+	<lastmod>2019-01-16T11:27:41+01:00</lastmod>
 	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/s-650-plus-2/</loc>
-	<lastmod>2018-09-13T12:53:04+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/element/pylesos-kerkher-wd-2/</loc>
+	<lastmod>2019-01-16T11:27:44+01:00</lastmod>
 	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/k5-premium-full-2-control-plus/</loc>
-	<lastmod>2018-09-13T12:53:04+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/element/meshok-pylesbornik-odnorazovyy-k2/</loc>
+	<lastmod>2019-01-16T11:27:46+01:00</lastmod>
 	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/s-650-pluss/</loc>
-	<lastmod>2018-09-13T12:53:06+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/element/meshok-pylesbornik-odnorazovyy-k4/</loc>
+	<lastmod>2019-01-16T11:27:46+01:00</lastmod>
 	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/vertikalnyy-pylesos-vc-55/</loc>
-	<lastmod>2018-09-13T12:53:07+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/element/pylesos-wd-4-premium/</loc>
+	<lastmod>2019-01-16T11:27:50+01:00</lastmod>
 	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/s-66650-plus/</loc>
-	<lastmod>2018-09-13T12:53:07+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/ruchnye-podmetalnye-mashiny/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:27:48+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/ruchnaya-podmetalnaya-mashina-s-750/</loc>
+	<lastmod>2019-01-16T11:27:51+01:00</lastmod>
 	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/k55-premium-full-control-plus/</loc>
-	<lastmod>2018-09-13T12:53:08+01:00</lastmod>
+	<loc>https://technoraum.ru/catalog/element/ruchnaya-podmetalnaya-mashina-s-550-/</loc>
+	<lastmod>2019-01-16T11:27:53+01:00</lastmod>
 	<priority>0.4</priority>
 </url>
 <url>
-	<loc>https://technoraum.ru/catalog/bytovaya-tekhnika/moyki-vysokogo-davleniya/k-5-compact/</loc>
-	<lastmod>2018-09-13T12:53:09+01:00</lastmod>
-	<priority>0.2</priority>
+	<loc>https://technoraum.ru/catalog/element/ruchnaya-podmetalnaya-mashina-s-650/</loc>
+	<lastmod>2019-01-16T11:27:54+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/stekloochistiteli/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:27:53+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/stekloochistitel-witrum-1-l/</loc>
+	<lastmod>2019-01-16T11:27:58+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/stekloochistitel-wv50-plus/</loc>
+	<lastmod>2019-01-16T11:27:57+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/paroochistiteli/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:27:56+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/paroochistitel-sc-1/</loc>
+	<lastmod>2019-01-16T11:28:01+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/chistyashchiy-gel-dlya-santekhniki-fumigel-1l/</loc>
+	<lastmod>2019-01-16T11:28:03+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/sc-1-easyfix-paroochistitel/</loc>
+	<lastmod>2019-01-16T11:28:03+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/sc-2-easyfix-eu-paroochistitel/</loc>
+	<lastmod>2019-01-16T11:28:07+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/chistyashchiy-gel-dlya-santekhniki-fumigel-5l/</loc>
+	<lastmod>2019-01-16T11:28:08+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/sc-5-easyfix-paroochistitel/</loc>
+	<lastmod>2019-01-16T11:28:08+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/paropylesosy/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:28:09+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/gladilnye-sistemy/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:28:10+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/stekloochistitel-witrum-5-l/</loc>
+	<lastmod>2019-01-16T11:28:13+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/sredstvo-dlya-obezzhirivaniya-daze-1l/</loc>
+	<lastmod>2019-01-16T11:28:14+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/neytralizator-zapakha-block-apelsin-0-5l/</loc>
+	<lastmod>2019-01-16T11:28:15+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/gladilnaya-sistema-si-4-easy-fix-iron-kit-/</loc>
+	<lastmod>2019-01-16T11:28:18+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/elektroveniki/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:28:16+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/elektrovenik-kb-5-/</loc>
+	<lastmod>2019-01-16T11:28:21+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/professionalnye-moyki-vysokogo-davleniya/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:28:18+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/filtr-1-dyuym/</loc>
+	<lastmod>2019-01-16T11:28:22+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/kanalopromyvochnyy-shlang-25-metrov-s-forsunkoy-1-3-s-boem-vpered-nazad/</loc>
+	<lastmod>2019-01-16T11:28:22+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/kanalopromyvochnyy-shlang-30-metrov-s-forsunkoy-1-3-s-boem-vpered-nazad/</loc>
+	<lastmod>2019-01-16T11:28:26+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/professionalnye-pylesosy/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:28:25+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/nt-30-1-ap-l-pylesos-vlazhnoy-i-sukhoy-uborki/</loc>
+	<lastmod>2019-01-16T11:28:28+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/nt-30-1-tact-te-l-eu-pylesos-vlazhnoy-i-sukhoy-uborki/</loc>
+	<lastmod>2019-01-16T11:28:29+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/nt-30-1-tact-te-l-eu-pylesos-sukhoy-uborki/</loc>
+	<lastmod>2019-01-16T11:28:31+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/t-15-1-eu-pylesos-sukhoy-uborki/</loc>
+	<lastmod>2019-01-16T11:28:32+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/t-12-1-eu-pylesos-sukhoy-uborki/</loc>
+	<lastmod>2019-01-16T11:28:35+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/t-8-1-classic-ala-eu-pylesos-sukhoy-uborki/</loc>
+	<lastmod>2019-01-16T11:28:36+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/t-14-1-classic-ala-eu-pylesos-sukhoy-uborki/</loc>
+	<lastmod>2019-01-16T11:28:38+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/cv-38-2-eu-pylesos-sukhoy-uborki/</loc>
+	<lastmod>2019-01-16T11:28:39+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/cv-30-1-eu-pylesos-sukhoy-uborki/</loc>
+	<lastmod>2019-01-16T11:28:41+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/pylesos-ipc-portotecnica-estr-gp-1-27-ext-gamma-200c-acc/</loc>
+	<lastmod>2019-01-16T11:28:42+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/pylesos-ipc-portotecnica-nrg-1-30-clean-p-tc-sl-pt/</loc>
+	<lastmod>2019-01-16T11:28:47+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/pylesos-ipc-portotecnica-ys3-62w-d-amst-440hp-mi-c-acc/</loc>
+	<lastmod>2019-01-16T11:28:46+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/aksessuary-dlya-bytovykh-pylesosov/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:28:44+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/rukoyatka-dlya-pylesosov-karcher-vc-6/</loc>
+	<lastmod>2019-01-16T11:28:49+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/nasadka-dlya-vlazhnoy-i-sukhoy-uborki-pola-dn-35/</loc>
+	<lastmod>2019-01-16T11:28:51+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/vsasyvayushchiy-shlang-dlya-pylesosov-karcher-ds/</loc>
+	<lastmod>2019-01-16T11:28:52+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/komplekt-kruglykh-shchetok-k-paroochistitelyu-4-sht-/</loc>
+	<lastmod>2019-01-16T11:28:54+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/roskrrof-v-k25-7592-mnogopazovyy-mesho-dlya-pylecoca-karsner/</loc>
+	<lastmod>2019-01-16T11:28:56+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/roskrrof-v-k11-sb-7053-meshok-pylesbornik-mnogopazovyy-/</loc>
+	<lastmod>2019-01-16T11:28:57+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/rosk-rrof-nmf5-nera-filtp-dlya-pylecoca-karsner-/</loc>
+	<lastmod>2019-01-16T11:28:59+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/rosk-rrof-nmf1-nera-filtp-dlya-pylecoca-/</loc>
+	<lastmod>2019-01-16T11:29:01+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/aksessuary-k-avd/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:28:59+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/napornyy-pulverizator-1-l/</loc>
+	<lastmod>2019-01-16T11:29:05+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/mnogofunktsionalnyy-metallicheskiy-pistolet-raspylitel-premium/</loc>
+	<lastmod>2019-01-16T11:29:04+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/metallicheskiy-pistolet-raspylitel-premium/</loc>
+	<lastmod>2019-01-16T11:29:06+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/universalnyy-konnekktor-plus-s-funktsiey-akvastop/</loc>
+	<lastmod>2019-01-16T11:29:09+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/universalnyy-konnektor/</loc>
+	<lastmod>2019-01-16T11:29:10+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/shlang-primoflex-3-4-50-m/</loc>
+	<lastmod>2019-01-16T11:29:11+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/shlang-primoflex-3-4-25-m/</loc>
+	<lastmod>2019-01-16T11:29:14+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/shlang-primoflex-1-2-50-m-/</loc>
+	<lastmod>2019-01-16T11:29:15+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/sadovyy-shlang-primoflex-1-2-20-m-/</loc>
+	<lastmod>2019-01-16T11:29:16+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/latunnyy-konnektor-dlya-shlangov-3-4/</loc>
+	<lastmod>2019-01-16T11:29:20+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/latunnyy-konnektor-1-2-i-5-8-dlya-shlangov/</loc>
+	<lastmod>2019-01-16T11:29:20+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/1-stupenchataya-udlinitelnaya-trubka-0-4-metra/</loc>
+	<lastmod>2019-01-16T11:29:22+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/aksessuary-dlya-paroochistiteley/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:29:22+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/tochechnoe-soplo/</loc>
+	<lastmod>2019-01-16T11:29:26+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/chekhol-na-gladilnuyu-dosku-kerkher/</loc>
+	<lastmod>2019-01-16T11:29:26+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/nabor-nasadok-dlya-pola-easyfix-na-paroochistiteli/</loc>
+	<lastmod>2019-01-16T11:29:27+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/nasadka-dlya-ukhoda-za-tekstilem-na-paroochistitel/</loc>
+	<lastmod>2019-01-16T11:29:30+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/nasadka-dlya-mytya-okon/</loc>
+	<lastmod>2019-01-16T11:29:32+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/aksessuary-dlya-professionalnykh-avd/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:29:29+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/aksessuary-dlya-professionalnykh-pylesosov/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:29:31+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/nabor-flisovykh-meshkov-dlya-pylesosa-serii-nt-35-/</loc>
+	<lastmod>2019-01-16T11:29:36+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/shchelevaya-nasadka-dn35/</loc>
+	<lastmod>2019-01-16T11:29:35+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/ploskiy-filtr-k-pylesosam-nt-tolko-dlya-zameny-/</loc>
+	<lastmod>2019-01-16T11:29:36+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/filtr-meshki-dlya-pylesosov-serii-nt/</loc>
+	<lastmod>2019-01-16T11:29:41+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/bumazhnye-filtr-meshki-dlya-professionalnykh-pylesosov-/</loc>
+	<lastmod>2019-01-16T11:29:40+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/filtr-meshok-3kh-sloynyy-dlya-t12-1/</loc>
+	<lastmod>2019-01-16T11:29:42+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/aksessuary-dlya-stekloochistiteley/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:29:43+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/udlinitelnyy-komplekt-dlya-stekloochistiteley-wv-1/</loc>
+	<lastmod>2019-01-16T11:29:46+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/zaryadnoe-ustroystvo-dlya-stekloochistitelya-1/</loc>
+	<lastmod>2019-01-16T11:29:46+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/actions/khity-prodazh/</loc>
+	<lastmod>2019-01-16T11:29:45+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/actions/rasshirennaya-garantiya/</loc>
+	<lastmod>2019-01-16T11:29:47+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/actions/aktsiya-na-professionalnye-pylesosy-idem-na-snizhenie/</loc>
+	<lastmod>2019-01-16T11:29:48+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/actions/aktsiya-sezon-okhoty-na-kerkher/</loc>
+	<lastmod>2019-01-16T11:29:48+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/actions/aktsiya-oktyabr/</loc>
+	<lastmod>2019-01-16T11:29:49+01:00</lastmod>
+	<priority>0.6</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/ochistitel-kovrovykh-pokrytiy-novatec-1l/</loc>
+	<lastmod>2019-01-16T11:29:52+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/meshok-pylesbornik-mnogorazovyy-sb-k3/</loc>
+	<lastmod>2019-01-16T11:29:54+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/turboshchetka-un3/</loc>
+	<lastmod>2019-01-16T11:29:56+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/zhidkiy-vosk-dlya-kuzova-avtomobilya-tutela/</loc>
+	<lastmod>2019-01-16T11:29:58+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/kontsentrirovannoe-sredstvo-dlya-obshchey-chistki-sanuzlov-karcher-ca-10-c-1l-chistyashchee-sredstvo/</loc>
+	<lastmod>2019-01-16T11:30:00+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/antinakipin-palochki-rm-511/</loc>
+	<lastmod>2019-01-16T11:30:05+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/kontsentrat-sredstva-dlya-stekloochistitelya/</loc>
+	<lastmod>2019-01-16T11:30:05+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/professionalnye-podmetalnye-mashiny/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:30:03+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/km-75-40-w-g-podmetalnaya-mashina/</loc>
+	<lastmod>2019-01-16T11:30:07+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/km-70-20-c-mit-2-sb-podmetalnaya-mashina/</loc>
+	<lastmod>2019-01-16T11:30:10+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/km-70-20-c-podmetalnaya-mashina/</loc>
+	<lastmod>2019-01-16T11:30:10+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/polomoechnye-mashiny/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:30:09+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/bds-43-180-c-adv-uborochnaya-mashina/</loc>
+	<lastmod>2019-01-16T11:30:13+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/bd-38-12-c-polomoechnaya-mashina/</loc>
+	<lastmod>2019-01-16T11:30:15+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/br-35-12-c-bp-pack-eu-polomoechnaya-mashina/</loc>
+	<lastmod>2019-01-16T11:30:15+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/br-40-10c-adv-mf-eu-polomoechnaya-mashina/</loc>
+	<lastmod>2019-01-16T11:30:18+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/br-30-4-c-adv-eu-polomoechnaya-mashina/</loc>
+	<lastmod>2019-01-16T11:30:20+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/stekloochistiteli-professionalnye/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:30:17+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/wvp-10-adv-stekloochistitel/</loc>
+	<lastmod>2019-01-16T11:30:22+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/wvp-10-eu-stekloochistitel-professionalnyy-/</loc>
+	<lastmod>2019-01-16T11:30:23+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/gryazevaya-freza-db-145-full-control-dlya-moek-k4-k5/</loc>
+	<lastmod>2019-01-16T11:30:25+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/moyka-kerkher-k-3/?action_crp=BUY&amp;id=143</loc>
+	<lastmod>2019-01-16T11:30:27+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/moyka-kerkher-k-3/?action_crp=BUY&amp;id=138</loc>
+	<lastmod>2019-01-16T11:30:28+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/shlang-vysokogo-davleniya-dvukhopletochnyy-25-metrov-diametr-8-mm/</loc>
+	<lastmod>2019-01-16T11:30:30+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/shlang-vysokogo-davleniya-dvukhopletochnyy-30-metrov-diametr-8-mm/</loc>
+	<lastmod>2019-01-16T11:30:32+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/kanalopromyvochnyy-shlang-10-metrov-s-forsunkoy-1-3-s-boem-vpered-nazad/</loc>
+	<lastmod>2019-01-16T11:30:33+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/kanalopromyvochnyy-shlang-30-metrov-s-vrashch-forsunkoy/</loc>
+	<lastmod>2019-01-16T11:30:34+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/avtomobilnye-pylesosy/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:30:34+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/ploskiy-skladchatyy-filtr-rockprof-hmf5/</loc>
+	<lastmod>2019-01-16T11:30:38+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/pylesos-wd-5-premium/</loc>
+	<lastmod>2019-01-16T11:30:39+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/meshok-pylesbornik-mnogorazovyy-sb-k4/</loc>
+	<lastmod>2019-01-16T11:30:40+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/pylesos-wd-6-p-premium/</loc>
+	<lastmod>2019-01-16T11:30:42+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/vertikalnye-pylesosy/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:30:41+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/pylesos-vc-5-/</loc>
+	<lastmod>2019-01-16T11:30:44+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/pylesosy-s-meshkom/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:30:43+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/meshok-pylesbornik-mnogorazovyy-sb-k5/</loc>
+	<lastmod>2019-01-16T11:30:48+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/pylesos-vc-6/</loc>
+	<lastmod>2019-01-16T11:30:48+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/pylesos-vc-6-premium/</loc>
+	<lastmod>2019-01-16T11:30:50+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/moyushchie-pylesosy/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:30:50+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/meshok-pylesbornik-mnogorazovyy-sb-k2-/</loc>
+	<lastmod>2019-01-16T11:30:52+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/se-4001-moyushchiy-pylesos/</loc>
+	<lastmod>2019-01-16T11:30:55+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/patronnyy-filtr-rockprof-hmf1/</loc>
+	<lastmod>2019-01-16T11:30:55+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/se-4002-bytovoy-moyushchiy-pylesos/</loc>
+	<lastmod>2019-01-16T11:30:58+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/nedorogie-pylesosy/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:30:57+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/pylesosy-bez-meshka/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:30:57+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/pylesosy-dlya-vlazhnoy-i-sukhoy-uborki/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:30:59+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/penogasitel-defoam-0-25-l-/</loc>
+	<lastmod>2019-01-16T11:31:02+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/filtr-zashchity-motora-ds-5500-5600-analog-6-414-631-0/</loc>
+	<lastmod>2019-01-16T11:31:03+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/ds-6-premium-mediclean-pylesos-s-vodyanym-filtrom/</loc>
+	<lastmod>2019-01-16T11:31:04+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/pylesosy-dlya-sukhoy-uborki/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:31:04+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/pylesosy-kerkher-s-akvafiltrom/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:31:05+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/ruchnye-pylesosy/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:31:06+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/sadovye-pylesosy/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:31:06+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/stroitelnye-pylesosy/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:31:07+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/khozyaystvennye-pylesosy/filter/clear/apply/</loc>
+	<lastmod>2019-01-16T11:31:08+01:00</lastmod>
+	<priority>0.1</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/patronnyy-filtr-se-mv/</loc>
+	<lastmod>2019-01-16T11:31:11+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/pylesos-kerkher-wd-2/?action_crp=BUY&amp;id=176</loc>
+	<lastmod>2019-01-16T11:31:13+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/nt-70-3-eu-pylesos-vlazhnoy-i-sukhoy-uborki/</loc>
+	<lastmod>2019-01-16T11:31:14+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/nt-90-2-me-classic-edition-eu-pylesos-vlazhnoy-i-sukhoy-uborki/</loc>
+	<lastmod>2019-01-16T11:31:16+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/nt-70-2-me-classic-edition-eu-pylesos-vlazhnoy-i-sukhoy-uborki/</loc>
+	<lastmod>2019-01-16T11:31:18+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/nt-40-1-ap-l-eu-pylesos-vlazhnoy-i-sukhoy-uborki-/</loc>
+	<lastmod>2019-01-16T11:31:20+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/nt-30-1-ap-te-l-eu-pylesos-vlazhnoy-i-sukhoy-uborki/</loc>
+	<lastmod>2019-01-16T11:31:21+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/bd-50-60c-epclassic-polomoynaya-mashina/</loc>
+	<lastmod>2019-01-16T11:31:22+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/bd-50-50-c-bp-classic-polomoechnaya-mashina/</loc>
+	<lastmod>2019-01-16T11:31:24+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/bd-43-35-c-ep-polomoechnaya-mashina/</loc>
+	<lastmod>2019-01-16T11:31:26+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/bd-43-25-c-bp-polomoechnaya-mashina/</loc>
+	<lastmod>2019-01-16T11:31:27+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/br-45-22-c-bp-pack-eu-mashina-polomoechnaya/</loc>
+	<lastmod>2019-01-16T11:31:29+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/bd-30-4-c-bp-pack-eu-polomoechnaya-mashina/</loc>
+	<lastmod>2019-01-16T11:31:31+01:00</lastmod>
+	<priority>0.4</priority>
+</url>
+<url>
+	<loc>https://technoraum.ru/catalog/element/pylesos-vc-6/?action_crp=BUY&amp;id=115</loc>
+	<lastmod>2019-01-16T11:31:32+01:00</lastmod>
+	<priority>0.4</priority>
 </url>
 </urlset>
