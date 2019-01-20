@@ -3,7 +3,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Сравнение товаров");
 ?><?$APPLICATION->IncludeComponent(
 	"bitrix:catalog.compare.result", 
-	"technoraum", 
+	"technoraum",
 	array(
 		"ACTION_VARIABLE" => "action",
 		"AJAX_MODE" => "N",
@@ -51,23 +51,7 @@ $APPLICATION->SetTitle("Сравнение товаров");
 		"PROPERTY_CODE" => array(
 			0 => "",
 			1 => "ARTICLE",
-			2 => "BRAND",
-			3 => "DETAIL_P7",
-			4 => "DETAIL_P8",
-			5 => "PRESSURE",
-			6 => "DETAIL_P1",
-			7 => "OLD_PRICE",
-			8 => "DETAIL_P3",
-			9 => "POWER",
-			10 => "TENSION",
-			11 => "DETAIL_P4",
-			12 => "DETAIL_P5",
-			13 => "PERFOMANCE",
-			14 => "DETAIL_P2",
-			15 => "DETAIL_P6",
-			16 => "OLD_PRICE_VAL",
-			17 => "STICKER",
-			18 => "",
+			2 => "CHARACTERISTIC",
 		),
 		"SECTION_ID_VARIABLE" => "SECTION_ID",
 		"SHOW_PRICE_COUNT" => "1",

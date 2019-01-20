@@ -106,85 +106,60 @@ else
 							<p class="table_title">Технические характеристики</p>
 								<table>
 									<?
-										$j = 1;
-										while($arResult["ITEMS"][$i]["PROPERTIES"]["DETAIL_P".$j])
+									foreach ($arResult["SHOW_PROPERTIES"] as $code => $arProperty)
+									{
+										$showRow = true;
+										if ($arResult['DIFFERENT'])
+										{
+											$arCompare = array();
+											foreach($arResult["ITEMS"] as $arElement)
+											{
+												$arPropertyValue = $arElement["DISPLAY_PROPERTIES"][$code]["VALUE"];
+												if (is_array($arPropertyValue))
+												{
+													sort($arPropertyValue);
+													$arPropertyValue = implode(" / ", $arPropertyValue);
+												}
+												$arCompare[] = $arPropertyValue;
+											}
+											unset($arElement);
+											$showRow = (count(array_unique($arCompare)) > 1);
+										}
+
+										if ($showRow)
 										{
 											?>
-												<tr>
-													<td><?=$arResult["ITEMS"][$i]["PROPERTIES"]["DETAIL_P".$j]["NAME"]?></td>
+											<tr>
+												<td><?=$arProperty["NAME"]?></td>
+												<?foreach($arResult["ITEMS"] as $arElement)
+												{
+													?>
 													<td>
-														<?
-															if($arResult["ITEMS"][$i]["PROPERTIES"]["DETAIL_P".$j]["VALUE"])
-															{
-																if($arResult["ITEMS"][$i]["PROPERTIES"]["DETAIL_P".$j]["VALUE"] == 1)
-																	echo "<img src='".SITE_TEMPLATE_PATH."/img/green_check.png'>";
-																else
-																	echo $arResult["ITEMS"][$i]["PROPERTIES"]["DETAIL_P".$j]["VALUE"];
+														<?if(is_array($arElement["DISPLAY_PROPERTIES"][$code]["DISPLAY_VALUE"])){
+															if(count($arElement["DISPLAY_PROPERTIES"][$code]['DESCRIPTION']) > 0){
+																foreach($arElement["DISPLAY_PROPERTIES"][$code]["DISPLAY_VALUE"] as $desc => $value){
+																	echo $arElement["DISPLAY_PROPERTIES"][$code]['DESCRIPTION'][$desc].' - '.$value.'<br>';
+																}
+															}else{
+																print implode(" /",$arElement["DISPLAY_PROPERTIES"][$code]["DISPLAY_VALUE"]);
 															}
-															else
-																echo " - ";
+														}else{
+															echo $arElement["DISPLAY_PROPERTIES"][$code]["DISPLAY_VALUE"];
+														}
 														?>
 													</td>
-													<td>
-														<?
-															if($arResult["ITEMS"][$i+1]["PROPERTIES"]["DETAIL_P".$j]["VALUE"])
-															{
-																if($arResult["ITEMS"][$i+1]["PROPERTIES"]["DETAIL_P".$j]["VALUE"] == 1)
-																	echo "<img src='".SITE_TEMPLATE_PATH."/img/green_check.png'>";
-																else
-																	echo $arResult["ITEMS"][$i+1]["PROPERTIES"]["DETAIL_P".$j]["VALUE"];
-															}
-															else
-																echo " - ";
-														?>
-													</td>
-												</tr>
+													<?
+												}
+												unset($arElement);
+												?>
+											</tr>
 											<?
-											$j++;
 										}
+									}
 									?>
 								</table>
-								<p class="table_title">Оснащение</p>
-								<table>
-									<?
-										$j = 1;
-										while($arResult["ITEMS"][$i]["PROPERTIES"]["COMP_P".$j])
-										{
-											?>
-												<tr>
-													<td><?=$arResult["ITEMS"][$i]["PROPERTIES"]["COMP_P".$j]["NAME"]?></td>
-													<td>
-														<?
-															if($arResult["ITEMS"][$i]["PROPERTIES"]["COMP_P".$j]["VALUE"])
-															{
-																if($arResult["ITEMS"][$i]["PROPERTIES"]["COMP_P".$j]["VALUE"] == 1)
-																	echo "<img src='".SITE_TEMPLATE_PATH."/img/green_check.png'>";
-																else
-																	echo $arResult["ITEMS"][$i]["PROPERTIES"]["COMP_P".$j]["VALUE"];
-															}
-															else
-																echo " - ";
-														?>
-													</td>
-													<td>
-														<?
-															if($arResult["ITEMS"][$i+1]["PROPERTIES"]["COMP_P".$j]["VALUE"])
-															{
-																if($arResult["ITEMS"][$i+1]["PROPERTIES"]["COMP_P".$j]["VALUE"] == 1)
-																	echo "<img src='".SITE_TEMPLATE_PATH."/img/green_check.png'>";
-																else
-																	echo $arResult["ITEMS"][$i+1]["PROPERTIES"]["COMP_P".$j]["VALUE"];
-															}
-															else
-																echo " - ";
-														?>
-													</td>
-												</tr>
-											<?
-											$j++;
-										}
-									?>
-								</table>
+
+
 								<table>
 									<tr class="bg_fff">
 										<td><p class="table_title">Описание</p></td>
