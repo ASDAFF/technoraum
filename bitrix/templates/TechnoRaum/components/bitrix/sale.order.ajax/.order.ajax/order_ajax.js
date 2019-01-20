@@ -5284,6 +5284,7 @@ BX.namespace('BX.Sale.OrderAjaxComponent');
 
 			if (currentDelivery.PERIOD_TEXT && currentDelivery.PERIOD_TEXT.length)
 			{
+				currentDelivery.PERIOD_TEXT += '<p class="small-message">Сроки и стоимость доставки рассчитаны на основе данных, предоставленных транспортными компаниями.</p>';
 				period = BX.create('LI', {
 					children: [
 						BX.create('DIV', {props: {className: 'bx-soa-pp-list-termin'}, html: this.params.MESS_PERIOD + ':'}),

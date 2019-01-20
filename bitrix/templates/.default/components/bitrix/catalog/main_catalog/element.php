@@ -172,6 +172,7 @@ $ar_res = CCatalogProduct::GetByID($ElementID);
 		),
 			false
 		);?>
+		<p class="small-message" style="text-align: center">—роки и стоимость доставки рассчитаны на основе данных, предоставленных транспортными компани€ми.</p>
 	</div>
 	<div id="tabs-3">
 		<? if($ar_res["WEIGHT"] &&
@@ -193,6 +194,7 @@ $ar_res = CCatalogProduct::GetByID($ElementID);
 			print "–асчет не выполнен! Ќеуказанны размеры текущего товара.";
 		}
 		?>
+		<p class="small-message" style="text-align: center">—роки и стоимость доставки рассчитаны на основе данных, предоставленных транспортными компани€ми.</p>
 	</div>
 </div>
 <!--TABS-END-->

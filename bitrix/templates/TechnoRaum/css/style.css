@@ -1628,3 +1628,11 @@ form[name='bform'] input[type='submit']{font-weight: bold;border-color: #feee35;
 .i_creditbtn_first a:hover {
     opacity: 1;
 }
+
+p.small-message{
+    font-size: 12px;
+    line-height: normal;
+    padding: 0;
+    margin: 5px auto;
+    color: #8d8d8d;
+}
