@@ -3,7 +3,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Сравнение товаров");
 ?><?$APPLICATION->IncludeComponent(
 	"bitrix:catalog.compare.result", 
-	"technoraum",
+	"technoraum", 
 	array(
 		"ACTION_VARIABLE" => "action",
 		"AJAX_MODE" => "N",
@@ -49,15 +49,38 @@ $APPLICATION->SetTitle("Сравнение товаров");
 		"PRICE_VAT_INCLUDE" => "Y",
 		"PRODUCT_ID_VARIABLE" => "id",
 		"PROPERTY_CODE" => array(
-			0 => "",
-			1 => "ARTICLE",
-			2 => "CHARACTERISTIC",
+			0 => "PROIZVODITEL",
+			1 => "TIP_UBORKI",
+			2 => "POWER_PAR",
+			3 => "DAVLENIE",
+			4 => "POWER",
+			5 => "PERFORMENCE",
+			6 => "PARAMETRY_EHLEKTROSETI",
+			7 => "AVTONOMNYJ",
+			8 => "CLEANING_AREA",
+			9 => "MOSHCHOST_VSASYVANIYA",
+			10 => "MAX_POTREBLYAEMAYA_MOSHCHNOST",
+			11 => "PROIZVODITELNOST",
+			12 => "SOVMESTIMAYA_TEKHNIKA",
+			13 => "ARTICLE",
+			14 => "VREMYA_ZARYADKI_AKKUMULYATURA_MIN",
+			15 => "PROF_PYLESOS",
+			16 => "A_PYLESOSA",
+			17 => "CHARACTERISTIC",
+			18 => "SHIRINA_NASADOK",
+			19 => "APPLICATION",
+			20 => "COMPLETE_PAR",
+			21 => "KOMPLEKTACIYA_AVD",
+			22 => "COMPLETE",
+			23 => "",
 		),
 		"SECTION_ID_VARIABLE" => "SECTION_ID",
 		"SHOW_PRICE_COUNT" => "1",
 		"TEMPLATE_THEME" => "blue",
 		"USE_PRICE_COUNT" => "N",
-		"COMPONENT_TEMPLATE" => "technoraum"
+		"COMPONENT_TEMPLATE" => "technoraum",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO"
 	),
 	false
 );?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
