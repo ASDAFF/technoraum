@@ -19,7 +19,7 @@ $this->setFrameMode(true);
 
 <div class="the_section_head">
     <p class="section_title">
-        <a href="#">Рекомендуемые товары</a>
+        <a href="#"><?=$arParams["MESS_BTN_DETAIL"]?></a>
     </p>
 </div>
 

@@ -27,25 +27,8 @@ $this->addExternalCss('/bitrix/css/main/bootstrap.css');
 			?>
 			<div class="glav_cat_div">
 				<?
-						$i = 0;
-						$summ = 0;
-						foreach($item["PROPERTIES"]["GIFT"]["VALUE"] as $gifts)
-						{
-							$res = CIBlockElement::GetByID($gifts);
-							if($ar_res = $res->GetNext())
-							{
-								$price = CPrice::GetBasePrice($gifts);
 
-								$g_products[$i]["ID"] = $ar_res["ID"];
-								$g_products[$i]["NAME"] = $ar_res["NAME"];
-								$g_products[$i]["PICTURE"] = $ar_res["PREVIEW_PICTURE"];
-								$g_products[$i]["PRICE"] = $price["PRICE"];
-								$g_products[$i]["URL"] = $ar_res["DETAIL_PAGE_URL"];
-								$summ += $price["PRICE"];
-								$i++;
-							}
-						}
-						$summ = number_format($summ , 0 , " " , " ");
+						$summ = number_format($item["GIFT_SUM"] , 0 , " " , " ");
 						?>
 						<div class="gift">
 							<?if($summ):?>
@@ -64,15 +47,14 @@ $this->addExternalCss('/bitrix/css/main/bootstrap.css');
 							<? endif; ?>
 						</div>
 
-						<? if($g_products): ?>
+						<? if(count($item["PROPERTIES"]["GIFT"]["ITEM"]) > 0): ?>
 						<div class="gift_popup">
 						<?
-							foreach($g_products as $product)
+							foreach($item["PROPERTIES"]["GIFT"]["ITEM"] as $product)
 							{
-								$file = CFile::ResizeImageGet($product["PICTURE"], array('width'=>50, 'height'=>50), BX_RESIZE_IMAGE_PROPORTIONAL, true);
 								?>
 									<div class="row">
-										<div class="img"><img src="<?=$file["src"]?>" /></div>
+										<div class="img"><img src="<?=$product["PICTURE"]["src"]?>" /></div>
 										<div class="name"><a href="<?=$product["URL"]?>"><?=$product["NAME"]?></a></div>
 										<div class="price"><?=number_format($product["PRICE"] , 0 , " " , " ");?> &#8381;</div>
 									</div>
