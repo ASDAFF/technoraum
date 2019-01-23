@@ -37,7 +37,22 @@ if($arResult['CATALOG_WIDTH'] &&
 	$arResult['CHECK_DELIVERY_TO_DOOR'] = "Y";
 }
 
+foreach($arResult["PROPERTIES"]["GIFT"]["VALUE"] as $key => $gifts)
+{
+	$res = CIBlockElement::GetByID($gifts);
+	if($ar_res = $res->GetNext())
+	{
+		$price = CPrice::GetBasePrice($gifts);
 
+		$arResult["PROPERTIES"]["GIFT"]["ITEM"][$ar_res['ID']]["ID"] = $ar_res["ID"];
+		$arResult["PROPERTIES"]["GIFT"]["ITEM"][$ar_res['ID']]["NAME"] = $ar_res["NAME"];
+		$arResult["PROPERTIES"]["GIFT"]["ITEM"][$ar_res['ID']]["DESC"] = $arResult["PROPERTIES"]["GIFT"]["DESCRIPTION"][$key];
+		$arResult["PROPERTIES"]["GIFT"]["ITEM"][$ar_res['ID']]["PICTURE"] = CFile::ResizeImageGet($ar_res["PREVIEW_PICTURE"], array('width'=>50, 'height'=>50), BX_RESIZE_IMAGE_PROPORTIONAL, true);
+		$arResult["PROPERTIES"]["GIFT"]["ITEM"][$ar_res['ID']]["PRICE"] = $price["PRICE"];
+		$arResult["PROPERTIES"]["GIFT"]["ITEM"][$ar_res['ID']]["URL"] = $ar_res["DETAIL_PAGE_URL"];
+		$arResult["GIFT_SUM"] += number_format($price["PRICE"] , 0 , " " , " ");
+	}
+}
 
 
 ?>

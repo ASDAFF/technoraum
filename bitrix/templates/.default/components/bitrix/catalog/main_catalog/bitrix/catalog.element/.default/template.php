@@ -226,50 +226,34 @@ while ($arItems = $dbBasketItems->Fetch())
 			<a class="i_creditgreen" href="javascript:void(0)">Купить в кредит</a>
 		</div>
 
-		<?
-		if($arResult["PROPERTIES"]["GIFT"]["VALUE"])
-		{
-			$i = 0;
-			$summ = 0;
-			foreach($arResult["PROPERTIES"]["GIFT"]["VALUE"] as $gifts)
-			{
-				$res = CIBlockElement::GetByID($gifts);
-				if($ar_res = $res->GetNext())
-				{
-					$price = CPrice::GetBasePrice($gifts);
-
-					$g_products[$i]["ID"] = $ar_res["ID"];
-					$g_products[$i]["NAME"] = $ar_res["NAME"];
-					$g_products[$i]["PICTURE"] = $ar_res["PREVIEW_PICTURE"];
-					$g_products[$i]["PRICE"] = $price["PRICE"];
-					$g_products[$i]["URL"] = $ar_res["DETAIL_PAGE_URL"];
-					$summ += $price["PRICE"];
-					$i++;
-				}
-			}
-			$summ = number_format($summ , 0 , " " , " ");
-			?>
-				<div class="icon">
-					<img src="<?=SITE_TEMPLATE_PATH?>/img/gift_icon.png" />
-					<span>Подарки на <?=$summ?> &#8381;</span>
-				</div>
-				<div class="items">
-				<?
-					foreach($g_products as $product)
-					{
-						$file = CFile::ResizeImageGet($product["PICTURE"], array('width'=>50, 'height'=>50), BX_RESIZE_IMAGE_PROPORTIONAL, true);
-						?>
-							<div class="row">
-								<div class="img"><img src="<?=$file["src"]?>" /></div>
-								<a style="text-decoration:none;color:#000;" href="<?=$product["URL"]?>"><div class="name"><?=$product["NAME"]?> - <?=number_format($product["PRICE"] , 0 , " " , " ");?> &#8381;</div></a>
-							</div>
-						<?
-					}
-				?>
-				</div>
-			<?
-		}
-		?>
+		<? if($arResult["PROPERTIES"]["GIFT"]["VALUE"]):?>
+				<? if(count($arResult["PROPERTIES"]["GIFT"]["ITEM"]) > 0): ?>
+					<div class="items">
+							<a href="#" class="list-group-item">
+								<div class="thumbnail list-group-img">
+									<img alt="<?=$product["NAME"]?>" style="height: 50px; width: 50px; display: block;" src="<?=SITE_TEMPLATE_PATH?>/img/gift_icon.png">
+								</div>
+								<div class="list-group-desc">
+									<div class="list-group-item-text">Подарки</div>
+									<div class="list-group-item-text">на сумму</div>
+									<div class="list-group-item-text"><?=$arResult["GIFT_SUM"]?> &#8381;</div>
+								</div>
+							</a>
+						<? foreach($arResult["PROPERTIES"]["GIFT"]["ITEM"] as $product):?>
+							<a href="<?=$product["URL"]?>" class="list-group-item">
+								<div class="thumbnail list-group-img">
+									<img alt="<?=$product["NAME"]?>" style="height: 50px; width: 50px; display: block;" src="<?=$product["PICTURE"]["src"]?>">
+								</div>
+								<div class="list-group-desc">
+									<div class="list-group-item-text"><?=$product["NAME"]?></div>
+									<div class="list-group-item-text"><?=number_format($product["PRICE"] , 0 , " " , " ");?> &#8381;</div>
+									<div class="list-group-item-text"><?=$product["DESC"]?></div>
+								</div>
+							</a>
+						<? endforeach; ?>
+					</div>
+				<? endif; ?>
+			<? endif; ?>
 		<p class="title">Как получить товар</p>
 		<div class="card_dil_list">
 			<div class="row">

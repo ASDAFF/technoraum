@@ -5,6 +5,26 @@
  * @var CatalogSectionComponent $component
  */
 
+foreach($arResult['BASKET_ITEM_RENDER_DATA'] as &$cols){
+    foreach($cols['COLUMN_LIST'] as &$col){
+        if($col['CODE'] != "PROPERTY_GIFT_VALUE")
+            continue;
+
+        $ids = explode(",",$col['VALUE']);
+        $arLink = array();
+        foreach($ids as $last => $id){
+            $res = CIBlockElement::GetByID($id);
+            if($ar_res = $res->GetNext()){
+                $arLink[$last]['LINK'] = "<a href='$ar_res[DETAIL_PAGE_URL]'>$ar_res[NAME]</a>";
+                $arLink[$last]['IS_LAST'] = (count($ids) - 1 == $last) ? true : false;
+            }
+            $col['VALUE'] = $arLink;
+            $col['IS_LINK'] = true;
+            unset($col['IS_TEXT']);
+            unset($col['IS_HTML']);
+        }
+    }
+}
 
 foreach($arResult["GRID"]["ROWS"] as &$item){
     $price = round($item[PRICE]);

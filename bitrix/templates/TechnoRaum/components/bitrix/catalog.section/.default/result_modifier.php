@@ -22,7 +22,7 @@ foreach($arResult["ITEMS"] as &$item){
     );
 
 
-    foreach($item["PROPERTIES"]["GIFT"]["VALUE"] as $gifts)
+    foreach($item["PROPERTIES"]["GIFT"]["VALUE"] as $key => $gifts)
     {
         $res = CIBlockElement::GetByID($gifts);
         if($ar_res = $res->GetNext())
@@ -31,10 +31,11 @@ foreach($arResult["ITEMS"] as &$item){
 
             $item["PROPERTIES"]["GIFT"]["ITEM"][$ar_res['ID']]["ID"] = $ar_res["ID"];
             $item["PROPERTIES"]["GIFT"]["ITEM"][$ar_res['ID']]["NAME"] = $ar_res["NAME"];
+            $item["PROPERTIES"]["GIFT"]["ITEM"][$ar_res['ID']]["DESC"] = $item["PROPERTIES"]["GIFT"]["DESCRIPTION"][$key];
             $item["PROPERTIES"]["GIFT"]["ITEM"][$ar_res['ID']]["PICTURE"] = CFile::ResizeImageGet($ar_res["PREVIEW_PICTURE"], array('width'=>50, 'height'=>50), BX_RESIZE_IMAGE_PROPORTIONAL, true);
             $item["PROPERTIES"]["GIFT"]["ITEM"][$ar_res['ID']]["PRICE"] = $price["PRICE"];
             $item["PROPERTIES"]["GIFT"]["ITEM"][$ar_res['ID']]["URL"] = $ar_res["DETAIL_PAGE_URL"];
-            $item["GIFT_SUM"] += $price["PRICE"];
+            $item["GIFT_SUM"] += number_format($price["PRICE"] , 0 , " " , " ");
         }
     }
 }

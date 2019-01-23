@@ -15,6 +15,9 @@ use \Bitrix\Main\Localization\Loc;
 $this->setFrameMode(true);
 $this->addExternalCss('/bitrix/css/main/bootstrap.css');
 ?>
+
+
+
 <div class="glav_cat_wrap glav_cat_wrap_mark2">
 	<?
 		if(count($arResult["ITEMS"]) == 0)
@@ -26,16 +29,15 @@ $this->addExternalCss('/bitrix/css/main/bootstrap.css');
 			$img = CFile::ResizeImageGet($item["PREVIEW_PICTURE"]["ID"], array('width'=>180, 'height'=>180), BX_RESIZE_IMAGE_PROPORTIONAL, true); 
 			?>
 			<div class="glav_cat_div">
-				<?
 
-						$summ = number_format($item["GIFT_SUM"] , 0 , " " , " ");
-						?>
+
+
 						<div class="gift">
-							<?if($summ):?>
+							<?if($item["GIFT_SUM"]):?>
 							<div class="line">
 								<div class="l"><img src="<?=SITE_TEMPLATE_PATH?>/img/gift_icon.png" /></div>
 								<div class="r">
-									<p>Подарок<br>на <?=$summ?> &#8381;</p>
+									<p>Подарок<br>на <?=$item["GIFT_SUM"]?> &#8381;</p>
 								</div>
 							</div>
 							<? endif; ?>
@@ -48,20 +50,30 @@ $this->addExternalCss('/bitrix/css/main/bootstrap.css');
 						</div>
 
 						<? if(count($item["PROPERTIES"]["GIFT"]["ITEM"]) > 0): ?>
-						<div class="gift_popup">
-						<?
-							foreach($item["PROPERTIES"]["GIFT"]["ITEM"] as $product)
-							{
-								?>
-									<div class="row">
-										<div class="img"><img src="<?=$product["PICTURE"]["src"]?>" /></div>
-										<div class="name"><a href="<?=$product["URL"]?>"><?=$product["NAME"]?></a></div>
-										<div class="price"><?=number_format($product["PRICE"] , 0 , " " , " ");?> &#8381;</div>
+							<div class="list-group-gift">
+								<a href="#" class="list-group-item">
+									<div class="thumbnail list-group-img">
+										<img alt="<?=$item["NAME"]?>" style="height: 50px; width: 50px; display: block;" src="<?=SITE_TEMPLATE_PATH?>/img/gift_icon.png">
 									</div>
-								<?
-							}
-						?>
-						</div>
+									<div class="list-group-desc">
+										<div class="list-group-item-text">Подарки</div>
+										<div class="list-group-item-text">на сумму</div>
+										<div class="list-group-item-text"><?=$item["GIFT_SUM"]?> &#8381;</div>
+									</div>
+								</a>
+								<? foreach($item["PROPERTIES"]["GIFT"]["ITEM"] as $product):?>
+								<a href="<?=$product["URL"]?>" class="list-group-item">
+									<div class="thumbnail list-group-img">
+										<img alt="<?=$product["NAME"]?>" style="height: 50px; width: 50px; display: block;" src="<?=$product["PICTURE"]["src"]?>">
+									</div>
+									<div class="list-group-desc">
+										<div class="list-group-item-text"><?=$product["NAME"]?></div>
+										<div class="list-group-item-text"><?=number_format($product["PRICE"] , 0 , " " , " ");?> &#8381;</div>
+										<div class="list-group-item-text"><?=$product["DESC"]?></div>
+									</div>
+								</a>
+								<? endforeach; ?>
+							</div>
 						<? endif; ?>
 
 				<div class="filter_opt">

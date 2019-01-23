@@ -9,9 +9,9 @@ function sub(obj)
 $(document).ready(function()
 {
 
-	$(".gift").mouseenter(function(){$(this).next(".gift_popup").fadeIn();});
-	$(".gift_popup").mouseleave(function(){$(this).fadeOut();});
-	$(".glav_cat_div").mouseleave(function(){$(this).find(".gift_popup").fadeOut();});
+	$(".gift").mouseenter(function(){$(this).next(".list-group-gift").fadeIn();});
+	$(".list-group-gift").mouseleave(function(){$(this).fadeOut();});
+	$(".glav_cat_div").mouseleave(function(){$(this).find(".list-group-gift").fadeOut();});
 
 	$(".bx-authform-formgroup-container input[type='submit']").click(function()
 	{
@@ -195,20 +195,14 @@ $(document).ready(function()
 			{
 				img = $(this).closest(".glav_cat_div").find(".img").children("img").attr("src");
 			}
-			var gift = $(this).closest(".glav_cat_div").find(".gift").find(".r").text();
-			
 
-
-
-			gift = gift.replace("Подарокна " , "");
 			$("#shop_popup .icon").html("");
 			$("#shop_popup .items.gg").html("");
 			
-			var g_items = $(this).closest(".glav_cat_div").find(".gift_popup").html();
+			var g_items = $(this).closest(".glav_cat_div").find(".list-group-gift").html();
 			
-			if(gift)
+			if(g_items)
 			{
-				$("#shop_popup .gifts .icon").html('<img src="/bitrix/templates/TechnoRaum/img/gift_icon.png"><span>Подарки на '+gift+'</span>');
 				$("#shop_popup .items.gg").append(g_items);
 			}
 			
@@ -257,17 +251,13 @@ $(document).ready(function()
 
 			var img = $(".card_page_img .big_img img").attr("src");
 
-			var gift = $(".icon > span").text();
-
-			gift = gift.replace("Подарокна " , "");
 			$("#shop_popup .icon").html("");
 			$("#shop_popup .items.gg").html("");
 
 			var g_items = $(".card_page_specs .items").html();
 
-			if(gift)
+			if(g_items)
 			{
-				$("#shop_popup .gifts .icon").html('<img src="/bitrix/templates/TechnoRaum/img/gift_icon.png"><span>'+gift+'</span>');
 				$("#shop_popup .items.gg").append(g_items);
 			}
 
