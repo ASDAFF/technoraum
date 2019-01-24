@@ -236,7 +236,7 @@ while ($arItems = $dbBasketItems->Fetch())
 								<div class="list-group-desc">
 									<div class="list-group-item-text">Подарки</div>
 									<div class="list-group-item-text">на сумму</div>
-									<div class="list-group-item-text"><?=$arResult["GIFT_SUM"]?> &#8381;</div>
+									<div class="list-group-item-text"><?=number_format($arResult["GIFT_SUM"] , 0 , " " , " ");?> &#8381;</div>
 								</div>
 							</a>
 						<? foreach($arResult["PROPERTIES"]["GIFT"]["ITEM"] as $product):?>
