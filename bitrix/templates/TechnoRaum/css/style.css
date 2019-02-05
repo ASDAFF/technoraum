@@ -1556,9 +1556,48 @@ form[name='bform'] input[type='submit']{font-weight: bold;border-color: #feee35;
 
 @media(max-width:768px)
 {
-    #tabs{
+    .ui-tabs .ui-tabs-nav{
+        padding: 0!important;
+    }
+
+    .ui-tabs .ui-tabs-nav li{
+        width: 100%;
+        border: 2px solid #ededed;
+        margin: 0;
+    }
+    .ui-tabs .ui-tabs-nav li.ui-tabs-active{
+        margin: 0;
+    }
+
+    .ui-tabs .ui-tabs-nav li a{
+        text-align: center;
+        width: 100%;
+    }
+
+    .region-shop > .shop-list{
+        width: 100%;
+    }
+
+    .region-shop > .shop-map,
+    #SDEK_info
+    {
         display: none;
     }
+
+    .delivery-door .delivery-door-main .delivery-door-item{
+        width: 100%;
+        text-align: center!important;
+    }
+    .delivery-door .delivery-door-main .delivery-door-item .delivery-door-button input{
+        margin-bottom: 15px;
+    }
+    .delivery-door-table .row .col1 img{
+        display: none;
+    }
+    .ui-tabs .ui-tabs-nav li.ui-tabs-active a {
+        color: #000d19!important;
+    }
+
 
 }
 
