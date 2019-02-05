@@ -1591,6 +1591,9 @@ form[name='bform'] input[type='submit']{font-weight: bold;border-color: #feee35;
     .delivery-door .delivery-door-main .delivery-door-item .delivery-door-button input{
         margin-bottom: 15px;
     }
+    .delivery-door .delivery-door-main .delivery-door-item .delivery-door-input input{
+        width: 100%!important;
+    }
     .delivery-door-table .row .col1 img{
         display: none;
     }
