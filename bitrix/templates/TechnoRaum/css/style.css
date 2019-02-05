@@ -1600,6 +1600,9 @@ form[name='bform'] input[type='submit']{font-weight: bold;border-color: #feee35;
     .ui-tabs .ui-tabs-nav li.ui-tabs-active a {
         color: #000d19!important;
     }
+    .delivery-door-table .row .item div{
+        font-size: 12px;
+    }
 
 
 }
