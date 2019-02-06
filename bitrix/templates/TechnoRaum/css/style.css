@@ -1598,7 +1598,10 @@ form[name='bform'] input[type='submit']{font-weight: bold;border-color: #feee35;
         display: none;
     }
     .ui-tabs .ui-tabs-nav li.ui-tabs-active a {
-        color: #000d19!important;
+        color: #333333!important;
+    }
+    .ui-tabs .ui-tabs-nav li.ui-tabs-active{
+        background: #eee;
     }
     .delivery-door-table .row .item div{
         font-size: 12px;
