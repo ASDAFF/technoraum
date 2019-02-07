@@ -1,5 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("description", "Сравни выбранные товары Керхер");
+$APPLICATION->SetPageProperty("keywords", "Сравнение моделей техники Керхер");
+$APPLICATION->SetPageProperty("title", "Сравнение моделей Karcher");
 $APPLICATION->SetTitle("Сравнение товаров");
 ?><?$APPLICATION->IncludeComponent(
 	"bitrix:catalog.compare.result", 

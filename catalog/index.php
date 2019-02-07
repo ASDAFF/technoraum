@@ -1,8 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetPageProperty("description", "Официальный магазин техники для дома Karcher с самыми выгодными ценами.");
-$APPLICATION->SetPageProperty("keywords", "бытовая техника karcher, купить технику керхер, магазин техники karcher, магазин техники керхер, сайт техники керхер, техника karcher, техника керхер, техника керхер +в краснодаре");
-$APPLICATION->SetPageProperty("title", "Купить бытовую технику Керхер (Karcher) в Краснодаре. Официальные цены на сайте магазина \"ТехноРаум\".");
+$APPLICATION->SetPageProperty("description", "Каталог Керхер");
+$APPLICATION->SetPageProperty("keywords", "каталог karcher, каталог керхер");
+$APPLICATION->SetPageProperty("title", "Каталог Керхер (Karcher) в Краснодаре");
 $APPLICATION->SetTitle("Каталог");
 ?><?$APPLICATION->IncludeComponent(
 	"bitrix:catalog", 

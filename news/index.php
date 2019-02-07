@@ -1,6 +1,9 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Title");
+$APPLICATION->SetPageProperty("description", "Самые свежие новости о компании Керхер");
+$APPLICATION->SetPageProperty("keywords", "Новости и статьи");
+$APPLICATION->SetPageProperty("title", "Статьи о Керхер, новости магазина ТехноРаум");
+$APPLICATION->SetTitle("Новости компании ТехноРаум");
 ?><?$APPLICATION->IncludeComponent(
 	"bitrix:news", 
 	"main_news", 

@@ -1,5 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("description", "Как добраться. Компания ТехноРаум");
+$APPLICATION->SetPageProperty("keywords", "Контакты ТехноРаум");
+$APPLICATION->SetPageProperty("title", "Где купить Керхер в Краснодаре");
 $APPLICATION->SetTitle("Контакты");
 ?><style>footer{margin-top:0;    padding: 30px 0 20px 0;}</style>
 <div class="contacts_page_block">

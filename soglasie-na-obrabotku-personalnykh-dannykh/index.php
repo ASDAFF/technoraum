@@ -1,5 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("description", "Политика конфиденциальности компании ТехноРаум");
+$APPLICATION->SetPageProperty("keywords", "Политика конфиденциальности персональных данных");
+$APPLICATION->SetPageProperty("title", "Политика конфиденциальности");
 $APPLICATION->SetTitle("Согласие на обработку персональных данных");
 ?><h1>ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</h1>
 <p>
