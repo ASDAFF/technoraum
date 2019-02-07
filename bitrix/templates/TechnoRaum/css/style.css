@@ -632,8 +632,18 @@ body .display_filters_block_div p.title {display:block;font-size:16px;color:#111
 .the_content_left_column input.button.filter_submit_button {width:230px;font-size:14px;height:40px;line-height:40px;max-width:100%;margin:0 auto;clear:both;}
 input.button.filter_submit_button {background:#feee35;border-color:#feee35;}
 input.button.filter_submit_button:hover {background:#eede25;border-color:#eede25;}
-input.button.filter_clear_button {font-weight:500;font-size:14px;color:#a1a1a0;background:none;border-color:transparent;background:url(../img/filter_x.png) no-repeat 67px center;}
-input.button.filter_clear_button:hover {border-color:transparent;text-decoration:none;color:#111;}
+a.button.filter_clear_button {
+    font-weight: 500;
+    font-size: 14px;
+    color: #a1a1a0;
+    background: none;
+    border-color: transparent;
+    background: url(../img/filter_x.png) no-repeat 50px center;
+    width: 100%;
+    display: block;
+    margin: 10px auto;
+}
+a.button.filter_clear_button:hover {border-color:transparent;text-decoration:none;color:#111;}
 
 
 .the_content_right_column {width:860px;float:right;max-width:100%;}

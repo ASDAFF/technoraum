@@ -584,8 +584,7 @@ $templateData = array(
 					<div class="bx_filter_parameters_box_container">
 						<input style="margin-top:20px;border:none;" class="button filter_submit_button" type="submit" id="set_filter" name="set_filter" disabled="disabled" value="<?=GetMessage("CT_BCSF_SET_FILTER")?>" />
 						<br>
-						<input style="margin-top:20px;outline:none !important;width:230px;" class="button filter_clear_button" type="submit" id="del_filter" name="del_filter" value="<?=GetMessage("CT_BCSF_DEL_FILTER")?>" />
-
+						<a href="<?=str_replace("filter/clear/apply/","",$arResult['SEF_DEL_FILTER_URL'])?>" class="button filter_clear_button"><?=GetMessage("CT_BCSF_DEL_FILTER")?></a>
 						<div class="bx_filter_popup_result <?=$arParams["POPUP_POSITION"]?>" id="modef" <?if(!isset($arResult["ELEMENT_COUNT"])) echo 'style="display:none"';?> style="display: inline-block;">
 							<?echo GetMessage("CT_BCSF_FILTER_COUNT", array("#ELEMENT_COUNT#" => '<span id="modef_num">'.intval($arResult["ELEMENT_COUNT"]).'</span>'));?>
 							<span class="arrow"></span>
