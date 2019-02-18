@@ -119,6 +119,7 @@ $( function() {
                         codeTT: locationCredit.val(),
                     };
                 dialog.dialog( "close" );
+                yaCounter51314392.reachGoal('KREDIT',function(){console.log('goal KREDIT');});
                 console.log(arrProducts,Order);
                 DCLoans(partnerID, 'delProduct', false, function(result){
                     if (result.status == true) {
