@@ -346,7 +346,7 @@ while ($arItems = $dbBasketItems->Fetch())
 		<div class="">
 			<input vl="<?=$arResult["ID"]?>" type="checkbox" class="compare-checkbox" name="compare"
 				   <?=($er) ? "checked" : ""?>
-				   data-tt-type="square_v"
+				   data-tt-type="square"
 				   data-tt-label-uncheck="Добавить в сравнение"
 				   data-tt-label-check="Добавлено в сравнение"
 			/>
