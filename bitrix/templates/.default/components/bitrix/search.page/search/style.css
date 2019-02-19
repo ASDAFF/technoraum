@@ -22,7 +22,10 @@ div.search-item-date { float: right;}
 
 div.search-page input.search-query {width: 99%; border: 1px solid; font-size:1.3em;}
 div.search-page input.search-suggest {width: 99%; border: 1px solid; font-size:1.3em;}
-div.search-page input.search-button { font-size: 1.2em; }
+div.search-page input.search-button {
+    font-size: 1.2em;
+    padding: 15px 25px;
+}
 
 div.search-filter h2 { margin:1em 0 0.5em; border: none;}
 table.search-filter { width: 100%;  margin-top: 0.5em;}

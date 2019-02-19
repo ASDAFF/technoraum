@@ -39,7 +39,7 @@ $APPLICATION->SetTitle("Поиск");
 		"COMPONENT_TEMPLATE" => "search",
 		"NO_WORD_LOGIC" => "N",
 		"FILTER_NAME" => "",
-		"USE_LANGUAGE_GUESS" => "Y",
+		"USE_LANGUAGE_GUESS" => "N",
 		"SHOW_RATING" => "",
 		"RATING_TYPE" => "",
 		"PATH_TO_USER_PROFILE" => "",

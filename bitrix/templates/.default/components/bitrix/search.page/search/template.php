@@ -97,9 +97,7 @@
 						<input class="search-query" type="text" name="q" value="<?=$arResult["REQUEST"]["QUERY"]?>" />
 					<?endif;?>
 				</td>
-				<td>
-					&nbsp;
-				</td>
+
 				<td>
 					<input class="search-button" type="submit" value="<?echo GetMessage("CT_BSP_GO")?>" />
 				</td>
