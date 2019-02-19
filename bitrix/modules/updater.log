@@ -4415,3 +4415,7 @@
 2018-12-28 17:41:36 -  - exec CUpdateClient::GetHTTPPage
 2018-12-28 17:41:37 -  - TIME GetUpdatesList(request) 0.214 sec
 2018-12-28 17:41:37 -  - exec CUpdateClient::ParseServerData
+2019-02-19 17:26:09 - CRUPDCF1 - Run updater '/bitrix/updates/update_m1550586369/ipol.sdek/updater3.7.4.php': CopyFiles(install/components, components/)
+2019-02-19 17:26:09 - CRUPDCF1 - Run updater '/bitrix/updates/update_m1550586369/ipol.sdek/updater3.7.4.php': CopyFiles(install/js, js/ipol.sdek/)
+2019-02-19 17:26:10 - CRUPDCF1 - Run updater '/bitrix/updates/update_m1550586370/ipol.sdek/updater3.7.5.php': CopyFiles(install/js, js/ipol.sdek/)
+2019-02-19 17:26:11 - CRUPDCF1 - Run updater '/bitrix/updates/update_m1550586371/ipol.sdek/updater3.7.6.php': CopyFiles(install/js, js/ipol.sdek/)

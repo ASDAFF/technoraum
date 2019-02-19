@@ -62,17 +62,19 @@ Class ipol_sdek extends CModule{
 		return true;
 	}
 
-	function UnInstallDB(){
+	function UnInstallDB($preserveOrders = false){
 		global $DB, $DBType, $APPLICATION;
 		$this->errors = false;
 
 		$arDB = $this->getDB();
 
 		foreach($arDB as $name => $path){
-			$this->errors = $DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT']."/bitrix/modules/".$this->MODULE_ID."/install/db/mysql/unInstall".$path.".sql");
-			if(!empty($this->errors)){
-				$APPLICATION->ThrowException(implode("", $this->errors));
-				return false;
+			if($name != 'ipol_sdek' || !$preserveOrders){
+				$this->errors = $DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT']."/bitrix/modules/".$this->MODULE_ID."/install/db/mysql/unInstall".$path.".sql");
+				if(!empty($this->errors)){
+					$APPLICATION->ThrowException(implode("", $this->errors));
+					return false;
+				}
 			}
 		}
 
@@ -142,18 +144,49 @@ Class ipol_sdek extends CModule{
         global $DB, $APPLICATION, $step;
 		$this->errors = false;
 		
-		COption::SetOptionString($this->MODULE_ID,'logSDEK','');
-		COption::SetOptionString($this->MODULE_ID,'pasSDEK','');
-		COption::SetOptionString($this->MODULE_ID,'logged',false);
-		 
-		$this->UnInstallDB();
-		$this->UnInstallFiles();
-		$this->UnInstallEvents();
-		
-		CAgent::RemoveModuleAgents('ipol.sdek');
-		
-		UnRegisterModule($this->MODULE_ID);
-        $APPLICATION->IncludeAdminFile(GetMessage("IPOLSDEK_DEL"), $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".$this->MODULE_ID."/install/unstep1.php");
+		if($_REQUEST['step'] < 2){
+			$this->ShowDataSaveForm();
+		}elseif($_REQUEST['step'] == 2){
+			COption::SetOptionString($this->MODULE_ID,'logSDEK','');
+			COption::SetOptionString($this->MODULE_ID,'pasSDEK','');
+			COption::SetOptionString($this->MODULE_ID,'logged',false);
+			 
+			$this->UnInstallDB($_REQUEST['savedata']);
+			$this->UnInstallFiles();
+			$this->UnInstallEvents();
+			
+			CAgent::RemoveModuleAgents('ipol.sdek');
+			
+			UnRegisterModule($this->MODULE_ID);
+			$APPLICATION->IncludeAdminFile(GetMessage("IPOLSDEK_DEL"), $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".$this->MODULE_ID."/install/unstep1.php");
+		}
     }
+	
+	private function ShowDataSaveForm() {
+		$keys = array_keys($GLOBALS);
+		for ($i = 0; $i < count($keys); $i++) {
+			if ($keys[$i] != 'i' && $keys[$i] != 'GLOBALS' && $keys[$i] != 'strTitle' && $keys[$i] != 'filepath') {
+				global ${$keys[$i]};
+			}
+		}
+
+		$APPLICATION->SetTitle(GetMessage('IPOLSDEK_DEL'));
+		include($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_admin_after.php');
+		?>
+		<form action="<?= $APPLICATION->GetCurPage() ?>" method="get">
+			<?= bitrix_sessid_post();?>
+			<input type="hidden" name="lang" value="<?= LANG ?>" />
+			<input type="hidden" name="id" value="<?= $this->MODULE_ID ?>" />
+			<input type="hidden" name="uninstall" value="Y" />
+			<input type="hidden" name="step" value="2" />
+			<? CAdminMessage::ShowMessage(GetMessage('IPOLSDEK_PRESERVE_TABLES')) ?>
+			<p><?echo GetMessage('MOD_UNINST_SAVE')?></p>
+			 <p><input type="checkbox" name="savedata" id="savedata" value="Y" checked="checked" /><label for="savedata"><?echo GetMessage('MOD_UNINST_SAVE_TABLES')?></label><br /></p>
+			<input type="submit" name="inst" value="<?echo GetMessage('MOD_UNINST_DEL');?>" />
+		</form>
+		<?
+		include($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/epilog_admin.php');
+		die();
+	}
 }
 ?>

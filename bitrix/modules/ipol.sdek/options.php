@@ -29,6 +29,7 @@ $arNDS = array(
 	'VAT0'  => GetMessage('IPOLSDEK_NDS_VAT0'),
 	'VAT10' => GetMessage('IPOLSDEK_NDS_VAT10'),
 	'VAT18' => GetMessage('IPOLSDEK_NDS_VAT18'),
+	'VAT20' => GetMessage('IPOLSDEK_NDS_VAT20'),
 );
 
 //���������� ������� �������
@@ -92,6 +93,7 @@ $arAllOptions = array(
 	"commonRequest" => array(//���
 		Array("deliveryAsPosition", GetMessage("IPOLSDEK_OPT_deliveryAsPosition"), 'N', Array("checkbox")),
 		Array("normalizePhone", GetMessage("IPOLSDEK_OPT_normalizePhone"), 'N', Array("checkbox")),
+		Array("addData", GetMessage("IPOLSDEK_OPT_addData"), 'N', Array("checkbox")),
 	),
 	"NDS" => array(//���
 		Array("NDSUseCatalog", GetMessage("IPOLSDEK_OPT_NDSUseCatalog"), 'N', Array("checkbox")),
@@ -166,9 +168,11 @@ $arAllOptions = array(
 	"warhouses" => array(
 		array("warhouses",GetMessage("IPOLSDEK_OPT_warhouses"),false,array('checkbox')),
 	),
-	// "autoloads" => array( // �� ���, �� ��� ����. ����� �� ���������� ��� ����������.
+	"autoloads" => array( // controlling autoloads
+		array("autoloadsMode",GetMessage("IPOLSDEK_OPT_autoloadsMode"),"O",array('selectbox'),array('O'=>GetMessage('IPOLSDEK_OPT_autoloadsMode_O'),'S'=>GetMessage('IPOLSDEK_OPT_autoloadsMode_S'))),
+		array("autoloadsStatus",GetMessage("IPOLSDEK_OPT_autoloadsStatus"),false,array('selectbox'),$orderState),
 		// array("autoloads",GetMessage("IPOLSDEK_OPT_autoloads"),false,array('checkbox')),
-	// ),
+	),
 	"other" => array(
 		array("senders","",false,array("text")),//�����������
 		array("allowSenders",GetMessage("IPOLSDEK_OPT_allowSenders"),false,array('checkbox')),
@@ -226,16 +230,16 @@ if($REQUEST_METHOD=="POST" && strlen($Update.$Apply.$RestoreDefaults)>0 && check
 		// blockPVZ
 		if($_REQUEST['noPVZnoOrder'] == 'Y' && COption::GetOptionString($module_id,'noPVZnoOrder','N') == 'N'){
 			if($converted){
-				RegisterModuleDependences("sale", "OnSaleOrderBeforeSaved", $module_id, "Ipolh\Pony\subscribeHandler", "noPVZNewTemplate");
-				RegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", $module_id, "Ipolh\Pony\subscribeHandler", "noPVZOldTemplate");
+				RegisterModuleDependences("sale", "OnSaleOrderBeforeSaved", $module_id, "Ipolh\SDEK\subscribeHandler", "noPVZNewTemplate");
+				RegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", $module_id, "Ipolh\SDEK\subscribeHandler", "noPVZOldTemplate");
 			}else
-				RegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", $module_id, "Ipolh\Pony\subscribeHandler", "noPVZOldTemplate");
+				RegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", $module_id, "Ipolh\SDEK\subscribeHandler", "noPVZOldTemplate");
 		}elseif((!array_key_exists('noPVZnoOrder',$_REQUEST) || $_REQUEST['noPVZnoOrder'] == 'N') && COption::GetOptionString($module_id,'noPVZnoOrder','N') == 'Y'){
 			if($converted){
-				UnRegisterModuleDependences("sale", "OnSaleOrderBeforeSaved", $module_id, "Ipolh\Pony\subscribeHandler", "noPVZNewTemplate");
-				UnRegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", $module_id, "Ipolh\Pony\subscribeHandler", "noPVZOldTemplate");
+				UnRegisterModuleDependences("sale", "OnSaleOrderBeforeSaved", $module_id, "Ipolh\SDEK\subscribeHandler", "noPVZNewTemplate");
+				UnRegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", $module_id, "Ipolh\SDEK\subscribeHandler", "noPVZOldTemplate");
 			}else
-				UnRegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", $module_id, "Ipolh\Pony\subscribeHandler", "noPVZOldTemplate");
+				UnRegisterModuleDependences("sale", "OnSaleComponentOrderOneStepProcess", $module_id, "Ipolh\SDEK\subscribeHandler", "noPVZOldTemplate");
 		}
 		
 		foreach($_REQUEST['addDeparture'] as $key => $place)

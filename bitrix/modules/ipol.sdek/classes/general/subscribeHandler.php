@@ -32,20 +32,25 @@ class subscribeHandler
     protected static function getDependences($PVZ = false){
 
 		$arDependences = array(
-            array("main", "OnEpilog", self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "onEpilog"),
+				// sending
+			array("main", "OnEpilog", self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "onEpilog"),
+            array("sale", "OnSaleComponentOrderOneStepComplete", self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "onOrderCreate"),
+            array("sale", "OnSaleStatusOrder", self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "onStatusOrder"),
+				// print
+            array("main", "OnAdminListDisplay", self::$MODULE_ID, "Ipolh\\SDEK\subscribeHandler", "displayActPrint"),
+            array("main", "OnBeforeProlog", self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "OnBeforePrologHandler"),
+				// widjet
             array("main", "OnEndBufferContent", self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "OnEndBufferContent"),
             array("sale", "OnSaleComponentOrderOneStepDelivery", self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "prepareWidjetData",900),
             array("sale", "OnSaleComponentOrderOneStepProcess",  self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "loadComponent",900),
-            array("sale", "OnSaleComponentOrderOneStepComplete", self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "onOrderCreate"),
+            array("sale", "OnSaleComponentOrderShowAjaxAnswer", self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "onComponentAjaxAnswer"),
+				// delivery
             array("sale", "OnSaleComponentOrderOneStepPaySystem", self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "checkNalD2P"),
             array("sale", "OnSaleComponentOrderOneStepDelivery", self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "checkNalP2D"),
-            array("sale", "OnSaleComponentOrderShowAjaxAnswer", self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "onComponentAjaxAnswer"),
-            array("main", "OnAdminListDisplay", self::$MODULE_ID, "Ipolh\\SDEK\subscribeHandler", "displayActPrint"),
-            array("main", "OnBeforeProlog", self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "OnBeforePrologHandler"),
         );
 
 		if($PVZ){
-			$arDependences []= array("sale", "OnSaleOrderBeforeSaved", self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "noPVZOldTemplate");
+			$arDependences []= array("sale", "OnSaleComponentOrderOneStepProcess", self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "noPVZOldTemplate");
 			$arDependences []= array("sale", "OnSaleOrderBeforeSaved", self::$MODULE_ID, "Ipolh\\SDEK\\subscribeHandler", "noPVZNewTemplate");
 		}
 		
@@ -54,7 +59,7 @@ class subscribeHandler
 
     public static function register($PVZ = false){
         foreach (self::getDependences($PVZ) as $regArray){
-            RegisterModuleDependences($regArray[0],$regArray[1],$regArray[2],$regArray[3],$regArray[4],(isset($regArray[5]) ? $regArray[5] : false));
+            RegisterModuleDependences($regArray[0],$regArray[1],$regArray[2],$regArray[3],$regArray[4],(isset($regArray[5]) ? $regArray[5] : 100));
         }
     }
 
@@ -85,6 +90,10 @@ class subscribeHandler
     public static function onOrderCreate($oId,$arFields){
         \sdekdriver::orderCreate($oId,$arFields);
     }
+		// autoloads via status
+    public static function onStatusOrder($oId,$status){
+        \sdekdriver::statusAutoLoad($oId,$status);
+    }
 		// checking paysystems while delivery => paysystems
     public static function checkNalD2P(&$arResult,&$arUserResult,$arParams){
         \CDeliverySDEK::checkNalD2P($arResult,$arUserResult,$arParams);
@@ -102,7 +111,7 @@ class subscribeHandler
         \CDeliverySDEK::noPVZOldTemplate($arResult,$arUserResult);
     }
 	public static function noPVZNewTemplate($entity,$values){
-        \CDeliverySDEK::noPVZNewTemplate($entity,$values);
+        return \CDeliverySDEK::noPVZNewTemplate($entity,$values);
     }
 		// show print form
     public static function displayActPrint(&$list){

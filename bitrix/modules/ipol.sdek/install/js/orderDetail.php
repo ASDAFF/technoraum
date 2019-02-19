@@ -133,7 +133,7 @@ if(array_key_exists($cityName,$arList['PVZ'])){
         if(!array_key_exists($code,$arModdedList[$cityName]))
             $arBPVZ .= $code.":true,";
         $selected = ($ordrVals['PVZ'] == $code) ? "selected" : "";
-        $strOfPSV.="<option $selected value='".$code."'>".$punkts['Name']." (".$code.")"."</option>";
+        $strOfPSV.="<option $selected value='".$code."'>".$punkts['Name']." (".$punkts['Address'].") [".$code."]"."</option>";
     }
 }
 $arBPVZ .= "}";
@@ -276,6 +276,19 @@ CJSCore::Init(array("jquery"));
         #IPOLSDEK_wndOrder{
             width: 100%;
         }
+		#IPOLSDEK_badDeliveryTerm{
+			display:none;
+		}
+		#IPOLSDEK_killDeliveryTerm{
+			width: 15px;
+			height: 15px;
+			display: none;
+			background: url("/bitrix/images/<?=self::$MODULE_ID?>/delPack.png") !important;
+			right: -24px;
+			position: relative;
+			top: 4px;
+			cursor:pointer;
+		}
         #IPOLSDEK_allTarifs{
             border-collapse: collapse;
             width: 100%;
@@ -289,7 +302,7 @@ CJSCore::Init(array("jquery"));
         #IPOLSDEK_tarifWarning span{
             font-size: 10px;
         }
-        #IPOLSDEK_service{
+        #IPOLSDEK_service, #IPOLSDEK_PVZ{
             max-width: 315px;
         }
         .IPOLSDEK_gabInput{
@@ -329,6 +342,7 @@ CJSCore::Init(array("jquery"));
             country      : "<?=$country?>",
 			person	     : '<?=(self::$orderDescr['info']['PERSON_TYPE_ID']) ? self::$orderDescr['info']['PERSON_TYPE_ID'] : '1'?>',
 			paysystem    : <?=(self::$orderDescr['info']['PAY_SYSTEM_ID']) ? "'".self::$orderDescr['info']['PAY_SYSTEM_ID']."'" : 'false'?>,
+			deliveryDate : false,
 
             ajax: function(params){
                 var ajaxParams = {
@@ -465,6 +479,37 @@ CJSCore::Init(array("jquery"));
                 else
                     $('#IPOLSDEK_oExport.badPVZ').css('display','none');
             },
+			// Изменение даты доставки
+			onDeliveryDateChange: function(){
+				$('#IPOLSDEK_badDeliveryTerm').css('display','');
+				var deliveryDate    = $('#IPOLSDEK_deliveryDate').val();
+				var deliveryDateR   = IPOLSDEK_oExport.deliveryDate.toString();;
+				if(deliveryDate){
+					$('#IPOLSDEK_killDeliveryTerm').css('display','inline-block');
+				}else{
+					$('#IPOLSDEK_killDeliveryTerm').css('display','none');
+				}		
+				if(deliveryDate && deliveryDateR){
+					$('#IPOLSDEK_deliveryTerm').html(deliveryDateR);
+					var deliveryDateROb = new Date();
+					deliveryDate = deliveryDate.split('.');
+					var deliveryDateOb  = new Date(deliveryDate[2],deliveryDate[1]-1,deliveryDate[0]);
+
+					if(deliveryDateR.indexOf('-') !== -1){
+						deliveryDateR   = deliveryDateR.substr(0,deliveryDateR.indexOf('-'));
+					}
+					deliveryDateROb.setHours(0);
+					deliveryDateROb.setDate(deliveryDateROb.getDate()+Number(deliveryDateR));
+
+					if(Number(deliveryDateOb - deliveryDateROb) < -43200000){
+						$('#IPOLSDEK_badDeliveryTerm').css('display','table-row');
+					}
+				}
+			},
+			resetDate: function(){
+				$("#IPOLSDEK_deliveryDate").val("");
+				IPOLSDEK_oExport.onDeliveryDateChange();
+			},
             // Изменился город-отправитель: пересчитываем все.
             onDepartureChange: function(){
                 IPOLSDEK_oExport.onRecheck();
@@ -485,9 +530,10 @@ CJSCore::Init(array("jquery"));
                         if(typeof data.success != 'undefined'){
                             var text = '';
                             if(data.success){
-                                var dayLbl = data.termMin + "-" + data.termMax + " <?=GetMessage("IPOLSDEK_JS_SOD_HD_DAY")?>";
-                                if(data.termMin == data.termMax) dayLbl = data.termMax + " <?=GetMessage("IPOLSDEK_JS_SOD_HD_DAY")?>";
-                                text = "<?=GetMessage("IPOLSDEK_JSC_SOD_NEWCONDITIONS_1")?>" + dayLbl;
+                                var dayLbl = data.termMin + "-" + data.termMax;
+                                if(data.termMin == data.termMax) dayLbl = data.termMax;
+								IPOLSDEK_oExport.deliveryDate = dayLbl;
+                                text = "<?=GetMessage("IPOLSDEK_JSC_SOD_NEWCONDITIONS_1")?>"  + dayLbl + " <?=GetMessage("IPOLSDEK_JS_SOD_HD_DAY")?>";
                                 if(typeof(data.price) != 'undefined')
                                     text+="<?=GetMessage("IPOLSDEK_JSC_SOD_NEWCONDITIONS_2")?>" + data.price;
                                 if(typeof(data.sourcePrice) != 'undefined')
@@ -504,6 +550,7 @@ CJSCore::Init(array("jquery"));
                         }
                         if(typeof(isNoAlert) == 'undefined')
                             alert(text);
+						IPOLSDEK_oExport.onDeliveryDateChange();
                     }
                 });
             },
@@ -575,6 +622,7 @@ CJSCore::Init(array("jquery"));
                     'realSeller'	 : {need: false},
                     'departure'		 : {need: true,check: ($('#IPOLSDEK_departure').length && !isCourierCall)},
                     'location'  	 : {need: true},
+					'deliveryDate'   : {need: false},
                     'name'     		 : {need: true},
                     'email'     	 : {need: true},
                     'phone'     	 : {need: true,format: IPOLSDEK_oExport.checkPhone,failFormat: "<?=GetMessage('IPOLSDEK_JSC_SOD_badPhone')?>"},
@@ -689,9 +737,10 @@ CJSCore::Init(array("jquery"));
                 $('#IPOLSDEK_PRINT').attr('disabled','true');
                 $('#IPOLSDEK_PRINT').val('<?=GetMessage("IPOLSDEK_JSC_SOD_LOADING")?>');
                 IPOLSDEK_oExport.ajax({
-                    data    : {
+                    data : {
                         isdek_action : 'printOrderInvoice',
-                        oId : IPOLSDEK_oExport.orderId
+                        oId  : (IPOLSDEK_oExport.mode == 'shipment') ? IPOLSDEK_oExport.shipment : IPOLSDEK_oExport.orderId,
+						mode : IPOLSDEK_oExport.mode
                     },
                     dataType : 'json',
                     success : function(data){
@@ -712,9 +761,10 @@ CJSCore::Init(array("jquery"));
 				$('#IPOLSDEK_SHTRIH').attr('disabled','true');
                 $('#IPOLSDEK_SHTRIH').val('<?=GetMessage("IPOLSDEK_JSC_SOD_LOADING")?>');
                 IPOLSDEK_oExport.ajax({
-                    data    : {
+                    data : {
                         isdek_action : 'printOrderShtrih',
-                        oId : IPOLSDEK_oExport.orderId
+                        oId : (IPOLSDEK_oExport.mode == 'shipment') ? IPOLSDEK_oExport.shipment : IPOLSDEK_oExport.orderId,
+						mode : IPOLSDEK_oExport.mode
                     },
                     dataType : 'json',
                     success : function(data){
@@ -915,7 +965,6 @@ CJSCore::Init(array("jquery"));
                                 data: reqParams,
                                 dataType: 'json',
                                 success: function(data){
-console.log(data);
 									var arBlocks = {ready: false,price:'',term:'',choosable:''};
 									if(data.tarif){
 										arBlocks.ready = true; 
@@ -1456,6 +1505,20 @@ console.log(data);
             <tr class='IPOLSDEK_SV'><td colspan='2'><span id='IPOLSDEK_badPVZ' style='display:none'><?=GetMessage('IPOLSDEK_JS_SOD_BADPVZ')?></span></td></tr>
             <?//Получатель?>
             <tr class='heading'><td colspan='2'><?=GetMessage('IPOLSDEK_JS_SOD_HD_RESIEVER')?></td></tr>
+			<?if(COption::GetOptionString(self::$MODULE_ID,'addData','N') == 'Y'){?>
+				<tr>
+					<td><?=GetMessage('IPOLSDEK_JS_SOD_deliveryDate')?></td>
+					<td>
+						<div class="adm-input-wrap adm-input-wrap-calendar">
+							<input class="adm-input adm-input-calendar" disabled id='IPOLSDEK_deliveryDate' disabled type="text" name="IPOLSDEK_deliveryDate" style='width:148px;' value="<?=$ordrVals['deliveryDate']?>">
+							<span class="adm-calendar-icon" style='right:0px'onclick="BX.calendar({node:this, field:'IPOLSDEK_deliveryDate', form: '', bTime: false, bHideTime: true,callback_after: IPOLSDEK_oExport.onDeliveryDateChange});"></span>
+							&nbsp;&nbsp;<span id="IPOLSDEK_killDeliveryTerm" onclick='IPOLSDEK_oExport.resetDate();'></span>
+						</div>
+						
+					<?=$message['Schedule']?></td>
+					</tr>
+				<tr id='IPOLSDEK_badDeliveryTerm'><td colspan='2'><small><?=GetMessage('IPOLSDEK_JS_SOD_badDeliveryDate')?><span id='IPOLSDEK_deliveryTerm'></span>&nbsp;<?=GetMessage('IPOLSDEK_JS_SOD_HD_DAY')?></small></td></tr>
+			<?}?>
             <tr><td><?=GetMessage('IPOLSDEK_JS_SOD_name')?></td><td><input id='IPOLSDEK_name' type='text' value="<?=$ordrVals['name']?>"><?=$message['name']?></td></tr>
             <tr><td valign="top"><?=GetMessage('IPOLSDEK_JS_SOD_phone')?></td><td><input id='IPOLSDEK_phone' type='text' value="<?=$ordrVals['phone']?>"></td></tr>
             <?if(array_key_exists('oldPhone',$ordrVals) && str_replace(' ','',$ordrVals['oldPhone']) != $ordrVals['phone']){?>
@@ -1499,7 +1562,7 @@ console.log(data);
                 <td><?=GetMessage('IPOLSDEK_JS_SOD_NDSGoods')?></td>
                 <td>
                     <select id='IPOLSDEK_NDSGoods'>
-                        <?foreach(array('VATX','VAT0','VAT10','VAT18') as $ndsVats){?>
+                        <?foreach(array('VATX','VAT0','VAT10','VAT18','VAT20') as $ndsVats){?>
                             <option value='<?=$ndsVats?>' <?=($ordrVals['NDSGoods'] == $ndsVats) ? 'selected' : ''?>><?=GetMessage('IPOLSDEK_NDS_'.$ndsVats)?></option>
                         <?}?>
                     </select>
@@ -1515,7 +1578,7 @@ console.log(data);
                 <td><?=GetMessage('IPOLSDEK_JS_SOD_NDSDelivery')?></td>
                 <td>
                     <select id='IPOLSDEK_NDSDelivery'>
-                        <?foreach(array('VATX','VAT0','VAT10','VAT18') as $ndsVats){?>
+                        <?foreach(array('VATX','VAT0','VAT10','VAT18','VAT20') as $ndsVats){?>
                             <option value='<?=$ndsVats?>' <?=($ordrVals['NDSDelivery'] == $ndsVats) ? 'selected' : ''?>><?=GetMessage('IPOLSDEK_NDS_'.$ndsVats)?></option>
                         <?}?>
                     </select>

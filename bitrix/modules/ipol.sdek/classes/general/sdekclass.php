@@ -85,7 +85,7 @@ class sdekdriver extends sdekHelper{
 			$hasCatalog = cmodule::includemodule('catalog');
 			$arGoods[$key]['VAT'] = false;
 			if($hasCatalog && COption::GetOptionString(self::$MODULE_ID,'NDSUseCatalog','N') == 'Y'){
-				$arAllowedV = array('0.00','0.10','0.18');
+				$arAllowedV = array('0.00','0.10','0.18','0.20');
 				$gd = CCatalogProduct::GetByID($good['PRODUCT_ID']);
 				if($gd && $gd['VAT_ID'] && in_array((string)$good['VAT_RATE'],$arAllowedV))
 					$arGoods[$key]['VAT'] = $good['VAT_RATE'];
@@ -283,6 +283,7 @@ class sdekdriver extends sdekHelper{
 				$strNDS = '';
 				if($country == 'rus' && $orderParams['NDSGoods']){
 					switch($arGood["vat"]){
+						case '0.20' : $vatRate = 'VAT20'; break;
 						case '0.18' : $vatRate = 'VAT18'; break;
 						case '0.10' : $vatRate = 'VAT10'; break;
 						case '0.00' : $vatRate = 'VAT0'; break;
@@ -397,6 +398,14 @@ class sdekdriver extends sdekHelper{
 				$strXML .= "<AddService ServiceCode=\"".$service."\"></AddService>
 		";
 
+		// время доставки
+		if(COption::GetOptionString(self::$MODULE_ID,'addData','N') == 'Y' && array_key_exists('deliveryDate',$orderParams) && $orderParams['deliveryDate'] && strpos($orderParams['deliveryDate'],'.') !== false){
+			$deliveryDate = explode('.',$orderParams['deliveryDate']);
+			$strXML .= "<Schedule>
+			<Attempt ID=\"1\" Date=\"".$deliveryDate[2]."-".$deliveryDate[1]."-".$deliveryDate[0]."\"></Attempt>
+		</Schedule>";
+		}
+
 	$strXML .= "
 	</Order>";
 
@@ -432,6 +441,7 @@ class sdekdriver extends sdekHelper{
 		switch($nds){
 			case 'VAT10' : $val = $val * 10 / 110; break;
 			case 'VAT18' : $val = $val * 18 / 118; break;
+			case 'VAT20' : $val = $val * 20 / 120; break;
 			case 'VATX'  : 
 			case 'VAT0'  : 
 			default      : $val  = 0; break;
@@ -662,7 +672,7 @@ class sdekdriver extends sdekHelper{
 	}
 
 	static function getExtraOptions(){ // доп. настройки для заказов
-		$arAddService = array(3,16,17,30,36,37);
+		$arAddService = array(3,16,17,30,36,37,48);
 		$src = COption::getOptionString(self::$MODULE_ID,'addingService',false);
 		$svdOpts = unserialize(COption::getOptionString(self::$MODULE_ID,'addingService','a:0:{}'));
 		$arReturn = array();
@@ -703,7 +713,7 @@ class sdekdriver extends sdekHelper{
 			unset($_SESSION['IPOLSDEK_CHOSEN']);
 		}
 		if(COption::GetOptionString(self::$MODULE_ID,'autoloads','N') == 'Y'){
-			if($respond = self::autoLoad($oId,$arFields)){
+			if($respond = self::autoLoad($oId,$arFields,'O')){
 				$op = CSaleOrderProps::GetList(array(),array("PERSON_TYPE_ID" =>$arFields['PERSON_TYPE_ID'],"CODE"=>"IPOLSDEK_AUTOSEND"))->Fetch();
 				if($op)
 					self::saveProp(array(
@@ -817,7 +827,7 @@ class sdekdriver extends sdekHelper{
 		}
 	}
 
-	static function autoLoad($orderId,$arFields=false){
+	static function autoLoad($orderId,$arFields=false,$mode='O'){
 		if(!cmodule::includeModule('sale'))
 			return false;
 		if(!$arFields)
@@ -831,14 +841,47 @@ class sdekdriver extends sdekHelper{
 		sdekExport::$orderId  = $orderId;
 		sdekExport::$workMode = 'order';
 		sdekExport::$orderDescr = sdekExport::getOrderDescr();
-		$fields = sdekExport::formation();
+		$ordrVals = self::GetByOI(sdekExport::$orderId,sdekExport::$workMode);
 
-        $configs = self::getDeliveryConfig($arFields['DELIVERY_ID']);
-        if(!empty($configs)){
-            if(array_key_exists('VALUE',$configs['ACCOUNT']) && $configs['ACCOUNT']['VALUE']){
-                $fields['account'] = $configs['ACCOUNT']['VALUE'];
-            }
-        }
+		if($mode == 'O' || !$ordrVals){
+			$fields = sdekExport::formation();
+
+			$configs = self::getDeliveryConfig($arFields['DELIVERY_ID']);
+			if(!empty($configs)){
+				if(array_key_exists('VALUE',$configs['ACCOUNT']) && $configs['ACCOUNT']['VALUE']){
+					$fields['account'] = $configs['ACCOUNT']['VALUE'];
+				}
+			}
+			
+			if(in_array($fields['service'],self::getTarifList(array('type'=>'pickup','answer'=>'array')))){ // ПВЗ
+			if(!$fields['PVZ'])
+				return 4; // нет данных о ПВЗ
+				unset($fields['street']);
+				unset($fields['flat']);
+				unset($fields['house']);
+				unset($fields['address']);
+			}else{
+				unset($fields['PVZ']);
+				sdekExport::parseAddress($fields,true);
+				if($fields['street'] && $fields['flat'] && $fields['house'])
+					unset($fields['address']);
+				elseif(!$fields['address'])
+					return 5; // нет данных об адресе
+				else
+					return 6; // невозможно распарсить адрес
+			}
+
+			if($fields['isBeznal'] == 'Y'){
+				$fields['toPay']     = 0;
+				$fields['deliveryP'] = 0;
+			}
+
+			$fields['orderId'] = $orderId;
+			$fields['mode']    = 'order';
+			$fields['auto']    = 'Y';
+		} else {
+			$fields = unserialize($ordrVals['PARAMS']); // 4 future
+		}
 
 		if(!$fields['service'])
 			return 2; // нет данных о тарифе
@@ -846,38 +889,36 @@ class sdekdriver extends sdekHelper{
 		if(!$fields['departure'])
 			return 3; // нет данных об отправителе
 
-		if(in_array($fields['service'],self::getTarifList(array('type'=>'pickup','answer'=>'array')))){ // ПВЗ
-			if(!$fields['PVZ'])
-				return 4; // нет данных о ПВЗ
-			unset($fields['street']);
-			unset($fields['flat']);
-			unset($fields['house']);
-			unset($fields['address']);
-		}else{
-			unset($fields['PVZ']);
-			sdekExport::parseAddress($fields,true);
-			if($fields['street'] && $fields['flat'] && $fields['house'])
-				unset($fields['address']);
-			elseif(!$fields['address'])
-				return 5; // нет данных об адресе
-			else
-				return 6; // невозможно распарсить адрес
-		}
-
-		if($fields['isBeznal'] == 'Y'){
-			$fields['toPay']     = 0;
-			$fields['deliveryP'] = 0;
-		}
-
-		$fields['orderId'] = $orderId;
-		$fields['mode']    = 'order';
-		$fields['auto']    = 'Y';
-		
 		self::$skipAdminCheck = true;
 
 		self::saveAndSend(self::zajsonit($fields));
 
 		return 1;
+	}
+
+	static function statusAutoLoad($oId,$orderStatus)
+	{
+		if(
+			COption::getOptionString(self::$MODULE_ID,'autoloads','N') === 'Y' &&
+			COption::getOptionString(self::$MODULE_ID,'autoloadsMode','O') === 'S' &&
+			COption::getOptionString(self::$MODULE_ID,'autoloadsStatus',false) === $orderStatus 
+		){
+			$checkSQL = self::GetByOI($oId,'order');
+			if(!$checkSQL || !$checkSQL['OK']){
+				$arFields = CSaleOrder::GetById($oId);
+				if($respond = self::autoLoad($oId,$arFields,'S')){
+					$op = CSaleOrderProps::GetList(array(),array("PERSON_TYPE_ID" =>$arFields['PERSON_TYPE_ID'],"CODE"=>"IPOLSDEK_AUTOSEND"))->Fetch();
+					if($op)
+						self::saveProp(array(
+							"ORDER_ID"       => $oId,
+							"ORDER_PROPS_ID" => $op['ID'],
+							"NAME"           => GetMessage('IPOLSDEK_propAuto_name'),
+							"CODE"           => "IPOLSDEK_AUTOSEND",
+							"VALUE"          => GetMessage('IPOLSDEK_AUTOLOAD_RESPOND_'.$respond)
+						));
+				}
+			}
+		}
 	}
 
 	// подключение js и аналогичных файлов

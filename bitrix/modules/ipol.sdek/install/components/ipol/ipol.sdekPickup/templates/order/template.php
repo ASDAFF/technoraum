@@ -404,7 +404,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 									$('#'+htmlId).prop('checked', 'Y');
 								$('#'+htmlId).click();
 							}else
-								if(typeof(BX.Sale) != 'undefined')
+								if(typeof(BX.Sale) != 'undefined' && BX.Sale.OrderAjaxComponent != 'undefined')
 									BX.Sale.OrderAjaxComponent.sendRequest();	
 						}
 						IPOLSDEK_pvz.close(true);
@@ -483,7 +483,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 					var left = ($(window).width()>hndlr.outerWidth()) ? (($(window).width()-hndlr.outerWidth())/2) : 0;
 
 					if($(window).height() < 542){
-						hndlr.css('height','100%');
+						// hndlr.css('height','100%');
 						$('#SDEK_wrapper').css('height',hndlr.height()-82);
 					}else{
 						hndlr.css('height','');

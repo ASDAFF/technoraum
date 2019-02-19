@@ -546,6 +546,14 @@ class sdekHelper{
     static function isConverted(){
         return (COption::GetOptionString("main","~sale_converted_15",'N') == 'Y');
     }
+	
+	static function isAdminSection(){
+		if(class_exists('Request') && method_exists('Request','isAdminSection')){
+			return Request::isAdminSection();
+		} else {
+			return (defined('ADMIN_SECTION') && ADMIN_SECTION === true);
+		}
+	}
 
     protected static $skipAdminCheck = false;
     static function isAdmin($min = 'W'){

@@ -1,8 +1,32 @@
 <script type='text/javascript'>
 	IPOLSDEK_setups.autoloads = {
 		ready: function(){
+			$('[name="autoloadsMode"]').on('change',IPOLSDEK_setups.autoloads.checkStatusField);
+			IPOLSDEK_setups.autoloads.checkStatusField();
 			IPOLSDEK_setups.autoloads.getTable();
 		},
+		
+		// общее
+		
+			// отключение
+		turnOff: function(){
+			$('#IPOLSDEK_DEAUTO').attr('disabled','disabled');
+			IPOLSDEK_setups.ajax({
+				data: {'isdek_action':'setAutoloads','mode':'N'},
+				success: IPOLSDEK_setups.reload
+			});
+		},
+			// тип отправки - показывать/нет статус
+		checkStatusField: function(){
+			var handle = $('[name="autoloadsStatus"]').closest('tr');
+			if($('[name="autoloadsMode"]').val() == 'S'){
+				handle.css('display','');
+			} else {
+				handle.css('display','none');
+			}
+		},
+		
+		// таблица
 
 		settedFltr: {},
 		getTable: function(params){
@@ -102,18 +126,18 @@
 				});
 			}
 		},
-
-		// отключение
-		turnOff: function(){
-			$('#IPOLSDEK_DEAUTO').attr('disabled','disabled');
-			IPOLSDEK_setups.ajax({
-				data: {'isdek_action':'setAutoloads','mode':'N'},
-				success: IPOLSDEK_setups.reload
-			});
-		}
 	}
 </script>
 
+
+<tr class="heading"><td colspan="2" valign="top" align="center"><?=GetMessage('IPOLSDEK_HDR_autoloadSetups')?></td></tr>
+<tr><td style="color:#555;" colspan="2">
+	<?sdekOption::placeFAQ('AUTOUPLOADS')?>
+</td></tr>
+<?ShowParamsHTMLByArray($arAllOptions["autoloads"]);?>
+<tr><td colspan='2'><br><input type='button' value='<?=GetMessage('IPOLSDEK_OTHR_TurnOffautoloads')?>' onclick='IPOLSDEK_setups.autoloads.turnOff()' id='IPOLSDEK_DEAUTO'></td></tr>
+
+<tr class="heading"><td colspan="2" valign="top" align="center"><?=GetMessage('IPOLSDEK_HDR_autoloadTable')?></td></tr>
 <tr><td colspan='2'>
 	<table id='IPOLSDEK_flrtAL'>
 	  <tbody>
@@ -171,4 +195,3 @@
 	</div>
 	<div id='IPOLSDEK_ALNotFound'><?=GetMessage('IPOLSDEK_OTHR_NO_REQ_FILTER')?></div>
 </td></tr>
-<tr><td colspan='2'><br><input type='button' value='<?=GetMessage('IPOLSDEK_OTHR_TurnOffautoloads')?>' onclick='IPOLSDEK_setups.autoloads.turnOff()' id='IPOLSDEK_DEAUTO'></td></tr>

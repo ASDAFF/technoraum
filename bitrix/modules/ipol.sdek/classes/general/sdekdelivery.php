@@ -6,9 +6,12 @@ IncludeModuleLangFile(__FILE__);
 	IPOLSDEK_CACHE_TIME - врем€ кэша в секундах
 	IPOLSDEK_NOCACHE    - если задан - не использовать кэш
 
-	onBeforeDimensionsCount - габариты товаров
-	onCompabilityBefore - годнота профилей
-	onCalculate - готовность расчета
+	onBeforeDimensionsCount - габариты товаров [документировано]
+	onCompabilityBefore - годнота профилей [документировано]
+	onCalculate - готовность расчета [документировано]
+	onTarifPriority - приоритет расчета тарифов [документировано]
+	onCalculatePriceDelivery - перед расчетом, дл€ добавлени€ доп. услуг (должен возвращать массив услуг id => параметр)
+	onBeforeShipment - дл€ разбиени€ на разные заказы
 */
 
 class CDeliverySDEK extends sdekHelper{
@@ -379,7 +382,15 @@ class CDeliverySDEK extends sdekHelper{
 					if(COption::GetOptionString(self::$MODULE_ID,'mindEnsure','N') == 'Y'){
 						$ensurance = $arOrder['PRICE']*floatval(COption::GetOptionString(self::$MODULE_ID,'ensureProc','1.5'))/100;
 						if(COption::GetOptionString(self::$MODULE_ID,'mindNDSEnsure','Y') == 'Y'){
-							$ensurance +=  $ensurance * 18 /100;
+							switch(COption::GetOptionString(self::$MODULE_ID,'NDSDelivery','VATX')){
+								case 'VATX'  : $vatNDS = 0; break;
+								case 'VAT0'  : $vatNDS = 0; break;
+								case 'VAT10' : $vatNDS = 10; break;
+								case 'VAT18' : $vatNDS = 18; break;
+								case 'VAT20' : $vatNDS = 20; break;
+								default      : $vatNDS = 20; break;
+							}
+							$ensurance +=  $ensurance * $vatNDS /100;
 						}
 						$curProfile['PRICE'] += $ensurance;
 					}
@@ -1177,43 +1188,48 @@ class CDeliverySDEK extends sdekHelper{
 	
 	static function noPVZNewTemplate($entity,$values){
 		if(
-            (!defined('ADMIN_SECTION') || ADMIN_SECTION === false) &&
+            !self::isAdminSection() &&
             self::isActive() &&
 			COption::GetOptionString(self::$MODULE_ID,'noPVZnoOrder','N') == 'Y' &&
 			cmodule::includeModule('sale')
         ) {
-			if($propAddr = COption::GetOptionString(self::$MODULE_ID,'pvzPicker','')){
-				$props = CSaleOrderProps::GetList(array(),array('CODE' => $propAddr));
-				$arPVZPropsIds = array();
-				while($element=$props->Fetch()){
-					$arPVZPropsIds []= $element['ID'];
-				}
-				if(!empty($arPVZPropsIds)){
-					$orderProps = $entity->getPropertyCollection()->getArray();
-					$checked = 1;
-					foreach($orderProps['properties'] as $propVals){
-						if(in_array($propVals['ID'],$arPVZPropsIds)){
-							if(strpos($propVals['VALUE'][0],'#S') === false && $checked != 2)
-								$checked = 0;
-							else
-								$checked = 2;
-						}
+			$methods = get_class_methods($entity);
+			if(!in_array('isNew',$methods) || $entity->isNew()){
+				if($propAddr = COption::GetOptionString(self::$MODULE_ID,'pvzPicker','')){
+					$props = CSaleOrderProps::GetList(array(),array('CODE' => $propAddr));
+					$arPVZPropsIds = array();
+					while($element=$props->Fetch()){
+						$arPVZPropsIds []= $element['ID'];
 					}
-					if($checked == 0){
-						$shipmentCollection = $entity->getShipmentCollection();
-						foreach ($shipmentCollection as $something => $shipment) {
-							if ($shipment->isSystem())
-								continue;
+					if(!empty($arPVZPropsIds)){
+						$orderProps = $entity->getPropertyCollection()->getArray();
+						$checked = 1;
+						foreach($orderProps['properties'] as $propVals){
+							if(in_array($propVals['ID'],$arPVZPropsIds)){
+								if(strpos($propVals['VALUE'][0],'#S') === false && $checked != 2)
+									$checked = 0;
+								else
+									$checked = 2;
+							}
+						}
+						if($checked == 0){
+							$shipmentCollection = $entity->getShipmentCollection();
+							foreach ($shipmentCollection as $something => $shipment) {
+								if ($shipment->isSystem())
+									continue;
 
-							$delivery = self::defineDelivery($shipment->getField('DELIVERY_ID'));
-							if ($delivery === 'pickup') {
-								return new \Bitrix\Main\EventResult(\Bitrix\Main\EventResult::ERROR, new \Bitrix\Sale\ResultError(GetMessage('IPOLSDEK_DELIV_ERR_NOPVZ'), 'code'), 'sale');
+								$delivery = self::defineDelivery($shipment->getField('DELIVERY_ID'));
+								if ($delivery === 'pickup') {
+									return new \Bitrix\Main\EventResult(\Bitrix\Main\EventResult::ERROR, new \Bitrix\Sale\ResultError(GetMessage('IPOLSDEK_DELIV_ERR_NOPVZ'), 'code'), 'sale');
+								}
 							}
 						}
 					}
 				}
-            }
+			}
 		}
+
+		return true;
 	}
 
 

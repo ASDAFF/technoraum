@@ -133,6 +133,7 @@ $paySysHtml.="</select>";
 		ready: function(){
 			$('[name="termInc"]').on('keyup',IPOLSDEK_setups.base.onTermChange);
 			$('[name="mindEnsure"]').on('change',IPOLSDEK_setups.base.onEnsChange);
+			$('[name="addData"]').on('change',IPOLSDEK_setups.base.onTurnOnData);
 			IPOLSDEK_setups.base.senders.init();
 			IPOLSDEK_setups.base.depature.init();
 			IPOLSDEK_setups.base.onEnsChange();
@@ -520,12 +521,18 @@ $paySysHtml.="</select>";
 				$('[name="ensureProc"]').closest('tr').css('display','none');
 				$('[name="mindNDSEnsure"]').closest('tr').css('display','none');
 			}
+		},
+		
+		onTurnOnData: function(){
+			if($('[name="addData"]').attr('checked')){
+				alert('<?=GetMessage('IPOLSDEK_OTHR_addDataWarn')?>');
+			}
 		}
 	};
 </script>
 
 <?
-foreach(array("depature","showInOrders","realSeller","addDeparture","shipments","prntActOrdr","numberOfPrints","numberOfShtrihs","deliveryAsPosition","normalizePhone","NDSUseCatalog","address","pvzPicker","noPVZnoOrder","hideNal","hideNOC","autoSelOne","noYmaps","profilesMode","cntExpress","mindEnsure","forceRoundDelivery","AS","noVats","addMeasureName","statusSTORE","statusTRANZT","statusCORIER","tarifs","warhouses","dostTimeout","timeoutRollback","TURNOFF","TARSHOW","autoAddCities") as $code)
+foreach(array("depature","showInOrders","realSeller","addDeparture","shipments","prntActOrdr","numberOfPrints","numberOfShtrihs","deliveryAsPosition","normalizePhone","addData","NDSUseCatalog","address","pvzPicker","noPVZnoOrder","hideNal","hideNOC","autoSelOne","noYmaps","profilesMode","cntExpress","mindEnsure","mindNDSEnsure","forceRoundDelivery","AS","noVats","addMeasureName","statusSTORE","statusTRANZT","statusCORIER","tarifs","warhouses","dostTimeout","timeoutRollback","TURNOFF","TARSHOW","autoAddCities") as $code)
 	sdekOption::placeHint($code);
 
 $deadServerCheck = COption::GetOptionString($module_id,'sdekDeadServer',false);

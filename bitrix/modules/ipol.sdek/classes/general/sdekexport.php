@@ -227,16 +227,12 @@ class sdekExport extends sdekHelper{
 			$arFormation[$prop] = $arProps[$prop];
 			unset($arProps[$prop]);
 		}
-		
+
 		// kukan phone
 		if(COption::GetOptionString(self::$MODULE_ID,'normalizePhone','N') == 'Y'){
 			$arFormation['oldPhone'] = $arFormation['phone'];
-			$arFormation['phone'] = preg_replace("/[^\+0-9]/","",$arFormation['phone']);
-			if(
-				strpos('+',$arFormation['phone']) !== 0 &&
-				strpos('8',$arFormation['phone']) === 0 &&
-				strlen($arFormation['phone'] > 10)
-			){
+			$arFormation['phone'] = preg_replace("/[^0-9:#]/","",$arFormation['phone']);
+			if(strlen($arFormation['phone']) > 10){
 				$arCity  = sqlSdekCity::getBySId($arFormation['location']);
 				if($arCity){
 					$country = ($arCity['COUNTRY']) ? $arCity['COUNTRY'] : 'rus';
@@ -247,12 +243,16 @@ class sdekExport extends sdekHelper{
 						case 'blr' : $switcher='7'; break;
 						case 'kaz' : $switcher='375'; break;
 					}
-					
-					if($switcher){
+
+					if(
+						$switcher &&
+						strpos($arFormation['phone'], $switcher) !== 0
+						&& strpos($arFormation['phone'], '8') === 0
+					){
 						$arFormation['phone'] = $switcher.substr($arFormation['phone'],1);
 					}
+					$arFormation['phone'] = '+'.$arFormation['phone'];
 				}
-				
 			}
 		}
 
@@ -293,6 +293,9 @@ class sdekExport extends sdekHelper{
 		// НДС
 		$arFormation['NDSGoods']    = COption::GetOptionString(self::$MODULE_ID,'NDSGoods','VATX');
 		$arFormation['NDSDelivery'] = COption::GetOptionString(self::$MODULE_ID,'NDSDelivery','VATX');
+		
+		// Дата доставки
+		$arFormation['deliveryDate'] = false;
 
 		foreach(GetModuleEvents(self::$MODULE_ID, "onFormation", true) as $arEvent)
 			ExecuteModuleEventEx($arEvent,Array(&$arFormation,self::$orderId,self::$orderDescr));
@@ -632,7 +635,33 @@ class sdekExport extends sdekHelper{
 							$('#IPOLSDEK_print_'+oId).removeAttr('disabled');
 							$('#IPOLSDEK_print_'+oId).val('<?=GetMessage("IPOLSDEK_JSC_SOD_PRNTSH")?>');
 							if(data.result == 'ok')
-								window.open('/upload/<?=self::$MODULE_ID?>/'+data.file);
+								for (var i = 0; i < data.files.length; i++) {
+									window.open('/upload/<?=self::$MODULE_ID?>/'+data.files[i]);
+								}
+							else
+								alert(data.error);
+						}
+					});
+				},
+				shtrih: function(oId){
+					$('#IPOLSDEK_shtrih_'+oId).attr('disabled','true');
+					$('#IPOLSDEK_shtrih_'+oId).val('<?=GetMessage("IPOLSDEK_JSC_SOD_LOADING")?>');
+					$.ajax({
+						url  : "/bitrix/js/<?=self::$MODULE_ID?>/ajax.php",
+						type : 'POST',
+						data : {
+							isdek_action : 'printOrderShtrih',
+							oId  : oId,
+							mode : '<?=(self::$workMode == 'shipment') ? 'order' : 'shipment'?>'
+						},
+						dataType : 'json',
+						success  : function(data){
+							$('#IPOLSDEK_shtrih_'+oId).removeAttr('disabled');
+							$('#IPOLSDEK_shtrih_'+oId).val('<?=GetMessage("IPOLSDEK_JSC_SOD_SHTRIH")?>');
+							if(data.result == 'ok')
+								for (var i = 0; i < data.files.length; i++) {
+									window.open('/upload/<?=self::$MODULE_ID?>/'+data.files[i]);
+								}
 							else
 								alert(data.error);
 						}
@@ -669,6 +698,9 @@ class sdekExport extends sdekHelper{
 										}
 									}
 								);
+							else {
+								$('#IPOLSDEK_delete_'+oId).removeAttr('disabled');
+							}
 						}
 					}
 				},
@@ -705,15 +737,16 @@ class sdekExport extends sdekHelper{
 						<tr><td colspan='2'><small><?=GetMessage('IPOLSDEK_JS_SOD_STAT_'.$request['STATUS'])?></small></td></tr>
 						<?if($request['SDEK_ID']){?><tr><td><?=GetMessage('IPOLSDEK_JS_SOD_SDEK_ID')?></td><td><?=$request['SDEK_ID']?></td></tr><?}?>
 						<?if($request['MESS_ID']){?><tr><td><?=GetMessage('IPOLSDEK_JS_SOD_MESS_ID')?></td><td><?=$request['MESS_ID']?></td></tr><?}?>
+						<?if($request['SDEK_ID']){?><tr><td colspan='2'><a href="http://www.edostavka.ru/track.html?order_id=<?=$request['SDEK_ID']?>" target="_blank"><?=GetMessage('IPOLSDEK_JSC_SOD_FOLLOW')?></a></td></tr><?}?>
 						<tr><td colspan='2'><hr></td></tr>
 						<tr><td colspan='2'>
 							<?if(in_array($request['STATUS'],array('OK','ERROR','NEW','DELETD'))){?>
 							<input id='IPOLSDEK_delete_<?=$request['ORDER_ID']?>' value="<?=GetMessage('IPOLSDEK_JSC_SOD_DELETE')?>" onclick="IPOLSDEK_existedInfo.delete(<?=$request['ORDER_ID']?>,'<?=$request['STATUS']?>'); return false;" type="button">&nbsp;&nbsp;
 							<?}?>
 							<?if($request['STATUS'] == 'OK'){?>
-							<input id='IPOLSDEK_print_<?=$request['ORDER_ID']?>' value="<?=GetMessage('IPOLSDEK_JSC_SOD_shtrih')?>" onclick="IPOLSDEK_existedInfo.print(<?=$request['ORDER_ID']?>); return false;" type="button">&nbsp;&nbsp;
+							<input id='IPOLSDEK_print_<?=$request['ORDER_ID']?>' value="<?=GetMessage('IPOLSDEK_JSC_SOD_PRNTSH')?>" onclick="IPOLSDEK_existedInfo.print(<?=$request['ORDER_ID']?>); return false;" type="button">&nbsp;&nbsp;
+							<input id='IPOLSDEK_shtrih_<?=$request['ORDER_ID']?>' value="<?=GetMessage('IPOLSDEK_JSC_SOD_SHTRIH')?>" onclick="IPOLSDEK_existedInfo.shtrih(<?=$request['ORDER_ID']?>); return false;" type="button">&nbsp;&nbsp;
 							<?}?>
-							<?if($request['SDEK_ID']){?><a href="http://www.edostavka.ru/track.html?order_id=<?=$request['SDEK_ID']?>" target="_blank"><?=GetMessage('IPOLSDEK_JSC_SOD_FOLLOW')?></a><?}?>
 						</td></tr>
 					</table>
 				<?}?>

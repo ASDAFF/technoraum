@@ -15,10 +15,13 @@ $MESS ['IPOLSDEK_AS_30_NAME'] = "Примерка на дому";
 $MESS ['IPOLSDEK_AS_30_DESCR'] = "Курьер доставляет покупателю несколько единиц товара (одежда, обувь и пр.) для примерки. Время ожидания курьера в этом случае составляет 30 минут.";
 
 $MESS ['IPOLSDEK_AS_36_NAME'] = "Частичная доставка";
-$MESS ['IPOLSDEK_AS_36_DESCR'] = "Во время доставки товара покупатель может отказаться от одной или нескольких позиций, и выкупить только часть заказа . ";
+$MESS ['IPOLSDEK_AS_36_DESCR'] = "Во время доставки товара покупатель может отказаться от одной или нескольких позиций, и выкупить только часть заказа.";
 
 $MESS ['IPOLSDEK_AS_37_NAME'] = "Осмотр вложения";
-$MESS ['IPOLSDEK_AS_37_DESCR'] = "Проверка покупателем содержимого заказа до его оплаты (вскрытие посылки). ";
+$MESS ['IPOLSDEK_AS_37_DESCR'] = "Проверка покупателем содержимого заказа до его оплаты (вскрытие посылки).";
+
+$MESS ['IPOLSDEK_AS_48_NAME'] = "Реверс";
+$MESS ['IPOLSDEK_AS_48_DESCR'] = "Обратный заказ на доставку от получателя до отправителя. Например, подписанные документы.";
 
 //подписи
 $MESS ['IPOLSDEK_mm'] = "мм";
@@ -85,6 +88,7 @@ $MESS ['IPOLSDEK_JSC_SOD_NEWCONDITIONS_2'] = "\\nСтоимость: ";
 $MESS ['IPOLSDEK_JS_SOD_NOTPAYED'] = "Заказ еще не был оплачен";
 $MESS ['IPOLSDEK_JSC_SOD_BADCOURIERTIME'] = "Некорректно указано время ожидания курьера";
 $MESS ['IPOLSDEK_JS_SOD_badDate'] = "Некорректно указана дата ожидания курьера";
+$MESS ['IPOLSDEK_JS_SOD_badDeliveryDate'] = "Дата доставки может быть отклонена. Рассчитанный срок доставки: ";
 $MESS ['IPOLSDEK_JS_SOD_senderWH_TITLE'] = "Задано разбиение";
 $MESS ['IPOLSDEK_JS_SOD_senderWH_HEADER'] = "Авторазбиение заказа";
 $MESS ['IPOLSDEK_JS_SOD_senderWH_HINT'] = "При расчете стоимости доставки заказ был разбит на следующие отправления.";
@@ -150,12 +154,13 @@ $MESS ['IPOLSDEK_JS_SOD_flat']       = "Квартира";
 $MESS ['IPOLSDEK_JS_SOD_PVZ']        = "Пункт самовывоза";
 $MESS ['IPOLSDEK_JS_SOD_POSTOMAT']   = "Постамат";
 	// Получатель
-$MESS ['IPOLSDEK_JS_SOD_HD_RESIEVER'] = "Получатель";
-$MESS ['IPOLSDEK_JS_SOD_name']        = "Контактное лицо";
-$MESS ['IPOLSDEK_JS_SOD_phone']       = "Контактный телефон";
-$MESS ['IPOLSDEK_JS_SOD_oldPhone']    = "Телефон в заказе";
-$MESS ['IPOLSDEK_JS_SOD_email']       = "E-mail";
-$MESS ['IPOLSDEK_JS_SOD_comment']     = "Комментарий";
+$MESS ['IPOLSDEK_JS_SOD_HD_RESIEVER']  = "Получатель";
+$MESS ['IPOLSDEK_JS_SOD_deliveryDate'] = "Дата доставки";
+$MESS ['IPOLSDEK_JS_SOD_name']         = "Контактное лицо";
+$MESS ['IPOLSDEK_JS_SOD_phone']        = "Контактный телефон";
+$MESS ['IPOLSDEK_JS_SOD_oldPhone']     = "Телефон в заказе";
+$MESS ['IPOLSDEK_JS_SOD_email']        = "E-mail";
+$MESS ['IPOLSDEK_JS_SOD_comment']      = "Комментарий";
 	// Оплата
 $MESS ['IPOLSDEK_JS_SOD_HD_PAYMENT'] = "Оплата";
 	// Дополнительные услуги
