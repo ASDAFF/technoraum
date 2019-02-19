@@ -45,6 +45,7 @@ Disallow: /*PAGE_NAME=user_post
 Disallow: /*PAGE_NAME=detail_slide_show
 Disallow: /*SHOWALL
 Disallow: /*show_all=
+Disallow: /*filter
 
 Host: https://technoraum.ru/
 Sitemap: https://technoraum.ru/sitemap.xml
