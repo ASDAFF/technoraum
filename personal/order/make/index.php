@@ -80,7 +80,9 @@ $APPLICATION->SetTitle("ќформление заказа");
 		"USE_YM_GOALS" => "N",
 		"COMPONENT_TEMPLATE" => ".order.ajax",
 		"PROPS_FADE_LIST_1" => array(
-		)
+		),
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO"
 	),
 	false
 );?><br><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
