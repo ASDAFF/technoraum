@@ -320,7 +320,7 @@ $APPLICATION->SetTitle("Купить технику Karcher в Краснодаре на официальном сайте
 					</p>
 					<div class="the_form_div the_form_div_text_and_submit">
 						<input type="text" name="tel" required placeholder="Ваш номер телефона">
-						<input type="submit" name="submit1" value="Отправить заявку">
+						<input type="submit" name="submit1" value="Отправить заявку" onclick="yaCounter51314392.reachGoal('zayavka')">
 					</div>
 					<div class="the_form_div the_form_div_accept">
 						<input type="checkbox" class="checkbox-toggle" name="accept" required

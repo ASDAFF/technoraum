@@ -236,3 +236,22 @@
 [18-Feb-2019 12:31:53 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
 [19-Feb-2019 11:58:00 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
 [19-Feb-2019 11:58:00 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[20-Feb-2019 12:15:59 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[20-Feb-2019 12:16:00 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[20-Feb-2019 15:34:52 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[20-Feb-2019 15:34:53 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[20-Feb-2019 16:50:55 Europe/Moscow] PHP Fatal error:  Unknown: Cannot use output buffering in output buffering display handlers in Unknown on line 0
+[20-Feb-2019 16:50:55 Europe/Moscow] PHP Fatal error:  Unknown: Cannot use output buffering in output buffering display handlers in Unknown on line 0
+[20-Feb-2019 16:50:55 Europe/Moscow] PHP Fatal error:  Unknown: Cannot use output buffering in output buffering display handlers in Unknown on line 0
+[20-Feb-2019 17:01:35 Europe/Moscow] PHP Fatal error:  Unknown: Cannot use output buffering in output buffering display handlers in Unknown on line 0
+[20-Feb-2019 21:07:10 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[20-Feb-2019 21:07:10 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[22-Feb-2019 14:42:40 Europe/Moscow] PHP Parse error:  syntax error, unexpected '$GLOBALS' (T_VARIABLE), expecting ',' or ')' in /home/t/technoraum/technoraum.ru/public_html/contacts/index.php on line 318
+[22-Feb-2019 14:42:40 Europe/Moscow] PHP Parse error:  syntax error, unexpected '$GLOBALS' (T_VARIABLE), expecting ',' or ')' in /home/t/technoraum/technoraum.ru/public_html/contacts/index.php on line 318
+[22-Feb-2019 14:42:52 Europe/Moscow] PHP Parse error:  syntax error, unexpected '$GLOBALS' (T_VARIABLE), expecting ',' or ')' in /home/t/technoraum/technoraum.ru/public_html/contacts/index.php on line 318
+[22-Feb-2019 14:42:52 Europe/Moscow] PHP Parse error:  syntax error, unexpected '$GLOBALS' (T_VARIABLE), expecting ',' or ')' in /home/t/technoraum/technoraum.ru/public_html/contacts/index.php on line 318
+[22-Feb-2019 14:45:25 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')', expecting end of file in /home/t/technoraum/technoraum.ru/public_html/contacts/index.php on line 417
+[22-Feb-2019 14:45:25 Europe/Moscow] PHP Parse error:  syntax error, unexpected ')', expecting end of file in /home/t/technoraum/technoraum.ru/public_html/contacts/index.php on line 417
+[22-Feb-2019 16:11:17 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[22-Feb-2019 16:11:46 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[22-Feb-2019 16:11:48 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0

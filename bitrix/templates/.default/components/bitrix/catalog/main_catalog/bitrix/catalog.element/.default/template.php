@@ -183,7 +183,7 @@ while ($arItems = $dbBasketItems->Fetch())
 					{
 						?>
 						<?if($arResult["PRICES"]["price"]["VALUE"]):?>
-							<a class="button add_to_cart_button" href="<?=$url?>">Добавить в корзину</a>
+							<a class="button add_to_cart_button" onclick="yaCounter51314392.reachGoal('korzina')" href="<?=$url?>">Добавить в корзину</a>
 						<?else:?>
 							<a class="fancy button request-a-price" data-name="<?=$arResult['NAME']?>" href="#request-a-price">Запросить цену</a>
 						<?endif;?>
@@ -194,7 +194,7 @@ while ($arItems = $dbBasketItems->Fetch())
 						?><a class="button">Товар в корзине</a><?
 					}
 
-					?><a class="fancy button one_click_button" href="#click_one_buy">Купить в один клик</a><?
+					?><a class="fancy button one_click_button" onclick="yaCounter51314392.reachGoal('click')" href="#click_one_buy">Купить в один клик</a><?
 
 				?>
 			</div>
@@ -205,7 +205,7 @@ while ($arItems = $dbBasketItems->Fetch())
 			?>
 			<div class="button_wrap">
 				<a class="fancy button call_me" href="#call_me">Сообщить о наличии</a>
-				<a class="fancy button one_click_button" href="#click_one_buy">Купить в один клик</a>
+				<a class="fancy button one_click_button" onclick="yaCounter51314392.reachGoal('click')" href="#click_one_buy">Купить в один клик</a>
 			</div>
 			<?
 		}
