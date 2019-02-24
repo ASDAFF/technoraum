@@ -118,6 +118,13 @@ $( function() {
                         phone: phoneCredit.val().replace(/\D+/g,"").slice(1),
                         codeTT: locationCredit.val(),
                     };
+
+                $.post("/include/mail_credit.php",{
+                    firstName: fioCredit.val(),
+                    phone: phoneCredit.val().replace(/\D+/g,"").slice(1),
+                    shop: locationCredit.find('option:selected').text(),
+                },function(data){});
+
                 dialog.dialog( "close" );
                 yaCounter51314392.reachGoal('KREDIT',function(){console.log('goal KREDIT');});
                 console.log(arrProducts,Order);
