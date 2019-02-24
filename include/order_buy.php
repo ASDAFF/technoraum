@@ -22,8 +22,6 @@ if($_REQUEST['check']){
     $PROP[NAME] = $name;
     $PROP[PHONE] = $phone;
 
-    CEvent::Send("ORDER_BUY_ONE_CLICK", SITE_ID, $PROP);
-
     $arLoadProductArray = Array(
         "IBLOCK_SECTION_ID" => false,
         "IBLOCK_ID"      => 11,
@@ -32,8 +30,11 @@ if($_REQUEST['check']){
         "ACTIVE"         => "N",
     );
 
-    if($PRODUCT_ID = $el->Add($arLoadProductArray))
+    if($PRODUCT_ID = $el->Add($arLoadProductArray)){
+        $PROP[ID] = $PRODUCT_ID;
+        CEvent::Send("ORDER_BUY_ONE_CLICK", SITE_ID, $PROP);
         echo $PRODUCT_ID;
+    }
     else
         echo false;
 
