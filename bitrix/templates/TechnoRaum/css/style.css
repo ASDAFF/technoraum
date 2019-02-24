@@ -1719,3 +1719,11 @@ p.small-message{
 .list-group-gift.items{
     display: block;
 }
+
+.docs_download{
+    margin-bottom: 24px;
+    text-align: center;
+}
+.docs_download a{
+    text-decoration: none;
+}

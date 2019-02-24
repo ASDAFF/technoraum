@@ -376,31 +376,20 @@ while ($arItems = $dbBasketItems->Fetch())
 </div>
 <div style="clear:both"></div>
 
-<?
-	if($arResult["PROPERTIES"]["DN_FILES"]["VALUE"])
-	{
+<? if($arResult["PROPERTIES"]["DN_FILES"]["VALUE"]): ?>
+	<div class="docs_download">
+		<p class="main_title m">Документы для скачивания.</p>
+		<? foreach($arResult["PROPERTIES"]["DN_FILES"]["VALUE"] as $file):
+			$arFile = CFile::GetFileArray($file);
 		?>
-			<style>
-				ul.download_files{padding-bottom:30px}
-				ul.download_files li{padding:5px 0;list-style:none;padding-left:15px}
-				ul.download_files li a{color:#35a2e8;text-decoration:none}
-				ul.download_files li a:hover{border-bottom:2px dotted #35a2e8}
-			</style>
-			<p class="main_title m">Документы для скачивания:</p>
-			<ul class="download_files" style="display:flex;flex-wrap:wrap">
-				<?
-					foreach($arResult["PROPERTIES"]["DN_FILES"]["VALUE"] as $file)
-					{
-
-						$arFile = CFile::GetFileArray($file);
-						?><li><a href="<?=$arFile["SRC"]?>" target=_blank><?=$arFile["ORIGINAL_NAME"]?></a></li><?
-					}
-				?>
-			</ul>
-		<?
-	}
-
-	$GLOBALS["recom_filter"] = array("SECTION_ID" => $arResult["IBLOCK_SECTION_ID"]);
+			<a href="<?=$arFile["SRC"]?>" target=_blank>
+				<i class="fa fa-file-pdf-o fa-3x" aria-hidden="true"></i>
+			</a>
+		<? endforeach; ?>
+	</div>
+<?
+endif;
+$GLOBALS["recom_filter"] = array("SECTION_ID" => $arResult["IBLOCK_SECTION_ID"]);
 ?>
 
 
