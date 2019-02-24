@@ -111,7 +111,7 @@ $this->addExternalCss('/bitrix/css/main/bootstrap.css');
 				</div>
 				<div class="text">												 
 					<p class="title">
-						<a href="<?=$item["DETAIL_PAGE_URL"]?>"><?=$item["NAME"]?></a>
+						<a href="<?=$item["DETAIL_PAGE_URL"]?>"><?=TruncateText($item["NAME"],30)?></a>
 					</p>
 
 					<div class="i_creditbtn_first direct-credit-section" arrProducts='<?=\Bitrix\Main\Web\Json::encode($item['DIRECT_CREDIT'],null)?>'>
