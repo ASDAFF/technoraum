@@ -479,10 +479,9 @@ $APPLICATION->SetTitle("Купить технику Karcher в Краснодаре на официальном сайте
 <section class="section seo_section">
 <div class="inner_section the_content_section clearfix">
 	<? $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH."/include/seo_h2.php",Array(),Array("MODE"=>"html")); ?>
-	<div class="text_toggling_div">
+	<div>
 		<? $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH."/include/seo_text.php",Array(),Array("MODE"=>"html")); ?>
 	</div>
-	<a class="read_more_toggler" href="#"><span>Раскрыть текст</span></a>
 </div>
  </section><!--/seo_section-->
 
