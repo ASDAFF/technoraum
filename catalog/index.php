@@ -1,7 +1,7 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetPageProperty("title", "Каталог бытовой, профессиональной техники Керхер (Karcher) в Краснодаре");
-$APPLICATION->SetPageProperty("description", "Каталог бытовой, профессиональной техники Керхер (Karcher), а также химия и принадлежности Karcher недорого в Краснодаре у официального дилера TechnoRaum. Большой ассортимент бытовой и профессиональной техники Керхер (Karcher) в Краснодаре в официальном магазине ТехноРаум - техника Karcher по самым выгодным ценам. Бесплатная доставка. Телефон: 8-800-777-57-01");
+$APPLICATION->SetPageProperty("title", "Каталог товаров Karcher (Керхер) дешево в Краснодаре в магазине ТехноРаум");
+$APPLICATION->SetPageProperty("description", "Каталог товаров Karcher (Керхер) недорого в Краснодаре у официального дилера TechnoRaum. Большой ассортимент бытовой и профессиональной техники Керхер (Karcher) в Краснодаре в официальном магазине ТехноРаум - техника Karcher по самым выгодным ценам. Бесплатная доставка. Телефон: 8-800-777-57-01");
 $APPLICATION->SetTitle("Каталог товаров Керхер (Karcher)");
 ?><?$APPLICATION->IncludeComponent(
 	"bitrix:catalog", 

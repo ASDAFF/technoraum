@@ -476,7 +476,7 @@ else
 						}
 						?>
 					</div>
-					<a href="javascript:void(0)" style="margin: 10px 0" class="pull-right btn btn-default btn-lg hidden-xs" data-save-button="true">
+					<a href="javascript:void(0)" onclick="yaCounter51314392.reachGoal('pokupka_tovara')" style="margin: 10px 0" class="pull-right btn btn-default btn-lg hidden-xs" data-save-button="true">
 						<?=$arParams['MESS_ORDER']?>
 					</a>
 				</div>

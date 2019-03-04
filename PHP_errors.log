@@ -264,3 +264,4 @@
 [26-Feb-2019 15:27:23 Europe/Moscow] PHP Fatal error:  Unknown: Cannot use output buffering in output buffering display handlers in Unknown on line 0
 [26-Feb-2019 15:42:22 Europe/Moscow] PHP Fatal error:  Unknown: Cannot use output buffering in output buffering display handlers in Unknown on line 0
 [26-Feb-2019 15:42:28 Europe/Moscow] PHP Fatal error:  Unknown: Cannot use output buffering in output buffering display handlers in Unknown on line 0
+[02-Mar-2019 12:25:21 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
