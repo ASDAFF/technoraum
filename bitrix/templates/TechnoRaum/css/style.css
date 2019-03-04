@@ -1755,6 +1755,9 @@ p.small-message{
     padding-bottom: 10px;
     text-align: center;
 }
+.the_content_section #downloads h6{
+    height: 30px;
+}
 
 .the_content_section .row#downloads{
     margin-bottom: 30px;
