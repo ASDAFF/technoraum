@@ -376,19 +376,40 @@ while ($arItems = $dbBasketItems->Fetch())
 </div>
 <div style="clear:both"></div>
 
-<? if($arResult["PROPERTIES"]["DN_FILES"]["VALUE"]): ?>
-	<div class="docs_download">
-		<p class="main_title m">Документы для скачивания.</p>
-		<? foreach($arResult["PROPERTIES"]["DN_FILES"]["VALUE"] as $file):
-			$arFile = CFile::GetFileArray($file);
-		?>
-			<a href="<?=$arFile["SRC"]?>" target=_blank>
-				<i class="fa fa-file-pdf-o fa-3x" aria-hidden="true"></i>
-			</a>
-		<? endforeach; ?>
+<? if($arResult["PROPERTIES"]["DN_FILES"]["VALUE"]):?>
+
+<div class="row" id="downloads">
+	<div class="col-xs-12">
+		<h5>Документы для скачивания.</h5>
+		<div class="row">
+			<? foreach($arResult["PROPERTIES"]["DN_FILES"]["VALUE"] as $img => $file):
+				$arFile = CFile::GetFileArray($file);
+				?>
+			<div class="col-xs-6 col-sm-3 col-lg-2 image-fit">
+				<h6><?=stristr($arFile["ORIGINAL_NAME"],'.',true)?></h6>
+				<p>
+					<a href="<?=$arFile["SRC"]?>" target="_blank">
+						<?if($arResult["PROPERTIES"]["DN_FILES_IMG"]["VALUE"][$img]):?>
+							<img class="img-bordershadow" src="<?=CFile::GetPath($arResult["PROPERTIES"]["DN_FILES_IMG"]["VALUE"][$img]);?>">
+						<?else:?>
+							<i class="fa fa-file-pdf-o fa-4x" aria-hidden="true"></i>
+						<?endif;?>
+					</a>
+				</p>
+				<p><a href="<?=$arFile["SRC"]?>" class="btn-download-docs" target="_blank"><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i> Скачать</a></p>
+			</div>
+			<? endforeach; ?>
+		</div>
 	</div>
+</div>
+
+<?endif;?>
+
+
+
+
+
 <?
-endif;
 $GLOBALS["recom_filter"] = array("SECTION_ID" => $arResult["IBLOCK_SECTION_ID"]);
 ?>
 
