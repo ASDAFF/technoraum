@@ -91,11 +91,13 @@ elseif($_POST["form_id"] == 8)
 elseif($_POST["form_id"] == 9)
 {
     $name_tk = iconv("UTF-8","CP1251",trim(strip_tags($_POST["name_tk"])));
+    $phone = iconv("UTF-8","CP1251",trim(strip_tags($_POST["phone"])));
     $delivery = iconv("UTF-8","CP1251",trim(strip_tags($_POST["delivery"])));
     $street = iconv("UTF-8","CP1251",trim(strip_tags($_POST["street"])));
 
     $arEventFields = array(
         "NAME" => $name_tk,
+        "PHONE" => $phone,
         "DELIVERY" => $delivery,
         "STREET" => $street,
     );

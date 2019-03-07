@@ -207,6 +207,10 @@ $ar_res = CCatalogProduct::GetByID($ElementID);
 					<input type="text" name="name_tk" value="" placeholder="Название ТК" required>
 				</div>
 				<div class="c-input">
+					<label>Ваш телефон</label>
+					<input type="text" name="phone" autocomplete="tel" value="" placeholder="Телефон" required>
+				</div>
+				<div class="c-input">
 					<label>Укажите способ доставки</label>
 					<select name="delivery" required>
 						<option value="До терминала ТК" data-text="Адрес терминала" selected>До терминала ТК</option>
