@@ -88,6 +88,22 @@ elseif($_POST["form_id"] == 8)
 
     CEvent::Send($event, SITE_ID, $arEventFields);
 }
+elseif($_POST["form_id"] == 9)
+{
+    $name_tk = iconv("UTF-8","CP1251",trim(strip_tags($_POST["name_tk"])));
+    $delivery = iconv("UTF-8","CP1251",trim(strip_tags($_POST["delivery"])));
+    $street = iconv("UTF-8","CP1251",trim(strip_tags($_POST["street"])));
+
+    $arEventFields = array(
+        "NAME" => $name_tk,
+        "DELIVERY" => $delivery,
+        "STREET" => $street,
+    );
+
+    $event = "DELIVERY_OTHER_INC";
+
+    CEvent::Send($event, SITE_ID, $arEventFields);
+}
 
 if($subject && $message){
     mail($to, $subject, $message, $headers);

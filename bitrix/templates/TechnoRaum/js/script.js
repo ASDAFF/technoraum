@@ -180,6 +180,12 @@ $( function() {
         });
     });
 
+
+    $('.custom-form .c-input select').change(function(){
+        $('.custom-form .c-input textarea').attr('placeholder',$(this).find('option:selected').attr('data-text'));
+    });
+
+
 });
 
 function DCCheckStatus(result){

@@ -131,8 +131,9 @@ $ar_res = CCatalogProduct::GetByID($ElementID);
 <div id="tabs">
 	<ul>
 		<li><a href="#tabs-1">Самовывоз из магазина</a></li>
-		<li><a href="#tabs-2">Самовывоз из пункта выдачи</a></li>
-		<li><a href="#tabs-3">Доставка до двери</a></li>
+		<li><a href="#tabs-2">Самовывоз из пункта выдачи СДЭК</a></li>
+		<li><a href="#tabs-3">Доставка до двери СДЭК</a></li>
+		<li><a href="#tabs-4">Доставка другой транспортной компанией</a></li>
 	</ul>
 	<div id="tabs-1">
 		<?$APPLICATION->IncludeComponent(
@@ -195,6 +196,32 @@ $ar_res = CCatalogProduct::GetByID($ElementID);
 		}
 		?>
 		<p class="small-message" style="text-align: center">Сроки и стоимость доставки рассчитаны на основе данных, предоставленных транспортными компаниями.</p>
+	</div>
+	<div id="tabs-4">
+		<div class="custom-form">
+			<h3>Доставка другой транспортной компанией</h3>
+			<form method="post" class="mform">
+				<input type="hidden" name="form_id" value="9" />
+				<div class="c-input">
+					<label>Укажите транспортную компанию (ТК)</label>
+					<input type="text" name="name_tk" value="" placeholder="Название ТК" required>
+				</div>
+				<div class="c-input">
+					<label>Укажите способ доставки</label>
+					<select name="delivery" required>
+						<option value="До терминала ТК" data-text="Адрес терминала" selected>До терминала ТК</option>
+						<option value="До двери" data-text="Адрес доставки">До двери</option>
+					</select>
+				</div>
+				<div class="c-input">
+					<label>Адрес</label>
+					<textarea name="street" placeholder="Адрес терминала" required></textarea>
+				</div>
+				<div class="c-input">
+					<input type="submit" name="submit1" value="Отправить">
+				</div>
+			</form>
+		</div>
 	</div>
 </div>
 <!--TABS-END-->
