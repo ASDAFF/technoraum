@@ -8,4 +8,3 @@ if(CModule::IncludeModule("altasib.geobase")) {
     }else
         $_SESSION['IPOLSDEK_city'] = $_SESSION['ALTASIB_GEOBASE']['CITY_NAME'];
 }
-
