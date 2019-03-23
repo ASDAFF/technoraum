@@ -141,6 +141,7 @@ if (strlen($arResult["FatalErrorMessage"]) <= 0 && !$arParams['COUNTERS_ONLY'])
 			array('NAME' => 'ASC'),
 			array(
 				"ACTIVE" => "Y",
+				"USER_ID" => $currentUserId,
 				'!AUTO_EXECUTE' => CBPDocumentEventType::Automation
 			),
 			false, false,

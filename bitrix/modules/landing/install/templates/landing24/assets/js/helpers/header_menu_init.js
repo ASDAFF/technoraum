@@ -70,15 +70,16 @@
 		// in viewer - set active by curr URL
 		else
 		{
-			var currUrl = document.location.pathname;
-			if (currUrl[currUrl.length - 1] !== '/')
-			{
-				currUrl += '/';
-			}
+			var pageUrl = document.location.pathname;
 
 			$(selector).find('a').each(function (i)
 			{
-				if ($(this).attr('href') == currUrl)
+				var currNode = $(this).get()[0];
+				// if href has hash - it link to block and they was be processed by scroll nav
+				if (
+					currNode.pathname == pageUrl &&
+					currNode.hash == ''
+				)
 				{
 					addActive($(this).parent('.nav-item'));
 				}

@@ -17,7 +17,6 @@
 		this.mailboxMenu = options.mailboxMenu;
 		this.settingsMenu = options.settingsMenu;
 		this.unreadCounterSelector = '[data-role="unreadCounter"]';
-		this.unbindCounterSelector = '[data-role="unbindCounter"]';
 		this.emptyCountersTitleSelector = '[data-role="emptyCountersTitle"]';
 		this.readActionBtnRole = 'read-action';
 		this.spamActionBtnRole = 'spam-action';
@@ -36,7 +35,6 @@
 			}
 			this.mailboxesUnseen[this.mailboxMenu[i].dataset.mailboxId] = this.mailboxMenu[i].dataset.unseen;
 		}
-		this.UNBIND_COUNTER_TYPE = 'unbind';
 		this.UNREAD_COUNTER_TYPE = 'unread';
 		this.isCurrentFolderSpam = false;
 		this.isCurrentFolderTrash = false;
@@ -136,10 +134,6 @@
 			}
 			if (bindingWrapper.childElementCount === 0)
 			{
-				if (this.countersBlock)
-				{
-					this.updateCounter(this.UNBIND_COUNTER_TYPE, 1);
-				}
 				this.updateGridByUnbindFilter();
 			}
 		},
@@ -215,10 +209,7 @@
 								bindingWrapper.appendChild(document.createTextNode(', '));
 							}
 							bindingWrapper.appendChild(bindNode);
-							if (this.countersBlock)
-							{
-								this.updateCounter(this.UNBIND_COUNTER_TYPE, -1);
-							}
+
 							this.updateGridByUnbindFilter();
 						}
 					}
@@ -431,35 +422,46 @@
 				this.reloadGrid({});
 			}
 		},
+		onPopupMenuFirstShow: function (popupWindow)
+		{
+			BX.bind(
+				popupWindow.contentContainer,
+				'click',
+				function ()
+				{
+					popupWindow.close();
+				}
+			);
+		},
 		onSettingsToggleClick: function ()
 		{
-			var popup = this.settingsMenuPopup;
-			if (popup)
-			{
-				var isShown = this.settingsMenuPopup.popupWindow.isShown();
-				popup.destroy();
-				delete this.settingsMenuPopup;
-			}
-			if (!popup || !isShown)
-			{
-				this.settingsMenuPopup = BX.PopupMenu.create('mail-msg-list-settings-menu', this.settingsToggle, this.settingsMenu);
-				this.settingsMenuPopup.show();
-			}
+			var popup = BX.PopupMenu.create(
+				'mail-msg-list-settings-menu',
+				this.settingsToggle,
+				this.settingsMenu,
+				{
+					events: {
+						onPopupFirstShow: this.onPopupMenuFirstShow
+					}
+				}
+			);
+
+			popup.popupWindow.isShown() ? popup.close() : popup.show();
 		},
 		onMailboxMenuClick: function ()
 		{
-			var popup = this.popupMailboxMenu;
-			if (popup)
-			{
-				var isShown = this.popupMailboxMenu.popupWindow.isShown();
-				popup.destroy();
-				delete this.popupMailboxMenu;
-			}
-			if (!popup || !isShown)
-			{
-				this.popupMailboxMenu = BX.PopupMenu.create('mail-msg-list-mailbox-menu', this.mailboxMenuToggle, this.mailboxMenu);
-				this.popupMailboxMenu.show();
-			}
+			var popup = BX.PopupMenu.create(
+				'mail-msg-list-mailbox-menu',
+				this.mailboxMenuToggle,
+				this.mailboxMenu,
+				{
+					events: {
+						onPopupFirstShow: this.onPopupMenuFirstShow
+					}
+				}
+			);
+
+			popup.popupWindow.isShown() ? popup.close() : popup.show();
 		},
 		updateUnreadCounters: function (readNumber)
 		{
@@ -551,11 +553,7 @@
 				cntNumberSelector = '[data-role="unread-counter-number"]';
 				cntBlockSelector = this.unreadCounterSelector;
 			}
-			else if (type === this.UNBIND_COUNTER_TYPE)
-			{
-				cntNumberSelector = '[data-role="unbind-counter-number"]';
-				cntBlockSelector = this.unbindCounterSelector;
-			}
+
 			var counter = document.querySelector(cntNumberSelector);
 			if (counter)
 			{
@@ -577,8 +575,7 @@
 		updateCountersBlock: function ()
 		{
 			var unread = document.querySelector(this.unreadCounterSelector);
-			var unbind = document.querySelector(this.unbindCounterSelector);
-			if (this.isVisible(unread) || this.isVisible(unbind))
+			if (this.isVisible(unread))
 			{
 				this.hideElement(document.querySelector(this.emptyCountersTitleSelector));
 			}
@@ -724,16 +721,6 @@
 			filterApi.setFields({
 				'DIR': filter.getFilterFieldsValues()['DIR'],
 				'IS_SEEN': 'N'
-			});
-			filterApi.apply();
-		},
-		onUnbindCounterClick: function ()
-		{
-			var filter = this.getFilterInstance();
-			var filterApi = filter.getApi();
-			filterApi.setFields({
-				'DIR': filter.getFilterFieldsValues()['DIR'],
-				'BIND': this.ENTITY_TYPE_NO_BIND
 			});
 			filterApi.apply();
 		},

@@ -55,7 +55,7 @@ return array(
 		),
 		'.landing-block-node-card-link' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_35_6_HEADER--NODES_LINK'),
-			'type' => 'typo-a',
+			'type' => 'typo-link',
 		),
 		'.landing-block-node-card-icon-container' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_35_6_HEADER--NODES_ICON'),

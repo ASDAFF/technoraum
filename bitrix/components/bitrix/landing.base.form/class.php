@@ -393,13 +393,14 @@ class LandingBaseFormComponent extends LandingBaseComponent
 				$this->arParams['SUCCESS_SAVE'] = true;
 			}
 			// delete
-			if (
+			// tmp disabled, #107130
+			/*if (
 				$this->request('delete') == 'Y' &&
 				$this->deleteRow()
 			)
 			{
 				\localRedirect($this->successSavePage);
-			}
+			}*/
 		}
 
 		parent::executeComponent();

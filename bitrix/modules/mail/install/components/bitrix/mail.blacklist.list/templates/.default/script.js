@@ -81,37 +81,20 @@
 			this.popupEmailsList = new BX.PopupWindow('bx-messenger-popup-settings', null, {
 				autoHide: true,
 				zIndex: 200,
-				offsetLeft: -200,
-				offsetTop: -220,
-				overlay: {opacity: 50, backgroundColor: "#000000"},
+				overlay: {opacity: 50, backgroundColor: '#000000'},
 				buttons: [this.popupButtonSave, this.popupButtonClose],
 				draggable: {restrict: true},
 				closeByEsc: true,
 				events: {
 					onAfterPopupShow: function ()
 					{
-						if (!this.isInited)
-						{
-							BX.ajax.runComponentAction('bitrix:mail.blacklist.list', 'getPopupContent', {
-								mode: 'class'
-							}).then(
-								function (result)
-								{
-									if (result.data && result.data.html)
-									{
-										this.popupEmailsList.setContent(result.data.html);
-										this.formBlacklist = document.querySelector('[name="form-add-mails-to-blacklist"]');
-									}
-								}.bind(this)
-							);
-							this.isInited = true;
-						}
+						this.formBlacklist = document.querySelector('[name="form-add-mails-to-blacklist"]');
 					}.bind(this)
 				},
 				titleBar: BX.message('MAIL_BLACKLIST_LIST_POPUP_TITLE'),
 				closeIcon: true,
-				contentColor: "white",
-				content: BX.create("div", {props: {className: 'mail-blacklist-popup-wrapper'}})
+				contentColor: 'white',
+				content: document.querySelector('.mail-blacklist-popup-wrapper')
 			});
 			return this.popupEmailsList;
 		},

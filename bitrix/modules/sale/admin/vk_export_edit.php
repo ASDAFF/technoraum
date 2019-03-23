@@ -28,9 +28,13 @@ if (!Loader::includeModule('sale'))
 
 //get or create export ID
 if (isset($request['ID']) && $request['ID'])
+{
 	$exportId = $request['ID'];
+}
 else
-	$exportId = NULL;
+{
+	$exportId = null;
+}
 
 //	download LOG file
 if(isset($request["download_log"]) && $request["download_log"] == "Y" && $exportId)
@@ -44,9 +48,13 @@ if(isset($request["download_log"]) && $request["download_log"] == "Y" && $export
 //init VK and SETTINGS
 $vk = Vk\Vk::getInstance();
 if ($exportId)
+{
 	$vkSettings = $vk->getSettings($exportId);
+}
 else
+{
 	$vkSettings = array();
+}
 
 \Bitrix\Main\Page\Asset::getInstance()->addJs("/bitrix/js/sale/vk_admin.js", true);
 require_once($DOCUMENT_ROOT . BX_ROOT . "/modules/main/include/prolog_admin_after.php");

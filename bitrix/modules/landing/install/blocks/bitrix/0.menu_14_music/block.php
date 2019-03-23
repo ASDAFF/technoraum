@@ -4,7 +4,7 @@
 		<nav class="navbar navbar-expand-lg p-0 g-px-15">
 			<div class="container">
 				<!-- Logo -->
-				<a href="#" class="navbar-brand landing-block-node-menu-logo-link u-header__logo">
+				<a href="#system_mainpage" class="navbar-brand landing-block-node-menu-logo-link u-header__logo">
 					<img class="landing-block-node-menu-logo u-header__logo-img u-header__logo-img--main g-max-width-180"
 						 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/music-logo.png" alt="">
 				</a>

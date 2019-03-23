@@ -44,7 +44,7 @@
 			</div>
 		</div>
 
-		<h2 class="landing-block-node-title text-center text-uppercase g-font-weight-700 g-font-size-40 g-font-size-60--md g-color-white g-mb-30 g-mb-70--md">
+		<h2 class="landing-block-node-title text-center text-uppercase g-font-weight-700 g-font-size-60 g-color-white g-mb-30 g-mb-70--md">
 			UI & UX Design 2018</h2>
 
 		<div class="row">

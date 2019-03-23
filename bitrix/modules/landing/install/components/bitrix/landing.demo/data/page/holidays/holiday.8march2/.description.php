@@ -12,6 +12,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_8MARCH2_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'travel',
+			'THEME_CODE_TYPO' => 'travel',
 		    'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/holidays/holiday.8march2/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_8MARCH2_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_8MARCH2_DESCRIPTION'),
@@ -19,7 +21,7 @@ return array(
 			'METAMAIN_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_8MARCH2_DESCRIPTION'),
 		)
 	),
-	'sort' => -101,
+	'sort' => \LandingSiteDemoComponent::checkActivePeriod(2,15,3,8) ? 92 : -122,
 	'available' => true,
 	'active' => \LandingSiteDemoComponent::checkActive(array(
 		'ONLY_IN' => array('ru', 'kz', 'by', 'ua'),
@@ -35,7 +37,7 @@ return array(
 	<div class="u-header__section u-header__section--light g-transition-0_3 g-py-25"
 		 data-header-fix-moment-exclude="g-py-25"
 		 data-header-fix-moment-classes="u-shadow-v27 g-py-15">
-		<nav class="navbar navbar-expand-lg g-py-0">
+		<nav class="navbar navbar-expand-lg g-py-0 g-px-10">
 			<div class="container">
 				<!-- Logo -->
 				<a href="#" class="navbar-brand landing-block-node-menu-logo-link u-header__logo" target="_self">
@@ -96,7 +98,7 @@ return array(
 
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
-			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1265/img1.jpg\');" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb">
+			<div class="landing-block-node-card-img g-flex-centered g-min-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1265/img1.jpg\');" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb">
 				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig g-mx-0">
 					<h2 class="landing-block-node-card-title g-font-weight-700 g-mb-20 g-font-cormorant-infant g-text-transform-none g-font-size-120 g-color-primary"><span style="color: rgb(245, 245, 245); font-style: italic;">Happy woman day!</span></h2>
 					<div class="landing-block-node-card-text g-max-width-645 g-color-white-opacity-0_9 mx-auto g-mb-35"> </div>
@@ -215,7 +217,7 @@ return array(
 			array (
 				'CODE' => '01.big_with_text_3',
 				'SORT' => '3000',
-				'CONTENT' => '<section class="landing-block landing-block-node-img u-bg-overlay g-flex-centered g-height-100vh g-height-70vh g-bg-img-hero g-bg-black-opacity-0_5--after g-pb-70 g-pt-70" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1000x669/img1.jpg\');" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb">
+				'CONTENT' => '<section class="landing-block landing-block-node-img u-bg-overlay g-flex-centered g-min-height-70vh g-bg-img-hero g-bg-black-opacity-0_5--after g-pb-70 g-pt-70" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1000x669/img1.jpg\');" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb">
 	<div class="container g-max-width-800 text-center u-bg-overlay__inner g-mx-1 js-animation landing-block-node-container fadeInDown">
 		<h2 class="landing-block-node-title g-line-height-1 g-font-weight-700 g-mb-20 g-color-primary g-font-cormorant-infant g-text-transform-none g-font-size-80"><span style="font-style: italic;"><span style="color: rgb(245, 245, 245);">The best only</span> for you!</span></h2>
 
@@ -530,7 +532,7 @@ return array(
 					<h3 class="h4 g-color-white mb-4 landing-block-node-title" data-form-style-main-font-color="1" data-form-style-main-font-family="1"> </h3>
 
 					<!-- Icon Block -->
-				<div class="landing-block-node-card-contact">
+				<div class="landing-block-node-card-contact" data-card-preset="text">
 					<div class="media align-items-center mb-4">
 						<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
@@ -552,7 +554,7 @@ return array(
 				<!-- End Icon Block -->
 
 				<!-- Icon Block -->
-				<div class="landing-block-node-card-contact">
+				<div class="landing-block-node-card-contact" data-card-preset="link">
 					<div class="media align-items-center mb-4">
 						<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
@@ -560,79 +562,67 @@ return array(
 								</span>
 						</div>
 						<div class="media-body">
-							<div class="landing-block-node-contact-text g-color-white-opacity-0_6"
-								 data-form-style-main-font-weight="1"
-								 data-form-style-header-text-font-size="1"
-								 data-form-style-label-font-weight="1"
-								 data-form-style-label-font-size="1"
-								 data-form-style-second-font-color="1"
-							>
-								<a href="tel:+32(0)333444555">+32 (0) 333 444 555</a>
-							</div>
+							<a href="tel:+32(0)333444555" class="landing-block-card-linkcontact-link g-color-white-opacity-0_6"
+							 data-form-style-main-font-weight="1"
+							 data-form-style-header-text-font-size="1"
+							 data-form-style-label-font-weight="1"
+							 data-form-style-label-font-size="1"
+							 data-form-style-second-font-color="1">+32 (0) 333 444 555</a>
 						</div>
 					</div>
 				</div>
 				<!-- End Icon Block -->
 
 				<!-- Icon Block -->
-				<div class="landing-block-node-card-contact">
+				<div class="landing-block-node-card-contact" data-card-preset="link">
 					<div class="media align-items-center mb-4">
 						<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
 								  <i class="landing-block-card-contact-icon icon-communication-033 u-line-icon-pro"></i>
 								</span>
 						</div>
-						<div class="landing-block-node-contact-text g-color-white-opacity-0_6"
-							 data-form-style-main-font-weight="1"
-							 data-form-style-header-text-font-size="1"
-							 data-form-style-label-font-weight="1"
-							 data-form-style-label-font-size="1"
-							 data-form-style-second-font-color="1"
-						>
-							<a href="tel:+32(0)333444666">+32 (0) 333 444 666</a>
-						</div>
+						<a href="tel:+32(0)333444666" class="landing-block-card-linkcontact-link g-color-white-opacity-0_6"
+						data-form-style-main-font-weight="1"
+						 data-form-style-header-text-font-size="1"
+						 data-form-style-label-font-weight="1"
+						 data-form-style-label-font-size="1"
+						 data-form-style-second-font-color="1">+32 (0) 333 444 666</a>
 					</div>
 				</div>
 				<!-- End Icon Block -->
 
 				<!-- Icon Block -->
-				<div class="landing-block-node-card-contact">
+				<div class="landing-block-node-card-contact" data-card-preset="link">
 					<div class="media align-items-center mb-4">
 						<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
 								  <i class="landing-block-card-contact-icon icon-communication-033 u-line-icon-pro"></i>
 								</span>
 						</div>
-						<div class="landing-block-node-contact-text g-color-white-opacity-0_6"
-							 data-form-style-main-font-weight="1"
-							 data-form-style-header-text-font-size="1"
-							 data-form-style-label-font-weight="1"
-							 data-form-style-label-font-size="1"
-							 data-form-style-second-font-color="1"
-						>
-							<a href="tel:+32(0)333444777">+32 (0) 333 444 777</a>
-						</div>
+						<a href="tel:+32(0)333444777" class="landing-block-card-linkcontact-link g-color-white-opacity-0_6"
+						data-form-style-main-font-weight="1"
+						 data-form-style-header-text-font-size="1"
+						 data-form-style-label-font-weight="1"
+						 data-form-style-label-font-size="1"
+						 data-form-style-second-font-color="1">+32 (0) 333 444 777</a>
 					</div>
 				</div>
 				<!-- End Icon Block -->
 
 				<!-- Icon Block -->
-				<div class="landing-block-node-card-contact">
+				<div class="landing-block-node-card-contact" data-card-preset="link">
 					<div class="media align-items-center mb-4">
 						<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
 								  <i class="landing-block-card-contact-icon icon-communication-062 u-line-icon-pro"></i>
 								</span>
 						</div>
-						<div class="landing-block-node-contact-text g-color-white-opacity-0_6"
-							 data-form-style-main-font-weight="1"
-							 data-form-style-header-text-font-size="1"
-							 data-form-style-label-font-weight="1"
-							 data-form-style-label-font-size="1"
-							 data-form-style-second-font-color="1"
-						>
-							<a href="mailto:info@company24.com">info@company24.com</a>
-						</div>
+						<a href="mailto:info@company24.com" class="landing-block-card-linkcontact-link g-color-white-opacity-0_6"
+						data-form-style-main-font-weight="1"
+						 data-form-style-header-text-font-size="1"
+						 data-form-style-label-font-weight="1"
+						 data-form-style-label-font-size="1"
+						 data-form-style-second-font-color="1">info@company24.com</a>
 					</div>
 				</div>
 				<!-- End Icon Block -->
@@ -662,6 +652,38 @@ return array(
 			</div>
 
 			<div class="col-md-6">
+			
+				<ul class="list-inline float-md-right mb-0">
+					<li class="landing-block-card-social list-inline-item g-mr-10"
+						data-card-preset="facebook">
+						<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-gray-light-v1 g-color-white--hover g-bg-primary--hover g-brd-gray-dark-v5 g-brd-primary--hover g-rounded-50x"
+						   href="https://facebook.com">
+							<i class="landing-block-card-social-icon fa fa-facebook"></i>
+						</a>
+					</li>
+
+					<li class="landing-block-card-social list-inline-item g-mr-10"
+						data-card-preset="instagram">
+						<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-gray-light-v1 g-color-white--hover g-bg-primary--hover g-brd-gray-dark-v5 g-brd-primary--hover g-rounded-50x"
+						   href="https://instagram.com">
+							<i class="landing-block-card-social-icon fa fa-instagram"></i>
+						</a>
+					</li>
+					<li class="landing-block-card-social list-inline-item g-mr-10"
+						data-card-preset="twitter">
+						<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-gray-light-v1 g-color-white--hover g-bg-primary--hover g-brd-gray-dark-v5 g-brd-primary--hover g-rounded-50x"
+						   href="https://twitter.com">
+							<i class="landing-block-card-social-icon fa fa-twitter"></i>
+						</a>
+					</li>
+					<li class="landing-block-card-social list-inline-item g-mr-10"
+						data-card-preset="youtube">
+						<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-gray-light-v1 g-color-white--hover g-bg-primary--hover g-brd-gray-dark-v5 g-brd-primary--hover g-rounded-50x"
+						   href="https://youtube.com">
+							<i class="landing-block-card-social-icon fa fa-youtube"></i>
+						</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>

@@ -147,11 +147,6 @@ abstract class CAllMain
 	{
 		$sUrlPath = $this->GetCurPage($get_index_page);
 
-		if (Bitrix\Main\Grid\Context::isInternalRequest())
-		{
-			$arParamKill = array_merge($arParamKill, array("internal", "grid_id", "grid_action", "bxajaxid", "sessid"));
-		}
-
 		$strNavQueryString = DeleteParam($arParamKill);
 		if($strNavQueryString <> "" && $strParam <> "")
 			$strNavQueryString = "&".$strNavQueryString;
@@ -3489,10 +3484,12 @@ abstract class CAllMain
 
 	public static function FinalActions($response = "")
 	{
-		global $DB;
-
 		\Bitrix\Main\Context::getCurrent()->getResponse()->flush($response);
+		self::RunFinalActionsInternal();
+	}
 
+	public static function RunFinalActionsInternal()
+	{
 		self::EpilogActions();
 
 		if (!defined('BX_WITH_ON_AFTER_EPILOG'))
@@ -3505,6 +3502,7 @@ abstract class CAllMain
 			ExecuteModuleEventEx($arEvent);
 		}
 
+		global $DB;
 		$DB->Disconnect();
 
 		self::ForkActions();

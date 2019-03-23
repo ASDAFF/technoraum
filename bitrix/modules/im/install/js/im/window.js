@@ -737,6 +737,8 @@
 	{
 		if (this.context == 'DESKTOP')
 			return true;
+		else if (this.context == 'PAGE')
+			return true;
 		else if (this.context == 'POPUP-FULLSCREEN' && !BX.hasClass(this.popup, 'bx-im-fullscreen-closed'))
 			return true;
 
@@ -790,23 +792,31 @@
 		this.popupTimeout = setTimeout(BX.delegate(function(){
 			BX.removeClass(this.popup, 'bx-im-fullscreen-opening');
 			BX.addClass(this.popup, 'bx-im-fullscreen-open');
-			if (this.BXIM.webrtc.callOverlay)
-			{
-				BX.style(this.BXIM.webrtc.callOverlay, 'height', (this.BXIM.messenger.popupMessengerFullHeight-1)+'px');
-			}
 		}, this), 400);
 
 		BX.onCustomEvent(this, 'OnMessengerWindowShowPopup', [dialogId]);
 		return true;
 	}
 
-	MessengerWindow.prototype.closePopup = function()
+	MessengerWindow.prototype.closePopup = function(params)
 	{
-		if (!this.isPopupShow() || (this.BXIM.webrtc.callInit && !this.BXIM.webrtc.phoneCallId))
+		if(!BX.type.isPlainObject(params))
+		{
+			params = {};
+		}
+
+		if (!this.isPopupShow() || this.BXIM.callController.hasActiveCall() || this.redirectFlag)
 			return false;
 
 		if (this.popupTimestart+400 > (+new Date()))
 			return false;
+
+		if (params.redirect)
+		{
+			this.redirectFlag = true;
+			document.location.href = params.redirect;
+			return true;
+		}
 
 		clearTimeout(this.popupTimeout);
 		BX.removeClass(document.body, 'bx-im-fullscreen-block-scroll');

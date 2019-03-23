@@ -171,6 +171,8 @@
 				}
 				if (typeof parameters.animationOptions  === "undefined")
 				{
+					/*
+					// bug with fast hide/show
 					parameters.animationOptions = {
 						show: {
 							type: "opacity"
@@ -179,6 +181,7 @@
 							type: "opacity"
 						}
 					};
+					*/
 				}
 				if (typeof parameters.content  === "undefined")
 				{

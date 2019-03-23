@@ -16,12 +16,14 @@ return array(
 	'preview_url' => '',
 	'show_in_list' => 'Y',
 	'type' => 'page',
-	'sort' => 11,
+	'sort' => \LandingSiteDemoComponent::checkActivePeriod(12,1,12,25) ? 21 : -191,
 	'version' => 2,
 	'fields' => array(
 		'TITLE' => Loc::getMessage("LANDING_DEMO___XMAS-TITLE"),
 		'RULE' => null,
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'travel',
+			'THEME_CODE_TYPO' => 'travel',
 			'VIEW_USE' => 'N',
 			'VIEW_TYPE' => 'no',
 			'FONTS_CODE' => '<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Marmelad" data-font="g-font-marmelad" as="style"></noscript>

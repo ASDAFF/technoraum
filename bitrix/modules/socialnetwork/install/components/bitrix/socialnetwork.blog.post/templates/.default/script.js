@@ -158,7 +158,7 @@ function deleteBlogPost(id)
 		}
 		else
 		{
-			BX('blg-post-'+id).parentNode.innerHTML = data;
+			__logDeleteSuccess(BX('blg-post-'+id));
 		}
 	});
 
@@ -197,44 +197,52 @@ function blogShowImagePopup(src)
 
 function __blogPostSetFollow(log_id)
 {
-	var strFollowOld = (BX("log_entry_follow_" + log_id, true).getAttribute("data-follow") == "Y" ? "Y" : "N");
-	var strFollowNew = (strFollowOld == "Y" ? "N" : "Y");	
+	var
+		strFollowOld = (BX("log_entry_follow_" + log_id).getAttribute("data-follow") == "Y" ? "Y" : "N"),
+		strFollowNew = (strFollowOld == "Y" ? "N" : "Y"),
+		followNode = BX("log_entry_follow_" + log_id);
 
-	if (BX("log_entry_follow_" + log_id, true))
+	if (followNode)
 	{
-		BX.findChild(BX("log_entry_follow_" + log_id, true), { tagName: 'a' }).innerHTML = BX.message('sonetBPFollow' + strFollowNew);
-		BX("log_entry_follow_" + log_id, true).setAttribute("data-follow", strFollowNew);
+		BX.findChild(followNode, { tagName: 'a' }).innerHTML = BX.message('sonetBPFollow' + strFollowNew);
+		followNode.setAttribute("data-follow", strFollowNew);
 	}
 
+	var actionUrl = BX.message('sonetBPSetPath');
+	actionUrl = BX.util.add_url_param(actionUrl, {
+		b24statAction: (strFollowNew == 'Y' ? 'setFollow' : 'setUnfollow')
+	});
+
 	BX.ajax({
-		url: BX.message('sonetBPSetPath'),
+		url: actionUrl,
 		method: 'POST',
 		dataType: 'json',
 		data: {
-			"log_id": log_id,
-			"action": "change_follow",
-			"follow": strFollowNew,
-			"sessid": BX.bitrix_sessid(),
-			"site": BX.message('sonetBPSiteId')
+			log_id: log_id,
+			action: "change_follow",
+			follow: strFollowNew,
+			sessid: BX.bitrix_sessid(),
+			site: BX.message('sonetBPSiteId')
 		},
 		onsuccess: function(data) {
 			if (
 				data["SUCCESS"] != "Y"
-				&& BX("log_entry_follow_" + log_id, true)
+				&& followNode
 			)
 			{
-				BX.findChild(BX("log_entry_follow_" + log_id, true), { tagName: 'a' }).innerHTML = BX.message('sonetBPFollow' + strFollowOld);
-				BX("log_entry_follow_" + log_id, true).setAttribute("data-follow", strFollowOld);
+				BX.findChild(followNode, { tagName: 'a' }).innerHTML = BX.message('sonetBPFollow' + strFollowOld);
+				followNode.setAttribute("data-follow", strFollowOld);
 			}
 		},
 		onfailure: function(data) {
-			if (BX("log_entry_follow_" +log_id, true))
+			if (followNode)
 			{
-				BX.findChild(BX("log_entry_follow_" + log_id, true), { tagName: 'a' }).innerHTML = BX.message('sonetBPFollow' + strFollowOld);
-				BX("log_entry_follow_" + log_id, true).setAttribute("data-follow", strFollowOld);
-			}		
+				BX.findChild(followNode, { tagName: 'a' }).innerHTML = BX.message('sonetBPFollow' + strFollowOld);
+				followNode.setAttribute("data-follow", strFollowOld);
+			}
 		}
 	});
+
 	return false;
 }
 
@@ -268,6 +276,14 @@ function __blogPostSetFollow(log_id)
 			urlToDelete = (typeof params.urlToDelete != 'undefined' ? params.urlToDelete : ''),
 			voteId = (typeof params.voteId != 'undefined' ? parseInt(params.voteId) : false),
 			postType = (typeof params.postType != 'undefined' ? params.postType : false);
+
+		if (BX.type.isNotEmptyString(urlToHide))
+		{
+			urlToHide = BX.util.remove_url_param(urlToHide, [ 'b24statAction' ]);
+			urlToHide = BX.util.add_url_param(urlToHide, {
+				b24statAction: 'hidePost'
+			});
+		}
 
 		if (isPublicPage)
 		{
@@ -1146,6 +1162,11 @@ window.sharingPost = function()
 	var userId = BX('shareUserId').value;
 	var shareForm = BX('blogShare');
 	var actUrl = socBPDest.shareUrl.replace(/#post_id#/, postId).replace(/#user_id#/, userId);
+
+	actUrl = BX.util.remove_url_param(actUrl, [ 'b24statAction' ]);
+	actUrl = BX.util.add_url_param(actUrl, {
+		b24statAction: "sharePost"
+	});
 
 	if (BX('sharePostSubmitButton'))
 	{

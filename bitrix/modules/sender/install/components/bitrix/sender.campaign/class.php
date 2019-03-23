@@ -6,6 +6,7 @@ use Bitrix\Main\Loader;
 use Bitrix\Main\Error;
 
 use Bitrix\Sender\Security;
+use Bitrix\Sender\Integration;
 
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 {
@@ -14,7 +15,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 Loc::loadMessages(__FILE__);
 
-class SenderTemplateComponent extends CBitrixComponent
+class SenderCampaignComponent extends CBitrixComponent
 {
 	/** @var ErrorCollection $errors */
 	protected $errors;
@@ -26,7 +27,8 @@ class SenderTemplateComponent extends CBitrixComponent
 			$this->errors->setError(new Error('Module `sender` is not installed.'));
 			return false;
 		}
-		return true;
+
+		return Integration\Bitrix24\Service::isAvailable();
 	}
 
 	protected function initParams()

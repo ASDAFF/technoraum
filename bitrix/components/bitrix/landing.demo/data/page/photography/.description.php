@@ -12,6 +12,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_PHOTOGRAPHY_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'photography',
+			'THEME_CODE_TYPO' => 'photography',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/photography/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_DESCRIPTION'),
@@ -66,30 +68,53 @@ return array(
 
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
-					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-font-weight-700 g-font-size-11 g-pt-20 g-pt-0--lg ml-auto">
-						<li class="landing-block-node-menu-list-item nav-item g-mr-25--lg g-mb-7 g-mb-0--lg ">
+					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-font-weight-700 g-font-size-11 g-pt-20 g-pt-0--lg ml-auto g-mr-20">
+						<li class="landing-block-node-menu-list-item nav-item g-mr-20--lg g-mb-7 g-mb-0--lg ">
 							<a href="#block@block[46.1.cover_with_bg_image_and_big_title]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">Home</a></li>
-						<li class="landing-block-node-menu-list-item nav-item g-mx-25--lg g-mb-7 g-mb-0--lg">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-20--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[0.menu_15_photography]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">Promo</a>
 						</li>
-						<li class="landing-block-node-menu-list-item nav-item g-mx-25--lg g-mb-7 g-mb-0--lg">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-20--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[46.2.cover_with_2_big_images_cols]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">Top
 								works</a>
 						</li>
-						<li class="landing-block-node-menu-list-item nav-item g-mx-25--lg g-mb-7 g-mb-0--lg">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-20--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[19.6.features_two_cols_with_bg_pattern]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">Services</a>
 						</li>
-						<li class="landing-block-node-menu-list-item nav-item g-mx-25--lg g-mb-7 g-mb-0--lg">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-20--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[32.3.img_grid_1_2cols_1]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">Gallery</a>
 						</li>
-						<li class="landing-block-node-menu-list-item nav-item g-mx-25--lg g-mb-7 g-mb-0--lg">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-20--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[10.2.two_cols_big_img_text_and_text_blocks_2]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">About</a>
 						</li>
-						<li class="landing-block-node-menu-list-item nav-item g-mx-25--lg g-mb-7 g-mb-0--lg">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-20--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[11.2.three_cols_fix_tariffs_with_img]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">Offers</a>
 						</li>
-						<li class="landing-block-node-menu-list-item nav-item g-ml-25--lg">
+						<li class="landing-block-node-menu-list-item nav-item g-ml-20--lg">
 							<a href="#block@block[35.1.footer_light]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">Contacts</a>
+						</li>
+					</ul>
+					<ul class="list-inline mb-0 landing-block-node-menu-list-social">
+						<li class="list-inline-item landing-block-card-social g-mr-10"
+							data-card-preset="facebook">
+							<a class="landing-block-card-social-icon-link d-block u-icon-v3 u-icon-size--sm g-rounded-50x g-bg-gray-light-v4 g-color-gray-light-v1 g-bg-primary--hover g-color-white--hover g-font-size-14"
+							   href="https://facebook.com">
+								<i class="landing-block-card-social-icon fa fa-facebook"></i>
+							</a>
+						</li>
+						<li class="landing-block-card-social list-inline-item g-mr-10"
+							data-card-preset="instagram">
+							<a class="landing-block-card-social-icon-link d-block u-icon-v3 u-icon-size--sm g-rounded-50x g-bg-gray-light-v4 g-color-gray-light-v1 g-bg-primary--hover g-color-white--hover g-font-size-14"
+							   href="https://instagram.com">
+								<i class="landing-block-card-social-icon fa fa-instagram"></i>
+							</a>
+						</li>
+						<li class="landing-block-card-social list-inline-item g-mr-10"
+							data-card-preset="twitter">
+							<a class="landing-block-card-social-icon-link d-block u-icon-v3 u-icon-size--sm g-rounded-50x g-bg-gray-light-v4 g-color-gray-light-v1 g-bg-primary--hover g-color-white--hover g-font-size-14"
+							   href="https://twitter.com">
+								<i class="landing-block-card-social-icon fa fa-twitter"></i>
+							</a>
 						</li>
 					</ul>
 				</div>
@@ -219,7 +244,7 @@ return array(
 				'CONTENT' => '<div class="landing-block g-pb-60 g-pt-20">
 	<div class="container">
 		<div class="js-gallery-cards row">
-			<div class="landing-block-node-card text-center col-lg-3 col-md-4 col-sm-6 g-mb-30 js-animation slideInUp animated landing-card">
+			<div class="landing-block-node-card text-center col-lg-3 col-md-4 col-sm-6 g-mb-30 js-animation slideInUp animated ">
 				<div class="g-pos-rel g-parent d-inline-block h-100">
 					<img data-fancybox="gallery" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1024x683/img6.jpg" alt="" class="landing-block-node-card-img g-min-height-380 g-object-fit-cover h-100 w-100" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 					<div class="landing-block-node-card-title-container w-100 g-pos-abs g-bottom-0 g-left-0 g-flex-middle g-bg-primary-opacity-0_9 opacity-0 g-opacity-1--parent-hover g-pa-20 g-transition-0_2 g-transition--ease-in">
@@ -229,7 +254,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-node-card text-center col-lg-3 col-md-4 col-sm-6 g-mb-30 js-animation slideInUp animated landing-card">
+			<div class="landing-block-node-card text-center col-lg-3 col-md-4 col-sm-6 g-mb-30 js-animation slideInUp animated ">
 				<div class="g-pos-rel g-parent d-inline-block h-100">
 					<img data-fancybox="gallery" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1024x683/img14.jpg" alt="" class="landing-block-node-card-img g-min-height-380 g-object-fit-cover h-100 w-100" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 					<div class="landing-block-node-card-title-container w-100 g-pos-abs g-bottom-0 g-left-0 g-flex-middle g-bg-primary-opacity-0_9 opacity-0 g-opacity-1--parent-hover g-pa-20 g-transition-0_2 g-transition--ease-in">
@@ -239,7 +264,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-node-card text-center col-lg-3 col-md-4 col-sm-6 g-mb-30 js-animation slideInUp animated landing-card">
+			<div class="landing-block-node-card text-center col-lg-3 col-md-4 col-sm-6 g-mb-30 js-animation slideInUp animated ">
 				<div class="g-pos-rel g-parent d-inline-block h-100">
 					<img data-fancybox="gallery" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1024x683/img15.jpg" alt="" class="landing-block-node-card-img g-min-height-380 g-object-fit-cover h-100 w-100" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 					<div class="landing-block-node-card-title-container w-100 g-pos-abs g-bottom-0 g-left-0 g-flex-middle g-bg-primary-opacity-0_9 opacity-0 g-opacity-1--parent-hover g-pa-20 g-transition-0_2 g-transition--ease-in">
@@ -249,7 +274,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-node-card text-center col-lg-3 col-md-4 col-sm-6 g-mb-30 js-animation slideInUp animated landing-card">
+			<div class="landing-block-node-card text-center col-lg-3 col-md-4 col-sm-6 g-mb-30 js-animation slideInUp animated ">
 				<div class="g-pos-rel g-parent d-inline-block h-100">
 					<img data-fancybox="gallery" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1024x683/img16.jpg" alt="" class="landing-block-node-card-img g-min-height-380 g-object-fit-cover h-100 w-100" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 					<div class="landing-block-node-card-title-container w-100 g-pos-abs g-bottom-0 g-left-0 g-flex-middle g-bg-primary-opacity-0_9 opacity-0 g-opacity-1--parent-hover g-pa-20 g-transition-0_2 g-transition--ease-in">
@@ -259,7 +284,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-node-card text-center col-lg-3 col-md-4 col-sm-6 g-mb-30 js-animation slideInUp animated landing-card">
+			<div class="landing-block-node-card text-center col-lg-3 col-md-4 col-sm-6 g-mb-30 js-animation slideInUp animated ">
 				<div class="g-pos-rel g-parent d-inline-block h-100">
 					<img data-fancybox="gallery" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1024x683/img17.jpg" alt="" class="landing-block-node-card-img g-min-height-380 g-object-fit-cover h-100 w-100" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 					<div class="landing-block-node-card-title-container w-100 g-pos-abs g-bottom-0 g-left-0 g-flex-middle g-bg-primary-opacity-0_9 opacity-0 g-opacity-1--parent-hover g-pa-20 g-transition-0_2 g-transition--ease-in">
@@ -269,7 +294,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-node-card text-center col-lg-3 col-md-4 col-sm-6 g-mb-30 js-animation slideInUp animated landing-card">
+			<div class="landing-block-node-card text-center col-lg-3 col-md-4 col-sm-6 g-mb-30 js-animation slideInUp animated ">
 				<div class="g-pos-rel g-parent d-inline-block h-100">
 					<img data-fancybox="gallery" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1024x683/img18.jpg" alt="" class="landing-block-node-card-img g-min-height-380 g-object-fit-cover h-100 w-100" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 					<div class="landing-block-node-card-title-container w-100 g-pos-abs g-bottom-0 g-left-0 g-flex-middle g-bg-primary-opacity-0_9 opacity-0 g-opacity-1--parent-hover g-pa-20 g-transition-0_2 g-transition--ease-in">
@@ -279,7 +304,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-node-card text-center col-lg-3 col-md-4 col-sm-6 g-mb-30 js-animation slideInUp animated landing-card">
+			<div class="landing-block-node-card text-center col-lg-3 col-md-4 col-sm-6 g-mb-30 js-animation slideInUp animated ">
 				<div class="g-pos-rel g-parent d-inline-block h-100">
 					<img data-fancybox="gallery" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1024x683/img19.jpg" alt="" class="landing-block-node-card-img g-min-height-380 g-object-fit-cover h-100 w-100" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 					<div class="landing-block-node-card-title-container w-100 g-pos-abs g-bottom-0 g-left-0 g-flex-middle g-bg-primary-opacity-0_9 opacity-0 g-opacity-1--parent-hover g-pa-20 g-transition-0_2 g-transition--ease-in">
@@ -289,7 +314,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-node-card text-center col-lg-3 col-md-4 col-sm-6 g-mb-30 js-animation slideInUp animated landing-card">
+			<div class="landing-block-node-card text-center col-lg-3 col-md-4 col-sm-6 g-mb-30 js-animation slideInUp animated ">
 				<div class="g-pos-rel g-parent d-inline-block h-100">
 					<img data-fancybox="gallery" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1024x683/img20.jpg" alt="" class="landing-block-node-card-img g-min-height-380 g-object-fit-cover h-100 w-100" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 					<div class="landing-block-node-card-title-container w-100 g-pos-abs g-bottom-0 g-left-0 g-flex-middle g-bg-primary-opacity-0_9 opacity-0 g-opacity-1--parent-hover g-pa-20 g-transition-0_2 g-transition--ease-in">
@@ -630,7 +655,7 @@ return array(
 	<div class="container">
 		<!-- Team Block -->
 		<div class="row">
-			<div class="landing-block-card-employee js-animation col-md-6 g-mb-30 g-mb-0--lg landing-card col-lg-4 fadeIn animated">
+			<div class="landing-block-card-employee js-animation col-md-6 g-mb-30 g-mb-0--lg  col-lg-4 fadeIn animated">
 				<div class="text-center">
 					<!-- Figure -->
 					<figure class="g-pos-rel g-parent g-mb-30">
@@ -655,7 +680,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-card-employee js-animation col-md-6 g-mb-30 g-mb-0--lg landing-card col-lg-4 fadeIn animated">
+			<div class="landing-block-card-employee js-animation col-md-6 g-mb-30 g-mb-0--lg  col-lg-4 fadeIn animated">
 				<div class="text-center">
 					<!-- Figure -->
 					<figure class="g-pos-rel g-parent g-mb-30">
@@ -680,7 +705,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-card-employee js-animation col-md-6 g-mb-30 g-mb-0--lg landing-card col-lg-4 fadeIn animated">
+			<div class="landing-block-card-employee js-animation col-md-6 g-mb-30 g-mb-0--lg  col-lg-4 fadeIn animated">
 				<div class="text-center">
 					<!-- Figure -->
 					<figure class="g-pos-rel g-parent g-mb-30">
@@ -727,7 +752,7 @@ return array(
 		</div>
 
 		<div class="row">
-			<div class="landing-block-node-card col-md-6 col-lg-4 g-mb-30 g-mb-0--md landing-card">
+			<div class="landing-block-node-card col-md-6 col-lg-4 g-mb-30 g-mb-0--md ">
 				<!-- Article -->
 				<article class="landing-block-node-card-container js-animation text-center text-uppercase g-theme-photography-bg-gray-dark-v2 g-color-white-opacity-0_5 fadeInRight animated">
 					<!-- Article Image -->
@@ -772,7 +797,7 @@ return array(
 				<!-- End Article -->
 			</div>
 
-			<div class="landing-block-node-card col-md-6 col-lg-4 g-mb-30 g-mb-0--md landing-card">
+			<div class="landing-block-node-card col-md-6 col-lg-4 g-mb-30 g-mb-0--md ">
 				<!-- Article -->
 				<article class="landing-block-node-card-container js-animation text-center text-uppercase g-theme-photography-bg-gray-dark-v2 g-color-white-opacity-0_5 fadeInRight animated">
 					<!-- Article Image -->
@@ -816,7 +841,7 @@ return array(
 				<!-- End Article -->
 			</div>
 
-			<div class="landing-block-node-card col-md-6 col-lg-4 g-mb-30 g-mb-0--md landing-card">
+			<div class="landing-block-node-card col-md-6 col-lg-4 g-mb-30 g-mb-0--md ">
 				<!-- Article -->
 				<article class="landing-block-node-card-container js-animation text-center text-uppercase g-theme-photography-bg-gray-dark-v2 g-color-white-opacity-0_5 fadeInRight animated">
 					<!-- Article Image -->

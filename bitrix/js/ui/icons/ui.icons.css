@@ -166,6 +166,8 @@ button.ui-icon > i:active,
 
 .ui-icon-common-info > i { background-image: url(/bitrix/js/ui/icons/images/common/ui-info.svg); }
 
+.ui-icon-common-question > i { background-image: url(/bitrix/js/ui/icons/images/common/ui-question.svg); }
+
 /*endregion*/
 
 /*region Service icons*/
@@ -304,11 +306,19 @@ button.ui-icon > i:active,
 	background-image: url(/bitrix/js/ui/icons/images/service/ui-service-imessage.svg);
 }
 
+.ui-icon-service-site-b24 > i {
+	background-color: #4393d0;
+	background-image: url(/bitrix/js/ui/icons/images/service/ui-service-siteb24.svg);
+}
 .ui-icon-service-vk-adds > i {
 	background-color: #3871ba;
 	background-image: url(/bitrix/js/ui/icons/images/service/ui-service-vk-adds.svg);
 }
 
+.ui-icon-service-ya-direct > i {
+	background-color: #ffce00;
+	background-image: url(/bitrix/js/ui/icons/images/service/ui-service-ya-direct.svg);
+}
 .ui-icon-service-fb-adds > i {
 	background-color: #38659f;
 	background-image: url(/bitrix/js/ui/icons/images/service/ui-service-fb-adds.svg);
@@ -318,7 +328,45 @@ button.ui-icon > i:active,
 	background-color: #4a73a5;
 	background-image: url(/bitrix/js/ui/icons/images/service/ui-service-vk-order.svg);
 }
+	
+.ui-icon-service-estore i {
+	background-color: #90be00;
+	background-image: url(/bitrix/js/ui/icons/images/service/ui-service-estore.svg);
+}
 
+.ui-icon-service-site > i {
+	background-color: #d4825A;
+	background-image: url(/bitrix/js/ui/icons/images/service/ui-service-ownsite.svg);
+}
+
+.ui-icon-service-call-up i {
+	background-color: #55d0e0;
+	background-image: url(/bitrix/js/ui/icons/images/service/ui-service-call-up.svg);
+}
+
+.ui-icon-service-google-ads > i {
+	background-color: #3889db;
+	background-image: url(/bitrix/js/ui/icons/images/service/ui-service-googleads.svg);
+}
+
+.ui-icon-service-organic > i {
+	background-color: #6baf0e;
+	background-image: url(/bitrix/js/ui/icons/images/service/ui-service-organic.svg);
+}
+
+.ui-icon-service-common > i {
+	background-image: url(/bitrix/js/ui/icons/images/service/ui-service-common.svg);
+}
+
+.ui-icon-service-universal > i {
+	background-color: #55d0e0;
+	background-image: url(/bitrix/js/ui/icons/images/service/ui-service-universal.svg);
+}
+
+.ui-icon-service-instagram-fb > i {
+	background-color: #e85998;
+	background-image: url(images/service/ui-service-instagram-fb.svg);
+}
 /*endregion*/
 
 /* region Light Service icons */
@@ -379,5 +427,7 @@ button.ui-icon > i:active,
 .ui-icon-service-light-imessage > i { background-image: url(/bitrix/js/ui/icons/images/service/ui-service-light-imessage.svg); }
 
 .ui-icon-service-light-vk-order > i { background-image: url(/bitrix/js/ui/icons/images/service/ui-service-light-vk-order.svg); }
+
+.ui-icon-service-light-common > i { background-image: url(/bitrix/js/ui/icons/images/service/ui-service-light-common.svg); }
 
 /*endregion*/

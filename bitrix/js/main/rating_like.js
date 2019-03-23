@@ -166,7 +166,7 @@ RatingLike.Draw = function(likeId, params)
 				)
 				{
 					if (!usersData.TOP.find(function(a) {
-						return a.ID != params.USER_ID
+						return a.ID == params.USER_ID
 					}))
 					{
 						usersData.TOP.push({

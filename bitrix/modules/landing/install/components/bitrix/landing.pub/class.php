@@ -242,9 +242,34 @@ class LandingPubComponent extends LandingBaseComponent
 		}
 		elseif ($landingUrl == 'favicon' || $landingUrl == 'favicon.php')
 		{
+			$path = '/bitrix/components/bitrix/landing.pub/favicon.ico';
+			$hooksSite = Hook::getForSite($siteId);
+			if (isset($hooksSite['FAVICON']))
+			{
+				$fields = $hooksSite['FAVICON']->getFields();
+				if (
+					isset($fields['PICTURE']) &&
+					$fields['PICTURE']->getValue()
+				)
+				{
+					$path = \CFile::resizeImageGet(
+						$fields['PICTURE']->getValue(),
+						array(
+							'width' => 16,
+							'height' => 16
+						),
+						BX_RESIZE_IMAGE_EXACT
+					);
+					if (isset($path['src']))
+					{
+						$path = $path['src'];
+					}
+				}
+			}
+			$path = Manager::getDocRoot() . $path;
 			Manager::getApplication()->restartBuffer();
 			header('Content-type: image/x-icon');
-			echo file_get_contents(Manager::getDocRoot() . '/bitrix/components/bitrix/landing.pub/favicon.ico');
+			echo \Bitrix\Main\IO\File::getFileContents($path);
 			die();
 		}
 
@@ -312,7 +337,10 @@ class LandingPubComponent extends LandingBaseComponent
 		self::$landingMain['SITE_ID'] = $site['ID'];
 
 		// site is down
-		if ($site['LANDING_ID_503'])
+		if (
+			$site['LANDING_ID_503'] &&
+			!$this->isPreviewMode
+		)
 		{
 			$this->setHttpStatusOnce($this::ERROR_STATUS_UNAVAILABLE);
 			return $site['LANDING_ID_503'];
@@ -346,6 +374,9 @@ class LandingPubComponent extends LandingBaseComponent
 
 			return $row['ID'];
 		};
+
+		// detect landing by sef rule
+		//'/' . $landingUrl . '/' . $landingSubUrl . '/'
 
 		// detect landing
 		$res = Landing::getList(array(
@@ -397,7 +428,10 @@ class LandingPubComponent extends LandingBaseComponent
 			{
 				if ($landingSubUrl)
 				{
-					if ($landing['FOLDER'] == 'Y')
+					if (
+						$landing['FOLDER'] == 'Y' &&
+						$landing['ACTIVE'] == 'Y'
+					)
 					{
 						// check landing in subfolder
 						$resSub = Landing::getList(array(
@@ -831,8 +865,8 @@ class LandingPubComponent extends LandingBaseComponent
 							{
 								$robotsContent .= ($robotsContent ? PHP_EOL : '');
 								$robotsContent .= 'Sitemap: ' .
-												  Site::getPublicUrl($landing->getSiteId()) .
-												  '/sitemap.xml';
+											  		Site::getPublicUrl($landing->getSiteId()) .
+											  		'/sitemap.xml';
 							}
 							// out
 							if ($robotsContent)
@@ -892,11 +926,12 @@ class LandingPubComponent extends LandingBaseComponent
 						\Bitrix\Crm\UI\Webpack\CallTracker::instance()->getEmbeddedScript()
 					);
 				}
-				
+
 				// set og url
 				Manager::setPageView(
 					'MetaOG',
-					'<meta name="og:url" content="' . $landing->getPublicUrl() . '" />'
+					'<meta name="og:url" content="' . $landing->getPublicUrl() . '" />' . "\n" .
+					'<link rel="canonical" href="' . $landing->getPublicUrl() . '"/>'
 				);
 			}
 			else

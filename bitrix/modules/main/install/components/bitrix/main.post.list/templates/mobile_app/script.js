@@ -718,7 +718,9 @@
 				MPFForm.link(this.ENTITY_XML_ID, formParams);
 			}
 
-			this.recalcMoreButtonsList();
+			setTimeout(function() {
+				this.recalcMoreButtonsList();
+			}.bind(this), 50); // quote problem
 
 			repo["list"][this.ENTITY_XML_ID] = this;
 			return this;

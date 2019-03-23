@@ -33,7 +33,7 @@
 	{
 		if(BX.SidePanel)
 		{
-			BX.SidePanel.Instance.open(url, {width: 720, cacheable: false});
+			BX.SidePanel.Instance.open(url, {width: 760, cacheable: false});
 		}
 		else
 		{

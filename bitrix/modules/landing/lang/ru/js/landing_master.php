@@ -319,6 +319,9 @@ $MESS["LANDING_IMAGE_EDITOR_OTHER_RATIOS"] = "Другие размеры";
 $MESS["LANDING_PAGE_STATUS_UPDATED"] = "Обновлено";
 $MESS["LANDING_PAGE_STATUS_UPDATED_NOW"] = "Обновлено сейчас";
 
-$MESS['LANDING_BLOCK_WEBFORM_NO_FORM'] = 'Нет активных CRM-форм';
-$MESS['LANDING_BLOCK_WEBFORM_NO_FORM_CP'] = 'На вашем сайте нет CRM-форм. Проверьте их наличие и активность на странице &laquo;<a target="_blank" class="landing-trusted-link" href="/crm/webform">CRM - CRM-формы</a>&raquo;.';
-$MESS['LANDING_BLOCK_WEBFORM_NO_FORM_BUS'] = 'На вашем сайте нет CRM-форм. Проверьте установку модуля &laquo;Интеграция с Битрикс24 (b24connector)&raquo; в разделе &laquo;<a target="_blank" class="landing-trusted-link" href="/bitrix/admin/module_admin.php">Настройки &mdash; Настройки продукта &mdash; Модули</a>&raquo; и привязку портала Битрикс24 в настройках &laquo;<a target="_blank" class="landing-trusted-link" href="/bitrix/admin/settings.php?mid=b24connector">Коммуникаций с клиентом</a>&raquo;.';
+$MESS['LANDING_DOMAIN_LIMIT_LENGTH'] = 'Превышена длина имени домена';
+
+$MESS['LANDING_DOMAIN_EXIST'] = 'Такой домен уже существует';
+$MESS['LANDING_DOMAIN_EXIST2'] = 'Домен уже существует и привязан к сайту, который находится в корзине. Отвяжите сайт от домена и повторите попытку.';
+
+$MESS['LANDING_DOMAIN_INCORRECT'] = 'Адрес сайта введен неверно. Вы можете использовать только следующие символы "a-z", "A-Z", "0-9" и "_"';

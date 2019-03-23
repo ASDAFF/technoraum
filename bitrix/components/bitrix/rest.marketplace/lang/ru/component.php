@@ -1,2 +1,0 @@
-<?php
-$MESS["MARKETPLACE_TITLE"] = "Ëó÷øåå";

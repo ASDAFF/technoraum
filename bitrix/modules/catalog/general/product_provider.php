@@ -126,7 +126,7 @@ class CCatalogProductProvider implements IBXSaleProductProvider
 				$elementFilter,
 				false,
 				false,
-				array('ID', 'IBLOCK_ID', 'NAME', 'DETAIL_PAGE_URL')
+				array('ID', 'IBLOCK_ID', 'NAME', 'DETAIL_PAGE_URL', 'XML_ID')
 			);
 			if ($arProduct = $iterator->GetNext())
 				static::setHitCache(self::CACHE_ITEM_WITH_RIGHTS, $productID, $arProduct);
@@ -139,7 +139,7 @@ class CCatalogProductProvider implements IBXSaleProductProvider
 		if (!isset(self::$catalogList[$arProduct['IBLOCK_ID']]))
 		{
 			self::$catalogList[$arProduct['IBLOCK_ID']] = Catalog\CatalogIblockTable::getList(array(
-				'select' => array('IBLOCK_ID', 'SUBSCRIPTION', 'PRODUCT_IBLOCK_ID'),
+				'select' => array('IBLOCK_ID', 'SUBSCRIPTION', 'PRODUCT_IBLOCK_ID', 'CATALOG_XML_ID' => 'IBLOCK.XML_ID'),
 				'filter' => array('=IBLOCK_ID' => $arProduct['IBLOCK_ID'])
 			))->fetch();
 		}
@@ -209,6 +209,28 @@ class CCatalogProductProvider implements IBXSaleProductProvider
 			}
 		}
 
+		if ($arCatalogProduct['TYPE'] == Catalog\ProductTable::TYPE_OFFER)
+		{
+			if (strpos($arProduct["~XML_ID"], '#') === false)
+			{
+				$parent = \CCatalogSku::GetProductInfo($arProduct['ID'], $arProduct['IBLOCK_ID']);
+				if (!empty($parent))
+				{
+					$parentIterator = Iblock\ElementTable::getList([
+						'select' => ['ID', 'XML_ID'],
+						'filter' => ['=ID' => $parent['ID']]
+					]);
+					$parentData = $parentIterator->fetch();
+					if (!empty($parentData))
+					{
+						$arProduct['~XML_ID'] = $parentData['XML_ID'].'#'.$arProduct['~XML_ID'];
+					}
+					unset($parentData, $parentIterator);
+				}
+				unset($parent);
+			}
+		}
+
 		$dblQuantity = $arCatalogProduct['QUANTITY'];
 		$quantityLimited = ($arCatalogProduct['QUANTITY_TRACE'] == Catalog\ProductTable::STATUS_YES
 			&& $arCatalogProduct['CAN_BUY_ZERO'] == Catalog\ProductTable::STATUS_NO);
@@ -254,7 +276,9 @@ class CCatalogProductProvider implements IBXSaleProductProvider
 			"VAT_INCLUDED" => "Y",
 			"MEASURE_ID" => $arCatalogProduct['MEASURE'],
 			"MEASURE_NAME" => $arCatalogProduct['MEASURE_NAME'],
-			"MEASURE_CODE" => $arCatalogProduct['MEASURE_CODE']
+			"MEASURE_CODE" => $arCatalogProduct['MEASURE_CODE'],
+			"CATALOG_XML_ID" => self::$catalogList[$arProduct['IBLOCK_ID']]['CATALOG_XML_ID'],
+			"PRODUCT_XML_ID" => $arProduct['~XML_ID']
 		);
 
 		if ($arParams['SELECT_QUANTITY_TRACE'] == "Y")
@@ -2270,27 +2294,10 @@ class CCatalogProductProvider implements IBXSaleProductProvider
 		$userId = (int)$userId;
 		if ($userId < 0)
 			return false;
+
 		if (!isset(self::$userCache[$userId]))
-		{
-			if ($userId == 0)
-			{
-				self::$userCache[$userId] = array(2);
-			}
-			else
-			{
-				self::$userCache[$userId] = false;
-				$userIterator = Main\UserTable::getList(array(
-					'select' => array('ID'),
-					'filter' => array('=ID' => $userId)
-				));
-				if ($user = $userIterator->fetch())
-				{
-					$user['ID'] = (int)$user['ID'];
-					self::$userCache[$user['ID']] = CUser::GetUserGroup($user['ID']);
-				}
-				unset($user, $userIterator);
-			}
-		}
+			self::$userCache[$userId] = Main\UserTable::getUserGroupIds($userId);
+
 		return self::$userCache[$userId];
 	}
 

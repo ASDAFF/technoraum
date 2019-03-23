@@ -14,17 +14,6 @@ final class CUITooltipComponent extends \CBitrixComponent
 
 	private function init()
 	{
-/*
-		if(!CModule::IncludeModule('crm'))
-		{
-			$this->errors[] = Loc::getMessage('CRM_MODULE_NOT_INSTALLED');
-			return false;
-		}
-*/
-
-/*
-		$this->userId = CCrmSecurityHelper::GetCurrentUserID();
-*/
 		CJSCore::Init(array('date', 'popup', 'ajax', 'tooltip'));
 		return true;
 	}

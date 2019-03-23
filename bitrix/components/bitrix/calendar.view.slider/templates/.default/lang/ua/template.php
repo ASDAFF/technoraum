@@ -1,4 +1,5 @@
 <?
+$MESS["EC_VIEW_SLIDER_EVENT_NOT_FOUND"] = "Подія не знайдена або не може бути показана.";
 $MESS["EC_VIEW_SLIDER_IMPORTANT_EVENT"] = "Це важлива подія";
 $MESS["EC_VIEW_SLIDER_SAVE_EVENT_BUTTON"] = "Зберегти";
 $MESS["EC_VIEW_SLIDER_CANCEL_BUTTON"] = "Скасувати";

@@ -82,8 +82,12 @@ if (isset($data['kkm']) && count($data['kkm']) > 0)
 		$enabledCashbox = array();
 		foreach ($cashboxList as $item)
 		{
-			if ($item['ENABLED'] === 'Y'  && $item['ACTIVE'] === 'Y')
+			if ($item['PRESENTLY_ENABLED'] === 'Y'
+				&& $item['ACTIVE'] === 'Y'
+			)
+			{
 				$enabledCashbox[$item['ID']] = $item;
+			}
 		}
 
 		if ($enabledCashbox)

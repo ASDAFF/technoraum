@@ -13,6 +13,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'music',
+			'THEME_CODE_TYPO' => 'music',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/music/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_DESCRIPTION'),
@@ -94,9 +96,9 @@ return array(
 				'SORT' => '500',
 				'CONTENT' => '<section class="landing-block">
 	<div class="js-carousel" data-arrows-classes="u-arrow-v1 g-pos-abs g-absolute-centered--y--md g-top-20x g-top-50x--md g-left-0 g-left-auto--md g-right-0--md g-width-40 g-width-60--md g-height-40 g-height-60--md g-font-size-default g-color-white g-bg-primary g-opacity-0_8--hover g-transition-0_2 g-transition--ease-in" data-arrow-left-classes="fa fa-chevron-left g-mr-63--md" data-arrow-right-classes="fa fa-chevron-right g-ml-43 g-ml-0--md">
-		<div class="landing-block-node-card landing-block-node-card-bgimg js-slide d-flex align-items-center u-bg-overlay g-height-100vh g-min-height-600 g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1400x891/img1.jpg);">
+		<div class="landing-block-node-card landing-block-node-card-bgimg js-slide d-flex align-items-center u-bg-overlay g-min-height-100vh g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1400x891/img1.jpg);">
 			<div class="u-bg-overlay__inner">
-				<div class="landing-block-node-card-text-container u-heading-v4-1 g-max-width-645 g-brd-7 g-brd-primary py-0 g-pl-30 js-animation fadeInLeft">
+				<div class="landing-block-node-card-text-container u-heading-v4-1 g-max-width-645 g-brd-7 g-brd-primary g-pl-30 js-animation fadeInLeft">
 					<h3 class="landing-block-node-card-subtitle text-uppercase g-line-height-1 g-font-weight-600 g-font-size-20 g-color-white g-mb-15 g-mb-25--md">
 						Company24 new album</h3>
 					<h2 class="landing-block-node-card-title u-heading-v4__title text-uppercase g-line-height-1 g-font-weight-700 g-font-size-65 g-color-white g-mb-15">
@@ -111,9 +113,9 @@ return array(
 			</div>
 		</div>
 
-		<div class="landing-block-node-card landing-block-node-card-bgimg js-slide d-flex align-items-center u-bg-overlay g-height-100vh g-min-height-600 g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1400x891/img2.jpg);">
+		<div class="landing-block-node-card landing-block-node-card-bgimg js-slide d-flex align-items-center u-bg-overlay g-min-height-100vh g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1400x891/img2.jpg);">
 			<div class="u-bg-overlay__inner">
-				<div class="landing-block-node-card-text-container u-heading-v4-1 g-max-width-645 g-brd-7 g-brd-primary py-0 g-pl-30 js-animation fadeInLeft">
+				<div class="landing-block-node-card-text-container u-heading-v4-1 g-max-width-645 g-brd-7 g-brd-primary g-pl-30 js-animation fadeInLeft">
 					<h3 class="landing-block-node-card-subtitle text-uppercase g-line-height-1 g-font-weight-600 g-font-size-20 g-color-white g-mb-15 g-mb-25--md">
 						Company24 new album</h3>
 					<h2 class="landing-block-node-card-title u-heading-v4__title text-uppercase g-line-height-1 g-font-weight-700 g-font-size-65 g-color-white g-mb-15">
@@ -152,12 +154,12 @@ return array(
 			array (
 				'CODE' => '30.2.three_cols_fix_img_and_links',
 				'SORT' => '1500',
-				'CONTENT' => '<section class="landing-block g-bg-gray-light-v5">
+				'CONTENT' => '<section class="landing-block g-bg-gray-light-v5 g-pt-30 g-pb-20">
 
-        <div class="container g-pt-30 g-pb-20">
+        <div class="container">
             <div class="row">
 
-                <div class="landing-block-card col-sm-6 col-md-4 g-mb-20 js-animation fadeIn">
+                <div class="landing-block-card col-sm-6 col-md-4 js-animation fadeIn">
                     <article class="u-shadow-v28 g-bg-white">
                         <img class="landing-block-node-img img-fluid w-100" src="https://cdn.bitrix24.site/bitrix/images/landing/business/370x233/img1.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
@@ -185,7 +187,7 @@ return array(
                     </article>
                 </div>
 
-                <div class="landing-block-card col-sm-6 col-md-4 g-mb-30 js-animation fadeIn">
+                <div class="landing-block-card col-sm-6 col-md-4 js-animation fadeIn">
                     <article class="u-shadow-v28 g-bg-white">
                         <img class="landing-block-node-img img-fluid w-100" src="https://cdn.bitrix24.site/bitrix/images/landing/business/370x233/img2.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
@@ -214,7 +216,7 @@ return array(
                 </div>
 
 
-				<div class="landing-block-card col-sm-6 col-md-4 g-mb-30 js-animation fadeIn">
+				<div class="landing-block-card col-sm-6 col-md-4 js-animation fadeIn">
 					<article class="u-shadow-v28 g-bg-white">
 						<img class="landing-block-node-img img-fluid w-100" src="https://cdn.bitrix24.site/bitrix/images/landing/business/370x233/img3.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
@@ -992,6 +994,38 @@ return array(
 			</div>
 
 			<div class="col-md-6">
+			
+				<ul class="list-inline float-md-right mb-0">
+					<li class="landing-block-card-social list-inline-item g-mr-10"
+						data-card-preset="facebook">
+						<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-gray-light-v1 g-color-white--hover g-bg-primary--hover g-brd-gray-dark-v5 g-brd-primary--hover g-rounded-50x"
+						   href="https://facebook.com">
+							<i class="landing-block-card-social-icon fa fa-facebook"></i>
+						</a>
+					</li>
+
+					<li class="landing-block-card-social list-inline-item g-mr-10"
+						data-card-preset="instagram">
+						<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-gray-light-v1 g-color-white--hover g-bg-primary--hover g-brd-gray-dark-v5 g-brd-primary--hover g-rounded-50x"
+						   href="https://instagram.com">
+							<i class="landing-block-card-social-icon fa fa-instagram"></i>
+						</a>
+					</li>
+					<li class="landing-block-card-social list-inline-item g-mr-10"
+						data-card-preset="twitter">
+						<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-gray-light-v1 g-color-white--hover g-bg-primary--hover g-brd-gray-dark-v5 g-brd-primary--hover g-rounded-50x"
+						   href="https://twitter.com">
+							<i class="landing-block-card-social-icon fa fa-twitter"></i>
+						</a>
+					</li>
+					<li class="landing-block-card-social list-inline-item g-mr-10"
+						data-card-preset="youtube">
+						<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-gray-light-v1 g-color-white--hover g-bg-primary--hover g-brd-gray-dark-v5 g-brd-primary--hover g-rounded-50x"
+						   href="https://youtube.com">
+							<i class="landing-block-card-social-icon fa fa-youtube"></i>
+						</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>

@@ -1,4 +1,6 @@
 <?
+$MESS["IBLOCK_IMPORT_FROM"] = "Imported from";
+$MESS["IBLOCK_LINK_TO_MEDIA"] = "media link";
 $MESS["IBLOCK_ELEMENT_EDIT_TAGS_TIP"] = "(enter words or phrases separated by commas)";
 $MESS["IBLOCK_ELEMENT_EDIT_ELEMENTS"] = "Elements";
 $MESS["IBLOCK_ELEMENT_EDIT_LINKED"] = "Linked elements:";

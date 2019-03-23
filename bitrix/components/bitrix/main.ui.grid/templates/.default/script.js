@@ -279,6 +279,8 @@
 					this.disableForAllCounter();
 				}
 			}
+
+			this.adjustCheckAllCheckboxes();
 		},
 
 		/**
@@ -391,6 +393,8 @@
 						self.updateCounterDisplayed();
 						self.updateCounterSelected();
 						self.enableActionsPanel();
+						self.adjustCheckAllCheckboxes();
+						self.lastRowAction = null;
 						BX.onCustomEvent(window, 'Grid::allRowsSelected', []);
 					},
 					function() {
@@ -400,6 +404,8 @@
 							self.disableForAllCounter();
 							self.updateCounterDisplayed();
 							self.updateCounterSelected();
+							self.adjustCheckAllCheckboxes();
+							self.lastRowAction = null;
 						}
 					}
 				);
@@ -407,6 +413,7 @@
 			else
 			{
 				this.unselectAllCheckAllCheckboxes();
+				this.adjustCheckAllCheckboxes();
 				this.getRows().unselectAll();
 				this.disableForAllCounter();
 				this.updateCounterDisplayed();
@@ -416,8 +423,37 @@
 			}
 		},
 
+		disableCheckAllCheckboxes: function()
+		{
+			this.getCheckAllCheckboxes().forEach(function(checkbox) {
+				checkbox.getNode().disabled = true;
+			});
+		},
+
+		enableCheckAllCheckboxes: function()
+		{
+			this.getCheckAllCheckboxes().forEach(function(checkbox) {
+				checkbox.getNode().disabled = false;
+			});
+		},
+
+		indeterminateCheckAllCheckboxes: function()
+		{
+			this.getCheckAllCheckboxes().forEach(function(checkbox) {
+				checkbox.getNode().indeterminate = true;
+			});
+		},
+
+		determinateCheckAllCheckboxes: function()
+		{
+			this.getCheckAllCheckboxes().forEach(function(checkbox) {
+				checkbox.getNode().indeterminate = false;
+			});
+		},
+
 		editSelected: function()
 		{
+			this.disableCheckAllCheckboxes();
 			this.getRows().editSelected();
 		},
 
@@ -1215,9 +1251,31 @@
 
 		adjustCheckAllCheckboxes: function()
 		{
-			var total = this.getRows().getBodyChild().filter(function(row) { return row.isShown(); }).length;
-			var selected = this.getRows().getSelected().filter(function(row) { return row.isShown(); }).length;
-			total === selected ? this.selectAllCheckAllCheckboxes() : this.unselectAllCheckAllCheckboxes();
+			var total = this.getRows().getBodyChild().filter(function(row) {
+				return row.isShown() && !!row.getCheckbox();
+			}).length;
+
+			var selected = this.getRows().getSelected().filter(function(row) {
+				return row.isShown();
+			}).length;
+
+			if (total === selected)
+			{
+				this.selectAllCheckAllCheckboxes();
+			}
+			else
+			{
+				this.unselectAllCheckAllCheckboxes()
+			}
+
+			if (selected > 0 && selected < total)
+			{
+				this.indeterminateCheckAllCheckboxes();
+			}
+			else
+			{
+				this.determinateCheckAllCheckboxes();
+			}
 		},
 
 		bindOnCheckAll: function()
@@ -1239,11 +1297,13 @@
 			event.preventDefault();
 
 			this.toggleSelectionAll();
+			this.determinateCheckAllCheckboxes();
 		},
 
 		toggleSelectionAll: function()
 		{
-			if (!this.getRows().isAllSelected())
+			if (!this.getRows().isAllSelected() &&
+				(this.lastRowAction === 'select' || !this.lastRowAction))
 			{
 				this.getRows().selectAll();
 				this.selectAllCheckAllCheckboxes();
@@ -1257,6 +1317,8 @@
 				this.disableActionsPanel();
 				BX.onCustomEvent(window, 'Grid::allRowsUnselected', [this]);
 			}
+
+			delete this.lastRowAction;
 
 			this.updateCounterSelected();
 		},
@@ -1414,11 +1476,13 @@
 							{
 								if (!row.isSelected())
 								{
+									this.lastRowAction = 'select';
 									row.select();
 									BX.onCustomEvent(window, 'Grid::selectRow', [row, this]);
 								}
 								else
 								{
+									this.lastRowAction = 'unselect';
 									row.unselect();
 									BX.onCustomEvent(window, 'Grid::unselectRow', [row, this]);
 								}
@@ -1443,6 +1507,7 @@
 									rows.forEach(function(current) {
 										current.select();
 									});
+									this.lastRowAction = 'select';
 									BX.onCustomEvent(window, 'Grid::selectRows', [rows, this]);
 								}
 								else
@@ -1450,6 +1515,7 @@
 									rows.forEach(function(current) {
 										current.unselect();
 									});
+									this.lastRowAction = 'unselect';
 									BX.onCustomEvent(window, 'Grid::unselectRows', [rows, this]);
 								}
 							}

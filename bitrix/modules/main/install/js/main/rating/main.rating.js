@@ -1,3 +1,6 @@
+/**
+* @bxjs_lang_path config.php
+*/
 (function() {
 
 var BX = window.BX;
@@ -280,6 +283,22 @@ BXRL.render = {
 					else
 					{
 						topPanel.classList.remove('feed-post-emoji-container-nonempty');
+					}
+
+					if (BXRL.manager.mobile)
+					{
+						var commentNode = BX.findParent(topPanel, { className: 'post-comment-block'});
+						if (commentNode)
+						{
+							if (elementsNew.length > 0)
+							{
+								commentNode.classList.add('comment-block-rating-nonempty');
+							}
+							else
+							{
+								commentNode.classList.remove('comment-block-rating-nonempty');
+							}
+						}
 					}
 				}
 
@@ -1064,7 +1083,15 @@ BXRL.render = {
 				cry: 4,
 				angry: 5
 			};
-			return sample[a.reaction] > sample[b.reaction];
+			if (sample[a.reaction] < sample[b.reaction])
+			{
+				return -1;
+			}
+			if (sample[a.reaction] > sample[b.reaction])
+			{
+				return 1;
+			}
+			return 0;
 		});
 
 		for(var ind = 0; ind < reactionsList.length; ind++)
@@ -1367,6 +1394,10 @@ BXRL.render = {
 	openMobileReactionsPage: function (params) {
 		BXMobileApp.PageManager.loadPageBlank({
 			url: BX.message('SITE_DIR') + 'mobile/like/result.php',
+			title: BX.message("RATING_LIKE_RESULTS"),
+			backdrop:{
+				mediumPositionPercent:65
+			},
 			cache: true,
 			data: {
 				entityTypeId: params.entityTypeId,

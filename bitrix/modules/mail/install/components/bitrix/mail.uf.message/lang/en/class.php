@@ -1,4 +1,7 @@
 <?
+$MESS["MAIL_UF_MESSAGE_NOT_IMPLEMENTED"] = "Not implemented";
+$MESS["MAIL_UF_MESSAGE_NOT_FOUND"] = "Email message was not found";
+$MESS["MAIL_UF_MESSAGE_DENIED"] = "Access denied";
 $MESS["MAIL_UF_MESSAGE_DELETED"] = "Email message has been deleted";
 $MESS["MAIL_UF_MESSAGE_H"] = "Message";
 $MESS["MAIL_UF_MESSAGE_BODY_EXPAND"] = "details";

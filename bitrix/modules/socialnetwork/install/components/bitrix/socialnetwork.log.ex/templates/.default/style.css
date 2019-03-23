@@ -2333,6 +2333,10 @@ a.feed-post-more-link:hover {
 	width: 58%;
 }
 
+.feed-info-block .feed-user-name-wrap {
+	line-height: 16px;
+}
+
 .feed-grat-block .feed-user-name-wrap {
 	margin: 10px 0;
 }
@@ -4477,12 +4481,18 @@ td.transparent {background: none;}
 	0% {
 		position: relative;
 	}
+	99% {
+		position: relative;
+	}
 	100% {
 		position: static;
 	}
 }
 @keyframes animate-position {
 	0% {
+		position: relative;
+	}
+	99% {
 		position: relative;
 	}
 	100% {

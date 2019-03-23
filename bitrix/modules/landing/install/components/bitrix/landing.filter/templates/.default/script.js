@@ -45,16 +45,15 @@ BX.ready(function()
 		}
 		landingAjaxSend = true;
 
-		var loading = BX.create('div',{
-			props: {
-				className: 'landing-filter-loading'
-			}
-		});
 		var workArea = BX('workarea-content');
-		var timeout = setTimeout(function()
-		{
-			workArea.appendChild(loading);
-		}, 100);
+
+		var loaderContainer = BX.create('div',{
+			attrs:{className:'landing-filter-loading'}
+		});
+		document.body.appendChild(loaderContainer);
+
+		var loader = new BX.Loader({size: 130, color: "#bfc3c8"});
+		loader.show(loaderContainer);
 
 		BX.ajax({
 			method: 'POST',
@@ -63,7 +62,8 @@ BX.ready(function()
 			onsuccess: function(data)
 			{
 				landingAjaxSend = false;
-				clearTimeout(timeout);
+				loader.hide();
+				loaderContainer.classList.add('landing-filter-loading-hide');
 				workArea.innerHTML = data;
 			}
 		});

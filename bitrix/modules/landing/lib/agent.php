@@ -10,19 +10,18 @@ class Agent
 	 */
 	public static function clearRecycle($days = null)
 	{
-		return __CLASS__ . '::' . __FUNCTION__ . '();'; 
-
 		$days = !is_null($days)
 				? (int) $days
 				: (int) Manager::getOption('deleted_lifetime_days');
 
 		$date = new \Bitrix\Main\Type\DateTime;
 		$date->add('-' . $days . ' days');
+		$folders = [];
 
 		// first delete landings
 		$res = Landing::getList([
 			'select' => [
-				'ID'
+				'ID', 'FOLDER'
 			],
 			'filter' => [
 				[
@@ -45,8 +44,40 @@ class Agent
 		]);
 		while ($row = $res->fetch())
 		{
+			if ($row['FOLDER'] == 'Y')
+			{
+				$folders[] = $row['ID'];
+				continue;
+			}
 			$resDel = Landing::delete($row['ID'], true);
 			$resDel->isSuccess();// for trigger
+		}
+
+		// delete from folders
+		if ($folders)
+		{
+			$res = Landing::getList([
+				'select' => [
+					'ID'
+				],
+				'filter' => [
+					'FOLDER_ID' => $folders,
+					'=DELETED' => ['Y', 'N'],
+					'=SITE.DELETED' => ['Y', 'N']
+				],
+				'order' => [
+					'DATE_MODIFY' => 'desc'
+				]
+			]);
+			while ($row = $res->fetch())
+			{
+				array_unshift($folders, $row['ID']);
+			}
+			foreach ($folders as $folderId)
+			{
+				$resDel = Landing::delete($folderId, true);
+				$resDel->isSuccess();// for trigger
+			}
 		}
 
 		// then delete sites

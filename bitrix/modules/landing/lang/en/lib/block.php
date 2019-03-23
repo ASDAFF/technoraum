@@ -1,4 +1,6 @@
 <?
+$MESS["LD_BLOCK_SECTION_LAST"] = "Recent items";
+$MESS["LANDING_BLOCK_MESSAGE_ERROR_EVAL"] = "Error running the block. Please try adding it again.";
 $MESS["LANDING_BLOCK_BAD_ANCHOR"] = "Anchor should start with an alphabetical character (a-z) and can contain characters \"a-z\", \"0-9\", \"-\", \"_\", \".\" and \":\" only.";
 $MESS["LANDING_BLOCK_BR1"] = "Catalog";
 $MESS["LANDING_BLOCK_BR2"] = "Product page";

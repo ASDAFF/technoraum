@@ -1,4 +1,8 @@
 <?
+$MESS["SONET_EXT_COMMENTAUX_CREATE_TASK_INTRANET_NEW_USER"] = "The task was created based on a #A_BEGIN#new user addition entry#A_END#";
+$MESS["SONET_EXT_COMMENTAUX_CREATE_TASK_BITRIX24_NEW_USER"] = "The task was created based on a #A_BEGIN#new user addition entry#A_END#";
+$MESS["SONET_EXT_COMMENTAUX_CREATE_TASK_LOG_COMMENT_INTRANET_NEW_USER"] = "The task was created based on a #A_BEGIN#comment left to a new user addition entry#A_END#";
+$MESS["SONET_EXT_COMMENTAUX_CREATE_TASK_LOG_COMMENT_BITRIX24_NEW_USER"] = "The task was created based on a #A_BEGIN#comment left to a new user addition entry#A_END#";
 $MESS["SONET_EXT_COMMENTAUX_CREATE_TASK_BLOG_POST"] = "The task was created based on an #A_BEGIN#Activity Stream post#A_END#";
 $MESS["SONET_EXT_COMMENTAUX_CREATE_TASK_TASK"] = "The task was created based on #A_BEGIN#another task#A_END#";
 $MESS["SONET_EXT_COMMENTAUX_CREATE_TASK_FORUM_TOPIC"] = "The task was created based on a #A_BEGIN#forum post#A_END#";

@@ -7,7 +7,6 @@ use \Bitrix\Landing\Manager;
 use \Bitrix\Landing\Site;
 use \Bitrix\Landing\Domain;
 use \Bitrix\Main\SystemException;
-use \Bitrix\Main\Loader;
 
 Loc::loadMessages(__FILE__);
 
@@ -110,6 +109,9 @@ class SiteTable extends Entity\DataManager
 			'LANDING_ID_503' => new Entity\IntegerField('LANDING_ID_503', array(
 				'title' => Loc::getMessage('LANDING_TABLE_FIELD_LANDING_ID_503')
 			)),
+			'LANG' => new Entity\IntegerField('LANG', array(
+				'title' => Loc::getMessage('LANDING_TABLE_FIELD_LANG')
+			)),
 			'CREATED_BY_ID' => new Entity\IntegerField('CREATED_BY_ID', array(
 				'title' => Loc::getMessage('LANDING_TABLE_FIELD_CREATED_BY_ID'),
 				'required' => true
@@ -141,32 +143,11 @@ class SiteTable extends Entity\DataManager
 
 	/**
 	 * Return site controller class, or pseudo.
-	 * @return mixed
+	 * @return string
 	 */
 	protected static function getSiteController()
 	{
-		static $class = '';
-
-		if (!$class)
-		{
-			if (class_exists('\LandingSiteController'))
-			{
-				$class = '\LandingSiteController';
-			}
-			else if (
-				Loader::includeModule('bitrix24') &&
-				class_exists('\Bitrix\Bitrix24\SiteController')
-			)
-			{
-				$class = '\Bitrix\Bitrix24\SiteController';
-			}
-			else if (class_exists('\Bitrix\Landing\External\Site24'))
-			{
-				$class = '\Bitrix\Landing\External\Site24';
-			}
-		}
-
-		return $class;
+		return Manager::getExternalSiteController();
 	}
 
 	/**
@@ -277,6 +258,34 @@ class SiteTable extends Entity\DataManager
 			self::$additionalFields = array();
 		}
 
+		// check rights for site domain
+		if (
+			array_key_exists('DOMAIN_ID', $fields) &&
+			!Manager::isB24()
+		)
+		{
+			// for check rights call upper level
+			$res = Domain::getList(array(
+				'select' => array(
+					'ID'
+				),
+				'filter' => array(
+					'ID' => $fields['DOMAIN_ID']
+				)
+			));
+			if (!$res->fetch())
+			{
+				$result->unsetFields($unsetFields);
+				$result->setErrors(array(
+					new Entity\EntityError(
+						Loc::getMessage('LANDING_TABLE_ERROR_DOMAIN_NOT_EXIST'),
+						'DOMAIN_NOT_FOUND'
+					)
+				));
+				return $result;
+			}
+		}
+
 		// check active first (limit count)
 		if (
 			isset($fields['ACTIVE']) &&
@@ -366,7 +375,7 @@ class SiteTable extends Entity\DataManager
 					$result->unsetFields($unsetFields);
 					$result->setErrors(array(
 						new Entity\EntityError(
-							Loc::getMessage('LANDING_TABLE_ERROR_SITE_CODE_IS_NOT_UNIQUE'),
+							Loc::getMessage('LANDING_TABLE_ERROR_SITE_CODE_IS_NOT_UNIQUE2'),
 							'CODE_IS_NOT_UNIQUE'
 						)
 					));
@@ -464,7 +473,7 @@ class SiteTable extends Entity\DataManager
 					$result->unsetFields($unsetFields);
 					$result->setErrors(array(
 						new Entity\EntityError(
-							Loc::getMessage('LANDING_TABLE_ERROR_SITE_CODE_IS_NOT_UNIQUE'),
+							Loc::getMessage('LANDING_TABLE_ERROR_SITE_CODE_IS_NOT_UNIQUE2'),
 							'CODE_IS_NOT_UNIQUE'
 						)
 					));
@@ -484,13 +493,37 @@ class SiteTable extends Entity\DataManager
 				if ($domainName != '')
 				{
 					$resDomain = Domain::getList(array(
+						'select' => array(
+							'ID'
+						),
 						'filter' => array(
 							'=DOMAIN' => $domainName
 						)
 					));
-					if ($resDomain->fetch())
+					if ($rowDomain = $resDomain->fetch())
 					{
 						$domainExist = true;
+						$resSite = Site::getList(array(
+							'select' => array(
+								'ID'
+							),
+							'filter' => array(
+								'DOMAIN_ID' => $rowDomain['ID'],
+								'=DELETED' => 'Y'
+							)
+		  				));
+						if ($resSite->fetch())
+						{
+							$result->setErrors(
+								array(
+									new Entity\EntityError(
+										Loc::getMessage('LANDING_TABLE_ERROR_DOMAIN_EXIST_TRASH'),
+										'DOMAIN_EXIST_TRASH'
+									)
+								)
+							);
+							return $result;
+						}
 					}
 					elseif (Manager::isB24())
 					{
@@ -956,13 +989,14 @@ class SiteTable extends Entity\DataManager
 			));
 			while ($row = $res->fetch())
 			{
-				\Bitrix\Landing\Landing::delete($row['ID']);
+				\Bitrix\Landing\Landing::delete($row['ID'], true);
 			}
 
 			\Bitrix\Landing\Syspage::deleteForSite($primary['ID']);
 			\Bitrix\Landing\File::deleteFromSite($primary['ID']);
 			\Bitrix\Landing\Hook::deleteForSite($primary['ID']);
 			\Bitrix\Landing\TemplateRef::setForSite($primary['ID'], array());
+			\Bitrix\Landing\UrlRewrite::removeForSite($primary['ID']);
 		}
 
 		return $result;

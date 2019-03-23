@@ -995,36 +995,39 @@
 			this.calDavSyncDialog = null;
 		},
 
-		showICalExportDialog: function(section)
-		{
-			var _this = this;
+		showICalExportDialog: function(section) {
+			var content;
 
 			if (!this.exportDialog)
 			{
-				var content = BX.create('DIV', {html: '<span>' + BX.message('EC_EXP_TEXT') + '</span>'});
+				content = BX.create('DIV', {html: '<span>' + BX.message('EC_EXP_TEXT') + '</span>'});
 
 				this.exportDialog = new BX.PopupWindow("export_dialog" + this.calendar.id, null, {
 					autoHide: false,
-					closeByEsc : true,
+					closeByEsc: true,
 					zIndex: 4000,
 					offsetLeft: 0,
 					offsetTop: 0,
 					width: 800,
 					draggable: true,
 					titleBar: BX.message('EC_JS_EXPORT_TILE'),
-					closeIcon: {right : "12px", top : "10px"},
+					closeIcon: {right: "12px", top: "10px"},
 					className: "bxc-popup-window",
-					buttons: [
-						new BX.PopupWindowButtonLink({
-							text: BX.message('EC_SEC_SLIDER_CLOSE'),
-							className: "popup-window-button-link-cancel",
-							events: {click : function(){_this.exportDialog.close();}}
-						})
-					],
+					buttons: [new BX.PopupWindowButtonLink({
+						text: BX.message('EC_SEC_SLIDER_CLOSE'),
+						className: "popup-window-button-link-cancel",
+						events: {
+							click: BX.delegate(function(){this.exportDialog.close();}, this)
+						}
+					})],
 					content: content
 				});
 
 				this.exportDialog.DOM = {};
+			}
+			else
+			{
+				content = this.exportDialog.contentContainer;
 			}
 			this.exportDialog.show();
 
@@ -1036,7 +1039,10 @@
 				link += 'action=export' + section.data.EXPORT.LINK;
 			}
 
-
+			if (this.exportDialog.DOM.link)
+			{
+				BX.remove(this.exportDialog.DOM.link);
+			}
 			this.exportDialog.DOM.link = content.appendChild(BX.create('DIV', {props: {className: ''}}))
 				.appendChild(BX.create('A', {
 					props: {

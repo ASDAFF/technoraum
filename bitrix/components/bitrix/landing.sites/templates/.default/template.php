@@ -53,22 +53,6 @@ $APPLICATION->SetPageProperty('BodyClass', ($bodyClass ? $bodyClass.' ' : '') . 
 			$urlEdit = str_replace('#site_edit#', $item['ID'], $arParams['PAGE_URL_SITE_EDIT']);
 			$urlCreatePage = str_replace(array('#site_show#', '#landing_edit#'), array($item['ID'], 0), $arParams['PAGE_URL_LANDING_EDIT']);
 			$urlView = str_replace('#site_show#', $item['ID'], $arParams['PAGE_URL_SITE']);
-
-			$uriDelete = new \Bitrix\Main\Web\Uri($urlEdit);
-			$uriDelete->addParams(array(
-				'fields' => array(
-					'delete' => 'Y'
-				),
-				'sessid' => bitrix_sessid()
-			));
-
-			$uriPublic = new \Bitrix\Main\Web\Uri($urlEdit);
-			$uriPublic->addParams(array(
-				'fields' => array(
-					'delete' => 'Y'
-				),
-				'sessid' => bitrix_sessid()
-			));
 			?>
 			<div class="landing-item <?
 					?><?= $item['ACTIVE'] != 'Y' || $item['DELETED'] != 'N' ? ' landing-item-unactive' : '';?><?
@@ -81,9 +65,9 @@ $APPLICATION->SetPageProperty('BodyClass', ($bodyClass ? $bodyClass.' ' : '') . 
 									publicUrl: '<?= \CUtil::jsEscape(\htmlspecialcharsbx($item['PUBLIC_URL']));?>',
 									viewSite: '<?= \CUtil::jsEscape($urlView);?>',
 									createPage: '<?= \CUtil::jsEscape($urlCreatePage);?>',
-									deleteSite: '<?= \CUtil::jsEscape($uriDelete->getUri());?>',
+									deleteSite: '#',
 									editSite:'<?= \CUtil::jsEscape($urlEdit);?>',
-									publicPage: '<?= \CUtil::jsEscape($uriPublic->getUri());?>',
+									publicPage: '#',
 								 	isActive: <?= ($item['ACTIVE'] == 'Y') ? 'true' : 'false';?>,
 								 	isDeleted: <?= ($item['DELETED'] == 'Y') ? 'true' : 'false';?>
 								}
@@ -350,18 +334,14 @@ $APPLICATION->SetPageProperty('BodyClass', ($bodyClass ? $bodyClass.' ' : '') . 
 			}
 		];
 
-		BX.PopupMenu.show('landing-popup-menu' + params.ID, node, menuItems,{
+		var menu = new BX.PopupMenuWindow('landing-popup-menu' + params.ID, node, menuItems,{
 			autoHide : true,
 			offsetTop: -2,
 			offsetLeft: -55,
-			className: 'landing-popup-menu',
-			events: {
-				onPopupClose: function ()
-				{
-					BX.PopupMenu.destroy('landing-popup-menu' + params.ID);
-				}
-			}
+			className: 'landing-popup-menu'
 		});
+
+		menu.show();
 	}
 
 </script>

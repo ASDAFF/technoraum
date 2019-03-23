@@ -15,11 +15,26 @@
 	function Tile(params)
 	{
 		this.id = params.id;
+		this.name = params.name || null;
 		this.node = params.node;
 		this.data = params.data;
+		this.removeNode = null;
 
 		this.nameNode = Helper.getNode('tile-item-name', this.node);
+		if (!this.name)
+		{
+			this.name = this.nameNode.textContent;
+		}
 	}
+	Tile.prototype.changeRemoving = function(canRemove)
+	{
+		if (!this.removeNode)
+		{
+			return;
+		}
+
+		this.removeNode.style.display = canRemove ? '' : 'none';
+	};
 
 	/**
 	 * TileSelector.
@@ -188,10 +203,10 @@
 			return null;
 		}
 
-		var removeButton = Helper.getNode('remove', node);
-		if (removeButton)
+		tile.removeNode = Helper.getNode('remove', node);
+		if (tile.removeNode)
 		{
-			BX.bind(removeButton, 'click', this.onRemove.bind(this, tile));
+			BX.bind(tile.removeNode, 'click', this.onRemove.bind(this, tile));
 		}
 
 		BX.bind(node, 'click', this.onClick.bind(this, tile));
@@ -716,7 +731,11 @@
 	};
 	Searcher.prototype.setCategories = function (list)
 	{
+		this.items = [];
 		this.categories = [];
+		this.itemContainer.innerHTML = '';
+		this.categoryContainer.innerHTML = '';
+
 		list.forEach(function (item) {
 			this.addCategory(item.id, item.name, item.data, item.items);
 		}, this);

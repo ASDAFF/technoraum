@@ -1,5 +1,5 @@
 .ui-btn.landing-btn-menu,
-.ui-btn-split.landing-btn-menu .ui-btn-main{
+.ui-btn-split.landing-btn-menu .ui-btn-main {
 	font-weight: normal;
 	font-family: "OpenSans-Semibold", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -104,13 +104,13 @@
 .landing-ui-panel-top-chain-link-separator {
 	position: relative;
 	display: block;
-	padding:0 3px;
+	padding: 0 3px;
 }
 
 .landing-ui-panel-top-chain-link-separator span {
 	display: block;
-	height:2px;
-	width:9px;
+	height: 2px;
+	width: 9px;
 	background-color: #535c69;
 	opacity: .2;
 }
@@ -291,6 +291,7 @@
 .landing-ui-panel-top-history-redo {
 	width: 40px;
 	height: 40px;
+	position: relative;
 	background: center no-repeat url(/bitrix/images/landing/undo.svg);
 	cursor: pointer;
 	transition: opacity 200ms ease;
@@ -486,13 +487,21 @@
 	top: 40%;
 	left: 50%;
 	-webkit-transform: translate3d(-50%, -50%, 0);
-	-moz-transform: translate3d(-50%, -50%, 0);
 	-ms-transform: translate3d(-50%, -50%, 0);
 	transform: translate3d(-50%, -50%, 0);
 	will-change: transform;
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
 	align-items: center;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
 	justify-content: center;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
 	flex-direction: column;
 }
 

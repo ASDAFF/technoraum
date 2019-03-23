@@ -1,10 +1,10 @@
 <section class="landing-block">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="landing-block-node-img col-md-6 u-bg-overlay g-bg-img-hero g-bg-black-opacity-0_7--after"
+			<div class="landing-block-node-img d-flex align-items-center col-md-6 u-bg-overlay g-bg-img-hero g-bg-black-opacity-0_7--after g-min-height-75vh"
 				 style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/700x800/img1.jpg);">
-				<div class="landing-block-node-inner-container g-flex-centered g-height-100vh--md g-min-height-300 g-py-40 g-pr-50--md text-md-right">
-					<div class="landing-block-node-inner-container-left js-animation fadeInLeft w-100 u-bg-overlay__inner g-py-100">
+				<div class="landing-block-node-inner-container w-100 g-flex-centered g-pr-50--md text-md-right">
+					<div class="landing-block-node-inner-container-left js-animation fadeInLeft w-100 u-bg-overlay__inner g-pt-100 g-pb-100">
 						<h3 class="landing-block-node-small-title landing-block-node-small-title-left h4 g-font-weight-700 g-color-primary g-mb-20">
 							We professionally do</h3>
 
@@ -22,10 +22,10 @@
 				</div>
 			</div>
 
-			<div class="landing-block-node-img col-md-6 u-bg-overlay g-bg-img-hero g-bg-black-opacity-0_7--after"
+			<div class="landing-block-node-img d-flex align-items-center col-md-6 u-bg-overlay g-bg-img-hero g-bg-black-opacity-0_7--after g-min-height-75vh"
 				 style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/700x800/img2.jpg);">
-				<div class="landing-block-node-inner-container g-flex-centered g-height-100vh--md g-min-height-300 g-py-40 g-pl-50--md">
-					<div class="landing-block-node-inner-container-right js-animation fadeInRight w-100 u-bg-overlay__inner g-py-100">
+				<div class="landing-block-node-inner-container w-100 g-flex-centered g-pl-50--md">
+					<div class="landing-block-node-inner-container-right js-animation fadeInRight w-100 u-bg-overlay__inner g-pt-100 g-pb-100">
 						<h3 class="landing-block-node-small-title landing-block-node-small-title-right h4 g-font-weight-700 g-color-primary g-mb-20">
 							We professionally do</h3>
 

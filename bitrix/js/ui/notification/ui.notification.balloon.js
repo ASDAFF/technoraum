@@ -161,7 +161,7 @@ BX.UI.Notification.Balloon.prototype =
 
 	/**
 	 *
-	 * @param {BX.UI.Notification.BalloonOptions} options
+	 * @param {BX.UI.Notification.BalloonOptions|null} options
 	 */
 	update: function(options)
 	{
@@ -214,6 +214,7 @@ BX.UI.Notification.Balloon.prototype =
 		var self = this;
 		this.animateOut(function() {
 			setTimeout(function() {
+				self.update(null);
 				self.animateIn(function() {});
 			}, 200);
 		});
@@ -945,6 +946,7 @@ BX.UI.Notification.Action.prototype =
 		{
 			this.container = BX.create(this.getHref() ?  "a" : "span", {
 				props: {
+					href: this.getHref(),
 					className: "ui-notification-balloon-action"
 				},
 				events: this.events,

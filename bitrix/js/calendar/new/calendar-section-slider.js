@@ -636,20 +636,16 @@
 		showTrackingUsersForm: function()
 		{
 			this.closeForms();
-
-			if (!this.trackingUsersForm)
-			{
-				this.trackingUsersForm = new TrackingUsersForm({
-					calendar: this.calendar,
-					wrap: this.trackingUsersFormWrap,
-					trackingUsers: this.calendar.util.getSuperposedTrackedUsers(),
-					superposedSections: this.calendar.sectionController.getSuperposedSectionList(),
-					closeCallback: BX.delegate(function()
-					{
-						this.allowSliderClose();
-					}, this)
-				});
-			}
+			this.trackingUsersForm = new TrackingUsersForm({
+				calendar: this.calendar,
+				wrap: this.trackingUsersFormWrap,
+				trackingUsers: this.calendar.util.getSuperposedTrackedUsers(),
+				superposedSections: this.calendar.sectionController.getSuperposedSectionList(),
+				closeCallback: BX.delegate(function()
+				{
+					this.allowSliderClose();
+				}, this)
+			});
 
 			this.trackingUsersForm.show();
 			this.denySliderClose();
@@ -1402,12 +1398,28 @@
 			this.close();
 		},
 
-		updateSectionList: function()
+		updateSectionList: function(delayExecution)
 		{
+			if (this.updateSectionLoader)
+			{
+				BX.remove(this.updateSectionLoader);
+			}
+			this.updateSectionLoader = this.sectionsWrap.appendChild(BX.adjust(this.calendar.util.getLoader(), {style: {height: '140px'}}));
+
+			if (this.updateSectionTimeout)
+			{
+				this.updateSectionTimeout = clearTimeout(this.updateSectionTimeout);
+			}
+
+			if (delayExecution !== false)
+			{
+				this.updateSectionTimeout = setTimeout(BX.proxy(function(){
+					this.updateSectionList(false);
+				}, this), 300);
+				return;
+			}
+
 			var codes = this.destinationSelector.getCodes();
-
-			this.sectionsWrap.appendChild(BX.adjust(this.calendar.util.getLoader(), {style: {height: '140px'}}));
-
 			this.checkInnerWrapHeight();
 			this.calendar.request({
 				data: {

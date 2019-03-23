@@ -138,7 +138,8 @@
 	margin-bottom: 1px;
 }
 
-.bizproc-type-control-select.bizproc-type-control-multiple
+.bizproc-type-control-select.bizproc-type-control-multiple,
+.bizproc-type-control-internalselect.bizproc-type-control-multiple
 {
 	height: auto;
 	background-image: none;

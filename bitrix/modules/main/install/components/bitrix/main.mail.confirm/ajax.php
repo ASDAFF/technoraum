@@ -187,7 +187,7 @@ class MainMailConfirmAjax
 				return;
 			}
 
-			Main\Mail\Sender::confirm(array_keys($pending[$email]));
+			Main\Mail\Sender::confirm(array_keys($pending[$email], $code));
 
 			return array();
 		}

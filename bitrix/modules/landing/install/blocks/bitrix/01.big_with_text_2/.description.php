@@ -28,7 +28,7 @@ return array(
 	),
 	'style' => array(
 		'block' => array(
-			'type' => array('block-default-wo-background', 'height-vh'),
+			'type' => array('block-default-wo-background-height-vh'),
 		),
 		'nodes' => array(
 			'.landing-block-title' => array(
@@ -42,10 +42,6 @@ return array(
 			'.landing-block-container' => array(
 				'name' => Loc::getMessage('LANDING_BLOCK_1_BIG_WITH_TEXT_2_STYLE_LANDINGBLOCKBUTTON'),
 				'type' => array('text-align'),
-			),
-			'.landing-block-img' => array(
-				'name' => Loc::getMessage('LANDING_BLOCK_1_BIG_WITH_TEXT_2_NODES_LANDINGBLOCKIMG'),
-				'type' => 'height-vh',
 			),
 		),
 	),

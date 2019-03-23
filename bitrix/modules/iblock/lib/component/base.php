@@ -291,6 +291,8 @@ abstract class Base extends \CBitrixComponent
 		$params['DETAIL_URL'] = isset($params['DETAIL_URL']) ? trim($params['DETAIL_URL']) : '';
 		$params['BASKET_URL'] = isset($params['BASKET_URL']) ? trim($params['BASKET_URL']) : '/personal/basket.php';
 
+		$params['HIDE_DETAIL_URL'] = isset($params['HIDE_DETAIL_URL']) && $params['HIDE_DETAIL_URL'] === 'Y';
+
 		$params['ACTION_VARIABLE'] = isset($params['ACTION_VARIABLE']) ? trim($params['ACTION_VARIABLE']) : '';
 		if ($params['ACTION_VARIABLE'] == '' || !preg_match(self::PARAM_TITLE_MASK, $params['ACTION_VARIABLE']))
 		{
@@ -1951,6 +1953,12 @@ abstract class Base extends \CBitrixComponent
 	{
 		$element['ID'] = (int)$element['ID'];
 		$element['IBLOCK_ID'] = (int)$element['IBLOCK_ID'];
+
+		if ($this->arParams['HIDE_DETAIL_URL'])
+		{
+			$element['DETAIL_PAGE_URL'] = $element['~DETAIL_PAGE_URL'] = '';
+		}
+
 		if ($this->isEnableCompatible())
 		{
 			$element['ACTIVE_FROM'] = (isset($element['DATE_ACTIVE_FROM']) ? $element['DATE_ACTIVE_FROM'] : null);
@@ -3479,8 +3487,7 @@ abstract class Base extends \CBitrixComponent
 					$catalog['IBLOCK_ID'],
 					array_merge(
 						$iblockParams['OFFERS_PROPERTY_CODE'],
-						$iblockParams['OFFERS_TREE_PROPS'],
-						$iblockParams['OFFERS_CART_PROPERTIES']
+						$iblockParams['OFFERS_TREE_PROPS']
 					)
 				);
 				if (!empty($propertyList))
@@ -4040,7 +4047,12 @@ abstract class Base extends \CBitrixComponent
 
 	protected function getRewriteFields($action)
 	{
-		$rewriteFields = array();
+		$rewriteFields = [];
+
+		if ($action === self::ACTION_ADD_TO_BASKET || $action === self::ACTION_BUY)
+		{
+			$rewriteFields['DELAY'] = 'N';
+		}
 
 		if ($action == self::ACTION_SUBSCRIBE)
 		{

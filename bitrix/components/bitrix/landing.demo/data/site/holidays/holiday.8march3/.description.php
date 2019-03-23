@@ -21,9 +21,8 @@ return array(
 			'THEME_CODE_TYPO' => 'wedding',
 		)
 	),
-	'items' => array (
-	),
-	'sort' => -102,
+	'items' => array (),
+	'sort' => \LandingSiteDemoComponent::checkActivePeriod(2,15,3,8) ? 93 : -123,
 	'available' => true,
 	'active' => \LandingSiteDemoComponent::checkActive(array(
 		'ONLY_IN' => array('ru', 'kz', 'by', 'ua'),

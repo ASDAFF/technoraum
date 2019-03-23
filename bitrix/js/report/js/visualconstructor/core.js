@@ -5,9 +5,13 @@
 	BX.Report.VC.Core = {
 		entryUrl: '/bitrix/services/main/ajax.php',
 		moduleName: 'report',
-		ajaxGet: function (action, config)
+		ajaxGet: function (action, config, module)
 		{
-			BX.ajax.runAction('report.api.' + action, {
+			if (module === undefined)
+			{
+				module = 'report';
+			}
+			BX.ajax.runAction(module + '.api.' + action, {
 				data: config.urlParams || {}
 			}).then(function (result) {
 				this._successHandler(result, config)
@@ -45,12 +49,41 @@
 						{
 							BX.load(result.assets['js'], function ()
 							{
-								config.onFullSuccess(result);
+								if (result.assets['string'].length)
+								{
+									for (var i = 0; i < result.assets['string'].length; i++)
+									{
+										BX.html(null, result.assets['string'][i]);
+									}
+									config.onFullSuccess(result);
+								}
+								else
+								{
+									config.onFullSuccess(result);
+								}
 							});
 						}
 						else
 						{
-							config.onFullSuccess(result);
+							if (result.assets['string'].length)
+							{
+								if (result.assets['string'].length)
+								{
+									for (var i = 0; i < result.assets['string'].length; i++)
+									{
+										BX.html(null, result.assets['string'][i]);
+									}
+									config.onFullSuccess(result);
+								}
+								else
+								{
+									config.onFullSuccess(result);
+								}
+							}
+							else
+							{
+								config.onFullSuccess(result);
+							}
 						}
 					});
 				}
@@ -58,18 +91,62 @@
 				{
 					BX.load(result.assets['js'], function ()
 					{
-						config.onFullSuccess(result);
+						if (result.assets['string'].length)
+						{
+							if (result.assets['string'].length)
+							{
+								for (var i = 0; i < result.assets['string'].length; i++)
+								{
+									BX.html(null, result.assets['string'][i]);
+								}
+								config.onFullSuccess(result);
+							}
+							else
+							{
+								config.onFullSuccess(result);
+							}
+						}
+						else
+						{
+							config.onFullSuccess(result);
+						}
 					});
 				}
 				else
 				{
-					config.onFullSuccess(result);
+					if (result.assets['string'].length)
+					{
+						if (result.assets['string'].length)
+						{
+							for (var i = 0; i < result.assets['string'].length; i++)
+							{
+								BX.html(null, result.assets['string'][i]);
+							}
+							config.onFullSuccess(result);
+						}
+						else
+						{
+							config.onFullSuccess(result);
+						}
+					}
+					else
+					{
+						config.onFullSuccess(result);
+					}
 				}
 			}
 			else
 			{
 				config.onFullSuccess(result);
 			}
+		},
+		loadJsStings: function(strings, callback)
+		{
+			for (var i = 0; i < strings.length; i++)
+			{
+				BX.html(null, strings[i]);
+			}
+			callback();
 		},
 		getPopup: function (uniquePopupId, bindElement, params)
 		{
@@ -178,6 +255,7 @@
 		}
 
 	};
+
 
 
 })();

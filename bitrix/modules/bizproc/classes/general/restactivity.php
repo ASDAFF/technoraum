@@ -390,14 +390,21 @@ class CBPRestActivity
 			$required = CBPHelper::getBool($property['REQUIRED']);
 			$name = strtolower($name);
 			$value = !CBPHelper::isEmptyValue($currentValues[static::PROPERTY_NAME_PREFIX.$name]) ? $currentValues[static::PROPERTY_NAME_PREFIX.$name] : $property['DEFAULT'];
+
+			$property['NAME'] = RestActivityTable::getLocalization($property['NAME'], LANGUAGE_ID);
+			if (isset($property['DESCRIPTION']))
+			{
+				$property['DESCRIPTION'] = RestActivityTable::getLocalization($property['DESCRIPTION'], LANGUAGE_ID);
+			}
+
 			?>
 			<tr>
 				<td align="right" width="40%" valign="top">
 					<span class="<?=$required?'adm-required-field':''?>">
-						<?= htmlspecialcharsbx(RestActivityTable::getLocalization($property['NAME'], LANGUAGE_ID)) ?>:
+						<?= htmlspecialcharsbx($property['NAME']) ?>:
 					</span>
-					<?if (isset($property['DESCRIPTION'])):?>
-						<br/><?= htmlspecialcharsbx(RestActivityTable::getLocalization($property['DESCRIPTION'], LANGUAGE_ID)) ?>
+					<?if (!empty($property['DESCRIPTION'])):?>
+						<br/><?= htmlspecialcharsbx($property['DESCRIPTION']) ?>
 					<?endif;?>
 				</td>
 				<td width="60%">

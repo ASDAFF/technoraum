@@ -99,18 +99,25 @@ class IblockElementSelector extends CBitrixComponent
 			return;
 		}
 
-		$queryObject = CIBlockElement::getList(
-			array('ID' => 'DESC'),
-			array(
+		$queryObject = CIBlockElement::GetList(
+			['ID' => 'DESC'],
+			[
 				'=IBLOCK_ID' => $this->arParams['IBLOCK_ID'],
 				'CHECK_PERMISSIONS' => 'Y',
 				'MIN_PERMISSION' => 'R'
-			),
-			false, array('nTopCount' => 50), array('ID', 'NAME'));
+			],
+			false,
+			['nTopCount' => 50],
+			['ID', 'IBLOCK_ID', 'NAME']
+		);
 		while($element = $queryObject->fetch())
 		{
-			$this->arParams['LAST_ELEMENTS'][] = array('ID' => $element['ID'], 'NAME' => $element['NAME']);
+			$this->arParams['LAST_ELEMENTS'][] = [
+				'ID' => $element['ID'],
+				'NAME' => '['.$element['ID'].'] '.$element['NAME']
+			];
 		}
+		unset($element, $queryObject);
 	}
 
 	protected function getCurrentElements()
@@ -120,12 +127,21 @@ class IblockElementSelector extends CBitrixComponent
 			return;
 		}
 
-		$queryObject = CIBlockElement::getList(array('NAME' => 'ASC'),
-			array('=ID' => $this->arParams['CURRENT_ELEMENTS_ID']), false, false, array('ID', 'NAME'));
+		$queryObject = CIBlockElement::GetList(
+			['NAME' => 'ASC'],
+			['=ID' => $this->arParams['CURRENT_ELEMENTS_ID']],
+			false,
+			false,
+			['ID', 'IBLOCK_ID', 'NAME']
+		);
 		while($element = $queryObject->fetch())
 		{
-			$this->arParams['CURRENT_ELEMENTS'][] = array('ID' => $element['ID'], 'NAME' => $element['NAME']);
+			$this->arParams['CURRENT_ELEMENTS'][] = [
+				'ID' => $element['ID'],
+				'NAME' => '['.$element['ID'].'] '.$element['NAME']
+			];
 		}
+		unset($element, $queryObject);
 	}
 
 	protected function fillResult()

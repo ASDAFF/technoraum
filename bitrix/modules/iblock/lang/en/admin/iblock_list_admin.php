@@ -1,4 +1,5 @@
 <?
+$MESS["IBLIST_PRODUCTS_INSTAGRAM"] = "Instagram Products";
 $MESS["IBLIST_A_BAD_BLOCK_TYPE_ID"] = "Incorrect block type.";
 $MESS["IBLIST_A_BAD_IBLOCK"] = "Section not found or access denied.";
 $MESS["IBLIST_A_SECTIONS"] = "Sections";

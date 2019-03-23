@@ -229,4 +229,6 @@ $MESS["MAIN_OPTION_IMAGE_EDITOR_PROXY_ENABLED_YES_FROM_WHITE_LIST"] = "Да, тольк
 $MESS["MAIN_OPTIONS_IMAGE_EDITOR_PROXY_WHITE_LIST"] = "Список разрешенных сайтов: ";
 $MESS["MAIN_OPTIONS_IMAGE_EDITOR_PROXY_WHITE_LIST_ADD_HOST"] = "Добавить сайт";
 $MESS["MAIN_OPTIONS_IMAGE_EDITOR_PROXY_WHITE_LIST_PLACEHOLDER"] = "Например: cdn.bitrix24.site";
+$MESS["MAIN_OPTIONS_MAX_SIZE_FOR_VIDEO_TRANSFORMATION"] = "Максимальный размер видео, из которого будут сгенерированы mp4 и jpg (Мб)";
+$MESS["MAIN_OPTIONS_MAX_SIZE_FOR_DOCUMENT_TRANSFORMATION"] = "Максимальный размер документа, из которого будут сгенерированы pdf и jpg (Мб)";
 ?>

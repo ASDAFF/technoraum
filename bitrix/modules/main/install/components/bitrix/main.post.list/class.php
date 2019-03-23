@@ -833,7 +833,10 @@ HTML;
 			"#AUTHOR_TOOLTIP_PARAMS#" => htmlspecialcharsbx(\Bitrix\Main\Web\Json::encode($authorTooltipParams)),
 			"#SHOW_POST_FORM#" =>
 				$arParams["SHOW_POST_FORM"],
-			"#AUTHOR_EXTRANET_STYLE#" => $authorStyle,
+			"#AUTHOR_EXTRANET_STYLE#" =>
+				$authorStyle,
+			"#RATING_NONEMPTY_CLASS#" =>
+				(!empty($res['RATING']) && !empty($res['RATING']['TOTAL_VOTES']) && $res['RATING']['TOTAL_VOTES'] > 0 ? 'comment-block-rating-nonempty' : ''),
 			"background:url('') no-repeat center;" =>
 				""
 		);
@@ -1093,7 +1096,6 @@ HTML;
 				$res = array_merge($arParams["~RECORDS"][$record], $res, ($this->isWeb() ? $res["WEB"] : $res["MOBILE"]));
 				unset($res["WEB"]);
 				unset($res["MOBILE"]);
-
 
 				if (!!$res["FILES"] && (
 						$this->arParams["RIGHTS"]["EDIT"] == "ALL" ||

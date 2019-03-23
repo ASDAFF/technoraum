@@ -67,6 +67,7 @@ class rest extends CModule
 		$eventManager->registerEventHandler('rest', 'OnRestServiceBuildDescription', 'rest', '\Bitrix\Rest\Api\Event', 'onRestServiceBuildDescription');
 		$eventManager->registerEventHandler('rest', 'OnRestServiceBuildDescription', 'rest', '\Bitrix\Rest\Api\UserFieldType', 'onRestServiceBuildDescription');
 
+		$eventManager->registerEventHandler("rest","onFindMethodDescription", "rest","\\Bitrix\\Rest\\Engine\\RestManager","onFindMethodDescription");
 
 		$eventManager->registerEventHandler("main", "OnApplicationsBuildList", "main", '\Bitrix\Rest\APAuth\Application', "onApplicationsBuildList", 100, "modules/rest/lib/apauth/application.php");
 
@@ -142,6 +143,8 @@ class rest extends CModule
 		$eventManager->unRegisterEventHandler('rest', 'OnRestServiceBuildDescription', 'rest', '\Bitrix\Rest\Api\Placement', 'onRestServiceBuildDescription');
 		$eventManager->unRegisterEventHandler('rest', 'OnRestServiceBuildDescription', 'rest', '\Bitrix\Rest\Api\Event', 'onRestServiceBuildDescription');
 		$eventManager->unRegisterEventHandler('rest', 'OnRestServiceBuildDescription', 'rest', '\Bitrix\Rest\Api\UserFieldType', 'onRestServiceBuildDescription');
+
+		$eventManager->unRegisterEventHandler("rest","onFindMethodDescription", "rest","\\Bitrix\\Rest\\Engine\\RestManager","onFindMethodDescription");
 
 		$eventManager->unRegisterEventHandler("rest", "onRestCheckAuth", "rest", "\\Bitrix\\Rest\\OAuth\\Auth", "onRestCheckAuth");
 

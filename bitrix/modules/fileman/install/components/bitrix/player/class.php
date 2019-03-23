@@ -901,31 +901,32 @@ class CBitrixPlayer extends CBitrixComponent
 
 		// Append plugins
 		if (is_array($this->arParams['PLUGINS']) && count($this->arParams['PLUGINS']) > 0)
+		{
 			$this->jwConfig['plugins'] = array();
 
-		// Append plugins vars
-		for ($i = 0, $l = count($this->arParams['PLUGINS']); $i < $l; $i++)
-		{
-			if (strlen($this->arParams['PLUGINS'][$i]) <= 0)
-				continue;
-
-			$plArray = array();
-			$pluginName = preg_replace("/[^a-zA-Z0-9_-]/i", "_", trim($this->arParams['PLUGINS'][$i]));
-
-			if (isset($this->arParams['PLUGINS_' . strtoupper($pluginName)]))
+			// Append plugins vars
+			for ($i = 0, $l = count($this->arParams['PLUGINS']); $i < $l; $i++)
 			{
-				$arFlashVars = explode("\n", trim($this->arParams['PLUGINS_' . strtoupper($pluginName)]));
-				for ($j = 0, $n = count($arFlashVars); $j < $n; $j++)
-				{
-					$pair = explode("=", trim($arFlashVars[$j]));
-					if (count($pair) < 2 || strlen($pair[0]) <= 0 || strlen($pair[1]) <= 0)
-						continue;
-					$this->addFlashVar($plArray, $pair[0], $pair[1]);
-				}
-			}
-			$this->jwConfig['plugins'][$this->arParams['PLUGINS'][$i]] = $plArray;
-		}
+				if (strlen($this->arParams['PLUGINS'][$i]) <= 0)
+					continue;
 
+				$plArray = array();
+				$pluginName = preg_replace("/[^a-zA-Z0-9_-]/i", "_", trim($this->arParams['PLUGINS'][$i]));
+
+				if (isset($this->arParams['PLUGINS_' . strtoupper($pluginName)]))
+				{
+					$arFlashVars = explode("\n", trim($this->arParams['PLUGINS_' . strtoupper($pluginName)]));
+					for ($j = 0, $n = count($arFlashVars); $j < $n; $j++)
+					{
+						$pair = explode("=", trim($arFlashVars[$j]));
+						if (count($pair) < 2 || strlen($pair[0]) <= 0 || strlen($pair[1]) <= 0)
+							continue;
+						$this->addFlashVar($plArray, $pair[0], $pair[1]);
+					}
+				}
+				$this->jwConfig['plugins'][$this->arParams['PLUGINS'][$i]] = $plArray;
+			}
+		}
 		// Append additional flashvars
 		$arFlashVars = explode("\n", trim($this->arParams['ADDITIONAL_FLASHVARS']));
 		for ($j = 0, $n = count($arFlashVars); $j < $n; $j++)

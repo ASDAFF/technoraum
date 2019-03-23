@@ -26,7 +26,7 @@ $containerId = 'main-user-selector-' . $arParams['ID'];
 ?>
 <span id="<?=htmlspecialcharsbx($containerId)?>" class="main-user-selector-wrap">
 	<?if ($arResult['IS_INPUT_MULTIPLE']):?>
-		<?foreach ($arResult['LIST_USER'] as $id):?>
+		<?foreach ($arResult['TILE_ID_LIST'] as $id):?>
 			<input type="hidden" name="<?=$arParams['INPUT_NAME']?>"
 				value="<?=htmlspecialcharsbx($id)?>"
 			>
@@ -34,7 +34,7 @@ $containerId = 'main-user-selector-' . $arParams['ID'];
 	<?else:?>
 		<input type="hidden" id="<?=$arParams['INPUT_NAME']?>"
 			name="<?=$arParams['INPUT_NAME']?>"
-			value="<?=htmlspecialcharsbx(implode(',', $arResult['LIST_USER']))?>"
+			value="<?=htmlspecialcharsbx(implode(',', $arResult['TILE_ID_LIST']))?>"
 		>
 	<?endif;?>
 
@@ -104,7 +104,8 @@ $containerId = 'main-user-selector-' . $arParams['ID'];
 				'id' => $arParams['ID'],
 				'duplicates' => false,
 				'inputName' => $arParams['INPUT_NAME'],
-				'isInputMultiple' => $arResult['IS_INPUT_MULTIPLE']
+				'isInputMultiple' => $arResult['IS_INPUT_MULTIPLE'],
+				'useSymbolicId' => $arParams['USE_SYMBOLIC_ID'],
 			))?>);
 		});
 	</script>

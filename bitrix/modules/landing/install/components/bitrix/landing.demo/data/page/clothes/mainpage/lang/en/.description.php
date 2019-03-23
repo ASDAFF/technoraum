@@ -1,4 +1,5 @@
 <?
+$MESS["LANDING_DEMO_STORE_CLOTHES-MAINPAGE--TEXT_8"] = "We deliver worldwide!";
 $MESS["NOTTRANSLATE--LANDING_DEMO_STORE_CLOTHES-MAINPAGE--TEXT_1"] = "<span style=\"font-weight: normal;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>";
 $MESS["NOTTRANSLATE--LANDING_DEMO_STORE_CLOTHES-MAINPAGE--TEXT_2"] = "<span style=\"font-weight: normal;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>";
 $MESS["NOTTRANSLATE--LANDING_DEMO_STORE_CLOTHES-MAINPAGE--TEXT_3"] = "<p>Lorem ipsum<br />dolor sit amet</p>";

@@ -15,6 +15,8 @@ return array(
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/clothes/compare/preview.jpg',
+			'THEME_CODE' => 'travel',
+			'THEME_CODE_TYPO' => 'travel',
 		),
 	),
 	'layout' => array(

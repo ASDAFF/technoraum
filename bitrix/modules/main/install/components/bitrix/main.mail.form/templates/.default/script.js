@@ -16,10 +16,6 @@
 		BXMainMailForm.__forms[this.id] = this;
 	};
 
-	// id names for smart nodes
-	BXMainMailForm.quoteNodeId = 'main-mail-quote-node-content';
-	BXMainMailForm.signatureNodeId = 'main-mail-form-signature';
-
 	BXMainMailForm.__forms = {};
 
 	BXMainMailForm.getForm = function (id)
@@ -132,7 +128,14 @@
 
 		this.postForm = LHEPostForm.getHandler(this.formId+'_editor');
 		this.editor = BXHtmlEditor.Get(this.formId+'_editor');
+		this.editor.config.autoLink = false;
 		this.editorInited = false;
+
+		this.timestamp = (new Date).getTime();
+
+		// id names for smart nodes
+		this.quoteNodeId = this.formId + '_quote_' + this.timestamp.toString(16);
+		this.signatureNodeId = this.formId + '_signature_' + this.timestamp.toString(16);
 
 		// insert signature on change 'from' field
 		BX.addCustomEvent(this, 'MailForm::from::change', BX.proxy(function(field, signature)
@@ -348,7 +351,7 @@
 		if(this.editorInited)
 		{
 			this.editor.synchro.Sync();
-			var signatureNode = this.editor.GetIframeDoc().getElementById(BXMainMailForm.signatureNodeId);
+			var signatureNode = this.editor.GetIframeDoc().getElementById(this.signatureNodeId);
 			if(!BX.type.isNotEmptyString(signature))
 			{
 				if(signatureNode)
@@ -357,7 +360,7 @@
 				}
 				return;
 			}
-			var signatureHtml = '<br />--<br />' + signature;
+			var signatureHtml = '--<br />' + signature;
 			if(signatureNode)
 			{
 				signatureNode.innerHTML = signatureHtml;
@@ -366,11 +369,11 @@
 			{
 				signatureNode = BX.create('div', {
 					attrs: {
-						id: BXMainMailForm.signatureNodeId
+						id: this.signatureNodeId
 					},
 					html: signatureHtml
 				});
-				var quoteNode = this.editor.GetIframeDoc().getElementById(BXMainMailForm.quoteNodeId);
+				var quoteNode = this.editor.GetIframeDoc().getElementById(this.quoteNodeId);
 				if(quoteNode)
 				{
 					quoteNode.parentNode.insertBefore(signatureNode, quoteNode);
@@ -379,6 +382,8 @@
 				{
 					BX.append(signatureNode, this.editor.GetIframeDoc().body);
 				}
+
+				signatureNode.parentNode.insertBefore(document.createElement('BR'), signatureNode);
 			}
 			this.editor.synchro.FullSyncFromIframe();
 		}
@@ -929,7 +934,7 @@
 
 		field.quoteNode = document.createElement('DIV');
 		var quoteContentNode = document.createElement('DIV');
-		quoteContentNode.setAttribute('id', BXMainMailForm.quoteNodeId);
+		quoteContentNode.setAttribute('id', field.form.quoteNodeId);
 		quoteContentNode.innerHTML = field.params.value;
 		field.quoteNode.appendChild(quoteContentNode);
 		field.quoteNode.__folded = field.form.options.foldQuote;
@@ -1232,7 +1237,7 @@
 		if (options && options.signature)
 		{
 			editor.synchro.Sync();
-			var signatureNode = editor.GetIframeDoc().getElementById(BXMainMailForm.signatureNodeId);
+			var signatureNode = editor.GetIframeDoc().getElementById(field.form.signatureNodeId);
 			if (signatureNode)
 			{
 				var dummyNode = document.createElement('div');

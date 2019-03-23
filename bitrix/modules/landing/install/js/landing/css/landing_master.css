@@ -354,6 +354,13 @@ body[style*="cursor: move;"] .landing-ui-panel-block-card-action {
 	margin-bottom: 0;
 }
 
+.landing-ui-form-style .landing-ui-decoration,
+.landing-ui-form-style .landing-ui-weight {
+	color: #333333;
+}
+
+.landing-ui-form-style .landing-ui-button[data-id="text-justify"] .landing-ui-align em::before,
+.landing-ui-form-style .landing-ui-button[data-id="text-justify"] .landing-ui-align::after,
 .landing-ui-form-style .landing-ui-button[data-id="u-navbar-align-around"] .landing-ui-align em::before,
 .landing-ui-form-style .landing-ui-button[data-id="u-navbar-align-around"] .landing-ui-align::after,
 .landing-ui-form-style .landing-ui-button[data-id="justify-content-around"] .landing-ui-align em::before,
@@ -385,6 +392,8 @@ body[style*="cursor: move;"] .landing-ui-panel-block-card-action {
 	justify-content: flex-end;
 }
 
+.landing-ui-form-style .landing-ui-button[data-id^="g-text-"],
+.landing-ui-form-style .landing-ui-button[data-id^="font-"],
 .landing-ui-form-style .landing-ui-button[data-id^="text-"],
 .landing-ui-form-style .landing-ui-button[data-id^="justify-content"],
 .landing-ui-form-style .landing-ui-button[data-id^="u-navbar-align"] {
@@ -395,6 +404,18 @@ body[style*="cursor: move;"] .landing-ui-panel-block-card-action {
 	transition: opacity 200ms ease;
 }
 
+.landing-ui-form-style .landing-ui-button[data-id^="g-text-"],
+.landing-ui-form-style .landing-ui-button[data-id^="font-"]
+{
+	padding-left: 14px;
+	padding-right: 14px;
+	padding-top: 2px !important;
+}
+
+.landing-ui-form-style .landing-ui-button[data-id^="g-text-"].landing-ui-active,
+.landing-ui-form-style .landing-ui-button[data-id^="g-text-"]:hover,
+.landing-ui-form-style .landing-ui-button[data-id^="font-"].landing-ui-active,
+.landing-ui-form-style .landing-ui-button[data-id^="font-"]:hover,
 .landing-ui-form-style .landing-ui-button[data-id^="text-"].landing-ui-active,
 .landing-ui-form-style .landing-ui-button[data-id^="text-"]:hover,
 .landing-ui-form-style .landing-ui-button[data-id^="justify-content-"].landing-ui-active,
@@ -404,13 +425,21 @@ body[style*="cursor: move;"] .landing-ui-panel-block-card-action {
 	opacity: 1;
 }
 
-.landing-ui-form-style .landing-ui-button[data-id="text-left"] {
-	padding-left: 0!important;
+.landing-ui-form-style .landing-ui-button[data-id^="u-navbar-align-"],
+.landing-ui-form-style .landing-ui-button[data-id^="justify-content-"],
+.landing-ui-form-style .landing-ui-button[data-id^="text-"] {
+	padding-left: 14px;
+	padding-right: 14px;
 }
-
-.landing-ui-form-style .landing-ui-button[data-id="text-center"] {
-	padding-left: 15px;
-	padding-right: 15px;
+.landing-ui-form-style .landing-ui-button[data-id^="u-navbar-align-"]:first-child,
+.landing-ui-form-style .landing-ui-button[data-id^="justify-content-"]:first-child,
+.landing-ui-form-style .landing-ui-button[data-id^="text-"]:first-child {
+	padding-left: 0;
+}
+.landing-ui-form-style .landing-ui-button[data-id^="u-navbar-align-"]:last-child,
+.landing-ui-form-style .landing-ui-button[data-id^="justify-content-"]:last-child,
+.landing-ui-form-style .landing-ui-button[data-id^="text-"]:last-child {
+	padding-right: 0;
 }
 
 .landing-ui-form-style .landing-ui-align.landing-ui-active {

@@ -1,5 +1,5 @@
 <section class="landing-block">
-	<div class="js-carousel g-overflow-hidden g-max-height-100vh "
+	<div class="js-carousel g-overflow-hidden g-max-height-100vh"
 		 data-pagi-classes="u-carousel-indicators-v1--white g-absolute-centered--x g-bottom-20"
 		 data-autoplay="true" data-infinite="true" data-speed="10000">
 

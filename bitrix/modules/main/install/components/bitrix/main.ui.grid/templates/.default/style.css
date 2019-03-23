@@ -452,6 +452,8 @@
 	max-width: 100%;
 }
 
+span.main-grid-cell-head-container { box-sizing: border-box; }
+
 .main-grid-head-title {
 	z-index: 7;
 	display: inline-block;
@@ -560,15 +562,25 @@
 	-webkit-user-drag: none;
 }
 
+.main-grid:not(.main-grid-ondrag) .main-grid-row > .main-grid-cell {
+	transition: background-color 150ms ease;
+}
+
 .main-grid:not(.main-grid-ondrag) .main-grid-row:hover > .main-grid-cell,
-.main-grid:not(.main-grid-ondrag) .main-grid-row.main-grid-row-over > .main-grid-cell { background-color: #f6f8f9; }
+.main-grid:not(.main-grid-ondrag) .main-grid-row.main-grid-row-over > .main-grid-cell {
+	background-color: #f6f8f9;
+}
 
 .main-grid-row-checked .main-grid-cell,
-.main-grid-row-checked .main-grid-cell { background-color: #f5fcde; }
+.main-grid-row-checked .main-grid-cell {
+	background-color: #f5fcde;
+}
 
 .main-grid:not(.main-grid-ondrag) .main-grid-row-checked:hover > .main-grid-cell,
 .main-grid:not(.main-grid-ondrag) .main-grid-row.main-grid-row-checked.main-grid-row-over > .main-grid-cell,
-.main-grid-row-checked:hover > .main-grid-cell { background-color: #faffeb; }
+.main-grid-row-checked:hover > .main-grid-cell {
+	background-color: #faffeb;
+}
 
 .main-grid-row .main-grid-cell:last-child { border-right: none; }
 
@@ -1612,7 +1624,6 @@ label.main-grid-checkbox {
 .main-grid-nav-panel,
 .main-grid-action-panel {
 	color: #5c6470;
-	transition: all 200ms;
 }
 
 .menu-popup-item { position: relative; }
@@ -1705,6 +1716,7 @@ label.main-grid-checkbox {
 .main-grid-fixed-bottom {
 	position: fixed;
 	bottom: 0;
+	transform: translateY(100%);
 	box-shadow: 0 -2px 6px -4px rgba(0, 0, 0, .4);
 }
 

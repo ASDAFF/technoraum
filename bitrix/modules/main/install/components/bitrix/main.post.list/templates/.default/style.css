@@ -445,13 +445,10 @@ a.feed-time.feed-com-time:hover {
 .feed-com-add-block.blog-comment-edit div.bx-html-editor,
 .feed-com-add-block.blog-comment-edit.bxhtmled-search-cnt { background-color: transparent !important; }
 
-
-.feed-com-add-block .bxhtmled-textarea-cnt {
-	padding: 8px 0 0 13px !important;
-}
-
 .feed-com-add-block .bxhtmled-textarea-cnt .bxhtmled-textarea {
 	width: calc(100% - 25px) !important;
+	padding: 8px 0 0 13px !important;
+	background-color: #fff !important;
 }
 
 .feed-com-add-block.blog-comment-edit .feed-add-post-form {

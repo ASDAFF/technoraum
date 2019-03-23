@@ -1771,6 +1771,45 @@
 		return path.split('\\').pop().split('/').pop();
 	};
 
+	BX.Landing.Utils.getSelectedElement = function() {
+		var range, sel, container;
+		if (document.selection)
+		{
+			range = document.selection.createRange();
+			return range.parentElement();
+		}
+		else
+		{
+			sel = window.getSelection();
+			if (sel.getRangeAt)
+			{
+				if (sel.rangeCount > 0)
+				{
+					range = sel.getRangeAt(0);
+				}
+			}
+			else
+			{
+				// Old WebKit
+				range = document.createRange();
+				range.setStart(sel.anchorNode, sel.anchorOffset);
+				range.setEnd(sel.focusNode, sel.focusOffset);
+
+				if (range.collapsed !== sel.isCollapsed) {
+					range.setStart(sel.focusNode, sel.focusOffset);
+					range.setEnd(sel.anchorNode, sel.anchorOffset);
+				}
+			}
+
+			if (range)
+			{
+				container = range["endContainer"];
+
+				return container.nodeType === 3 ? container.parentNode : container;
+			}
+		}
+	};
+
 	/**
 	 * Fires custom event
 	 * @param {Object} [target = window]

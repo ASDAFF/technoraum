@@ -53,6 +53,7 @@ foreach ($list as $item)
 		</span>
 	</div>
 	<div class="mail-msg-view-details mail-msg-view-details-<?=intval($item['ID']) ?>"
+		id="mail-msg-view-details-<?=intval($item['ID']) ?>"
 		style="display: none; text-align: center; " data-id="<?=intval($item['ID']) ?>" data-empty="1">
 		<div class="mail-msg-view-log-item-loading mail-msg-view-border-bottom"></div>
 	</div>

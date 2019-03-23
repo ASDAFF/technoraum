@@ -32,7 +32,6 @@ $rcptList = array(
 	'users' => array(),
 	'emails' => $arResult['EMAILS'],
 	'mailContacts' => $arResult['LAST_RCPT'],
-	'crmemails' => $arResult['CRM_EMAILS'],
 	'companies' => array(),
 	'contacts' => array(),
 	'deals' => array(),
@@ -42,7 +41,6 @@ $rcptLast = array(
 	'users' => array(),
 	'emails' => array(),
 	'mailContacts' => array_combine(array_keys($arResult['LAST_RCPT']), array_keys($arResult['LAST_RCPT'])),
-	'crmemails' => array(),
 	'companies' => array(),
 	'contacts' => array(),
 	'deals' => array(),
@@ -57,7 +55,7 @@ $prepareReply = function($__field) use (&$message, &$rcptList, &$rcptLast)
 	{
 		if (!empty($item['email']))
 		{
-			if ($message['__email'] == $item['email'])
+			if ('reply' == $message['__type'] && $message['__email'] == $item['email'])
 			{
 				continue;
 			}
@@ -82,9 +80,18 @@ $prepareReply = function($__field) use (&$message, &$rcptList, &$rcptLast)
 	return $result;
 };
 
-$rcptAllSelected = array();
-$rcptSelected = $prepareReply($message['__is_outcome'] ? $message['__to'] : $message['__reply_to']);
-$rcptCcSelected = $prepareReply($message['__cc']);
+$rcptSelected = array();
+$rcptCcSelected = array();
+
+if ('reply' == $message['__type'])
+{
+	$rcptSelected = $prepareReply($message['__is_outcome'] ? $message['__to'] : $message['__reply_to']);
+	$rcptCcSelected = $prepareReply($message['__cc']);
+}
+else
+{
+	$rcptSelected = $prepareReply($message['__rcpt']);
+}
 
 $messageHtml = trim($message['BODY_HTML']) ? $message['BODY_HTML'] : preg_replace('/(\s*(\r\n|\n|\r))+/', '<br>', htmlspecialcharsbx($message['BODY']));
 
@@ -144,7 +151,7 @@ $isCrmEnabled = ($arResult['CRM_ENABLE'] === 'Y');
 				'allowAddUser'             => true,
 				'allowAddCrmContact'       => false,
 				'allowSearchEmailUsers'    => true,
-				'allowSearchCrmEmailUsers' => $isCrmEnabled,
+				'allowSearchCrmEmailUsers' => false,
 				'allowUserSearch'          => true,
 				'items'                    => $rcptList,
 				'itemsLast'                => $rcptLast,
@@ -167,7 +174,7 @@ $isCrmEnabled = ($arResult['CRM_ENABLE'] === 'Y');
 							'name'     => 'data[from]',
 							'title'    => Loc::getMessage('MAIL_MESSAGE_NEW_FROM'),
 							'type'     => 'from',
-							'value'    => !empty($message['MAILBOX_EMAIL']) ? $message['MAILBOX_EMAIL'] : $message['__email'],
+							'value'    => $message['__email'],
 							'isFormatted' => true,
 							'required' => true,
 						),
@@ -264,7 +271,13 @@ BX.ready(function ()
 {
 	BXMailMessageController.init({
 		messageId: <?=intval($message['ID']) ?>,
-		type: 'edit'
+		type: 'edit',
+		pathList: '<?=\CUtil::jsEscape(\CComponentEngine::makePathFromTemplate(
+			$message['MAILBOX_ID'] > 0 ? $arParams['~PATH_TO_MAIL_MSG_LIST'] : $arParams['~PATH_TO_MAIL_HOME'],
+			array(
+				'id' => $message['MAILBOX_ID'],
+			)
+		)) ?>'
 	});
 
 	new BXMailMessage({

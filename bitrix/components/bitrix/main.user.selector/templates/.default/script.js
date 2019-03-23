@@ -20,6 +20,7 @@
 		this.inputId = params.inputName;
 		this.isInputMultiple = params.isInputMultiple;
 		this.inputNode = this.container.querySelector('input[name="' + params.inputName + '"]');
+		this.useSymbolicId = params.useSymbolicId;
 
 		this.selector = BX.UI.TileSelector.getById(this.id);
 		if (!this.selector)
@@ -79,21 +80,28 @@
 				list = this.inputNode.value.split(',');
 			}
 
-			return list.filter(function (id) {
-				id = parseInt(id);
-				return !!id;
-			}).map(function (id) {
-				return parseInt(id);
-			});
+			if (!this.useSymbolicId)
+			{
+				return list.filter(function (id) {
+					id = parseInt(id);
+					return !!id;
+				}).map(function (id) {
+					return parseInt(id);
+				});
+			}
+			return list;
 		},
 		setValue: function(value)
 		{
-			if (/^\d+$/.test(value) !== true)
+			if (!this.useSymbolicId)
 			{
-				return;
+				if (/^\d+$/.test(value) !== true)
+				{
+					return;
+				}
+				value = parseInt(value);
 			}
 
-			value = parseInt(value);
 			if (this.selectOne)
 			{
 				this.setUsers([value]);
@@ -111,12 +119,15 @@
 		},
 		unsetValue: function(value)
 		{
-			if (/^\d+$/.test(value) !== true)
+			if (!this.useSymbolicId)
 			{
-				return;
+				if (/^\d+$/.test(value) !== true)
+				{
+					return;
+				}
+				value = parseInt(value);
 			}
 
-			value = parseInt(value);
 			if (this.selectOne)
 			{
 				this.setUsers();
@@ -201,9 +212,9 @@
 			{
 				return;
 			}
-
-			userSelector.setValue(params.item.entityId);
-			userSelector.selector.addTile(params.item.name, {}, params.item.entityId);
+			var entityId = userSelector.useSymbolicId ? params.item.id : params.item.entityId;
+			userSelector.setValue(entityId);
+			userSelector.selector.addTile(params.item.name, {}, entityId);
 		},
 		unSelect: function (params)
 		{
@@ -214,8 +225,9 @@
 				return;
 			}
 
-			userSelector.unsetValue(params.item.entityId);
-			var tile = userSelector.selector.getTile(params.item.entityId);
+			var entityId = userSelector.useSymbolicId ? params.item.id : params.item.entityId;
+			userSelector.unsetValue(entityId);
+			var tile = userSelector.selector.getTile(entityId);
 			userSelector.selector.removeTile(tile);
 		},
 		closeDialog: function (params)

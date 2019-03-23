@@ -102,13 +102,13 @@ return array(
 
 		
 //		social
-		'.landing-block-card-social-icon' => array(
-			'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-SOCIAL_ICON'),
-			'type' => 'icon',
-		),
 		'.landing-block-card-social-icon-link' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-SOCIAL_LINK'),
 			'type' => 'link',
+		),
+		'.landing-block-card-social-icon' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_0_MENU_16-SOCIAL_ICON'),
+			'type' => 'icon',
 		),
 	),
 	'style' => array(
@@ -123,6 +123,11 @@ return array(
 			'.landing-block-node-bottom-block' => array(
 				'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_STYLE_LANDINGBLOCKNODE_BOTTOM_BLOCK'),
 				'type' => ['bg'],
+			),
+			
+			'.landing-block-card-menu-contact' => array(
+				'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENUCONTACT'),
+				'type' => ['border-color']
 			),
 			
 //			contact text

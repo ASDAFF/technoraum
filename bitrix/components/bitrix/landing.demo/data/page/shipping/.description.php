@@ -13,6 +13,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'shipping',
+			'THEME_CODE_TYPO' => 'shipping',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/shipping/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_DESCRIPTION'),
@@ -98,7 +100,7 @@ return array(
 
 	<div class="landing-block-node-bottom-block u-header__section g-bg-black g-py-15"
 		 data-header-fix-moment-classes="u-shadow-v18">
-		<nav class="navbar navbar-expand-lg py-0">
+		<nav class="navbar navbar-expand-lg py-0 g-px-10">
 			<div class="container">
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row g-mr-40--sm" id="navBar">
@@ -200,16 +202,16 @@ return array(
 				'SORT' => '1000',
 				'CONTENT' => '<section class="landing-block g-pt-60 g-pb-60">
 
-        <div class="container g-pt-30 g-pb-20">
+        <div class="container">
             <div class="row">
 
-                <div class="landing-block-card col-sm-6 col-md-4 g-mb-20 js-animation fadeIn animated landing-card">
+                <div class="landing-block-card col-sm-6 col-md-4 js-animation fadeIn animated g-min-height-$1vh">
                     <article class="u-shadow-v28 g-bg-white">
                         <img class="landing-block-node-img img-fluid w-100" src="https://cdn.bitrix24.site/bitrix/images/landing/business/600x400/img1.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
                         <div class="g-pos-rel">
                             <!-- SVG Background -->
-                            <svg class="g-pos-abs g-left-0 g-right-0" version="1.1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="140px" viewbox="20 -20 300 100" style="top: -70%;">
+                            <svg class="g-hidden-col-1 g-hidden-col-2 g-pos-abs g-left-0 g-right-0" version="1.1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="140px" viewbox="20 -20 300 100" style="top: -70%;">
                                 <path d="M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729
               c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z" opacity="0.4" fill="#f0f1f3" />
                                 <path d="M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729
@@ -231,13 +233,13 @@ return array(
                     </article>
                 </div>
 
-                <div class="landing-block-card col-sm-6 col-md-4 g-mb-20 js-animation fadeIn animated landing-card">
+                <div class="landing-block-card col-sm-6 col-md-4 js-animation fadeIn animated g-min-height-$1vh">
                     <article class="u-shadow-v28 g-bg-white">
                         <img class="landing-block-node-img img-fluid w-100" src="https://cdn.bitrix24.site/bitrix/images/landing/business/600x400/img2.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
                         <div class="g-pos-rel">
                             <!-- SVG Background -->
-                            <svg class="g-pos-abs g-left-0 g-right-0" version="1.1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="140px" viewbox="20 -20 300 100" style="top: -70%;">
+                            <svg class="g-hidden-col-1 g-hidden-col-2 g-pos-abs g-left-0 g-right-0" version="1.1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="140px" viewbox="20 -20 300 100" style="top: -70%;">
                                 <path d="M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729
               c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z" opacity="0.4" fill="#f0f1f3" />
                                 <path d="M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729
@@ -260,13 +262,13 @@ return array(
                 </div>
 
 
-				<div class="landing-block-card col-sm-6 col-md-4 g-mb-20 js-animation fadeIn animated landing-card">
+				<div class="landing-block-card col-sm-6 col-md-4 js-animation fadeIn animated g-min-height-$1vh">
 					<article class="u-shadow-v28 g-bg-white">
 						<img class="landing-block-node-img img-fluid w-100" src="https://cdn.bitrix24.site/bitrix/images/landing/business/600x400/img3.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
 						<div class="g-pos-rel">
 							<!-- SVG Background -->
-							<svg class="g-pos-abs g-left-0 g-right-0" version="1.1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="140px" viewbox="20 -20 300 100" style="top: -70%;">
+							<svg class="g-hidden-col-1 g-hidden-col-2 g-pos-abs g-left-0 g-right-0" version="1.1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="140px" viewbox="20 -20 300 100" style="top: -70%;">
 								<path d="M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729
               c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z" opacity="0.4" fill="#f0f1f3" />
 								<path d="M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729
@@ -620,7 +622,7 @@ return array(
         <div class="container">
             <div class="row">
 
-                <div class="landing-block-card g-mb-40 g-mb-0--lg landing-card col-lg-3 js-animation fadeIn animated">
+                <div class="landing-block-card g-mb-40 g-mb-0--lg g-min-height-$1vh col-lg-3 js-animation fadeIn animated">
                     <div class="landing-block-card-header text-uppercase u-heading-v2-4--bottom g-brd-primary g-mb-40">
                         <h4 class="landing-block-node-subtitle h6 g-font-weight-800 g-font-size-12 g-letter-spacing-1 g-color-primary g-mb-20"> </h4>
                         <h2 class="landing-block-node-title h1 u-heading-v2__title g-line-height-1_3 g-font-weight-600 g-mb-minus-10 g-color-black g-font-size-17 g-text-break-word">84 HAPPY CLIENTS</h2>
@@ -629,7 +631,7 @@ return array(
                     <div class="landing-block-node-text"><p>Integer accumsan maximus leo, et consectetur metus vestibulum in. Vestibulum viverra justo odio maximus efficitur</p></div>
                 </div>
 
-                <div class="landing-block-card g-mb-40 g-mb-0--lg landing-card col-lg-3 js-animation fadeIn animated">
+                <div class="landing-block-card g-mb-40 g-mb-0--lg g-min-height-$1vh col-lg-3 js-animation fadeIn animated">
                     <div class="landing-block-card-header text-uppercase u-heading-v2-4--bottom g-brd-primary g-mb-40">
                         <h4 class="landing-block-node-subtitle h6 g-font-weight-800 g-font-size-12 g-letter-spacing-1 g-color-primary g-mb-20"> </h4>
                         <h2 class="landing-block-node-title h1 u-heading-v2__title g-line-height-1_3 g-font-weight-600 g-mb-minus-10 g-color-black g-font-size-17 g-text-break-word">34 COMPLETED PROJECTS</h2>
@@ -638,7 +640,7 @@ return array(
                     <div class="landing-block-node-text"><p>Integer accumsan maximus leo, et consectetur metus vestibulum in. Vestibulum viverra justo odio maximus efficitur</p></div>
                 </div>
 
-                <div class="landing-block-card g-mb-40 g-mb-0--lg landing-card col-lg-3 js-animation fadeIn animated">
+                <div class="landing-block-card g-mb-40 g-mb-0--lg g-min-height-$1vh col-lg-3 js-animation fadeIn animated">
                     <div class="landing-block-card-header text-uppercase u-heading-v2-4--bottom g-brd-primary g-mb-40">
                         <h4 class="landing-block-node-subtitle h6 g-font-weight-800 g-font-size-12 g-letter-spacing-1 g-color-primary g-mb-20"> </h4>
                         <h2 class="landing-block-node-title h1 u-heading-v2__title g-line-height-1_3 g-font-weight-600 g-mb-minus-10 g-color-black g-font-size-17 g-text-break-word">35 OUR TEAM</h2>
@@ -647,7 +649,7 @@ return array(
                     <div class="landing-block-node-text"><p>Integer accumsan maximus leo, et consectetur metus vestibulum in. Vestibulum viverra justo odio maximus efficitur</p></div>
                 </div>
 
-            <div class="landing-block-card g-mb-40 g-mb-0--lg landing-card col-lg-3 js-animation fadeIn animated">
+            <div class="landing-block-card g-mb-40 g-mb-0--lg g-min-height-$1vh col-lg-3 js-animation fadeIn animated">
                     <div class="landing-block-card-header text-uppercase u-heading-v2-4--bottom g-brd-primary g-mb-40">
                         <h4 class="landing-block-node-subtitle h6 g-font-weight-800 g-font-size-12 g-letter-spacing-1 g-color-primary g-mb-20"> </h4>
                         <h2 class="landing-block-node-title h1 u-heading-v2__title g-line-height-1_3 g-font-weight-600 g-mb-minus-10 g-color-black g-font-size-17 g-text-break-word">67 COUNTRIES</h2>
@@ -742,7 +744,7 @@ return array(
 		</div>
 
 		<div class="row">
-			<div class="landing-block-node-card col-md-6 g-mb-30 g-mb-0--md landing-card col-lg-3">
+			<div class="landing-block-node-card col-md-6 g-mb-30 g-mb-0--md g-min-height-$1vh col-lg-3">
 				<!-- Article -->
 				<article
  class="landing-block-node-card-container js-animation fadeInRight text-center text-uppercase g-color-white-opacity-0_5 animated g-bg-main">
@@ -772,7 +774,7 @@ return array(
 			</article
 ></div>
 
-			<div class="landing-block-node-card col-md-6 g-mb-30 g-mb-0--md landing-card col-lg-3">
+			<div class="landing-block-node-card col-md-6 g-mb-30 g-mb-0--md g-min-height-$1vh col-lg-3">
 				<!-- Article -->
 				<article
  class="landing-block-node-card-container js-animation fadeInRight text-center text-uppercase g-color-white-opacity-0_5 animated g-bg-main">
@@ -801,7 +803,7 @@ return array(
 			</article
 ></div>
 
-			<div class="landing-block-node-card col-md-6 g-mb-30 g-mb-0--md landing-card col-lg-3">
+			<div class="landing-block-node-card col-md-6 g-mb-30 g-mb-0--md g-min-height-$1vh col-lg-3">
 				<!-- Article -->
 				<article
  class="landing-block-node-card-container js-animation fadeInRight text-center text-uppercase g-color-white-opacity-0_5 animated g-bg-main">
@@ -829,7 +831,7 @@ return array(
 				<!-- End Article -->
 			</article
 ></div>
-		<div class="landing-block-node-card col-md-6 g-mb-30 g-mb-0--md landing-card col-lg-3">
+		<div class="landing-block-node-card col-md-6 g-mb-30 g-mb-0--md g-min-height-$1vh col-lg-3">
 				<!-- Article -->
 				<article
  class="landing-block-node-card-container js-animation fadeInRight text-center text-uppercase g-color-white-opacity-0_5 animated g-bg-main">
@@ -991,7 +993,7 @@ return array(
 
                 <div class="col-md-7">
                     <div aria-multiselectable="true">
-                        <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated landing-card">
+                        <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated g-min-height-$1vh">
                             <div class="card-header u-accordion__header g-bg-transparent g-brd-none rounded-0 p-0">
 								<div class="landing-block-card-accordeon-element-title-link d-block text-uppercase g-pos-rel g-font-weight-700 g-font-size-12 g-brd-bottom g-brd-primary g-brd-2 g-py-15">
                                     <span class="landing-block-node-accordeon-element-img-container g-color-primary">
@@ -1008,7 +1010,7 @@ return array(
                             </div>
                         </div>
 
-                        <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated landing-card">
+                        <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated g-min-height-$1vh">
                             <div class="card-header u-accordion__header g-bg-transparent g-brd-none rounded-0 p-0">
                                 <div class="landing-block-card-accordeon-element-title-link d-block text-uppercase g-pos-rel g-font-weight-700 g-font-size-12 g-brd-bottom g-brd-primary g-brd-2 g-py-15">
                                     <span class="landing-block-node-accordeon-element-img-container g-color-primary">
@@ -1025,7 +1027,7 @@ return array(
                             </div>
                         </div>
 
-                        <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated landing-card">
+                        <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated g-min-height-$1vh">
                             <div class="card-header u-accordion__header g-bg-transparent g-brd-none rounded-0 p-0">
                                 <div class="landing-block-card-accordeon-element-title-link d-block text-uppercase g-pos-rel g-font-weight-700 g-font-size-12 g-brd-bottom g-brd-primary g-brd-2 g-py-15">
                                     <span class="landing-block-node-accordeon-element-img-container g-color-primary">
@@ -1042,7 +1044,7 @@ return array(
                             </div>
                         </div>
 
-                        <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated landing-card">
+                        <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated g-min-height-$1vh">
                             <div class="card-header u-accordion__header g-bg-transparent g-brd-none rounded-0 p-0">
                                 <div class="landing-block-card-accordeon-element-title-link d-block text-uppercase g-pos-rel g-font-weight-700 g-font-size-12 g-brd-bottom g-brd-primary g-brd-2 g-py-15">
                                     <span class="landing-block-node-accordeon-element-img-container g-color-primary">
@@ -1058,7 +1060,7 @@ return array(
                                 </div>
                             </div>
                         </div>
-                    <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated landing-card">
+                    <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated g-min-height-$1vh">
                             <div class="card-header u-accordion__header g-bg-transparent g-brd-none rounded-0 p-0">
                                 <div class="landing-block-card-accordeon-element-title-link d-block text-uppercase g-pos-rel g-font-weight-700 g-font-size-12 g-brd-bottom g-brd-primary g-brd-2 g-py-15">
                                     <span class="landing-block-node-accordeon-element-img-container g-color-primary">
@@ -1372,6 +1374,38 @@ return array(
 			</div>
 
 			<div class="col-md-6">
+			
+				<ul class="list-inline float-md-right mb-0">
+					<li class="landing-block-card-social list-inline-item g-mr-10"
+						data-card-preset="facebook">
+						<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-gray-light-v1 g-color-white--hover g-bg-primary--hover g-brd-gray-dark-v5 g-brd-primary--hover g-rounded-50x"
+						   href="https://facebook.com">
+							<i class="landing-block-card-social-icon fa fa-facebook"></i>
+						</a>
+					</li>
+
+					<li class="landing-block-card-social list-inline-item g-mr-10"
+						data-card-preset="instagram">
+						<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-gray-light-v1 g-color-white--hover g-bg-primary--hover g-brd-gray-dark-v5 g-brd-primary--hover g-rounded-50x"
+						   href="https://instagram.com">
+							<i class="landing-block-card-social-icon fa fa-instagram"></i>
+						</a>
+					</li>
+					<li class="landing-block-card-social list-inline-item g-mr-10"
+						data-card-preset="twitter">
+						<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-gray-light-v1 g-color-white--hover g-bg-primary--hover g-brd-gray-dark-v5 g-brd-primary--hover g-rounded-50x"
+						   href="https://twitter.com">
+							<i class="landing-block-card-social-icon fa fa-twitter"></i>
+						</a>
+					</li>
+					<li class="landing-block-card-social list-inline-item g-mr-10"
+						data-card-preset="youtube">
+						<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-gray-light-v1 g-color-white--hover g-bg-primary--hover g-brd-gray-dark-v5 g-brd-primary--hover g-rounded-50x"
+						   href="https://youtube.com">
+							<i class="landing-block-card-social-icon fa fa-youtube"></i>
+						</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>

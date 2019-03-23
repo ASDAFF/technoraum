@@ -7,6 +7,7 @@
 		this.mailboxId = options.mailboxId;
 		this.canMarkSpam = options.canMarkSpam;
 		this.canDelete = options.canDelete;
+		this.moveBtnMailIdPrefix = options.moveBtnMailIdPrefix;
 		this.connectedMailboxesLicenseInfo = options.connectedMailboxesLicenseInfo;
 		this.ERROR_CODE_CAN_NOT_DELETE = options.ERROR_CODE_CAN_NOT_DELETE;
 		this.ERROR_CODE_CAN_NOT_MARK_SPAM = options.ERROR_CODE_CAN_NOT_MARK_SPAM;
@@ -147,15 +148,24 @@
 		onMoveToFolderClick: function (event)
 		{
 			var folderOptions = event.currentTarget.dataset;
-			var id = folderOptions.id;
+			var id = null;
+			var popupSubmenu = BX.findParent(event.currentTarget, {className: 'popup-window'});
+			if (popupSubmenu && popupSubmenu.id)
+			{
+				id = popupSubmenu.id.match(new RegExp(this.moveBtnMailIdPrefix + '.*'));
+				if (id !== null && Array.isArray(id))
+				{
+					id = id[0].substr(this.moveBtnMailIdPrefix.length);
+				}
+			}
 			var isDisabled = JSON.parse(folderOptions.isDisabled);
 			var folderPath = folderOptions.folderPath;
-			if ((id === undefined && this.getGridInstance().getRows().getSelectedIds().length === 0) || isDisabled)
+			if ((id === null && this.getGridInstance().getRows().getSelectedIds().length === 0) || isDisabled)
 			{
 				return;
 			}
-			var resultIds = this.getGridInstance().getRows().getSelectedIds();
-			resultIds = resultIds.length ? resultIds : (id ? [id] : []);
+			var multiSelectedIds = this.getGridInstance().getRows().getSelectedIds();
+			var resultIds = multiSelectedIds.length ? multiSelectedIds : (id ? [id] : []);
 			resultIds = this.filterRowsByClassName(this.disabledClassName, resultIds, true);
 			if (!resultIds.length)
 			{
@@ -455,9 +465,22 @@
 		{
 			this.userInterfaceManager.onUnreadCounterClick();
 		},
-		onUnbindCounterClick: function ()
+		onDirsMenuItemClick: function (el)
 		{
-			this.userInterfaceManager.onUnbindCounterClick();
+			if (BX.data(el, 'is-disabled') == 'true')
+			{
+				return;
+			}
+
+			var filter = this.userInterfaceManager.getFilterInstance();
+
+			var filterApi = filter.getApi();
+			filterApi.setFields({
+				'DIR': BX.data(el, 'folder-path')
+			});
+			filterApi.apply();
+
+			this.userInterfaceManager.onMailboxMenuClick();
 		},
 		getGridInstance: function ()
 		{

@@ -18,7 +18,7 @@ Send your Thanksgiving wishes with special Bitrix24 Thanksgiving Template. Your 
 	'preview_url' => '',
 	'show_in_list' => 'Y',
 	'type' => 'page',
-	'sort' => 99,
+	'sort' => \LandingSiteDemoComponent::checkActivePeriod(11,01,11,30) ? 41 : -181,
 	'version' => 2,
 	'active' => \LandingSiteDemoComponent::checkActive(array(
 		'ONLY_IN' => array('en'),

@@ -366,8 +366,13 @@ BX.SocialnetworkUICommon = {
 
 	setFavoritesAjax: function(params)
 	{
+		var actionUrl = '/bitrix/components/bitrix/socialnetwork.group_menu/ajax.php';
+		actionUrl = BX.util.add_url_param(actionUrl, {
+			b24statAction: (params.favoritesValue ? 'removeFavSonetGroup' : 'addFavSonetGroup')
+		});
+
 		BX.ajax({
-			url: '/bitrix/components/bitrix/socialnetwork.group_menu/ajax.php',
+			url: actionUrl,
 			method: 'POST',
 			dataType: 'json',
 			data: {

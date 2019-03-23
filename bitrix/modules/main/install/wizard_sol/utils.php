@@ -170,21 +170,34 @@ class WizardServices
 		$arMessages = Array();
 		if ($lang != "en" && $lang != "ru")
 		{
-			if (file_exists(($fname = WIZARD_SERVICE_ABSOLUTE_PATH."/lang/".LangSubst($lang)."/".$relativePath)))
+			$subst_lang = LangSubst($lang);
+			$fname = WIZARD_SERVICE_ABSOLUTE_PATH."/lang/".$subst_lang."/".$relativePath;
+			$fname = \Bitrix\Main\Localization\Translation::convertLangPath($fname, $subst_lang);
+			if (file_exists($fname))
 			{
 				if ($bReturnArray)
-					$arMessages = __IncludeLang($fname, true);
+				{
+					$arMessages = __IncludeLang($fname, true, true);
+				}
 				else
-					__IncludeLang($fname);
+				{
+					__IncludeLang($fname, false, true);
+				}
 			}
 		}
 
-		if (file_exists(($fname = WIZARD_SERVICE_ABSOLUTE_PATH."/lang/".$lang."/".$relativePath)))
+		$fname = WIZARD_SERVICE_ABSOLUTE_PATH."/lang/".$lang."/".$relativePath;
+		$fname = \Bitrix\Main\Localization\Translation::convertLangPath($fname, $lang);
+		if (file_exists($fname))
 		{
 			if ($bReturnArray)
-				$arMessages = array_merge($arMessages, __IncludeLang($fname, true));
+			{
+				$arMessages = array_merge($arMessages, __IncludeLang($fname, true, true));
+			}
 			else
-				__IncludeLang($fname);
+			{
+				__IncludeLang($fname, false, true);
+			}
 		}
 
 		return $arMessages;

@@ -2,10 +2,10 @@
 	<div class="u-header__section g-bg-black-opacity-0_5 g-bg-transparent--lg g-transition-0_3 g-py-6 g-py-14--md"
 		 data-header-fix-moment-exclude="g-bg-black-opacity-0_5 g-bg-transparent--lg g-py-14--md"
 		 data-header-fix-moment-classes="u-header__section--light u-shadow-v27 g-bg-white g-py-11--md">
-		<nav class="navbar navbar-expand-lg g-py-0 g-mt-10 g-mb-5">
+		<nav class="navbar navbar-expand-lg g-py-0 g-mt-10 g-mb-5 g-px-10">
 			<div class="container">
 				<!-- Logo -->
-				<a href="#" class="navbar-brand landing-block-node-menu-logo-link u-header__logo">
+				<a href="#system_mainpage" class="navbar-brand landing-block-node-menu-logo-link u-header__logo">
 					<img class="landing-block-node-menu-logo u-header__logo-img u-header__logo-img--main d-block g-max-width-180"
 						 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/spa-logo-light.png" alt=""
 						 data-header-fix-moment-exclude="d-block"

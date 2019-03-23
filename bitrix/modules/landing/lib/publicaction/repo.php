@@ -42,7 +42,7 @@ class Repo
 	 * @param array $manifest Manifest data.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function register($code, $fields, $manifest = array())
+	public static function register($code, array $fields, array $manifest = array())
 	{
 		$result = new PublicActionResult();
 		$error = new \Bitrix\Landing\Error;
@@ -80,14 +80,6 @@ class Repo
 				);
 				$result->setError($error);
 				return $result;
-			}
-			else
-			{
-				$fields['CONTENT'] = str_replace(
-					' bxstyle="',
-					' style="',
-					$fields['CONTENT']
-				);
 			}
 			// sanitize card's content
 			if (
@@ -174,6 +166,15 @@ class Repo
 		}
 		if ($res->isSuccess())
 		{
+			if (
+				isset($fields['RESET']) &&
+				$fields['RESET'] == 'Y'
+			)
+			{
+				\Bitrix\Landing\Update\Block::register(
+					'repo_' . $res->getId()
+				);
+			}
 			$result->setResult($res->getId());
 		}
 		else
@@ -330,7 +331,7 @@ class Repo
 	 * @param array $fields Fields array.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function bind($fields)
+	public static function bind(array $fields)
 	{
 		$result = new PublicActionResult();
 		$error = new \Bitrix\Landing\Error;
@@ -482,7 +483,7 @@ class Repo
 	 * @param array $params Params ORM array.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function getList($params = array())
+	public static function getList(array $params = array())
 	{
 		$result = new PublicActionResult();
 
@@ -511,6 +512,14 @@ class Repo
 		$res = RepoCore::getList($params);
 		while ($row = $res->fetch())
 		{
+			if (isset($row['DATE_CREATE']))
+			{
+				$row['DATE_CREATE'] = (string) $row['DATE_CREATE'];
+			}
+			if (isset($row['DATE_MODIFY']))
+			{
+				$row['DATE_MODIFY'] = (string) $row['DATE_MODIFY'];
+			}
 			$row['MANIFEST'] = unserialize($row['MANIFEST']);
 			$data[] = $row;
 		}

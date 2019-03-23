@@ -94,13 +94,17 @@ BitrixSUG.prototype.sendRequest = function(params)
 
 	var requestParams = {};
 
+	var actionUrl = '/bitrix/components/bitrix/socialnetwork.user_groups/ajax.php';
 	if (params.action == 'FAVORITES')
 	{
 		requestParams.value = (typeof params.value != 'undefined' ? params.value : 'Y');
+		actionUrl = BX.util.add_url_param(actionUrl, {
+			b24statAction: (requestParams.value == 'N' ? 'removeFavSonetGroup' : 'addFavSonetGroup')
+		});
 	}
 
 	BX.ajax({
-		url: '/bitrix/components/bitrix/socialnetwork.user_groups/ajax.php',
+		url: actionUrl,
 		method: 'POST',
 		dataType: 'json',
 		data: {

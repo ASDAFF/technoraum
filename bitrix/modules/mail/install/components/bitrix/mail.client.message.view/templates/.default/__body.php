@@ -1,6 +1,7 @@
 <?php
 
 use Bitrix\Main\Localization\Loc;
+use Bitrix\Main\UI\Viewer;
 
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
@@ -19,7 +20,6 @@ $rcptList = array(
 	'users' => array(),
 	'emails' => $arResult['EMAILS'],
 	'mailContacts' => $arResult['LAST_RCPT'],
-	'crmemails' => $arResult['CRM_EMAILS'],
 	'companies' => array(),
 	'contacts' => array(),
 	'deals' => array(),
@@ -29,7 +29,6 @@ $rcptLast = array(
 	'users' => array(),
 	'emails' => array(),
 	'mailContacts' => array_combine(array_keys($arResult['LAST_RCPT']), array_keys($arResult['LAST_RCPT'])),
-	'crmemails' => array(),
 	'companies' => array(),
 	'contacts' => array(),
 	'deals' => array(),
@@ -102,11 +101,11 @@ $isCrmEnabled = ($arResult['CRM_ENABLE'] === 'Y');
 			<span class="mail-msg-view-sender-block">
 				<div class="mail-msg-view-sender">
 					<? $__from = reset($message['__from']); ?>
-					<a class="mail-msg-view-sender-name js-mailto-link"
-						href="mailto:<?= htmlspecialcharsbx($__from['email']); ?>"><?= htmlspecialcharsbx($__from['name'] ?: $__from['email']) ?></a>
+					<a class="mail-msg-view-sender-name js-mailto-link" href="mailto:<?=htmlspecialcharsbx($__from['email']) ?>"
+						title="<?=htmlspecialcharsbx($__from['name'] ?: $__from['email']) ?>"><?=htmlspecialcharsbx($__from['name'] ?: $__from['email']) ?></a>
 					<? if (!empty($__from['name']) && !empty($__from['email']) && $__from['name'] != $__from['email']): ?>
-						<a class="mail-msg-view-sender-email js-mailto-link"
-							href="mailto:<?= htmlspecialcharsbx($__from['email']); ?>"><?=htmlspecialcharsbx($__from['email']) ?></a>
+						<a class="mail-msg-view-sender-email js-mailto-link" href="mailto:<?=htmlspecialcharsbx($__from['email']) ?>"
+							title="<?=htmlspecialcharsbx($__from['email']) ?>"><?=htmlspecialcharsbx($__from['email']) ?></a>
 					<? endif ?>
 				</div>
 				<div class="mail-msg-view-date <? if ($arParams['LOADED_FROM_LOG'] == 'Y'): ?> mail-msg-view-arrow<? endif ?>">
@@ -175,16 +174,15 @@ $isCrmEnabled = ($arResult['CRM_ENABLE'] === 'Y');
 									<span class="mail-msg-view-rcpt-list-hidden">
 								<? endif ?>
 								<span class="mail-msg-view-rcpt-block">
-									<span class=""
-										<? global $APPLICATION;
+									<?
 										$params = $item['AVATAR_PARAMS'];
 										// for using initials from DB, not from message field
 										if (isset($params['mailContact']))
 										{
 											unset($params['name'], $params['email']);
 										}
-										$APPLICATION->IncludeComponent('bitrix:mail.contact.avatar', '',  $params, $this->getComponent()); ?>
-									</span>
+										$APPLICATION->includeComponent('bitrix:mail.contact.avatar', '',  $params);
+									?>
 									<? if ($item['URL']): ?>
 										<a class="mail-msg-view-rcpt-link js-mailto-link"
 											href="<?=htmlspecialcharsbx($item['URL']) ?>"
@@ -211,7 +209,7 @@ $isCrmEnabled = ($arResult['CRM_ENABLE'] === 'Y');
 			<div class="mail-msg-view-control mail-msg-view-control-forward js-msg-view-control-forward"><?=Loc::getMessage('MAIL_MESSAGE_BTN_FWD') ?></div>
 			<? if ($message['__access_level'] == 'full'): ?>
 				<div class="mail-msg-view-control mail-msg-view-control-skip js-msg-view-control-skip"
-					<? if (!in_array('CRM_ACTIVITY', $message['BIND']) || !$isCrmEnabled): ?> style="display: none; "<? endif ?>><?=Loc::getMessage('MAIL_MESSAGE_BTN_SKIP') ?></div>
+					<? if (!preg_grep('/CRM_ACTIVITY-\d+/', $message['BIND']) || !$isCrmEnabled): ?> style="display: none; "<? endif ?>><?=Loc::getMessage('MAIL_MESSAGE_BTN_SKIP') ?></div>
 				<? if (!$message['__is_outcome'] && !$message['isSpam']): ?>
 					<div class="mail-msg-view-control mail-msg-view-control-spam js-msg-view-control-spam"><?=Loc::getMessage('MAIL_MESSAGE_BTN_SPAM') ?></div>
 				<? endif ?>
@@ -225,6 +223,7 @@ $isCrmEnabled = ($arResult['CRM_ENABLE'] === 'Y');
 
 <? $attachedFiles = array(); ?>
 <? if (!empty($message['__files'])): ?>
+	<? \Bitrix\Main\UI\Extension::load('ui.viewer'); ?>
 	<div class="mail-msg-view-file-block mail-msg-view-border-bottom">
 		<div class="mail-msg-view-file-text"><?=getMessage('MAIL_MESSAGE_ATTACHES') ?>:</div>
 		<div class="mail-msg-view-file-inner">
@@ -235,8 +234,7 @@ $isCrmEnabled = ($arResult['CRM_ENABLE'] === 'Y');
 					<div class="mail-msg-view-file-item-image">
 						<span class="mail-msg-view-file-link-image">
 							<img class="mail-msg-view-file-item-img" src="<?=htmlspecialcharsbx($item['preview']) ?>"
-								data-bx-viewer="image" data-bx-src="<?=htmlspecialcharsbx($item['url']) ?>"
-								data-bx-full="<?=htmlspecialcharsbx($item['url']) ?>">
+							<?=Viewer\ItemAttributes::buildByFileId($item['fileId'], $item['url'])->setTitle($item['name'])->setGroupBy(sprintf('mail_msg_%u_file', $message['ID'])) ?>>
 						</span>
 					</div>
 				<? endforeach ?>
@@ -246,7 +244,10 @@ $isCrmEnabled = ($arResult['CRM_ENABLE'] === 'Y');
 					<? if (!empty($item['preview'])) continue; ?>
 					<div class="mail-msg-view-file-item diskuf-files-entity">
 						<span class="feed-com-file-icon feed-file-icon-<?=htmlspecialcharsbx(\Bitrix\Main\IO\Path::getExtension($item['name'])) ?>"></span>
-						<a class="mail-msg-view-file-link" href="<?=htmlspecialcharsbx($item['url']) ?>" target="_blank"><?=htmlspecialcharsbx($item['name']) ?></a>
+						<a class="mail-msg-view-file-link" href="<?=htmlspecialcharsbx($item['url']) ?>" target="_blank"
+							<? if (preg_match('/^n\d+$/i', $item['id'])) echo Viewer\ItemAttributes::buildByFileId($item['fileId'], $item['url'])->setTitle($item['name'])->setGroupBy(sprintf('mail_msg_%u_file', $message['ID'])) ?>>
+							<?=htmlspecialcharsbx($item['name']) ?>
+						</a>
 						<div class="mail-msg-view-file-link-info"><?=htmlspecialcharsbx($item['size']) ?></div>
 					</div>
 				<? endforeach ?>
@@ -298,7 +299,7 @@ $actionUrl = '/bitrix/services/main/ajax.php?c=bitrix%3Amail.client&action=sendM
 		'allowAddUser'             => true,
 		'allowAddCrmContact'       => false,
 		'allowSearchEmailUsers'    => true,
-		'allowSearchCrmEmailUsers' => $isCrmEnabled,
+		'allowSearchCrmEmailUsers' => false,
 		'allowUserSearch'          => true,
 		'items'                    => $rcptList,
 		'itemsLast'                => $rcptLast,
@@ -320,7 +321,7 @@ $actionUrl = '/bitrix/services/main/ajax.php?c=bitrix%3Amail.client&action=sendM
 					'name'     => 'data[from]',
 					'title'    => Loc::getMessage('MAIL_MESSAGE_NEW_FROM'),
 					'type'     => 'from',
-					'value'    => $message['MAILBOX_EMAIL'],
+					'value'    => $message['__email'],
 					'isFormatted' => true,
 					'required' => true,
 					'folded'   => true,
@@ -413,14 +414,16 @@ $actionUrl = '/bitrix/services/main/ajax.php?c=bitrix%3Amail.client&action=sendM
 var mailto = function ()
 {
 	top.BX.SidePanel.Instance.open(
-		'<?=\CUtil::jsEscape($arParams['PATH_TO_MAIL_MSG_NEW']) ?>',
-		{
-			width: 960,
-			cacheable: false,
-			requestMethod: 'post',
-			requestParams: {
+		BX.util.add_url_param(
+			'<?=\CUtil::jsEscape($arParams['PATH_TO_MAIL_MSG_NEW']) ?>',
+			{
+				id: <?=intval($message['MAILBOX_ID']) ?>,
 				email: this.email
 			}
+		),
+		{
+			width: 960,
+			cacheable: false
 		}
 	);
 

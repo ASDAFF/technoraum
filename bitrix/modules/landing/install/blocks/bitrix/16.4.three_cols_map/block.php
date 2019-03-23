@@ -2,11 +2,11 @@
 	<div class="container-fluid g-font-size-16">
 		<div class="row">
 			<div class="landing-block-node-map-col col-md-12 col-lg-4 px-0 order-2 order-md-3 order-lg-1">
-				<div class="landing-block-node-map g-pos-rel h-100 g-min-height-430 g-min-height-680--lg" data-map>
+				<div class="landing-block-node-map js-animation slideInLeft g-pos-rel h-100 g-min-height-430 g-min-height-680--lg" data-map>
 				</div>
 			</div>
 
-			<div class="landing-block-node-address-col col-md-6 col-lg-4 d-flex g-bg-primary text-center g-pa-40 order-1 order-lg-2">
+			<div class="landing-block-node-address-col js-animation slideInUp col-md-6 col-lg-4 d-flex g-bg-primary text-center g-pa-40 order-1 order-lg-2">
 				<div class="landing-block-node-address-container align-self-center w-100">
 					<div class="landing-block-node-address-title-container g-mb-40">
 						<h6 class="landing-block-node-address-subtitle d-inline-block g-theme-travel-bg-black-v1 g-font-weight-700 g-color-white g-px-15 g-py-10 g-mb-20">
@@ -61,7 +61,7 @@
 				</div>
 			</div>
 
-			<div class="landing-block-node-third-col col-md-6 col-lg-4 d-flex g-theme-travel-bg-black-v1 text-center g-pa-40 order-3 order-md-2 order-lg-3">
+			<div class="landing-block-node-third-col js-animation slideInRight col-md-6 col-lg-4 d-flex g-theme-travel-bg-black-v1 text-center g-pa-40 order-3 order-md-2 order-lg-3">
 				<div class="align-self-center w-100">
 					<div class="u-heading-v8-2">
 						<h2 class="landing-block-node-third-col-title h1 text-uppercase u-heading-v8__title g-font-weight-700 g-font-size-26 g-color-white g-mb-30">

@@ -4,7 +4,7 @@
 		 data-header-fix-moment-classes="u-header__section--light u-theme-architecture-shadow-v1 g-bg-white g-py-10--md">
 		<nav class="navbar navbar-expand-lg p-0 g-px-15">
 			<div class="container">
-				<a href="/" class="landing-block-node-menu-logo-link-small g-hidden-lg-up navbar-brand mr-0 p-0">
+				<a href="#system_mainpage" class="landing-block-node-menu-logo-link-small g-hidden-lg-up navbar-brand mr-0 p-0">
 					<img class="landing-block-node-menu-logo-small d-block g-max-width-180"
 						 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/architecture-logo-light.png"
 						 alt=""
@@ -37,7 +37,7 @@
 
 						<!-- Logo -->
 						<li class="landing-block-node-menu-list-item landing-block-node-menu-list-logo g-hidden-lg-down nav-logo-item g-mx-15--lg" data-card-preset="logo">
-							<a href="#team" class="landing-block-node-menu-logo-link navbar-brand mr-0">
+							<a href="#system_mainpage" class="landing-block-node-menu-logo-link navbar-brand mr-0">
 								<img class="landing-block-node-menu-logo d-block g-max-width-180"
 									 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/architecture-logo-light.png"
 									 alt=""

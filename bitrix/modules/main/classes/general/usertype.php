@@ -2383,7 +2383,7 @@ class CUserTypeManager
 	 * @param array $requiredFields Conditionally required fields.
 	 * @return bool
 	 */
-	function CheckFields($entity_id, $ID, &$arFields, $user_id = false, $checkRequired = true, array $requiredFields = null)
+	function CheckFields($entity_id, $ID, $arFields, $user_id = false, $checkRequired = true, array $requiredFields = null)
 	{
 		global $APPLICATION;
 		$requiredFieldMap = is_array($requiredFields) ? array_fill_keys($requiredFields, true) : null;
@@ -4384,12 +4384,15 @@ class CUserFieldEnum
 
 		/*check unique XML_ID*/
 		$arAdded = array();
+		$salt = RandString(8);
 		foreach($values as $key=>$value)
 		{
 			if(strncmp($key, "n", 1)===0 && $value["DEL"]!="Y" && strlen($value["VALUE"])>0)
 			{
 				if(strlen($value["XML_ID"])<=0)
-					$value["XML_ID"] = md5($value["VALUE"]);
+				{
+					$values[$key]["XML_ID"] = $value["XML_ID"] = md5($salt . $value["VALUE"]);
+				}
 
 				if(array_key_exists($value["XML_ID"], $arAdded))
 				{
@@ -4410,9 +4413,13 @@ class CUserFieldEnum
 			}
 		}
 
+		$previousValues = array();
+
 		$rsEnum = $this->GetList(array(), array("USER_FIELD_ID"=>$FIELD_ID));
 		while($arEnum = $rsEnum->Fetch())
 		{
+			$previousValues[$arEnum["ID"]] = $arEnum;
+
 			if(array_key_exists($arEnum["ID"], $values))
 			{
 				$value = $values[$arEnum["ID"]];
@@ -4510,7 +4517,7 @@ class CUserFieldEnum
 		if(CACHED_b_user_field_enum!==false)
 			$CACHE_MANAGER->CleanDir("b_user_field_enum");
 
-		$event = new \Bitrix\Main\Event('main', 'onAfterSetEnumValues', [$FIELD_ID, $originalValues]);
+		$event = new \Bitrix\Main\Event('main', 'onAfterSetEnumValues', [$FIELD_ID, $originalValues, $previousValues]);
 		$event->send();
 
 		return true;

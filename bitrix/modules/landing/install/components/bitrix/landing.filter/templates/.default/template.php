@@ -8,7 +8,7 @@ use \Bitrix\Main\Localization\Loc;
 
 // init
 Loc::loadMessages(__FILE__);
-\CJSCore::init(array('sidepanel', 'action_dialog'));
+\CJSCore::init(array('sidepanel', 'action_dialog', 'loader'));
 \Bitrix\Main\UI\Extension::load('ui.buttons');
 \Bitrix\Main\UI\Extension::load('ui.buttons.icons');
 
@@ -33,18 +33,7 @@ $bodyClass = $APPLICATION->GetPageProperty('BodyClass');
 $APPLICATION->SetPageProperty('BodyClass', ($bodyClass ? $bodyClass.' ' : '') . 'pagetitle-toolbar-field-view');
 
 // filter
-$filter = array(
-	'DELETED' => array(
-		'id' => 'DELETED',
-		'name' => Loc::getMessage('LANDING_TPL_FLT_DELETED'),
-		'default' => true,
-		'type' => 'list',
-		'items' => array(
-			'Y' => Loc::getMessage('LANDING_TPL_FLT_Y'),
-			'N' => Loc::getMessage('LANDING_TPL_FLT_N')
-		)
-	)
-);
+$filter = $arResult['FILTER'];
 ?>
 
 <?php
@@ -136,6 +125,8 @@ if ($isBitrix24Template)
 			if (count($arParams['BUTTONS']) == 1)
 			{
 				$buuton = array_shift($arParams['BUTTONS']);
+				if (isset($buuton['LINK']) && isset($buuton['TITLE']))
+				{
 				?>
 				<div class="pagetitle-container pagetitle-align-right-container">
 					<a href="<?= \htmlspecialcharsbx($buuton['LINK']);?>" id="landing-create-element" class="ui-btn ui-btn-md ui-btn-primary ui-btn-icon-add landing-filter-action-link">
@@ -143,16 +134,19 @@ if ($isBitrix24Template)
 					</a>
 				</div>
 				<?
+				}
 			}
 			else
 			{
 				$buuton = array_shift($arParams['BUTTONS']);
 				?>
+				<?if (isset($buuton['LINK']) && isset($buuton['TITLE'])):?>
 				<div class="pagetitle-container pagetitle-align-right-container" id="landing-menu-actions">
 					<a href="<?= \htmlspecialcharsbx($buuton['LINK']);?>" id="landing-create-element" class="ui-btn ui-btn-md ui-btn-primary ui-btn-icon-add landing-filter-action-link ui-btn-dropdown">
 						<?= \htmlspecialcharsbx($buuton['TITLE']);?>
 					</a>
 				</div>
+				<?endif;?>
 				<script type="text/javascript">
 					var actionsMenuIds = [];
 					var onActionsClick = function(event) {
@@ -174,10 +168,12 @@ if ($isBitrix24Template)
 								closeByEsc: true,
 								items: [
 									<?foreach ($arParams['BUTTONS'] as $buuton):?>
-									{
-										href: '<?= \CUtil::JSEscape($buuton['LINK']);?>',
-										text: '<?= \CUtil::JSEscape($buuton['TITLE']);?>'
-									},
+										<?if (isset($buuton['LINK']) && isset($buuton['TITLE'])):?>
+										{
+											href: '<?= \CUtil::JSEscape($buuton['LINK']);?>',
+											text: '<?= \CUtil::JSEscape($buuton['TITLE']);?>'
+										},
+										<?endif;?>
 									<?endforeach;?>
 									null
 								]
@@ -192,20 +188,6 @@ if ($isBitrix24Template)
 					);
 				</script>
 				<?
-				if (0)
-				foreach ($arParams['BUTTONS'] as $buuton)
-				{
-					if (isset($buuton['LINK']) && isset($buuton['TITLE']))
-					{
-						?>
-						<div class="pagetitle-container pagetitle-align-right-container">
-							<a href="<?= \htmlspecialcharsbx($buuton['LINK']);?>" class="ui-btn ui-btn-md ui-btn-primary ui-btn-icon-add landing-filter-action-link">
-								<?= \htmlspecialcharsbx($buuton['TITLE']);?>
-							</a>
-						</div>
-						<?
-					}
-				}
 			}
 		}
 		?>

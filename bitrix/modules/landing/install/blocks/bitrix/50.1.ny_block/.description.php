@@ -56,7 +56,7 @@ return array(
 			'.landing-block-node-card-img' =>
 				array(
 					'name' => Loc::getMessage('LANDING_BLOCK_50.1.NEW_YEAR_NODES_LANDINGBLOCKNODECARD_IMG'),
-					'type' => array('background-overlay')
+					'type' => array('background-overlay', 'height-vh')
 				),
 			'.landing-block-node-card-button' =>
 				array(

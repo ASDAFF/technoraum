@@ -65,6 +65,8 @@ if (isset($arSettings['PRODUCT']) && $arSettings['PRODUCT'] === 'Y')
 	}
 }
 
+$arResult['PERMISSION_DENIED'] = (empty($arParams['ENTITY_TYPE']) ? true : false);
+
 $arResult['PREFIX'] = count($arSupportedTypes) > 1 ? 'Y' : 'N';
 if(!empty($arParams['usePrefix']))
 	$arResult['PREFIX'] = 'Y';

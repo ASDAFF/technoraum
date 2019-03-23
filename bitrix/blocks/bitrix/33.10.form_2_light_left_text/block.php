@@ -28,10 +28,32 @@
 				 data-form-style-main-font-color="1"
 			>
 			</div>
-			<div class="g-brd-around g-brd-gray-light-v2 g-color-gray-dark-v5 g-brd-bottom g-bg-black-opacity-0_7"
+			<div class="g-brd-around g-brd-gray-light-v2 g-color-gray-dark-v5 g-bg-black-opacity-0_7"
 				 data-form-style-input-border-color="1"
 				 data-form-style-input-border-hover="1"
 				 data-form-style-icon-font-color="1"
+			>
+			</div>
+
+
+			<!--			for resource booking-->
+			<div class="g-bg-gray-dark-v5"
+				 data-form-style-bg-as-text="1"
+			>
+			</div>
+
+			<div class="g-bg-gray-light-v5"
+				 data-form-style-input-bg-light="1"
+			>
+			</div>
+
+			<div class="g-bg-gray-light-v4"
+				 data-form-style-input-bg-light2="1"
+			>
+			</div>
+
+			<div class="g-bg-primary-opacity-0_4"
+				 data-form-style-main-bg-light="1"
 			>
 			</div>
 		</div>

@@ -192,24 +192,18 @@ class CBPStartWorkflowActivity
 		/** @var CBPDocumentService $documentService */
 		$documentService = $runtime->GetService("DocumentService");
 
-		$entities = $types = $templates = array();
+		$entities = $types = $templates = [];
 		$currentEntity = $currentType = $currentTemplateId = $templateParametersRender = '';
 
 		$entityIterator = CBPWorkflowTemplateLoader::GetList(
-			array('MODULE_ID' => 'ASC'),
-			array(),
-			array('MODULE_ID', 'ENTITY'),
+			['MODULE_ID' => 'ASC'],
+			['!AUTO_EXECUTE' => CBPDocumentEventType::Automation],
+			['MODULE_ID', 'ENTITY'],
 			false,
-			array('MODULE_ID', 'ENTITY')
+			['MODULE_ID', 'ENTITY']
 		);
 		while ($row = $entityIterator->fetch())
 		{
-			//TODO: tmp
-			if ($row['MODULE_ID'] === 'tasks')
-			{
-				continue;
-			}
-
 			$entityName = $documentService->getEntityName($row['MODULE_ID'], $row['ENTITY']);
 			if ($entityName)
 			{

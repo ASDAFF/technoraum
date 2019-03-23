@@ -1,4 +1,12 @@
 <?
+$MESS["IM_SETTINGS_HARDWARE_ERROR"] = "Cannot access hardware.";
+$MESS["IM_SETTINGS_HARDWARE_USE_HTTPS"] = "A safe connection (HTTPS) is required to use the portal.";
+$MESS["IM_CALL_ERROR_AUTHORIZATION"] = "Error authenticating on Bitrix24 or media server. Please try reloading the page.";
+$MESS["IM_CALL_ERROR_ACCESS_DENIED"] = "Access was denied when making a call. You cannot call this user or chat.";
+$MESS["IM_CALL_ERROR_UNKNOWN"] = "Error making a call";
+$MESS["IM_M_CALL_REINVITE_PLACEHOLDER"] = "Select users";
+$MESS["IM_CALL_ERROR_HTTPS_REQUIRED"] = "HTTPS protocol required for video calls.";
+$MESS["IM_CALL_ERROR_HARDWARE_ACCESS_DENIED"] = "Cannot access camera and microphone. Make sure access is not denied in the browser settings.";
 $MESS["IM_M_CALL_ST_PHONE_ERROR"] = "Error initializing call. Please try again later.";
 $MESS["IM_M_NOTIFY_POSITION"] = "Show notification pop-up window";
 $MESS["IM_M_NOTIFY_POSITION_LT"] = "On top left";

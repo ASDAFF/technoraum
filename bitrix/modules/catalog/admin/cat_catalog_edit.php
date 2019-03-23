@@ -101,7 +101,7 @@ if(
 	{
 		$TextParser = new CBXSanitizer();
 		$TextParser->SetLevel(CBXSanitizer::SECURE_LEVEL_LOW);
-		$TextParser->ApplyHtmlSpecChars(false);
+		$TextParser->ApplyDoubleEncode(false);
 		$props = CIBlockProperty::GetList(array(), array("IBLOCK_ID" => $IBLOCK_ID, "CHECK_PERMISSIONS" => "N"));
 		while($p = $props->Fetch())
 		{

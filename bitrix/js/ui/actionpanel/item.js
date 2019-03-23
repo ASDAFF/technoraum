@@ -27,6 +27,7 @@ BX.UI.ActionPanel.Item = function(options)
 	this.items = options.items;
 	this.actionPanel = options.actionPanel;
 	this.options = options;
+	this.attributes = BX.prop.getObject(options, 'attributes');
 	this.disabled = options.disabled;
 	this.layout = {
 		container: null,
@@ -57,6 +58,7 @@ BX.UI.ActionPanel.Item.prototype =
 				this.icon ? '<span class="ui-action-panel-item-icon"><img src="' + this.icon + '" title=" "></span>' : null,
 				(this.text && !this.buttonIconClass) ? '<span class="ui-action-panel-item-title">' + this.text + '</span>' : this.text
 			],
+			attrs: this.attributes,
 			dataset: {
 				role: 'action-panel-item'
 			},
@@ -167,6 +169,7 @@ BX.UI.ActionPanel.Item.prototype =
 		var popupMenuOptions = {
 			className: "ui-action-panel-item-popup-menu",
 			angle: true,
+			zIndex: this.actionPanel.zIndex? this.actionPanel.zIndex + 1 : null,
 			offsetLeft: bindElement.offsetWidth / 2,
 			closeByEsc: true,
 			events: {

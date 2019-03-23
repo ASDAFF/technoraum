@@ -15,6 +15,11 @@ global $USER_FIELD_MANAGER;
 
 $selfFolderUrl = $adminPage->getSelfFolderUrl();
 
+if (defined("BX_PUBLIC_MODE") && BX_PUBLIC_MODE == 1)
+{
+	$adminSidePanelHelper->setSkipResponse(true);
+}
+
 $io = CBXVirtualIo::GetInstance();
 $strWarning = "";
 $bVarsFromForm = false;

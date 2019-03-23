@@ -32,11 +32,61 @@ class CMailUfMessageComponent extends CBitrixComponent
 
 		if (empty($message))
 		{
-			$this->includeComponentTemplate('empty');
+			if ('view' == $this->arParams['MODE'])
+			{
+				$this->includeComponentTemplate('empty');
+			}
+			else
+			{
+				echo Loc::getMessage('MAIL_UF_MESSAGE_NOT_IMPLEMENTED');
+			}
+
 			return;
 		}
 
+		$userField = $this->arParams['USER_FIELD'];
+		if ($userField['ENTITY_VALUE_ID'] > 0)
+		{
+			$access = Mail\Internals\MessageAccessTable::getList(array(
+				'filter' => array(
+					'=MAILBOX_ID' => $message['MAILBOX_ID'],
+					'=MESSAGE_ID' => $message['ID'],
+					'=ENTITY_UF_ID' => $userField['ID'],
+					'=ENTITY_ID' => $userField['ENTITY_VALUE_ID'],
+				),
+				'limit' => 1,
+			))->fetch();
+		}
+
+		if (empty($access))
+		{
+			if (!Mail\MailboxTable::getUserMailbox($message['MAILBOX_ID']))
+			{
+				$this->includeComponentTemplate('denied');
+				return;
+			}
+		}
+
 		Mail\Helper\Message::prepare($message);
+
+		if (!empty($access))
+		{
+			$signer = new Security\Sign\Signer(new Security\Sign\HmacAlgorithm('md5'));
+
+			$message['__href'] = \CHTTP::urlAddParams(
+				$message['__href'],
+				array(
+					'mail_uf_message_token' => sprintf(
+						'%s:%s',
+						$access['TOKEN'],
+						$signer->getSignature($access['SECRET'], sprintf('user%u', $USER->getId()))
+					),
+				),
+				array(
+					'encode' => true,
+				)
+			);
+		}
 
 		$message['__thread_new'] = 0;
 
@@ -67,54 +117,13 @@ class CMailUfMessageComponent extends CBitrixComponent
 			'filter' => array(
 				'=MAILBOX_ID' => $message['MAILBOX_ID'],
 				'=CLOSURE.PARENT_ID' => $message['ID'],
-				'!@MESSAGE_UID.IS_SEEN' => array('Y', 'S'),
+				'!@MESSAGE_UID.IS_SEEN' => array('Y', 'S'), // @TODO: index?
 			),
 		))->fetch();
 
 		if (!empty($newCount) && $newCount['NEW_COUNT'] > 0)
 		{
 			$message['__thread_new'] = (int) $newCount['NEW_COUNT'];
-		}
-
-		$userField = $this->arParams['USER_FIELD'];
-		if ($userField['ENTITY_VALUE_ID'] > 0)
-		{
-			$access = Mail\Internals\MessageAccessTable::getList(array(
-				'filter' => array(
-					'=MAILBOX_ID' => $message['MAILBOX_ID'],
-					'=MESSAGE_ID' => $message['ID'],
-					'=ENTITY_UF_ID' => $userField['ID'],
-					'=ENTITY_ID' => $userField['ENTITY_VALUE_ID'],
-				),
-				'limit' => 1,
-			))->fetch();
-
-			if ($access)
-			{
-				$signer = new Security\Sign\Signer(new Security\Sign\HmacAlgorithm('md5'));
-
-				$message['__href'] = \CHTTP::urlAddParams(
-					$message['__href'],
-					array(
-						'mail_uf_message_token' => sprintf(
-							'%s:%s',
-							$access['TOKEN'],
-							$signer->getSignature($access['SECRET'], sprintf('user%u', $USER->getId()))
-						),
-					),
-					array(
-						'encode' => true,
-					)
-				);
-			}
-		}
-
-		if (empty($access))
-		{
-			if (!Mail\MailboxTable::getUserMailbox($message['MAILBOX_ID']))
-			{
-				return;
-			}
 		}
 
 		$this->arResult['MESSAGE'] = $message;

@@ -23,7 +23,8 @@ $return = array(
 			'subtype' => 'component',
 			'subtype_params' => array(
 				'required' => 'catalog'
-			)
+			),
+			'namespace' => 'bitrix'
 		),
 	'assets' => array(
 		'css' => array(

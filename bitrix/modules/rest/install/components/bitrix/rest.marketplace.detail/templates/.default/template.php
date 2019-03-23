@@ -61,7 +61,9 @@ if($arResult['CHECK_HASH'])
 				}
 				?>
 				<div class='ui-alert ui-alert-warning ui-alert-xs' style='margin-top:10px'>
-					<?=GetMessage('PAYMENT_MESSAGE'.$arResult["APP"]['APP_STATUS']['MESSAGE_SUFFIX'], $arResult["APP"]['APP_STATUS']['MESSAGE_REPLACE'])?>
+					<span class="ui-alert-message">
+						<?=GetMessage('PAYMENT_MESSAGE'.$arResult["APP"]['APP_STATUS']['MESSAGE_SUFFIX'], $arResult["APP"]['APP_STATUS']['MESSAGE_REPLACE'])?>
+					</span>
 				</div>
 				<?
 			}
@@ -77,7 +79,7 @@ if($arResult['CHECK_HASH'])
 			?>
 
 			<div class="mp-detail-main-controls">
-				<!--<a class="ui-btn ui-btn-md ui-btn-light-border ui-btn-round">по подписке</a>-->
+				<!--<a class="ui-btn ui-btn-md ui-btn-light-border ui-btn-round">subscription</a>-->
 				<?
 				if($arResult["CAN_INSTALL"])
 				{
@@ -205,7 +207,7 @@ if($arResult['CHECK_HASH'])
 
 	<div class="mp-detail-info">
 		<!--<div class="mp-detail-info-rating">
-			<div class="mp-detail-info-rating-title">Рейтинг:</div>
+			<div class="mp-detail-info-rating-title">rating:</div>
 			<div class="mp-detail-info-rating-stars">
 				<div class="mp-detail-info-rating-stars-item"></div>
 				<div class="mp-detail-info-rating-stars-item mp-detail-info-rating-stars-item-active"></div>
@@ -245,7 +247,7 @@ if($arResult['CHECK_HASH'])
 		<?endif;
 		?>
 		<!--<div class="mp-detail-info-other-apps">
-			<a href="#" target="_blank">Другие приложения разработчика</a>
+			<a href="#" target="_blank">other apps of developer</a>
 		</div>-->
 	</div>
 
@@ -260,11 +262,11 @@ if($arResult['CHECK_HASH'])
 		<div class="mp-detail-content-wrapper">
 			<div class="mp-detail-content-wrapper-item mp-detail-content-wrapper-item-active" id="mp-detail-content-wrapper-desc">
 				<?
-				if (preg_match("/^http/i", $arResult["APP"]["DESC"]))
+				if (isset($arResult["APP"]["DESC_LANDING"]) && !empty($arResult["APP"]["DESC_LANDING"]))
 				{
 				?>
 					<div class="mp-detail-iframe-cont">
-						<iframe src="<?=$arResult["APP"]["DESC"];?>" frameborder="no" class="mp-detail-iframe" id="mp-detail-iframe"></iframe>
+						<iframe src="<?=$arResult["APP"]["DESC_LANDING"];?>" frameborder="no" class="mp-detail-iframe" id="mp-detail-iframe"></iframe>
 					</div>
 				<?
 				}

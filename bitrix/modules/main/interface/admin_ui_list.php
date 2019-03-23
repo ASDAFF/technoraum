@@ -85,6 +85,18 @@ class CAdminUiList extends CAdminList
 		$this->NavText(ob_get_clean());
 	}
 
+	public function getCurPageParam($strParam="", $arParamKill=array(), $get_index_page=null)
+	{
+		global $APPLICATION;
+
+		if (Bitrix\Main\Grid\Context::isInternalRequest())
+		{
+			$arParamKill = array_merge($arParamKill, array("internal", "grid_id", "grid_action", "bxajaxid", "sessid"));
+		}
+
+		return $APPLICATION->GetCurPageParam($strParam, $arParamKill, $get_index_page);
+	}
+
 	public function getNavSize()
 	{
 		$gridOptions = new Bitrix\Main\Grid\Options($this->table_id);
@@ -368,6 +380,7 @@ class CAdminUiList extends CAdminList
 			{
 				$link = CHTTP::urlAddParams($APPLICATION->GetCurPageParam(), array("mode" => "excel"));
 			}
+			$link = CHTTP::urlDeleteParams($link, ["apply_filter"]);
 			$aAdditionalMenu[] = array(
 				"TEXT" => "Excel",
 				"TITLE" => GetMessage("admin_lib_excel"),
@@ -616,6 +629,9 @@ class CAdminUiList extends CAdminList
 
 	public function DisplayList($arParams = array())
 	{
+		foreach(GetModuleEvents("main", "OnAdminListDisplay", true) as $arEvent)
+			ExecuteModuleEventEx($arEvent, array(&$this));
+
 		$errorMessage = "";
 		foreach ($this->arFilterErrors as $error)
 			$errorMessage .= " ".$error;
@@ -648,9 +664,6 @@ class CAdminUiList extends CAdminList
 
 		global $APPLICATION;
 		$APPLICATION->SetAdditionalCSS('/bitrix/css/main/grid/webform-button.css');
-
-		foreach(GetModuleEvents("main", "OnAdminListDisplay", true) as $arEvent)
-			ExecuteModuleEventEx($arEvent, array(&$this));
 
 		echo $this->sPrologContent;
 
@@ -806,7 +819,7 @@ class CAdminUiList extends CAdminList
 							$value = $value ? CFileInput::Show("fileInput", $value, $field["view"]["showInfo"], $field["view"]["inputs"]) : "";
 							break;
 						case "html":
-							$value = (!empty(trim($field["view"]["value"])) ? $field["view"]["value"] : $value);
+							$value = (strlen(trim($field["view"]["value"])) > 0 ? $field["view"]["value"] : (is_array($value) ? "" : $value));
 							break;
 						default:
 							$value = htmlspecialcharsex($value);
@@ -1142,6 +1155,11 @@ class CAdminUiListActionPanel
 			$this->actionSections[$this->mapTypesAndSections["for_all"]][] = $this->gridSnippets->getForAllCheckbox();
 		}
 
+		if (count($this->actionSections["list"]["ITEMS"]) == 1)
+		{
+			$this->actionSections["list"] = [];
+		}
+
 		return $this->actionSections;
 	}
 
@@ -1149,27 +1167,25 @@ class CAdminUiListActionPanel
 	{
 		if (is_array($action))
 		{
-			if (!empty($action["type"]))
-			{
-				$type = strtolower($action["type"]);
-				$actionSection = isset($this->mapTypesAndSections[$type]) ?
-					$this->mapTypesAndSections[$type] : "list";
+			self::prepareAction($action);
+			$type = $action["type"];
+			$actionSection = isset($this->mapTypesAndSections[$type]) ?
+				$this->mapTypesAndSections[$type] : "list";
 
-				$method = "get".$action["type"]."ActionData";
-				if ($this->mapTypesAndHandlers[$type] && is_callable($this->mapTypesAndHandlers[$type]))
+			$method = "get".$type."ActionData";
+			if ($this->mapTypesAndHandlers[$type] && is_callable($this->mapTypesAndHandlers[$type]))
+			{
+				$actionSections[$actionSection][] = $this->mapTypesAndHandlers[$type]($actionKey, $action);
+			}
+			elseif (method_exists(__CLASS__, $method))
+			{
+				if ($actionSection == "list")
 				{
-					$actionSections[$actionSection][] = $this->mapTypesAndHandlers[$type]($actionKey, $action);
+					$actionSections["list"]["ITEMS"][] = $this->$method($actionKey, $action);
 				}
-				elseif (method_exists(__CLASS__, $method))
+				else
 				{
-					if ($actionSection == "list")
-					{
-						$actionSections["list"]["ITEMS"][] = $this->$method($actionKey, $action);
-					}
-					else
-					{
-						$actionSections[$actionSection][] = $this->$method($actionKey, $action);
-					}
+					$actionSections[$actionSection][] = $this->$method($actionKey, $action);
 				}
 			}
 		}
@@ -1221,9 +1237,10 @@ class CAdminUiListActionPanel
 			For each value of the list, you can pass a handler.
 			example client code:
 			$arGroupActions["test_section"] = array(
-				"lable" => "Test",
+				"name" => "Menu item title",
 				"type" => "select",
-				"name" => "test_section",
+				"controlName" => "value name in request",
+				"controlId" => "Dom id for dropdown control" (if empty, get from controlName),
 				"items" => array(
 					array("NAME" => "One", "VALUE" => "one", "ONCHANGE" => "alert('one');"),
 					array("NAME" => "Two", "VALUE" => "two", "ONCHANGE" => "alert('two');")
@@ -1261,8 +1278,8 @@ class CAdminUiListActionPanel
 				"DATA" => [
 					[
 						"TYPE" => Panel\Types::DROPDOWN,
-						"ID" => "selected_action_{$this->tableId}",
-						"NAME" => $action["name"],
+						"ID" => "selected_action_{$this->tableId}_".$action["controlId"],
+						"NAME" => $action["controlName"],
 						"ITEMS" => $action["items"]
 					],
 					$this->gridSnippets->getApplyButton(
@@ -1292,7 +1309,7 @@ class CAdminUiListActionPanel
 		}
 
 		return [
-			"NAME" => $action["lable"],
+			"NAME" => $action["name"],
 			"VALUE" => $actionKey,
 			"ONCHANGE" => $onchange
 		];
@@ -1301,11 +1318,23 @@ class CAdminUiListActionPanel
 	private function getCustomJsActionData($actionKey, $action)
 	{
 		return [
-			"NAME" => $action["lable"],
+			"NAME" => $action["name"],
 			"VALUE" => $actionKey,
 			"ONCHANGE" => [
 				["ACTION" => Panel\Actions::RESET_CONTROLS],
 				$this->getApplyButtonCreationAction($action["js"])
+			]
+		];
+	}
+
+	private function getBaseActionData($actionKey, $action)
+	{
+		return [
+			"NAME" => $action["name"],
+			"VALUE" => $actionKey,
+			"ONCHANGE" => [
+				["ACTION" => Panel\Actions::RESET_CONTROLS],
+				$this->getApplyButtonCreationAction($action["action"])
 			]
 		];
 	}
@@ -1316,6 +1345,15 @@ class CAdminUiListActionPanel
 			"ID" => $actionKey,
 			"TYPE" => Panel\Types::CUSTOM,
 			"VALUE" => $action["value"]
+		];
+	}
+
+	private function getMultiControlActionData($actionKey, array $action)
+	{
+		return [
+			"NAME" => $action["name"],
+			"VALUE" => $actionKey,
+			"ONCHANGE" => $action["action"]
 		];
 	}
 
@@ -1348,6 +1386,42 @@ class CAdminUiListActionPanel
 		if (!is_array($array) || empty($array))
 			return false;
 		return array_keys($array) !== range(0, count($array) - 1);
+	}
+
+	/**
+	 * Prepare action data before add in action list.
+	 *
+	 * @param array &$action	Action description.
+	 * return void
+	 */
+	private static function prepareAction(array &$action)
+	{
+		$action["type"] = (!empty($action["type"]) ? strtolower($action["type"]) : "base");
+		if ($action["type"] == "select")
+		{
+			if (!isset($action["controlName"]) && isset($action["name"]))
+			{
+				$action["controlName"] = $action["name"];
+				unset($action["name"]);
+			}
+			if (!isset($action["controlId"]) && isset($action["controlName"]))
+			{
+				$action["controlId"] = $action["controlName"];
+			}
+		}
+		if (!isset($action["name"]))
+		{
+			if (isset($action["lable"]))
+			{
+				$action["name"] = $action["lable"];
+				unset($action["lable"]);
+			}
+			if (isset($action["label"]))
+			{
+				$action["name"] = $action["label"];
+				unset($action["label"]);
+			}
+		}
 	}
 }
 
@@ -1399,7 +1473,80 @@ class CAdminUiListRow extends CAdminListRow
 
 class CAdminUiResult extends CAdminResult
 {
+	protected static $navParams = [
+		"totalCount" => 0,
+		"totalPages" => 1,
+		"pagen" => 1
+	];
+
 	private $componentParams = array();
+
+	/**
+	 * @param string $tableId
+	 * @param string $className Bitrix\Main\Entity\DataManager class name.
+	 * @param array $getListParams
+	 */
+	public static function setNavParams($tableId, $className, &$getListParams)
+	{
+		if (isset($_REQUEST["mode"]) && $_REQUEST["mode"] == "excel")
+		{
+			return;
+		}
+
+		$navyParams = CAdminUiResult::getNavParams(CAdminUiResult::getNavSize($tableId));
+		if ($navyParams["SHOW_ALL"])
+		{
+			return;
+		}
+		else
+		{
+			$navyParams["PAGEN"] = (int)$navyParams["PAGEN"];
+			$navyParams["SIZEN"] = (int)$navyParams["SIZEN"];
+		}
+
+		try
+		{
+			if (class_exists($className))
+			{
+				/**
+				 * @var Bitrix\Main\Entity\DataManager $className
+				 */
+				$countQuery = new Bitrix\Main\Entity\Query($className::getEntity());
+				$countQuery->addSelect(new Bitrix\Main\Entity\ExpressionField("CNT", "COUNT(1)"));
+				$countQuery->setFilter($getListParams["filter"]);
+				$totalCount = $countQuery->setLimit(null)->setOffset(null)->exec()->fetch();
+				unset($countQuery);
+				$totalCount = (int)$totalCount["CNT"];
+				$totalPages = 1;
+
+				$navyParams = CAdminUiResult::getNavParams(CAdminUiResult::getNavSize($tableId));
+				if ($totalCount > 0)
+				{
+					$totalPages = ceil($totalCount/ $navyParams["SIZEN"]);
+					if ($navyParams["PAGEN"] > $totalPages)
+					{
+						$navyParams["PAGEN"] = $totalPages;
+					}
+				}
+				else
+				{
+					$navyParams["PAGEN"] = 1;
+				}
+
+				self::$navParams["totalCount"] = $totalCount;
+				self::$navParams["totalPages"] = $totalPages;
+				self::$navParams["pagen"] = $navyParams["PAGEN"];
+			}
+		}
+		catch (Exception $exception)
+		{
+			$getListParams["limit"] = $navyParams["SIZEN"];
+			$getListParams["offset"] = $navyParams["SIZEN"] * ($navyParams["PAGEN"] - 1);
+		}
+
+		$getListParams["limit"] = $navyParams["SIZEN"];
+		$getListParams["offset"] = $navyParams["SIZEN"] * ($navyParams["PAGEN"] - 1);
+	}
 
 	public function NavStart($nPageSize=20, $bShowAll=true, $iNumPage=false)
 	{
@@ -1415,6 +1562,13 @@ class CAdminUiResult extends CAdminResult
 		$this->nInitialSize = $nPageSize["nPageSize"];
 
 		$this->parentNavStart($nPageSize, $bShowAll, $iNumPage);
+
+		if ((!isset($_REQUEST["mode"]) || $_REQUEST["mode"] != "excel") && !empty(self::$navParams["totalCount"]))
+		{
+			$this->NavRecordCount = self::$navParams["totalCount"];
+			$this->NavPageCount = self::$navParams["totalPages"];
+			$this->NavPageNomer = self::$navParams["pagen"];
+		}
 	}
 
 	public function GetNavPrint($title, $show_allways=true, $StyleText="", $template_path=false, $arDeleteParam=false)

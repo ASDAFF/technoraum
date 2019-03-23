@@ -49,7 +49,7 @@
 	outline: none;
 	border: var(--ui-btn-border);
 	border-color: var(--ui-btn-border-color);
-	background: var(--ui-btn-background);
+	background-color: var(--ui-btn-background);
 	box-shadow: var(--ui-btn-box-shadow);
 	text-shadow: var(--ui-btn-text-shadow);
 	cursor: pointer;
@@ -118,7 +118,7 @@ a.ui-btn:focus,
 .ui-btn-extra-hover .ui-btn-extra,
 .ui-btn-menu-hover .ui-btn-menu {
 	border-color: var(--ui-btn-border-color-hover);
-	background: var(--ui-btn-background-hover);
+	background-color: var(--ui-btn-background-hover);
 	box-shadow: var(--ui-btn-box-shadow-hover);
 	color: var(--ui-btn-color-hover);
 	text-decoration: none;
@@ -158,7 +158,7 @@ a.ui-btn-double:focus,
 .ui-btn-extra-active .ui-btn-extra:hover {
 	outline: none;
 	border-color: var(--ui-btn-border-color-active);
-	background: var(--ui-btn-background-active);
+	background-color: var(--ui-btn-background-active);
 	box-shadow: var(--ui-btn-box-shadow-active);
 	color: var(--ui-btn-color-active);
 	text-shadow: var(--ui-btn-text-shadow-active);
@@ -294,6 +294,21 @@ a.ui-btn-double:focus,
 	--ui-btn-color-active: #668d13;
 }
 
+.ui-btn-success-dark {
+	--ui-btn-background: #86A732;
+	--ui-btn-background-hover: #A2BF54;
+	--ui-btn-background-active: #A2BF54;
+	--ui-btn-border-color: #86A732;
+	--ui-btn-border-color-hover: #A2BF54;
+	--ui-btn-border-color-active: #A2BF54;
+	--ui-btn-opacity-after: .2;
+	--ui-btn-colors-after-bg: #fff;
+	--ui-btn-colors-before-bg: #a3bf63;
+	--ui-btn-color: #fff;
+	--ui-btn-color-hover: #fff;
+	--ui-btn-color-active: #fff;
+}
+
 .ui-btn-danger {
 	--ui-btn-background: #f1361a;
 	--ui-btn-background-hover: #cc1c00;
@@ -307,12 +322,12 @@ a.ui-btn-double:focus,
 }
 
 .ui-btn-danger-dark {
-	--ui-btn-background: #a21529;
-	--ui-btn-background-hover: #c53e51;
-	--ui-btn-background-active: #c53e51;
-	--ui-btn-border-color: #a21529;
-	--ui-btn-border-color-hover: #c53e51;
-	--ui-btn-border-color-active: #c53e51;
+	--ui-btn-background: #A21429;
+	--ui-btn-background-hover: #C43D51;
+	--ui-btn-background-active: #C43D51;
+	--ui-btn-border-color: #A21429;
+	--ui-btn-border-color-hover: #C43D51;
+	--ui-btn-border-color-active: #C43D51;
 	--ui-btn-color: #fff;
 	--ui-btn-color-hover: #fff;
 	--ui-btn-color-active: #fff;
@@ -346,12 +361,12 @@ a.ui-btn-double:focus,
 }
 
 .ui-btn-primary-dark {
-	--ui-btn-background: #3a9fc2;
-	--ui-btn-background-hover: #38aed5;
-	--ui-btn-background-active: #38aed5;
-	--ui-btn-border-color: #3a9fc2;
-	--ui-btn-border-color-hover: #38aed5;
-	--ui-btn-border-color-active: #38aed5;
+	--ui-btn-background: #399FC2;
+	--ui-btn-background-hover: #37AED4;
+	--ui-btn-background-active: #37AED4;
+	--ui-btn-border-color: #399FC2;
+	--ui-btn-border-color-hover: #37AED4;
+	--ui-btn-border-color-active: #37AED4;
 	--ui-btn-color: #fff;
 	--ui-btn-color-hover: #fff;
 	--ui-btn-color-active: #fff;
@@ -550,9 +565,6 @@ a.ui-btn-double:focus,
 .ui-btn-menu-disabled .ui-btn-menu,
 .ui-btn-menu-disabled .ui-btn-menu:hover,
 .ui-btn-menu-disabled .ui-btn-menu:active {
-	border-color: var(--ui-btn-border-color) !important;
-	background-color: var(--ui-btn-background) !important;
-	color: var(--ui-btn-color) !important;
 	opacity: .4;
 	cursor: not-allowed;
 }
@@ -575,6 +587,9 @@ a.ui-btn-double:focus,
 .ui-btn-wait.ui-btn-primary,
 .ui-btn-wait.ui-btn-default { --ui-btn-wait-loader: url(/bitrix/js/ui/buttons/images/ui-loader-wait-white.min.svg?v=1.1); }
 
+.ui-btn-wait.ui-btn-danger-dark,
+.ui-btn-wait.ui-btn-success-dark,
+.ui-btn-wait.ui-btn-primary-dark,
 .ui-btn-wait.ui-btn-link,
 .ui-btn-wait.ui-btn-secondary,
 .ui-btn-wait.ui-btn-light,
@@ -605,6 +620,9 @@ a.ui-btn-double:focus,
 .ui-btn-clock.ui-btn-primary,
 .ui-btn-clock.ui-btn-default { --ui-btn-clock-loader: url(/bitrix/js/ui/buttons/images/ui-loader-clock-white.min.svg?v=1.1); }
 
+.ui-btn-clock.ui-btn-danger-dark,
+.ui-btn-clock.ui-btn-success-dark,
+.ui-btn-clock.ui-btn-primary-dark,
 .ui-btn-clock.ui-btn-link,
 .ui-btn-clock.ui-btn-secondary,
 .ui-btn-clock.ui-btn-light,

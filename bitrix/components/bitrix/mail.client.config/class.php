@@ -240,6 +240,7 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 			'users' => array(
 				sprintf('U%u', $ownerId) => $ownerId,
 			),
+			'department' => array(),
 		);
 
 		if (!$new)
@@ -253,9 +254,19 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 
 			while ($item = $res->fetch())
 			{
-				if (preg_match('/^(U)(\d+)$/', $item['ACCESS_CODE'], $matches))
+				if (preg_match('/^(U|DR)(\d+)$/', $item['ACCESS_CODE'], $matches))
 				{
-					$access['users'][$item['ACCESS_CODE']] = $matches[2];
+					if ('U' == $matches[1])
+					{
+						$access['users'][$item['ACCESS_CODE']] = $matches[2];
+					}
+					else if ('DR' == $matches[1])
+					{
+						$access['department'][$item['ACCESS_CODE']] = array(
+							'id' => $item['ACCESS_CODE'],
+							'entityId' => $matches[2],
+						);
+					}
 				}
 			}
 		}
@@ -394,13 +405,6 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 		{
 			$mailboxSyncManager = new Mail\Helper\Mailbox\MailboxSyncManager($mailbox['USER_ID']);
 			$this->arResult['LAST_MAIL_CHECK_DATE'] = $mailboxSyncManager->getLastMailboxSyncTime($mailbox['ID']);
-			if ($this->arResult['LAST_MAIL_CHECK_DATE'] !== null)
-			{
-				$this->arResult['LAST_MAIL_CHECK_DATE'] =  formatDate(
-					array('s' => 'sago', 'i' => 'iago', 'H' => 'Hago', 'd' => 'dago', 'm' => 'mago', 'Y' => 'Yago'),
-					(int) $this->arResult['LAST_MAIL_CHECK_DATE']
-				);
-			}
 			$this->arResult['LAST_MAIL_CHECK_STATUS'] = $mailboxSyncManager->getLastMailboxSyncIsSuccessStatus($mailbox['ID']);
 		}
 
@@ -847,7 +851,7 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 						$newLeadFor = preg_split('/[\r\n,;]+/', $fields['crm_new_lead_for']);
 						foreach ($newLeadFor as $i => $item)
 						{
-							$address = new Main\Mail\Address($item);
+							$address = new Main\Mail\Address($item, ['checkingPunycode' => true]);
 
 							$newLeadFor[$i] = $address->validate() ? $address->getEmail() : null;
 						}
@@ -925,7 +929,7 @@ class CMailClientConfigComponent extends CBitrixComponent implements Main\Engine
 		{
 			foreach ($fields['access'] as $code => $list)
 			{
-				if (in_array($code, array('U')) && is_array($list))
+				if (in_array($code, array('U', 'DR')) && is_array($list))
 				{
 					$access = array_merge(
 						$access,

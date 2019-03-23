@@ -18,6 +18,8 @@ return array(
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/clothes/filter/preview.jpg',
 			'VIEW_USE' => 'N',
 			'VIEW_TYPE' => 'no',
+			'THEME_CODE' => 'travel',
+			'THEME_CODE_TYPO' => 'travel',
 		),
 	),
 	'layout' => array(
@@ -100,7 +102,7 @@ return array(
 			),
 			'style' => array(
 				'.landing-block-card' => array(
-					0 => 'landing-block-card js-animation fadeIn landing-block-node-contact g-brd-between-cols col-sm-6 col-md-6 g-px-15 g-py-30 g-py-0--md g-mb-15 col-lg-12 landing-card g-brd-white',
+					0 => 'landing-block-card js-animation fadeIn landing-block-node-contact g-brd-between-cols col-sm-6 col-md-6 g-px-15 g-py-30 g-py-0--md g-mb-15 col-lg-12  g-brd-white',
 				),
 				'.landing-block-node-contact-title' => array(
 					0 => 'landing-block-node-contact-title d-block text-uppercase g-font-size-14 g-color-main g-mb-5',

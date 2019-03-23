@@ -407,20 +407,6 @@
 	padding: 5px 0 0 5px;
 }
 
-.main-mail-form-editor .bxhtmled-button-bbcode {
-	min-width: 24px;
-	width: auto;
-	text-align: center;
-}
-.main-mail-form-editor .bxhtmled-button-bbcode i {
-	background: none;
-}
-.main-mail-form-editor .bxhtmled-button-bbcode:before {
-	content: 'html';
-	font-size: 10px;
-	color: rgb(51, 66, 75);
-}
-
 .main-mail-form-wrapper .main-mail-form-editor-wrapper .feed-add-post-form {
 	border-top: 1px solid transparent;
 }

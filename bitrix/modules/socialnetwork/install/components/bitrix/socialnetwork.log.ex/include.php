@@ -50,7 +50,7 @@ if (!function_exists('__SLLogGetIds'))
 		}
 
 		$cnt = 0;
-		while ($arEventsID = $dbEventsID->GetNext())
+		while ($arEventsID = $dbEventsID->getNext())
 		{
 			if ($arEventsID["MODULE_ID"] == "crm_shared")
 			{

@@ -23,7 +23,7 @@
 						</div>
 
 						<div>
-							<span class="landing-block-node-card-contact-text g-color-gray-dark-v2">Email:</span>
+							<span class="landing-block-node-card-contact-text g-color-gray-dark-v2">Phone Number:</span>
 							<a class="landing-block-node-card-contact-link g-color-gray-dark-v2 g-font-weight-700"
 							   href="tel:485552566112"
 							   target="_blank">
@@ -37,7 +37,7 @@
 							<i class="landing-block-node-card-contact-icon fa fa-envelope"></i>
 						</div>
 						<div>
-							<span class="landing-block-node-card-contact-text">Email:</span>
+							<span class="landing-block-node-card-contact-text g-color-gray-dark-v2">Email:</span>
 							<a class="landing-block-node-card-contact-link g-color-gray-dark-v2 g-font-weight-700" href="mailto:info@company24.com" target="_blank">info@company24.com</a>
 						</div>
 					</div>

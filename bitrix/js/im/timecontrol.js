@@ -45,6 +45,7 @@ BX.namespace('BX.ImTimeControl');
 			console.info('ImTimeControl.execute: ', [absenceId, duration, dateStart, dateFinish]);
 
 			BX.desktop.openTopmostWindow('<div id="timecontrol"></div>', `
+				BX.desktop.setWindowName('timecontrol');
 				BX.desktop.setWindowSize({ Width: 740, Height: 335 });
 				BX.desktop.setWindowSize({ Width: 740, Height: 335 });
 				BX.desktop.setWindowMinSize({ Width: 740, Height: 335 });

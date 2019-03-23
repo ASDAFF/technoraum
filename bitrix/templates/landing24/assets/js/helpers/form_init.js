@@ -140,7 +140,9 @@
 			'bg': {'params': ['background-color', 'background-image']},
 			'bg-content': {'params': ['background-color']},
 			'bg-block': {'params': ['background-color']},
+			'bg-as-text': {'params': ['background-color']},
 			'main-bg': {'params': ['background-color']},
+			'main-bg-light': {'params': ['background-color']},
 			'main-border-color': {'params': ['border-top-color', 'border-bottom-color', 'border-left-color', 'border-right-color']},
 			'main-font-family': {'params': ['font-family']},
 			'main-font-color': {'params': ['color']},
@@ -163,6 +165,10 @@
 			'input-bg': {'params': ['background-color']},
 			'input-box-shadow': {'params': ['box-shadow']},
 			'input-select-bg': {'params': ['background-color']},
+			'input-bg-light': {'params': ['background-color']},
+			'input-bg-light2': {'params': ['background-color']},
+			'input-bg-light3': {'params': ['background-color']},
+			'gradient-box-shadow': {'params': ['box-shadow']},
 			'input-border': {
 				'params': [
 					'border-top-color', 'border-bottom-color', 'border-left-color', 'border-right-color',
@@ -213,9 +219,33 @@
 			'.crm-webform-input option': ['main-font-family', 'input-select-bg', 'main-font-color'],
 			'.crm-webform-active .crm-webform-input, .crm-webform-active mark, .crm-webform-input:hover': ['input-border-hover'],
 			'.crm-webform-checkbox-container:hover i': ['main-border-color'],
-			'.crm-webform-checkbox-name': ['main-font-family'],
+			'.crm-webform-checkbox-name': ['main-font-family', 'second-font-color'],
 			'.crm-webform-input+i:after': ['main-font-color-hover'],
-			'.crm-webform-agreement-modifier .crm-webform-checkbox-name': ['agreement-label-font-size']
+			'.crm-webform-agreement-modifier .crm-webform-checkbox-name': ['agreement-label-font-size'],
+			// resource booking
+			'.calendar-resbook-webform-block-input-dropdown': [
+				'input-bg', 'input-border', 'main-font-color'
+			],
+			'.calendar-resbook-webform-block-input-dropdown:hover': ['input-border-hover'],
+			'.calendar-resbook-webform-block-input-dropdown::before': ['bg-as-text'],
+			'.popup-window, .popup-window .popup-window-content': ['input-bg-light'],
+			'.popup-window .menu-popup-item-text': ['main-font-color'],
+			'.popup-window .menu-popup-item:hover, .popup-window .menu-item-selected': ['input-bg-light2'],
+			'.popup-window .popup-window-content .menu-popup-item:hover .menu-popup-item-text': ['main-font-color'],
+			'.calendar-resbook-webform-block-inner .calendar-resbook-webform-block-title': ['second-font-color'],
+			'.calendar-resbook-webform-block-date-item-select .calendar-resbook-webform-block-date-item-inner': ['main-bg'],
+			'.calendar-resbook-webform-block-date-item-inner': ['input-bg', 'input-border', 'input-border-color'],
+			'.calendar-resbook-webform-block-date-number': ['main-font-color'],
+			'.calendar-resbook-webform-block-date-item-select .calendar-resbook-webform-block-date-number': ['button-font-color'],
+			'.calendar-resbook-webform-block-date-item-select .calendar-resbook-webform-block-date-day': ['button-font-color'],
+			'.calendar-resbook-webform-block-arrow': ['input-bg-light3', 'gradient-box-shadow'],
+			'.calendar-resbook-webform-block-col-item-inner': ['main-bg-light'],
+			'.calendar-resbook-webform-block-col-item-select .calendar-resbook-webform-block-col-item-inner': ['main-bg', 'button-font-color'],
+			'.calendar-resbook-webform-block-col-time:first-child': ['main-font-color'],
+			'.calendar-resbook-webform-block-col-item-select .calendar-resbook-webform-block-col-time:first-child': ['button-font-color'],
+			'.calendar-resbook-webform-block-result-inner, .page-theme-image .calendar-resbook-webform-block-result-inner': [
+				'input-bg', 'main-border-color', 'main-font-color'
+			],
 		};
 
 		this.formParams = {};

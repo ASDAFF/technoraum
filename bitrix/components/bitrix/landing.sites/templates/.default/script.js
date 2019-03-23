@@ -109,6 +109,14 @@
 
 		action: function(action, data)
 		{
+			var loaderContainer = BX.create('div',{
+				attrs:{className:'landing-filter-loading'}
+			});
+			document.body.appendChild(loaderContainer);
+
+			var loader = new BX.Loader({size: 130, color: "#bfc3c8"});
+			loader.show(loaderContainer);
+
 			BX.ajax({
 				url: '/bitrix/tools/landing/ajax.php?action=' + action,
 				method: 'POST',
@@ -119,6 +127,9 @@
 				dataType: 'json',
 				onsuccess: function(data)
 				{
+					loader.hide();
+					loaderContainer.classList.add('landing-filter-loading-hide');
+
 					if (
 						typeof data.type !== 'undefined' &&
 						typeof data.result !== 'undefined'

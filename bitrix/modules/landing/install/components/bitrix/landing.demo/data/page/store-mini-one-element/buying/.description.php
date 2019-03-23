@@ -17,6 +17,8 @@ return array(
 			'ADDITIONAL_FIELDS' =>array(
 					'VIEW_USE' => 'N',
 					'VIEW_TYPE' => 'no',
+				'THEME_CODE' => 'event',
+				'THEME_CODE_TYPO' => 'event',
 				),
 		),
 	'layout' =>array(),

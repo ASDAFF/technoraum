@@ -1,5 +1,5 @@
 <section
-		class="landing-block u-bg-overlay g-flex-centered g-height-100vh g-bg-img-hero g-bg-black-opacity-0_5--after g-pt-80 g-pb-80 bg-video__wrapper">
+		class="landing-block u-bg-overlay g-flex-centered g-min-height-100vh g-bg-img-hero g-bg-black-opacity-0_5--after g-pt-80 g-pb-80 bg-video__wrapper">
 	<div class="landing-block-node-video-container bg-video__inner">
 		<iframe
 				class="landing-block-node-video bg-video__video"

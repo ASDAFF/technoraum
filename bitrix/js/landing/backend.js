@@ -5,6 +5,7 @@
 
 	var isPlainObject = BX.Landing.Utils.isPlainObject;
 	var isString = BX.Landing.Utils.isString;
+	var addQueryParams = BX.Landing.Utils.addQueryParams;
 
 	/**
 	 * Implements interface for works with backend.
@@ -15,7 +16,9 @@
 	 */
 	BX.Landing.Backend = function()
 	{
-		this.ajaxController = "/bitrix/tools/landing/ajax.php";
+		this.ajaxController = addQueryParams("/bitrix/tools/landing/ajax.php", {
+			site: BX.message("SITE_ID")
+		});
 	};
 
 
@@ -235,6 +238,12 @@
 				action: action,
 				site_id: this.getSiteId()
 			});
+
+			if (params.context) {
+				url = BX.util.add_url_param(url, {
+					context: params.context
+				});
+			}
 
 			return new Promise(function(resolve, reject) {
 				var xhr = BX.ajax({

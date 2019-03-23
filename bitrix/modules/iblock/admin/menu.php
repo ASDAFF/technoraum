@@ -21,7 +21,7 @@ function _get_elements_menu($arType, $arIBlock, $SECTION_ID)
 	{
 		return array(
 			"text" => htmlspecialcharsex($arIBlock["ELEMENTS_NAME"]),
-			"url" => $urlElementAdminPage."&find_el_y=Y"."&apply_filter=Y",
+			"url" => $urlElementAdminPage."&find_el_y=Y"."&clear_filter=Y&apply_filter=Y",
 			"more_url" => array(
 				$urlElementAdminPage."&find_el_y=Y",
 				$urlElementAdminPage."&find_section_section=-1",

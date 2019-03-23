@@ -51,7 +51,7 @@ class MailBlacklistListComponent extends CBitrixComponent implements Controllera
 		];
 
 		$gridOptions = new \Bitrix\Main\Grid\Options($this->arResult['GRID_ID']);
-		$gridSorting = $gridOptions->GetSorting(
+		$gridSorting = $gridOptions->getSorting(
 			[
 				'sort' => ['ID' => 'asc'],
 				'vars' => ['by' => 'by', 'order' => 'order'],
@@ -81,32 +81,41 @@ class MailBlacklistListComponent extends CBitrixComponent implements Controllera
 		{
 			$this->addError(Loc::getMessage('MAIL_BLACKLIST_LIST_INTERNAL_AJAX_DELETE_ERROR'));
 		}
+		$this->arResult['isForAllUsers'] = $this->isUserAdmin();
 
 		$this->includeComponentTemplate();
 	}
 
 
 	/**
-	 * @param $mails
+	 * @param \Bitrix\Mail\EO_Blacklist_Collection $mails
 	 */
 	private function makeRows($mails)
 	{
 		$count = 0;
 		$items = [];
-		foreach ($mails as $index => $mail)
+		$userMailboxes = array_keys(\Bitrix\Mail\MailboxTable::getUserMailboxes());
+		foreach ($mails as $blacklistMail)
 		{
-			$fields['~ID'] = $mail['ID'];
-			$fields['ID'] = intval($mail['ID']);
+			$fields['~ID'] = $blacklistMail->getId();
+			$fields['ID'] = intval($blacklistMail->getId());
 
-			$fields['~EMAIL'] = $mail['ITEM_VALUE'];
-			$fields['EMAIL'] = htmlspecialcharsbx($mail['ITEM_VALUE']);
+			$fields['~EMAIL'] = $blacklistMail->getItemValue();
+			$fields['EMAIL'] = htmlspecialcharsbx($blacklistMail->getItemValue());
 
-			$fields['~IS_FOR_ALL_USERS'] = $mail['USER_ID'] == 0 ? Loc::getMessage('MAIL_BLACKLIST_LIST_IS_FOR_ALL_USERS') : '';
+			$fields['~IS_FOR_ALL_USERS'] = $this->isAddressForAllUsers($blacklistMail) ? Loc::getMessage('MAIL_BLACKLIST_LIST_IS_FOR_ALL_USERS') : '';
 			$fields['IS_FOR_ALL_USERS'] = $fields['~IS_FOR_ALL_USERS'];
 
-			$fields['CAN_DELETE'] = $mail['USER_ID'] == 0 ? $this->isUserAdmin() : true;
-			$fields['PATH_TO_DELETE'] = '';
-
+			if ($this->isAddressForAllUsers($blacklistMail))
+			{
+				$fields['CAN_DELETE'] = $this->isUserAdmin();
+			}
+			else
+			{
+				$canDeleteAddressByUser = $blacklistMail->getUserId() > 0 && $blacklistMail->getUserId() == Main\Engine\CurrentUser::get()->getId();
+				$canDeleteAddressByMailbox = $blacklistMail->getMailboxId() > 0 && in_array((int)$blacklistMail->getMailboxId(), $userMailboxes, true);
+				$fields['CAN_DELETE'] = $canDeleteAddressByUser || $canDeleteAddressByMailbox;
+			}
 			$items[] = $fields;
 			$count++;
 		}
@@ -131,39 +140,22 @@ class MailBlacklistListComponent extends CBitrixComponent implements Controllera
 	}
 
 	/**
-	 * @return array
-	 * @throws \Bitrix\Main\ArgumentException
-	 * @throws \Bitrix\Main\ObjectPropertyException
-	 * @throws \Bitrix\Main\SystemException
+	 * @return \Bitrix\Mail\EO_Blacklist_Collection|null
+	 * @throws Main\ArgumentException
+	 * @throws Main\ObjectPropertyException
+	 * @throws Main\SystemException
 	 */
 	private function getBlacklistMails()
 	{
 		if (!$this->userId)
 		{
-			return [];
+			return null;
 		}
 
 		$filterOptions = new \Bitrix\Main\UI\Filter\Options($this->filterId);
 		$gridFilter = $filterOptions->getFilter($this->arResult['FILTER']);
 
-		$baseFilter = [
-			'LOGIC' => 'OR',
-			[
-				'=MAILBOX_ID' => 0,
-				'@USER_ID' => [0, $this->userId],
-			],
-		];
-		$mailsQuery = \Bitrix\Mail\BlacklistTable::query()
-			->addSelect(('ID'))
-			->addSelect(('ITEM_VALUE'))
-			->addSelect(('ITEM_TYPE'))
-			->addSelect(('USER_ID'));
-		$userMailboxes = \Bitrix\Mail\MailboxTable::getUserMailboxes();
-		if (!empty($userMailboxes))
-		{
-			$baseFilter[] = ['@MAILBOX_ID' => array_column($userMailboxes, 'ID')];
-		}
-		$mailsQuery = $mailsQuery->setFilter([$baseFilter]);
+		$mailsQuery = \Bitrix\Mail\BlacklistTable::getUserAddressesListQuery($this->userId);
 		if (isset($gridFilter['FIND']) && $gridFilter['FIND'])
 		{
 			$mailsQuery = $mailsQuery
@@ -191,7 +183,7 @@ class MailBlacklistListComponent extends CBitrixComponent implements Controllera
 
 		$mails = $mailsQuery
 			->exec()
-			->fetchAll();
+			->fetchCollection();
 
 		return $mails;
 	}
@@ -249,22 +241,6 @@ class MailBlacklistListComponent extends CBitrixComponent implements Controllera
 	public function configureActions()
 	{
 		return [];
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getPopupContentAction()
-	{
-		if (!$this->runBeforeAction())
-		{
-			return [];
-		}
-		ob_start();
-		$isForAllUsers = $this->isUserAdmin();
-		include __DIR__ . '/templates/.default/popup_content.php';
-		$html = ob_get_clean();
-		return ['html' => $html];
 	}
 
 	/**
@@ -335,23 +311,23 @@ class MailBlacklistListComponent extends CBitrixComponent implements Controllera
 	private function deleteEmailAddressById($id)
 	{
 		$result = new Main\Result();
-		$email = \Bitrix\Mail\BlacklistTable::getById($id)->fetch();
+		$email = \Bitrix\Mail\BlacklistTable::getById($id)->fetchObject();
 		if (!$email)
 		{
 			return $result->addError(new Main\Error(''));
 		}
-		if ($email['USER_ID'] == 0 && $email['MAILBOX_ID'] == 0 && !$this->isUserAdmin())
+		if ($this->isAddressForAllUsers($email) && !$this->isUserAdmin())
 		{
 			return $result->addError(new Main\Error(''));
 		}
-		$result->setData($email);
-		if ($email['USER_ID'] > 0 && $email['USER_ID'] != \Bitrix\Main\Engine\CurrentUser::get()->getId())
+		$result->setData([$email]);
+		if ($email->getUserId() > 0 && $email->getUserId() != \Bitrix\Main\Engine\CurrentUser::get()->getId())
 		{
 			return $result->addError(new Main\Error(''));
 		}
-		if ($email['MAILBOX_ID'] > 0)
+		if ($email->getMailboxId() > 0)
 		{
-			$mailbox = \Bitrix\Mail\MailboxTable::getUserMailbox($email['MAILBOX_ID']);
+			$mailbox = \Bitrix\Mail\MailboxTable::getUserMailbox($email->getMailboxId());
 			if (!$mailbox)
 			{
 				return $result->addError(new Main\Error(''));
@@ -377,22 +353,34 @@ class MailBlacklistListComponent extends CBitrixComponent implements Controllera
 			$email = ltrim($email, " \t\n\r\0\x0b@");
 			$email = rtrim($email);
 			$blacklist[$index] = null;
-			if (strpos($email, '@') === false)
+			if ($this->checkMail($email))
 			{
-				if (check_email(sprintf('email@%s', $email)))
-				{
-					$blacklist[$index] = $email;
-				}
-			}
-			else
-			{
-				if (check_email($email))
-				{
-					$blacklist[$index] = $email;
-				}
+				$blacklist[$index] = $email;
 			}
 		}
 
 		return array_unique(array_filter($blacklist));
+	}
+
+	private function checkMail($email)
+	{
+		$mailToCheck = $email;
+		if (strpos($email, '@') === false)
+		{
+			$mailToCheck = sprintf('email@%s', $email);
+		}
+		$address = new Main\Mail\Address();
+		$address->setCheckingPunycode(true);
+		$address->set($mailToCheck);
+		return $address->validate();
+	}
+
+	/**
+	 * @param \Bitrix\Mail\Internals\Entity\BlacklistEmail $email
+	 * @return bool
+	 */
+	private function isAddressForAllUsers($email)
+	{
+		return $email->getUserId() == 0 && $email->getMailboxId() == 0;
 	}
 }

@@ -1645,7 +1645,7 @@ if (IsModuleInstalled("search"))
 		"NAME" => GetMessage("SONET_SHOW_SEARCH_TAGS_CLOUD"),
 		"TYPE" => "CHECKBOX",
 		"MULTIPLE" => "N",
-		"DEFAULT" => "Y");
+		"DEFAULT" => "N");
 	$arComponentParameters["PARAMETERS"]["SEARCH_TAGS_PAGE_ELEMENTS"] = Array(
 		"PARENT" => "SEARCH_SETTINGS",
 		"NAME" => GetMessage("SONET_SEARCH_TAGS_PAGE_ELEMENTS"),

@@ -59,7 +59,7 @@ return array(
 		),
 		'.landing-block-node-member-email' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_28_6_TEAM_4_COLS--MEMBER_EMAIL'),
-			'type' => 'link',
+			'type' => 'typo-link',
 		),
 	),
 	'assets' => array(

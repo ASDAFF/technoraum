@@ -317,7 +317,6 @@ final class NodeAttributes extends Stepper
 		
 		$code = $block->getCode();
 		$doc = $block->getDom();
-		$wrapper = Block::getAnchor($block->getId());
 
 //		save to journal
 		$eventLog = new \CEventLog;
@@ -331,17 +330,7 @@ final class NodeAttributes extends Stepper
 		
 		foreach ($this->dataToUpdate['BLOCKS'][$code]['NODES'] as $selector => $rules)
 		{
-//			apply to the all block or by selector
-			if ($selector == $wrapper)
-			{
-				$resultList = array(
-					array_pop($doc->getChildNodesArray()),
-				);
-			}
-			else
-			{
-				$resultList = $doc->querySelectorAll($selector);
-			}
+			$resultList = $doc->querySelectorAll($selector);
 
 //			prepare ATTRS
 			$nodeAttrs = array();
@@ -401,11 +390,31 @@ final class NodeAttributes extends Stepper
 					$nodeClasses = array_diff($nodeClasses, $rules['CLASSES_REMOVE']);
 					$classesChange = true;
 				}
+				
 				if (is_array($rules['CLASSES_ADD']) && !empty($rules['CLASSES_ADD']))
 				{
 					$nodeClasses = array_merge($nodeClasses, $rules['CLASSES_ADD']);
 					$classesChange = true;
 				}
+				
+				if (is_array($rules['CLASSES_REPLACE']) &&
+					array_key_exists('PATTERN', $rules['CLASSES_REPLACE']) &&
+					array_key_exists('REPLACE', $rules['CLASSES_REPLACE']))
+				{
+					$nodeClassesStr = implode(' ', $nodeClasses);
+					$nodeClassesReplace = preg_replace(
+						'/' . $rules['CLASSES_REPLACE']['PATTERN'] . '/i',
+						$rules['CLASSES_REPLACE']['REPLACE'],
+						$nodeClassesStr
+					);
+					if ($nodeClassesReplace !== null)
+					{
+						$nodeClasses = explode(' ', $nodeClassesReplace);
+						$classesChange = true;
+					}
+				}
+				
+//				APPLY changes
 				$nodeClasses = array_unique($nodeClasses);
 				if ($classesChange)
 				{
@@ -473,35 +482,33 @@ final class NodeAttributes extends Stepper
 				$firstNode = $resultList[0];
 				$parentNode = $firstNode->getParentNode();
 				$parentClasses = $parentNode->getClassList();
-				if (empty(array_diff($rules['CONTAINER_ADD']['CLASSES'], $parentClasses)))
+				if (!empty(array_diff($rules['CONTAINER_ADD']['CLASSES'], $parentClasses)))
 				{
-					break;
-				}
-
-//				param TO_EACH - add container to each element. Default (false) - add container once to all nodes
-				if (!isset($rules['CONTAINER_ADD']['TO_EACH']) || $rules['CONTAINER_ADD']['TO_EACH'] !== true)
-				{
-					$containerNode = new Element($rules['CONTAINER_ADD']['TAG'] ? $rules['CONTAINER_ADD']['TAG'] : 'div');
-					$containerNode->setOwnerDocument($doc);
-					$containerNode->setClassName(implode(' ', $rules['CONTAINER_ADD']['CLASSES']));
-					$parentNode->insertBefore($containerNode, $firstNode);
-					foreach ($resultList as $resultNode)
-					{
-						$parentNode->removeChild($resultNode);
-						$containerNode->appendChild($resultNode);
-					}
-				}
-				else
-				{
-					foreach ($resultList as $resultNode)
+//					param TO_EACH - add container to each element. Default (false) - add container once to all nodes
+					if (!isset($rules['CONTAINER_ADD']['TO_EACH']) || $rules['CONTAINER_ADD']['TO_EACH'] !== true)
 					{
 						$containerNode = new Element($rules['CONTAINER_ADD']['TAG'] ? $rules['CONTAINER_ADD']['TAG'] : 'div');
 						$containerNode->setOwnerDocument($doc);
 						$containerNode->setClassName(implode(' ', $rules['CONTAINER_ADD']['CLASSES']));
-						$parentNode->insertBefore($containerNode, $resultNode);
-						
-						$parentNode->removeChild($resultNode);
-						$containerNode->appendChild($resultNode);
+						$parentNode->insertBefore($containerNode, $firstNode);
+						foreach ($resultList as $resultNode)
+						{
+							$parentNode->removeChild($resultNode);
+							$containerNode->appendChild($resultNode);
+						}
+					}
+					else
+					{
+						foreach ($resultList as $resultNode)
+						{
+							$containerNode = new Element($rules['CONTAINER_ADD']['TAG'] ? $rules['CONTAINER_ADD']['TAG'] : 'div');
+							$containerNode->setOwnerDocument($doc);
+							$containerNode->setClassName(implode(' ', $rules['CONTAINER_ADD']['CLASSES']));
+							$parentNode->insertBefore($containerNode, $resultNode);
+							
+							$parentNode->removeChild($resultNode);
+							$containerNode->appendChild($resultNode);
+						}
 					}
 				}
 			}

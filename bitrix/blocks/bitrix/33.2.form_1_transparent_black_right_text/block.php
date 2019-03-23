@@ -36,6 +36,33 @@
 					 data-form-style-input-select-bg="1"
 				>
 				</div>
+
+				<!--			for resource booking-->
+				<div class="g-bg-white"
+					 data-form-style-bg-as-text="1"
+				>
+				</div>
+
+				<div class="g-bg-gray-dark-v3"
+					 data-form-style-input-bg-light="1"
+				>
+				</div>
+
+				<div class="g-bg-gray-dark-v4"
+					 data-form-style-input-bg-light2="1"
+				>
+				</div>
+
+				<div class="g-bg-black-opacity-0_1 u-shadow-custom-v1"
+					 data-form-style-input-bg-light3="1"
+					 data-form-style-gradient-box-shadow="1"
+				>
+				</div>
+
+				<div class="g-bg-primary-opacity-0_4"
+					 data-form-style-main-bg-light="1"
+				>
+				</div>
 			</div>
 
 			<div class="col-md-8">
@@ -71,7 +98,7 @@
 
 				<div class="landing-block-node-card-contact-container">
 					<!-- Icon Block -->
-					<div class="landing-block-node-card-contact">
+					<div class="landing-block-node-card-contact" data-card-preset="text">
 						<div class="media align-items-center mb-4">
 							<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
@@ -88,7 +115,7 @@
 					<!-- End Icon Block -->
 
 					<!-- Icon Block -->
-					<div class="landing-block-node-card-contact">
+					<div class="landing-block-node-card-contact" data-card-preset="link">
 						<div class="media align-items-center mb-4">
 							<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
@@ -96,55 +123,47 @@
 								</span>
 							</div>
 							<div class="media-body">
-								<div class="landing-block-node-contact-text g-color-white-opacity-0_6">
-									<a href="tel:+32(0)333444555">+32 (0) 333 444 555</a>
-								</div>
+								<a href="tel:+32(0)333444555" class="landing-block-card-linkcontact-link g-color-white-opacity-0_6">+32 (0) 333 444 555</a>
 							</div>
 						</div>
 					</div>
 					<!-- End Icon Block -->
 
 					<!-- Icon Block -->
-					<div class="landing-block-node-card-contact">
+					<div class="landing-block-node-card-contact" data-card-preset="link">
 						<div class="media align-items-center mb-4">
 							<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
 								  <i class="landing-block-card-contact-icon icon-communication-033 u-line-icon-pro"></i>
 								</span>
 							</div>
-							<div class="landing-block-node-contact-text g-color-white-opacity-0_6">
-								<a href="tel:+32(0)333444666">+32 (0) 333 444 666</a>
-							</div>
+							<a href="tel:+32(0)333444666" class="landing-block-card-linkcontact-link g-color-white-opacity-0_6">+32 (0) 333 444 666</a>
 						</div>
 					</div>
 					<!-- End Icon Block -->
 
 					<!-- Icon Block -->
-					<div class="landing-block-node-card-contact">
+					<div class="landing-block-node-card-contact" data-card-preset="link">
 						<div class="media align-items-center mb-4">
 							<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
 								  <i class="landing-block-card-contact-icon icon-communication-033 u-line-icon-pro"></i>
 								</span>
 							</div>
-							<div class="landing-block-node-contact-text g-color-white-opacity-0_6">
-								<a href="tel:+32(0)333444777">+32 (0) 333 444 777</a>
-							</div>
+							<a href="tel:+32(0)333444777" class="landing-block-card-linkcontact-link g-color-white-opacity-0_6">+32 (0) 333 444 777</a>
 						</div>
 					</div>
 					<!-- End Icon Block -->
 
 					<!-- Icon Block -->
-					<div class="landing-block-node-card-contact">
+					<div class="landing-block-node-card-contact" data-card-preset="link">
 						<div class="media align-items-center mb-4">
 							<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
 								  <i class="landing-block-card-contact-icon icon-communication-062 u-line-icon-pro"></i>
 								</span>
 							</div>
-							<div class="landing-block-node-contact-text g-color-white-opacity-0_6">
-								<a href="mailto:info@company24.com">info@company24.com</a>
-							</div>
+							<a href="mailto:info@company24.com" class="landing-block-card-linkcontact-link g-color-white-opacity-0_6">info@company24.com</a>
 						</div>
 					</div>
 					<!-- End Icon Block -->

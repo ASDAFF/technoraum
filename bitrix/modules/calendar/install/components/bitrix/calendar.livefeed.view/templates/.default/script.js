@@ -54,13 +54,10 @@
 			this.InitPopups();
 
 			// Invite controls
-			var status = null;
-			if (event.IS_MEETING && this.config.attendees[this.userId])
+			this.ShowUserStatus(event.IS_MEETING && this.config.attendees[this.userId] ? this.config.attendees[this.userId].STATUS : false);
+
+			if (BX('bx-feed-cal-view-files-' + this.id))
 			{
-				status = this.config.attendees[this.userId].STATUS;
-
-				this.ShowUserStatus(status);
-
 				BX.viewElementBind(
 					'bx-feed-cal-view-files-' + this.id,
 					{showTitle: true},
@@ -68,10 +65,6 @@
 						return BX.type.isElementNode(node) && (node.getAttribute('data-bx-viewer') || node.getAttribute('data-bx-image'));
 					}
 				);
-			}
-			else
-			{
-				this.ShowUserStatus(false);
 			}
 		},
 
@@ -165,7 +158,7 @@
 					// Put to popup
 					popupContent += '<a href="' + att.URL + '" target="_blank" class="bxcal-att-popup-img bxcal-att-popup-att-full">' +
 						'<span class="bxcal-att-popup-avatar">' +
-							(att.AVATAR_SRC ? '<img src="' + att.AVATAR_SRC + '" width="' + avatarSize + '" height="' + avatarSize + '" class="bxcal-att-popup-img-not-empty" />' : '') +
+							(att.AVATAR ? '<img src="' + att.AVATAR + '" width="' + avatarSize + '" height="' + avatarSize + '" class="bxcal-att-popup-img-not-empty" />' : '') +
 						'</span>' +
 						'<span class="bxcal-att-popup-name">' + BX.util.htmlspecialchars(att.DISPLAY_NAME) + '</span>' +
 					'</a>';
@@ -174,7 +167,7 @@
 				{
 					attCellContent += '<a title="' + BX.util.htmlspecialchars(att.DISPLAY_NAME) + '" href="' + att.URL + '" target="_blank" class="bxcal-att-popup-img">' +
 						'<span class="bxcal-att-popup-avatar">' +
-							(att.AVATAR_SRC ? '<img src="' + att.AVATAR_SRC + '" width="' + avatarSize + '" height="' + avatarSize + '" class="bxcal-att-popup-img-not-empty" />' : '') +
+							(att.AVATAR ? '<img src="' + att.AVATAR + '" width="' + avatarSize + '" height="' + avatarSize + '" class="bxcal-att-popup-img-not-empty" />' : '') +
 						'</span>' +
 					'</a>';
 				}

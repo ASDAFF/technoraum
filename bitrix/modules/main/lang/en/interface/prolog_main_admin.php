@@ -62,13 +62,15 @@ edition (late renewal).";
 $MESS["prolog_main_support_wit_descr2_cp"] = "After your subscription for technical support and product updates is expired, no platform updates can be installed for your product copy; you won't be able to get new product versions, install or update Marketplace solutions, use web telephony services, or the free \"Cloud Backup\" feature. Also, your support tickets submitted to our HelpDesk will be processed with a lower priority (you may need to wait up to 48 hours).<br /><br />
 Although renewing the technical support and product updates subscription is not mandatory, we encourage you to renew your subscription for another year. Product updates include critical bug fixes, patches and new functionality. With an active subscription, you can install new modules, features, and site templates that become available with each new product release, and upgrade your product copy to the latest version.
 <br /><br />
-You can renew your technical support and product updates subscription for one additional year for as low as 22% of the current product price. Please note that the Early Renewal option is only available within the next 30 days after your current subscription has expired. After the 30-day grace period, the Late Renewal option will be available for your any time later (60% of the current product price).
+You can renew your maintenance subscription for one additional year for 25% of the current price of your product edition (product option).
+<br /><br />
+For older product editions (\"InfoPace\", \"TeamPace\", \"BizPace\", \"BizPace Enterprise\"), you can renew your maintenance subscription for one additional year for 22% of the current product price (Early Renewal option) within a 30-day period after your maintenance subscription expiration date, or for 60% of the current product price (Late Renewal option) anytime thereafter. Please note that for older product editions any number of additional intranet users (those exceeding the default 25-user pack) must be renewed additionally.
 <br /><br />
 For more details, please feel free to refer to the <a href=\"https://store.bitrix24.com/help/licensing-policy.php\">Licensing Policy</a> page.
 ";
 $MESS["prolog_main_support_button_prolong"] = "Renew Subscription";
 $MESS["prolog_main_support_button_no_prolong"] = "No, thanks";
-$MESS["prolog_main_support11"] = "<span class=\"required\">Attention!</span> Your techsupport and update subscription <b>will expire</b> on #FINISH_DATE#, #DAYS_AGO#.#WHAT_IS_IT#<br /> Your early renewal grace period will end on #SUP_FINISH_DATE#.";
+$MESS["prolog_main_support11"] = "<span class=\"required\">Attention!</span> Your techsupport and update subscription <b>will expire</b> on #FINISH_DATE#, #DAYS_AGO#.#WHAT_IS_IT#";
 $MESS["prolog_main_support21"] = "<span class=\"required\">Attention!</span> Your techsupport and update subscription has expired on #FINISH_DATE#, <b>#DAYS_AGO#&nbsp;</b> days ago.#WHAT_IS_IT#<br />Your early renewal grace period will end on #SUP_FINISH_DATE#.";
 $MESS["prolog_main_support31"] = "<span class=\"required\"><span class=\"required\">Attention!</span> Your techsupport and update subscription has expired on #FINISH_DATE#.#WHAT_IS_IT#<br />You can now renew your subscription.";
 $MESS["prolog_main_support_button_no_prolong2"] = "Remind me later";

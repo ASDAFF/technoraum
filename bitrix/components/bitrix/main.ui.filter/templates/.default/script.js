@@ -2108,7 +2108,9 @@
 			this.clearGet();
 			this.showGridAnimation();
 
-			BX.onCustomEvent(window, 'BX.Main.Filter:beforeApply', [filterId, {}, this, promise]);
+			var action = clear ? "clear" : "apply";
+
+			BX.onCustomEvent(window, 'BX.Main.Filter:beforeApply', [filterId, {action: action}, this, promise]);
 
 			this.updatePreset(presetId, null, clear, null).then(function() {
 				Search.updatePreset(Preset.getPreset(presetId));
@@ -2125,7 +2127,7 @@
 				var fulfill = BX.delegate(promise.fulfill, promise);
 				var reject = BX.delegate(promise.reject, promise);
 				self.grid && self.grid.reloadTable('POST', params, fulfill, reject);
-				BX.onCustomEvent(window, 'BX.Main.Filter:apply', [filterId, {}, self, promise, applyParams]);
+				BX.onCustomEvent(window, 'BX.Main.Filter:apply', [filterId, {action: action}, self, promise, applyParams]);
 				applyParams.autoResolve && promise.fulfill();
 			});
 

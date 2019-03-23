@@ -10,8 +10,8 @@ return array(
 	'parent' => 'store-instagram',
 	'code' => 'store-instagram/mainpage',
 	'name' => Loc::getMessage('LANDING_DEMO_STORE_INSTAGRAM--MAINPAGE--NAME'),
-	'description' => null,
-	'active' => false,
+	'description' => Loc::getMessage('LANDING_DEMO_STORE_INSTAGRAM--MAINPAGE--DESC'),
+	'active' => true,
 	'preview' => '',
 	'preview2x' => '',
 	'preview3x' => '',
@@ -25,100 +25,21 @@ return array(
 		'ADDITIONAL_FIELDS' => array(
 			'VIEW_USE' => 'N',
 			'VIEW_TYPE' => 'no',
+			'THEME_CODE' => '1construction',
+			'THEME_CODE_TYPO' => '3corporate',
 		),
 	),
-	'layout' => array(),
-	'items' => array(
-		'#block7864' => array(
-			'code' => '0.menu_07_construction',
-			'cards' => array(
-				'.landing-block-node-menu-list-item' => 4,
-			),
-			'nodes' => array(
-				'.landing-block-node-menu-list-item-link' => array(
-					0 => array(
-						'text' => 'Home',
-						'href' => '#block7864',
-						'target' => '_self',
-						'attrs' => array(
-							'data-embed' => null,
-							'data-url' => null,
-						),
-					),
-					1 => array(
-						'text' => 'Products',
-						'href' => '#block7578',
-						'target' => '_self',
-						'attrs' => array(
-							'data-embed' => null,
-							'data-url' => null,
-						),
-					),
-					2 => array(
-						'text' => 'Contact',
-						'href' => '#block7740',
-						'target' => '_self',
-						'attrs' => array(
-							'data-embed' => null,
-							'data-url' => null,
-						),
-					),
-					3 => array(
-						'text' => 'Our instagram',
-						'href' => 'https://instagram.com',
-						'target' => '_blank',
-						'attrs' => array(
-							'data-embed' => null,
-							'data-url' => null,
-						),
-					),
-				),
-				'.landing-block-node-menu-logo-link' => array(
-					0 => array(
-						'text' => '
-					<img class="landing-block-node-menu-logo u-header__logo-img u-header__logo-img--main g-max-width-180" src="https://cdn.bitrix24.site/bitrix/images/landing/logos/instagram-logo.png" alt="" data-fileid="7238" />
-				',
-						'href' => '#block7864',
-						'target' => '_self',
-						'attrs' => array(
-							'data-embed' => null,
-							'data-url' => null,
-						),
-					),
-				),
-				'.landing-block-node-menu-logo' => array(
-					0 => array(
-						'alt' => '',
-						'src' => 'https://cdn.bitrix24.site/bitrix/images/landing/logos/instagram-logo.png',
-					),
-				),
-			),
-			'style' => array(
-				'.landing-block-node-menu-list-item-link' => array(
-					0 => 'landing-block-node-menu-list-item-link nav-link p-0',
-					1 => 'landing-block-node-menu-list-item-link nav-link p-0',
-					2 => 'landing-block-node-menu-list-item-link nav-link p-0',
-					3 => 'landing-block-node-menu-list-item-link nav-link p-0',
-				),
-				'.navbar' => array(
-					0 => 'navbar navbar-expand-lg g-py-0 u-navbar-color-black u-navbar-align-right',
-				),
-				'#wrapper' => array(
-					0 => 'landing-block landing-block-menu g-bg-white u-header u-header--floating u-header--floating-relative g-z-index-9999',
-				),
-			),
-			'attrs' => array(
-				'.navbar-collapse' => array(
-					'id' => 'navBar7863',
-				),
-				'button.navbar-toggler' => array(
-					'aria-controls' => 'navBar7863',
-					'data-target' => '#navBar7863',
-				),
-			),
+	'layout' => array(
+		'code' => 'header_footer',
+		'ref' => array(
+			1 => 'store-instagram/header_main',
+			2 => 'store-instagram/footer',
 		),
+	),
+	'items' => array(
 		'#block7742' => array(
 			'code' => '01.big_with_text_3_1',
+			'anchor' => 'home',
 			'cards' => array(),
 			'nodes' => array(
 				'.landing-block-node-img' => array(
@@ -144,13 +65,13 @@ return array(
 					0 => 'landing-block-node-text g-mb-35 g-font-size-27 g-color-white-opacity-0_9 g-font-montserrat',
 				),
 				'#wrapper' => array(
-					0 => 'landing-block landing-block-node-img u-bg-overlay g-flex-centered g-bg-img-hero g-bg-black-opacity-0_5--after g-height-50vh g-pt-80 g-pb-80 g-mt-0',
+					0 => 'landing-block landing-block-node-img u-bg-overlay g-flex-centered g-bg-img-hero g-bg-black-opacity-0_5--after g-min-height-50vh g-pt-80 g-pb-80 g-mt-0',
 				),
 			),
-			'attrs' => array(),
 		),
 		'#block7578' => array(
 			'code' => '04.1.one_col_fix_with_title',
+			'anchor' => 'products',
 			'cards' => array(),
 			'nodes' => array(
 				'.landing-block-node-subtitle' => array(
@@ -174,7 +95,6 @@ return array(
 					0 => 'landing-block js-animation fadeInUp g-pb-0 g-pt-10',
 				),
 			),
-			'attrs' => array(),
 		),
 		'#block7859' => array(
 			'code' => 'store.catalog.list',
@@ -182,6 +102,7 @@ return array(
 			'nodes' => array(
 				'bitrix:catalog.section' => array(
 					"PRODUCT_ROW_VARIANTS" => "[3]",
+					"SECTION_CODE" => "IMPORT_INSTAGRAM",
 				)
 			),
 			'style' => array(
@@ -195,6 +116,7 @@ return array(
 		),
 		'#block7740' => array(
 			'code' => '04.1.one_col_fix_with_title',
+			'anchor' => 'contact',
 			'cards' => array(),
 			'nodes' => array(
 				'.landing-block-node-subtitle' => array(
@@ -218,7 +140,6 @@ return array(
 					0 => 'landing-block js-animation fadeInUp g-pt-50 g-pb-40',
 				),
 			),
-			'attrs' => array(),
 		),
 		'#block7580' => array(
 			'code' => '33.23.form_2_themecolor_no_text',
@@ -229,34 +150,6 @@ return array(
 					0 => 'g-pos-rel landing-block text-center g-py-80 g-bg-primary g-pb-40 g-pt-20',
 				),
 			),
-			'attrs' => array(
-				'.bitrix24forms' => array(
-					'data-b24form-original-domain' => 'http://192.168.3.11',
-					'data-b24form' => '2|txlz53',
-					'data-b24form-show-header' => 'N',
-					'data-b24form-use-style' => 'Y',
-				),
-			),
-		),
-		'#block7876' => array(
-			'code' => '17.copyright',
-			'cards' => array(),
-			'nodes' => array(
-				'.landing-block-node-text' => array(
-					0 => '
-				<p>&copy; 2018 All rights reserved.</p>
-			',
-				),
-			),
-			'style' => array(
-				'.landing-block-node-text' => array(
-					0 => 'landing-block-node-text js-animation animation-none g-font-size-12 ',
-				),
-				'#wrapper' => array(
-					0 => 'landing-block js-animation animation-none',
-				),
-			),
-			'attrs' => array(),
 		),
 	),
 );

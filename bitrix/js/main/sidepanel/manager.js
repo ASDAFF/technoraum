@@ -103,6 +103,7 @@ BX.SidePanel.Manager = function(options)
 	this.handleSliderCloseComplete = this.handleSliderCloseComplete.bind(this);
 	this.handleSliderLoad = this.handleSliderLoad.bind(this);
 	this.handleSliderDestroy = this.handleSliderDestroy.bind(this);
+	this.handleEscapePress = this.handleEscapePress.bind(this);
 
 	BX.addCustomEvent("SidePanel:open", this.open.bind(this));
 	BX.addCustomEvent("SidePanel:close", this.close.bind(this));
@@ -204,6 +205,7 @@ BX.SidePanel.Manager.prototype =
 			BX.addCustomEvent(slider, "SidePanel.Slider:onBeforeCloseComplete", this.handleSliderCloseComplete);
 			BX.addCustomEvent(slider, "SidePanel.Slider:onLoad", this.handleSliderLoad);
 			BX.addCustomEvent(slider, "SidePanel.Slider:onDestroy", this.handleSliderDestroy);
+			BX.addCustomEvent(slider, "SidePanel.Slider:onEscapePress", this.handleEscapePress);
 		}
 
 		if (!this.isOpen())
@@ -824,6 +826,7 @@ BX.SidePanel.Manager.prototype =
 		BX.removeCustomEvent(slider, "SidePanel.Slider:onBeforeCloseComplete", this.handleSliderCloseComplete);
 		BX.removeCustomEvent(slider, "SidePanel.Slider:onLoad", this.handleSliderLoad);
 		BX.removeCustomEvent(slider, "SidePanel.Slider:onDestroy", this.handleSliderDestroy);
+		BX.removeCustomEvent(slider, "SidePanel.Slider:onEscapePress", this.handleEscapePress);
 
 		var frameWindow = event.getSlider().getFrameWindow();
 		if (frameWindow)
@@ -837,6 +840,17 @@ BX.SidePanel.Manager.prototype =
 		}
 
 		this.cleanUpClosedSlider(slider);
+	},
+
+	handleEscapePress: function(event)
+	{
+		if (this.isOnTop() && this.getTopSlider())
+		{
+			if (this.getTopSlider().canCloseByEsc())
+			{
+				this.getTopSlider().close();
+			}
+		}
 	},
 
 	/**

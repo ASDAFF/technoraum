@@ -89,6 +89,7 @@
 	max-width: 196px;
 	width: 196px;
 	background: #fff;
+	border-bottom:none;
 }
 
 .main-ui-filter-new-filter .main-ui-filter-sidebar-edit-control { width: 203px; }
@@ -255,6 +256,7 @@
 	font: 12px/38px 'OpenSans-Semibold', "Helvetica Neue", Arial, Helvetica, sans-serif;
 	cursor: pointer;
 }
+
 
 .main-ui-filter-sidebar-item-text-container {
 	position: relative;

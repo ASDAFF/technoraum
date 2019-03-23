@@ -104,22 +104,6 @@ echo $siteSelector;
 	$urlEdit = str_replace('#landing_edit#', $item['ID'], $arParams['PAGE_URL_LANDING_EDIT']);
 	$urlView = str_replace('#landing_edit#', $item['ID'], $arParams['PAGE_URL_LANDING_VIEW']);
 
-	$uriDelete = new \Bitrix\Main\Web\Uri($urlEdit);
-	$uriDelete->addParams(array(
-		'fields' => array(
-			'delete' => 'Y'
-		),
-		'sessid' => bitrix_sessid()
-	));
-
-	$uriPublic = new \Bitrix\Main\Web\Uri($urlEdit);
-	$uriPublic->addParams(array(
-		'fields' => array(
-			'delete' => 'Y'
-		),
-		'sessid' => bitrix_sessid()
-	));
-
 	$uriCopy = new \Bitrix\Main\Web\Uri($arResult['CUR_URI']);
 	$uriCopy->addParams(array(
 		'action' => 'copy',
@@ -157,8 +141,8 @@ echo $siteSelector;
 									ID: '<?= $item['ID']?>',
 									publicUrl: '<?= \CUtil::jsEscape(\htmlspecialcharsbx($item['PUBLIC_URL']));?>',
 									copyPage: '<?= \CUtil::jsEscape($uriCopy->getUri());?>',
-									deletePage: '<?= \CUtil::jsEscape($uriDelete->getUri());?>',
-									publicPage: '<?= \CUtil::jsEscape($uriPublic->getUri());?>',
+									deletePage: '#',
+									publicPage: '#',
 									editPage: '<?= \CUtil::jsEscape($urlEdit);?>',
 							 		isFolder: <?= ($item['FOLDER'] == 'Y') ? 'true' : 'false';?>,
 							 		isActive: <?= ($item['ACTIVE'] == 'Y') ? 'true' : 'false';?>,
@@ -187,8 +171,8 @@ echo $siteSelector;
 									isArea: <?= $item['IS_AREA'] ? 'true' : 'false';?>,
 									publicUrl: '<?= \CUtil::jsEscape(\htmlspecialcharsbx($item['PUBLIC_URL']));?>',
 									copyPage: '<?= \CUtil::jsEscape($uriCopy->getUri());?>',
-									deletePage: '<?= \CUtil::jsEscape($uriDelete->getUri());?>',
-							 		publicPage: '<?= \CUtil::jsEscape($uriPublic->getUri());?>',
+									deletePage: '#',
+							 		publicPage: '#',
 									editPage: '<?= \CUtil::jsEscape($urlEdit);?>',
 							 		isFolder: <?= ($item['FOLDER'] == 'Y') ? 'true' : 'false';?>,
 							 		isActive: <?= ($item['ACTIVE'] == 'Y') ? 'true' : 'false';?>,
@@ -406,7 +390,7 @@ echo $siteSelector;
 			},
 			{
 				text: '<?= \CUtil::jsEscape(Loc::getMessage('LANDING_TPL_ACTION_COPY'));?>',
-				disabled: params.isDeleted,
+				disabled: params.isDeleted || params.isFolder,
 				onclick: function(event)
 				{
 					event.preventDefault();
@@ -507,18 +491,14 @@ echo $siteSelector;
 			}
 		];
 
-		BX.PopupMenu.show('landing-popup-menu' + params.ID, node, menuItems,{
+		var menu = new BX.PopupMenuWindow('landing-popup-menu' + params.ID, node, menuItems,{
 			autoHide : true,
 			offsetTop: -2,
-			offsetLeft: -60,
-			className: 'landing-popup-menu',
-			events: {
-				onPopupClose: function ()
-				{
-					BX.PopupMenu.destroy('landing-popup-menu' + params.ID);
-				}
-			}
+			offsetLeft: -55,
+			className: 'landing-popup-menu'
 		});
+
+		menu.show();
 	}
 
 </script>

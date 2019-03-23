@@ -2,10 +2,10 @@
 	<div class="u-header__section u-header__section--light g-transition-0_3 g-py-6 g-py-18--md"
 		 data-header-fix-moment-exclude="g-py-18--md"
 		 data-header-fix-moment-classes="u-shadow-v27 g-py-13--md">
-		<nav class="navbar navbar-expand-lg g-py-0 g-mt-3">
+		<nav class="navbar navbar-expand-lg g-py-0 g-mt-3 g-px-10">
 			<div class="container">
 				<!-- Logo -->
-				<a href="#" class="landing-block-node-menu-logo-link navbar-brand u-header__logo p-0">
+				<a href="#system_mainpage" class="landing-block-node-menu-logo-link navbar-brand u-header__logo p-0">
 					<img class="landing-block-node-menu-logo u-header__logo-img u-header__logo-img--main g-max-width-180"
 						 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/lawyer-logo.png" alt="">
 				</a>

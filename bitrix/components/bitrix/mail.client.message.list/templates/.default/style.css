@@ -1,9 +1,33 @@
 
-.main-grid-cell-left .main-grid-cell-content {
+.mail-msg-list-grid .main-grid-table {
+	width: 100%;
+}
+
+.mail-msg-list-from-cell-head {
+	width: 25%;
+}
+
+.mail-msg-list-subject-cell-head {
+	width: 60%;
+}
+
+.mail-msg-list-date-cell-head {
+	width: 180px;
+}
+
+.mail-msg-list-bind-cell-head {
+	width: 180px;
 }
 
 .mail-msg-list-grid .main-grid-cell {
 	vertical-align: middle;
+}
+
+.mail-msg-list-grid .main-grid-cell.main-grid-cell-left .main-grid-cell-content {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 
 .mail-msg-list-grid .main-grid-cell-checkbox .main-grid-cell-content {
@@ -14,10 +38,8 @@
 	top: -2px;
 }
 
+.mail-msg-list-cell-nowrap,
 .mail-msg-list-subject {
-}
-
-.mail-msg-list-cell-nowrap {
 	white-space: nowrap;
 }
 
@@ -31,7 +53,6 @@
 
 .mail-msg-from-title {
 	margin: 0 0 0 10px;
-	vertical-align: middle;
 }
 
 .mail-bindings-field-popup-wrapper {
@@ -51,7 +72,16 @@
 }
 
 .menu-popup-item.menu-popup-no-icon[data-is-disabled=true] {
+	cursor: default;
+}
+
+.menu-popup-item.menu-popup-no-icon[data-is-disabled=true] .mail-msg-list-menu-item {
 	opacity: 0.4;
+}
+
+.menu-popup-item-text .main-buttons-item-counter.mail-msg-list-menu-fake-counter,
+.menu-popup-item.menu-popup-no-icon[data-is-disabled=true] .main-buttons-item-counter {
+	background: #888;
 }
 
 .mail-msg-list-stepper-wrapper .main-stepper.main-stepper-show,

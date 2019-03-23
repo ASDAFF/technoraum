@@ -90,7 +90,7 @@ class CBPSocNetMessageActivity
 		));
 		$attach->AddDelimiter();
 		$attach->AddHtml('<span style="color: #6E6E6E">'.
-			$CCTP->convertText(htmlspecialcharsbx($messageText))
+			$CCTP->convertText($messageText)
 			.'</span>'
 		);
 

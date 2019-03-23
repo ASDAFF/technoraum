@@ -6,6 +6,7 @@
 		this.pulledEntriesIndex = {};
 		this.requestedEntriesIndex = {};
 		this.entriesRaw = [];
+		this.userIndex = {};
 		this.loadedEntriesIndex = {};
 	}
 
@@ -204,7 +205,9 @@
 
 			var attendees = [];
 			if (entry.isMeeting())
-				entry.data['~ATTENDEES'].forEach(function(user){attendees.push(user['USER_ID']);});
+			{
+				entry.data['ATTENDEE_LIST'].forEach(function(user){attendees.push(user['id']);});
+			}
 
 			this.calendar.request({
 				type: 'post',
@@ -527,17 +530,8 @@
 					handler: BX.delegate(function(response)
 					{
 						this.calendar.hideLoader();
-						//var sectionsNow = this.calendar.sectionController.getSectionsInfo();
-						//if (!_this.CompareArrays(sections.superposed, sectionsNow.superposed) ||
-						//	!_this.CompareArrays(sections.active, sectionsNow.active) ||
-						//	!_this.CompareArrays(sections.hidden, sectionsNow.hidden)
-						//)
-						//{
-						//	return;
-						//}
-						//this.entriesRaw = response.entries;
 
-						this.handleEntriesList(response.entries);
+						this.handleEntriesList(response.entries, response.userIndex);
 
 						if (!params.finishDate && this.entriesRaw.length > 0)
 						{
@@ -569,7 +563,7 @@
 			}
 		},
 
-		handleEntriesList: function(entries)
+		handleEntriesList: function(entries, userIndex)
 		{
 			if (entries && entries.length)
 			{
@@ -599,6 +593,17 @@
 						{
 							this.entriesRaw[this.loadedEntriesIndex[smartId]] = entries[i];
 						}
+					}
+				}
+			}
+
+			if (BX.type.isNotEmptyObject(userIndex))
+			{
+				for (var id in userIndex)
+				{
+					if (userIndex.hasOwnProperty(id))
+					{
+						this.userIndex[id] = userIndex[id];
 					}
 				}
 			}
@@ -750,6 +755,11 @@
 				}
 			}
 			return false;
+		},
+
+		getUserIndex: function()
+		{
+			return this.userIndex;
 		}
 	};
 
@@ -865,7 +875,22 @@
 
 		getAttendees: function()
 		{
-			return this.data['~ATTENDEES'] || [];
+			if (!this.attendeeList && BX.type.isArray(this.data['ATTENDEE_LIST']))
+			{
+				this.attendeeList = [];
+				var userIndex = this.calendar.entryController.getUserIndex();
+				this.data['ATTENDEE_LIST'].forEach(function(user)
+				{
+					if (userIndex[user.id])
+					{
+						var attendee = BX.clone(userIndex[user.id]);
+						attendee.STATUS = user.status;
+						attendee.ENTRY_ID = user.entryId;
+						this.attendeeList.push(attendee);
+					}
+				}, this);
+			}
+			return this.attendeeList || [];
 		},
 
 		cleanParts: function()
@@ -1089,14 +1114,14 @@
 				{
 					status = this.data.MEETING_STATUS;
 				}
-				else if (this.data['~ATTENDEES'])
+				else if (BX.type.isArray(this.data['ATTENDEE_LIST']))
 				{
-					for (i = 0; i < this.data['~ATTENDEES'].length; i++)
+					for (i = 0; i < this.data['ATTENDEE_LIST'].length; i++)
 					{
-						user = this.data['~ATTENDEES'][i];
-						if (user.USER_ID == this.calendar.util.userId)
+						user = this.data['ATTENDEE_LIST'][i];
+						if (this.data['ATTENDEE_LIST'][i].id == this.calendar.util.userId)
 						{
-							status = user.STATUS;
+							status = this.data['ATTENDEE_LIST'][i].status;
 							break;
 						}
 					}

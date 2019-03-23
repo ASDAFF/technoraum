@@ -12,7 +12,7 @@
 						<p>Founder</p>
 					</div>
 					<hr class="landing-block-node-member-line g-brd-gray-light-v4 g-my-15">
-					<a class="landing-block-node-member-email d-block u-link-v5 g-color-gray-dark-v4 g-color-gray-dark-v2--hover g-font-size-13"
+					<a class="landing-block-node-member-email d-block g-transition-0_2 g-color-gray-dark-v4 g-color-gray-dark-v2--hover g-font-size-13"
 					   href="mailto:alex@gmail.com">alex@gmail.com</a>
 				</div>
 				<!-- End Team -->
@@ -29,7 +29,7 @@
 						<p>Manager</p>
 					</div>
 					<hr class="landing-block-node-member-line g-brd-gray-light-v4 g-my-15">
-					<a class="landing-block-node-member-email d-block u-link-v5 g-color-gray-dark-v4 g-color-gray-dark-v2--hover g-font-size-13"
+					<a class="landing-block-node-member-email d-block g-transition-0_2 g-color-gray-dark-v4 g-color-gray-dark-v2--hover g-font-size-13"
 					   href="mailto:kate@gmail.com">kate@gmail.com</a>
 				</div>
 				<!-- End Team -->
@@ -46,7 +46,7 @@
 						<p>Developer</p>
 					</div>
 					<hr class="landing-block-node-member-line g-brd-gray-light-v4 g-my-15">
-					<a class="landing-block-node-member-email d-block u-link-v5 g-color-gray-dark-v4 g-color-gray-dark-v2--hover g-font-size-13"
+					<a class="landing-block-node-member-email d-block g-transition-0_2 g-color-gray-dark-v4 g-color-gray-dark-v2--hover g-font-size-13"
 					   href="mailto:daniel@gmail.com">daniel@gmail.com</a>
 				</div>
 				<!-- End Team -->
@@ -63,7 +63,7 @@
 						<p>Designer</p>
 					</div>
 					<hr class="landing-block-node-member-line g-brd-gray-light-v4 g-my-15">
-					<a class="landing-block-node-member-email d-block u-link-v5 g-color-gray-dark-v4 g-color-gray-dark-v2--hover g-font-size-13"
+					<a class="landing-block-node-member-email d-block g-transition-0_2 g-color-gray-dark-v4 g-color-gray-dark-v2--hover g-font-size-13"
 					   href="mailto:tina@gmail.com">tina@gmail.com</a>
 				</div>
 				<!-- End Team -->

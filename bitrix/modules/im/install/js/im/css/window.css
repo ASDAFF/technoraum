@@ -104,13 +104,15 @@
 
 #disk-wrap .header_section_one {white-space: nowrap;}
 
+.bx-im-fullscreen-adaptive .bx-messenger-call-overlay { z-index: 1100; }
+.bx-im-fullscreen-adaptive .bx-messenger-call-overlay.bx-messenger-call-overlay-folded { margin-left: 299px; width: calc(100% - 299px);}
 
 @media screen and (max-width: 599px)  {
 	.bx-im-fullscreen-adaptive .bx-messenger-command-popup { width: 450px; }
 	.bx-im-fullscreen-adaptive .bx-messenger-command-popup-help { display: none; }
 	.bx-im-fullscreen-adaptive .bx-messenger-chatlist-group-add { display: none; }
 	.bx-im-fullscreen-adaptive .bx-messenger-box-contact { width: 70px!important;  }
-	.bx-im-fullscreen-adaptive .bx-messenger-call-overlay { margin-left: 70px!important; }
+	.bx-im-fullscreen-adaptive .bx-messenger-call-overlay.bx-messenger-call-overlay-folded { margin-left: 115px!important; width: calc(100% - 115px);}
 	.bx-im-fullscreen-adaptive .bx-messenger-box-dialog { margin-left: 70px!important; }
 	.bx-im-fullscreen-adaptive .bx-messenger-box-extra { margin-left: 70px!important; }
 	.bx-im-fullscreen-adaptive .bx-messenger-box-contact-normal .bx-messenger-recent-group {  margin: 2px 2px 2px 2px; text-align: center; }
@@ -137,6 +139,7 @@
 }
 
 @media screen and (max-width: 740px) {
+	.bx-im-fullscreen-adaptive .bx-messenger-call-overlay.bx-messenger-call-overlay-folded { margin-left: 299px!important; width: calc(100% - 299px);}
 	.bx-im-fullscreen-adaptive .bx-messenger-panel-call-video,
 	.bx-im-fullscreen-adaptive .bx-messenger-panel-call-audio { overflow: hidden; padding-left: 24px; padding-right: 0; width: 0; }
 	.bx-im-fullscreen-adaptive .bx-messenger-panel-call-audio:before { background-position: -58px -379px; }
@@ -148,7 +151,7 @@
 }
 
 @media screen and (max-width: 853px) and (min-width: 660px) {
-	.bx-im-fullscreen-adaptive .bx-messenger-call-overlay { margin-left: 200px!important;  }
+	.bx-im-fullscreen-adaptive .bx-messenger-call-overlay.bx-messenger-call-overlay-folded { margin-left: 245px!important; width: calc(100% - 245px);}
 	.bx-im-fullscreen-adaptive .bx-messenger-box-contact { width: 200px!important;  }
 	.bx-im-fullscreen-adaptive .bx-messenger-box-dialog { margin-left: 200px!important; }
 	.bx-im-fullscreen-adaptive .bx-messenger-box-extra { margin-left: 200px!important; }
@@ -161,7 +164,7 @@
 	.bx-im-fullscreen-adaptive .bx-messenger-command-popup-help { display: none; }
 	.bx-im-fullscreen-adaptive .bx-messenger-chatlist-group-add { display: none; }
 	.bx-im-fullscreen-adaptive .bx-messenger-box-contact { width: 70px!important;  }
-	.bx-im-fullscreen-adaptive .bx-messenger-call-overlay { margin-left: 70px!important; }
+	.bx-im-fullscreen-adaptive .bx-messenger-call-overlay.bx-messenger-call-overlay-folded { margin-left: 115px!important; width: calc(100% - 115px);}
 	.bx-im-fullscreen-adaptive .bx-messenger-box-dialog { margin-left: 70px!important; }
 	.bx-im-fullscreen-adaptive .bx-messenger-box-extra { margin-left: 70px!important; }
 	.bx-im-fullscreen-adaptive .bx-messenger-box-contact-normal .bx-messenger-cl-item-pinned:before { display: none;  }
@@ -215,8 +218,8 @@
 
 /* browser */
 @media screen and (min-width: 1280px) {
-	.bx-im-fullscreen-popup .bx-messenger-call-overlay { margin-left: 300px!important;  }
-	.bx-im-fullscreen-popup .bx-messenger-box-contact { width: 300px!important;  }
+	.bx-im-fullscreen-popup .bx-messenger-call-overlay.bx-messenger-call-overlay-folded  { margin-left: 345px!important; width: calc(100% - 345px); }
+	.bx-im-fullscreen-popup .bx-messenger-box-contact { width: 300px!important; }
 	.bx-im-fullscreen-popup .bx-messenger-box-dialog { margin-left: 300px!important; }
 	.bx-im-fullscreen-popup .bx-messenger-box-extra { margin-left: 300px!important; }
 	.bx-im-fullscreen-popup .bx-messenger-panel-title-chat-input { width: 100%!important;}
@@ -234,7 +237,6 @@
 
 /* desktop */
 @media screen and (min-width: 1160px) {
-	.im-desktop .bx-messenger-call-overlay { margin-left: 300px!important;  }
 	.im-desktop .bx-messenger-box-contact { width: 300px!important;  }
 	.im-desktop .bx-messenger-box-dialog { margin-left: 300px!important; }
 	.im-desktop .bx-messenger-box-extra { margin-left: 300px!important; }

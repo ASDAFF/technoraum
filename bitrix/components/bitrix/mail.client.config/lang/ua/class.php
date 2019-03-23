@@ -1,4 +1,5 @@
 <?
+$MESS["MAIL_CLIENT_CONFIG_IMAP_AGE_3"] = "3 дні";
 $MESS["MAIL_CLIENT_CONFIG_TITLE"] = "Підключення поштової скриньки";
 $MESS["MAIL_CLIENT_CONFIG_EDIT_TITLE"] = "Управління поштовою скринькою";
 $MESS["MAIL_CLIENT_CONFIG_PROMPT"] = "Працюйте з поштою всередині Бітрікс24";
@@ -93,3 +94,4 @@ $MESS["MAIL_MAILBOX_LICENSE_SHARED_LIMIT_BODY"] = "Кількість поштових скриньок, 
 На вашому тарифі доступно загальних поштових скриньок: #LIMIT#";
 $MESS["MAIL_MAILBOX_REMOVE_CONFIRM"] = "Відключити поштову скриньку?";
 $MESS["MAIL_MAILBOX_REMOVE_CONFIRM_TEXT"] = "Ви дійсно хочете відключити поштову скриньку?";
+?>

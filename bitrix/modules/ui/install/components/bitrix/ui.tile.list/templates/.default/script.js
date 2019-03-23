@@ -1,214 +1,151 @@
-;(function (window)
+;(function ()
 {
-	BX.namespace('BX.UI.Tile');
-	if (BX.UI.Tile.List)
+	var namespace = BX.namespace('BX.UI.TileList');
+	if (namespace.Manager)
 	{
 		return;
 	}
 
-	var selectorList = [];
+	var managerList = [];
 
 	/**
 	 * Tile.
 	 *
 	 */
-	function Tile(params)
+	function Tile(options)
 	{
-		this.id = params.id;
-		this.node = params.node;
-		this.data = params.data;
+		this.id = options.id;
+		this.name = options.name;
+		this.bgColor = options.bgColor;
+		this.color = options.color;
+		this.selected = options.selected;
+		this.node = options.node;
+		this.data = options.data;
 
-		this.nameNode = Helper.getNode('tile-item-name', this.node);
+		this.nameNode = Helper.getNode('tile/item/name', this.node);
+		this.iconNode = Helper.getNode('tile/item/icon', this.node);
+		this.iconColorNode = Helper.getNode('tile/item/icon/color', this.node);
+
+		if (this.name)
+		{
+			this.nameNode.textContent = this.name;
+		}
+		if (options.iconClass)
+		{
+			BX.addClass(this.iconNode, options.iconClass);
+		}
+
+		this.changeSelection(this.selected);
 	}
+	Tile.prototype = {
+		classSelected: 'ui-tile-list-item-selected',
+		changeSelection: function (isSelected)
+		{
+			Helper.changeClass(this.node, this.classSelected, isSelected);
+			this.nameNode.style.color = (isSelected && this.color) ? this.color : '';
+			this.node.style.background = isSelected
+				? (this.bgColor
+						? this.bgColor
+						: getComputedStyle(this.iconColorNode).backgroundColor
+				)
+				: '';
+
+			this.selected = isSelected;
+		},
+		onClick: function ()
+		{
+
+		},
+		zzz: function ()
+		{
+
+		}
+	};
+
 
 	/**
-	 * TileSelector.
+	 * Manager.
 	 *
 	 */
-	function TileSelector(params)
+	function Manager(params)
 	{
 		this.init(params);
 	}
-	TileSelector.prototype.events = {
-		containerClick: 'container-click',
+	Manager.prototype.events = {
 		tileClick: 'tile-click',
 		tileRemove: 'tile-remove',
 		tileEdit: 'tile-edit',
 		tileAdd: 'tile-add',
-		buttonAdd: 'add',
-		buttonSelect: 'select',
-		buttonSelectFirst: 'select-first',
-		search: 'search',
-		input: 'input',
-		searcherCategoryClick: 'popup-category-click',
-		searcherItemClick: 'popup-item-click'
+		buttonAdd: 'add'
 	};
-	TileSelector.getById = function (id)
+	Manager.getById = function (id)
 	{
-		var filtered = selectorList.filter(function (item) {
+		var filtered = managerList.filter(function (item) {
 			return item.id === id;
 		});
 		return filtered.length > 0 ? filtered[0] : null;
 	};
-	TileSelector.getList = function ()
+	Manager.getList = function ()
 	{
-		return selectorList;
+		return managerList;
 	};
 
-	TileSelector.prototype.init = function (params)
+	Manager.prototype.init = function (params)
 	{
 		this.list = [];
-		this.id = params.id;
 		this.context = BX(params.containerId);
-		this.duplicates = params.duplicates;
-		this.multiple = params.multiple;
-		this.readonly = params.readonly;
-
-		this.attributeId = 'data-bx-id';
-		this.attributeData = 'data-bx-data';
-		this.tileContainer = Helper.getNode('tile-container', this.context);
-		this.tileTemplate = Helper.getNode('tile-template', this.context);
-		this.input = Helper.getNode('tile-input', this.context);
-		this.buttonAdd = Helper.getNode('tile-add', this.context);
-		this.buttonSelect = Helper.getNode('tile-select', this.context);
-
-		if (!this.context || !this.input)
+		if (!this.context)
 		{
 			return;
 		}
 
-		Helper.getNodes('tile-item', this.context).forEach(this.initNode.bind(this));
+		this.id = params.id;
 
-		if (!this.readonly)
-		{
-			this.initEventHandlers();
-		}
+		this.tileContainer = Helper.getNode('tile/items', this.context);
+		this.tileTemplate = Helper.getNode('tile/template', this.context);
+		this.buttonAdd = Helper.getNode('tile/add', this.context);
 
-		this.searcher = null;
+		Helper.getNodes('tile/item', this.context).forEach(this.initNode.bind(this, params.tileOptionsList || []));
 
-		selectorList.push(this);
+		managerList.push(this);
+		this.initEventHandlers();
 	};
-	TileSelector.prototype.initEventHandlers = function ()
+	Manager.prototype.initEventHandlers = function ()
 	{
 		if (this.buttonAdd)
 		{
 			BX.bind(this.buttonAdd, 'click', this.onButtonAdd.bind(this));
 		}
-		if (this.context)
-		{
-			BX.bind(this.context, 'click', this.onContainerClick.bind(this));
-		}
-		if (this.buttonSelect)
-		{
-			BX.bind(this.buttonSelect, 'click', this.onButtonSelect.bind(this));
-			BX.bind(this.tileContainer, 'click', this.onButtonSelect.bind(this));
-		}
-		BX.bind(this.input, 'input', this.onInput.bind(this));
-		BX.bind(this.input, 'blur', this.onInputEnd.bind(this));
-		Helper.handleKeyEnter(this.input, this.onInputEnd.bind(this));
 	};
-	TileSelector.prototype.getSearchInput = function ()
-	{
-		return this.input;
-	};
-	TileSelector.prototype.isSearcherInit = function ()
-	{
-		return !!this.searcher;
-	};
-	TileSelector.prototype.clearSearcher = function ()
-	{
-		this.isButtonSelectFired = false;
-		if (this.searcher)
-		{
-			this.searcher.hide();
-			this.searcher = null;
-		}
-	};
-	TileSelector.prototype.hideSearcher = function ()
-	{
-		this.searcher.hide();
-	};
-	TileSelector.prototype.showSearcher = function (title)
-	{
-		if (!this.searcher)
-		{
-			this.searcher = new Searcher({
-				'id': this.id,
-				'caller': this,
-				'context': this.context,
-				'title': title || ''
-			});
-		}
-
-		this.searcher.filterByName();
-		this.searcher.show();
-	};
-	TileSelector.prototype.setSearcherData = function (dataList)
-	{
-		if (!this.searcher)
-		{
-			this.showSearcher();
-		}
-
-		this.searcher.setCategories(dataList);
-	};
-	TileSelector.prototype.initNode = function (node)
+	Manager.prototype.initNode = function (tileOptionsList, node)
 	{
 		if (!node)
 		{
 			return null;
 		}
 
-		var id = node.getAttribute(this.attributeId);
-		var data = node.getAttribute(this.attributeData);
-		try
+		var id = node.getAttribute('data-id');
+		var filtered = tileOptionsList.filter(function (tileOptions) {
+			return tileOptions.id.toString() === id;
+		}, this);
+		if (filtered.length === 0)
 		{
-			data = JSON.parse(data);
-		}
-		catch (e)
-		{
-			try
-			{
-				data = JSON.parse(BX.util.htmlspecialcharsback(data));
-			}
-			catch (e)
-			{
-				data = {};
-			}
+			return;
 		}
 
-		var tile = new Tile({
-			'id': id,
-			'node': node,
-			'data': data
-		});
-		if (tile.id && !this.duplicates && this.findDuplicates(tile.id))
-		{
-			tile = null;
-			return null;
-		}
-
-		var removeButton = Helper.getNode('remove', node);
-		if (removeButton)
-		{
-			BX.bind(removeButton, 'click', this.onRemove.bind(this, tile));
-		}
-
-		BX.bind(node, 'click', this.onClick.bind(this, tile));
-
-		this.list.push(tile);
-
-		return tile;
+		var tileOptions = filtered[0];
+		tileOptions.node = node;
+		this.addTile(tileOptions);
 	};
 
-	TileSelector.prototype.onRemove = function (tile, e)
+	Manager.prototype.onRemove = function (tile, e)
 	{
 		e.preventDefault();
 		e.stopPropagation();
 		this.removeTile(tile);
 		return false;
 	};
-	TileSelector.prototype.onClick = function (tile, e)
+	Manager.prototype.onTileClick = function (tile, e)
 	{
 		e.preventDefault();
 		e.stopPropagation();
@@ -216,198 +153,64 @@
 	};
 
 
-	TileSelector.prototype.removeTiles = function ()
+	Manager.prototype.removeTiles = function ()
 	{
 		var list = this.list;
 		list.forEach(this.removeTile.bind(this));
 	};
-	TileSelector.prototype.removeTile = function (tile)
+	Manager.prototype.removeTile = function (tile)
 	{
 		this.list = BX.util.deleteFromArray(this.list, this.list.indexOf(tile));
 		BX.remove(tile.node);
 		this.fire(this.events.tileRemove, [tile]);
 	};
-	TileSelector.prototype.getTile = function (id)
+	Manager.prototype.getTile = function (id)
 	{
 		var filtered = this.list.filter(function (item) {
 			return item.id === id;
 		});
 		return filtered.length > 0 ? filtered[0] : null;
 	};
-	TileSelector.prototype.getTilesData = function ()
-	{
-		return this.list.map(function (tile) {
-			return tile.data;
-		});
-	};
-	TileSelector.prototype.getTilesId = function ()
-	{
-		return this.list.map(function (tile) {
-			return tile.id;
-		}).filter(function (id) {
-			return !!id;
-		});
-	};
-	TileSelector.prototype.getTiles = function ()
+	Manager.prototype.getTiles = function ()
 	{
 		return this.list;
 	};
-	TileSelector.prototype.findDuplicates = function (id)
+	Manager.prototype.addTile = function (options)
 	{
-		var tile = this.getTile(id);
-		if (!tile)
+		if (!options.node)
 		{
-			return false;
+			options.node = Helper.getTemplatedNode(this.tileTemplate, {});
 		}
-
-		this.removeTile(tile);
-	};
-	TileSelector.prototype.addTile = function (name, data, id, background, color)
-	{
-		if (!name || this.readonly)
-		{
-			return null;
-		}
-
-		if (!this.multiple)
-		{
-			this.removeTiles();
-			if (this.isSearcherInit())
-			{
-				this.hideSearcher();
-			}
-		}
-
-		data = data || {};
-		id = id || '';
-		color = color || '';
-		background = background || '';
-
-		var template = this.tileTemplate;
-		if (!template)
-		{
-			return null;
-		}
-
-		template = template.innerHTML;
-		var style = '';
-		if (color)
-		{
-			style += 'color: ' + BX.util.htmlspecialchars(color) + '; ';
-		}
-		if (background)
-		{
-			style += 'background-color: ' + BX.util.htmlspecialchars(background) + '; ';
-		}
-		template = Helper.replace(template, {
-			'id': BX.util.htmlspecialchars(id + ''),
-			'name': BX.util.htmlspecialchars(name),
-			'data': BX.util.htmlspecialchars(JSON.stringify(data)),
-			'style': style
-		});
-
-
-		var node = document.createElement('div');
-		node.innerHTML = template;
-		node = node.children[0];
-
-		var tile = this.initNode(node);
+		var tile = new namespace.Tile(options);
 		if (!tile)
 		{
 			return null;
 		}
 
-		this.input.parentNode.insertBefore(node, this.input);
+		if (!this.tileContainer.contains(tile.node))
+		{
+			this.tileContainer.appendChild(tile.node);
+		}
+
+		BX.bind(tile.node, 'click', this.onTileClick.bind(this, tile));
+
+
+		this.list.push(tile);
 		this.fire(this.events.tileAdd, [tile]);
 
 		return tile;
 	};
-	TileSelector.prototype.updateTile = function (tile, name, data, bgcolor, color)
-	{
-		if (!tile || this.readonly)
-		{
-			return null;
-		}
 
-		name = name || null;
-		data = data || null;
-		bgcolor = bgcolor || null;
-		color = color || null;
-
-		if (name)
-		{
-			tile.nameNode.textContent = name;
-		}
-
-		if (data)
-		{
-			tile.data = data;
-		}
-
-		if (bgcolor || bgcolor === null)
-		{
-			tile.node.style.backgroundColor = bgcolor;
-		}
-
-		if (color)
-		{
-			tile.node.style.color = color;
-		}
-
-		this.fire(this.events.tileEdit, [tile]);
-
-		return tile;
-	};
-
-	TileSelector.prototype.fire = function (eventName, data)
+	Manager.prototype.fire = function (eventName, data)
 	{
 		BX.onCustomEvent(this, eventName, data);
 	};
-	TileSelector.prototype.onInput = function ()
-	{
-		var value = this.input.value;
-		if (this.searcher && value.length > 0)
-		{
-			this.searcher.filterByName(value);
-		}
-
-		this.fire(this.events.input, [this.input.value]);
-	};
-	TileSelector.prototype.onInputEnd = function ()
-	{
-		var value = this.input.value;
-		this.input.value = '';
-		Helper.changeDisplay(this.input, false);
-		Helper.changeDisplay(this.buttonSelect, true);
-
-		this.fire(this.events.search, [value]);
-	};
-	TileSelector.prototype.onButtonAdd = function (e)
+	Manager.prototype.onButtonAdd = function (e)
 	{
 		e.preventDefault();
 		e.stopPropagation();
 
 		this.fire(this.events.buttonAdd, []);
-	};
-	TileSelector.prototype.onContainerClick = function ()
-	{
-		this.fire(this.events.containerClick, []);
-	};
-	TileSelector.prototype.onButtonSelect = function (e)
-	{
-		e.preventDefault();
-		e.stopPropagation();
-
-		Helper.changeDisplay(this.buttonSelect, false);
-		Helper.changeDisplay(this.input, true);
-		this.input.focus();
-
-		this.fire(this.events.buttonSelect, []);
-		if (!this.isButtonSelectFired)
-		{
-			this.fire(this.events.buttonSelectFirst, []);
-			this.isButtonSelectFired = true;
-		}
 	};
 
 	var Helper = {
@@ -484,26 +287,6 @@
 			}
 			return text;
 		},
-		handleKeyEnter: function (inputNode, callback)
-		{
-			if (!callback)
-			{
-				return;
-			}
-
-			var handler = function (event)
-			{
-				event = event || window.event;
-				if ((event.keyCode === 0xA)||(event.keyCode === 0xD))
-				{
-					event.preventDefault();
-					event.stopPropagation();
-					callback();
-					return false;
-				}
-			};
-			BX.bind(inputNode, 'keyup', handler);
-		},
 		getTemplatedNode: function (templateNode, replaceData, isDataSafe)
 		{
 			if (!templateNode)
@@ -520,6 +303,7 @@
 	};
 
 
-	BX.UI.Tile.List = TileSelector;
+	namespace.Manager = Manager;
+	namespace.Tile = Tile;
 
-})(window);
+})();

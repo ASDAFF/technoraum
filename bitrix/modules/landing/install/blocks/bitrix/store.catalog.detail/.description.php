@@ -22,7 +22,8 @@ $return = array(
 			'subtype' => 'component',
 			'subtype_params' => array(
 				'required' => 'catalog'
-			)
+			),
+			'namespace' => 'bitrix'
 		),
 	'assets' => array(
 		'css' => array(
@@ -122,7 +123,7 @@ $return = array(
 $params =& $return['nodes']['bitrix:catalog.element']['extra']['editable'];
 
 // vk only for ru
-if (!in_array(Manager::getZone(), array('ru', 'by', 'kz')))
+if (!Manager::availableOnlyForZone('ru'))
 {
 	unset($params['VK_API_ID']);
 }

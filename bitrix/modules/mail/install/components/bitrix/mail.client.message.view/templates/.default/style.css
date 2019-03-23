@@ -322,7 +322,7 @@
 
 .mail-msg-view-sender-name {
 	margin: 0 10px 0 0;
-	max-width: 100%;
+	max-width: 60%;
 	font: bold 17px/17px "Helvetica Neue", Arial, Helvetica, sans-serif;
 	color: #333;
 	overflow: hidden;
@@ -436,7 +436,11 @@
 	left: -20px;
 	width: 18px;
 	height: 16px;
-	background: url(images/control-sprite.png) no-repeat;
+	background: url(images/control-sprite.png?2) no-repeat;
+}
+
+.mail-msg-view-control.mail-msg-view-control-reply:before {
+	background-position: 0 1px;
 }
 
 .mail-msg-view-control.mail-msg-view-control-replyall:before {
@@ -632,7 +636,7 @@
 }
 
 .mail-additional {
-	margin: 2px 0 0 0;
+	margin: 0 0 20px 0;
 	background: #fff;
 }
 
@@ -642,28 +646,17 @@
 
 .mail-additional-title-block {
 	display: flex;
-	padding: 21px 0 18px;
+	padding: 10px 0 18px;
 }
 
 .mail-additional-title {
 	overflow: hidden;
 	font-weight: 700;
 	font-size: 14px;
-	padding-left: 30px;
 	margin-left: 6px;
 	cursor: pointer;
 	color: #525c69;
 	position: relative;
-}
-
-.mail-additional-title:before {
-	content: '';
-	position: absolute;
-	width: 13px;
-	height: 8px;
-	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2213%22%20height%3D%228%22%20viewBox%3D%220%200%2013%208%22%3E%0A%20%20%3Cpath%20fill%3D%22%235D6675%22%20fill-rule%3D%22evenodd%22%20d%3D%22M514%2C13%20L521%2C13%20L521%2C15%20L512.047619%2C15%20L512.047619%2C14.952381%20L512%2C14.952381%20L512%2C6%20L514%2C6%20L514%2C13%20Z%22%20transform%3D%22rotate%28135%20262.328%20-97.124%29%22/%3E%0A%3C/svg%3E%0A');
-	top: 4px;
-	left: 0;
 }
 
 .mail-additional-promo {
@@ -712,13 +705,13 @@
 }
 
 .mail-additional-options-inner {
-	padding: 0 29px 0 34px;
+	padding: 0 20px;
 }
 
 .mail-additional-item {
-	padding: 25px 0 21px;
+	padding: 12px 0 10px;
 	border-bottom: 1px solid #f0f1f3;
-	font-size: 14px;
+	font-size: 13px;
 	line-height: 20px;
 	display: flex;
 }

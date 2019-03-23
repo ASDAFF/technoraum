@@ -24,6 +24,11 @@ $randString = $this->randString();
 $jsObject = 'CrmEntitySelector_'.$randString;
 $listPrefix = array('DEAL' => 'D', 'CONTACT' => 'C', 'COMPANY' => 'CO', 'LEAD' => 'L', 'ORDER' => 'O');
 ?>
+<? if ($arResult['PERMISSION_DENIED']): ?>
+<div id="crm-<?=$fieldUID?>-box">
+	<div class="crm-button-open"><?=GetMessage('CRM_SFE_PERMISSION_DENIED')?></div>
+</div>
+<? else: ?>
 <div id="crm-<?=$fieldUID?>-box">
 	<div class="crm-button-open">
 		<span id="crm-<?=$fieldUID?>-open" onclick="obCrm[this.id].Open()">
@@ -78,3 +83,5 @@ $listPrefix = array('DEAL' => 'D', 'CONTACT' => 'C', 'COMPANY' => 'CO', 'LEAD' =
 		window.setTimeout(BX['<?=$jsObject?>'].initWidgetEntitySelection(), 100);
 	});
 </script>
+
+<? endif; ?>

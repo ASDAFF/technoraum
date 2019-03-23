@@ -14,7 +14,10 @@ class UIPageSliderWrapperComponent extends \CBitrixComponent
 	 */
 	protected function isPageSliderContext()
 	{
-		return $this->request->get('IFRAME') === 'Y'/* && $this->request->get('IFRAME_TYPE') === 'SIDE_SLIDER'*/;
+		return
+			$this->request->get('IFRAME') === 'Y' ||
+			isset($this->arParams['IFRAME_MODE']) && $this->arParams['IFRAME_MODE'] === true
+		;
 	}
 
 	/**
@@ -91,7 +94,8 @@ class UIPageSliderWrapperComponent extends \CBitrixComponent
 			global $APPLICATION;
 			$APPLICATION->RestartBuffer();
 			$this->includeComponentTemplate();
-			\CAllMain::FinalActions();
+
+			require($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/epilog_after.php');
 			exit;
 		}
 		elseif ($this->arParams['PAGE_MODE'] || self::$isWrapperCalled)

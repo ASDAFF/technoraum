@@ -3,7 +3,7 @@
 		<nav class="navbar navbar-expand-lg py-0 g-px-15">
 			<div class="container">
 				<!-- Logo -->
-				<a href="#" class="landing-block-node-menu-logo-link navbar-brand u-header__logo p-0">
+				<a href="#system_mainpage" class="landing-block-node-menu-logo-link navbar-brand u-header__logo p-0">
 					<img class="landing-block-node-menu-logo u-header__logo-img u-header__logo-img--main g-max-width-180"
 						 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/app-logo.png" alt="">
 				</a>

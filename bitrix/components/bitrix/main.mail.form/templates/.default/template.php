@@ -238,6 +238,7 @@ $renderField = function($htmlFormId, $field, $isExt = false)
 					'useFileDialogs' => false,
 					'useLinkStat' => false,
 					'uploadImagesFromClipboard' => false,
+					'autoLink' => false,
 					'controlsMap' => array(
 						array('id' => 'Bold', 'compact' => true, 'sort' => 10),
 						array('id' => 'Italic', 'compact' => true, 'sort' => 20),
@@ -332,10 +333,6 @@ $renderField = function($htmlFormId, $field, $isExt = false)
 </div>
 
 <script type="text/javascript">
-
-BX.message({
-	BXEdBbCode: '<?=\CUtil::jsEscape(getMessage('MAIN_MAIL_FORM_EDITOR_HTML_MODE_BTN_HINT')) ?>'
-});
 
 BX.ready(function()
 {

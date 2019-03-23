@@ -84,7 +84,7 @@ $getHint = function ($messageCode) use ($messages)
 		<div class="bizproc-automation-status">
 			<div class="bizproc-automation-status-name">
 				<span class="bizproc-automation-status-name-bg"><?=GetMessage('BIZPROC_AUTOMATION_CMP_TRIGGER_LIST')?>
-					<span class="bizproc-automation-status-help" data-hint="<?=$getHint('BIZPROC_AUTOMATION_CMP_TRIGGER_HELP')?>"></span>
+					<span class="bizproc-automation-status-help" data-hint="<?=$getHint('BIZPROC_AUTOMATION_CMP_TRIGGER_HELP_2')?>"></span>
 				</span>
 				<span class="bizproc-automation-status-line"></span>
 			</div>

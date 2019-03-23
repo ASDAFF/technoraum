@@ -12,6 +12,7 @@ $return = array(
 		'section' => array('store'),
 		'type' => 'null',
 		'html' => false,
+		'namespace' => 'bitrix'
 	),
 	'nodes' => array(
 		"bitrix:sale.basket.basket" => array(
@@ -36,7 +37,6 @@ $params =& $return['nodes']['bitrix:sale.basket.basket']['extra']['editable'];
 
 // remove extended fields in simple mode
 $extendedFields = \Bitrix\Landing\Hook\Page\Settings::getCodes(true);
-//if (!isset($extended) || $extended !== true)
 foreach ($params as $key => $item)
 {
 	if (in_array($key, $extendedFields))

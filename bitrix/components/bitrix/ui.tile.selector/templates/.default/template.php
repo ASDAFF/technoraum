@@ -25,7 +25,7 @@ $getTileTemplate = function () use ($arParams)
 		<?if ($inputName):?>
 			<input type="hidden" name="<?=$inputName?>" value="%id%">
 		<?endif;?>
-		<?if (!$arParams['READONLY']):?>
+		<?if (!$arParams['READONLY'] && $arParams['CAN_REMOVE_TILES']):?>
 			<span data-role="remove" class="ui-tile-selector-item-remove"></span>
 		<?endif;?>
 	</span>

@@ -11,6 +11,7 @@
  * @global CMain $APPLICATION
  * @global CUserTypeManager $USER_FIELD_MANAGER
  */
+use Bitrix\Main;
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_before.php");
 define("HELP_FILE", "settings/userfield_edit.php");
@@ -356,6 +357,7 @@ $tabControl->BeginNextTab();
 			{
 				$arUserTypes = $USER_FIELD_MANAGER->GetUserType();
 				$arr = array("reference"=>array(), "reference_id"=>array());
+				Main\Type\Collection::sortByColumn($arUserTypes, 'DESCRIPTION', '', null, true);
 				foreach($arUserTypes as $arUserType)
 				{
 					$arr["reference"][] = $arUserType["DESCRIPTION"];

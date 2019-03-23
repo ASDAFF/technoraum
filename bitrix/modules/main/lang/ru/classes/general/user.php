@@ -67,4 +67,5 @@ $MESS["USER_LAST_SEEN_NOW"] = "только что";
 $MESS["USER_LAST_SEEN_TODAY"] = "сегодня в #TIME#";
 $MESS["USER_LAST_SEEN_YESTERDAY"] = "вчера в #TIME#";
 $MESS["USER_LAST_SEEN_MORE_YEAR"] = "более года назад";
+$MESS["main_user_check_max_pass"] = "Превышена максимальная длина пароля (50 символов).";
 ?>

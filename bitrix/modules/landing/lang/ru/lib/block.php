@@ -10,3 +10,5 @@ $MESS['LANDING_BLOCK_BAD_ANCHOR'] = 'Якорь должен начинаться с символа от a-z и 
 $MESS['LANDING_BLOCK_BR1'] = 'Каталог';
 $MESS['LANDING_BLOCK_BR2'] = 'Страница о товаре';
 $MESS['LANDING_BLOCK_TITLE'] = 'Заголовок страницы';
+$MESS['LANDING_BLOCK_MESSAGE_ERROR_EVAL'] = 'При исполнении данного блока произошла ошибка. Попробуйте добавить данный блок снова.';
+$MESS['LD_BLOCK_SECTION_LAST'] = 'Последние';

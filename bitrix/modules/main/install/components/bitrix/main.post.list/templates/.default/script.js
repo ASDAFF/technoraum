@@ -1454,7 +1454,8 @@
 				"VOTE_ID" : "",
 				"AUTHOR_TOOLTIP_PARAMS" : '',
 				"background:url('') no-repeat center;" : "",
-				"LIKE_REACT" : ''
+				"LIKE_REACT" : '',
+				"RATING_NONEMPTY_CLASS" : ''
 			};
 		if (!!res && !!data["messageFields"])
 		{
@@ -1574,6 +1575,7 @@
 				"AUTHOR_TOOLTIP_PARAMS" : (typeof res["AUTHOR_TOOLTIP_PARAMS"] != 'undefined' ? res["AUTHOR_TOOLTIP_PARAMS"] : '{}'),
 				"background:url('') no-repeat center;" : "",
 				"LIKE_REACT" : (!!res["LIKE_REACT"] ? res["LIKE_REACT"] : ''),
+				"RATING_NONEMPTY_CLASS" : (res["RATING"] && res["RATING"]["TOTAL_VOTES"] ? "comment-block-rating-nonempty" : ""),
 				"POST_ENTITY_TYPE" : (!!res["POST_CONTENT_TYPE_ID"] ? res["POST_CONTENT_TYPE_ID"] : ''),
 				"COMMENT_ENTITY_TYPE" : (!!res["COMMENT_CONTENT_TYPE_ID"] ? res["COMMENT_CONTENT_TYPE_ID"] : '')
 			};
@@ -1600,7 +1602,7 @@
 		{
 			if (replacement.hasOwnProperty(ij))
 			{
-				txt = txt.replace(new RegExp('#' + ij + '#', "g"), replacement[ij]);
+				txt = txt.replace(new RegExp('#' + ij + '#', "g"), function() { return replacement[this]; }.bind(ij) );
 			}
 		}
 		return txt.replace("background:url('') no-repeat center;", "").replace(/\001/gi, "#");

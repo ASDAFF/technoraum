@@ -562,7 +562,11 @@ if(
 			}
 			else
 			{
-				$arProps[$arField["ID"]] = $_POST[$FIELD_ID];
+				if (is_array($_POST[$FIELD_ID]) && !empty($_POST[$FIELD_ID])
+					|| is_string($_POST[$FIELD_ID]) && strlen($_POST[$FIELD_ID]) > 0)
+				{
+					$arProps[$arField["ID"]] = $_POST[$FIELD_ID];
+				}
 			}
 		}
 
@@ -572,7 +576,6 @@ if(
 		if(count($arProps))
 		{
 			$arElement["PROPERTY_VALUES"] = $arProps;
-			$oldPropertyValues = array();
 			if($arResult["ELEMENT_ID"] > 0)
 			{
 				$ignoreProperty = array("F", "L", "N");
@@ -598,10 +601,6 @@ if(
 								"DESCRIPTION" => $arPropV["DESCRIPTION"],
 							);
 						}
-					}
-					if($arPropV["USER_TYPE"] == "DiskFile")
-					{
-						$oldPropertyValues[$arPropV["ID"]][$arPropV["PROPERTY_VALUE_ID"]]["VALUE"] = $arPropV["VALUE"];
 					}
 				}
 			}

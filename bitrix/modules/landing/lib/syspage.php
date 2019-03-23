@@ -58,11 +58,22 @@ class Syspage
 		}
 		else if ($lid !== false)
 		{
-			SyspageTable::add(array(
-				'SITE_ID' => $id,
-				'TYPE' => $type,
-				'LANDING_ID' => $lid
-			));
+			$check = Site::getList([
+				'select' => [
+					'ID'
+				],
+				'filter' => [
+					'ID' => $id
+				]
+			])->fetch();
+			if ($check)
+			{
+				SyspageTable::add(array(
+					'SITE_ID' => $id,
+					'TYPE' => $type,
+					'LANDING_ID' => $lid
+				));
+			}
 		}
 	}
 

@@ -23,6 +23,6 @@ return array(
 	),
 	'items' => array (
 	),
-	'sort' => -120,
+	'sort' => \LandingSiteDemoComponent::checkActivePeriod(1,24,2,14) ? 111 : -101,
 	'available' => true,
 );

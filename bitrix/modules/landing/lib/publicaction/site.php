@@ -14,10 +14,10 @@ class Site
 {
 	/**
 	 * Clear disallow keys from add/update fields.
-	 * @param array $fields
+	 * @param array $fields Array fields.
 	 * @return array
 	 */
-	protected static function clearDisallowFields($fields)
+	protected static function clearDisallowFields(array $fields)
 	{
 		$disallow = array('ACTIVE');
 
@@ -67,7 +67,7 @@ class Site
 	 * @param array $params Params ORM array.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function getList($params = array())
+	public static function getList(array $params = array())
 	{
 		$result = new PublicActionResult();
 
@@ -98,6 +98,14 @@ class Site
 		$res = SiteCore::getList($params);
 		while ($row = $res->fetch())
 		{
+			if (isset($row['DATE_CREATE']))
+			{
+				$row['DATE_CREATE'] = (string) $row['DATE_CREATE'];
+			}
+			if (isset($row['DATE_MODIFY']))
+			{
+				$row['DATE_MODIFY'] = (string) $row['DATE_MODIFY'];
+			}
 			$data[] = $row;
 		}
 		$result->setResult($data);
@@ -110,7 +118,7 @@ class Site
 	 * @param array $fields Site data.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function add($fields)
+	public static function add(array $fields)
 	{
 		$result = new PublicActionResult();
 		$error = new \Bitrix\Landing\Error;
@@ -139,7 +147,7 @@ class Site
 	 * @param array $fields Site new data.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function update($id, $fields)
+	public static function update($id, array $fields)
 	{
 		$result = new PublicActionResult();
 		$error = new \Bitrix\Landing\Error;
@@ -292,7 +300,7 @@ class Site
 	 * @param array $params Params array.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function fullExport($id, $params = array())
+	public static function fullExport($id, array $params = array())
 	{
 		$result = new PublicActionResult();
 
@@ -311,9 +319,10 @@ class Site
 	 * @param array $params Some file params.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function uploadFile($id, $picture, $ext = false, $params = array())
+	public static function uploadFile($id, $picture, $ext = false, array $params = array())
 	{
 		static $internal = true;
+		static $mixedParams = ['picture'];
 
 		$result = new PublicActionResult();
 		$result->setResult(false);

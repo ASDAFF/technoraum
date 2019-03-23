@@ -1,4 +1,5 @@
 <?
+$MESS["EC_VIEW_SLIDER_EVENT_NOT_FOUND"] = "Termin wurde nicht gefunden oder kann nicht angezeigt werden.";
 $MESS["EC_VIEW_SLIDER_IMPORTANT_EVENT"] = "Dieser Termin ist wichtig";
 $MESS["EC_VIEW_SLIDER_SAVE_EVENT_BUTTON"] = "Speichern";
 $MESS["EC_VIEW_SLIDER_CANCEL_BUTTON"] = "Abbrechen";

@@ -43,6 +43,7 @@
 		setCallId: 'phoneCallViewSetCallId',
 		setLineNumber: 'phoneCallViewSetLineNumber',
 		setCompanyPhoneNumber: 'phoneCallViewSetCompanyPhoneNumber',
+		setTransfer: 'phoneCallViewSetTransfer',
 		closeWindow: 'phoneCallViewCloseWindow',
 
 		onHold: 'phoneCallViewOnHold',
@@ -1352,6 +1353,7 @@
 		}
 
 		this.transfer = transfer;
+		this.setOnSlave(desktopEvents.setTransfer, [transfer]);
 		this.setUiState(this._uiState);
 	};
 
@@ -3088,6 +3090,7 @@
 		BX.desktop.addCustomEvent(desktopEvents.setCallId, this.setCallId.bind(this));
 		BX.desktop.addCustomEvent(desktopEvents.setLineNumber, this.setLineNumber.bind(this));
 		BX.desktop.addCustomEvent(desktopEvents.setCompanyPhoneNumber, this.setCompanyPhoneNumber.bind(this));
+		BX.desktop.addCustomEvent(desktopEvents.setTransfer, this.setTransfer.bind(this));
 		BX.desktop.addCustomEvent(desktopEvents.setCallState, this.setCallState.bind(this));
 		BX.desktop.addCustomEvent(desktopEvents.closeWindow, function(){window.close()});
 

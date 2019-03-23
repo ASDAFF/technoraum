@@ -284,7 +284,8 @@ BX.TileGrid.Grid.prototype =
 		}
 
 		var head = document.head;
-		var styles = 	'.ui-grid-tile-item { ' +
+		var styles = 	'#' + this.getId() +
+						' .ui-grid-tile-item { ' +
 						'width: calc(' + (100 / this.calculateCountItemsPerRow()) + '% - 18px); ' +
 						'}';
 
@@ -419,6 +420,7 @@ BX.TileGrid.Grid.prototype =
 
 		return this.container = BX.create('div', {
 			attrs: {
+				id: this.getId(),
 				className: 'ui-grid-tile'
 			}
 		})
@@ -499,6 +501,8 @@ BX.TileGrid.Grid.prototype =
 
 	redraw: function(items)
 	{
+		BX.onCustomEvent('BX.TileGrid.Grid:beforeRedraw', [this]);
+
 		this.items.forEach(function(item)
 		{
 			item.removeNode();
@@ -1021,6 +1025,11 @@ BX.TileGrid.Grid.prototype =
 
 	isFocusOnTile: function()
 	{
+		if (BX.getClass('BX.UI.Viewer.Instance') && BX.UI.Viewer.Instance.isOpen())
+		{
+			return false;
+		}
+
 		if (!document.activeElement)
 		{
 			return true;
@@ -1158,6 +1167,8 @@ BX.TileGrid.Grid.prototype =
 			BX.removeClass(this.items[i].layout.checkbox, 'ui-grid-tile-item-checkbox-checked');
 			BX.removeClass(this.items[i].layout.container, 'ui-grid-tile-item-selected');
 		}
+
+		BX.onCustomEvent('BX.TileGrid.Grid:afterResetSelectAllItems', [this]);
 	}
 };
 

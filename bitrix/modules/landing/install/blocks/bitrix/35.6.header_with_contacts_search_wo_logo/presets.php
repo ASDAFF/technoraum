@@ -45,7 +45,7 @@ return [
 								<div class="landing-block-node-card-title text-uppercase g-font-size-13">
 									Email us
 								</div>
-								<a class="landing-block-node-card-link g-font-size-14 g-font-weight-700"
+								<a class="landing-block-node-card-link g-color-primary g-font-size-14 g-font-weight-700"
 									 href="mailto:info@company24.com"
 									 target="_blank">
 									info@company24.com

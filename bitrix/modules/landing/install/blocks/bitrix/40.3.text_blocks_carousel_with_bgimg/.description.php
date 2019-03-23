@@ -26,7 +26,7 @@ return array(
 				array(
 					'name' => Loc::getMessage('LANDING_BLOCK_40.3.TEXT_BLOCKS_CAROUSEL_WITH_BGIMG_NODES_LANDINGBLOCKNODEBGIMG'),
 					'type' => 'img',
-					'dimensions' => array('width' => 1920, 'height' => 964),
+					'dimensions' => array('width' => 1920, 'height' => 1080),
 					'allowInlineEdit' => false
 				),
 			'.landing-block-node-card-title' =>

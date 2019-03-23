@@ -1426,17 +1426,21 @@
 					return ar1;
 				};
 			this.response = merge((this.response || {}), (data || {}));
+			var uploader = this.streams.getUploader();
 			var item, id, file, nonProcessRun, files, ij, copies;
 			for (id in stream.files)
 			{
 				if (stream.files.hasOwnProperty(id))
 				{
 					item = this.repo.getItem(id);
-					if (item && (file = data.files[id]))
+					file = data.files[id];
+					if (item)
 					{
 						if (!file) // has never been loaded
 						{
-							this.queue.restoreFiles(new BX.UploaderUtils.Hash([item]));
+							uploader.queue.restoreFiles(new BX.UploaderUtils.Hash([item]), false, true);
+							delete item.uploadStatus;
+							this.data.setItem(item.id, item);
 						}
 						else if (!file["status"]) // was downloaded partly before but not this time
 						{
@@ -1451,7 +1455,9 @@
 									copies[file["copy"]] = "Y";
 									if (file["copy"] == "default" && file["package"] <= 0)
 									{
-										this.queue.restoreFiles(new BX.UploaderUtils.Hash([item]));
+										uploader.queue.restoreFiles(new BX.UploaderUtils.Hash([item]));
+										delete item.uploadStatus;
+										this.data.setItem(item.id, item);
 										break;
 									}
 
@@ -1837,6 +1843,10 @@
 				}
 			}
 			this.start();
+		},
+		getUploader: function()
+		{
+			return this.uploaded;
 		},
 		exec : function()
 		{

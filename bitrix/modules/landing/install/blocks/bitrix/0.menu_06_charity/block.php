@@ -2,10 +2,10 @@
 	<div class="u-header__section g-bg-black-opacity-0_5 g-bg-transparent--lg g-transition-0_3 g-py-15"
 		 data-header-fix-moment-exclude="g-bg-black-opacity-0_5 g-bg-transparent--lg g-py-15"
 		 data-header-fix-moment-classes="u-header__section--light u-shadow-v27 g-bg-white g-py-12">
-		<nav class="navbar navbar-expand-lg g-py-0">
+		<nav class="navbar navbar-expand-lg g-py-0 g-px-10">
 			<div class="container">
 				<!-- Logo -->
-				<a href="#" class="landing-block-node-menu-logo-link navbar-brand u-header__logo p-0">
+				<a href="#system_mainpage" class="landing-block-node-menu-logo-link navbar-brand u-header__logo p-0">
 					<img class="landing-block-node-menu-logo u-header__logo-img u-header__logo-img--main d-block g-max-width-180"
 						 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/charity-logo-light.png" alt=""
 						 data-header-fix-moment-exclude="d-block"

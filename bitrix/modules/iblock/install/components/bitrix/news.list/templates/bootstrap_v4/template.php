@@ -80,12 +80,10 @@ $themeClass = isset($arParams['TEMPLATE_THEME']) ? ' bx-'.$arParams['TEMPLATE_TH
 									echo count($arItem["SLIDER"]) * 100 ?>%;left: 0;">
 										<?
 										foreach ($arItem["SLIDER"] as $file):?>
-											<div style="width: <?
-											echo 100 / count($arItem["SLIDER"]) ?>%;" class="news-list-slider-slide">
+											<div class="news-list-slider-slide">
 												<img src="<?= $file["SRC"] ?>" alt="<?= $file["DESCRIPTION"] ?>">
 											</div>
 										<?endforeach ?>
-										<div style="clear: both;"></div>
 									</div>
 									<div class="news-list-slider-arrow-container-left">
 										<div class="news-list-slider-arrow"><i class="fa fa-angle-left"></i></div>
@@ -322,7 +320,7 @@ $themeClass = isset($arParams['TEMPLATE_THEME']) ? ' bx-'.$arParams['TEMPLATE_TH
 		</div>
 
 		<?if($arParams["DISPLAY_BOTTOM_PAGER"]):?>
-		<br /><?=$arResult["NAV_STRING"]?>
-	<?endif;?>
+			<?=$arResult["NAV_STRING"]?>
+		<?endif;?>
 	</div>
 </div>

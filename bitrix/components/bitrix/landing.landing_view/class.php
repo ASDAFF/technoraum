@@ -193,6 +193,10 @@ class LandingViewComponent extends LandingBaseComponent
 			));
 			foreach ($pages as $page)
 			{
+				if ($page['PUBLIC'] == 'Y')
+				{
+					continue;
+				}
 				if (!$this->actionPublication($page['ID'], true))
 				{
 					return false;
@@ -319,22 +323,100 @@ class LandingViewComponent extends LandingBaseComponent
 		$eventManager->addEventHandler('landing', 'onLandingView',
 			function(\Bitrix\Main\Event $event) use ($type, $params, $landing)
 			{
+				/** @var \Bitrix\Landing\Landing $landing */
 				$result = new \Bitrix\Main\Entity\EventResult;
 				$options = $event->getParameter('options');
 				$meta = $landing->getMeta();
 				$options['version'] = Manager::getVersion();
-				$options['params'] = $params['PARAMS'];
+				$options['params'] = (array)$params['PARAMS'];
 				$options['params']['type'] = $params['TYPE'];
 				$options['sites_count'] = $this->getSitesCount();
 				$options['pages_count'] = $this->getPagesCount();
 				$options['syspages'] = array();
 				$options['promoblocks'] = array();
 				$options['placements'] = array(
-					'blocks' => array()
+					'blocks' => array(),
+					'image' => array()
 				);
 				$options['hooks'] = array(
 					'YACOUNTER' => array(),
 					'GACOUNTER' => array()
+				);
+				$options['sources'] = array (//tmp
+					0 =>
+						array (
+							'name' => 'Blog',
+							'url' =>
+								array (
+									'filter' => '',
+									'create' => '',
+								),
+							'sort' =>
+								array (
+									0 =>
+										array (
+											'id' => 'ID',
+											'name' => 'By ID',
+										),
+									1 =>
+										array (
+											'id' => 'TITLE',
+											'name' => 'By title',
+										),
+								),
+							'references' =>
+								array (
+									0 =>
+										array (
+											'id' => 'TITLE',
+											'name' => 'Title',
+											'type' => 'text',
+										),
+									1 =>
+										array (
+											'id' => 'TEXT',
+											'name' => 'Text',
+											'type' => 'text',
+										),
+								),
+						),
+					1 =>
+						array (
+							'name' => 'Catalog',
+							'url' =>
+								array (
+									'filter' => '',
+									'create' => '',
+								),
+							'sort' =>
+								array (
+									0 =>
+										array (
+											'id' => 'ID',
+											'name' => 'By ID',
+										),
+									1 =>
+										array (
+											'id' => 'PRICE',
+											'name' => 'By price',
+										),
+								),
+							'references' =>
+								array (
+									0 =>
+										array (
+											'id' => 'TITLE',
+											'name' => 'Title',
+											'type' => 'text',
+										),
+									1 =>
+										array (
+											'id' => 'PREVIEW_TEXT',
+											'name' => 'Preivew text',
+											'type' => 'text',
+										),
+								),
+						),
 				);
 				$options['lastModified'] = isset($meta['DATE_MODIFY'])
 											? $meta['DATE_MODIFY']->getTimestamp()
@@ -385,6 +467,24 @@ class LandingViewComponent extends LandingBaseComponent
 						'landing_id' => $page['LANDING_ID'],
 						'name' => $page['TITLE']
 					);
+				}
+				if ($mainPageId = $this->arResult['SITE']['LANDING_ID_INDEX'])
+				{
+					$res = Landing::getList([
+						'select' => [
+							'TITLE'
+						],
+						'filter' => [
+							'ID' => $mainPageId
+						]
+				 	]);
+					if ($row = $res->fetch())
+					{
+						$options['syspages']['mainpage'] = array(
+							'landing_id' => $mainPageId,
+							'name' => $row['TITLE']
+						);
+					}
 				}
 				// unset blocks not for this type
 				$b24 = \Bitrix\Landing\Manager::isB24();
@@ -454,7 +554,11 @@ class LandingViewComponent extends LandingBaseComponent
 							'APP_NAME' => 'REST_APP.APP_NAME'
 						),
 						'filter' => array(
-							'PLACEMENT' => 'LANDING_BLOCK_%'
+							array(
+								'LOGIC' => 'OR',
+								['PLACEMENT' => 'LANDING_BLOCK_%'],
+								['=PLACEMENT' => 'LANDING_IMAGE']
+							)
 						),
 						'order' => array(
 							'ID' => 'DESC'
@@ -462,12 +566,15 @@ class LandingViewComponent extends LandingBaseComponent
 					));
 					while ($row = $res->fetch())
 					{
+						$placementType = ($row['PLACEMENT'] == 'LANDING_IMAGE')
+										? 'image'
+										: 'blocks';
 						$row['PLACEMENT'] = strtolower(substr($row['PLACEMENT'], 14));
-						if (!isset($options['placements']['blocks'][$row['PLACEMENT']]))
+						if (!isset($options['placements'][$placementType][$row['PLACEMENT']]))
 						{
-							$options['placements']['blocks'][$row['PLACEMENT']] = array();
+							$options['placements'][$placementType][$row['PLACEMENT']] = array();
 						}
-						$options['placements']['blocks'][$row['PLACEMENT']][$row['ID']] = array(
+						$options['placements'][$placementType][$row['PLACEMENT']][$row['ID']] = array(
 							'id' => $row['ID'],
 							'placement' => $row['PLACEMENT'],
 							'app_id' => $row['APP_ID'],

@@ -699,7 +699,7 @@
 		{
 			var tempValue = value,
 				dividers = [60, 24], //list of time dividers
-				messageCodes = ['EC_REMIND_MIN_COUNT', 'EC_REMIND_HOUR_COUNT', 'EC_REMIND_DAY_COUNT'],
+				messageCodes = ['EC_REMIND1_MIN_COUNT', 'EC_REMIND1_HOUR_COUNT', 'EC_REMIND1_DAY_COUNT'],
 				result = '';
 			for (var i = 0; i < messageCodes.length; i++)
 			{
@@ -733,7 +733,7 @@
 
 			if (!this.selectedValues.length)
 			{
-				this.valuesWrap.appendChild(BX.create('SPAN', {props: {className: ''}, text: ' ' + BX.message('EC_REMIND_NO')}));
+				this.valuesWrap.appendChild(BX.create('SPAN', {props: {className: ''}, text: ' ' + BX.message('EC_REMIND1_NO')}));
 			}
 			if (this.changeCallack)
 				this.changeCallack(this.selectedValues);

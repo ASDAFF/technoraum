@@ -316,7 +316,8 @@
 			var button = BX.create('button', {
 				props: {
 					className: 'main-grid-buttons' + (data.CLASS ? ' ' + data.CLASS : ''),
-					id: data.id + '_control'
+					id: data.id + '_control',
+					title: BX.type.isNotEmptyString(data.TITLE) ? data.TITLE : ''
 				},
 				attrs: {
 					name: data.NAME || '',

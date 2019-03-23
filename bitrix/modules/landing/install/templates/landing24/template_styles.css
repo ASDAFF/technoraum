@@ -27,3 +27,20 @@
 		width: 75% !important;
 	}
 }
+
+
+.g-pt-30 {
+	padding-top: 2.14286rem !important;
+}
+.g-px-50 {
+	padding-left: 3.57143rem !important;
+	padding-right: 3.57143rem !important;
+}
+.g-py-30 {
+	padding-top: 2.14286rem !important;
+	padding-bottom: 2.14286rem !important;
+}
+.g-px-50 {
+	padding-left: 3.57143rem !important;
+	padding-right: 3.57143rem !important;
+}

@@ -76,6 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 	if($_POST['subscribe'] == 'Y')
 	{
+		$landingId = (!empty($_POST['landingId']) ? intval($_POST['landingId']) : null);
+
 		if(count($contactTypes) > 1)
 		{
 			// Returns a response to the formation of the form of contacts.
@@ -104,6 +106,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 					'CONTACT_TYPE' => $contactTypeId,
 					'USER_ID' => $userId,
 				);
+				if ($landingId)
+				{
+					$subscribeData['LANDING_SITE_ID'] = $landingId;
+				}
 				$subscribeId = $subscribeManager->addSubscribe($subscribeData);
 				if($subscribeId)
 				{
@@ -186,6 +192,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			if($userId)
 			{
 				$subscribeData['USER_ID'] = $userId;
+			}
+			if ($landingId)
+			{
+				$subscribeData['LANDING_SITE_ID'] = $landingId;
 			}
 			$subscribeManager->addSubscribe($subscribeData);
 			$errorObject = current($subscribeManager->getErrors());

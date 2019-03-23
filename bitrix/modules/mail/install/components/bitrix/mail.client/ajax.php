@@ -127,7 +127,7 @@ class CMailClientAjaxController extends \Bitrix\Main\Engine\Controller
 		if ($result->isSuccess())
 		{
 			$data = $result->getData();
-			$mailMarkerManager = new MailsFoldersManager($data['mailboxId'], $data['messagesIds']);
+			$mailMarkerManager = new MailsFoldersManager($data['mailboxId'], $data['messagesIds'], $this->getCurrentUser()->getId());
 			$result = $mailMarkerManager->restoreMailsFromSpam();
 			if (!$result->isSuccess())
 			{
@@ -284,7 +284,7 @@ class CMailClientAjaxController extends \Bitrix\Main\Engine\Controller
 		static $hostname;
 		if (empty($hostname))
 		{
-			$hostname = \COption::getOptionString('main', 'server_name', 'localhost');
+			$hostname = \COption::getOptionString('main', 'server_name', '') ?: 'localhost';
 			if (defined('BX24_HOST_NAME') && BX24_HOST_NAME != '')
 			{
 				$hostname = BX24_HOST_NAME;
@@ -331,6 +331,17 @@ class CMailClientAjaxController extends \Bitrix\Main\Engine\Controller
 				$response['new'] = $result;
 				$response['complete'] = $mailboxHelper->getMailbox()['SYNC_LOCK'] < 0;
 				$response['status'] = $mailboxHelper->getSyncStatus();
+
+				$usersWithAccessToMailbox = Mail\Helper\Mailbox\SharedMailboxesManager::getUserIdsWithAccessToMailbox($mailbox['ID']);
+				foreach ($usersWithAccessToMailbox as $userId)
+				{
+					\CUserCounter::set(
+						$userId,
+						'mail_unseen',
+						Mail\Helper\Message::getTotalUnseenCount($userId),
+						$mailbox['LID']
+					);
+				}
 			}
 		}
 		else
@@ -592,7 +603,7 @@ class CMailClientAjaxController extends \Bitrix\Main\Engine\Controller
 				}
 				elseif (!empty($activityFields['ERROR_CODE']))
 				{
-					$this->errorCollection[] = new \Bitrix\Main\Error(Loc::getMessage($activityFields['ERROR_CODE']));
+					$this->errorCollection[] = new \Bitrix\Main\Error(Loc::getMessage('MAIL_CLIENT_' . $activityFields['ERROR_CODE']));
 				}
 				else
 				{
@@ -727,6 +738,8 @@ class CMailClientAjaxController extends \Bitrix\Main\Engine\Controller
 		Mail\Helper\Message::prepare($message);
 
 		$message['IS_OUTCOME'] = $message['__is_outcome'];
+		//$message['IS_TRASH'] = !empty($params['trash']);
+		//$message['IS_SPAM'] = !empty($params['spam']);
 
 		$message['__forced'] = true;
 		\CCrmEMail::imapEmailMessageAdd($message);

@@ -12,6 +12,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_8MARCH1_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'wedding',
+			'THEME_CODE_TYPO' => 'wedding',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/holidays/holiday.8march1/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_8MARCH1_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_8MARCH1_DESCRIPTION'),
@@ -19,7 +21,7 @@ return array(
 			'METAMAIN_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_8MARCH1_DESCRIPTION'),
 		)
 	),
-	'sort' => -100,
+	'sort' => \LandingSiteDemoComponent::checkActivePeriod(2,15,3,8) ? 91 : -121,
 	'available' => true,
 	'active' => \LandingSiteDemoComponent::checkActive(array(
 		'ONLY_IN' => array('ru', 'kz', 'by', 'ua'),
@@ -35,7 +37,7 @@ return array(
 	<div class="u-header__section u-header__section--light g-transition-0_3 g-py-16"
 		 data-header-fix-moment-exclude="g-py-16"
 		 data-header-fix-moment-classes="u-shadow-v27 g-py-6">
-		<nav class="navbar navbar-expand-lg g-py-0">
+		<nav class="navbar navbar-expand-lg g-py-0 g-px-10">
 			<div class="container">
 				<!-- Logo -->
 				<a href="#" class="landing-block-node-menu-logo-link navbar-brand u-header__logo">
@@ -93,7 +95,7 @@ return array(
 		
 
 		<div class="landing-block-node-card js-slide">
-			<div class="landing-block-node-card-bgimg g-flex-centered g-height-100vh g-min-height-500--md g-bg-pos-center g-bg-img-hero g-bg-cover g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1200x800/img25.jpg\');" data-fileid="-1">
+			<div class="landing-block-node-card-bgimg g-flex-centered g-min-height-100vh h-100 g-bg-pos-center g-bg-img-hero g-bg-cover g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1200x800/img25.jpg\');" data-fileid="-1">
 				<div class="text-center g-pos-rel container g-max-width-800 g-z-index-1 landing-block-node-card-container js-animation fadeInLeft">
 					<span class="landing-block-node-card-icon-container g-color-white-opacity-0_7">
 						<i class="landing-block-node-card-icon g-font-size-60 g-mb-10 icon-heart"></i>

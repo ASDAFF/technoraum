@@ -12,6 +12,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_23FEB2_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'spa',
+			'THEME_CODE_TYPO' => 'spa',
 		    'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/holidays/holiday.23february.2/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_23FEB2_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_23FEB2_DESCRIPTION'),
@@ -19,7 +21,7 @@ return array(
 			'METAMAIN_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_23FEB2_DESCRIPTION')
 		)
 	),
-	'sort' => -111,
+	'sort' => \LandingSiteDemoComponent::checkActivePeriod(2,2,2,23) ? 102 : -112,
 	'active' => \LandingSiteDemoComponent::checkActive(array(
 		'ONLY_IN' => array('ru', 'kz', 'by'),
 		'EXCEPT' => array()
@@ -168,20 +170,7 @@ return array(
 	</div>
 </section>',
 			),
-		'21.3.two_cols_big_bgimg_title_text_button' =>
-			array (
-				'CODE' => '21.3.two_cols_big_bgimg_title_text_button',
-				'SORT' => '1500',
-				'CONTENT' => '<section class="landing-block container-fluid px-0">
-        <div class="row no-gutters">
 
-        
-
-        
-
-        </div>
-    </section>',
-			),
 		'09.1.two_cols_fix_text_and_image_slider' =>
 			array (
 				'CODE' => '09.1.two_cols_fix_text_and_image_slider',
@@ -312,9 +301,9 @@ return array(
 				'CONTENT' => '<section class="landing-block">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="landing-block-node-img col-md-6 u-bg-overlay g-bg-img-hero g-bg-black-opacity-0_7--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/700x800/img5.jpg\');" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb">
-				<div class="landing-block-node-inner-container g-flex-centered g-height-100vh--md g-min-height-300 g-py-40 g-pr-50--md text-md-right">
-					<div class="w-100 u-bg-overlay__inner g-py-100 js-animation landing-block-node-inner-container-left landing-block-node-inner-container-right fadeInLeft">
+			<div class="landing-block-node-img col-md-6 d-flex align-items-center u-bg-overlay g-bg-img-hero g-bg-black-opacity-0_7--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/700x800/img5.jpg\');" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb">
+				<div class="landing-block-node-inner-container g-flex-centered w-100 g-py-40 g-pr-50--md text-md-right">
+					<div class="w-100 u-bg-overlay__inner g-pt-100 g-pb-100 js-animation landing-block-node-inner-container-left landing-block-node-inner-container-right fadeInLeft">
 						<h3 class="landing-block-node-small-title landing-block-node-small-title-left h4 g-font-weight-700 g-color-primary g-mb-20">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_23FEB2_TEXT32").'</h3>
 	
 						<div class="landing-block-node-title-container g-brd-left g-brd-left-none--md g-brd-right--md g-brd-7 g-brd-primary g-color-white g-pl-30 g-pr-30 g-pl-0--lg g-mb-30">
@@ -327,9 +316,9 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-node-img col-md-6 u-bg-overlay g-bg-img-hero g-bg-black-opacity-0_7--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/700x800/img6.jpg\');" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb">
-				<div class="landing-block-node-inner-container g-flex-centered g-height-100vh--md g-min-height-300 g-py-40 g-pl-50--md">
-					<div class="w-100 u-bg-overlay__inner g-py-100 js-animation landing-block-node-inner-container-right fadeInLeft">
+			<div class="landing-block-node-img col-md-6 d-flex align-items-center u-bg-overlay g-bg-img-hero g-bg-black-opacity-0_7--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/700x800/img6.jpg\');" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb">
+				<div class="landing-block-node-inner-container g-flex-centered w-100 g-py-40 g-pl-50--md">
+					<div class="w-100 u-bg-overlay__inner g-pt-100 g-pb-100 js-animation landing-block-node-inner-container-right fadeInLeft">
 						<h3 class="landing-block-node-small-title landing-block-node-small-title-right h4 g-font-weight-700 g-color-primary g-mb-20">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_23FEB2_TEXT35").'</h3>
 						
 						<div class="landing-block-node-title-container g-brd-left g-brd-7 g-brd-primary g-color-white g-pl-30 g-mb-30">

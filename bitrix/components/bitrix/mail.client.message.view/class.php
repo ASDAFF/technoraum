@@ -8,6 +8,7 @@ use Bitrix\Main\Localization\Loc;
 use Bitrix\Mail;
 use Bitrix\Mail\Helper\Mailbox\Imap;
 use Bitrix\Mail\Internals\MailContactTable;
+use Bitrix\Mail\Internals\MessageAccessTable;
 
 Loc::loadMessages(__DIR__ . '/../mail.client/class.php');
 
@@ -88,12 +89,16 @@ class CMailClientMessageViewComponent extends CBitrixComponent implements \Bitri
 				'MAILBOX_EMAIL' => 'MAILBOX.EMAIL',
 				'MAILBOX_NAME' => 'MAILBOX.NAME',
 				'MAILBOX_OPTIONS' => 'MAILBOX.OPTIONS',
+				'HEADER_MD5' => 'MESSAGE_UID.HEADER_MD5',
 				'MAILBOX_LOGIN' => 'MAILBOX.LOGIN',
 				'IS_SEEN' => 'MESSAGE_UID.IS_SEEN',
 				new \Bitrix\Main\Entity\ExpressionField(
 					'BIND',
-					'GROUP_CONCAT(DISTINCT %s)',
-					'MESSAGE_ACCESS.ENTITY_TYPE'
+					'GROUP_CONCAT(DISTINCT CONCAT(%s, "-", %s))',
+					array(
+						'MESSAGE_ACCESS.ENTITY_TYPE',
+						'MESSAGE_ACCESS.ENTITY_ID',
+					)
 				),
 			),
 			'filter' => array(
@@ -129,9 +134,8 @@ class CMailClientMessageViewComponent extends CBitrixComponent implements \Bitri
 		$message['SENDER_EMAIL'] = $this->getEmailFromFieldFrom($message['FIELD_FROM']);
 		$this->arResult['MESSAGE'] = $message;
 
-		$this->arResult['LAST_RCPT'] = $this->loadLastRcpt();
-		$this->arResult['EMAILS'] = $this->loadMailContacts();
-		$this->arResult['CRM_EMAILS'] = $this->loadCrmMailContacts();
+		$this->arResult['LAST_RCPT'] = Mail\Helper\Recipient::loadLastRcpt();
+		$this->arResult['EMAILS'] = array();//Mail\Helper\Recipient::loadMailContacts();
 
 		$this->arResult['LOG'] = array(
 			'A' => array(),
@@ -228,13 +232,7 @@ class CMailClientMessageViewComponent extends CBitrixComponent implements \Bitri
 				$this->arResult['LOG']['B'][] = $item;
 			}
 		}
-
-		if ($message['MSG_UID'] && !in_array($message['IS_SEEN'], array('Y', 'S')))
-		{
-			$mailMarkerManager = new \Bitrix\Mail\ImapCommands\MailsFlagsManager($message['MAILBOX_ID'], $message['UID']);
-			$mailMarkerManager->setMessages([$message]);
-			$mailMarkerManager->markMailsSeen();
-		}
+		$this->markMessageAsSeen($message);
 
 		$this->prepareUser();
 		$this->arResult['avatarParams'] = $this->getAvatarParams(array_merge(
@@ -242,7 +240,7 @@ class CMailClientMessageViewComponent extends CBitrixComponent implements \Bitri
 			$this->arResult['LOG']['A'],
 			[$this->arResult['MESSAGE']]
 		));
-		$APPLICATION->setTitle($message['SUBJECT']);
+		$APPLICATION->setTitle($message['SUBJECT'] ?: Loc::getMessage('MAIL_MESSAGE_EMPTY_SUBJECT_PLACEHOLDER'));
 		$this->arResult['MESSAGE_UID_KEY'] = $message['UID'] . '-' . $message['MAILBOX_ID'];
 
 		$this->includeComponentTemplate();
@@ -443,6 +441,17 @@ class CMailClientMessageViewComponent extends CBitrixComponent implements \Bitri
 		$message = Mail\MailMessageTable::getList(array(
 			'runtime' => array(
 				new Main\Entity\ReferenceField(
+					'MESSAGE_UID',
+					'Bitrix\Mail\MailMessageUidTable',
+					array(
+						'=this.MAILBOX_ID' => 'ref.MAILBOX_ID',
+						'=this.ID' => 'ref.MESSAGE_ID',
+					),
+					array(
+						'join_type' => 'INNER',
+					)
+				),
+				new Main\Entity\ReferenceField(
 					'MESSAGE_ACCESS',
 					Mail\Internals\MessageAccessTable::class,
 					array(
@@ -453,13 +462,21 @@ class CMailClientMessageViewComponent extends CBitrixComponent implements \Bitri
 			),
 			'select' => array(
 				'*',
+				'MSG_UID' => 'MESSAGE_UID.MSG_UID',
+				'UID' => 'MESSAGE_UID.ID',
+				'DIR_MD5' => 'MESSAGE_UID.DIR_MD5',
+				'HEADER_MD5' => 'MESSAGE_UID.HEADER_MD5',
+				'IS_SEEN' => 'MESSAGE_UID.IS_SEEN',
 				'MAILBOX_EMAIL' => 'MAILBOX.EMAIL',
 				'MAILBOX_NAME' => 'MAILBOX.NAME',
 				'MAILBOX_LOGIN' => 'MAILBOX.LOGIN',
 				new \Bitrix\Main\Entity\ExpressionField(
 					'BIND',
-					'GROUP_CONCAT(DISTINCT %s)',
-					'MESSAGE_ACCESS.ENTITY_TYPE'
+					'GROUP_CONCAT(DISTINCT CONCAT(%s, "-", %s))',
+					array(
+						'MESSAGE_ACCESS.ENTITY_TYPE',
+						'MESSAGE_ACCESS.ENTITY_ID',
+					)
 				),
 			),
 			'filter' => array(
@@ -495,12 +512,12 @@ class CMailClientMessageViewComponent extends CBitrixComponent implements \Bitri
 		$this->arResult['MESSAGE'] = $message;
 		$this->prepareUser();
 
-		$this->arResult['LAST_RCPT'] = $this->loadLastRcpt();
-		$this->arResult['EMAILS'] = $this->loadMailContacts();
-		$this->arResult['CRM_EMAILS'] = $this->loadCrmMailContacts();
+		$this->arResult['LAST_RCPT'] = Mail\Helper\Recipient::loadLastRcpt();
+		$this->arResult['EMAILS'] = array();//Mail\Helper\Recipient::loadMailContacts();
 
 		$this->arParams['LOADED_FROM_LOG'] = true;
 		$this->arResult['avatarParams'] = $this->getAvatarParams([$this->arResult['MESSAGE']]);
+		$this->markMessageAsSeen($this->arResult['MESSAGE']);
 		ob_start();
 
 		$this->includeComponentTemplate('logitem');
@@ -549,6 +566,65 @@ class CMailClientMessageViewComponent extends CBitrixComponent implements \Bitri
 			}
 		}
 
+		$binds = array();
+		foreach ((array) $message['BIND'] as $item)
+		{
+			if (preg_match('/^(\w+)-(\d+)$/', $item, $matches))
+			{
+				$binds[$matches[1]][] = $matches[2];
+			}
+		}
+
+		$message['BIND_LINKS'] = array();
+
+		if (!empty($binds[MessageAccessTable::ENTITY_TYPE_TASKS_TASK]) && Main\Loader::includeModule('tasks'))
+		{
+			$res = Bitrix\Tasks\Internals\TaskTable::getList(array(
+				'select' => array('ID', 'TITLE'),
+				'filter' => array(
+					'@ID' => (array) $binds[MessageAccessTable::ENTITY_TYPE_TASKS_TASK],
+				),
+			));
+
+			$message['BIND_LINKS'][Loc::getMessage('MAIL_MESSAGE_EXT_BIND_TASKS_TITLE')] = array();
+			while ($item = $res->fetch())
+			{
+				$defaultTitle = sprintf('%s #%u', Loc::getMessage('MAIL_MESSAGE_EXT_BIND_TASKS_EMPTY_TITLE'), $item['ID']);
+				$message['BIND_LINKS'][Loc::getMessage('MAIL_MESSAGE_EXT_BIND_TASKS_TITLE')][] = array(
+					'title' => $item['TITLE'] ?: $defaultTitle,
+					'href' => \CComponentEngine::makePathFromTemplate(
+						$this->arParams['PATH_TO_USER_TASKS_TASK'],
+						[
+							'action' => 'view',
+							'task_id' => $item['ID'],
+						]
+					),
+				);
+			}
+		}
+
+		if (!empty($binds[MessageAccessTable::ENTITY_TYPE_CRM_ACTIVITY]) && $this->isCrmEnable)
+		{
+			$res = \Bitrix\Crm\ActivityTable::getList(array(
+				'select' => array('OWNER_TYPE_ID', 'OWNER_ID'),
+				'filter' => array(
+					'@ID' => (array) $binds[MessageAccessTable::ENTITY_TYPE_CRM_ACTIVITY],
+				),
+			));
+
+			$message['BIND_LINKS'][Loc::getMessage('MAIL_MESSAGE_EXT_BIND_CRM_TITLE')] = array();
+			while ($item = $res->fetch())
+			{
+				$defaultTitle = sprintf('%s #%u', Loc::getMessage('MAIL_MESSAGE_EXT_BIND_CRM_EMPTY_TITLE'), $item['OWNER_ID']);
+
+				// @TODO: group queries
+				$message['BIND_LINKS'][Loc::getMessage('MAIL_MESSAGE_EXT_BIND_CRM_TITLE')][] = array(
+					'title' => \CCrmOwnerType::getCaption($item['OWNER_TYPE_ID'], $item['OWNER_ID'], false) ?: $defaultTitle,
+					'href' => \CCrmOwnerType::getEntityShowPath($item['OWNER_TYPE_ID'], $item['OWNER_ID'], false),
+				);
+			}
+		}
+
 		return \Bitrix\Mail\Helper\Message::prepare($message);
 	}
 
@@ -564,187 +640,6 @@ class CMailClientMessageViewComponent extends CBitrixComponent implements \Bitri
 	}
 
 
-	/**
-	 * Load last used Rcpt
-	 *
-	 * @return array
-	 *
-	 * @throws Main\ArgumentException
-	 * @throws Main\ObjectPropertyException
-	 * @throws Main\SystemException
-	 */
-	private function loadLastRcpt()
-	{
-		global $APPLICATION;
-
-		$currentUser = \Bitrix\Main\Engine\CurrentUser::get();
-
-		$result = array();
-
-		$lastRcptResult = \Bitrix\Main\FinderDestTable::getList(array(
-			'filter' => array(
-				'=USER_ID' => $currentUser->getId(),
-				'=CONTEXT' => 'MAIL_LAST_RCPT',
-			),
-			'select' => array('CODE'),
-			'order' => array('LAST_USE_DATE' => 'DESC'),
-			'limit' => 10,
-		));
-
-		$emailUsersIds = array();
-		while ($item = $lastRcptResult->fetch())
-		{
-			$emailUsersIds[] = (int) str_replace('MC', '', $item['CODE']);
-		}
-		if (count($emailUsersIds) > 0)
-		{
-			$mailContacts = \Bitrix\Mail\Internals\MailContactTable::getList([
-				'filter' => array(
-					'@ID' => $emailUsersIds,
-					'=USER_ID' => $currentUser->getId(),
-				),
-				'select' => ['ID', 'NAME', 'EMAIL', 'ICON'],
-				'limit' => 10,
-			])->fetchAll();
-
-			$contactAvatars = $resultsMailContacts = [];
-			foreach ($mailContacts as $mailContact)
-			{
-				$resultsMailContacts[$mailContact['EMAIL']] = $mailContact;
-			}
-			foreach ($resultsMailContacts as $mailContact)
-			{
-				$email = $mailContact['EMAIL'];
-				if ($contactAvatars[$email] === null)
-				{
-					ob_start();
-					$APPLICATION->IncludeComponent('bitrix:mail.contact.avatar', '', array(
-						'mailContact' => $mailContact,
-					));
-					$contactAvatars[$email] = ob_get_clean();
-				}
-				$id = $this->buildUniqueEmailCode($email);
-				$result[$id] = [
-					'id' => $id,
-					'entityType' => 'email',
-					'entityId' => $mailContact['ID'],
-					'name' => htmlspecialcharsbx($mailContact['NAME']),
-					'iconCustom' => $contactAvatars[$email],
-					'email' => htmlspecialcharsbx($mailContact['EMAIL']),
-					'desc' => htmlspecialcharsbx($mailContact['EMAIL']),
-					'isEmail' => 'Y',
-				];
-			}
-		}
-
-		return $result;
-	}
-
-
-	/**
-	 * Load mail contacts from the address book.
-	 *
-	 * @return array
-	 *
-	 * @throws Main\SystemException
-	 */
-	private function loadMailContacts()
-	{
-		global $APPLICATION;
-
-		$result = array();
-		return $result;
-
-		$currentUser = \Bitrix\Main\Engine\CurrentUser::get();
-
-		$mailContacts = \Bitrix\Mail\Internals\MailContactTable::getList([
-			'order' => [
-				'NAME' => 'ASC',
-				'EMAIL' => 'ASC',
-			],
-			'filter' => [
-				'=USER_ID', $currentUser->getId()
-			],
-			'select' => ['ID', 'NAME', 'EMAIL', 'ICON'],
-			'limit' => 20,
-		])->fetchAll();
-
-		$contactAvatars = $resultsMailContacts = [];
-		foreach ($mailContacts as $mailContact)
-		{
-			$resultsMailContacts[$mailContact['EMAIL']] = $mailContact;
-		}
-		foreach ($resultsMailContacts as $mailContact)
-		{
-			$email = $mailContact['EMAIL'];
-			if ($contactAvatars[$email] === null)
-			{
-				ob_start();
-				$APPLICATION->IncludeComponent('bitrix:mail.contact.avatar', '',
-					[
-						'mailContact' => $mailContact,
-					]);
-				$contactAvatars[$email] = ob_get_clean();
-			}
-			$id = $this->buildUniqueEmailCode($email);
-			$result[$id] = [
-				'id' => $id,
-				'entityType' => 'mailContacts',
-				'entityId' => $mailContact['ID'],
-				'name' => htmlspecialcharsbx($mailContact['NAME']),
-				'iconCustom' => $contactAvatars[$email],
-				'email' => htmlspecialcharsbx($mailContact['EMAIL']),
-				'desc' => htmlspecialcharsbx($mailContact['EMAIL']),
-				'isEmail' => 'Y',
-			];
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Load mail contacts from CRM.
-	 *
-	 * @return array
-	 *
-	 * @throws Main\SystemException
-	 */
-	private function loadCrmMailContacts()
-	{
-		$result = array();
-		return $result;
-
-		if ($this->isCrmEnable)
-		{
-			$crmCommunications = \CSocNetLogDestination::SearchCrmEntities(array(
-				'SEARCH' => '%',
-				'ONLY_WITH_EMAIL' => true,
-			));
-			foreach ($crmCommunications as $communication)
-			{
-				$email = $communication['email'];
-				if (empty($email))
-				{
-					continue;
-				}
-				$id = $this->buildUniqueEmailCode($email);
-				$communication['id'] = $id;
-				$result[$id] = $communication;
-			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * @param $email
-	 *
-	 * @return string
-	 */
-	private function buildUniqueEmailCode($email)
-	{
-		return 'U' . md5($email);
-	}
 	/**
 	 * Getting array of errors.
 	 * @return Error[]
@@ -762,5 +657,22 @@ class CMailClientMessageViewComponent extends CBitrixComponent implements \Bitri
 	final public function getErrorByCode($code)
 	{
 		return $this->errorCollection->getErrorByCode($code);
+	}
+
+	private function markMessageAsSeen($message)
+	{
+		if (!(array_key_exists('MSG_UID', $message)
+			&& array_key_exists('IS_SEEN', $message)
+			&& array_key_exists('MAILBOX_ID', $message)
+			&& array_key_exists('UID', $message)))
+		{
+			return;
+		}
+		if ($message['MSG_UID'] && !in_array($message['IS_SEEN'], ['Y', 'S']))
+		{
+			$mailMarkerManager = new \Bitrix\Mail\ImapCommands\MailsFlagsManager($message['MAILBOX_ID'], $message['UID']);
+			$mailMarkerManager->setMessages([$message]);
+			$mailMarkerManager->markMailsSeen();
+		}
 	}
 }

@@ -266,7 +266,7 @@
 						type: 'text'
 					},
 					events:{
-						click: BX.delegate(function(){this.nameField.input.select();}, this),
+						click: BX.proxy(this.nameInputClick, this),
 						keyup: BX.proxy(this.entryNameChanged, this),
 						blur: BX.proxy(this.entryNameChanged, this),
 						change: BX.proxy(this.entryNameChanged, this)
@@ -309,6 +309,13 @@
 			});
 
 			return this.sliderContainer;
+		},
+
+		nameInputClick: function()
+		{
+			this.nameField.input.select();
+			// Do it once, for second and more clicks - do nothing
+			BX.unbind(this.nameField.input, 'click', BX.proxy(this.nameInputClick, this));
 		},
 
 		prepareSecondSlide: function(params)

@@ -1,5 +1,6 @@
 .sender-trigger-chain-wrap {
 	padding: 20px;
+	background: white;
 }
 
 .sender-trigger-start-after-event {
@@ -189,7 +190,7 @@
 	height: 10px;
 	background: #949caa;
 	display: block;
-	box-shadow: 0 5px 0 0 #f5f9f9, 0 -12px 0 0 #f5f9f9
+	box-shadow: 0 5px 0 0 #fff, 0 -12px 0 0 #fff;
 }
 
 .sender-trigger-status-mailing-desc {
@@ -446,5 +447,5 @@ table.trigger_chain_item td:first-child {
 	height: 10px;
 	background: #949caa;
 	display: block;
-	box-shadow: 0 10px 0 0 #f5f9f9, 0 -10px 0 0 #f5f9f9;
+	box-shadow: 0 10px 0 0 #fff, 0 -10px 0 0 #fff;
 }

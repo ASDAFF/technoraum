@@ -165,7 +165,7 @@
 
 <script>
 	BX.Main.filterManager.push(
-		'<?=$arParams["FILTER_ID"]?>',
+		'<?=\CUtil::jSEscape($arParams["FILTER_ID"])?>',
 		new BX.Main.Filter(
 			<?=CUtil::PhpToJSObject($arResult)?>,
 			<?=CUtil::PhpToJSObject($arParams["CONFIG"])?>,

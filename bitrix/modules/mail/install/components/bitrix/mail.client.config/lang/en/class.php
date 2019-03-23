@@ -1,4 +1,5 @@
 <?
+$MESS["MAIL_CLIENT_CONFIG_IMAP_AGE_3"] = "3 days";
 $MESS["MAIL_CLIENT_CONFIG_TITLE"] = "Mailbox Integration";
 $MESS["MAIL_CLIENT_CONFIG_EDIT_TITLE"] = "Manage Mailbox";
 $MESS["MAIL_CLIENT_CONFIG_PROMPT"] = "Use and manage your mailbox in Bitrix24";
@@ -95,3 +96,4 @@ $MESS["MAIL_MAILBOX_LICENSE_SHARED_LIMIT_BODY"] = "The number of shared mailboxe
 Your current plan allows #LIMIT# shared mailboxes.";
 $MESS["MAIL_MAILBOX_REMOVE_CONFIRM"] = "Disconnect mailbox?";
 $MESS["MAIL_MAILBOX_REMOVE_CONFIRM_TEXT"] = "Are you sure you want to disconnect the mailbox?";
+?>

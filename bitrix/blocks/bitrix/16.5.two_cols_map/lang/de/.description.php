@@ -1,4 +1,5 @@
 <?
+$MESS["LANDING_BLOCK_16_5_TWO_COLS_MAP--MAP"] = "Karte";
 $MESS["LANDING_BLOCK_16_5_TWO_COLS_MAP--NAME"] = "Google Maps mit Kontaktinformationen und Social Media rechts";
 $MESS["LANDING_BLOCK_16_5_TWO_COLS_MAP--COL"] = "Spalte";
 $MESS["LANDING_BLOCK_16_5_TWO_COLS_MAP--SUBTITLE"] = "Unterschrift";

@@ -13,6 +13,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_CONSULTING_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'consulting',
+			'THEME_CODE_TYPO' => 'consulting',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/consulting/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_CONSULTING_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_CONSULTING_DESCRIPTION'),
@@ -27,7 +29,7 @@ return array(
 				'SORT' => '-100',
 				'CONTENT' => '<header class="landing-block landing-block-menu landing-ui-pattern-transparent u-header u-header--floating">
 	<div class="u-header__section g-bg-black-opacity-0_2 g-transition-0_3 g-py-7 g-py-23--md" data-header-fix-moment-exclude="g-bg-black-opacity-0_2 g-py-23--md" data-header-fix-moment-classes="u-header__section--light u-shadow-v19 g-bg-white g-py-15--md">
-		<nav class="navbar navbar-expand-lg g-py-0">
+		<nav class="navbar navbar-expand-lg g-py-0 g-px-10">
 			<div class="container">
 				<!-- Logo -->
 				<a href="#" class="landing-block-node-menu-logo-link navbar-brand u-header__logo">
@@ -69,7 +71,7 @@ return array(
 				<!-- End Navigation -->
 
 				<!-- Responsive Toggle Button -->
-				<button class="navbar-toggler btn g-line-height-1 g-brd-none g-pa-0 g-mt-12 ml-auto" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navBar" data-toggle="collapse" data-target="#navBar">
+				<button class="navbar-toggler btn g-line-height-1 g-brd-none g-pa-0 ml-auto" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navBar" data-toggle="collapse" data-target="#navBar">
                 <span class="hamburger hamburger--slider">
                   <span class="hamburger-box">
                     <span class="hamburger-inner"></span>
@@ -94,7 +96,7 @@ return array(
 
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
-			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1080/img1.jpg\');">
+			<div class="landing-block-node-card-img g-flex-centered g-min-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1080/img1.jpg\');">
 				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated g-mx-0">
 					<h2 class="landing-block-node-card-title text-uppercase g-font-weight-700 g-font-size-36--md g-color-white g-mb-20 g-font-size-42">WE ARE CREATIVE TECHNOLOGY COMPANY </h2>
 					<div class="landing-block-node-card-text g-max-width-645 mx-auto g-mb-35 g-font-size-24 g-color-white g-line-height-1_2"><p>Creative freedom matters user experience.<br /><span style="font-size: 1.71429rem;">We minimize the gap between technology and its audience.</span></p></div>
@@ -105,7 +107,7 @@ return array(
 		</div>
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
-			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1080/img2.jpg\');">
+			<div class="landing-block-node-card-img g-flex-centered g-min-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1080/img2.jpg\');">
 				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated g-mx-0">
 					<h2 class="landing-block-node-card-title text-uppercase g-font-weight-700 g-font-size-36--md g-color-white g-mb-20 g-font-size-42">WE DO THINGS DIFFERENTLY </h2>
 					<div class="landing-block-node-card-text g-max-width-645 mx-auto g-mb-35 g-font-size-24 g-color-white g-line-height-1_2"><p>Creative freedom matters user experience.</p><p>We minimize the gap between technology and its audience.</p></div>
@@ -119,7 +121,7 @@ return array(
 
 		<div class="landing-block-node-card js-slide">
 			<!-- Promo Block -->
-			<div class="landing-block-node-card-img g-flex-centered g-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1080/img3.jpg\');">
+			<div class="landing-block-node-card-img g-flex-centered g-min-height-100vh g-min-height-500--md g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_5--after" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1080/img3.jpg\');">
 				<div class="container text-center g-max-width-800 g-z-index-1 js-animation landing-block-node-container fadeInLeftBig animated g-mx-0">
 					<h2 class="landing-block-node-card-title text-uppercase g-font-weight-700 g-font-size-36--md g-color-white g-mb-20 g-font-size-42">DEDICATED ADVANCED TEAM</h2>
 					<div class="landing-block-node-card-text g-max-width-645 mx-auto g-mb-35 g-font-size-24 g-color-white g-line-height-1_2"><p>We are creative technology company providing </p><p>key digital services on web and mobile.</p></div>
@@ -159,7 +161,7 @@ return array(
 				'CONTENT' => '<section class="landing-block g-pt-70 g-pb-70 g-bg-main">
 	<div class="container">
 		<div class="row">
-			<div class="landing-block-node-card js-animation fadeInUp col-md-6 text-center g-mb-40 g-mb-0--lg animated landing-card col-lg-4">
+			<div class="landing-block-node-card js-animation fadeInUp col-md-6 text-center g-mb-40 g-mb-0--lg animated g-min-height-$1vh col-lg-4">
 					<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--lg g-color-gray-dark-v2 g-mb-15">
 						<i class="landing-block-node-card-icon icon-education-024 u-line-icon-pro"></i>
 					</span>
@@ -172,7 +174,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-node-card js-animation fadeInUp col-md-6 text-center g-mb-40 g-mb-0--lg animated landing-card col-lg-4">
+			<div class="landing-block-node-card js-animation fadeInUp col-md-6 text-center g-mb-40 g-mb-0--lg animated g-min-height-$1vh col-lg-4">
 					<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--lg g-color-gray-dark-v2 g-mb-15">
 						<i class="landing-block-node-card-icon icon-education-073 u-line-icon-pro"></i>
 					</span>
@@ -185,7 +187,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-node-card js-animation fadeInUp col-md-6 text-center g-mb-40 g-mb-0--lg animated landing-card col-lg-4">
+			<div class="landing-block-node-card js-animation fadeInUp col-md-6 text-center g-mb-40 g-mb-0--lg animated g-min-height-$1vh col-lg-4">
 					<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--lg g-color-gray-dark-v2 g-mb-15">
 						<i class="landing-block-node-card-icon icon-communication-180 u-line-icon-pro"></i>
 					</span>
@@ -284,7 +286,7 @@ return array(
 	<div class="container g-mt-minus-200">
 		<!-- Team Block -->
 		<div class="row">
-			<div class="landing-block-card-employee js-animation col-md-6 col-lg-3 g-mb-30 g-mb-0--lg pulse landing-card animated">
+			<div class="landing-block-card-employee js-animation col-md-6 col-lg-3 g-mb-30 g-mb-0--lg pulse g-min-height-$1vh animated">
 				<div class="text-center">
 					<!-- Figure -->
 					<figure class="g-pos-rel g-parent g-mb-30">
@@ -308,7 +310,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-card-employee js-animation col-md-6 col-lg-3 g-mb-30 g-mb-0--lg pulse landing-card animated">
+			<div class="landing-block-card-employee js-animation col-md-6 col-lg-3 g-mb-30 g-mb-0--lg pulse g-min-height-$1vh animated">
 				<div class="text-center">
 					<!-- Figure -->
 					<figure class="g-pos-rel g-parent g-mb-30">
@@ -332,7 +334,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-card-employee js-animation col-md-6 col-lg-3 g-mb-30 g-mb-0--lg pulse landing-card animated">
+			<div class="landing-block-card-employee js-animation col-md-6 col-lg-3 g-mb-30 g-mb-0--lg pulse g-min-height-$1vh animated">
 				<div class="text-center">
 					<!-- Figure -->
 					<figure class="g-pos-rel g-parent g-mb-30">
@@ -356,7 +358,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-card-employee js-animation col-md-6 col-lg-3 g-mb-30 g-mb-0--lg pulse landing-card animated">
+			<div class="landing-block-card-employee js-animation col-md-6 col-lg-3 g-mb-30 g-mb-0--lg pulse g-min-height-$1vh animated">
 				<div class="text-center">
 					<!-- Figure -->
 					<figure class="g-pos-rel g-parent g-mb-30">
@@ -422,7 +424,7 @@ return array(
             <!-- Icon Blocks -->
             <div class="row no-gutters">
 
-                <div class="landing-block-node-element landing-block-card col-md-4 col-lg-4 g-parent g-brd-around g-brd-gray-light-v4 g-brd-bottom-primary--hover g-brd-bottom-2--hover g-mb-30 g-mb-0--lg g-transition-0_2 g-transition--ease-in landing-card g-bg-main js-animation fadeInLeft">
+                <div class="landing-block-node-element landing-block-card col-md-4 col-lg-4 g-parent g-brd-around g-brd-gray-light-v4 g-brd-bottom-primary--hover g-brd-bottom-2--hover g-mb-30 g-mb-0--lg g-transition-0_2 g-transition--ease-in g-min-height-$1vh g-bg-main js-animation fadeInLeft">
                     <!-- Icon Blocks -->
                     <div class="text-center g-px-10 g-px-30--lg g-py-40 g-pt-25--parent-hover g-transition-0_2 g-transition--ease-in">
 					<span class="landing-block-node-element-icon-container d-block g-color-primary g-font-size-40 g-mb-15">
@@ -438,7 +440,7 @@ return array(
                     <!-- End Icon Blocks -->
                 </div>
 
-                <div class="landing-block-node-element landing-block-card col-md-4 col-lg-4 g-parent g-brd-around g-brd-gray-light-v4 g-brd-bottom-primary--hover g-brd-bottom-2--hover g-mb-30 g-mb-0--lg g-transition-0_2 g-transition--ease-in landing-card g-bg-main js-animation fadeInLeft">
+                <div class="landing-block-node-element landing-block-card col-md-4 col-lg-4 g-parent g-brd-around g-brd-gray-light-v4 g-brd-bottom-primary--hover g-brd-bottom-2--hover g-mb-30 g-mb-0--lg g-transition-0_2 g-transition--ease-in g-min-height-$1vh g-bg-main js-animation fadeInLeft">
                     <!-- Icon Blocks -->
                     <div class="text-center g-px-10 g-px-30--lg g-py-40 g-pt-25--parent-hover g-transition-0_2 g-transition--ease-in">
 					<span class="landing-block-node-element-icon-container d-block g-color-primary g-font-size-40 g-mb-15">
@@ -454,7 +456,7 @@ return array(
                     <!-- End Icon Blocks -->
                 </div>
 
-                <div class="landing-block-node-element landing-block-card col-md-4 col-lg-4 g-parent g-brd-around g-brd-gray-light-v4 g-brd-bottom-primary--hover g-brd-bottom-2--hover g-mb-30 g-mb-0--lg g-transition-0_2 g-transition--ease-in landing-card g-bg-main js-animation fadeInLeft">
+                <div class="landing-block-node-element landing-block-card col-md-4 col-lg-4 g-parent g-brd-around g-brd-gray-light-v4 g-brd-bottom-primary--hover g-brd-bottom-2--hover g-mb-30 g-mb-0--lg g-transition-0_2 g-transition--ease-in g-min-height-$1vh g-bg-main js-animation fadeInLeft">
                     <!-- Icon Blocks -->
                     <div class="text-center g-px-10 g-px-30--lg g-py-40 g-pt-25--parent-hover g-transition-0_2 g-transition--ease-in">
 					<span class="landing-block-node-element-icon-container d-block g-color-primary g-font-size-40 g-mb-15">
@@ -489,7 +491,7 @@ return array(
 			array (
 				'CODE' => '01.big_with_text_3',
 				'SORT' => '6000',
-				'CONTENT' => '<section class="landing-block landing-block-node-img u-bg-overlay g-flex-centered g-height-100vh g-height-70vh g-bg-img-hero g-bg-black-opacity-0_5--after g-py-80" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1920x500/img2.jpg\');">
+				'CONTENT' => '<section class="landing-block landing-block-node-img u-bg-overlay g-flex-centered g-min-height-70vh g-bg-img-hero g-bg-black-opacity-0_5--after g-py-80" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/1920x500/img2.jpg\');">
 	<div class="container g-max-width-800 text-center u-bg-overlay__inner g-mx-1 js-animation landing-block-node-container fadeInDown animated">
 		<h2 class="landing-block-node-title g-font-weight-700 g-font-size-30 g-color-white g-mb-20 g-text-transform-none g-line-height-1_8"><p style="text-align: center;"><span style="color: rgb(77, 182, 172);"><span style="background-color: initial;">75</span><span style="background-color: initial;"> clients</span></span></p><p style="text-align: center;"><span style="color: rgb(77, 182, 172);">20 products</span></p><p style="text-align: center;"><span style="color: rgb(77, 182, 172);">15 members</span></p><p style="text-align: center;"><span style="color: rgb(77, 182, 172);">50 projects</span></p></h2>
 
@@ -618,18 +620,18 @@ return array(
 			array (
 				'CODE' => '30.3.four_cols_fix_img_and_links',
 				'SORT' => '9000',
-				'CONTENT' => '<section class="landing-block g-bg-secondary">
+				'CONTENT' => '<section class="landing-block g-bg-secondary g-pt-30 g-pb-20">
 
-        <div class="container g-pt-30 g-pb-20">
+        <div class="container">
             <div class="row">
 
-                <div class="landing-block-card col-sm-6 col-md-3 g-mb-20 js-animation fadeIn">
+                <div class="landing-block-card col-sm-6 col-md-3 js-animation fadeIn">
                     <article class="u-shadow-v28 g-bg-white">
                         <img class="landing-block-node-img img-fluid w-100" src="https://cdn.bitrix24.site/bitrix/images/landing/business/400x500/img1.jpg" alt="" />
 
                         <div class="g-pos-rel">
                             <!-- SVG Background -->
-                            <svg class="g-pos-abs g-left-0 g-right-0" version="1.1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="140px" viewbox="20 -20 300 100" style="top: -70%;">
+                            <svg class="g-hidden-col-1 g-hidden-col-2 g-hidden-col-3--md g-pos-abs g-left-0 g-right-0" version="1.1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="140px" viewbox="20 -20 300 100" style="top: -70%;">
                                 <path d="M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729
               c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z" opacity="0.4" fill="#f0f1f3" />
                                 <path d="M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729
@@ -651,13 +653,13 @@ return array(
                     </article>
                 </div>
 
-                <div class="landing-block-card col-sm-6 col-md-3 g-mb-30 js-animation fadeIn">
+                <div class="landing-block-card col-sm-6 col-md-3 js-animation fadeIn">
                     <article class="u-shadow-v28 g-bg-white">
                         <img class="landing-block-node-img img-fluid w-100" src="https://cdn.bitrix24.site/bitrix/images/landing/business/400x500/img2.jpg" alt="" />
 
                         <div class="g-pos-rel">
                             <!-- SVG Background -->
-                            <svg class="g-pos-abs g-left-0 g-right-0" version="1.1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="140px" viewbox="20 -20 300 100" style="top: -70%;">
+                            <svg class="g-hidden-col-1 g-hidden-col-2 g-hidden-col-3--md g-pos-abs g-left-0 g-right-0" version="1.1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="140px" viewbox="20 -20 300 100" style="top: -70%;">
                                 <path d="M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729
               c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z" opacity="0.4" fill="#f0f1f3" />
                                 <path d="M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729
@@ -680,13 +682,13 @@ return array(
                 </div>
 
 
-				<div class="landing-block-card col-sm-6 col-md-3 g-mb-30 js-animation fadeIn">
+				<div class="landing-block-card col-sm-6 col-md-3 js-animation fadeIn">
 					<article class="u-shadow-v28 g-bg-white">
 						<img class="landing-block-node-img img-fluid w-100" src="https://cdn.bitrix24.site/bitrix/images/landing/business/400x500/img3.jpg" alt="" />
 
 						<div class="g-pos-rel">
 							<!-- SVG Background -->
-							<svg class="g-pos-abs g-left-0 g-right-0" version="1.1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="140px" viewbox="20 -20 300 100" style="top: -70%;">
+							<svg class="g-hidden-col-1 g-hidden-col-2 g-hidden-col-3--md g-pos-abs g-left-0 g-right-0" version="1.1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="140px" viewbox="20 -20 300 100" style="top: -70%;">
 								<path d="M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729
               c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z" opacity="0.4" fill="#f0f1f3" />
 								<path d="M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729
@@ -709,13 +711,13 @@ return array(
 				</div>
 
 
-				<div class="landing-block-card col-sm-6 col-md-3 g-mb-30 js-animation fadeIn">
+				<div class="landing-block-card col-sm-6 col-md-3 js-animation fadeIn">
 					<article class="u-shadow-v28 g-bg-white">
 						<img class="landing-block-node-img img-fluid w-100" src="https://cdn.bitrix24.site/bitrix/images/landing/business/400x500/img4.jpg" alt="" />
 
 						<div class="g-pos-rel">
 							<!-- SVG Background -->
-							<svg class="g-pos-abs g-left-0 g-right-0" version="1.1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="140px" viewbox="20 -20 300 100" style="top: -70%;">
+							<svg class="g-hidden-col-1 g-hidden-col-2 g-hidden-col-3--md g-pos-abs g-left-0 g-right-0" version="1.1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="140px" viewbox="20 -20 300 100" style="top: -70%;">
 								<path d="M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729
               c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z" opacity="0.4" fill="#f0f1f3" />
 								<path d="M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729
@@ -1010,7 +1012,7 @@ return array(
 				<h3 class="h4 g-color-white mb-4 landing-block-node-title" data-form-style-main-font-color="1" data-form-style-main-font-family="1">Contact Info</h3>
 
 				<!-- Icon Block -->
-				<div class="landing-block-node-card-contact">
+				<div class="landing-block-node-card-contact" data-card-preset="text">
 					<div class="media align-items-center mb-4">
 						<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
@@ -1032,7 +1034,7 @@ return array(
 				<!-- End Icon Block -->
 
 				<!-- Icon Block -->
-				<div class="landing-block-node-card-contact">
+				<div class="landing-block-node-card-contact" data-card-preset="link">
 					<div class="media align-items-center mb-4">
 						<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
@@ -1040,79 +1042,68 @@ return array(
 								</span>
 						</div>
 						<div class="media-body">
-							<div class="landing-block-node-contact-text g-color-white-opacity-0_6"
-								 data-form-style-main-font-weight="1"
+							<a href="tel:+32(0)333444555" class="landing-block-card-linkcontact-link g-color-white-opacity-0_6"
+								data-form-style-main-font-weight="1"
 								 data-form-style-header-text-font-size="1"
 								 data-form-style-label-font-weight="1"
 								 data-form-style-label-font-size="1"
 								 data-form-style-second-font-color="1"
-							>
-								<a href="tel:+32(0)333444555">+32 (0) 333 444 555</a>
-							</div>
+								>+32 (0) 333 444 555</a>
 						</div>
 					</div>
 				</div>
 				<!-- End Icon Block -->
 
 				<!-- Icon Block -->
-				<div class="landing-block-node-card-contact">
+				<div class="landing-block-node-card-contact" data-card-preset="link">
 					<div class="media align-items-center mb-4">
 						<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
 								  <i class="landing-block-card-contact-icon icon-communication-033 u-line-icon-pro"></i>
 								</span>
 						</div>
-						<div class="landing-block-node-contact-text g-color-white-opacity-0_6"
-							 data-form-style-main-font-weight="1"
+						<a href="tel:+32(0)333444666" class="landing-block-card-linkcontact-link g-color-white-opacity-0_6"
+							data-form-style-main-font-weight="1"
 							 data-form-style-header-text-font-size="1"
 							 data-form-style-label-font-weight="1"
 							 data-form-style-label-font-size="1"
-							 data-form-style-second-font-color="1"
-						>
-							<a href="tel:+32(0)333444666">+32 (0) 333 444 666</a>
-						</div>
+							 data-form-style-second-font-color="1">+32 (0) 333 444 666</a>
 					</div>
 				</div>
 				<!-- End Icon Block -->
 
 				<!-- Icon Block -->
-				<div class="landing-block-node-card-contact">
+				<div class="landing-block-node-card-contact" data-card-preset="link">
 					<div class="media align-items-center mb-4">
 						<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
 								  <i class="landing-block-card-contact-icon icon-communication-033 u-line-icon-pro"></i>
 								</span>
 						</div>
-						<div class="landing-block-node-contact-text g-color-white-opacity-0_6"
-							 data-form-style-main-font-weight="1"
+						<a href="tel:+32(0)333444777" class="landing-block-card-linkcontact-link g-color-white-opacity-0_6"
+							data-form-style-main-font-weight="1"
 							 data-form-style-header-text-font-size="1"
 							 data-form-style-label-font-weight="1"
 							 data-form-style-label-font-size="1"
-							 data-form-style-second-font-color="1"
-						>
-							<a href="tel:+32(0)333444777">+32 (0) 333 444 777</a>
-						</div>
+							 data-form-style-second-font-color="1">+32 (0) 333 444 777</a>
 					</div>
 				</div>
 				<!-- End Icon Block -->
 
 				<!-- Icon Block -->
-				<div class="landing-block-node-card-contact">
+				<div class="landing-block-node-card-contact" data-card-preset="link">
 					<div class="media align-items-center mb-4">
 						<div class="d-flex">
 								<span class="landing-block-card-contact-icon-container u-icon-v1 u-icon-size--sm g-color-white mr-2">
 								  <i class="landing-block-card-contact-icon icon-communication-062 u-line-icon-pro"></i>
 								</span>
 						</div>
-						<div class="landing-block-node-contact-text g-color-white-opacity-0_6"
-							 data-form-style-main-font-weight="1"
-							 data-form-style-header-text-font-size="1"
-							 data-form-style-label-font-weight="1"
-							 data-form-style-label-font-size="1"
-							 data-form-style-second-font-color="1"
-						>
-							<a href="mailto:info@company24.com">info@company24.com</a>
-						</div>
+						<a href="mailto:info@company24.com" class="landing-block-card-linkcontact-link g-color-white-opacity-0_6"
+						data-form-style-main-font-weight="1"
+						 data-form-style-header-text-font-size="1"
+						 data-form-style-label-font-weight="1"
+						 data-form-style-label-font-size="1"
+						 data-form-style-second-font-color="1">info@company24.com</a>
 					</div>
 				</div>
 				<!-- End Icon Block -->

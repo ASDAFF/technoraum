@@ -150,6 +150,11 @@ if(!empty($arResult["CommentsResult"]) && is_array($arResult["CommentsResult"]))
 		$arResult["urlMobileToPost"]
 	);
 
+	$commentData = array();
+	$commentInlineDiskData = array();
+	$inlineDiskObjectIdList = array();
+	$inlineDiskAttachedObjectIdList = array();
+
 	while($comment = $res->Fetch())
 	{
 		if (empty($comment['ID']))
@@ -157,7 +162,87 @@ if(!empty($arResult["CommentsResult"]) && is_array($arResult["CommentsResult"]))
 			continue;
 		}
 
+		if (
+			!empty($comment['POST_TEXT'])
+			&& \Bitrix\Main\ModuleManager::isModuleInstalled('disk')
+		)
+		{
+			$commentObjectId = $commentAttachedObjectId = array();
+
+			if (preg_match_all("#\\[disk file id=(n\\d+)\\]#is".BX_UTF_PCRE_MODIFIER, $comment['POST_TEXT'], $matches))
+			{
+				$commentObjectId = array_map(function($a) { return intval(substr($a, 1)); }, $matches[1]);
+				$inlineDiskObjectIdList = array_merge($inlineDiskObjectIdList, $commentObjectId);
+			}
+
+			if (preg_match_all("#\\[disk file id=(\\d+)\\]#is".BX_UTF_PCRE_MODIFIER, $comment['POST_TEXT'], $matches))
+			{
+				$commentAttachedObjectId = array_map(function($a) { return intval(substr($a, 1)); }, $matches[1]);
+				$inlineDiskAttachedObjectIdList = array_merge($inlineDiskAttachedObjectIdList, $commentAttachedObjectId);
+			}
+
+			if (
+				!empty($commentObjectId)
+				|| !empty($commentAttachedObjectId)
+			)
+			{
+				$commentInlineDiskData[$comment['ID']] = array(
+					'OBJECT_ID' => $commentObjectId,
+					'ATTACHED_OBJECT_ID' => $commentAttachedObjectId
+				);
+			}
+		}
+		$commentData[] = $comment;
+	}
+
+	// get inline attached images;
+	$inlineDiskAttachedObjectIdImageList = $entityAttachedObjectIdList = array();
+	if (
+		(
+			!empty($inlineDiskObjectIdList)
+			|| !empty($inlineDiskAttachedObjectIdList)
+		)
+		&& \Bitrix\Main\Loader::includeModule('disk')
+	)
+	{
+		$filter = array(
+			'=OBJECT.TYPE_FILE' => \Bitrix\Disk\TypeFile::IMAGE
+		);
+		if (!empty($inlineDiskObjectIdList))
+		{
+			$filter['@OBJECT_ID'] = $inlineDiskObjectIdList;
+		}
+		if (!empty($inlineDiskAttachedObjectIdList))
+		{
+			$filter['@ID'] = $inlineDiskAttachedObjectIdList;
+		}
+		if (
+			!empty($inlineDiskObjectIdList)
+			&& !empty($inlineDiskAttachedObjectIdList)
+		)
+		{
+			$filter['LOGIC'] = 'OR';
+		}
+
+		$res = \Bitrix\Disk\Internals\AttachedObjectTable::getList(array(
+			'filter' => $filter,
+			'select' => array('ID', 'OBJECT_ID', 'ENTITY_ID')
+		));
+		while ($attachedObjectFields = $res->fetch())
+		{
+			$inlineDiskAttachedObjectIdImageList[intval($attachedObjectFields['ID'])] = intval($attachedObjectFields['OBJECT_ID']);
+			if (!isset($entityAttachedObjectIdList[intval($attachedObjectFields['ENTITY_ID'])]))
+			{
+				$entityAttachedObjectIdList[intval($attachedObjectFields['ENTITY_ID'])] = array();
+			}
+			$entityAttachedObjectIdList[intval($attachedObjectFields['ENTITY_ID'])][] = intval($attachedObjectFields['ID']);
+		}
+	}
+
+	foreach($commentData as $comment)
+	{
 		$arResult["RECORDS"][$comment["ID"]] = socialnetworkBlogPostCommentMobile($comment, $arParams, $arResult, $this->__component);
+		$mobileComment = $arResult["RECORDS"][$comment["ID"]];
 
 		if (intval($arResult["ajax_comment"]) == intval($comment["ID"]))
 		{
@@ -177,7 +262,40 @@ if(!empty($arResult["CommentsResult"]) && is_array($arResult["CommentsResult"]))
 				"ACTION" => $_POST["act"] == "edit" ? "EDIT" : "REPLY"
 			);
 		}
+
+		// find all inline images and remove them from UF
+		if (
+			!empty($inlineDiskAttachedObjectIdImageList)
+			&& isset($commentInlineDiskData[$comment['ID']])
+		)
+		{
+			$inlineAttachedImagesId = array();
+			if (!empty($commentInlineDiskData[$comment['ID']]['OBJECT_ID']))
+			{
+				foreach($commentInlineDiskData[$comment['ID']]['OBJECT_ID'] as $val)
+				{
+					$inlineAttachedImagesId = array_merge($inlineAttachedImagesId, array_keys($inlineDiskAttachedObjectIdImageList, $val));
+				}
+			}
+			if (!empty($commentInlineDiskData[$comment['ID']]['ATTACHED_OBJECT_ID']))
+			{
+				$inlineAttachedImagesId = array_merge($inlineAttachedImagesId, array_intersect($commentInlineDiskData[$comment['ID']]['ATTACHED_OBJECT_ID'], array_keys($inlineDiskAttachedObjectIdImageList)));
+			}
+			$inlineAttachedImagesId = array_intersect($inlineAttachedImagesId, $entityAttachedObjectIdList[$comment['ID']]);
+
+			if (
+				!empty($mobileComment["UF"])
+				&& !empty($mobileComment["UF"]["UF_BLOG_COMMENT_FILE"])
+				&& !empty($mobileComment["UF"]["UF_BLOG_COMMENT_FILE"]['VALUE'])
+			)
+			{
+				$mobileComment["UF"]["UF_BLOG_COMMENT_FILE"]['VALUE'] = array_diff($mobileComment["UF"]["UF_BLOG_COMMENT_FILE"]['VALUE'], $inlineAttachedImagesId);
+				$arResult["RECORDS"][$comment["ID"]]["MOBILE"] = $mobileComment;
+				$arResult["RECORDS"][$comment["ID"]]["UF"] = array();
+			}
+		}
 	}
+
 }
 else if ($arResult["ajax_comment"] > 0 && $_GET["delete_comment_id"] > 0)
 {

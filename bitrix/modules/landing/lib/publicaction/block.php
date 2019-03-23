@@ -136,7 +136,7 @@ class Block
 	 * @param array $data Array with cards.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function updateCards($lid, $block, $data)
+	public static function updateCards($lid, $block, array $data)
 	{
 		$error = new \Bitrix\Landing\Error;
 		$result = new PublicActionResult();
@@ -179,7 +179,7 @@ class Block
 	 * @param array $data Array with selector and value.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function changeNodeName($lid, $block, $data)
+	public static function changeNodeName($lid, $block, array $data)
 	{
 		$error = new \Bitrix\Landing\Error;
 		$result = new PublicActionResult();
@@ -293,7 +293,7 @@ class Block
 	 * @param array $additional Additional prams for save.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function updateNodes($lid, $block, $data, $additional = array())
+	public static function updateNodes($lid, $block, array $data, array $additional = array())
 	{
 		$error = new \Bitrix\Landing\Error;
 		$result = new PublicActionResult();
@@ -431,7 +431,7 @@ class Block
 	 * @param string $method Method for update.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	private static function updateAttributes($lid, $block, $data, $method)
+	private static function updateAttributes($lid, $block, array $data, $method)
 	{
 		$error = new \Bitrix\Landing\Error;
 		$result = new PublicActionResult();
@@ -477,7 +477,7 @@ class Block
 	 * @param array $data Array with selector and data.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function updateStyles($lid, $block, $data)
+	public static function updateStyles($lid, $block, array $data)
 	{
 		return self::updateAttributes($lid, $block, $data, 'setClasses');
 	}
@@ -489,7 +489,7 @@ class Block
 	 * @param array $data Array with selector and data.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function updateAttrs($lid, $block, $data)
+	public static function updateAttrs($lid, $block, array $data)
 	{
 		if (is_array($data))
 		{
@@ -521,7 +521,7 @@ class Block
 	 * @param array $params Some params.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function getContent($lid, $block, $editMode = false, $params = array())
+	public static function getContent($lid, $block, $editMode = false, array $params = array())
 	{
 		$result = new PublicActionResult();
 		$error = new \Bitrix\Landing\Error;
@@ -612,7 +612,7 @@ class Block
 	 * @param array $params Some params.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function getList($lid, $params = array())
+	public static function getList($lid, array $params = array())
 	{
 		$result = new PublicActionResult();
 		$lids = is_array($lid) ? $lid : [$lid];
@@ -669,10 +669,10 @@ class Block
 					}
 				}
 			}
+			$result->setError($landing->getError());
 		}
 
 		$result->setResult(array_values($data));
-		$result->setError($landing->getError());
 
 		return $result;
 	}
@@ -683,7 +683,7 @@ class Block
 	 * @param array $params Some params.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function getById($block, $params = array())
+	public static function getById($block, array $params = array())
 	{
 		$error = new \Bitrix\Landing\Error;
 		$result = new PublicActionResult();
@@ -720,7 +720,7 @@ class Block
 	 * @param array $params Some params.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function getManifest($lid, $block, $params = array())
+	public static function getManifest($lid, $block, array $params = array())
 	{
 		$error = new \Bitrix\Landing\Error;
 		$result = new PublicActionResult();
@@ -808,13 +808,15 @@ class Block
 	/**
 	 * Upload file by url or from FILE.
 	 * @param int $block Block id.
-	 * @param string $picture File url / file array.
+	 * @param mixed $picture File url / file array.
 	 * @param string $ext File extension.
 	 * @param array $params Some file params.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function uploadFile($block, $picture, $ext = false, $params = array())
+	public static function uploadFile($block, $picture, $ext = false, array $params = array())
 	{
+		static $mixedParams = ['picture'];
+
 		$result = new PublicActionResult();
 		$error = new \Bitrix\Landing\Error;
 

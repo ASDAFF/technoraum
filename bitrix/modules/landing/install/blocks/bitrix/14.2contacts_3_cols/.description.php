@@ -89,15 +89,11 @@ return array(
 		),
 		'.landing-block-node-linkcontact-text' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_7_CONTACTS_4_COLS_STYLE_LANDINGBLOCKNODECONTACTTEXT'),
-			'type' => 'typo',
+			'type' => 'typo-link',
 		),
 		'.landing-block-node-contact-icon-container' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_7_CONTACTS_4_COLS_NODES_LANDINGBLOCKNODECONTACTIMG'),
 			'type' => 'color',
-		),
-		'.landing-block-node-contact-link' => array(
-			'name' => Loc::getMessage('LANDING_BLOCK_7_CONTACTS_4_COLS_STYLE_LANDINGBLOCKNODECONTACTLINK'),
-			'type' => 'typo-a',
 		),
 	),
 	'groups' => array(

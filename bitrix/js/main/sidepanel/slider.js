@@ -1534,10 +1534,8 @@ BX.SidePanel.Slider.prototype =
 			return;
 		}
 
-		if (this.canCloseByEsc())
-		{
-			this.close();
-		}
+		this.firePageEvent("onEscapePress");
+		this.fireFrameEvent("onEscapePress");
 	},
 
 	/**

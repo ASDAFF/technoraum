@@ -1071,6 +1071,7 @@ else
 							data-log-entry-createtask="<?=($arResult["canGetPostContent"]) ? 'Y' : 'N'?>"
 							data-log-entry-entity-type="<?=(!empty($arResult["POST_CONTENT_TYPE_ID"]) ? htmlspecialcharsbx($arResult["POST_CONTENT_TYPE_ID"]) : "")?>"
 							data-log-entry-entity-id="<?=(!empty($arResult["POST_CONTENT_ID"]) ? intval($arResult["POST_CONTENT_ID"]) : "")?>"
+							data-log-entry-log-id="<?=intval($arEvent["EVENT"]["ID"])?>"
 							onclick="__logShowPostMenu(
 								this,
 								'<?=$ind?>',
@@ -1224,6 +1225,7 @@ else
 							"AUX_LIVE_PARAMS" => (!empty($arComment["AUX_LIVE_PARAMS"]) ? $arComment["AUX_LIVE_PARAMS"] : array()),
 							"CLASSNAME" => ""
 						);
+
 						if (
 							strlen($arComment["EVENT"]["RATING_TYPE_ID"]) > 0
 							&& $arComment["EVENT"]["RATING_ENTITY_ID"] > 0
@@ -1248,7 +1250,7 @@ else
 
 								$APPLICATION->IncludeComponent(
 									"bitrix:rating.vote",
-									($arParams["RATING_TYPE"] == "like" ? "like_react" : $arParams["RATING_TYPE"]),
+									"like_react",
 									Array(
 										"COMMENT" => "Y",
 										"ENTITY_TYPE_ID" => $arComment["EVENT"]["RATING_TYPE_ID"],
@@ -1407,14 +1409,14 @@ else
 							"ID" => $arResult["RESULT"]
 						),
 						"VIEW_URL" => (
-						!empty($arResult["COMMENT_URL"])
-							? $arResult["COMMENT_URL"]
-							: (
-						isset($arParams["PATH_TO_LOG_ENTRY"])
-						&& strlen($arParams["PATH_TO_LOG_ENTRY"]) > 0
-							? CComponentEngine::MakePathFromTemplate($arParams["PATH_TO_LOG_ENTRY"], array("log_id" => $arEvent["EVENT"]["ID"]))."?commentId=#ID#"
-							: ""
-						)
+							!empty($arResult["COMMENT_URL"])
+								? $arResult["COMMENT_URL"]
+								: (
+									isset($arParams["PATH_TO_LOG_ENTRY"])
+									&& strlen($arParams["PATH_TO_LOG_ENTRY"]) > 0
+										? CComponentEngine::MakePathFromTemplate($arParams["PATH_TO_LOG_ENTRY"], array("log_id" => $arEvent["EVENT"]["ID"]))."?commentId=#ID#"
+										: ""
+								)
 						),
 						"EDIT_URL" => "__logEditComment('".$arEvent["COMMENTS_PARAMS"]["ENTITY_XML_ID"]."', '#ID#', '".$arEvent["EVENT"]["ID"]."');",
 						"MODERATE_URL" => "",
@@ -1433,14 +1435,13 @@ else
 						"NOTIFY_TEXT" => TruncateText(str_replace(Array("\r\n", "\n"), " ", $arEvent["EVENT"]["MESSAGE"]), 100),
 						"SHOW_MINIMIZED" => "Y",
 						"SHOW_POST_FORM" => (
-						isset($arEvent["HAS_COMMENTS"])
-						&& $arEvent["HAS_COMMENTS"] === "Y"
-						&& isset($arEvent["CAN_ADD_COMMENTS"])
-						&& $arEvent["CAN_ADD_COMMENTS"] === "Y"
-							? "Y"
-							: "N"
+							isset($arEvent["HAS_COMMENTS"])
+							&& $arEvent["HAS_COMMENTS"] === "Y"
+							&& isset($arEvent["CAN_ADD_COMMENTS"])
+							&& $arEvent["CAN_ADD_COMMENTS"] === "Y"
+								? "Y"
+								: "N"
 						),
-
 						"IMAGE_SIZE" => $arParams["IMAGE_SIZE"],
 						"mfi" => $arParams["mfi"],
 						"AUTHOR_URL_PARAMS" => array(

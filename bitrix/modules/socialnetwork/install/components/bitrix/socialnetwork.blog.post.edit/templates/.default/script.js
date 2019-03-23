@@ -1802,6 +1802,17 @@
 					}));
 				}
 
+				var activeTab = window.SBPETabs.getInstance().active;
+				if (BX.type.isNotEmptyString(activeTab))
+				{
+					var actionUrl = BX(formID).action;
+					actionUrl = BX.util.remove_url_param(actionUrl, [ 'b24statTab' ]);
+					actionUrl = BX.util.add_url_param(actionUrl, {
+						b24statTab: activeTab
+					});
+					BX(formID).action = actionUrl;
+				}
+
 				BX.submit(BX(formID), value);
 
 				formParams[formID]["submitted"] = true;
@@ -1822,7 +1833,14 @@
 							{
 								if (!!div[ii])
 								{
-									BX.adjust(div[ii], { style : { display : "block", height : "auto", opacity : 1 } } );
+									BX.adjust(div[ii], {
+										style : {
+											display : "block",
+											height : "auto",
+											opacity : 1
+										}
+									});
+									div[ii].style.padding = null;
 								}
 							}
 							if(formParams[formID]["showTitle"])
@@ -1839,7 +1857,14 @@
 							{
 								if (!!div[ii])
 								{
-									BX.adjust(div[ii], {style:{display:"block",height:"0px", opacity:0}});
+									BX.adjust(div[ii], {
+										style: {
+											display: "block",
+											height: "0",
+											opacity: 0,
+											padding: 0
+										}
+									});
 								}
 							}
 							if(formParams[formID]["showTitle"])

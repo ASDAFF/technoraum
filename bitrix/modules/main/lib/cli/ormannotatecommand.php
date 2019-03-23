@@ -9,9 +9,12 @@
 namespace Bitrix\Main\Cli;
 
 use Bitrix\Main\Application;
+use Bitrix\Main\Authentication\Context;
 use Bitrix\Main\Loader;
 use Bitrix\Main\ORM\Data\AddResult;
+use Bitrix\Main\ORM\Data\Result;
 use Bitrix\Main\ORM\Data\UpdateResult;
+use Bitrix\Main\ORM\Fields\ArrayField;
 use Bitrix\Main\ORM\Fields\BooleanField;
 use Bitrix\Main\ORM\Data\DataManager;
 use Bitrix\Main\ORM\Entity;
@@ -380,9 +383,14 @@ class OrmAnnotateCommand extends Command
 		$code[] = "\t *";
 		$code[] = "\t * @property-read \\".Entity::class." \$entity";
 		$code[] = "\t * @property-read array \$primary";
+		$code[] = "\t * @property-read int \$state @see \Bitrix\Main\ORM\Objectify\State";
+		$code[] = "\t * @property \\".Context::class." \$authContext";
 		$code[] = "\t * @method mixed get(\$fieldName)";
 		$code[] = "\t * @method mixed remindActual(\$fieldName)";
 		$code[] = "\t * @method mixed require(\$fieldName)";
+		$code[] = "\t * @method bool has(\$fieldName)";
+		$code[] = "\t * @method bool isFilled(\$fieldName)";
+		$code[] = "\t * @method bool isChanged(\$fieldName)";
 		$code[] = "\t * @method {$objectClass} set(\$fieldName, \$value)";
 		$code[] = "\t * @method {$objectClass} reset(\$fieldName)";
 		$code[] = "\t * @method {$objectClass} unset(\$fieldName)";
@@ -392,7 +400,7 @@ class OrmAnnotateCommand extends Command
 		$code[] = "\t * @method void delete()";
 		$code[] = "\t * @method void fill(\$fields = \\".FieldTypeMask::class."::ALL) flag or array of field names";
 		$code[] = "\t * @method mixed[] collectValues(\$valuesType = \Bitrix\Main\ORM\Objectify\Values::ALL, \$fieldsMask = \Bitrix\Main\ORM\Fields\FieldTypeMask::ALL)";
-		$code[] = "\t * @method \\".AddResult::class."|\\".UpdateResult::class."|bool save()";
+		$code[] = "\t * @method \\".AddResult::class."|\\".UpdateResult::class."|\\".Result::class." save()";
 		$code[] = "\t * @method static {$objectClass} wakeUp(\$data)";
 		//$code[] = "\t *";
 		//$code[] = "\t * for parent class, @see \\".EntityObject::class;
@@ -401,6 +409,7 @@ class OrmAnnotateCommand extends Command
 		$code[] = "\tclass {$objectDefaultClassName} {";
 		$code[] = "\t\t/* @var {$dataClass} */";
 		$code[] = "\t\tstatic public \$dataClass = '{$dataClass}';";
+		$code[] = "\t\tpublic function __construct(\$setDefaultValues = true) {}";
 		$code[] = "\t}"; // end class
 
 		// compatibility with default classes
@@ -438,6 +447,7 @@ class OrmAnnotateCommand extends Command
 		$code[] = "\t * @method bool remove({$objectClass} \$object)";
 		$code[] = "\t * @method void fill(\$fields = \\".FieldTypeMask::class."::ALL) flag or array of field names";
 		$code[] = "\t * @method static {$collectionClass} wakeUp(\$data)";
+		$code[] = "\t * @method void save(\$ignoreEvents = false)";
 		$code[] = "\t * @method void offsetSet() ArrayAccess";
 		$code[] = "\t * @method void offsetExists() ArrayAccess";
 		$code[] = "\t * @method void offsetUnset() ArrayAccess";
@@ -476,14 +486,14 @@ class OrmAnnotateCommand extends Command
 		$code[] = "namespace {$entityNamespace} {"; // start namespace
 		$code[] = "\t/**";
 		$code[] = "\t * @method static {$queryClassName} query()";
-		$code[] = "\t * @method static {$resultClassName} getByPrimary()";
-		$code[] = "\t * @method static {$resultClassName} getById()";
-		$code[] = "\t * @method static {$resultClassName} getList()";
+		$code[] = "\t * @method static {$resultClassName} getByPrimary(\$primary, array \$parameters = array())";
+		$code[] = "\t * @method static {$resultClassName} getById(\$id)";
+		$code[] = "\t * @method static {$resultClassName} getList(array \$parameters = array())";
 		$code[] = "\t * @method static {$entityClassName} getEntity()";
 		$code[] = "\t * @method static {$objectClass} createObject(\$setDefaultValues = true)";
 		$code[] = "\t * @method static {$collectionClass} createCollection()";
-		$code[] = "\t * @method static {$objectClass} wakeUpObject()";
-		$code[] = "\t * @method static {$collectionClass} wakeUpCollection()";
+		$code[] = "\t * @method static {$objectClass} wakeUpObject(\$row)";
+		$code[] = "\t * @method static {$collectionClass} wakeUpCollection(\$rows)";
 		$code[] = "\t */";
 		$code[] = "\tclass {$dataClassName} {}";
 
@@ -503,8 +513,8 @@ class OrmAnnotateCommand extends Command
 		$code[] = "\t/**";
 		$code[] = "\t * @method {$objectClass} createObject(\$setDefaultValues = true)";
 		$code[] = "\t * @method {$collectionClass} createCollection()";
-		$code[] = "\t * @method {$objectClass} wakeUpObject()";
-		$code[] = "\t * @method {$collectionClass} wakeUpCollection()";
+		$code[] = "\t * @method {$objectClass} wakeUpObject(\$row)";
+		$code[] = "\t * @method {$collectionClass} wakeUpCollection(\$rows)";
 		$code[] = "\t */";
 		$code[] = "\tclass {$entityClassName} {}";
 
@@ -526,6 +536,10 @@ class OrmAnnotateCommand extends Command
 
 		$objectCode[] = "\t * @method {$dataType} get{$uName}()";
 		$objectCode[] = "\t * @method {$objectClass} set{$uName}({$dataType} \${$lName})";
+
+		$objectCode[] = "\t * @method bool has{$uName}()";
+		$objectCode[] = "\t * @method bool is{$uName}Filled()";
+		$objectCode[] = "\t * @method bool is{$uName}Changed()";
 
 		$collectionCode[] = "\t * @method {$dataType}[] get{$uName}List()";
 
@@ -557,6 +571,8 @@ class OrmAnnotateCommand extends Command
 		// add setter
 		$objectCode[] = "\t * @method {$objectClass} set{$uName}({$dataType} \${$lName})";
 
+		$objectCode[] = "\t * @method bool is{$uName}Changed()";
+
 		return [$objectCode, $collectionCode];
 	}
 
@@ -573,6 +589,9 @@ class OrmAnnotateCommand extends Command
 		$objectCode[] = "\t * @method {$dataType} get{$uName}()";
 		$objectCode[] = "\t * @method {$dataType} remindActual{$uName}()";
 		$objectCode[] = "\t * @method {$dataType} require{$uName}()";
+
+		$objectCode[] = "\t * @method bool has{$uName}()";
+		$objectCode[] = "\t * @method bool is{$uName}Filled()";
 
 		$collectionCode[] = "\t * @method {$dataType}[] get{$uName}List()";
 
@@ -607,6 +626,10 @@ class OrmAnnotateCommand extends Command
 		$objectCode[] = "\t * @method {$objectClass} reset{$uName}()";
 		$objectCode[] = "\t * @method {$objectClass} unset{$uName}()";
 
+		$objectCode[] = "\t * @method bool has{$uName}()";
+		$objectCode[] = "\t * @method bool is{$uName}Filled()";
+		$objectCode[] = "\t * @method bool is{$uName}Changed()";
+
 		$collectionCode[] = "\t * @method {$dataType}[] get{$uName}List()";
 
 		$objectCode[] = "\t * @method {$dataType} fill{$uName}()";
@@ -635,6 +658,10 @@ class OrmAnnotateCommand extends Command
 		$objectCode[] = "\t * @method {$collectionDataType} get{$uName}()";
 		$objectCode[] = "\t * @method {$collectionDataType} require{$uName}()";
 		$objectCode[] = "\t * @method {$collectionDataType} fill{$uName}()";
+
+		$objectCode[] = "\t * @method bool has{$uName}()";
+		$objectCode[] = "\t * @method bool is{$uName}Filled()";
+		$objectCode[] = "\t * @method bool is{$uName}Changed()";
 
 		$objectCode[] = "\t * @method void addTo{$uName}({$objectDataType} \${$objectVarName})";
 		$objectCode[] = "\t * @method void removeFrom{$uName}({$objectDataType} \${$objectVarName})";
@@ -669,6 +696,10 @@ class OrmAnnotateCommand extends Command
 		$objectCode[] = "\t * @method {$collectionDataType} get{$uName}()";
 		$objectCode[] = "\t * @method {$collectionDataType} require{$uName}()";
 		$objectCode[] = "\t * @method {$collectionDataType} fill{$uName}()";
+
+		$objectCode[] = "\t * @method bool has{$uName}()";
+		$objectCode[] = "\t * @method bool is{$uName}Filled()";
+		$objectCode[] = "\t * @method bool is{$uName}Changed()";
 
 		$objectCode[] = "\t * @method void addTo{$uName}({$objectDataType} \${$objectVarName})";
 		$objectCode[] = "\t * @method void removeFrom{$uName}({$objectDataType} \${$objectVarName})";
@@ -743,6 +774,8 @@ class OrmAnnotateCommand extends Command
 				return '\\boolean';
 			case FloatField::class:
 				return '\\float';
+			case ArrayField::class:
+				return 'array';
 			default:
 				return '\\string';
 		}

@@ -1,4 +1,5 @@
 <?
+$MESS["MAIL_CLIENT_CONFIG_IMAP_AGE_3"] = "3 Tage";
 $MESS["MAIL_CLIENT_CONFIG_TITLE"] = "Mailbox-Integration";
 $MESS["MAIL_CLIENT_CONFIG_EDIT_TITLE"] = "Mailbox verwalten";
 $MESS["MAIL_CLIENT_CONFIG_PROMPT"] = "Sie können Ihre Mailbox direkt in Bitrix24 nutzen und verwalten";
@@ -95,3 +96,4 @@ $MESS["MAIL_MAILBOX_LICENSE_SHARED_LIMIT_BODY"] = "Die Anzahl der gemeinsam genu
 In Ihrem aktuellen Tarif können #LIMIT# Mailboxen gemeinsam genutzt werden.";
 $MESS["MAIL_MAILBOX_REMOVE_CONFIRM"] = "Soll das Mail-Konto deaktiviert werden?";
 $MESS["MAIL_MAILBOX_REMOVE_CONFIRM_TEXT"] = "Möchten Sie dieses Mail-Konto wirklich löschen?";
+?>

@@ -59,7 +59,7 @@ return array(
 			),
 			'.landing-block-node-card-container' => array(
 				'name' => Loc::getMessage('LANDING_BLOCK_19.6.FEATURES_TWO_COLS_WITH_BG_PATTERN_NODES_LANDINGBLOCKNODE_CARD'),
-				'type' => array('background-color', 'background-gradient' . 'opacity'),
+				'type' => array('bg'),
 			),
 			'.landing-block-node-card-title' => array(
 				'name' => Loc::getMessage('LANDING_BLOCK_19.6.FEATURES_TWO_COLS_WITH_BG_PATTERN_NODES_LANDINGBLOCKNODECARDTITLE2'),

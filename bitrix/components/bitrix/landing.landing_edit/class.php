@@ -214,6 +214,7 @@ class LandingEditComponent extends LandingBaseFormComponent
 			$this->checkParam('LANDING_ID', 0);
 			$this->checkParam('PAGE_URL_LANDINGS', '');
 			$this->checkParam('PAGE_URL_LANDING_VIEW', '');
+			$this->checkParam('PAGE_URL_SITE_EDIT', '');
 
 			$this->id = $this->arParams['LANDING_ID'];
 			$this->successSavePage = $this->arParams['PAGE_URL_LANDINGS'];

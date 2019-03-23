@@ -8,17 +8,27 @@
 	{
 		options = options || {};
 
+		/**
+		 * @type {BX.UI.Viewer.Controller}
+		 */
 		this.controller = null;
 		this.title = options.title;
 		this.src = options.src;
+		this.nakedActions = options.nakedActions;
 		this.actions = options.actions;
 		this.contentType = options.contentType;
 		this.isLoaded = false;
 		this.isLoading = false;
 		this.sourceNode = null;
+		this.transformationPromise = null;
+		this.transformationTimeoutId = null;
+		this.viewerGroupBy = null;
+		this.transformationTimeout = options.transformationTimeout || 15000;
 		this.layout = {
 			container: null
 		};
+
+		this.options = options;
 
 		this.init();
 	};
@@ -42,7 +52,8 @@
 		{
 			this.title = node.dataset.title || node.title || node.alt;
 			this.src = node.dataset.src;
-			this.actions = node.dataset.actions? JSON.parse(node.dataset.actions) : undefined;
+			this.viewerGroupBy = node.dataset.viewerGroupBy;
+			this.nakedActions = node.dataset.actions? JSON.parse(node.dataset.actions) : undefined;
 		},
 
 		/**
@@ -53,16 +64,116 @@
 			this.sourceNode = node;
 		},
 
-		init: function ()
+		applyReloadOptions: function (options)
 		{},
 
-		reload: function ()
+		isPullConnected: function()
 		{
-			this.isLoaded = false;
-			this.isLoading = false;
+			if(top.BX.PULL)
+			{
+				// pull_v2
+				if(BX.type.isFunction(top.BX.PULL.isConnected))
+				{
+					return top.BX.PULL.isConnected();
+				}
+				else
+				{
+					var debugInfo = top.BX.PULL.getDebugInfoArray();
+					return debugInfo.connected;
+				}
+			}
 
-			return this.load();
+			return false;
 		},
+
+		registerTransformationHandler: function(pullTag)
+		{
+			if (this.isLoaded)
+			{
+				return;
+			}
+
+			if (this.controller.getCurrentItem() === this)
+			{
+				this.controller.setTextOnLoading(BX.message('JS_UI_VIEWER_ITEM_TRANSFORMATION_IN_PROGRESS'));
+			}
+
+			if (this.isPullConnected())
+			{
+				BX.addCustomEvent('onPullEvent-main', function (command, params) {
+					if (command === 'transformationComplete' && this.transformationPromise)
+					{
+						this.loadData().then(function(){
+							this.transformationPromise.fulfill(this);
+						}.bind(this));
+					}
+				}.bind(this));
+
+				console.log('BX.PULL.extendWatch');
+				BX.PULL.extendWatch(pullTag);
+			}
+			else
+			{
+				setTimeout(function(){
+					BX.ajax.promise({
+						url: BX.util.add_url_param(this.src, {ts: 'bxviewer'}),
+						method: 'GET',
+						dataType: 'json',
+						headers: [{
+							name: 'BX-Viewer-check-transformation',
+							value: null
+						}]
+					}).then(function(response){
+						if (!response.data || !response.data.transformation)
+						{
+							this.registerTransformationHandler();
+						}
+						else
+						{
+							this.loadData().then(function(){
+								this.transformationPromise.fulfill(this);
+							}.bind(this));
+						}
+					}.bind(this));
+				}.bind(this), 5000);
+			}
+
+			this.transformationTimeoutId = setTimeout(function(){
+				if (!this.isLoaded)
+				{
+					console.log('Throw transformationTimeout');
+					if (this._loadPromise)
+					{
+						this._loadPromise.reject({
+							status: "timeout",
+							message: BX.message("JS_UI_VIEWER_ITEM_TRANSFORMATION_ERROR_1").replace('#DOWNLOAD_LINK#', this.getSrc()),
+							item: this
+						});
+
+						this.isLoading = false;
+					}
+				}
+				else
+				{
+					console.log('We don\'t have transformationTimeout :) ');
+				}
+
+				this.resetTransformationTimeout();
+			}.bind(this), this.transformationTimeout);
+		},
+
+		resetTransformationTimeout: function ()
+		{
+			if(this.transformationTimeoutId)
+			{
+				clearTimeout(this.transformationTimeoutId);
+			}
+
+			this.transformationTimeoutId = null;
+		},
+
+		init: function ()
+		{},
 
 		load: function ()
 		{
@@ -71,11 +182,14 @@
 			if (this.isLoaded)
 			{
 				promise.fulfill(this);
+				console.log('isLoaded');
 
 				return promise;
 			}
 			if (this.isLoading)
 			{
+				console.log('isLoading');
+
 				return this._loadPromise;
 			}
 
@@ -86,8 +200,14 @@
 
 				return item;
 			}.bind(this)).catch(function (reason) {
+				console.log('catch');
 				this.isLoaded = false;
 				this.isLoading = false;
+
+				if(!reason.item)
+				{
+					reason.item = this;
+				}
 
 				var promise = new BX.Promise();
 				promise.reject(reason);
@@ -95,7 +215,40 @@
 				return promise;
 			}.bind(this));
 
+			console.log('will load');
+
 			return this._loadPromise;
+		},
+
+		/**
+		 * Returns list of classes which will be added to viewer container before showing
+		 * and will be deleted after hiding.
+		 * @return {Array}
+		 */
+		listContainerModifiers: function()
+		{
+			return [];
+		},
+
+		getSrc: function()
+		{
+			return this.src;
+		},
+
+		hashCode: function (string)
+		{
+			var h = 0, l = string.length, i = 0;
+			if (l > 0)
+			{
+				while (i < l)
+					h = (h << 5) - h + string.charCodeAt(i++) | 0;
+			}
+			return h;
+		},
+
+		generateUniqueId: function ()
+		{
+			return this.hashCode(this.getSrc() || '') + (Math.floor(Math.random() * Math.floor(10000)));
 		},
 
 		getTitle: function()
@@ -103,15 +256,30 @@
 			return this.title;
 		},
 
-		getActions: function()
+		getGroupBy: function()
 		{
-			if (typeof this.actions === 'undefined')
+			return this.viewerGroupBy;
+		},
+
+		getNakedActions: function()
+		{
+			if (typeof this.nakedActions === 'undefined')
 			{
 				return [{
 					type: 'download'
 				}];
 			}
 
+			return this.nakedActions;
+		},
+
+		setActions: function(actions)
+		{
+			this.actions = actions;
+		},
+
+		getActions: function()
+		{
 			return this.actions;
 		},
 
@@ -130,7 +298,19 @@
 		render: function ()
 		{},
 
+		/**
+		 * @returns {BX.Promise}
+		 */
+		getContentWidth: function()
+		{},
+
+		handleKeyPress: function (event)
+		{},
+
 		afterRender: function ()
+		{},
+
+		beforeHide: function()
 		{}
 	};
 
@@ -148,6 +328,9 @@
 		this.resizedSrc = options.resizedSrc;
 		this.width = options.width;
 		this.height = options.height;
+		/**
+		 * @type {HTMLImageElement}
+		 */
 		this.imageNode = null;
 		this.layout = {
 			container: null
@@ -166,20 +349,63 @@
 		{
 			BX.UI.Viewer.Item.prototype.setPropertiesByNode.apply(this, arguments);
 
-			this.resizedSrc = node.src;
 			this.src = node.dataset.src || node.src;
 			this.width = node.dataset.width;
 			this.height = node.dataset.height;
+		},
+
+		applyReloadOptions: function (options)
+		{
+			this.controller.unsetCachedData(this.src);
+		},
+
+		tryToExportResizedSrcFromSourceNode: function()
+		{
+			/**
+			 * @see .ui-viewer-inner-content-wrapper > * {
+			 * max-height: calc(100% - 210px)
+			 */
+			var paddingHeight = 210;
+			if (!(this.sourceNode instanceof Image))
+			{
+				return;
+			}
+
+			if (!this.sourceNode.naturalWidth)
+			{
+				return;
+			}
+
+			var offsetHeight = this.controller.getItemContainer().offsetHeight;
+			var offsetWidth = this.controller.getItemContainer().offsetWidth;
+			var scale = offsetHeight / offsetWidth;
+			var realMaxHeight = (offsetHeight - paddingHeight);
+			var realMaxWidth = realMaxHeight / scale;
+
+			if (this.sourceNode.naturalWidth >= realMaxWidth || this.sourceNode.naturalHeight >= realMaxHeight)
+			{
+				this.resizedSrc = this.sourceNode.src;
+			}
 		},
 
 		loadData: function ()
 		{
 			var promise = new BX.Promise();
 
+			if (!this.shouldRunLocalResize())
+			{
+				this.resizedSrc = this.src;
+			}
+			this.tryToExportResizedSrcFromSourceNode();
+
+			if (this.controller.getCachedData(this.src))
+			{
+				this.resizedSrc = this.controller.getCachedData(this.src).resizedSrc;
+			}
+
 			if (!this.resizedSrc)
 			{
 				var xhr = new XMLHttpRequest();
-				xhr.responseType = 'blob';
 				xhr.onreadystatechange = function () {
 					if(xhr.readyState !== XMLHttpRequest.DONE)
 					{
@@ -187,11 +413,15 @@
 					}
 					if ((xhr.status === 200 || xhr.status === 0) && xhr.response)
 					{
+						console.log('resize image');
 						this.resizedSrc = URL.createObjectURL(xhr.response);
 						this.imageNode = new Image();
 						this.imageNode.src = this.resizedSrc;
+						this.imageNode.onload = function () {
+							promise.fulfill(this);
+						}.bind(this);
 
-						promise.fulfill(this);
+						this.controller.setCachedData(this.src, {resizedSrc: this.resizedSrc});
 					}
 					else
 					{
@@ -203,6 +433,7 @@
 
 				}.bind(this);
 				xhr.open('GET', BX.util.add_url_param(this.src, {ts: 'bxviewer'}), true);
+				xhr.responseType = 'blob';
 				xhr.setRequestHeader('BX-Viewer-image', 'x');
 				xhr.send();
 			}
@@ -213,6 +444,7 @@
 					promise.fulfill(this);
 				}.bind(this);
 				this.imageNode.onerror = this.imageNode.onabort = function (event) {
+					console.log('reject');
 					promise.reject({
 						item: this,
 						type: 'error'
@@ -223,6 +455,11 @@
 			}
 
 			return promise;
+		},
+
+		shouldRunLocalResize: function ()
+		{
+			return !this.controller.isExternalLink(this.src);
 		},
 
 		render: function ()
@@ -243,7 +480,12 @@
 								href: BX.util.add_url_param(this.src, {ts: 'bxviewer', ibxShowImage: 1}),
 								target: '_blank'
 							},
-							text: BX.message('JS_UI_VIEWER_IMAGE_VIEW_FULL_SIZE')
+							text: BX.message('JS_UI_VIEWER_IMAGE_VIEW_FULL_SIZE'),
+							events: {
+								click: function(e){
+									e.stopPropagation();
+								}
+							}
 						})
 					]
 				}));
@@ -252,6 +494,29 @@
 			this.imageNode.alt = this.title;
 
 			return item;
+		},
+
+		/**
+		 * @returns {BX.Promise}
+		 */
+		getContentWidth: function()
+		{
+			var promise = new BX.Promise();
+			promise.fulfill(this.imageNode.offsetWidth);
+
+			return promise;
+		},
+
+		afterRender: function ()
+		{
+			//it's a dirty hack for IE11 and working with Image and blob content to prevent unexpected width&height attributes
+			if (!window.chrome)
+			{
+				setTimeout(function () {
+					this.imageNode.removeAttribute('width');
+					this.imageNode.removeAttribute('height');
+				}.bind(this), 200);
+			}
 		}
 	};
 
@@ -299,21 +564,23 @@
 	};
 
 	/**
-	 * @extends {BX.UI.Viewer.PlainText}
+	 * @extends {BX.UI.Viewer.Item}
 	 * @param options
 	 * @constructor
 	 */
-	BX.UI.Viewer.Unknown = function (options)
+	BX.UI.Viewer.Audio = function (options)
 	{
 		options = options || {};
 
 		BX.UI.Viewer.Item.apply(this, arguments);
+
+		this.playerId = 'audio-playerId_' + this.generateUniqueId();
 	};
 
-	BX.UI.Viewer.Unknown.prototype =
+	BX.UI.Viewer.Audio.prototype =
 	{
-		__proto__: BX.UI.Viewer.PlainText.prototype,
-		constructor: BX.UI.Viewer.PlainText,
+		__proto__: BX.UI.Viewer.Item.prototype,
+		constructor: BX.UI.Viewer.Item,
 
 		/**
 		 * @param {HTMLElement} node
@@ -322,7 +589,274 @@
 		{
 			BX.UI.Viewer.Item.prototype.setPropertiesByNode.apply(this, arguments);
 
-			this.content = 'Unknown type';
+			this.playerId = 'audio-playerId_' + this.generateUniqueId();
+		},
+
+		loadData: function ()
+		{
+			var promise = new BX.Promise();
+			if (BX.getClass('BX.Fileman.Player'))
+			{
+				promise.fulfill(this);
+
+				return promise;
+			}
+
+			var headers = [
+				{
+					name: 'BX-Viewer-src',
+					value: this.src
+				},
+				{
+					name: 'BX-Viewer',
+					value: 'audio'
+				}
+			];
+			var ajaxPromise = BX.ajax.promise({
+				url: BX.util.add_url_param(this.src, {ts: 'bxviewer'}),
+				method: 'GET',
+				dataType: 'json',
+				headers: headers
+			});
+
+			ajaxPromise.then(function (response) {
+				if (!response || !response.data)
+				{
+					promise.reject({
+						item: this,
+						type: 'error',
+						errors: response.errors || []
+					});
+
+					return;
+				}
+
+				if (response.data.html && !BX.getClass('BX.Fileman.Player'))
+				{
+					var html = BX.processHTML(response.data.html);
+
+					BX.load(html.STYLE, function(){
+						BX.ajax.processScripts(html.SCRIPT, undefined, function(){
+							promise.fulfill(this);
+						}.bind(this));
+					}.bind(this));
+				}
+				else
+				{
+					promise.fulfill(this);
+				}
+
+			}.bind(this));
+
+			return promise;
+		},
+
+		render: function ()
+		{
+			this.player = new BX.Fileman.Player(this.playerId, {
+				width: 400,
+				height: 30,
+				isAudio: true,
+				sources: [{
+					src: this.src,
+					type: 'audio/mp3'
+				}],
+				onInit: function(player)
+				{
+					player.vjsPlayer.controlBar.removeChild('timeDivider');
+					player.vjsPlayer.controlBar.removeChild('durationDisplay');
+					player.vjsPlayer.controlBar.removeChild('fullscreenToggle');
+					player.vjsPlayer.hasStarted(true);
+				}
+			});
+
+			return this.player.createElement();
+		},
+
+		afterRender: function()
+		{
+			this.player.init();
+		}
+	};
+
+	/**
+	 * @extends {BX.UI.Viewer.Item}
+	 * @param options
+	 * @constructor
+	 */
+	BX.UI.Viewer.HightlightCode = function (options)
+	{
+		options = options || {};
+
+		BX.UI.Viewer.Item.apply(this, arguments);
+
+		this.content = options.content;
+	};
+
+	BX.UI.Viewer.HightlightCode.prototype =
+	{
+		__proto__: BX.UI.Viewer.Item.prototype,
+		constructor: BX.UI.Viewer.Item,
+
+		/**
+		 * @param {HTMLElement} node
+		 */
+		setPropertiesByNode: function (node)
+		{
+			BX.UI.Viewer.Item.prototype.setPropertiesByNode.apply(this, arguments);
+
+			this.content = node.dataset.content;
+		},
+
+		listContainerModifiers: function()
+		{
+			return [
+				'ui-viewer-document',
+				'ui-viewer-document-hlcode'
+			]
+		},
+
+		loadData: function ()
+		{
+			var promise = new BX.Promise();
+
+			BX.loadExt('ui.highlightjs').then(function () {
+				if (!this.content)
+				{
+					var xhr = new XMLHttpRequest();
+					xhr.onreadystatechange = function () {
+						if(xhr.readyState !== XMLHttpRequest.DONE)
+						{
+							return;
+						}
+						if ((xhr.status === 200 || xhr.status === 0) && xhr.response)
+						{
+							this.content = xhr.response;
+							console.log('text content is loaded');
+							this.controller.setCachedData(this.src, {content: this.content});
+
+							promise.fulfill(this);
+						}
+						else
+						{
+							promise.reject({
+								item: this,
+								type: 'error'
+							});
+						}
+
+					}.bind(this);
+					xhr.open('GET', BX.util.add_url_param(this.src, {ts: 'bxviewerText'}), true);
+					xhr.responseType = 'text';
+					xhr.send();
+				}
+				else
+				{
+					promise.fulfill(this);
+				}
+			}.bind(this));
+
+			return promise;
+		},
+
+		render: function ()
+		{
+			var ext = this.getTitle().substring(this.getTitle().lastIndexOf('.') + 1);
+
+			this.controller.layout.container.classList.add('ui-viewer-document', 'ui-viewer-document-hlcode');
+
+			return BX.create('div', {
+				props: {
+					tabIndex: 2208
+				},
+				style: {
+					width: '100%',
+					height: '100%',
+					paddingTop: '67px',
+					background: 'rgba(0, 0, 0, 0.1)',
+					overflow: 'auto'
+				},
+				children: [
+					BX.create('pre', {
+						children: [
+							this.codeNode = BX.create('code', {
+								props: {
+									className: hljs.getLanguage(ext)? ext : 'plaintext'
+								},
+								style: {
+									fontSize: '18px',
+									textAlign: 'left'
+								},
+								text: this.content
+							})
+						]
+					})
+				]
+			});
+		},
+
+		/**
+		 * @returns {BX.Promise}
+		 */
+		getContentWidth: function()
+		{
+			var promise = new BX.Promise();
+
+			promise.fulfill(this.codeNode.offsetWidth);
+
+			return promise;
+		},
+
+		afterRender: function()
+		{
+			hljs.highlightBlock(this.codeNode)
+		}
+	};
+
+	/**
+	 * @extends {BX.UI.Viewer.Item}
+	 * @param options
+	 * @constructor
+	 */
+	BX.UI.Viewer.Unknown = function (options)
+	{
+		BX.UI.Viewer.Item.apply(this, arguments);
+	};
+
+	BX.UI.Viewer.Unknown.prototype =
+	{
+		__proto__: BX.UI.Viewer.Item.prototype,
+		constructor: BX.UI.Viewer.Item,
+
+		render: function ()
+		{
+			return BX.create('div', {
+				props: {
+					className: 'ui-viewer-unsupported'
+				},
+				children: [
+					BX.create('div', {
+						props: {
+							className: 'ui-viewer-unsupported-title'
+						},
+						text: BX.message('JS_UI_VIEWER_ITEM_UNKNOWN_TITLE')
+					}),
+					BX.create('div', {
+						props: {
+							className: 'ui-viewer-unsupported-text'
+						},
+						text: BX.message('JS_UI_VIEWER_ITEM_UNKNOWN_NOTICE')
+					}),
+					BX.create('a', {
+						props: {
+							className: 'ui-btn ui-btn-light-border ui-btn-themes',
+							href: this.getSrc(),
+							target: '_blank'
+						},
+						text: BX.message('JS_UI_VIEWER_ITEM_UNKNOWN_DOWNLOAD_ACTION')
+					})
+				]
+			});
 		}
 	};
 
@@ -338,12 +872,12 @@
 		BX.UI.Viewer.Item.apply(this, arguments);
 
 		this.player = null;
-		if (this.src)
-		{
-			this.playerId = 'playerId_' + this.hashCode(this.src) + (Math.floor(Math.random() * Math.floor(10000)));
-		}
 		this.sources = [];
-		this.transFormationPromise = null;
+		this.transformationPromise = null;
+		this.contentNode = null;
+		this.forceTransformation = false;
+		this.videoWidth = null;
+		this.playerId = 'playerId_' + this.generateUniqueId();
 	};
 
 	BX.UI.Viewer.Video.prototype =
@@ -358,49 +892,21 @@
 		{
 			BX.UI.Viewer.Item.prototype.setPropertiesByNode.apply(this, arguments);
 
-			this.playerId = 'playerId_' + this.hashCode(this.src) + (Math.floor(Math.random() * Math.floor(10000)));
+			this.playerId = 'playerId_' + this.generateUniqueId();
 		},
 
-		hashCode: function (string)
+		applyReloadOptions: function (options)
 		{
-			var h = 0, l = string.length, i = 0;
-			if (l > 0)
+			if (options.forceTransformation)
 			{
-				while (i < l)
-					h = (h << 5) - h + string.charCodeAt(i++) | 0;
+				this.forceTransformation = true;
 			}
-			return h;
 		},
 
-		init: function () 
+		init: function ()
 		{
-			BX.addCustomEvent('onPullEvent', function (moduleId, command, params) {
-				if (moduleId === 'main' && command === 'transformationComplete')
-				{
-					if (this.transFormationPromise)
-					{
-						this.loadData().then(function(){
-							this.transFormationPromise.fulfill(this);
-						}.bind(this));
-					}
-				}
-			}.bind(this));
-
-			BX.addCustomEvent('PlayerManager.Player:onAfterInit', function(player)
-			{
-				if (player.id !== this.playerId)
-				{
-					return;
-				}
-
-				if (player.vjsPlayer.error())
-				{
-					console.log('forceTransformation');
-					this.forceTransformation = true;
-					this.controller.reload(this);
-				}
-
-			}.bind(this));
+			BX.addCustomEvent('PlayerManager.Player:onAfterInit', this.handleAfterInit.bind(this));
+			BX.addCustomEvent('PlayerManager.Player:onError', this.handleAfterInit.bind(this));
 		},
 
 		loadData: function ()
@@ -431,16 +937,17 @@
 				{
 					promise.reject({
 						item: this,
-						type: 'error'
+						type: 'error',
+						errors: response.errors || []
 					});
 
 					return;
 				}
 
-				if(response.data.pullTag)
+				if (response.data.hasOwnProperty('pullTag'))
 				{
-					BX.PULL.extendWatch(response.data.pullTag);
-					this.transFormationPromise = promise;
+					this.transformationPromise = promise;
+					this.registerTransformationHandler(response.data.pullTag);
 				}
 				else
 				{
@@ -467,6 +974,131 @@
 			return promise;
 		},
 
+		handleAfterInit: function (player)
+		{
+			if (player.id !== this.playerId)
+			{
+				return;
+			}
+
+			if (this.handleVideoError(player))
+			{
+				return;
+			}
+
+			if(player.vjsPlayer.videoWidth() > 0 && player.vjsPlayer.videoHeight() > 0)
+			{
+				this.adjustVideo();
+			}
+			else
+			{
+				player.vjsPlayer.one('loadedmetadata', this.adjustVideo.bind(this));
+			}
+		},
+
+		handleVideoError: function (player)
+		{
+			if (player.id !== this.playerId)
+			{
+				return false;
+			}
+
+			if (player.vjsPlayer.error() && !this.forceTransformation)
+			{
+				console.log('forceTransformation');
+				this.controller.reload(this, {
+					forceTransformation: true
+				});
+
+				return true;
+			}
+
+			return false;
+		},
+
+		adjustVideo: function()
+		{
+			var container = this.contentNode;
+			if (!container)
+			{
+				return;
+			}
+
+			if (!this.player.vjsPlayer)
+			{
+				return;
+			}
+
+			if (this.adjustVideoWidth(container, this.player.width, this.player.height, this.player.vjsPlayer.videoWidth(), this.player.vjsPlayer.videoHeight()))
+			{
+				this.player.vjsPlayer.fluid(true);
+			}
+
+			BX.addClass(container, 'player-loaded');
+			BX.style(container, 'opacity', 1);
+		},
+
+		adjustVideoWidth: function(node, maxWidth, maxHeight, videoWidth, videoHeight)
+		{
+			if (!BX.type.isDomNode(node))
+			{
+				return false;
+			}
+			if (!maxWidth || !maxHeight || !videoWidth || !videoHeight)
+			{
+				return false;
+			}
+			if (videoHeight < maxHeight && videoWidth < maxWidth)
+			{
+				BX.width(node, videoWidth);
+				this.videoWidth = videoWidth;
+				if (!this.contentWidthPromise.state)
+				{
+					this.contentWidthPromise.fulfill(this.videoWidth);
+				}
+
+				return true;
+			}
+			else
+			{
+				var resultRelativeSize = maxWidth / maxHeight;
+				var videoRelativeSize = videoWidth / videoHeight;
+				var reduceRatio = 1;
+				if (resultRelativeSize > videoRelativeSize)
+				{
+					reduceRatio = maxHeight / videoHeight;
+				}
+				else
+				{
+					reduceRatio = maxWidth / videoWidth;
+				}
+
+				BX.width(node, Math.floor(videoWidth * reduceRatio));
+				this.videoWidth = Math.floor(videoWidth * reduceRatio);
+				if (!this.contentWidthPromise.state)
+				{
+					this.contentWidthPromise.fulfill(this.videoWidth);
+				}
+			}
+
+			return true;
+		},
+
+		/**
+		 * @returns {BX.Promise}
+		 */
+		getContentWidth: function()
+		{
+			this.contentWidthPromise = new BX.Promise();
+
+			if (this.videoWidth)
+			{
+				this.contentWidthPromise.fulfill(this.videoWidth);
+			}
+
+			return this.contentWidthPromise;
+		},
+
 		render: function ()
 		{
 			this.player = new BX.Fileman.Player(this.playerId, {
@@ -475,7 +1107,16 @@
 				sources: this.sources
 			});
 
-			return this.player.createElement();
+			this.controller.showLoading();
+
+			return this.contentNode = BX.create('div', {
+				style: {
+					opacity: 0
+				},
+				children: [
+					this.player.createElement()
+				]
+			});
 		},
 
 		afterRender: function()
@@ -492,10 +1133,17 @@
 	BX.UI.Viewer.Document = function (options)
 	{
 		BX.UI.Viewer.Item.apply(this, arguments);
+
+		options = options || {};
+
+		this.scale = options.scale || 1.4;
+		this.pdfDocument = null;
+		this.pdfPages = {};
+		this.lastRenderedPdfPage = null;
 		this.contentNode = null;
 		this.previewHtml = null;
 		this.previewScriptToProcess = null;
-		this.transFormationPromise = null;
+		this.transformationPromise = null;
 	};
 
 	BX.UI.Viewer.Document.prototype =
@@ -511,33 +1159,23 @@
 			BX.UI.Viewer.Item.prototype.setPropertiesByNode.apply(this, arguments);
 		},
 
-		init: function()
+		applyReloadOptions: function (options)
 		{
-			BX.addCustomEvent('onPullEvent', function (moduleId, command, params) {
-				if (moduleId === 'main' && command === 'transformationComplete')
-				{
-					if (this.transFormationPromise)
-					{
-						this.loadData().then(function(){
-							this.transFormationPromise.fulfill(this);
-						}.bind(this));
-					}
-				}
-			}.bind(this));
+			this.controller.unsetCachedData(this.src);
+		},
 
+		listContainerModifiers: function()
+		{
+			return [
+				'ui-viewer-document'
+			]
 		},
 
 		loadData: function ()
 		{
 			var promise = new BX.Promise();
-			if (this.previewHtml)
-			{
-				this.processPreviewHtml(this.previewHtml);
-				promise.fulfill(this);
 
-				return promise;
-			}
-
+			console.log('loadData pdf');
 			var ajaxPromise = BX.ajax.promise({
 				url: BX.util.add_url_param(this.src, {ts: 'bxviewer'}),
 				method: 'GET',
@@ -559,58 +1197,218 @@
 				{
 					promise.reject({
 						item: this,
+						message: BX.message("JS_UI_VIEWER_ITEM_TRANSFORMATION_ERROR_1").replace('#DOWNLOAD_LINK#', this.getSrc()),
 						type: 'error'
 					});
 
 					return;
 				}
 
-				if(response.data.pullTag)
+				if (response.data.hasOwnProperty('pullTag'))
 				{
-					BX.PULL.extendWatch(response.data.pullTag);
-					this.transFormationPromise = promise;
+					this.transformationPromise = promise;
+					this.registerTransformationHandler(response.data.pullTag);
 				}
 
-				if(response.data.html)
+				if (response.data.data && response.data.data.src)
 				{
-					this.previewHtml = response.data.html;
-					this.processPreviewHtml(response.data.html);
-					promise.fulfill(this);
+					this._pdfSrc = response.data.data.src;
+					BX.loadExt('ui.' + this.getPdfJsExtensionName()).then(function () {
+						if (!pdfjsLib.GlobalWorkerOptions.workerSrc)
+						{
+							pdfjsLib.GlobalWorkerOptions.workerSrc = '/bitrix/js/ui/' + this.getPdfJsExtensionName() + '/pdf.worker.js';
+						}
+
+						promise.fulfill(this);
+					}.bind(this));
 				}
 			}.bind(this));
 
 			return promise;
 		},
 
-		processPreviewHtml: function (previewHtml)
+		getPdfJsExtensionName: function()
 		{
-			var html = BX.processHTML(previewHtml);
-
-			if (!this.contentNode)
-			{
-				this.contentNode = BX.create('div', {
-					html: html.HTML
-				});
-			}
-
-			if (!!html.SCRIPT)
-			{
-				this.previewScriptToProcess = html.SCRIPT;
-			}
+			return BX.browser.IsIE11()? 'pdfjs-ie11' : 'pdfjs';
 		},
 
 		render: function ()
 		{
+			this.controller.showLoading();
+
+			this.contentNode = BX.create('div', {
+				props: {
+					tabIndex: 2208
+				},
+				style: {
+					width: '100%',
+					height: '100%',
+					paddingTop: '67px',
+					background: 'rgba(0, 0, 0, 0.1)',
+					overflow: 'auto'
+				}
+			});
+
+			BX.bind(this.contentNode, 'scroll', BX.throttle(this.handleScrollDocument.bind(this), 100));
+
 			return this.contentNode;
+		},
+
+		getFirstDocumentPageHeight: function ()
+		{
+			var promise = new BX.Promise();
+			if (this._height)
+			{
+				promise.fulfill(this._height);
+			}
+			else
+			{
+				this.getDocumentPage(this.pdfDocument, 1).then(function (page) {
+					var viewport = page.getViewport(this.scale);
+					this._height = viewport.height;
+
+					promise.fulfill(this._height);
+				}.bind(this))
+			}
+
+			return promise;
+		},
+
+		handleScrollDocument: function (event)
+		{
+			var sizeToLoad = 3;
+			this.getFirstDocumentPageHeight().then(function (height) {
+				var scrollBottom = this.contentNode.scrollHeight - this.contentNode.scrollTop - this.contentNode.clientHeight;
+				if (scrollBottom < height * sizeToLoad && this.pdfDocument.numPages > this.lastRenderedPdfPage)
+				{
+					for (var i = this.lastRenderedPdfPage + 1; i <= Math.min(this.pdfDocument.numPages, this.lastRenderedPdfPage + sizeToLoad); i++)
+					{
+						this.renderDocumentPage(this.pdfDocument, i);
+					}
+				}
+
+			}.bind(this));
+		},
+
+		loadDocument: function ()
+		{
+			var promise = new BX.Promise();
+			if (this.pdfDocument)
+			{
+				promise.fulfill(this.pdfDocument);
+			}
+			else
+			{
+				pdfjsLib.getDocument(this._pdfSrc).promise.then(function(pdf) {
+					this.pdfDocument = pdf;
+					promise.fulfill(this.pdfDocument);
+				}.bind(this));
+			}
+
+			return promise;
+		},
+
+		getDocumentPage: function(pdf, pageNumber)
+		{
+			var promise = new BX.Promise();
+
+			if (this.pdfPages[pageNumber])
+			{
+				promise.fulfill(this.pdfPages[pageNumber]);
+			}
+			else
+			{
+				pdf.getPage(pageNumber).then(function (page) {
+					this.pdfPages[pageNumber] = page;
+
+					promise.fulfill(this.pdfPages[pageNumber]);
+				}.bind(this));
+			}
+
+			return promise;
+		},
+
+		renderDocumentPage: function(pdf, pageNumber)
+		{
+			var promise = new BX.Promise();
+
+			this.getDocumentPage(pdf, pageNumber).then(function (page) {
+				var canvas = this.createCanvasPage();
+				var viewport = page.getViewport(this.scale);
+				canvas.height = viewport.height;
+				canvas.width = viewport.width;
+				page.render({canvasContext: canvas.getContext('2d'), viewport: viewport});
+				this.lastRenderedPdfPage = Math.max(pageNumber, this.lastRenderedPdfPage);
+
+				if (pageNumber === 1)
+				{
+					this.firstWidthDocumentPage = canvas.width;
+					this.contentWidthPromise.fulfill(this.firstWidthDocumentPage);
+				}
+
+				this.controller.hideLoading();
+			}.bind(this));
+
+			return promise;
+		},
+
+		createCanvasPage: function ()
+		{
+			var canvas = document.createElement('canvas');
+			canvas.className = 'ui-viewer-document-page-canvas';
+			this.contentNode.appendChild(canvas);
+
+			return canvas;
+		},
+
+		/**
+		 * @returns {BX.Promise}
+		 */
+		getContentWidth: function()
+		{
+			this.contentWidthPromise = new BX.Promise();
+
+			if (this.firstWidthDocumentPage)
+			{
+				this.contentWidthPromise.fulfill(this.firstWidthDocumentPage);
+			}
+
+			return this.contentWidthPromise;
 		},
 
 		afterRender: function ()
 		{
-			if (this.previewScriptToProcess)
+			this.loadDocument().then(function (pdf) {
+				for (var i = 1; i <= Math.min(pdf.numPages, 3); i++)
+				{
+					if (i === 1)
+					{
+						this._handleControls = this.controller.handleVisibleControls.bind(this.controller);
+						this.controller.enableReadingMode(true);
+						BX.throttle(BX.bind(window, 'mousemove', this._handleControls), 20);
+					}
+
+					this.renderDocumentPage(pdf, i);
+				}
+			}.bind(this));
+		},
+
+		beforeHide: function()
+		{
+			BX.unbind(window, 'mousemove', this._handleControls);
+		},
+
+		handleKeyPress: function (event)
+		{
+			switch (event.code)
 			{
-				BX.ajax.processScripts(this.previewScriptToProcess);
+				case 'PageDown':
+				case 'PageUp':
+				case 'ArrowDown':
+				case 'ArrowUp':
+					BX.focus(this.contentNode);
+					break;
 			}
 		}
 	};
-
 })();

@@ -17,7 +17,7 @@ $MESS["MARKETPLACE_APP_INSTALL"] = "Установить";
 $MESS["MARKETPLACE_APP_INSTALL_CANCEL"] = "Отмена";
 $MESS["MARKETPLACE_APP_POPUP_LOAD"] = "Загрузка";
 $MESS["MARKETPLACE_APP_CLEAN"] = "удалить настройки и данные приложения";
-$MESS["MARKETPLACE_APP_INSTALL_PARTNER"] = "Приложение было удалено. Установить не доступное в каталоге приложение можно из <a href=\"http://partners.1c-bitrix.ru/personal/b24marketplace/\">персонального раздела партнера</a>";
+$MESS["MARKETPLACE_APP_INSTALL_PARTNER"] = "Приложение было удалено. Установить недоступное в каталоге приложение можно из <a href=\"http://partners.1c-bitrix.ru/personal/b24marketplace/\">персонального раздела партнера</a>";
 $MESS["PAYMENT_MESSAGE_D_N_Y"] = "Функциональность приложения ограничена. Обратитесь к администратору, чтобы установить полную версию.";
 $MESS["PAYMENT_MESSAGE_D_N_Y_A"] = "Функциональность приложения ограничена. Купите полную версию.";
 $MESS["PAYMENT_MESSAGE_D_Y_Y"] = "Оплаченный период использования приложения закончился. Функциональность приложения ограничена. Обратитесь к администратору, чтобы установить полную версию.";

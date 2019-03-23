@@ -24,7 +24,7 @@ $settings = \Bitrix\Landing\Hook\Page\Settings::getDataForSite(
 								<div class="landing-block-node-card-title text-uppercase g-font-size-13">
 									Call Us
 								</div>
-								<a class="landing-block-node-card-link g-font-size-14 g-font-weight-700"
+								<a class="landing-block-node-card-link g-color-primary g-font-size-14 g-font-weight-700"
 								   href="tel:+469548521"
 								   target="_blank">
 									+469 548 521
@@ -58,7 +58,7 @@ $settings = \Bitrix\Landing\Hook\Page\Settings::getDataForSite(
 								<div class="landing-block-node-card-title text-uppercase g-font-size-13">
 									Email us
 								</div>
-								<a class="landing-block-node-card-link g-font-size-14 g-font-weight-700"
+								<a class="landing-block-node-card-link g-color-primary g-font-size-14 g-font-weight-700"
 									 href="mailto:info@company24.com"
 									 target="_blank">
 									info@company24.com

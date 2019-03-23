@@ -682,7 +682,14 @@ BX.ajax.promise = function(config)
 	};
 
 	var xhr = BX.ajax(config);
-	if (!xhr)
+	if (xhr)
+	{
+		if (typeof config.onrequeststart === 'function')
+		{
+			config.onrequeststart(xhr);
+		}
+	}
+	else
 	{
 		result.reject({
 			reason: "init",

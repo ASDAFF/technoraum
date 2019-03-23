@@ -21,6 +21,7 @@ $MESS["BLOG_SONET_GROUP_MODULE_NOT_AVAIBLE"] = "Сообщения недоступны для этой гр
 $MESS["BLOG_GRAT_IBLOCKELEMENT_NAME"] = "Благодарность #GRAT_NAME#";
 $MESS["BLOG_EMPTY_TITLE_PLACEHOLDER"] = "Изображение";
 $MESS["BLOG_EMPTY_TITLE_PLACEHOLDER2"] = "Файл";
+$MESS["BLOG_EMPTY_TITLE_PLACEHOLDER3"] = "Заголовок";
 $MESS["B_B_HIDDEN_GROUP"] = "Скрытая группа";
 $MESS["B_B_HIDDEN_USER"] = "Скрытый пользователь";
 $MESS["B_B_HIDDEN_DEPARTMENT"] = "Скрытое подразделение";

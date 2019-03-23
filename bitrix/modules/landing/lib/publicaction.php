@@ -66,19 +66,40 @@ class PublicAction
 				);
 				// parse func params
 				$reflection = new \ReflectionMethod($class, $method);
+				$static = $reflection->getStaticVariables();
+				$mixedParams = isset($static['mixedParams'])
+								? $static['mixedParams']
+								: [];
 				foreach ($reflection->getParameters() as $param)
 				{
-					if (isset($data[$param->getName()]))
+					$name = $param->getName();
+					if (isset($data[$name]))
 					{
-						$info['params_init'][$param->getName()] = $data[$param->getName()];
+						if (!in_array($name, $mixedParams))
+						{
+							if (
+								$param->isArray() &&
+								!is_array($data[$name])
+								||
+								!$param->isArray() &&
+								is_array($data[$name])
+
+							)
+							{
+								throw new \Bitrix\Main\ArgumentTypeException(
+									$name
+								);
+							}
+						}
+						$info['params_init'][$name] = $data[$name];
 					}
 					elseif ($param->isDefaultValueAvailable())
 					{
-						$info['params_init'][$param->getName()] = $param->getDefaultValue();
+						$info['params_init'][$name] = $param->getDefaultValue();
 					}
 					else
 					{
-						$info['params_missing'][] = $param->getName();
+						$info['params_missing'][] = $name;
 					}
 				}
 			}

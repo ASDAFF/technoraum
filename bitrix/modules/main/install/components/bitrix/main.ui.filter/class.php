@@ -224,14 +224,14 @@ class CMainUiFilter extends CBitrixComponent
 		return array();
 	}
 
-	protected static function prepareMultiselectValue(Array $items = array(), Array $value = array())
+	protected static function prepareMultiselectValue(Array $items = array(), Array $value = array(), $isStrict = false)
 	{
 		$result = array();
 		$values = array_values($value);
 
 		foreach ($items as $key => $item)
 		{
-			if (in_array($item["VALUE"], $values))
+			if (in_array($item["VALUE"], $values, $isStrict))
 			{
 				$result[] = $item;
 			}
@@ -420,7 +420,7 @@ class CMainUiFilter extends CBitrixComponent
 						if ($value !== "")
 						{
 							$value = is_array($value) ? $value : [$value];
-							$field["VALUE"] = self::prepareMultiselectValue($field["ITEMS"], $value);
+							$field["VALUE"] = self::prepareMultiselectValue($field["ITEMS"], $value, $field['STRICT']);
 						}
 						break;
 					}

@@ -130,4 +130,5 @@ $MESS["IBEL_CATALOG_EXTRA_DESCRIPTION"] = "Наценка #VALUE# к базовой цене";
 $MESS["IBEL_SECTIONS_LINK_TITLE"] = "Перейти к элементам раздела";
 $MESS["IBEL_LIST_TITLE"] = "#IBLOCK_NAME#: Список товаров";
 $MESS["IBEL_LIST_ERR_PRODUCT_LIMIT"] = "Превышено ограничение на количество товаров, используемых в лендингах. В каталоге найдено #COUNT# таких товаров (лимит - #LIMIT#).";
+$MESS["IBEL_PRODUCTS_INSTAGRAM"] = "Товары Instagram";
 ?>

@@ -1,4 +1,5 @@
 <?
+$MESS["LANDING_TABLE_FIELD_SITE_TEMPLATE_ID"] = "Kernel module template";
 $MESS["LANDING_TABLE_FIELD_XML_ID"] = "External ID";
 $MESS["LANDING_TABLE_FIELD_APP_CODE"] = "Application ID";
 $MESS["LANDING_TABLE_FIELD_ACTIVE"] = "Active";

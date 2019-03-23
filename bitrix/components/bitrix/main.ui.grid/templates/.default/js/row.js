@@ -119,10 +119,11 @@
 					cellValues.forEach(function(cellValue) {
 						values[cellValue.NAME] = cellValue.VALUE !== undefined ? cellValue.VALUE : "";
 
-						if (cellValue.RAW_NAME && cellValue.RAW_VALUE)
+						if (cellValue.hasOwnProperty("RAW_NAME") && cellValue.hasOwnProperty("RAW_VALUE"))
 						{
 							values[cellValue.NAME + "_custom"] = values[cellValue.NAME + "_custom"] || {};
-							values[cellValue.NAME + "_custom"][cellValue.RAW_NAME] = cellValue.RAW_VALUE;
+							values[cellValue.NAME + "_custom"][cellValue.RAW_NAME] =
+								values[cellValue.NAME + "_custom"][cellValue.RAW_NAME] || cellValue.RAW_VALUE;
 						}
 					});
 				}
@@ -152,7 +153,8 @@
 				else if(BX.hasClass(editor, 'main-grid-editor-custom'))
 				{
 					result = [];
-					editor.querySelectorAll('input, select, checkbox, textarea').forEach(function(element) {
+					var inputs = [].slice.call(editor.querySelectorAll('input, select, checkbox, textarea'));
+					inputs.forEach(function(element) {
 						switch (element.tagName)
 						{
 							case "SELECT":
@@ -973,7 +975,7 @@
 		{
 			var checkbox;
 
-			if (!this.isEdit())
+			if (!this.isEdit() && !this.parent.getRows().hasEditable())
 			{
 				checkbox = this.getCheckbox();
 

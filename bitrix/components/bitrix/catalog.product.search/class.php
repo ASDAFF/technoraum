@@ -244,9 +244,25 @@ class ProductSearchComponent extends \CBitrixComponent
 		Main\Loader::includeModule('fileman');
 	}
 
+	/**
+	 * @param array $arOrder
+	 * @param array $arFilter
+	 * @param bool $bIncCnt
+	 * @param bool|array $arSelectedFields
+	 * @return CAdminResult|CDBResult
+	 */
 	protected function getMixedList($arOrder = array('SORT' => 'ASC'), $arFilter = array(), $bIncCnt = false, $arSelectedFields = false)
 	{
 		$arResult = array();
+
+		if (!is_array($arOrder))
+			$arOrder = array("SORT"=>"ASC");
+
+		$validatedSelect = is_array($arSelectedFields);
+		$emptySelect = empty($arSelectedFields) || !$validatedSelect || ($validatedSelect && in_array('*', $arSelectedFields));
+
+		$elementInherentFilter = self::getElementInherentFilter($arFilter);
+
 		$notFound = false;
 		if (isset($arFilter["S_ID"]) && is_array($arFilter["S_ID"]) && count($arFilter["S_ID"]) == 1)
 		{
@@ -349,18 +365,8 @@ class ProductSearchComponent extends \CBitrixComponent
 				$arElementFilter['MIN_PERMISSION'] = (isset($arFilter['MIN_PERMISSION']) ? $arFilter['MIN_PERMISSION'] : 'S');
 			}
 
-			foreach ($arFilter as $key => $value)
-			{
-				$op = \CIBlock::MkOperationFilter($key);
-				$newkey = strtoupper($op["FIELD"]);
-				if (
-					substr($newkey, 0, 9) == "PROPERTY_"
-					|| substr($newkey, 0, 8) == "CATALOG_"
-				)
-				{
-					$arElementFilter[$key] = $value;
-				}
-			}
+			if (!empty($elementInherentFilter))
+				$arElementFilter = $arElementFilter + $elementInherentFilter;
 
 			if (strlen($arFilter["SECTION_ID"]) <= 0)
 				unset($arElementFilter["SECTION_ID"]);
@@ -381,6 +387,9 @@ class ProductSearchComponent extends \CBitrixComponent
 				$arResult[] = $arElement;
 			}
 		}
+
+		unset($elementInherentFilter);
+
 		$rsResult = new \CDBResult;
 		$rsResult->InitFromArray($arResult);
 
@@ -1784,5 +1793,32 @@ class ProductSearchComponent extends \CBitrixComponent
 			}
 		}
 		return $arProperties;
+	}
+
+	/**
+	 * Returns a filter by element properties and product fields. Internal.
+	 *
+	 * @param array $filter
+	 * @return array
+	 */
+	private static function getElementInherentFilter(array $filter)
+	{
+		$result = array();
+		if (!empty($filter))
+		{
+			foreach($filter as $index => $value)
+			{
+				$op = CIBlock::MkOperationFilter($index);
+				$newIndex = strtoupper($op["FIELD"]);
+				if (
+					strncmp($newIndex, "PROPERTY_", 9) == 0
+					|| strncmp($newIndex, "CATALOG_", 8) == 0
+				)
+				{
+					$result[$index] = $value;
+				}
+			}
+		}
+		return $result;
 	}
 }

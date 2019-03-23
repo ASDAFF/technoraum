@@ -9,8 +9,8 @@ use \Bitrix\Main\Localization\Loc;
 return array(
 	'parent' => 'clothes',
 	'code' => 'clothes/mainpage',
-	'name' => Loc::getMessage('LANDING_DEMO_STORE_CLOTHES-MAINPAGE--NAME'),
-	'description' => null,
+	'name' => Loc::getMessage('LANDING_DEMO_STORE_CLOTHES-MAINPAGE--TITLE'),
+	'description' => Loc::getMessage('LANDING_DEMO_STORE_CLOTHES-MAINPAGE--DESC'),
 	'type' => 'store',
 	'version' => 2,
 	'fields' => array(
@@ -19,6 +19,8 @@ return array(
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/clothes/mainpage/preview.jpg',
 			'VIEW_USE' => 'N',
 			'VIEW_TYPE' => 'no',
+			'THEME_CODE' => 'travel',
+			'THEME_CODE_TYPO' => 'travel',
 		),
 	),
 	'layout' => array(
@@ -88,7 +90,7 @@ return array(
 		0 => 'landing-block-node-card-button btn g-mt-20 g-mt-0--md text-uppercase u-btn-primary g-font-weight-700 g-font-size-10 g-font-size-14--md g-py-7 g-px-10 g-py-15--md g-px-40--md rounded-0',
 	),
 	'.landing-block-node-card-img' => array(
-		0 => 'landing-block-node-card-img g-flex-centered g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_4--after g-height-60vh',
+		0 => 'landing-block-node-card-img g-flex-centered g-bg-cover g-bg-pos-center g-bg-img-hero g-bg-black-opacity-0_4--after g-min-height-60vh',
 	),
 	'.landing-block-node-card-button-container' => array(
 		0 => 'landing-block-node-card-button-container',
@@ -233,7 +235,7 @@ return array(
 	'cards' => array(),
 	'nodes' => array(
 		'.landing-block-node-subtitle' => array(
-			0 => Loc::getMessage("LANDING_DEMO_STORE_CLOTHES-MAINPAGE--TEXT_6"),
+			0 => Loc::getMessage("LANDING_DEMO_STORE_CLOTHES-MAINPAGE--TEXT_8"),
 		),
 		'.landing-block-node-title' => array(
 			0 => Loc::getMessage('NOTTRANSLATE--LANDING_DEMO_STORE_CLOTHES-MAINPAGE--TEXT_9'),
@@ -317,7 +319,7 @@ return array(
 			0 => '<span style="font-weight: normal;">' . Loc::getMessage("LANDING_DEMO_STORE_CLOTHES-MAINPAGE--TEXT_7") . '</span>',
 		),
 		'.landing-block-node-title' => array(
-			0 => Loc::getMessage("LANDING_DEMO_STORE_CLOTHES-MAINPAGE--TEXT_8"),
+			0 => Loc::getMessage("NOTTRANSLATE--LANDING_DEMO_STORE_CLOTHES-MAINPAGE--TEXT_13"),
 		),
 		'.landing-block-node-mainimg' => array(
 			0 => array(
@@ -454,10 +456,10 @@ return array(
 	),
 	'style' => array(
 		'.landing-block-card' => array(
-			0 => 'landing-block-card col-sm-6 col-md-4 g-mb-20 js-animation animated fadeInUp',
+			0 => 'landing-block-card col-sm-6 col-md-4 js-animation animated fadeInUp',
 		),
 		'#wrapper' => array(
-			0 => 'landing-block g-pt-20 g-pb-60',
+			0 => 'landing-block g-pt-30 g-pb-20',
 		),
 	),
 	'attrs' => array(),

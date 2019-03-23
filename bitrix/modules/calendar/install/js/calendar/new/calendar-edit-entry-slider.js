@@ -24,6 +24,7 @@
 
 			this.formType = params.formType || 'slider_main';
 			this.formSettings = this.getSettings();
+			this.planner = null;
 
 			BX.SidePanel.Instance.open(this.sliderId, {
 				contentCallback: BX.delegate(this.createContent, this),
@@ -692,7 +693,7 @@
 			this.locationSelector = new window.BXEventCalendar.LocationSelector(
 				this.calendar.id + '-slider-location',
 				{
-					inputName: 'location_text',
+					inputName: 'lo_cation', // don't use 'location' word here mantis:107863
 					wrapNode: BX(this.id + '_location_wrap'),
 					onChangeCallback: BX.proxy(this.checkPlannerState, this),
 					value: this.tryLocation ? this.tryLocation : this.entry.location
@@ -1035,6 +1036,7 @@
 			url += '&markRrule=' + this.DOM.rruleType.value;
 			url += '&markMeeting=' + (this.isMeeting() ? 'Y' : 'N');
 			url += '&markCrm=' + (this.isCrm() ? 'Y' : 'N');
+			url += '&markView=' + this.calendar.getCurrentViewName();
 
 			this.DOM.form.action = url;
 
@@ -1211,7 +1213,7 @@
 				res = true;
 
 			// Location
-			if (!res && this.entry.data.LOCATION !== this.DOM.form.location_text.value)
+			if (!res && this.entry.data.LOCATION !== this.DOM.form.lo_cation.value)
 				res = true;
 
 			// Date & time
@@ -1229,8 +1231,8 @@
 							res = true;
 
 				if (!res && !this.entry.isFullDay()
-					&& (this.entry.data.TZ_FROM != this.DOM.form.tz_from.value
-						|| this.entry.data.TZ_TO != this.DOM.form.tz_to.value))
+					&& (this.entry.data.TZ_FROM !== this.DOM.form.tz_from.value
+						|| this.entry.data.TZ_TO !== this.DOM.form.tz_to.value))
 				{
 					res = true;
 				}
@@ -1240,13 +1242,16 @@
 			if (!res && this.plannerData && false)
 			{
 				var i, attendeesInd = {}, count = 0;
-				if (this.oEvent.IS_MEETING && this.oEvent['~ATTENDEES'])
+				if (this.entry.isMeeting())
 				{
-					for (i in this.oEvent['~ATTENDEES'])
+					var attendeeList = this.entry.getAttendees();
+
+
+					for (i in attendeeList)
 					{
-						if (this.oEvent['~ATTENDEES'].hasOwnProperty(i) && this.oEvent['~ATTENDEES'][i]['USER_ID'])
+						if (attendeeList.hasOwnProperty(i) && attendeeList[i]['ID'])
 						{
-							attendeesInd[this.oEvent['~ATTENDEES'][i]['USER_ID']] = true;
+							attendeesInd[attendeeList[i]['ID']] = true;
 							count++
 						}
 					}

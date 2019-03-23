@@ -62,7 +62,7 @@
 						</div>
 					</div>
 
-					<div class="col-md-6 d-flex g-min-height-50vh g-theme-event-color-gray-dark-v1 g-py-80 g-py-20--md g-px-50">
+					<div class="landing-block-node-inner-block col-md-6 d-flex g-min-height-50vh g-theme-event-color-gray-dark-v1 g-py-80 g-py-20--md g-px-50">
 						<div class="align-self-center w-100">
 							<h2 class="landing-block-node-block-title text-uppercase g-font-weight-700 g-font-size-30 g-color-primary g-mb-10">
 								About The

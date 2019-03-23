@@ -970,7 +970,6 @@ CREATE TABLE b_hot_keys
 	USER_ID int(18) not null,
 	PRIMARY KEY (ID),
 	UNIQUE ix_b_hot_keys_co_u (CODE_ID,USER_ID),
-	INDEX ix_hot_keys_code (CODE_ID),
 	INDEX ix_hot_keys_user (USER_ID)
 );
 

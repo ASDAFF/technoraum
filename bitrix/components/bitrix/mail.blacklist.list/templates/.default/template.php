@@ -81,7 +81,7 @@ foreach ($arResult['ITEMS'] as $item)
 		'id' => $item['ID'],
 		'actions' => $gridActions,
 		'data' => $item,
-		'editable' => true,
+		'editable' => $item['CAN_DELETE'],
 		'columns' => [
 			'EMAIL' => $item['EMAIL'],
 			'IS_FOR_ALL_USERS' => $item['IS_FOR_ALL_USERS'],
@@ -135,6 +135,23 @@ $APPLICATION->IncludeComponent(
 	$component
 );
 ?>
+<div class="mail-blacklist-popup-wrapper main-ui-hide">
+	<form name="form-add-mails-to-blacklist">
+		<div class="ui-control-container ui-control-textarea mail-blacklist-popup-textarea-wrapper">
+		<textarea class="ui-control mail-blacklist-popup-textarea"
+			rows="30"
+			name="emails"
+			style="min-height: 250px;"
+			data-role="blacklist-mails-textarea"></textarea>
+		</div>
+		<? if ($arResult['isForAllUsers']): ?>
+			<div class="" data-role="is-for-all-users-block">
+				<input type="checkbox" class="" name="isForAllUsers" id="isForAllUsers" value="Y">
+				<label class="" for="isForAllUsers" title=""><?= Loc::getMessage('MAIL_BLACKLIST_LIST_POPUP_CHECKBOX_TITLE'); ?></label>
+			</div>
+		<? endif; ?>
+	</form>
+</div>
 	<script>
 		BX.message({
 			MAIL_BLACKLIST_LIST_POPUP_BTN_CLOSE: '<?= CUtil::JSEscape(Loc::getMessage('MAIL_BLACKLIST_LIST_POPUP_BTN_CLOSE')) ?>',

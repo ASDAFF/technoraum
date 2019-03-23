@@ -21,6 +21,10 @@ Extension::load([
 	'applayout',
 	'landing_master'
 ]);
+Extension::load(
+	\Bitrix\Landing\Config::get('js_core_edit')
+);
+
 
 if ($arResult['ERRORS'])
 {

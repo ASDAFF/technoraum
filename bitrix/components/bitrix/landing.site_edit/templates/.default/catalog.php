@@ -195,6 +195,38 @@ else
 						}
 					}
 				endif;?>
+				<?if (isset($hooks['SETTINGS']) && isset($pageFields['SETTINGS_AGREEMENT_ID']) && Manager::isB24()/*tmp*/):?>
+					<tr class="landing-form-title-catalog">
+						<td colspan="2">
+							<?=Loc::getMessage('LANDING_TPL_HOOK_SETT_HEADER_USERCONSENT');?>
+						</td>
+					</tr>
+					<tr id="row_userconsent" class="landing-form-page-userconsent-block">
+						<td class="ui-form-label">
+							<?= Loc::getMessage('LANDING_TPL_HOOK_SETT_HEADER_USERCONSENT_LABEL');?>
+						</td>
+						<td class="ui-form-right-cell">
+							<div class="ui-checkbox-hidden-input landing-form-page-userconsent">
+								<input type="checkbox" id="checkbox-userconsent-use" class="ui-checkbox">
+								<div class="ui-checkbox-hidden-input-inner">
+									<label class="ui-checkbox-label" for="checkbox-userconsent-use">
+										<?= Loc::getMessage('LANDING_TPL_HOOK_SETT_HEADER_USERCONSENT_USE');?>
+									</label>
+									<div class="landing-form-wrapper">
+										<?$APPLICATION->IncludeComponent(
+											'bitrix:intranet.userconsent.selector',
+											'',
+											array(
+												'ID' => $pageFields['SETTINGS_AGREEMENT_ID']->getValue(),
+												'INPUT_NAME' => 'fields[ADDITIONAL_FIELDS][SETTINGS_AGREEMENT_ID]'
+											)
+										);?>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				<?endif;?>
 				</table>
 			</div>
 		</div>
@@ -202,10 +234,10 @@ else
 
 	<div class="<?if ($request->get('IFRAME') == 'Y'){?>landing-edit-footer-fixed <?}?>pinable-block">
 		<div class="landing-form-footer-container">
-			<button id="landing-save-btn" type="submit" class="ui-btn ui-btn-success"  name="submit"  value="Сохранить" id="" title="Сохранить и перейти к просмотру" >
+			<button id="landing-save-btn" type="submit" class="ui-btn ui-btn-success"  name="submit"  value="<?= Loc::getMessage('LANDING_TPL_BUTTON_SAVE')?>" id="" title="<?= Loc::getMessage('LANDING_TPL_BUTTON_SAVE_AND_SHOW')?>" >
 				<?= Loc::getMessage('LANDING_TPL_BUTTON_' . ($arParams['SITE_ID'] ? 'SAVE' : 'ADD'));?>
 			</button>
-			<a class="ui-btn ui-btn-md ui-btn-link"<?if ($request->get('IFRAME') == 'Y'){?> id="action-close"<?}?> href="<?= $arParams['PAGE_URL_SITES']?>" title="Не сохранять и вернуться">
+			<a class="ui-btn ui-btn-md ui-btn-link"<?if ($request->get('IFRAME') == 'Y'){?> id="action-close"<?}?> href="<?= $arParams['PAGE_URL_SITES']?>" title="<?= Loc::getMessage('LANDING_TPL_BUTTON_NOT_SAVE')?>">
 				<?= Loc::getMessage('LANDING_TPL_BUTTON_CANCEL')?>
 			</a>
 		</div>

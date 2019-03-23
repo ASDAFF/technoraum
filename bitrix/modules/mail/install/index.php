@@ -1,8 +1,7 @@
-<?
-global $MESS;
-$strPath2Lang = str_replace("\\", "/", __FILE__);
-$strPath2Lang = substr($strPath2Lang, 0, strlen($strPath2Lang)-strlen("/install/index.php"));
-include(GetLangFileName($strPath2Lang."/lang/", "/install/index.php"));
+<?php
+
+use Bitrix\Main\Localization\Loc;
+Loc::loadMessages(__FILE__);
 
 Class mail extends CModule
 {
@@ -13,7 +12,7 @@ Class mail extends CModule
 	var $MODULE_DESCRIPTION;
 	var $MODULE_CSS;
 
-	function mail()
+	function __construct()
 	{
 		$arModuleVersion = array();
 
@@ -32,8 +31,8 @@ Class mail extends CModule
 			$this->MODULE_VERSION_DATE = MAIL_VERSION_DATE;
 		}
 
-		$this->MODULE_NAME = GetMessage("MAIL_MODULE_NAME");
-		$this->MODULE_DESCRIPTION = GetMessage("MAIL_MODULE_DESC");
+		$this->MODULE_NAME = Loc::getMessage("MAIL_MODULE_NAME");
+		$this->MODULE_DESCRIPTION = Loc::getMessage("MAIL_MODULE_DESC");
 	}
 
 	function InstallDB($arParams = array())
@@ -54,6 +53,19 @@ Class mail extends CModule
 		}
 		else
 		{
+			$eventManager = \Bitrix\Main\EventManager::getInstance();
+
+			$eventManager->registerEventHandlerCompatible('rest', 'OnRestServiceBuildDescription', 'mail', 'CMailRestService', 'OnRestServiceBuildDescription');
+
+			$eventManager->registerEventHandlerCompatible('main', 'OnAfterUserUpdate', 'mail', 'CMail', 'onUserUpdate');
+			$eventManager->registerEventHandlerCompatible('main', 'OnAfterUserDelete', 'mail', 'CMail', 'onUserDelete');
+
+			$eventManager->registerEventHandlerCompatible('main', 'OnBeforeSiteUpdate', 'mail', 'Bitrix\Mail\User', 'handleSiteUpdate');
+			$eventManager->registerEventHandler('main', 'OnAfterSetOption_server_name', 'mail', 'Bitrix\Mail\User', 'handleServerNameUpdate');
+
+			$eventManager->registerEventHandlerCompatible('main', 'OnUserTypeBuildList', 'mail', 'Bitrix\Mail\MessageUserType', 'getUserTypeDescription');
+			$eventManager->registerEventHandlerCompatible('main', 'OnMailEventMailRead', 'mail', 'Bitrix\Mail\Helper\MessageEventManager', 'onMailEventMailRead');
+
 			RegisterModule("mail");
 
 			if (CModule::IncludeModule("mail"))
@@ -177,8 +189,8 @@ Class mail extends CModule
 				$arGroup = array(
 					"ACTIVE" => "Y",
 					"C_SORT" => 201,
-					"NAME" => GetMessage("MAIL_GROUP_NAME"),
-					"DESCRIPTION" => GetMessage("MAIL_GROUP_DESC"),
+					"NAME" => Loc::getMessage("MAIL_GROUP_NAME"),
+					"DESCRIPTION" => Loc::getMessage("MAIL_GROUP_DESC"),
 					"STRING_ID" => "MAIL_INVITED",
 					"TASKS_MODULE" => array("main_change_profile"),
 					"TASKS_FILE" => array(
@@ -272,19 +284,6 @@ Class mail extends CModule
 				}
 			}
 
-			$eventManager = \Bitrix\Main\EventManager::getInstance();
-
-			$eventManager->registerEventHandlerCompatible('rest', 'OnRestServiceBuildDescription', 'mail', 'CMailRestService', 'OnRestServiceBuildDescription');
-
-			$eventManager->registerEventHandlerCompatible('main', 'OnAfterUserUpdate', 'mail', 'CMail', 'onUserUpdate');
-			$eventManager->registerEventHandlerCompatible('main', 'OnAfterUserDelete', 'mail', 'CMail', 'onUserDelete');
-
-			$eventManager->registerEventHandlerCompatible('main', 'OnBeforeSiteUpdate', 'mail', 'Bitrix\\Mail\\User', 'handleSiteUpdate');
-			$eventManager->registerEventHandler('main', 'OnAfterSetOption_server_name', 'mail', 'Bitrix\\Mail\\User', 'handleServerNameUpdate');
-
-			$eventManager->registerEventHandlerCompatible('main', 'OnUserTypeBuildList', 'mail', 'Bitrix\\Mail\\MessageUserType', 'getUserTypeDescription');
-			$eventManager->registerEventHandlerCompatible('main', 'OnMailEventMailRead', 'mail', 'Bitrix\\Mail\\Helper\\MessageEventManager', 'onMailEventMailRead');
-
 			CAgent::AddAgent("CMailbox::CleanUp();", "mail", "N", 60*60*24);
 			CAgent::addAgent('Bitrix\Mail\Helper::resyncDomainUsersAgent();', 'mail', 'N', 60*60*24);
 
@@ -321,7 +320,10 @@ Class mail extends CModule
 		{
 			$this->errors = $DB->RunSQLBatch($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/mail/install/db/".strtolower($DB->type)."/uninstall.sql");
 
-			\Bitrix\Mail\MailMessageTable::getEntity()->enableFullTextIndex('SEARCH_CONTENT', false);
+			if (\Bitrix\Main\Loader::includeModule('mail'))
+			{
+				\Bitrix\Mail\MailMessageTable::getEntity()->enableFullTextIndex('SEARCH_CONTENT', false);
+			}
 		}
 
 		$eventManager = \Bitrix\Main\EventManager::getInstance();
@@ -391,7 +393,7 @@ Class mail extends CModule
 
 		if(!CBXFeatures::IsFeatureEditable("SMTP"))
 		{
-			$APPLICATION->ThrowException(GetMessage("MAIN_FEATURE_ERROR_EDITABLE"));
+			$APPLICATION->ThrowException(Loc::getMessage("MAIN_FEATURE_ERROR_EDITABLE"));
 		}
 		else
 		{
@@ -399,7 +401,7 @@ Class mail extends CModule
 			$this->InstallDB();
 			CBXFeatures::SetFeatureEnabled("SMTP", true);
 		}
-		$APPLICATION->IncludeAdminFile(GetMessage("MAIL_INSTALL_TITLE"), $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/mail/install/step1.php");
+		$APPLICATION->IncludeAdminFile(Loc::getMessage("MAIL_INSTALL_TITLE"), $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/mail/install/step1.php");
 	}
 
 	function DoUninstall()
@@ -407,7 +409,7 @@ Class mail extends CModule
 		global $DB, $APPLICATION, $step;
 		if($step < 2)
 		{
-			$APPLICATION->IncludeAdminFile(GetMessage("MAIL_INSTALL_TITLE"), $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/mail/install/unstep1.php");
+			$APPLICATION->IncludeAdminFile(Loc::getMessage("MAIL_INSTALL_TITLE"), $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/mail/install/unstep1.php");
 		}
 		elseif($step == 2)
 		{
@@ -417,7 +419,7 @@ Class mail extends CModule
 			$this->UnInstallFiles();
 			CBXFeatures::SetFeatureEnabled("SMTP", false);
 			$GLOBALS["errors"] = $this->errors;
-			$APPLICATION->IncludeAdminFile(GetMessage("MAIL_INSTALL_TITLE"), $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/mail/install/unstep2.php");
+			$APPLICATION->IncludeAdminFile(Loc::getMessage("MAIL_INSTALL_TITLE"), $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/mail/install/unstep2.php");
 		}
 	}
 }

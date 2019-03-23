@@ -2,10 +2,10 @@
 	<div class="u-header__section g-bg-black-opacity-0_2 g-transition-0_3 g-py-7 g-py-23--md"
 		 data-header-fix-moment-exclude="g-bg-black-opacity-0_2 g-py-23--md"
 		 data-header-fix-moment-classes="u-header__section--light u-shadow-v19 g-bg-white g-py-15--md">
-		<nav class="navbar navbar-expand-lg g-py-0">
+		<nav class="navbar navbar-expand-lg g-py-0 g-px-10">
 			<div class="container">
 				<!-- Logo -->
-				<a href="#" class="landing-block-node-menu-logo-link navbar-brand u-header__logo">
+				<a href="#system_mainpage" class="landing-block-node-menu-logo-link navbar-brand u-header__logo">
 					<img class="landing-block-node-menu-logo g-max-width-180 d-block"
 						 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/consulting-logo-light.png" alt=""
 						 data-header-fix-moment-exclude="d-block"
@@ -53,7 +53,7 @@
 				<!-- End Navigation -->
 
 				<!-- Responsive Toggle Button -->
-				<button class="navbar-toggler btn g-line-height-1 g-brd-none g-pa-0 g-mt-8 ml-auto" type="button"
+				<button class="navbar-toggler btn g-line-height-1 g-brd-none g-pa-0 ml-auto" type="button"
 						aria-label="Toggle navigation"
 						aria-expanded="false"
 						aria-controls="navBar"

@@ -23,23 +23,25 @@ return array(
 			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULISTITEMLINK'),
 			'label' => array('.landing-block-node-menu-list-item-link'),
 		),
+		'.landing-block-card-social' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULIST_SOCIAL_ITEM'),
+			'label' => array('.landing-block-card-social-icon'),
+			'presets' => include __DIR__ . '/presets_social.php',
+		),
 	),
 	'nodes' => array(
 		'.landing-block-node-menu-list-item-link' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULISTITEMLINK'),
 			'type' => 'link',
 		),
-		//		todo: social
-		//			'.landing-block-node-menu-list-social' =>
-		//				array(
-		//					'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULIST_SOCIAL'),
-		//					'type' => 'ul',
-		//				),
-		//			'.landing-block-node-menu-list-social-item-link' =>
-		//				array(
-		//					'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULIST_SOCIAL_ITEMLINK'),
-		//					'type' => 'link',
-		//				),
+		'.landing-block-card-social-icon' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULIST_SOCIAL_ITEMICON'),
+			'type' => 'icon',
+		),
+		'.landing-block-card-social-icon-link' => array(
+				'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULIST_SOCIAL_ITEMLINK'),
+				'type' => 'link',
+			),
 		'.landing-block-node-menu-logo-link' => array(
 			'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULOGOLINK'),
 			'type' => 'link',
@@ -65,6 +67,10 @@ return array(
 				'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_STYLE_LANDINGBLOCKNODEMENULIST'),
 				'type' => ['navbar'],
 			),
+			'.landing-block-card-social-icon-link' => array(
+					'name' => Loc::getMessage('LANDING_BLOCK_0.MENU_1_NODES_LANDINGBLOCKNODEMENULIST_SOCIAL_ITEMLINK'),
+					'type' => ['color', 'color-hover', 'background-color', 'background-hover']
+				),
 		),
 	),
 	'groups' => array(

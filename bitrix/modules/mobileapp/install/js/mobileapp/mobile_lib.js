@@ -875,19 +875,22 @@
 				return false;
 			},
 			postToComponent: function (eventName, params, code)
-            {
-                if(app.enableInVersion(25))
-                {
-                    if (typeof(params) == "object")
-                        params = JSON.stringify(params);
-                    app.exec("fireEvent", {
-                        eventName: eventName,
-                        params: params,
-                        componentCode:code
-                    }, false);
+			{
+				if(app.enableInVersion(25))
+				{
+					if (typeof(params) == "object")
+					{
+						params = JSON.stringify(params);
+					}
 
-                    return true;
-                }
+					app.exec("fireEvent", {
+						eventName: eventName,
+						params: params,
+						componentCode:code
+					}, false);
+
+					return true;
+				}
 
 				return false;
             },

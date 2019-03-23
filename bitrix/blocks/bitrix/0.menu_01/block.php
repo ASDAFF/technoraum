@@ -2,10 +2,10 @@
 	<div class="u-header__section g-bg-black-opacity-0_3 g-transition-0_3 g-py-20"
 		 data-header-fix-moment-exclude="g-bg-black-opacity-0_3 g-py-20"
 		 data-header-fix-moment-classes="g-bg-black-opacity-0_7 g-py-10">
-		<nav class="navbar navbar-expand-lg py-0">
+		<nav class="navbar navbar-expand-lg py-0 g-px-10">
 			<div class="container">
 				<!-- Logo -->
-				<a href="/"
+				<a href="#system_mainpage"
 				   class="landing-block-node-menu-logo-link navbar-brand u-header__logo g-max-width-180 g-mr-60 p-0">
 					<img class="landing-block-node-menu-logo img-fluid u-header__logo-img u-header__logo-img--main"
 						 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/accounting-logo-light.png" alt="">

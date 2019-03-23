@@ -154,6 +154,6 @@ li.g-brd-bottom:last-child {
 	font-weight: normal;
 }
 
-[data-pseudo-url*="\"enabled\":true}"] {
+.landing-public-mode [data-pseudo-url*="\"enabled\":true}"] {
 	cursor: pointer;
 }

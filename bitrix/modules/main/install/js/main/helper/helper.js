@@ -233,7 +233,7 @@ BX.Helper =
 			attrs:{className:'bx-help-popup-loader'},
 			children : [BX.create('div', {
 				attrs:{className:'bx-help-popup-loader-text'},
-				text : BX.message("HELPER_LOADER")
+				text : BX.message("MAIN_HELPER_LOADER")
 			})]
 		});
 

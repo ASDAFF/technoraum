@@ -177,11 +177,11 @@
 			}
 			if(this.DOM.showTasks)
 			{
-				this.DOM.showTasks.checked = this.calendar.util.getUserOption('showTasks') == 'Y';
+				this.DOM.showTasks.checked = this.calendar.util.getUserOption('showTasks') === 'Y';
 			}
 			if(this.DOM.showCompletedTasks)
 			{
-				this.DOM.showCompletedTasks.checked = this.calendar.util.getUserOption('showCompletedTasks') == 'Y';
+				this.DOM.showCompletedTasks.checked = this.calendar.util.getUserOption('showCompletedTasks') === 'Y';
 			}
 			if (this.DOM.denyBusyInvitation)
 			{

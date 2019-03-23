@@ -852,6 +852,11 @@ if (
 			));
 
 			$redirectUrl = CComponentEngine::MakePathFromTemplate($arParams["PATH_TO_BLOG"], array("user_id" => $arBlog["OWNER_ID"]));
+
+			$uri = new Bitrix\Main\Web\Uri($redirectUrl);
+			$uri->deleteParams(array("b24statAction", "b24statTab"));
+			$redirectUrl = $uri->getUri();
+
 			LocalRedirect($redirectUrl);
 		}
 
@@ -862,6 +867,11 @@ if (
 		)
 		{
 			$redirectUrl = CComponentEngine::MakePathFromTemplate($arParams["PATH_TO_BLOG"], array("user_id" => $arBlog["OWNER_ID"]));
+
+			$uri = new Bitrix\Main\Web\Uri($redirectUrl);
+			$uri->deleteParams(array("b24statAction", "b24statTab"));
+			$redirectUrl = $uri->getUri();
+
 			LocalRedirect($redirectUrl);
 		}
 
@@ -1305,6 +1315,16 @@ if (
 									break;
 								}
 							}
+						}
+
+						if (
+							$checkTitle
+							&& strlen($arFields["TITLE"]) <= 0
+							&& isset($_POST["MOBILE"])
+							&& $_POST["MOBILE"] == "Y"
+						)
+						{
+							$arFields["TITLE"] = GetMessage("BLOG_EMPTY_TITLE_PLACEHOLDER3");
 						}
 
 						$arFields["SEARCH_GROUP_ID"] = \Bitrix\Main\Config\Option::get("socialnetwork", "userbloggroup_id", false, SITE_ID);
@@ -1900,6 +1920,11 @@ if (
 						{
 							\Bitrix\Pull\Event::send();
 						}
+
+						$uri = new Bitrix\Main\Web\Uri($redirectUrl);
+						$uri->deleteParams(array("b24statAction", "b24statTab"));
+						$redirectUrl = $uri->getUri();
+
 						LocalRedirect($redirectUrl);
 					}
 					else

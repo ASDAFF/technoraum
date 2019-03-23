@@ -18,4 +18,5 @@ $MESS["CRM_CES_CREATE_LEAD"] = "Lead";
 $MESS["CRM_CES_CREATE_CONTACT"] = "Kontakt";
 $MESS["CRM_CES_CREATE_COMPANY"] = "Unternehmen";
 $MESS["CRM_CES_CREATE_DEAL"] = "Auftrag";
+$MESS["CRM_SFE_PERMISSION_DENIED"] = "Zugriff verweigert";
 ?>

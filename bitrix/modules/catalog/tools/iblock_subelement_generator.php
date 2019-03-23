@@ -809,6 +809,7 @@ else
 		<?
 		if ($USER->CanDoOperation('catalog_purchas_info') && !$useStoreControl)
 		{
+			$baseCurrency = Currency\CurrencyManager::getBaseCurrency();
 		?>
 		<tr>
 			<td class="adm-detail-content-cell-l"><? echo GetMessage("IB_SEG_PURCHASING_PRICE") ?></td>
@@ -819,7 +820,7 @@ else
 				<?
 				foreach (Currency\CurrencyManager::getCurrencyList() as $id => $title)
 				{
-					?><option value="<?=$id; ?>"><?=htmlspecialcharsbx($title); ?></option><?
+					?><option value="<?=$id; ?>"<?=($id == $baseCurrency ? ' selected' : ''); ?>><?=htmlspecialcharsbx($title); ?></option><?
 				}
 				unset($id, $title);
 				?>

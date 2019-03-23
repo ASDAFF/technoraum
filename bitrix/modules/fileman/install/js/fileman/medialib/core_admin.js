@@ -1112,7 +1112,17 @@ BXMedialibAdmin.prototype =
 
 		// Link
 		//D.pLink.href = oItem.path;
-		D.pLink.onclick = function () { jsUtils.Redirect([], 'fileman_file_download.php?path='+BX.util.urlencode(oItem.path)); };
+		D.pLink.onclick = function () {
+			if(oItem.path.substr(0,1) !== '/' || oItem.path !== oItem.path_external)
+			{
+				var link = oItem.path
+			}
+			else
+			{
+				link = 'fileman_file_download.php?path=' + BX.util.urlencode(oItem.path);
+			}
+			jsUtils.Redirect([], link);
+		};
 
         D.pCopyLink.onclick = function() {
             D.pCopyInput.value = oItem.path.substr(0,1) !== '/' ? oItem.path : window.location.protocol + '//' + window.location.host + oItem.path;

@@ -28,10 +28,15 @@
 		?>
 		for(var iid in socBPDest.department)
 		{
-			var p = socBPDest.department[iid]['parent'];
-			if (!socBPDest.relation[p])
-				socBPDest.relation[p] = [];
-			socBPDest.relation[p][socBPDest.relation[p].length] = iid;
+			if (socBPDest.department.hasOwnProperty(iid))
+			{
+				var p = socBPDest.department[iid]['parent'];
+				if (!socBPDest.relation[p])
+				{
+					socBPDest.relation[p] = [];
+				}
+				socBPDest.relation[p][socBPDest.relation[p].length] = iid;
+			}
 		}
 		function makeDepartmentTree(id, relation)
 		{

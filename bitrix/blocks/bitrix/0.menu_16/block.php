@@ -4,7 +4,7 @@
 			<div class="row no-gutters flex-lg-row align-items-center justify-content-lg-start">
 				<div class="col-12 col-sm-3 col-lg-2 text-center text-md-left">
 					<!-- Logo -->
-					<a href="#" class="navbar-brand landing-block-node-menu-logo-link g-mb-10 g-mb-0--sm g-mr-0">
+					<a href="#system_mainpage" class="navbar-brand landing-block-node-menu-logo-link g-mb-10 g-mb-0--sm g-mr-0">
 						<img class="landing-block-node-menu-logo img-fluid g-max-width-100x"
 							 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/real-estate-logo.png"
 							 alt="Logo">
@@ -23,7 +23,7 @@
 										<span class="landing-block-node-menu-contact-img-container text-left text-md-center text-lg-left w-auto g-width-100x--md g-width-auto--lg g-font-size-18 g-line-height-1 d-none d-sm-inline-block g-valign-top g-color-primary g-mr-10 g-mr-0--md g-mr-10--lg">
 											<i class="landing-block-node-menu-contact-img icon icon-screen-smartphone"></i>
 										</span>
-										<span class="landing-block-node-menu-contactlink-text-container d-block text-center text-sm-left text-md-center text-lg-left d-inline-block">
+										<span class="landing-block-node-menu-contactlink-text-container text-center text-sm-left text-md-center text-lg-left d-inline-block">
 											<span class="landing-block-node-menu-contactlink-title  landing-block-node-menu-contact-title-style g-color-main d-block text-uppercase g-font-size-13">
 												Call Us
 											</span>
@@ -58,7 +58,7 @@
 										<span class="landing-block-node-menu-contact-img-container text-left text-md-center text-lg-left w-auto g-width-100x--md g-width-auto--lg g-font-size-18 g-line-height-1 d-none d-sm-inline-block g-valign-top g-color-primary g-mr-10 g-mr-0--md g-mr-10--lg">
 											<i class="landing-block-node-menu-contactlink-img icon icon-envelope"></i>
 										</span>
-										<span class="landing-block-node-menu-contactlink-text-container d-block text-center text-sm-left text-md-center text-lg-left d-inline-block">
+										<span class="landing-block-node-menu-contactlink-text-container text-center text-sm-left text-md-center text-lg-left d-inline-block">
 											<span class="landing-block-node-menu-contactlink-title  landing-block-node-menu-contact-title-style g-color-main d-block text-uppercase g-font-size-13">
 												Email us
 											</span>
@@ -103,13 +103,13 @@
 		</div>
 	</div>
 
-	<div class="landing-block-node-bottom-block u-header__section g-bg-black g-py-15--lg g-py-10--md g-py-0"
+	<div class="landing-block-node-bottom-block u-header__section g-bg-black g-py-15--lg g-py-10"
 		 data-header-fix-moment-classes="u-shadow-v18">
-		<nav class="navbar navbar-expand-lg py-0">
+		<nav class="navbar navbar-expand-lg py-0 g-px-10">
 			<div class="container">
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row g-mr-40--sm" id="navBar">
-					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav w-100 justify-content-start g-ml-minus-15--lg text-uppercase g-font-weight-700 g-font-size-13 g-py-10--md">
+					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav w-100 g-ml-minus-15--lg text-uppercase g-font-weight-700 g-font-size-13 g-py-10--md">
 						<li class="landing-block-node-menu-list-item nav-item g-mx-15--lg g-mb-7 g-mb-0--lg">
 							<a href="#home"
 							   class="landing-block-node-menu-list-item-link nav-link p-0">Home

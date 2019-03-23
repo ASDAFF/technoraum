@@ -936,6 +936,13 @@ try
 				)
 				{
 					$fElem['value'] = ConvertTimeStamp(strtotime($fElem['value']), 'SHORT');
+
+					// ignore datetime filter with incorrect value
+					if (!CheckDateTime($fElem['value'], CSite::GetDateFormat('SHORT')))
+					{
+						unset($fInfo[$k]);
+						continue;
+					}
 				}
 
 				// rewrite date=DAY to date BETWEEN DAY_START AND DAY_END

@@ -3,19 +3,14 @@
 
 	BX.namespace("BX.Landing.UI.Field");
 
-
 	var isPlainObject = BX.Landing.Utils.isPlainObject;
 	var isNumber = BX.Landing.Utils.isNumber;
-	var isArray = BX.Landing.Utils.isArray;
 	var isEmpty = BX.Landing.Utils.isEmpty;
 	var isString = BX.Landing.Utils.isString;
 	var decodeDataValue = BX.Landing.Utils.decodeDataValue;
 	var clone = BX.Landing.Utils.clone;
 	var create = BX.Landing.Utils.create;
 	var fireCustomEvent = BX.Landing.Utils.fireCustomEvent;
-	var changeExtension = BX.Landing.Utils.changeExtension;
-	var getFileName = BX.Landing.Utils.getFileName;
-	var getFileExtension = BX.Landing.Utils.getFileExtension;
 
 	/**
 	 * Implements interface for works with image field in editor
@@ -34,6 +29,7 @@
 		this.onValueChangeHandler = data.onValueChange ? data.onValueChange : (function() {});
 		this.layout.classList.add("landing-ui-field-image");
 		this.type = this.content.type || "image";
+		this.allowClear = data.allowClear;
 		this.input.innerText = this.content.src;
 		this.input.hidden = true;
 		this.input2x = this.createInput();
@@ -219,6 +215,11 @@
 		BX.DOM.write(function() {
 			this.adjustPreviewBackgroundSize();
 		}.bind(this));
+
+		if (this.getValue().type === "background" || this.allowClear)
+		{
+			this.clearButton.layout.classList.add("landing-ui-show");
+		}
 	};
 
 
@@ -542,7 +543,6 @@
 		onUnsplashShow: function()
 		{
 			this.uploadMenu.close();
-			this.showLoader();
 
 			BX.Landing.UI.Panel.Image.getInstance()
 				.show("unsplash", this.dimensions, this.loader, this.uploadParams)
@@ -558,7 +558,6 @@
 		onGoogleShow: function()
 		{
 			this.uploadMenu.close();
-			this.showLoader();
 
 			BX.Landing.UI.Panel.Image.getInstance()
 				.show("google", this.dimensions, this.loader, this.uploadParams)
@@ -897,6 +896,7 @@
 					image: data.src,
 					megapixels: 100,
 					proxy: "/bitrix/tools/landing/proxy.php",
+					defaultControl: "transform",
 					assets: {
 						resolver: pathResolver
 					},
@@ -986,7 +986,9 @@
 					file.name = BX.Landing.Utils.getFileName(data.src);
 					return file;
 				})
-				.then(this.upload.bind(this))
+				.then(function(file) {
+					return this.upload(file, {context: "imageEditor"});
+				}.bind(this))
 				.then(this.setValue.bind(this))
 				.then(this.hideLoader.bind(this))
 				.catch(function(err) {
@@ -1004,19 +1006,30 @@
 			};
 
 			requestAnimationFrame(waitSDK);
+
+			// Analytics hack
+			var tmpImage = new Image();
+			var imageSrc = "/bitrix/images/landing/close.svg";
+
+			imageSrc = BX.util.add_url_param(imageSrc, {
+				action: "openImageEditor"
+			});
+
+			tmpImage.src = imageSrc + "?" + (+new Date());
 		},
 
 		/**
 		 * @param {File|Blob} file
+		 * @param {object} [additionalParams]
 		 */
-		upload: function(file)
+		upload: function(file, additionalParams)
 		{
 			return Promise.all([
 				BX.Landing.ImageCompressor
 					.compress(file, this.dimensions)
 					.then(function(blob) {
 						return BX.Landing.Backend.getInstance()
-							.upload(blob, this.uploadParams)
+							.upload(blob, Object.assign({}, this.uploadParams, additionalParams || {}))
 							.catch(console.error);
 					}.bind(this)),
 				BX.Landing.ImageCompressor

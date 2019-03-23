@@ -24,7 +24,7 @@ return array(
 	),
 	'style' => array(
 		'block' => array(
-			'type' => array('block-default-wo-background', 'height-vh'),
+			'type' => array('block-default-wo-background-height-vh'),
 		),
 		'nodes' => array(
 			'.landing-block-title' => array(

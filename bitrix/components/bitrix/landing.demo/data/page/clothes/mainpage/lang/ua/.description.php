@@ -1,4 +1,5 @@
 <?
+$MESS["LANDING_DEMO_STORE_CLOTHES-MAINPAGE--TEXT_8"] = "Доставка швидко та зручним для вас способом!";
 $MESS["NOTTRANSLATE--LANDING_DEMO_STORE_CLOTHES-MAINPAGE--TEXT_1"] = "<span style=\"font-weight: normal;\">Наступила осінь. Жовтіє і опадає листя, навіваючи смуток та тугу про що літо, яке закінчилось. Розфарбуйте похмурі будні, поспішайте на осінню акцію Цінопад! Кращі ціни осені, тільки якісні товари!</span>";
 $MESS["NOTTRANSLATE--LANDING_DEMO_STORE_CLOTHES-MAINPAGE--TEXT_2"] = "<span style=\"font-weight: normal;\">Дівчатка та хлопчики, чоловіки та прекрасні дами, поспішайте! Нове надходження взуття. Відмінна якість, відомі бренди. В наявності весь розмірний ряд.</span>";
 $MESS["NOTTRANSLATE--LANDING_DEMO_STORE_CLOTHES-MAINPAGE--TEXT_3"] = "<p>Виконали <br />понад <br />150 000 замовлень</p>";

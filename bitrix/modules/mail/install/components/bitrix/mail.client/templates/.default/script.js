@@ -513,13 +513,15 @@
 				// @TODO: loader
 				item.disable();
 
+				var messageId = item.messageId || this.options.messageId;
+
 				var pr = BX.ajax.runComponentAction(
 					'bitrix:mail.client',
 					'removeCrmActivity',
 					{
 						mode: 'ajax',
 						data: {
-							messageId: this.options.messageId
+							messageId: messageId
 						}
 					}
 				);
@@ -533,7 +535,7 @@
 
 						BX.hide(
 							BX.findChildByClassName(
-								BX('mail-msg-view-details-'+ctrl.options.messageId),
+								BX('mail-msg-view-details-' + messageId),
 								'js-msg-view-control-skip',
 								true
 							)
@@ -541,7 +543,10 @@
 
 						item.enable();
 
-						ctrl.options.createMenu['CRM_ACTIVITY'].binded = false;
+						if (messageId == ctrl.options.messageId)
+						{
+							ctrl.options.createMenu['CRM_ACTIVITY'].binded = false;
+						}
 
 						BX.PopupMenu.destroy('mail-msg-view-create-menu');
 					},
@@ -553,6 +558,23 @@
 		if (item.menuWindow)
 		{
 			item.menuWindow.close();
+		}
+	};
+
+	BXMailMessageController.close = function (destroy)
+	{
+		var slider = top.BX.SidePanel.Instance.getSliderByWindow(window);
+		if (slider)
+		{
+			slider.setCacheable(!destroy);
+			slider.close();
+		}
+		else
+		{
+			window.location.href = BX.util.add_url_param(
+				this.options.pathList,
+				{ 'strict': 'N' }
+			);
 		}
 	};
 
@@ -585,7 +607,13 @@
 						self.hideReplyForm();
 				}
 			);
-
+			top.BX.SidePanel.Instance.postMessage(
+				window,
+				'mail-message-view',
+				{
+					id: this.options.messageId
+				}
+			);
 			var emailContainerId = 'mail_msg_'+this.options.messageId+'_body';
 
 			// target links
@@ -615,9 +643,6 @@
 					BX.addClass(this, 'mail-msg-view-quote-unfolded');
 				});
 			}
-
-			// init gallery
-			(top.BX.viewElementBind || BX.viewElementBind)(BX('mail_msg_'+this.options.messageId+'_files_images_list'), {});
 
 			// show hidden rcpt items
 			var rcptMore = BX.findChildrenByClassName(this.__wrapper, 'mail-msg-view-rcpt-more');
@@ -665,6 +690,7 @@
 					self.ctrl.createAction(
 						event,
 						{
+							messageId: self.options.messageId,
 							value: 'CRM_EXCLUDE',
 							disable: BX.addClass.bind(BX, skipLink, 'mail-msg-view-control-disabled'),
 							enable: BX.removeClass.bind(BX, skipLink, 'mail-msg-view-control-disabled')
@@ -739,7 +765,7 @@
 		{
 			if ('edit' == this.ctrl.options.type)
 			{
-				top.BX.SidePanel.Instance.getSliderByWindow(window).close();
+				this.ctrl.close();
 			}
 			else
 			{
@@ -846,9 +872,7 @@
 				content: BX.message('MAIL_MESSAGE_SEND_SUCCESS')
 			});
 
-			var slider = top.BX.SidePanel.Instance.getSliderByWindow(window);
-			slider.setCacheable(false);
-			slider.close();
+			this.ctrl.close(true);
 		}
 	};
 
@@ -1001,17 +1025,13 @@
 
 	BXMailMessage.prototype.onMessageActionSuccess = function (btn)
 	{
-		btn.classList.remove('mail-msg-view-control-disabled');
-		var slider = top.BX.SidePanel.Instance;
-		if (slider)
-		{
-			top.BX.SidePanel.Instance.postMessage(
-				window,
-				'mail-message-reload-grid',
-				{}
-			);
-			slider.close();
-		}
+		top.BX.SidePanel.Instance.postMessage(
+			window,
+			'mail-message-reload-grid',
+			{}
+		);
+
+		this.ctrl.close(true);
 	};
 
 	var BXMailMailbox = {};
@@ -1061,7 +1081,7 @@
 				BX.addClass(button, 'ui-btn-icon-buisness');
 				BX.removeClass(button, 'ui-btn-icon-business-warning');
 
-				button.setAttribute('title', '');
+				button.setAttribute('title', BX.message('MAIL_MESSAGE_SYNC_BTN_HINT'));
 
 				BXMailMailbox.updateStepper(stepper, json.data.complete, json.data.status);
 
@@ -1526,7 +1546,7 @@ if (window === window.top)
 					'^/mail/blacklist'
 				],
 				options: {
-					width: 800,
+					width: 1080,
 					cacheable: true
 				}
 			},
@@ -1535,7 +1555,7 @@ if (window === window.top)
 					'^/mail/signature'
 				],
 				options: {
-					width: 800,
+					width: 1080,
 					cacheable: true
 				}
 			}

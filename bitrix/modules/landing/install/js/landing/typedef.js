@@ -33,7 +33,8 @@
  * @property {string} [group]
  * @property {object} [extend]
  * @property {string[]} [extend.attrs]
- * @property {imageDimensions} dimensions
+ * @property {imageDimensions} [dimensions]
+ * @property {boolean} [allowFormEdit = false]
  */
 
 /**

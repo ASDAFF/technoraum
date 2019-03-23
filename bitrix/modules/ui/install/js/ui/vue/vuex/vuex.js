@@ -3,10 +3,15 @@
  * (c) 2017 Evan You
  * @license MIT
  */
+(function(window) {
+	if (window.Vuex) {return;}
+
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
 	(global.Vuex = factory());
+	/* declare a global variable for bitrix framework */
+	if (!global.Vuex) {global.Vuex = factory()}
 }(this, (function () { 'use strict';
 
 var applyMixin = function (Vue) {
@@ -936,3 +941,7 @@ var index = {
 return index;
 
 })));
+
+Vue.use(Vuex);
+
+})(window);

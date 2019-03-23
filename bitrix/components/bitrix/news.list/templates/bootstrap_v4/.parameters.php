@@ -164,7 +164,7 @@ $arTemplateParameters['TEMPLATE_THEME'] = array(
 	'PARENT' => 'VISUAL',
 	'NAME' => GetMessage("TP_BND_TEMPLATE_THEME"),
 	'TYPE' => 'LIST',
-	'VALUES' => $arThemes,
+	'VALUES' => $arThemesList,
 	'DEFAULT' => 'blue',
 	'ADDITIONAL_VALUES' => 'Y'
 );

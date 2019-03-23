@@ -16,7 +16,6 @@
 		this.externalMode = config.externalDataHandleMode;
 		this.sectionController = new window.BXEventCalendar.SectionController(this, data, config);
 		this.entryController = new window.BXEventCalendar.EntryController(this, data);
-		//this.section = new window.BXEventCalendar.Section(this, data);
 		this.currentViewName = this.util.getUserOption('view') || this.DEFAULT_VIEW;
 		this.requests = {};
 		this.currentUser = config.user;
@@ -276,7 +275,10 @@
 						this.currentViewName = newView.getName();
 					}
 
-					this.util.setUserOption('view', view);
+					if(params.first !== true)
+					{
+						this.util.setUserOption('view', view);
+					}
 					this.triggerEvent('afterSetView', {viewName: view});
 				}
 			}
@@ -664,6 +666,11 @@
 				BX.addClass(this.entryLoaderNode, 'hide');
 				setTimeout(BX.delegate(function(){BX.remove(this.entryLoaderNode);}, this), 300);
 			}
+		},
+
+		getCurrentViewName: function()
+		{
+			return this.currentViewName;
 		}
 	};
 

@@ -1,4 +1,5 @@
 <?
+$MESS["IBEL_PRODUCTS_INSTAGRAM"] = "Instagram Products";
 $MESS["IBEL_A_SECTIONS"] = "Sections";
 $MESS["IBLOCK_EL_ADMIN_DESC"] = "Description:";
 $MESS["IBLOCK_EL_ADMIN_DCREATE"] = "Created";

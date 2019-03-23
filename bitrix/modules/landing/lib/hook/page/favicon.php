@@ -57,7 +57,7 @@ class Favicon extends \Bitrix\Landing\Hook\Page
 			{
 				list($w, $h) = explode('x', $size);
 				$file = \CFile::resizeImageGet(
-					$picture,
+					\Bitrix\Landing\File::getFileArray($picture),
 					array(
 						'width' => $w,
 						'height' => $h
@@ -74,7 +74,7 @@ class Favicon extends \Bitrix\Landing\Hook\Page
 			{
 				list($w, $h) = explode('x', $size);
 				$file = \CFile::resizeImageGet(
-					$picture,
+					\Bitrix\Landing\File::getFileArray($picture),
 					array(
 						'width' => $w,
 						'height' => $h

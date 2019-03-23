@@ -184,7 +184,9 @@ while($history = $historyList->fetch($converter))
 		$records = Main\UserProfileRecordTable::getList(array("filter" => array("=HISTORY_ID" => $history["ID"])));
 		while($record = $records->fetch())
 		{
-			$fields .= HtmlFilter::encode($record["FIELD"]).': <span style="color:red">'.HtmlFilter::encode($record["DATA"]["before"]).'</span> => <span style="color:green">'.HtmlFilter::encode($record["DATA"]["after"]).'</span><br>';
+			$fields .= HtmlFilter::encode($record["FIELD"]).': <span style="color:red">'.
+				HtmlFilter::encode(var_export($record["DATA"]["before"], true)).'</span> => <span style="color:green">'.
+				HtmlFilter::encode(var_export($record["DATA"]["after"], true)).'</span><br>';
 		}
 	}
 

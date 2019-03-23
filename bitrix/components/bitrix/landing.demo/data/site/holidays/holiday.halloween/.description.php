@@ -20,7 +20,7 @@ return array(
 	'show_in_list' => 'Y',
 //	'type' => 'page',
 	'version' => 2,
-	'sort' => -131,
+	'sort' => \LandingSiteDemoComponent::checkActivePeriod(10,10,10,31) ? 51 : -161,
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
 			'B24BUTTON_CODE' => $buttons[0],

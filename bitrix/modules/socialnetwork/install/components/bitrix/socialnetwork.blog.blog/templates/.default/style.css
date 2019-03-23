@@ -21,8 +21,9 @@
 
 .feed-com-text table.data-table {
 	width: 100%;
-	table-layout: fixed;
-	word-wrap: break-word;
+	/*table-layout: fixed;*/
+	/*word-wrap: break-word;*/
+	overflow: auto;
 }
 
 .feed-post-text-block table.data-table td, .feed-com-text table.data-table td, .feed-post-text-block table.data-table th, .feed-com-text table.data-table th {border: 1px solid grey; padding: 3px;}

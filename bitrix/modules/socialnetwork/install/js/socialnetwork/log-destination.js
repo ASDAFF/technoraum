@@ -155,7 +155,11 @@ BX.SocNetLogDestination =
 		'department': 'bx-finder-company-department-check-checked'
 	},
 
-	searchStarted : false
+	searchStarted : false,
+	tmpSearchResult : {
+		client: [],
+		ajax: []
+	}
 };
 
 BX.SocNetLogDestination.init = function(arParams)
@@ -1587,6 +1591,7 @@ BX.SocNetLogDestination.search = function(text, sendAjax, name, nameTemplate, pa
 				arSearchStringAlternatives.push(obSearch.searchString);
 			}
 			BX.SocNetLogDestination.bResultMoved.search = false;
+			BX.SocNetLogDestination.tmpSearchResult.ajax = [];
 		}
 		else // from AJAX results
 		{
@@ -1628,6 +1633,11 @@ BX.SocNetLogDestination.search = function(text, sendAjax, name, nameTemplate, pa
 					}
 				}
 			}
+		}
+
+		if (sendAjax) // before Ajax search
+		{
+			BX.SocNetLogDestination.tmpSearchResult.client = [];
 		}
 
 		for (var group in items)
@@ -1834,8 +1844,17 @@ BX.SocNetLogDestination.search = function(text, sendAjax, name, nameTemplate, pa
 					tmpVal.isNetwork = true;
 				}
 
+				if (sendAjax) // before Ajax search
+				{
+					BX.SocNetLogDestination.tmpSearchResult.client.push(i);
+				}
+
 				arTmp.push(tmpVal);
 			}
+
+			BX.SocNetLogDestination.tmpSearchResult.client.filter(function(el, index, arr) {
+				return index == arr.indexOf(el);
+			});
 
 			arTmp.sort(BX.SocNetLogDestination.compareDestinations);
 
@@ -2067,15 +2086,12 @@ BX.SocNetLogDestination.search = function(text, sendAjax, name, nameTemplate, pa
 										finderData.USERS.hasOwnProperty(i)
 										&& (
 											(
-												typeof finderData.USERS[i].email != 'undefined'
-												&& finderData.USERS[i].email
-											)
-											|| (
 												typeof finderData.USERS[i].active != 'undefined'
 												&& finderData.USERS[i].active == 'N'
-										) || (
-											typeof finderData.USERS[i].isNetwork != 'undefined'
-											&& finderData.USERS[i].isNetwork == 'Y'
+											)
+											|| (
+												typeof finderData.USERS[i].isNetwork != 'undefined'
+												&& finderData.USERS[i].isNetwork == 'Y'
 											)
 										)
 									)
@@ -2121,10 +2137,12 @@ BX.SocNetLogDestination.search = function(text, sendAjax, name, nameTemplate, pa
 														BX.SocNetLogDestination.obItems[name].network = {};
 													}
 													BX.SocNetLogDestination.obItems[name].network[i] = data.USERS[i];
+													BX.SocNetLogDestination.tmpSearchResult.ajax.push(i);
 												}
 												else
 												{
 													BX.SocNetLogDestination.obItems[name].users[i] = data.USERS[i];
+													BX.SocNetLogDestination.tmpSearchResult.ajax.push(i);
 												}
 											}
 										}
@@ -2145,6 +2163,7 @@ BX.SocNetLogDestination.search = function(text, sendAjax, name, nameTemplate, pa
 													BX.SocNetLogDestination.obItems[name].crmemails = [];
 												}
 												BX.SocNetLogDestination.obItems[name].crmemails[i] = data.CRM_EMAILS[i];
+												BX.SocNetLogDestination.tmpSearchResult.ajax.push(i);
 											}
 										}
 									}
@@ -2168,6 +2187,7 @@ BX.SocNetLogDestination.search = function(text, sendAjax, name, nameTemplate, pa
 												if (!BX.SocNetLogDestination.obItems[name][type][i])
 												{
 													BX.SocNetLogDestination.obItems[name][type][i] = data[types[type]][i];
+													BX.SocNetLogDestination.tmpSearchResult.ajax.push(i);
 												}
 											}
 										}
@@ -2202,6 +2222,7 @@ BX.SocNetLogDestination.search = function(text, sendAjax, name, nameTemplate, pa
 											{
 												bFound = true;
 												BX.SocNetLogDestination.obItems[name].sonetgroups[i] = data.SONET_GROUPS[i];
+												BX.SocNetLogDestination.tmpSearchResult.ajax.push(i);
 											}
 										}
 									}
@@ -2217,6 +2238,7 @@ BX.SocNetLogDestination.search = function(text, sendAjax, name, nameTemplate, pa
 											{
 												bFound = true;
 												BX.SocNetLogDestination.obItems[name].projects[i] = data.PROJECTS[i];
+												BX.SocNetLogDestination.tmpSearchResult.ajax.push(i);
 											}
 										}
 									}
@@ -2235,10 +2257,16 @@ BX.SocNetLogDestination.search = function(text, sendAjax, name, nameTemplate, pa
 													BX.SocNetLogDestination.obItems[name].mailContacts = {};
 												}
 												BX.SocNetLogDestination.obItems[name].mailContacts[i] = data.MAIL_CONTACTS[i];
+												BX.SocNetLogDestination.tmpSearchResult.ajax.push(i);
 											}
 										}
 									}
 								}
+
+								BX.SocNetLogDestination.tmpSearchResult.ajax.filter(function(el, index, arr) {
+									return index == arr.indexOf(el);
+								});
+
 								BX.SocNetLogDestination.search(
 									text,
 									false,
@@ -2255,12 +2283,6 @@ BX.SocNetLogDestination.search = function(text, sendAjax, name, nameTemplate, pa
 								var contentArea = BX.findChildren(BX.SocNetLogDestination.popupSearchWindowContent,
 									{
 										'className': 'bx-finder-groupbox-content'
-									},
-									true
-								);
-								var waiter = BX.findChildren(BX.SocNetLogDestination.popupSearchWindowContent,
-									{
-										'className': 'bx-finder-box-search-waiter'
 									},
 									true
 								);
@@ -5007,6 +5029,13 @@ BX.SocNetLogDestination.loadAll = function(params)
 BX.SocNetLogDestination.compareDestinations = function(a, b)
 {
 	if (
+		BX.util.in_array(a.value, BX.SocNetLogDestination.tmpSearchResult.client)
+		&& !BX.util.in_array(b.value, BX.SocNetLogDestination.tmpSearchResult.client)
+	)
+	{
+		return -1;
+	}
+	else if (
 		typeof a.isNetwork == 'undefined'
 		&& typeof b.isNetwork != 'undefined'
 	)

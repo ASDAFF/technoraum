@@ -3056,14 +3056,21 @@ function GetMessageJS($name, $aReplace=false)
 function GetMessage($name, $aReplace=null)
 {
 	global $MESS;
-	if(isset($MESS[$name]))
+	if (isset($MESS[$name]))
 	{
 		$s = $MESS[$name];
-		if($aReplace!==null && is_array($aReplace))
-			foreach($aReplace as $search=>$replace)
+
+		if ($aReplace !== null && is_array($aReplace))
+		{
+			foreach($aReplace as $search => $replace)
+			{
 				$s = str_replace($search, $replace, $s);
+			}
+		}
+
 		return $s;
 	}
+
 	return \Bitrix\Main\Localization\Loc::getMessage($name, $aReplace);
 }
 
@@ -3114,13 +3121,88 @@ function __IncludeLang($path, $bReturnArray=false, $bFileChecked=false)
 	global $ALL_LANG_FILES;
 	$ALL_LANG_FILES[] = $path;
 
-	if($bReturnArray)
-		$MESS = array();
-	else
-		global $MESS;
+	if (\Bitrix\Main\Localization\Translation::allowConvertEncoding())
+	{
+		// extract language from path
+		$language = '';
+		$arr = explode('/', $path);
+		$langKey = array_search('lang', $arr);
+		if ($langKey !== false && isset($arr[$langKey + 1]))
+		{
+			$language = $arr[$langKey + 1];
+		}
 
-	if($bFileChecked || file_exists($path))
-		include($path);
+		static $encodingCache = array();
+		if (isset($encodingCache[$language]))
+		{
+			list($convertEncoding, $targetEncoding, $sourceEncoding) = $encodingCache[$language];
+		}
+		else
+		{
+			$convertEncoding = \Bitrix\Main\Localization\Translation::needConvertEncoding($language);
+			$targetEncoding = $sourceEncoding = '';
+			if ($convertEncoding)
+			{
+				$targetEncoding = \Bitrix\Main\Localization\Translation::getCurrentEncoding();
+				$sourceEncoding = \Bitrix\Main\Localization\Translation::getSourceEncoding($language);
+			}
+
+			$encodingCache[$language] = array($convertEncoding, $targetEncoding, $sourceEncoding);
+		}
+
+		$MESS = array();
+		if ($bFileChecked)
+		{
+			include($path);
+		}
+		else
+		{
+			$path = \Bitrix\Main\Localization\Translation::convertLangPath($path, LANGUAGE_ID);
+			if (file_exists($path))
+			{
+				include($path);
+			}
+		}
+
+		foreach($MESS as $key => $val)
+		{
+			if ($convertEncoding)
+			{
+				$val = \Bitrix\Main\Text\Encoding::convertEncoding($val, $sourceEncoding, $targetEncoding);
+			}
+
+			$MESS[$key] = $val;
+
+			if (!$bReturnArray)
+			{
+				$GLOBALS['MESS'][$key] = $val;
+			}
+		}
+	}
+	else
+	{
+		if ($bReturnArray)
+		{
+			$MESS = array();
+		}
+		else
+		{
+			global $MESS;
+		}
+
+		if ($bFileChecked)
+		{
+			include($path);
+		}
+		else
+		{
+			$path = \Bitrix\Main\Localization\Translation::convertLangPath($path, LANGUAGE_ID);
+			if (file_exists($path))
+			{
+				include($path);
+			}
+		}
+	}
 
 	//read messages from user lang file
 	static $bFirstCall = true;
@@ -3205,55 +3287,102 @@ function IncludeTemplateLangFile($filepath, $lang=false)
 	$module_path = $BX_DOC_ROOT.$module_path;
 
 	if($lang === false)
+	{
 		$lang = LANGUAGE_ID;
+	}
 
 	$subst_lang = LangSubst($lang);
 
 	if((substr($file_name, -16) == ".description.php") && $module_name!="")
 	{
-		if($subst_lang <> $lang && file_exists(($fname = $module_path.$module_name."/install/templates/lang/".$subst_lang."/".$file_name)))
-			__IncludeLang($fname, false, true);
+		if ($subst_lang <> $lang)
+		{
+			$fname = $module_path.$module_name."/install/templates/lang/".$subst_lang."/".$file_name;
+			$fname = \Bitrix\Main\Localization\Translation::convertLangPath($fname, $subst_lang);
+			if (file_exists($fname))
+			{
+				__IncludeLang($fname, false, true);
+			}
+		}
 
-		if(file_exists(($fname = $module_path.$module_name."/install/templates/lang/".$lang."/".$file_name)))
+		$fname = $module_path.$module_name."/install/templates/lang/".$lang."/".$file_name;
+		$fname = \Bitrix\Main\Localization\Translation::convertLangPath($fname, $lang);
+		if (file_exists($fname))
+		{
 			__IncludeLang($fname, false, true);
+		}
 	}
 
 	$checkModule = true;
-	if($templ_path <> "")
+	if ($templ_path <> "")
 	{
 		$templ_path = $BX_DOC_ROOT.$templ_path;
 		$checkDefault = true;
-		if($subst_lang <> $lang && file_exists(($fname = $templ_path.$template_name."/lang/".$subst_lang."/".$file_name)))
+
+		// default
+		if ($subst_lang <> $lang)
 		{
-			__IncludeLang($fname, false, true);
-			$checkDefault = $checkModule = false;
-		}
-		if(file_exists(($fname = $templ_path.$template_name."/lang/".$lang."/".$file_name)))
-		{
-			__IncludeLang($fname, false, true);
-			$checkDefault = $checkModule = false;
-		}
-		if($checkDefault && $template_name != ".default")
-		{
-			if($subst_lang <> $lang && file_exists(($fname = $templ_path.".default/lang/".$subst_lang."/".$file_name)))
+			$fname = $templ_path.$template_name."/lang/".$subst_lang."/".$file_name;
+			$fname = \Bitrix\Main\Localization\Translation::convertLangPath($fname, $subst_lang);
+			if (file_exists($fname))
 			{
 				__IncludeLang($fname, false, true);
-				$checkModule = false;
+				$checkDefault = $checkModule = false;
 			}
-			if(file_exists(($fname = $templ_path.".default/lang/".$lang."/".$file_name)))
+		}
+
+		// required lang
+		$fname = $templ_path.$template_name."/lang/".$lang."/".$file_name;
+		$fname = \Bitrix\Main\Localization\Translation::convertLangPath($fname, $lang);
+		if (file_exists($fname))
+		{
+			__IncludeLang($fname, false, true);
+			$checkDefault = $checkModule = false;
+		}
+
+		// template .default
+		if ($checkDefault && $template_name != ".default")
+		{
+			if ($subst_lang <> $lang)
+			{
+				$fname = $templ_path.".default/lang/".$subst_lang."/".$file_name;
+				$fname = \Bitrix\Main\Localization\Translation::convertLangPath($fname, $subst_lang);
+				if (file_exists($fname))
+				{
+					__IncludeLang($fname, false, true);
+					$checkModule = false;
+				}
+			}
+
+			$fname = $templ_path.".default/lang/".$lang."/".$file_name;
+			$fname = \Bitrix\Main\Localization\Translation::convertLangPath($fname, $lang);
+			if (file_exists($fname))
 			{
 				__IncludeLang($fname, false, true);
 				$checkModule = false;
 			}
 		}
 	}
-	if($module_name != "" && $checkModule)
+	if ($checkModule && $module_name != "")
 	{
-		if($subst_lang <> $lang && file_exists(($fname = $module_path.$module_name."/install/templates/lang/".$subst_lang."/".$file_name)))
+		if ($subst_lang <> $lang)
+		{
+			$fname = $module_path.$module_name."/install/templates/lang/".$subst_lang."/".$file_name;
+			$fname = \Bitrix\Main\Localization\Translation::convertLangPath($fname, $subst_lang);
+			if (file_exists($fname))
+			{
+				__IncludeLang($fname, false, true);
+			}
+		}
+
+		$fname = $module_path.$module_name."/install/templates/lang/".$lang."/".$file_name;
+		$fname = \Bitrix\Main\Localization\Translation::convertLangPath($fname, $lang);
+		if(file_exists($fname))
+		{
 			__IncludeLang($fname, false, true);
-		if(file_exists(($fname = $module_path.$module_name."/install/templates/lang/".$lang."/".$file_name)))
-			__IncludeLang($fname, false, true);
+		}
 	}
+
 	return null;
 }
 
@@ -3297,19 +3426,32 @@ function IncludeModuleLangFile($filepath, $lang=false, $bReturnArray=false)
 	$lang_subst = LangSubst($lang);
 
 	$arMess = array();
-	if($lang_subst <> $lang && file_exists(($fname = $module_path."/lang/".$lang_subst."/".$rel_path)))
+	if ($lang_subst <> $lang)
 	{
-		$arMess = __IncludeLang($fname, $bReturnArray, true);
+		$fname = $module_path."/lang/".$lang_subst."/".$rel_path;
+		$fname = \Bitrix\Main\Localization\Translation::convertLangPath($fname, $lang_subst);
+		if (file_exists($fname))
+		{
+			$arMess = __IncludeLang($fname, $bReturnArray, true);
+		}
 	}
-	if(file_exists(($fname = $module_path."/lang/".$lang."/".$rel_path)))
+
+	$fname = $module_path."/lang/".$lang."/".$rel_path;
+	$fname = \Bitrix\Main\Localization\Translation::convertLangPath($fname, $lang);
+	if (file_exists($fname))
 	{
 		$msg = __IncludeLang($fname, $bReturnArray, true);
 		if(is_array($msg))
+		{
 			$arMess = array_merge($arMess, $msg);
+		}
 	}
 
 	if($bReturnArray)
+	{
 		return $arMess;
+	}
+
 	return true;
 }
 
@@ -4379,7 +4521,7 @@ class CJSCore
 
 		self::$arRegisteredExt[$name] = $arPaths;
 
-		if ($arPaths['autoload'])
+		if (isset($arPaths['autoload']))
 		{
 			self::$arAutoloadQueue[$name] = $arPaths;
 		}
@@ -4404,7 +4546,7 @@ class CJSCore
 			foreach ($arExt as $ext)
 			{
 				if (
-					self::$arRegisteredExt[$ext]
+					isset(self::$arRegisteredExt[$ext])
 					&& (
 						!isset(self::$arRegisteredExt[$ext]['skip_core'])
 						|| !self::$arRegisteredExt[$ext]['skip_core']
@@ -4739,7 +4881,7 @@ JS;
 
 		self::$arCurrentlyLoadedExt[$ext] = true;
 
-		if (is_array(self::$arRegisteredExt[$ext]['rel']))
+		if (isset(self::$arRegisteredExt[$ext]['rel']) && is_array(self::$arRegisteredExt[$ext]['rel']))
 		{
 			foreach (self::$arRegisteredExt[$ext]['rel'] as $rel_ext)
 			{
@@ -4760,7 +4902,7 @@ JS;
 			$ret .= self::_loadCSS(self::$arRegisteredExt[$ext]['css'], $bReturn);
 		}
 
-		if (self::$arRegisteredExt[$ext]['js'])
+		if (isset(self::$arRegisteredExt[$ext]['js']))
 		{
 			if (!empty(self::$arRegisteredExt[$ext]['bundle_js']))
 			{
@@ -4773,10 +4915,10 @@ JS;
 			$ret .= self::_loadJS(self::$arRegisteredExt[$ext]['js'], $bReturn);
 		}
 
-		if (self::$arRegisteredExt[$ext]['lang'] || self::$arRegisteredExt[$ext]['lang_additional'])
+		if (isset(self::$arRegisteredExt[$ext]['lang']) || isset(self::$arRegisteredExt[$ext]['lang_additional']))
 		{
 			$ret .= self::_loadLang(
-				self::$arRegisteredExt[$ext]['lang'],
+				isset(self::$arRegisteredExt[$ext]['lang']) ? self::$arRegisteredExt[$ext]['lang'] : null,
 				$bReturn,
 				!empty(self::$arRegisteredExt[$ext]['lang_additional'])? self::$arRegisteredExt[$ext]['lang_additional']: false
 			);
@@ -4809,7 +4951,7 @@ JS;
 	public static function IsExtRegistered($ext)
 	{
 		$ext = preg_replace('/[^a-z0-9_\.\-]/i', '', $ext);
-		return is_array(self::$arRegisteredExt[$ext]);
+		return isset(self::$arRegisteredExt[$ext]) && is_array(self::$arRegisteredExt[$ext]);
 	}
 
 	public static function getExtInfo($ext)
@@ -4868,13 +5010,13 @@ JS;
 		global $APPLICATION;
 		$jsMsg = '';
 
-		if ($lang)
+		if (is_string($lang))
 		{
-			$mess_lang = \Bitrix\Main\Localization\Loc::loadLanguageFile($_SERVER['DOCUMENT_ROOT'].$lang);
+			$messLang = \Bitrix\Main\Localization\Loc::loadLanguageFile($_SERVER['DOCUMENT_ROOT'].$lang);
 
-			if (!empty($mess_lang))
+			if (!empty($messLang))
 			{
-				$jsMsg = '(window.BX||top.BX).message('.CUtil::PhpToJSObject($mess_lang, false).');';
+				$jsMsg = '(window.BX||top.BX).message('.CUtil::PhpToJSObject($messLang, false).');';
 			}
 		}
 
@@ -6581,7 +6723,7 @@ function UnEscapePHPString($str, $encloser = '"')
 
 function CheckSerializedData($str, $max_depth = 200)
 {
-	if(preg_match('/[OC]\\:\\+{0,1}\\d/', $str)) // serialized objects
+	if(preg_match('/(^|;)[OC]\\:\\+{0,1}\\d+:/', $str)) // serialized objects
 	{
 		return false;
 	}

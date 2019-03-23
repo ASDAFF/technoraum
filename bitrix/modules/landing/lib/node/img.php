@@ -1,6 +1,7 @@
 <?php
 namespace Bitrix\Landing\Node;
 
+use \Bitrix\Landing\File;
 use \Bitrix\Landing\Manager;
 use \Bitrix\Main\Web\DOM\StyleInliner;
 
@@ -38,27 +39,28 @@ class Img extends \Bitrix\Landing\Node
 			$id = isset($value['id']) ? intval($value['id']) : 0;
 			$id2x = isset($value['id2x']) ? intval($value['id2x']) : 0;
 
-			if ($src != '')
+			if (isset($resultList[$pos]))
 			{
-				if (isset($resultList[$pos]))
+				if ($resultList[$pos]->getTagName() !== 'IMG')
 				{
-					if ($resultList[$pos]->getTagName() !== 'IMG')
+					$styles = StyleInliner::getStyle($resultList[$pos]);
+					$oldStyles = [];
+					$newStyles = [];
+					// collect existing styles
+					foreach ($styles as $key => $styleValue)
 					{
-						$styles = StyleInliner::getStyle($resultList[$pos]);
-						$oldStyles = [];
-						// collect existing styles
-						foreach ($styles as $key => $styleValue)
+						if ($key !== 'background' && $key !== 'background-image')
 						{
-							if ($key !== 'background' && $key !== 'background-image')
-							{
-								$oldStyles[] = "{$key}: {$styleValue};";
-							}
+							$oldStyles[] = "{$key}: {$styleValue};";
 						}
-						// and one two additional bor bg
+					}
+					// add images to bg
+					if ($src)
+					{
+						// and one two additional bg
 						$newStyles = [
 							"background-image: url('{$src}');"
 						];
-
 						if ($src2x)
 						{
 							$newStyles = array_merge(
@@ -69,32 +71,49 @@ class Img extends \Bitrix\Landing\Node
 								]
 							);
 						}
-
-						$style = array_merge($oldStyles, $newStyles);
-						$style = implode(' ', $style);
-						$resultList[$pos]->setAttribute('style', $style);
 					}
+					// or remove exists
 					else
 					{
-						$resultList[$pos]->setAttribute('alt', $alt);
-						$resultList[$pos]->setAttribute('src', $src);
-						if ($src2x)
+						foreach (['fileid', 'fileid2x'] as $dataCode)
 						{
-							$resultList[$pos]->setAttribute('srcset', "{$src2x} 2x");
+							$oldId = $resultList[$pos]->getAttribute(
+								'data-' . $dataCode
+							);
+							if ($oldId > 0)
+							{
+								File::deleteFromBlock(
+									$block->getId(),
+									$oldId
+								);
+							}
 						}
 					}
-					if ($id)
+
+					$style = array_merge($oldStyles, $newStyles);
+					$style = implode(' ', $style);
+					$resultList[$pos]->setAttribute('style', $style);
+				}
+				else
+				{
+					$resultList[$pos]->setAttribute('alt', $alt);
+					$resultList[$pos]->setAttribute('src', $src);
+					if ($src2x)
 					{
-						$resultList[$pos]->setAttribute('data-fileid', $id);
+						$resultList[$pos]->setAttribute('srcset', "{$src2x} 2x");
 					}
-					if ($id2x)
-					{
-						$resultList[$pos]->setAttribute('data-fileid2x', $id2x);
-					}
-					if ($url)
-					{
-						$resultList[$pos]->setAttribute('data-pseudo-url', $url);
-					}
+				}
+				if ($id)
+				{
+					$resultList[$pos]->setAttribute('data-fileid', $id);
+				}
+				if ($id2x)
+				{
+					$resultList[$pos]->setAttribute('data-fileid2x', $id2x);
+				}
+				if ($url)
+				{
+					$resultList[$pos]->setAttribute('data-pseudo-url', $url);
 				}
 			}
 		}

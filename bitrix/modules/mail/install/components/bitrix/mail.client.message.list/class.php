@@ -111,6 +111,60 @@ class CMailClientMessageListComponent extends CBitrixComponent
 
 		$filter = $this->getFilterForMessagesQuery($mailbox);
 
+		/* @TODO: get rid of b_crm_act join
+		$items = Mail\MailMessageTable::getList(array(
+			'runtime' => array(
+				new Main\Entity\ReferenceField(
+					'MESSAGE_UID',
+					'Bitrix\Mail\MailMessageUidTable',
+					array(
+						'=this.MAILBOX_ID' => 'ref.MAILBOX_ID',
+						'=this.ID' => 'ref.MESSAGE_ID',
+					),
+					array(
+						'join_type' => 'INNER',
+					)
+				),
+				new Main\Entity\ReferenceField(
+					'MESSAGE_ACCESS',
+					MessageAccessTable::class,
+					array(
+						'=this.MAILBOX_ID' => 'ref.MAILBOX_ID',
+						'=this.ID' => 'ref.MESSAGE_ID',
+					)
+				),
+			),
+			'select' => array(
+				'RID' => 'MESSAGE_UID.ID',
+				'MID' => 'ID',
+				'SUBJECT',
+				'FIELD_FROM',
+				'FIELD_TO',
+				'FIELD_DATE',
+				'ATTACHMENTS',
+				'IS_SEEN' => 'MESSAGE_UID.IS_SEEN',
+				'DIR_MD5' => 'MESSAGE_UID.DIR_MD5',
+				new Main\Entity\ExpressionField('MSG_UID', 'MAX(%s)', 'MESSAGE_UID.MSG_UID'),
+				new Main\Entity\ExpressionField(
+					'BIND',
+					'GROUP_CONCAT(CONCAT(%s, "-", %s))',
+					array(
+						'MESSAGE_ACCESS.ENTITY_TYPE',
+						'MESSAGE_ACCESS.ENTITY_ID',
+					)
+				),
+			),
+			'filter' => $filter,
+			'group' => array('MID'),
+			'order' => array(
+				'FIELD_DATE' => 'DESC',
+				'ID' => 'DESC',
+			),
+			'offset' => $navigation->getOffset(),
+			'limit'  => $navigation->getLimit() + 1,
+		))->fetchAll();
+		*/
+
 		$itemsQuery = \Bitrix\Mail\MailMessageTable::query()
 			->registerRuntimeField('', new \Bitrix\Main\Entity\ReferenceField(
 				'MESSAGE_UID',
@@ -144,6 +198,7 @@ class CMailClientMessageListComponent extends CBitrixComponent
 			->addSelect('ID', 'MID')
 			->addSelect('SUBJECT')
 			->addSelect('FIELD_FROM')
+			->addSelect('FIELD_TO')
 			->addSelect('FIELD_DATE')
 			->addSelect('ATTACHMENTS')
 			->addSelect('MESSAGE_UID.IS_SEEN', 'IS_SEEN')
@@ -198,37 +253,6 @@ class CMailClientMessageListComponent extends CBitrixComponent
 		$accessSubquery->addFilter('=MAILBOX_ID', new \Bitrix\Main\DB\SqlExpression('%s'));
 		$accessSubquery->addFilter('=MESSAGE_ID', new \Bitrix\Main\DB\SqlExpression('%s'));
 
-		$unbind = \Bitrix\Mail\MailMessageTable::getList(array(
-			'runtime' => array(
-				new Main\Entity\ReferenceField(
-					'MESSAGE_UID',
-					'Bitrix\Mail\MailMessageUidTable',
-					array(
-						'=this.MAILBOX_ID' => 'ref.MAILBOX_ID',
-						'=this.ID' => 'ref.MESSAGE_ID',
-					),
-					array(
-						'join_type' => 'INNER',
-					)
-				),
-				new Main\Entity\ExpressionField(
-					'IS_ACCESS',
-					sprintf('EXISTS(%s)', $accessSubquery->getQuery()),
-					array('MAILBOX_ID', 'ID')
-				),
-			),
-			'select' => array(
-				new \Bitrix\Main\Entity\ExpressionField('UNBIND', 'COUNT(%s)', 'ID'),
-			),
-			'filter' => array(
-				'=MAILBOX_ID' => $mailbox['ID'],
-				'=MESSAGE_UID.DIR_MD5' => $filter['=MESSAGE_UID.DIR_MD5'],
-				'==IS_ACCESS' => false,
-			),
-		))->fetch();
-
-		$this->arResult['UNBIND'] = isset($unbind['UNBIND']) ? $unbind['UNBIND'] : 0;
-
 		if ($this->request->getPost('errorMessage'))
 		{
 			$this->arResult["MESSAGES"][] = [
@@ -249,6 +273,53 @@ class CMailClientMessageListComponent extends CBitrixComponent
 			]
 		);
 		$this->arResult['MAX_ALLOWED_CONNECTED_MAILBOXES'] = Mail\Helper\LicenseManager::getUserMailboxesLimit();
+
+		$prepareDirsMenu = function (&$list) use (&$prepareDirsMenu, &$mailbox)
+		{
+			$c = 0;
+			foreach ($list as $k => $item)
+			{
+				if (in_array($item['id'], $mailbox['OPTIONS']['imap']['ignore']))
+				{
+					$list[$k]['dataset']['isDisabled'] = $item['dataset']['isDisabled'] = true;
+				}
+
+				$list[$k]['onclick'] = "BX.Mail.Client.Message.List['" . \CUtil::jsEscape($this->getComponentId()) . "'].onDirsMenuItemClick(this);";
+				$list[$k]['items_unseen'] = $item['items_unseen'] = $item['items'] ? $prepareDirsMenu($item['items']) : 0;
+				$list[$k]['items'] = $item['items'];
+
+				if ($item['dataset']['isDisabled'] && empty($item['items']))
+				{
+					unset($list[$k]);
+					continue;
+				}
+
+				$unseen = $item['unseen'] + $item['items_unseen'];
+
+				if ($unseen > 0)
+				{
+					$list[$k]['text'] .= sprintf(
+						'&nbsp;<span class="main-buttons-item-counter %s">%u</span>',
+						$item['unseen'] > 0 ? '' : ' mail-msg-list-menu-fake-counter',
+						$unseen
+					);
+				}
+
+				$c += $unseen;
+			}
+
+			$list = array_values($list);
+
+			return $c;
+		};
+
+		$this->prepareFoldersHierarchyForGrid($mailbox['OPTIONS']);
+
+		$dirsMenu = $this->arResult['foldersItems'];
+		$prepareDirsMenu($dirsMenu);
+
+		$this->arResult['DIRS_MENU'] = $dirsMenu;
+
 		$this->includeComponentTemplate();
 	}
 
@@ -284,9 +355,19 @@ class CMailClientMessageListComponent extends CBitrixComponent
 			);
 
 			$columns['FROM'] = '<span class="mail-msg-from-title">' . htmlspecialcharsbx($item['FIELD_FROM']) . '</span>';
-			$columns['SUBJECT'] = htmlspecialcharsbx($item['SUBJECT']);
+			$columns['SUBJECT'] = htmlspecialcharsbx($item['SUBJECT'] ?: Loc::getMessage('MAIL_MESSAGE_EMPTY_SUBJECT_PLACEHOLDER'));
 
-			$from = new \Bitrix\Main\Mail\Address($item['FIELD_FROM']);
+			$from = new \Bitrix\Main\Mail\Address(current(explode(',', $item['FIELD_FROM'])));
+			if ($from->validate())
+			{
+				// @TODO: outcome folders
+				if ($from->getEmail() == $mailbox['EMAIL'] && !empty($item['FIELD_TO']))
+				{
+					$columns['FROM'] = '<span class="mail-msg-from-title">' . htmlspecialcharsbx($item['FIELD_TO']) . '</span>';
+
+					$from = new \Bitrix\Main\Mail\Address(current(explode(',', $item['FIELD_TO'])));
+				}
+			}
 			if ($from->validate())
 			{
 				$columns['FROM'] = sprintf(
@@ -295,14 +376,10 @@ class CMailClientMessageListComponent extends CBitrixComponent
 					htmlspecialcharsbx($from->getName() ? $from->getName() : $from->getEmail())
 				);
 			}
-			$avatarParams = !empty($avatarConfigs[$from->getEmail()]) ? $avatarConfigs[$from->getEmail()] : [];
+			$avatarParams = !empty($from->getEmail()) && !empty($avatarConfigs[$from->getEmail()]) ? $avatarConfigs[$from->getEmail()] : [];
 
 			$columns['FROM'] = $this->getSenderColumnCell($avatarParams) . $columns['FROM'];
 
-			if ($item['ATTACHMENTS'] > 0)
-			{
-				$columns['SUBJECT'] = sprintf('(%u) %s', $item['ATTACHMENTS'], $columns['SUBJECT']);
-			}
 			$columns['SUBJECT'] = sprintf(
 				'<a href="%s" class="mail-msg-list-subject" onclick="BX.PreventDefault(); ">%s</a>',
 				htmlspecialcharsbx(\CComponentEngine::makePathFromTemplate(
@@ -311,6 +388,11 @@ class CMailClientMessageListComponent extends CBitrixComponent
 				)),
 				$columns['SUBJECT']
 			);
+			if ($item['ATTACHMENTS'] > 0)
+			{
+				$columns['SUBJECT'] .= '<span class="mail-msg-list-attach-icon" title="' . Loc::getMessage('MAIL_MESSAGE_LIST_ATTACH_ICON_HINT') . '"></span>';
+			}
+
 			$isSpam = MessageFolder::getFolderNameByHash($item['DIR_MD5'], $mailbox['OPTIONS']) == MessageFolder::getFolderNameByType(MessageFolder::SPAM, $mailbox['OPTIONS']);
 			$isDisabled = ($item['MSG_UID'] == 0);
 			$jsFromClassNames = $isSpam ? 'js-spam ' : '';
@@ -446,10 +528,11 @@ class CMailClientMessageListComponent extends CBitrixComponent
 					'onclick' => "BX.Mail.Client.Message.List['" . CUtil::JSEscape($this->getComponentId()) . "'].onSpamClick('{$item['ID']}');",
 				],
 				[
-					'id' => $this->arResult['gridActionsData']['move']['id'],
+					'id' => $this->arResult['gridActionsData']['move']['id'] . $item['ID'],
 					'icon' => $this->arResult['gridActionsData']['move']['icon'],
 					'text' => $this->arResult['gridActionsData']['move']['text'],
-					'items' => $this->prepareFoldersHierarchyForGrid($mailbox['OPTIONS'], $item),
+					'submenuOptions' => $this->arResult['gridActionsData']['move']['submenuOptions'],
+					'items' => $this->prepareFoldersHierarchyForGrid($mailbox['OPTIONS']),
 				],
 				[
 					'id' => $this->arResult['gridActionsData']['task']['id'],
@@ -510,12 +593,14 @@ class CMailClientMessageListComponent extends CBitrixComponent
 	private function getAvatarConfigs($items)
 	{
 		$emails = [];
-		$column = 'FIELD_FROM';
 		foreach ($items as $key => $element)
 		{
-			if ((isset($element[$column]) || $element[$column]))
+			foreach (array('FIELD_FROM', 'FIELD_TO') as $column)
 			{
-				$emails[$element[$column]] = $element[$column];
+				if ((isset($element[$column]) || $element[$column]))
+				{
+					$emails[$element[$column]] = $element[$column];
+				}
 			}
 		}
 		$emails = array_values($emails);
@@ -589,9 +674,10 @@ class CMailClientMessageListComponent extends CBitrixComponent
 				'text' => Loc::getMessage('MAIL_MESSAGE_LIST_BTN_UNSEEN'),
 			],
 			'move' => [
-				'id' => 'move',
+				'id' => ':move:',
 				'icon' => '/bitrix/js/ui/actionpanel/images/ui_icon_actionpanel_move_to_folder.svg',
 				'text' => Loc::getMessage('MAIL_MESSAGE_LIST_BTN_MOVE'),
+				//'submenuOptions' => \Bitrix\Main\Web\Json::encode(['maxHeight' => 450]),
 			],
 		];
 	}
@@ -907,10 +993,29 @@ class CMailClientMessageListComponent extends CBitrixComponent
 		return $filter;
 	}
 
-	private function prepareFoldersHierarchyForGrid($mailboxOptions, $item)
+	private function prepareFoldersHierarchyForGrid($mailboxOptions)
 	{
 		if (is_null($this->arResult['foldersItems']))
 		{
+			$res = Mail\MailMessageUidTable::getList(array(
+				'select' => array(
+					'DIR_MD5',
+					new Main\Entity\ExpressionField('UNSEEN', 'COUNT(1)'),
+				),
+				'filter' => array(
+					'MAILBOX_ID' => $this->arResult['MAILBOX']['ID'],
+					'@IS_SEEN' => array('N', 'U'),
+					'>MESSAGE_ID' => 0,
+				),
+				'group' => array('DIR_MD5'),
+			));
+
+			$counts = array();
+			while ($item = $res->fetch())
+			{
+				$counts[$item['DIR_MD5']] = $item;
+			}
+
 			$dirs = $mailboxOptions['imap']['dirs'] ?: [];
 			$disabled = $mailboxOptions['imap']['disabled'] ?: [];
 
@@ -928,8 +1033,9 @@ class CMailClientMessageListComponent extends CBitrixComponent
 				$isDisabled = in_array($id, $disabled, true);
 				$folderByPath[$folderPath] = [
 					'id' => $id,
-					'text' => MessageFolder::getFormattedName($path, $mailboxOptions, false),
-					'dataset' => ['id' => $item['ID'], 'folderPath' => $id, 'isDisabled' => $isDisabled,],
+					'text' => sprintf('<span class="mail-msg-list-menu-item">%s</span>', MessageFolder::getFormattedName($path, $mailboxOptions, false)),
+					'dataset' => ['folderPath' => $id, 'isDisabled' => $isDisabled,],
+					'unseen' => (int) $counts[md5($id)]['UNSEEN'],
 					'onclick' => "BX.Mail.Client.Message.List['" . CUtil::JSEscape($this->getComponentId()) . "'].onMoveToFolderClick(event)",
 				];
 

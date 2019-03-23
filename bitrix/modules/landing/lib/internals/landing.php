@@ -433,6 +433,17 @@ class LandingTable extends Entity\DataManager
 		$primary = $event->getParameter('primary');
 		if ($primary)
 		{
+			// @tmp debug
+			\CEventLog::add(array(
+				'SEVERITY' => 'NOTICE',
+				'AUDIT_TYPE_ID' => 'LANDING_DELETE',
+				'MODULE_ID' => 'landing',
+				'ITEM_ID' => $primary['ID'],
+				'DESCRIPTION' => var_export(
+					\Bitrix\Main\Diag\Helper::getBackTrace(20),
+					true
+				)
+			));
 			$res = self::getList(array(
 				'select' => array(
 					'ID'
@@ -547,6 +558,7 @@ class LandingTable extends Entity\DataManager
 			\Bitrix\Landing\Hook::deleteForLanding($primary['ID']);
 			\Bitrix\Landing\TemplateRef::deleteArea($primary['ID']);
 			\Bitrix\Landing\TemplateRef::setForLanding($primary['ID'], array());
+			\Bitrix\Landing\UrlRewrite::removeForLanding($primary['ID']);
 
 			// if delete index page, make new page is index
 			$res = \Bitrix\Landing\Site::getList(array(

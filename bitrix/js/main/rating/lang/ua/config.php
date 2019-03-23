@@ -15,4 +15,5 @@ $MESS["RATING_LIKE_EMOTION_LAUGH"] = "Сміюсь";
 $MESS["RATING_LIKE_EMOTION_WONDER"] = "Дивуюсь";
 $MESS["RATING_LIKE_EMOTION_CRY"] = "Засмучуюсь";
 $MESS["RATING_LIKE_EMOTION_ANGRY"] = "Злюсь";
+$MESS["RATING_LIKE_RESULTS"] = "Результати";
 ?>

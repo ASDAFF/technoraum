@@ -889,6 +889,34 @@
 	transform: rotate(4deg) translate(-30px, -20px);
 }
 
+.main-kanban-item-drag-multi {
+	transform: translate(-20px, -20px);
+	position: absolute;
+	z-index: 999999;
+}
+
+.main-kanban-item-drag-multi .main-kanban-item {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 99;
+	pointer-events: none;
+}
+
+.main-kanban-item-drag-multi .main-kanban-item:nth-child(2) {
+	transform: rotate(4deg) translate(2px, 0px);
+	z-index: 9;
+}
+
+.main-kanban-item-drag-multi .main-kanban-item:nth-child(3) {
+	transform: rotate(8deg) translate(6px, 0px);
+	z-index: 1;
+}
+
+.main-kanban-item-drag-multi .main-kanban-item-wrapper {
+	box-shadow: 0 0 3px rgba(0,0,0,.2);
+}
+
 .main-kanban-item-draft {
 	height: 92px;
 	border: 1px solid #65d2f6;

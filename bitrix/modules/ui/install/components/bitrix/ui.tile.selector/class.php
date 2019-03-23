@@ -23,6 +23,7 @@ class UiTileSelectorComponent extends CBitrixComponent
 	{
 		$this->arParams['MULTIPLE'] = isset($this->arParams['MULTIPLE']) ? (bool) $this->arParams['MULTIPLE'] : true;
 		$this->arParams['READONLY'] = isset($this->arParams['READONLY']) ? (bool) $this->arParams['READONLY'] : false;
+		$this->arParams['CAN_REMOVE_TILES'] = isset($this->arParams['CAN_REMOVE_TILES']) ? (bool) $this->arParams['CAN_REMOVE_TILES'] : true;
 		$this->arParams['INPUT_NAME'] = isset($this->arParams['INPUT_NAME']) ? $this->arParams['INPUT_NAME'] : '';
 		$this->arParams['ID'] = isset($this->arParams['ID']) ? $this->arParams['ID'] : '';
 		$this->arParams['LIST'] = isset($this->arParams['LIST']) ? $this->arParams['LIST'] : null;
@@ -58,8 +59,6 @@ class UiTileSelectorComponent extends CBitrixComponent
 
 	protected function prepareResult()
 	{
-		$this->arResult['ACTION_URL'] = $this->getPath() . '/ajax.php';
-
 		$this->arResult['LIST'] = array();
 		$list = is_array($this->arParams['LIST']) ? $this->arParams['LIST'] : array();
 		$tileIds = array();

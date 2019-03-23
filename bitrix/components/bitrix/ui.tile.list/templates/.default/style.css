@@ -6,7 +6,8 @@
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
-	margin: -12px 0 0 -10px;
+	margin: -15px 0 0 -14px;
+	padding-top: 3px;
 }
 
 .ui-tile-list-item {
@@ -21,10 +22,9 @@
 	align-items: center;
 	box-sizing: border-box;
 	cursor: pointer;
-	transition: all .2s linear;
 	position: relative;
 	box-shadow: 0 1px 2px rgba(0,0,0,.15);
-	margin: 12px 0 0 10px;
+	margin: 15px 0 0 14px;
 	padding-bottom: 11px;
 }
 
@@ -67,11 +67,11 @@
 .ui-tile-list-item-selected:before {
 	content: '';
 	position: absolute;
-	bottom: 15px;
-	left: 8px;
+	bottom: 14px;
+	left: 10px;
 	width: 12px;
 	height: 10px;
-	background: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2212%22%20height%3D%2210%22%20viewBox%3D%220%200%2012%2010%22%20version%3D%221.1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%3E%0A%3Cg%20id%3D%22Canvas%22%20fill%3D%22none%22%3E%0A%3Cg%20id%3D%22Combined%20Shape%22%20opacity%3D%220.4%22%3E%0A%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M%200.0296066%205.46273L%200%205.46273L%200%200L%201.89733%200L%201.89733%203.59501L%2010.9392%203.59505L%2010.9392%205.49238L%200.0296498%205.49238L%200.0296066%205.46273Z%22%20transform%3D%22matrix%280.707107%20-0.707107%200.707107%200.707107%200%205.73523%29%22%20fill%3D%22white%22/%3E%0A%3C/g%3E%0A%3C/g%3E%0A%3C/svg%3E%0A%0A);
+	background: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2212%22%20height%3D%2210%22%20viewBox%3D%220%200%2012%2010%22%20version%3D%221.1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%3E%0A%3Cg%20id%3D%22Canvas%22%20fill%3D%22none%22%3E%0A%3Cg%20id%3D%22Combined%20Shape%22%20opacity%3D%220.7%22%3E%0A%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M%200.0296066%205.46273L%200%205.46273L%200%200L%201.89733%200L%201.89733%203.59501L%2010.9392%203.59505L%2010.9392%205.49238L%200.0296498%205.49238L%200.0296066%205.46273Z%22%20transform%3D%22matrix%280.707107%20-0.707107%200.707107%200.707107%200%205.73523%29%22%20fill%3D%22white%22/%3E%0A%3C/g%3E%0A%3C/g%3E%0A%3C/svg%3E%0A%0A);
 }
 
 .ui-tile-list-item-selected .ui-tile-list-logo {
@@ -211,4 +211,39 @@
 
 .bitrix24-light-theme .ui-tile-list-item-add .ui-tile-list-name-text {
 	color: #fff;
+}
+
+.ui-tile-list-item-disabled {
+	cursor: auto;
+}
+
+.ui-tile-list-item-disabled .ui-tile-list-logo-container,
+.ui-tile-list-item-disabled .ui-tile-list-name {
+	opacity: .6;
+}
+
+.ui-tile-list-item-disabled:hover {
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	transform: translate(0, 0);
+}
+
+.ui-tile-list-label {
+	background: #fff;
+	position: absolute;
+	top: -5px;
+	right: 5px;
+	border-radius: 30px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .14);
+	padding: 0 5px;
+	display: flex;
+}
+
+.ui-tile-list-label-text {
+	text-transform: uppercase;
+	color: #525C69;
+	font: 8px/14px "OpenSans-Bold", "Helvetica Neue", Arial, Helvetica, sans-serif;
+	max-width: 130px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }

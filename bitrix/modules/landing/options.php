@@ -3,85 +3,113 @@ $module_id = 'landing';
 
 use \Bitrix\Landing\Manager;
 use \Bitrix\Main\Localization\Loc;
-use Bitrix\Seo\Engine\Bitrix;
+use \Bitrix\Main\SiteTemplateTable;
 
 if (!\Bitrix\Main\Loader::includeModule('landing'))
 {
 	return;
 }
 
+// vars
 $context = \Bitrix\Main\Application::getInstance()->getContext();
 $request = $context->getRequest();
-
 $mid = $request->get('mid');
 $backUrl = $request->get('back_url_settings');
 $docRoot = Manager::getDocRoot();
 $postRight = $APPLICATION->GetGroupRight($module_id);
 
+// lang
+IncludeModuleLangFile($docRoot . '/bitrix/modules/main/options.php');
+Loc::loadMessages(__FILE__);
+
 if ($postRight >= 'R'):
 
-	IncludeModuleLangFile($docRoot . '/bitrix/modules/main/options.php');
-	Loc::loadMessages(__FILE__);
+	// sites list
+	$sites = [];
+	$res = \Bitrix\Main\SiteTable::getList(array(
+		'select' => array(
+			'*'
+		),
+		'filter' => array(
+			'ACTIVE' => 'Y'
+		),
+		'order' => array(
+			'SORT' => 'ASC'
+		)
+	));
+	while ($row = $res->fetch())
+	{
+		$row['NAME']  = \htmlspecialcharsbx($row['NAME']);
+		$sites[] = $row;
+	}
 
 	$allOptions[] = array(
 		'site_template_id',
 		Loc::getMessage('LANDING_OPT_SITE_TEMPLATE_ID') . ':',
 		array('text', 32)
 	);
+	$allOptions[] = array(
+		'header',
+		Loc::getMessage('LANDING_OPT_SITE_TEMPLATE_ID_SITES')
+	);
+	foreach ($sites as $row)
+	{
+		$allOptions[] = array(
+			'site_template_id_' . $row['LID'],
+			$row['NAME'] . ' [' . $row['LID'] . ']:',
+			array('text', 32)
+		);
+	}
 
+	// paths for sites
+	if (!Manager::isB24())
+	{
+		$allOptions[] = array(
+			'header',
+			Loc::getMessage('LANDING_OPT_PUB_PATH_HEADER'),
+			Loc::getMessage('LANDING_OPT_PUB_PATH_HELP')
+		);
+		foreach ($sites as $row)
+		{
+			$allOptions[] = array(
+				'pub_path_' . $row['LID'],
+				$row['NAME'] . ' [' . $row['LID'] . ']:',
+				array('text', 32),
+				\Bitrix\Landing\Manager::getPublicationPathConst()
+			);
+		}
+	}
+
+	$allOptions[] = array(
+		'header',
+		Loc::getMessage('LANDING_OPT_OTHER')
+	);
 	$allOptions[] = array(
 		'deleted_lifetime_days',
 		Loc::getMessage('LANDING_OPT_DELETED_LIFETIME_DAYS') . ':',
 		array('text', 4)
 	);
 
-	// paths for sites
-	if (!Manager::isB24())
-	{
-		/*$allOptions[] = array(
-			'show_admin_panel',
-			Loc::getMessage('LANDING_OPT_SHOW_PANEL_BUTTON') . ':',
-			array('checkbox')
-		);*/
-		
-		$res = \Bitrix\Main\SiteTable::getList(array(
-			'select' => array(
-				'*'
-			),
-			'filter' => array(
-				'ACTIVE' => 'Y'
-			),
-			'order' => array(
-				'SORT' => 'ASC'
-			)
-		));
-		while ($row = $res->fetch())
-		{
-			$row['NAME']  = \htmlspecialcharsbx($row['NAME']);
-			$allOptions[] = array(
-				'pub_path_' . $row['LID'],
-				Loc::getMessage('LANDING_OPT_PUB_PATH') .
-				' (' . $row['NAME'] . '[' . $row['LID'] . ']' . ')' . ':',
-				array('text', 32),
-				\Bitrix\Landing\Manager::PUBLICATION_PATH
-			);
-		}
-	}
-
-
+	// tabs
 	$tabControl = new \CAdmintabControl('tabControl', array(
 		array('DIV' => 'edit1', 'TAB' => Loc::getMessage('MAIN_TAB_SET'), 'ICON' => ''),
 		array('DIV' => 'edit2', 'TAB' => Loc::getMessage('MAIN_TAB_RIGHTS'), 'ICON' => '')
 	));
 
+	// post save
 	if (
-		strlen($Update.$Apply) > 0 &&
+		strlen($Update . $Apply) > 0 &&
 		($postRight=='W' || $postRight=='X') &&
 		\check_bitrix_sessid()
 	)
 	{
+		$clearTmplCache = false;
 		foreach ($allOptions as $arOption)
 		{
+			if ($arOption[0] == 'header')
+			{
+				continue;
+			}
 			$name = $arOption[0];
 			if ($arOption[2][0] == 'text-list')
 			{
@@ -119,11 +147,77 @@ if ($postRight >= 'R'):
 				$val = 'N';
 			}
 
-			\COption::SetOptionString($module_id, $name, $val);
+			$val = trim($val);
+
+			// set new references site <> templates
+			$prefix = 'site_template_id_';
+			if ($arOption[0] == 'site_template_id')// base template
+			{
+				$valOld = trim(\COption::getOptionString(
+					$module_id,
+					'site_template_id'
+				));
+				if (!$val)
+				{
+					$val = $valOld;
+				}
+				if ($valOld != $val)
+				{
+					$res = SiteTemplateTable::getList(array(
+						'filter' => array(
+							'=TEMPLATE' => $valOld
+						)
+					));
+					while ($row = $res->fetch())
+					{
+						$clearTmplCache = true;
+						SiteTemplateTable::update($row['ID'], [
+								'TEMPLATE' => $val
+							]
+						);
+					}
+				}
+			}
+			elseif (strpos($arOption[0], $prefix) === 0)// individual templates
+			{
+				$valDefault = trim(\COption::getOptionString(
+					$module_id,
+					'site_template_id'
+				));
+				$valOld = \COption::getOptionString(
+					$module_id,
+					$arOption[0]
+				);
+				if ($valOld != $val)
+				{
+					$siteId = substr($arOption[0], strlen($prefix));
+					$res = SiteTemplateTable::getList(array(
+						'filter' => array(
+							'=SITE_ID' => $siteId,
+							'=TEMPLATE' => $valOld ? $valOld : $valDefault
+						)
+ 					));
+					while ($row = $res->fetch())
+					{
+						$clearTmplCache = true;
+						SiteTemplateTable::update($row['ID'], [
+								'TEMPLATE' => $val ? $val : $valDefault
+							]
+						);
+					}
+				}
+			}
+
+			\COption::setOptionString($module_id, $name, $val);
 		}
 
 		$Update = $Update . $Apply;
+		if ($clearTmplCache)
+		{
+			Manager::getCacheManager()->clean('b_site_template');
+		}
 
+		// access settings save
 		ob_start();
 		require_once($docRoot . '/bitrix/modules/main/admin/group_rights.php');
 		ob_end_clean();
@@ -147,6 +241,29 @@ if ($postRight >= 'R'):
 	$tabControl->Begin();
 	$tabControl->BeginNextTab();
 	foreach($allOptions as $Option):
+		if ($Option[0] == 'header')
+		{
+			?>
+			<tr class="heading">
+				<td colspan="2">
+					<?= $Option[1];?>
+				</td>
+			</tr>
+			<?if (isset($Option[2])):?>
+			<tr>
+				<td></td>
+				<td>
+					<?
+					echo BeginNote();
+					echo $Option[2];
+					echo EndNote();
+					?>
+				</td>
+			</tr>
+			<?endif;?>
+			<?
+			continue;
+		}
 		$type = $Option[2];
 		$val = \COption::getOptionString(
 			$module_id,
@@ -199,6 +316,7 @@ if ($postRight >= 'R'):
 		<?
 	endforeach;
 
+	// access tab
 	$tabControl->BeginNextTab();
 	require_once($docRoot . '/bitrix/modules/main/admin/group_rights.php');
 

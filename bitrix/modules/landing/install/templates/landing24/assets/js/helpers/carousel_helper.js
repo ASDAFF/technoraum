@@ -4,6 +4,11 @@
 
 	BX.namespace("BX.Landing.SliderHelper");
 
+	var ACTION_INIT = 'init';
+	var ACTION_ADD = 'add';
+	var ACTION_REMOVE = 'remove';
+	var ACTION_UPDATE = 'update';
+
 	BX.Landing.SliderHelper.activeClass = 'slick-initialized';
 
 	/**
@@ -12,12 +17,17 @@
 	// todo: add options
 	BX.Landing.SliderHelper.init = function (event, action)
 	{
-		action = action ? action : 'init';
+		action = action ? action : ACTION_INIT;
 
 		var relativeSelector = BX.Landing.SliderHelper.makeCarouselRelativeSelector(event);
 		var nodes = event.block.querySelectorAll(relativeSelector);
-		if (nodes.length > 0 && !BX.Landing.SliderHelper.isSliderActive(nodes))
+		if (nodes.length > 0)
 		{
+			if(action == ACTION_UPDATE && BX.Landing.SliderHelper.isSliderActive(nodes))
+			{
+				BX.Landing.SliderHelper.destroy(event);
+			}
+
 			BX.Landing.SliderHelper.initBase(relativeSelector);
 			BX.Landing.SliderHelper.goToSlide(event, action);
 		}
@@ -65,6 +75,27 @@
 			$(selector).slick('slickSetOption', 'infinite', false, true);
 		}
 	};
+
+
+	/**
+	 * Hack to reinit attrs, when $.data give old values
+	 */
+	// dbg - new function, not worked yet
+	// BX.Landing.SliderHelper.initAttrs = function (event)
+	// {
+	// 	var relativeSelector = BX.Landing.SliderHelper.makeCarouselRelativeSelector(event);
+	// 	var nodes = event.block.querySelectorAll(relativeSelector);
+	// 	if (nodes.length > 0)
+	// 	{
+	// 		for (var attr in event.data)
+	// 		{
+	// 			$(relativeSelector).slick('slickSetOption', attr.replace('data-', ''), event.data[attr], true);
+	// 		}
+	// 		// nodes.forEach(function(i){
+	//
+	// 		// });
+	// 	}
+	// };
 
 
 	/**
@@ -182,15 +213,15 @@
 
 		switch (action)
 		{
-			case 'add' :
+			case ACTION_ADD :
 				BX.Landing.SliderHelper.goToNewSlideAfterAdd(relativeSelector, currSlideNumber, newSlideNumber);
 				break;
 
-			case 'remove':
+			case ACTION_REMOVE:
 				BX.Landing.SliderHelper.goToNewSlideAfterRemove(relativeSelector, currSlideNumber, newSlideNumber);
 				break;
 
-			case 'update':
+			case ACTION_UPDATE:
 				BX.Landing.SliderHelper.goToSlideAfterUpdate(relativeSelector, currSlideNumber);
 				break;
 

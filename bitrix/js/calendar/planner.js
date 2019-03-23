@@ -3,10 +3,12 @@
 function CalendarPlanner(params, initialUpdateParams)
 {
 	if (!params)
+	{
 		params = {};
+	}
 	this.config = params;
 	this.id = params.id;
-	this.userId = params.userId;
+	this.userId = params.userId || BX.message('USER_ID');
 	this.shown = false;
 	this.built = false;
 	this.dayLength = 86400000;
@@ -266,7 +268,7 @@ CalendarPlanner.prototype =
 		this.maxTimelineSize = parseInt(params.maxTimelineSize) || this.maxTimelineSize || 20;
 
 		this.minEntryRows = parseInt(params.minEntryRows) || this.minEntryRows || 3;
-		this.maxEntryRows = parseInt(params.maxEntryRows) || this.maxEntryRows || 10;
+		this.maxEntryRows = parseInt(params.maxEntryRows) || this.maxEntryRows || 30;
 
 		this.width = parseInt(params.width) || this.width || 700;
 		this.height = parseInt(params.height) || this.height || 84;
@@ -736,7 +738,7 @@ CalendarPlanner.prototype =
 		this.accessibility = params.accessibility;
 		this.entries = params.entries;
 
-		var i, k, entry, acc;
+		var i, k, entry, acc, userId = this.userId;
 		// Compact mode
 		if (this.compactMode)
 		{
@@ -771,20 +773,21 @@ CalendarPlanner.prototype =
 			// Enties without accessibilitity data should be in the end of the array
 			// But first in the list will be meeting room
 			// And second (or first) will be owner-host of the event
+
 			if (params.entries && params.entries.length)
 			{
-				//params.entries.sort(function(a, b)
-				//{
-				//	if (a.type == 'room' || (a.status == 'h' && b.type !== 'room'))
-				//		return -1;
-				//	if (b.type == 'room' || (b.status == 'h' && a.type !== 'room'))
-				//		return 1;
-				//
-				//	var
-				//		l1 = params.accessibility[a.id] ? params.accessibility[a.id].length : 0,
-				//		l2 = params.accessibility[b.id] ? params.accessibility[b.id].length : 0;
-				//	return l2 - l1;
-				//});
+				params.entries.sort(function(a, b)
+				{
+					if (b.status === 'h' || b.id == userId && a.status !== 'h')
+					{
+						return 1;
+					}
+					if (a.status === 'h' || a.id == userId && b.status !== 'h')
+					{
+						return  -1;
+					}
+					return 0;
+				});
 
 				if (this.selectedEntriesWrap)
 				{
@@ -3223,7 +3226,7 @@ CalendarPlanner.prototype =
 			for (i = 0; i < data.length; i++)
 			{
 				item = data[i];
-				if (item.type && item.type == 'hr')
+				if (item.type && item.type === 'hr')
 					continue;
 
 				if ((item.fromTimestamp + accuracy) <= toTimestamp && ((item.toTimestampReal || item.toTimestamp) - accuracy) >= fromTimestamp)
@@ -3265,7 +3268,7 @@ CalendarPlanner.prototype =
 							for (i = 0; i < this.accessibility[entryId].length; i++)
 							{
 								item = this.accessibility[entryId][i];
-								if (item.type && item.type == 'hr')
+								if (item.type && item.type === 'hr')
 								{
 									continue;
 								}

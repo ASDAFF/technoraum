@@ -72,10 +72,19 @@ class BlockTable extends Entity\DataManager
 				'title' => Loc::getMessage('LANDING_TABLE_FIELD_ACCESS'),
 				'default_value' => 'X'
 			)),
-			'CONTENT' => new Entity\StringField('CONTENT', array(
-				'title' => Loc::getMessage('LANDING_TABLE_FIELD_CONTENT'),
-				'required' => true
-			)),
+			'CONTENT' => new Entity\StringField('CONTENT',
+												method_exists('\Bitrix\Main\Text\Emoji', 'getSaveModificator')
+													? array(
+													'title' => Loc::getMessage('LANDING_TABLE_FIELD_CONTENT'),
+													'required' => true,
+													'save_data_modification' => array('\Bitrix\Main\Text\Emoji', 'getSaveModificator'),
+													'fetch_data_modification' => array('\Bitrix\Main\Text\Emoji', 'getFetchModificator'),
+												)
+													: array(
+													'title' => Loc::getMessage('LANDING_TABLE_FIELD_CONTENT'),
+													'required' => true
+												)
+			),
 			'CREATED_BY_ID' => new Entity\IntegerField('CREATED_BY_ID', array(
 				'title' => Loc::getMessage('LANDING_TABLE_FIELD_CREATED_BY_ID'),
 				'required' => true

@@ -18,6 +18,8 @@ return array(
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/clothes/guarantee/preview.jpg',
 			'VIEW_USE' => 'N',
 			'VIEW_TYPE' => 'no',
+			'THEME_CODE' => 'travel',
+			'THEME_CODE_TYPO' => 'travel',
 		),
 	),
 	'layout' => array(

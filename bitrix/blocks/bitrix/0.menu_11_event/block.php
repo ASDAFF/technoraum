@@ -2,10 +2,10 @@
 	<div class="u-header__section g-bg-darkblue-opacity-0_7 g-transition-0_3 g-py-10"
 		 data-header-fix-moment-exclude="g-bg-darkblue-opacity-0_7"
 		 data-header-fix-moment-classes="u-header__section--light g-bg-white-opacity-0_9">
-		<nav class="navbar navbar-expand-lg g-mt-5 g-py-0">
+		<nav class="navbar navbar-expand-lg g-mt-5 g-py-0 g-px-10">
 			<div class="container">
 				<!-- Logo -->
-				<a href="#" class="landing-block-node-menu-logo-link navbar-brand u-header__logo p-0">
+				<a href="#system_mainpage" class="landing-block-node-menu-logo-link navbar-brand u-header__logo p-0">
 					<img class="landing-block-node-menu-logo u-header__logo-img u-header__logo-img--main d-block g-max-width-180"
 						 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/event-logo-light.png" alt=""
 						 data-header-fix-moment-exclude="d-block"

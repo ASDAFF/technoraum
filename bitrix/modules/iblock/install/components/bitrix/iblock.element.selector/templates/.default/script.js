@@ -41,9 +41,13 @@ BX.Iblock.IblockElementSelector = (function ()
 			var selectedElements = [];
 			for(k in this.currentElements)
 			{
-				this.selectedElements[this.currentElements[k].ID] = {
-					id: this.currentElements[k].ID, name: this.currentElements[k].NAME};
-				selectedElements.push({id: this.currentElements[k].ID, name: this.currentElements[k].NAME});
+				if (this.currentElements.hasOwnProperty(k))
+				{
+					this.selectedElements[this.currentElements[k].ID] = {
+						id: this.currentElements[k].ID, name: this.currentElements[k].NAME
+					};
+					selectedElements.push({id: this.currentElements[k].ID, name: this.currentElements[k].NAME});
+				}
 			}
 			this.setSelected(selectedElements);
 		}
@@ -52,10 +56,13 @@ BX.Iblock.IblockElementSelector = (function ()
 		{
 			for(k in this.lastElements)
 			{
-				this.listElementsData[this.lastElements[k].ID] = {
-					id: this.lastElements[k].ID,
-					name: this.lastElements[k].NAME
-				};
+				if (this.lastElements.hasOwnProperty(k))
+				{
+					this.listElementsData[this.lastElements[k].ID] = {
+						id: this.lastElements[k].ID,
+						name: this.lastElements[k].NAME
+					};
+				}
 			}
 		}
 
@@ -462,19 +469,23 @@ BX.Iblock.IblockElementSelector = (function ()
 		}
 		if(this.multiple)
 		{
-			BX.adjust(BX(this.selectorId + '_current_count'), {text: elements.length});
+			BX.adjust(BX(this.selectorId + '_current_count'), {text: this.getCountElements(elements).toString()});
 		}
 	};
 
 	IblockElementSelector.prototype.toObject = function(brokenArray)
 	{
-		var result = {};
-		for(var k in brokenArray)
+		var result = {},
+			k;
+		for(k in brokenArray)
 		{
-			k = parseInt(k);
-			if(typeof k === 'number' && brokenArray[k] !== null)
+			if (brokenArray.hasOwnProperty(k))
 			{
-				result[k] = BX.clone(brokenArray[k]);
+				k = parseInt(k);
+				if (typeof k === 'number' && brokenArray[k] !== null)
+				{
+					result[k] = BX.clone(brokenArray[k]);
+				}
 			}
 		}
 		return result;
@@ -552,6 +563,17 @@ BX.Iblock.IblockElementSelector = (function ()
 		}
 		BX(this.selectorId+'_visible_values').innerHTML = listSelectedElements;
 	};
+
+	IblockElementSelector.prototype.getCountElements = function(elements)
+	{
+		var count = 0, i;
+		for (i = 0; i < elements.length; i++)
+		{
+			if (BX.type.isNotEmptyObject(elements[i]))
+				count++;
+		}
+		return count;
+	}
 
 	return IblockElementSelector;
 })();

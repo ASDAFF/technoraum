@@ -12,6 +12,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_AGENCY_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'agency',
+			'THEME_CODE_TYPO' => 'agency',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/agency/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_AGENCY_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_AGENCY_DESCRIPTION'),
@@ -88,7 +90,7 @@ return array(
 				'CONTENT' => '<section class="landing-block">
 	<div class="js-carousel"
 		 data-pagi-classes="u-carousel-indicators-v1 g-right-30 g-bottom-30">
-		<div class="landing-block-node-card landing-block-node-card-bgimg js-slide d-flex align-items-end u-bg-overlay g-height-100vh g-min-height-600 g-bg-img-hero g-bg-black-opacity-0_5--after"
+		<div class="landing-block-node-card landing-block-node-card-bgimg js-slide d-flex align-items-end u-bg-overlay g-min-height-100vh g-min-height-600 g-bg-img-hero g-bg-black-opacity-0_5--after"
 			 style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1080/img7.jpg);">
 			<div class="u-bg-overlay__inner w-100">
 				<div class="g-max-width-645 py-0 g-px-30 g-pb-30">
@@ -112,7 +114,7 @@ return array(
 			</div>
 		</div>
 
-		<div class="landing-block-node-card landing-block-node-card-bgimg js-slide d-flex align-items-end u-bg-overlay g-height-100vh g-min-height-600 g-bg-img-hero g-bg-black-opacity-0_5--after"
+		<div class="landing-block-node-card landing-block-node-card-bgimg js-slide d-flex align-items-end u-bg-overlay g-min-height-100vh g-min-height-600 g-bg-img-hero g-bg-black-opacity-0_5--after"
 			 style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1920x1080/img8.jpg);">
 			<div class="u-bg-overlay__inner w-100">
 				<div class="g-max-width-645 py-0 g-px-30 g-pb-30">
@@ -311,7 +313,7 @@ return array(
 				'CONTENT' => '<section class="landing-block g-pb-70 g-bg-main g-pt-20">
 	<div class="container">
 		<div class="row">
-			<div class="landing-block-node-card js-animation fadeInUp col-md-6 col-lg-3 text-center g-mb-40 g-mb-0--lg animated landing-card">
+			<div class="landing-block-node-card js-animation fadeInUp col-md-6 col-lg-3 text-center g-mb-40 g-mb-0--lg animated ">
 					<span class="landing-block-node-card-icon-container u-icon-v1 u-icon-size--lg g-color-white-opacity-0_6 g-mb-15 g-color-primary">
 						<i class="landing-block-node-card-icon icon-magic-wand"></i>
 					</span>
@@ -320,7 +322,7 @@ return array(
 				<div class="landing-block-node-card-text g-font-size-default mb-0 g-color-black-opacity-0_6"><p>Quisque rhoncus euismod pulvinar. Nulla non arcu at lectus. Vestibulum fringilla velit rhoncus euismod rhoncus turpis</p></div>
 			</div>
 
-			<div class="landing-block-node-card js-animation fadeInUp col-md-6 col-lg-3 text-center g-mb-40 g-mb-0--lg animated landing-card">
+			<div class="landing-block-node-card js-animation fadeInUp col-md-6 col-lg-3 text-center g-mb-40 g-mb-0--lg animated ">
 					<span class="landing-block-node-card-icon-container u-icon-v1 u-icon-size--lg g-color-white-opacity-0_6 g-mb-15 g-color-primary">
 						<i class="landing-block-node-card-icon icon-diamond"></i>
 					</span>
@@ -329,7 +331,7 @@ return array(
 				<div class="landing-block-node-card-text g-font-size-default mb-0 g-color-black-opacity-0_6"><p>Quisque rhoncus euismod pulvinar. Nulla non arcu at lectus. Vestibulum fringilla velit rhoncus euismod rhoncus turpis</p></div>
 			</div>
 
-			<div class="landing-block-node-card js-animation fadeInUp col-md-6 col-lg-3 text-center g-mb-40 g-mb-0--lg animated landing-card">
+			<div class="landing-block-node-card js-animation fadeInUp col-md-6 col-lg-3 text-center g-mb-40 g-mb-0--lg animated ">
 					<span class="landing-block-node-card-icon-container u-icon-v1 u-icon-size--lg g-color-white-opacity-0_6 g-mb-15 g-color-primary">
 						<i class="landing-block-node-card-icon icon-calculator"></i>
 					</span>
@@ -338,7 +340,7 @@ return array(
 				<div class="landing-block-node-card-text g-font-size-default mb-0 g-color-black-opacity-0_6"><p>Quisque rhoncus euismod pulvinar. Nulla non arcu at lectus. Vestibulum fringilla velit rhoncus euismod rhoncus turpis</p></div>
 			</div>
 
-			<div class="landing-block-node-card js-animation fadeInUp col-md-6 col-lg-3 text-center g-mb-40 g-mb-0--lg animated landing-card">
+			<div class="landing-block-node-card js-animation fadeInUp col-md-6 col-lg-3 text-center g-mb-40 g-mb-0--lg animated ">
 					<span class="landing-block-node-card-icon-container u-icon-v1 u-icon-size--lg g-color-white-opacity-0_6 g-mb-15 g-color-primary">
 						<i class="landing-block-node-card-icon icon-badge"></i>
 					</span>
@@ -414,7 +416,7 @@ return array(
         <div class="container">
             <div class="row">
 
-                <div class="landing-block-card g-mb-40 g-mb-0--lg landing-card col-lg-3 js-animation fadeIn">
+                <div class="landing-block-card g-mb-40 g-mb-0--lg  col-lg-3 js-animation fadeIn">
                     <div class="landing-block-card-header text-uppercase u-heading-v2-4--bottom g-brd-primary g-mb-40">
                         <h4 class="landing-block-node-subtitle h6 g-font-weight-800 g-font-size-12 g-letter-spacing-1 g-color-primary g-mb-20"> </h4>
                         <h2 class="landing-block-node-title h1 u-heading-v2__title g-line-height-1_3 g-font-weight-600 g-mb-minus-10 g-font-size-15 g-text-break-word">84 HAPPY CLIENTS</h2>
@@ -423,7 +425,7 @@ return array(
                     <div class="landing-block-node-text g-color-gray-dark-v5"><p>Integer accumsan maximus leo, et consectetur metus vestibulum in. Vestibulum viverra justo odio maximus efficiturInteger accumsan maximus leo, et consectetur metus vestibulum in. Vestibulum viverra justo odio maximus efficitur</p></div>
                 </div>
 
-                <div class="landing-block-card g-mb-40 g-mb-0--lg landing-card col-lg-3 js-animation fadeIn">
+                <div class="landing-block-card g-mb-40 g-mb-0--lg  col-lg-3 js-animation fadeIn">
                     <div class="landing-block-card-header text-uppercase u-heading-v2-4--bottom g-brd-primary g-mb-40">
                         <h4 class="landing-block-node-subtitle h6 g-font-weight-800 g-font-size-12 g-letter-spacing-1 g-color-primary g-mb-20"> </h4>
                         <h2 class="landing-block-node-title h1 u-heading-v2__title g-line-height-1_3 g-font-weight-600 g-mb-minus-10 g-font-size-15 g-text-break-word">34 COMPLETED PROJECTS</h2>
@@ -432,7 +434,7 @@ return array(
                     <div class="landing-block-node-text g-color-gray-dark-v5"><p>Quisque vestibulum sem eget nibh commodo, non elementum nibh pulvinar. Duis mattis venenatis tortor iaculis ultriciesQuisque vestibulum sem eget nibh commodo, non elementum nibh pulvinar. Duis mattis venenatis tortor iaculis ultricies</p></div>
                 </div>
 
-                <div class="landing-block-card g-mb-40 g-mb-0--lg landing-card col-lg-3 js-animation fadeIn">
+                <div class="landing-block-card g-mb-40 g-mb-0--lg  col-lg-3 js-animation fadeIn">
                     <div class="landing-block-card-header text-uppercase u-heading-v2-4--bottom g-brd-primary g-mb-40">
                         <h4 class="landing-block-node-subtitle h6 g-font-weight-800 g-font-size-12 g-letter-spacing-1 g-color-primary g-mb-20"> </h4>
                         <h2 class="landing-block-node-title h1 u-heading-v2__title g-line-height-1_3 g-font-weight-600 g-mb-minus-10 g-font-size-15 g-text-break-word">35 OUR TEAM</h2>
@@ -441,7 +443,7 @@ return array(
                     <div class="landing-block-node-text g-color-gray-dark-v5"><p>Nullam in diam arcu. Etiam nisl justo, tempor scelerisque sagittis vel, bibendum vestibulum metus. Donec eget nunc nequeNullam in diam arcu. Etiam nisl justo, tempor scelerisque sagittis vel, bibendum vestibulum metus. Donec eget nunc neque</p></div>
                 </div>
 
-            <div class="landing-block-card g-mb-40 g-mb-0--lg landing-card col-lg-3 js-animation fadeIn">
+            <div class="landing-block-card g-mb-40 g-mb-0--lg  col-lg-3 js-animation fadeIn">
                     <div class="landing-block-card-header text-uppercase u-heading-v2-4--bottom g-brd-primary g-mb-40">
                         <h4 class="landing-block-node-subtitle h6 g-font-weight-800 g-font-size-12 g-letter-spacing-1 g-color-primary g-mb-20"> </h4>
                         <h2 class="landing-block-node-title h1 u-heading-v2__title g-line-height-1_3 g-font-weight-600 g-mb-minus-10 g-font-size-15 g-text-break-word">67 COUNTRIES</h2>
@@ -843,7 +845,37 @@ return array(
 
 				<div class="col-md-4 col-lg-5 g-flex-centered">
 					<div class="w-100">
-						<!--						dbg social will be here-->
+												<ul class="list-inline float-md-right mb-0">
+							<li class="landing-block-card-social list-inline-item g-mr-10"
+								data-card-preset="facebook">
+								<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-white g-color-white--hover g-bg-primary--hover g-brd-white g-brd-primary--hover g-rounded-50x"
+								   href="https://facebook.com">
+									<i class="landing-block-card-social-icon fa fa-facebook"></i>
+								</a>
+							</li>
+
+							<li class="landing-block-card-social list-inline-item g-mr-10"
+								data-card-preset="instagram">
+								<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-white g-color-white--hover g-bg-primary--hover g-brd-white g-brd-primary--hover g-rounded-50x"
+								   href="https://instagram.com">
+									<i class="landing-block-card-social-icon fa fa-instagram"></i>
+								</a>
+							</li>
+							<li class="landing-block-card-social list-inline-item g-mr-10"
+								data-card-preset="twitter">
+								<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-white g-color-white--hover g-bg-primary--hover g-brd-white g-brd-primary--hover g-rounded-50x"
+								   href="https://twitter.com">
+									<i class="landing-block-card-social-icon fa fa-twitter"></i>
+								</a>
+							</li>
+							<li class="landing-block-card-social list-inline-item g-mr-10"
+								data-card-preset="youtube">
+								<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-white g-color-white--hover g-bg-primary--hover g-brd-white g-brd-primary--hover g-rounded-50x"
+								   href="https://youtube.com">
+									<i class="landing-block-card-social-icon fa fa-youtube"></i>
+								</a>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>

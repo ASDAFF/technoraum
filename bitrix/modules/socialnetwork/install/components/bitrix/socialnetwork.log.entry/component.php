@@ -88,7 +88,6 @@ $arResult["bTasksAvailable"] = (
 	)
 );
 
-
 $arResult["Event"] = false;
 $arCurrentUserSubscribe = array("TRANSPORT" => array());
 
@@ -108,10 +107,7 @@ if ($arEvent)
 	{
 		$postProviderClassName = get_class($postProvider);
 		$reflectionClass = new ReflectionClass($postProviderClassName);
-		$arResult["canGetPostContent"] = (
-//			false &&
-			$reflectionClass->getMethod('initSourceFields')->class == $postProviderClassName
-		);
+		$arResult["canGetPostContent"] = ($reflectionClass->getMethod('initSourceFields')->class == $postProviderClassName);
 		if ($arResult["canGetPostContent"])
 		{
 			$arResult["POST_CONTENT_TYPE_ID"] = $postProvider->getContentTypeId();
@@ -245,7 +241,7 @@ if ($arEvent)
 				$logCommentId = $arParams["COMMENT_ID"];
 				if (!empty($commentEvent))
 				{
-					$rsLogComment = CSocNetLogComments::GetList(
+					$rsLogComment = CSocNetLogComments::getList(
 						array(),
 						array(
 							"EVENT_ID" => $commentEvent['EVENT_ID'],

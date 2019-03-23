@@ -108,8 +108,6 @@ $arParams["COMPONENT_PAGE"] = $componentPage;
 
 $arResult['SLIDER'] = \CRestUtil::isSlider();
 
-$APPLICATION->SetTitle(GetMessage("MARKETPLACE_TITLE"));
-
 \CJSCore::Init(array('marketplace'));
 
 $this->IncludeComponentTemplate($componentPage);

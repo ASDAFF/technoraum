@@ -89,6 +89,23 @@ Class mobileapp extends CModule
 				true, true
 			);
 
+			CopyDirFiles(
+				$_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".$this->MODULE_ID."/install/services/",
+				$_SERVER["DOCUMENT_ROOT"]."/bitrix/services/",
+				true, true
+			);
+
+		$siteId = \CSite::GetDefSite();
+		if($siteId)
+		{
+			\Bitrix\Main\UrlRewriter::add($siteId, [
+				"CONDITION" => "#^\/?\/mobileapp/jn\/(.*)\/.*#",
+				"RULE" => "componentName=$1",
+				"PATH" => "/bitrix/services/mobileapp/jn.php",
+			]);
+		}
+
+
 			return true;
 	}
 

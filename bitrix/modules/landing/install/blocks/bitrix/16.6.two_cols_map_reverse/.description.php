@@ -70,16 +70,16 @@ return [
 	],
 	'style' => [
 		'block' => [
-			'type' => ['block-default-wo-background-vh-animation']
+			'type' => ['block-default-wo-background']
 		],
 		'nodes' => [
+			'.landing-block-node-map' => [
+				'name' => Loc::getMessage("LANDING_BLOCK_16_6_TWO_COLS_MAP--MAP"),
+				'type' => 'animation',
+			],
 			'.landing-block-node-address-col' => [
 				'name' => Loc::getMessage("LANDING_BLOCK_16_6_TWO_COLS_MAP--COL"),
-				'type' => 'bg',
-			],
-			'.landing-block-node-third-col' => [
-				'name' => Loc::getMessage("LANDING_BLOCK_16_6_TWO_COLS_MAP--COL"),
-				'type' => 'bg',
+				'type' => ['bg', 'animation'],
 			],
 			'.landing-block-node-address-subtitle' => [
 				'name' => Loc::getMessage("LANDING_BLOCK_16_6_TWO_COLS_MAP--SUBTITLE"),

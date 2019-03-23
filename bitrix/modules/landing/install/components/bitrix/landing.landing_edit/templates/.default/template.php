@@ -162,6 +162,14 @@ if ($arParams['SUCCESS_SAVE'])
 							</span>
 							<input type="<?= $isIndex ? 'hidden' : 'text';?>" name="fields[CODE]" value="<?= \htmlspecialcharsbx($row['CODE']['CURRENT'])?>" class="ui-input" />
 							<?= $isIndex ? '' : '<span class="landing-form-site-name-label">/</span>';?>
+							<?if ($isIndex):?>
+								<div class="ui-form-field-description">
+									<?= Loc::getMessage('LANDING_TPL_CODE_SETTINGS', [
+										'#LINK1#' => $arParams['PAGE_URL_SITE_EDIT'] ? '<a href="' . $arParams['PAGE_URL_SITE_EDIT'] . '">' : '',
+										'#LINK2#' => $arParams['PAGE_URL_SITE_EDIT'] ? '</a>' : ''
+									]);?>
+								</div>
+							<?endif;?>
 						</div>
 					</td>
 				</tr>
@@ -221,7 +229,7 @@ if ($arParams['SUCCESS_SAVE'])
 								<script type="text/javascript">
 									BX.ready(function()
 									{
-										new BX.Landing.EditTitleForm(BX('ui-editable-page-title'));
+										new BX.Landing.EditTitleForm(BX('ui-editable-page-title'), 0, true, true);
 									});
 								</script>
 								<div class="landing-form-social-text-title">
@@ -249,7 +257,7 @@ if ($arParams['SUCCESS_SAVE'])
 								<script type="text/javascript">
 									BX.ready(function()
 									{
-										new BX.Landing.EditTitleForm(BX('ui-editable-page-text'));
+										new BX.Landing.EditTitleForm(BX('ui-editable-page-text'), 0, true);
 									});
 								</script>
 								<div class="landing-form-social-text">
@@ -288,18 +296,18 @@ if ($arParams['SUCCESS_SAVE'])
 									$selectParams['value'] = $pageFields['THEME_CODE']->getValue();
 									
 									// set color and border for DEFAULT
-									$selectParams['options'][""]['class'] = 'select-color-popup-menu-item--underline';
+									$selectParams['options']['']['class'] = 'select-color-popup-menu-item--underline';
 									$siteFields = $hooksSite['THEME']->getPageFields();
-									if($value = $siteFields['THEME_CODE']->getValue())
+									if ($value = $siteFields['THEME_CODE']->getValue())
 									{
 										// set color from site
-										$selectParams['options'][""]['color'] = $selectParams['options'][$value]['color'];
+										$selectParams['options']['']['color'] = $selectParams['options'][$value]['color'];
 									}
 									else
 									{
 										// set last color
 										$lastOption = end($selectParams['options']);
-										$selectParams['options'][""]['color'] = $lastOption['color'];
+										$selectParams['options']['']['color'] = $lastOption['color'];
 									}
 									?>
 										
@@ -311,11 +319,13 @@ if ($arParams['SUCCESS_SAVE'])
 									/>
 									
 									<div class="ui-select select-color-wrap"
-										 id="<?=$selectParams['id']?>_select_color_wrap">
+										 id="<?= $selectParams['id'];?>_select_color_wrap">
 									</div>
 
 									<script>
-										var sc = new BX.Landing.SelectColor(<?=\CUtil::PhpToJSObject($selectParams)?>);
+										var sc = new BX.Landing.SelectColor(
+											<?=\CUtil::PhpToJSObject($selectParams);?>
+										);
 										sc.show();
 									</script>
 								</div>
@@ -662,7 +672,7 @@ if ($arParams['SUCCESS_SAVE'])
 						<?$template->showSimple('GACOUNTER');?>
 						<?$template->showSimple('GTM');?>
 						<?
-						if (in_array(Manager::getZone(), array('ru', 'by', 'kz')))
+						if (Manager::availableOnlyForZone('ru'))
 						{
 							$template->showSimple('YACOUNTER');
 						}
@@ -675,6 +685,20 @@ if ($arParams['SUCCESS_SAVE'])
 						});
 					</script>
 				</tr>
+				<?endif;?>
+				<?if (isset($hooks['PIXELFB']) || isset($hooks['PIXELVK'])):?>
+					<tr class="landing-form-hidden-row">
+						<td class="ui-form-label ui-form-label-align-top"><?= Loc::getMessage('LANDING_TPL_HOOK_PIXEL');?></td>
+						<td class="ui-form-right-cell ui-form-right-cell-pixel">
+							<?$template->showSimple('PIXELFB');?>
+							<?
+							if (Manager::availableOnlyForZone('ru'))
+							{
+								$template->showSimple('PIXELVK');
+							}
+							?>
+						</td>
+					</tr>
 				<?endif;?>
 				<?if (isset($hooks['METAROBOTS'])):
 					$pageFields = $hooks['METAROBOTS']->getPageFields();
@@ -812,7 +836,7 @@ if ($arParams['SUCCESS_SAVE'])
 			<?endif;?>
 		});
 		<?endif;?>
-		new BX.Landing.EditTitleForm(BX('ui-editable-title'), 600);
+		new BX.Landing.EditTitleForm(BX('ui-editable-title'), 600, true);
 		new BX.Landing.ToggleFormFields(BX('landing-page-set-form'));
 		new BX.Landing.SaveBtn(BX('landing-save-btn'));
 	});

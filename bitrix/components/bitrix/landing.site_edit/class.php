@@ -37,7 +37,7 @@ class LandingSiteEditComponent extends LandingBaseFormComponent
 	protected function getMap()
 	{
 		return array(
-			'CODE', 'TITLE', 'TYPE', 'TPL_ID', 'DOMAIN_ID',
+			'CODE', 'TITLE', 'TYPE', 'TPL_ID', 'DOMAIN_ID', 'LANG',
 			'LANDING_ID_INDEX', 'LANDING_ID_404', 'LANDING_ID_503'
 		);
 	}
@@ -71,6 +71,42 @@ class LandingSiteEditComponent extends LandingBaseFormComponent
 	}
 
 	/**
+	 * Gets lang codes.
+	 * @return array
+	 */
+	protected function getLangCodes()
+	{
+		$file = \Bitrix\Landing\Manager::getDocRoot();
+		$file .= SITE_TEMPLATE_PATH;
+		$file .= '/languages.php';
+
+		if (file_exists($file))
+		{
+			include $file;
+		}
+
+		if (
+			isset($b24Languages) &&
+			is_array($b24Languages)
+		)
+		{
+			$langs = [];
+			foreach ($b24Languages as $code => $lang)
+			{
+				if (isset($lang['NAME']))
+				{
+					$langs[$code] = $lang['NAME'];
+				}
+			}
+			return $langs;
+		}
+		else
+		{
+			return [];
+		}
+	}
+
+	/**
 	 * Base executable method.
 	 * @return void
 	 */
@@ -90,6 +126,7 @@ class LandingSiteEditComponent extends LandingBaseFormComponent
 			$this->successSavePage = $this->arParams['PAGE_URL_SITES'];
 			$this->template = $this->arParams['TEMPLATE'];
 
+			$this->arResult['LANG_CODES'] = $this->getLangCodes();
 			$this->arResult['IP_FOR_DNS'] = $this->getIpForDNS();
 			$this->arResult['TEMPLATES'] = $this->getTemplates();
 

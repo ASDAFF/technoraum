@@ -12,6 +12,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_23FEB1_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'spa',
+			'THEME_CODE_TYPO' => 'spa',
 		    'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/holidays/holiday.23february.1/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_23FEB1_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_23FEB1_DESCRIPTION'),
@@ -19,7 +21,7 @@ return array(
 			'METAMAIN_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_23FEB1_DESCRIPTION')
 		)
 	),
-	'sort' => -110,
+	'sort' => \LandingSiteDemoComponent::checkActivePeriod(2,2,2,23) ? 101 : -111,
 	'available' => true,
 	'active' => \LandingSiteDemoComponent::checkActive(array(
 		'ONLY_IN' => array('ru', 'kz', 'by'),
@@ -74,14 +76,14 @@ return array(
 
 				<!-- Navigation -->
 				<div class="collapse navbar-collapse align-items-center flex-sm-row" id="navBar">
-					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-font-weight-700 g-font-size-11 g-pt-20 g-pt-0--lg ml-auto">
-						<li class="landing-block-node-menu-list-item nav-item g-mr-25--lg g-mb-7 g-mb-0--lg ">
+					<ul class="landing-block-node-menu-list js-scroll-nav navbar-nav text-uppercase g-font-weight-700 g-font-size-11 g-pt-20 g-pt-0--lg ml-auto g-mr-20">
+						<li class="landing-block-node-menu-list-item nav-item g-mr-20--lg g-mb-7 g-mb-0--lg ">
 							<a href="#block@block[46.1.cover_with_bg_image_and_big_title]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_23FEB1__TEXT1").'</a>
 						</li>
-						<li class="landing-block-node-menu-list-item nav-item g-mx-25--lg g-mb-7 g-mb-0--lg">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-20--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[19.6.features_two_cols_with_bg_pattern]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_23FEB1__TEXT2").'</a>
 						</li>
-						<li class="landing-block-node-menu-list-item nav-item g-mx-25--lg g-mb-7 g-mb-0--lg">
+						<li class="landing-block-node-menu-list-item nav-item g-mx-20--lg g-mb-7 g-mb-0--lg">
 							<a href="#block@block[11.2.three_cols_fix_tariffs_with_img]" class="landing-block-node-menu-list-item-link nav-link p-0" target="_self">'. Loc::getMessage("NOTTRANSLATE__LANDING_DEMO_23FEB1__TEXT3").'</a>
 						</li>
 						
@@ -89,6 +91,29 @@ return array(
 						
 						
 						
+					</ul>
+					<ul class="list-inline mb-0 landing-block-node-menu-list-social">
+						<li class="list-inline-item landing-block-card-social g-mr-10"
+							data-card-preset="facebook">
+							<a class="landing-block-card-social-icon-link d-block u-icon-v3 u-icon-size--sm g-rounded-50x g-bg-gray-light-v4 g-color-gray-light-v1 g-bg-primary--hover g-color-white--hover g-font-size-14"
+							   href="https://facebook.com">
+								<i class="landing-block-card-social-icon fa fa-facebook"></i>
+							</a>
+						</li>
+						<li class="landing-block-card-social list-inline-item g-mr-10"
+							data-card-preset="instagram">
+							<a class="landing-block-card-social-icon-link d-block u-icon-v3 u-icon-size--sm g-rounded-50x g-bg-gray-light-v4 g-color-gray-light-v1 g-bg-primary--hover g-color-white--hover g-font-size-14"
+							   href="https://instagram.com">
+								<i class="landing-block-card-social-icon fa fa-instagram"></i>
+							</a>
+						</li>
+						<li class="landing-block-card-social list-inline-item g-mr-10"
+							data-card-preset="twitter">
+							<a class="landing-block-card-social-icon-link d-block u-icon-v3 u-icon-size--sm g-rounded-50x g-bg-gray-light-v4 g-color-gray-light-v1 g-bg-primary--hover g-color-white--hover g-font-size-14"
+							   href="https://twitter.com">
+								<i class="landing-block-card-social-icon fa fa-twitter"></i>
+							</a>
+						</li>
 					</ul>
 				</div>
 				<!-- End Navigation -->

@@ -16,3 +16,7 @@ $MESS["MAIL_UF_MESSAGE_BODY_EXPAND"] = "подробнее";
 $MESS["MAIL_UF_MESSAGE_ATTACHES"] = "Файлы (#NUM#)";
 
 $MESS["MAIL_UF_MESSAGE_DELETED"] = "Письмо удалено";
+
+$MESS["MAIL_UF_MESSAGE_NOT_IMPLEMENTED"] = "Не реализовано";
+$MESS["MAIL_UF_MESSAGE_NOT_FOUND"] = "Письмо не найдено";
+$MESS["MAIL_UF_MESSAGE_DENIED"] = "Нет доступа";

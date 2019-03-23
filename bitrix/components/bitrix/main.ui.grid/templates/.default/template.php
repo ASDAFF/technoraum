@@ -665,7 +665,7 @@ endif; ?>
 			<? if(isset($arParams['TOP_ACTION_PANEL_RENDER_TO'])): ?>
 				var actionPanel = new BX.UI.ActionPanel({
 					params: {
-						gridId: '<?=$arParams["GRID_ID"]?>'
+						gridId: '<?=\CUtil::jSEscape($arParams["GRID_ID"])?>'
 					},
 					pinnedMode: <?= CUtil::PhpToJSObject($arParams["TOP_ACTION_PANEL_PINNED_MODE"]) ?>,
 					renderTo: document.querySelector("<?= CUtil::JSEscape($arParams['TOP_ACTION_PANEL_RENDER_TO']) ?>"),
@@ -675,9 +675,9 @@ endif; ?>
 			<? endif; ?>
 
 			BX.Main.gridManager.push(
-				'<?=$arParams["GRID_ID"]?>',
+				'<?=\CUtil::jSEscape($arParams["GRID_ID"])?>',
 				new BX.Main.grid(
-					'<?=$arParams["GRID_ID"]?>',
+					'<?=\CUtil::jSEscape($arParams["GRID_ID"])?>',
 					<?=CUtil::PhpToJSObject(
 						array(
 							"ALLOW_COLUMNS_SORT" => $arParams["ALLOW_COLUMNS_SORT"],

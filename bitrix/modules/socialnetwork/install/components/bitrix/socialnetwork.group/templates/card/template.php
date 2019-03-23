@@ -26,6 +26,7 @@ else
 		BX.ready(function() {
 			SonetGroupCardSlider.getInstance().init({
 				groupId: <?=intval($arParams["GROUP_ID"])?>,
+				groupType: '<?=CUtil::JSEscape($arResult["groupTypeCode"])?>',
 				isProject: <?=($arResult['Group']['PROJECT'] == 'Y' ? 'true' : 'false')?>,
 				isOpened: <?=($arResult['Group']['OPENED'] == 'Y' ? 'true' : 'false')?>,
 				currentUserId: <?=($USER->isAuthorized() ? $USER->getid() : 0)?>,

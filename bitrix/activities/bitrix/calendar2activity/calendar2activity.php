@@ -219,4 +219,3 @@ class CBPCalendar2Activity
 		return true;
 	}
 }
-?>

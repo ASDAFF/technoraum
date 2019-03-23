@@ -16,6 +16,10 @@ include("util_group_menu.php");
 include("util_group_profile.php");
 
 $file = \Bitrix\Disk\File::loadById($arResult['VARIABLES']['FILE_ID']);
+if (!$file)
+{
+	return;
+}
 
 $componentParameters = array_merge(
 	$arResult,

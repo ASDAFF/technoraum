@@ -1,5 +1,5 @@
 <?
-$MESS["F_CREATE_NEW_TOPIC"] = "<noindex><a rel='nofollow' href='#HREF#'>Створіть першу тему</a></noindex> у цьому форумі.";
+$MESS["F_CREATE_NEW_TOPIC"] = "<noindex><a rel=\"nofollow\" href=\"#HREF#\">Створіть першу тему</a></noindex> у цьому форумі.";
 $MESS["F_HEAD_AUTHOR"] = "Автор";
 $MESS["F_AUTHOR"] = "автор:";
 $MESS["F_PINNED_TOPIC"] = "Важлива тема";

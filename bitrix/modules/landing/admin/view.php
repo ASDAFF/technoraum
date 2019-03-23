@@ -79,8 +79,9 @@ if ($landing = $res->fetch())
 	$landingsPage = 'landing_site.php?lang=' . LANGUAGE_ID . '&siteId=#site_show#' . ($site ? '&site=' . $site : '');
 	$editPage = $landingsPage . '&cmp=landing_edit&id=#landing_edit#';
 	$editSite = $landingsPage . '&cmp=site_edit';
+	$editSite .= ($template ? '&template=' . $template : '');
 	$viewPage ='landing_view.php?lang=' . LANGUAGE_ID . '&id=#landing_edit#'.  ($site ? '&site=' . $site : '');
-	$viewPage .= $template ? '&template=' . $template : '';
+	$viewPage .= ($template ? '&template=' . $template : '');
 
 	$replace = array(
 		'#site_show#' => $landing['SITE_ID'],

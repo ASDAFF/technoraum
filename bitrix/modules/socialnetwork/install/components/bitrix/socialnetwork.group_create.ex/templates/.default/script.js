@@ -157,6 +157,46 @@ function BXGCESubmitForm(e)
 
 		BX.BXGCE.disableSubmitButton(true);
 
+
+		var b24statAction = 'addSonetGroup';
+		if (
+			BX('SONET_GROUP_ID')
+			&& parseInt(BX('SONET_GROUP_ID').value) > 0
+		)
+		{
+			b24statAction = 'editSonetGroup';
+		}
+
+		actionURL = BX.util.add_url_param(actionURL, {
+			b24statAction: b24statAction
+		});
+
+		if (
+			document.forms.sonet_group_create_popup_form.elements.GROUP_PROJECT
+			&& (
+				document.forms.sonet_group_create_popup_form.elements.IS_EXTRANET_GROUP
+				|| document.forms.sonet_group_create_popup_form.elements.GROUP_OPENED
+			)
+		)
+		{
+			var b24statType = (document.forms.sonet_group_create_popup_form.elements.GROUP_PROJECT.checked ? 'project-' : 'group-');
+			if (
+				document.forms.sonet_group_create_popup_form.elements.IS_EXTRANET_GROUP
+				&& document.forms.sonet_group_create_popup_form.elements.IS_EXTRANET_GROUP.checked
+			)
+			{
+				b24statType += 'external';
+			}
+			else
+			{
+				b24statType += (document.forms.sonet_group_create_popup_form.elements.GROUP_OPENED.checked ? 'open' : 'closed');
+			}
+
+			actionURL = BX.util.add_url_param(actionURL, {
+				b24statType: b24statType,
+			});
+		}
+
 		BX.ajax.submitAjax(
 			document.forms.sonet_group_create_popup_form,
 			{
@@ -165,18 +205,14 @@ function BXGCESubmitForm(e)
 				dataType: 'json',
 				onsuccess: function(obResponsedata)
 				{
-					if (
-						typeof obResponsedata["ERROR"] != 'undefined'
-						&& obResponsedata["ERROR"].length > 0
-					)
+					if (BX.type.isNotEmptyString(obResponsedata.ERROR))
 					{
 						BX.BXGCE.showError(
 							(
-								typeof obResponsedata["WARNING"] != 'undefined'
-								&& obResponsedata["WARNING"].length > 0
-									? obResponsedata["WARNING"] + '<br>'
+								BX.type.isNotEmptyString(obResponsedata.WARNING)
+									? obResponsedata.WARNING + '<br>'
 									: ''
-							) + obResponsedata["ERROR"]
+							) + obResponsedata.ERROR
 						);
 
 						if (

@@ -9,11 +9,14 @@
 	flex-shrink: 0;
 }
 
-.bitrix-footer-logo{margin: 0 3px;}
+.bitrix-footer-text .bitrix-footer-logo {
+	margin: 0 3px;
+}
+
 .bitrix-footer-link,
 .bitrix-footer-link:visited,
 .bitrix-footer-text {
-	color:#919191;
+	color: #919191;
 	margin: 0 3px;
 	font: 12px/14px "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -23,7 +26,6 @@ a.bitrix-footer-link:visited{
 	transition: 180ms all ease;
 	border-bottom: 1px solid #919191;
 	text-decoration: none;
-
 }
 
 a.bitrix-footer-link:hover{

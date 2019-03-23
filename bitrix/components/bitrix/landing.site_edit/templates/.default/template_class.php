@@ -117,10 +117,11 @@ class Template
 					var imageField = new BX.Landing.UI.Field.Image({
 						id: 'page_settings_<?= $code?>',
 						disableLink: true,
-                        disableAltField: true
+                        disableAltField: true,
+                        allowClear: true
 						<?if ($imgId):?>
 						,content: {
-							src: '<?= \CUtil::jsEscape(str_replace(' ', '%20', \htmlspecialcharsbx((int) $imgId > 0 ? \CFile::getPath($imgId) : $imgId)));?>',
+							src: '<?= \CUtil::jsEscape(str_replace(' ', '%20', \htmlspecialcharsbx((int) $imgId > 0 ? \Bitrix\Landing\File::getFilePath($imgId) : $imgId)));?>',
 							id : <?= $imgId ? intval($imgId) : -1?>,
 							alt : ''
 						}

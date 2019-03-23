@@ -414,7 +414,8 @@ function __logShowPostMenu(bindElement, ind, entity_type, entity_id, event_id, f
 						oLF.createTask({
 							entryEntityType: bindElement.getAttribute('data-log-entry-entity-type'),
 							entityType: bindElement.getAttribute('data-log-entry-entity-type'),
-							entityId: bindElement.getAttribute('data-log-entry-entity-id')
+							entityId: bindElement.getAttribute('data-log-entry-entity-id'),
+							logId: parseInt(bindElement.getAttribute('data-log-entry-log-id'))
 						});
 						this.popupWindow.close();
 						return e.preventDefault();
@@ -501,8 +502,14 @@ function __logGetNextPageLinkEntities(entities, correspondences)
 		window["UC"][window.__logGetNextPageFormName].linkEntity(entities);
 		for (var ii in correspondences)
 		{
-			if (!!ii && !!correspondences[ii])
-				window["UC"][window.__logGetNextPageFormName]["entitiesCorrespondence"][ii] = correspondences[ii];
+			if (
+				!!ii
+				&& correspondences.hasOwnProperty(ii)
+				&& !!correspondences[ii]
+			)
+			{
+				window["UC"][window.__logGetNextPageFormName].entitiesCorrespondence[ii] = correspondences[ii];
+			}
 		}
 	}
 }
@@ -532,93 +539,76 @@ function __logChangeFavorites(log_id, node, newState, bFromMenu)
 			: BX.findChild(BX(node), { 'className': 'feed-post-important-switch' })
 	);
 
-	if (newState != undefined)
+	newState = (
+		BX.hasClass(BX(nodeToAdjust), "feed-post-important-switch-active")
+			? 'N'
+			: 'Y'
+	);
+
+	if (newState == "Y")
 	{
-		if (newState == "Y")
+		BX.addClass(BX(nodeToAdjust), "feed-post-important-switch-active");
+		BX(nodeToAdjust).title = BX.message('sonetLMenuFavoritesTitleY');
+		if (typeof menuItem != 'undefined')
 		{
-			BX.addClass(BX(nodeToAdjust), "feed-post-important-switch-active");
-			BX(nodeToAdjust).title = BX.message('sonetLMenuFavoritesTitleY');
-			if (typeof menuItem != 'undefined')
-			{
-				BX(menuItem).innerHTML = BX.message('sonetLMenuFavoritesTitleY');
-			}
+			BX(menuItem).innerHTML = BX.message('sonetLMenuFavoritesTitleY');
 		}
-		else
+	}
+	else
+	{
+		BX.removeClass(BX(nodeToAdjust), "feed-post-important-switch-active");
+		BX(nodeToAdjust).title = BX.message('sonetLMenuFavoritesTitleN');
+		if (typeof menuItem != 'undefined')
 		{
-			BX.removeClass(BX(nodeToAdjust), "feed-post-important-switch-active");
-			BX(nodeToAdjust).title = BX.message('sonetLMenuFavoritesTitleN');
-			if (typeof menuItem != 'undefined')
-			{
-				BX(menuItem).innerHTML = BX.message('sonetLMenuFavoritesTitleN');
-			}
+			BX(menuItem).innerHTML = BX.message('sonetLMenuFavoritesTitleN');
 		}
 	}
 
-	var sonetLXmlHttpSet5 = new XMLHttpRequest();
+	var actionUrl = BX.message('sonetLESetPath');
+	actionUrl = BX.util.add_url_param(actionUrl, {
+		b24statAction: (newState == 'Y' ? 'addFavorites' : 'removeFavorites')
+	});
 
-	sonetLXmlHttpSet5.open("POST", BX.message('sonetLESetPath'), true);
-	sonetLXmlHttpSet5.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-	sonetLXmlHttpSet5.onreadystatechange = function()
-	{
-		if(sonetLXmlHttpSet5.readyState == 4)
+	BX.ajax({
+		url: actionUrl,
+		method: 'POST',
+		dataType: 'json',
+		data: {
+			sessid : BX.bitrix_sessid(),
+			site : BX.message('SITE_ID'),
+			log_id : log_id,
+			action : 'change_favorites'
+		},
+		onsuccess: function(data)
 		{
-			if(sonetLXmlHttpSet5.status == 200)
+			if (
+				typeof data.bResult != 'undefined'
+				&& (BX.util.in_array(data.bResult, ['Y', 'N']))
+			)
 			{
-				var data = LBlock.DataParser(sonetLXmlHttpSet5.responseText);
-				if (typeof(data) == "object")
+				if (data.bResult == "Y")
 				{
-					if (data[0] == '*')
+					BX.addClass(BX(nodeToAdjust), "feed-post-important-switch-active");
+					BX(nodeToAdjust).title = BX.message('sonetLMenuFavoritesTitleY');
+					if (typeof menuItem != 'undefined')
 					{
-						if (sonetLErrorDiv != null)
-						{
-							sonetLErrorDiv.style.display = "block";
-							sonetLErrorDiv.innerHTML = sonetLXmlHttpSet5.responseText;
-						}
-						return;
+						BX(menuItem).innerHTML = BX.message('sonetLMenuFavoritesTitleY');
 					}
-					sonetLXmlHttpSet5.abort();
-
-					var strMessage = '';
-
-					if (
-						data["bResult"] != undefined 
-						&& (
-							data["bResult"] == "Y" 
-							|| data["bResult"] == "N"
-						)
-					)
+				}
+				else
+				{
+					BX.removeClass(BX(nodeToAdjust), "feed-post-important-switch-active");
+					BX(nodeToAdjust).title = BX.message('sonetLMenuFavoritesTitleN');
+					if (typeof menuItem != 'undefined')
 					{
-						if (data["bResult"] == "Y")
-						{
-							BX.addClass(BX(nodeToAdjust), "feed-post-important-switch-active");
-							BX(nodeToAdjust).title = BX.message('sonetLMenuFavoritesTitleY');
-							if (menuItem != undefined)
-								BX(menuItem).innerHTML = BX.message('sonetLMenuFavoritesTitleY');
-						}
-						else
-						{
-							BX.removeClass(BX(nodeToAdjust), "feed-post-important-switch-active");
-							BX(nodeToAdjust).title = BX.message('sonetLMenuFavoritesTitleN');
-							if (menuItem != undefined)
-								BX(menuItem).innerHTML = BX.message('sonetLMenuFavoritesTitleN');
-						}
+						BX(menuItem).innerHTML = BX.message('sonetLMenuFavoritesTitleN');
 					}
 				}
 			}
-			else
-			{
-				// error!
-			}
+		},
+		onfailure: function(data) {
 		}
-	};
-
-	sonetLXmlHttpSet5.send("r=" + Math.floor(Math.random() * 1000)
-		+ "&" + BX.message('sonetLSessid')
-		+ "&site=" + BX.util.urlencode(BX.message('sonetLSiteId'))
-		+ "&log_id=" + encodeURIComponent(log_id)
-		+ "&action=change_favorites"
-	);
+	});
 }
 
 function __logDelete(log_id, node, ind)
@@ -1771,8 +1761,8 @@ BitrixLF.prototype.processAjaxBlock = function(block, nodeId, insertHidden)
 	var htmlWasInserted = false;
 	var scriptsLoaded = false;
 
-	processCSS(insertHTML);
 	processExternalJS(processInlineJS);
+	processCSS(insertHTML);
 
 	function processCSS(callback)
 	{
@@ -1961,6 +1951,7 @@ BitrixLF.prototype.createTask = function(params)
 					data: {
 						sessid : BX.bitrix_sessid(),
 						site : BX.message('SITE_ID'),
+						LOG_ID : (BX.type.isNumber(params.logId) ? params.logId : null),
 						ENTITY_TYPE : params.entityType,
 						ENTITY_ID : params.entityId,
 						action : 'get_raw_data',
@@ -2035,6 +2026,11 @@ BitrixLF.prototype.createTask = function(params)
 											ENTITY_TYPE : params.entityType,
 											ENTITY_ID : params.entityId,
 											TASK_ID : resultData.DATA.ID,
+											LOG_ID : (
+												BX.type.isNumber(params.logId)
+													? params.logId
+													: typeof data.LOG_ID != 'undefined' && parseInt(data.LOG_ID) > 0 ? parseInt(data.LOG_ID) : null
+											),
 											action : 'create_task_comment',
 											site: BX.message('SITE_ID')
 										}

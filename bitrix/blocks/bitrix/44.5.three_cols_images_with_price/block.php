@@ -4,13 +4,13 @@
 		<div class="row">
 			<div class="landing-block-node-card js-animation fadeInUp col-lg-4 col-md-6 g-mb-30">
 				<!-- Article -->
-				<div class="u-bg-overlay h-100 g-bg-black-opacity-0_3--after g-parent g-text-underline--none--hover"
+				<div class="landing-block-node-card-container u-bg-overlay g-pointer-events-before-after-none h-100 g-bg-black-opacity-0_3--after g-parent g-text-underline--none--hover"
 				   href="#">
 					<img class="landing-block-node-card-bgimg h-100 w-100 g-object-fit-cover img-fluid" src="https://cdn.bitrix24.site/bitrix/images/landing/business/740x480/img1.jpg" alt="">
 
 					<!-- Article Content -->
-					<div class="u-bg-overlay__inner g-pos-abs g-top-0 g-left-0 w-100 h-100 g-pa-10">
-						<div class="landing-block-node-card-bg-hover g-flex-middle h-100 g-theme-travel-bg-black-v1-opacity-0_8--hover g-pa-10 g-transition-0_2 g-transition--ease-in">
+					<div class="u-bg-overlay__inner g-pointer-events-none--public-mode opacity-0 g-opacity-1--parent-hover g-pos-abs g-top-0 g-left-0 w-100 h-100 g-pa-10 g-transition-0_2 g-transition--ease-in">
+						<div class="landing-block-node-card-bg-hover g-flex-middle h-100 g-theme-travel-bg-black-v1-opacity-0_8 g-pa-10">
 							<div class="g-flex-middle-item--top">
 								<div class="landing-block-node-card-price g-font-weight-700 u-ribbon-v1 text-uppercase g-top-20 g-left-20 g-color-white g-theme-travel-bg-black-v1 g-pa-5"
 										href="#">From
@@ -36,13 +36,13 @@
 
 			<div class="landing-block-node-card js-animation fadeInUp col-lg-4 col-md-6 g-mb-30">
 				<!-- Article -->
-				<div class="u-bg-overlay h-100 g-bg-black-opacity-0_3--after g-parent g-text-underline--none--hover"
+				<div class="landing-block-node-card-container u-bg-overlay g-pointer-events-before-after-none h-100 g-bg-black-opacity-0_3--after g-parent g-text-underline--none--hover"
 				   href="#">
 					<img class="landing-block-node-card-bgimg h-100 w-100 g-object-fit-cover img-fluid" src="https://cdn.bitrix24.site/bitrix/images/landing/business/740x480/img2.jpg" alt="">
 
 					<!-- Article Content -->
-					<div class="u-bg-overlay__inner g-pos-abs g-top-0 g-left-0 w-100 h-100 g-pa-10">
-						<div class="landing-block-node-card-bg-hover g-flex-middle h-100 g-theme-travel-bg-black-v1-opacity-0_8--hover g-pa-10 g-transition-0_2 g-transition--ease-in">
+					<div class="u-bg-overlay__inner g-pointer-events-none--public-mode opacity-0 g-opacity-1--parent-hover g-pos-abs g-top-0 g-left-0 w-100 h-100 g-pa-10 g-transition-0_2 g-transition--ease-in">
+						<div class="landing-block-node-card-bg-hover g-flex-middle h-100 g-theme-travel-bg-black-v1-opacity-0_8 g-pa-10">
 							<div class="g-flex-middle-item--top">
 								<div class="landing-block-node-card-price g-font-weight-700 u-ribbon-v1 text-uppercase g-top-20 g-left-20 g-color-white g-theme-travel-bg-black-v1 g-pa-5"
 										href="#">From
@@ -68,13 +68,13 @@
 
 			<div class="landing-block-node-card js-animation fadeInUp col-lg-4 col-md-6 g-mb-30">
 				<!-- Article -->
-				<div class="u-bg-overlay h-100 g-bg-black-opacity-0_3--after g-parent g-text-underline--none--hover"
+				<div class="landing-block-node-card-container u-bg-overlay g-pointer-events-before-after-none h-100 g-bg-black-opacity-0_3--after g-parent g-text-underline--none--hover"
 				   href="#">
 					<img class="landing-block-node-card-bgimg h-100 w-100 g-object-fit-cover img-fluid" src="https://cdn.bitrix24.site/bitrix/images/landing/business/740x480/img3.jpg" alt="">
 
 					<!-- Article Content -->
-					<div class="u-bg-overlay__inner g-pos-abs g-top-0 g-left-0 w-100 h-100 g-pa-10">
-						<div class="landing-block-node-card-bg-hover g-flex-middle h-100 g-theme-travel-bg-black-v1-opacity-0_8--hover g-pa-10 g-transition-0_2 g-transition--ease-in">
+					<div class="u-bg-overlay__inner g-pointer-events-none--public-mode opacity-0 g-opacity-1--parent-hover g-pos-abs g-top-0 g-left-0 w-100 h-100 g-pa-10 g-transition-0_2 g-transition--ease-in">
+						<div class="landing-block-node-card-bg-hover g-flex-middle h-100 g-theme-travel-bg-black-v1-opacity-0_8 g-pa-10">
 							<div class="g-flex-middle-item--top">
 								<div class="landing-block-node-card-price g-font-weight-700 u-ribbon-v1 text-uppercase g-top-20 g-left-20 g-color-white g-theme-travel-bg-black-v1 g-pa-5"
 										href="#">From
@@ -100,13 +100,13 @@
 
 			<div class="landing-block-node-card js-animation fadeInUp col-lg-4 col-md-6 g-mb-30">
 				<!-- Article -->
-				<div class="u-bg-overlay h-100 g-bg-black-opacity-0_3--after g-parent g-text-underline--none--hover"
+				<div class="landing-block-node-card-container u-bg-overlay g-pointer-events-before-after-none h-100 g-bg-black-opacity-0_3--after g-parent g-text-underline--none--hover"
 				   href="#">
 					<img class="landing-block-node-card-bgimg h-100 w-100 g-object-fit-cover img-fluid" src="https://cdn.bitrix24.site/bitrix/images/landing/business/740x480/img4.jpg" alt="">
 
 					<!-- Article Content -->
-					<div class="u-bg-overlay__inner g-pos-abs g-top-0 g-left-0 w-100 h-100 g-pa-10">
-						<div class="landing-block-node-card-bg-hover g-flex-middle h-100 g-theme-travel-bg-black-v1-opacity-0_8--hover g-pa-10 g-transition-0_2 g-transition--ease-in">
+					<div class="u-bg-overlay__inner g-pointer-events-none--public-mode opacity-0 g-opacity-1--parent-hover g-pos-abs g-top-0 g-left-0 w-100 h-100 g-pa-10 g-transition-0_2 g-transition--ease-in">
+						<div class="landing-block-node-card-bg-hover g-flex-middle h-100 g-theme-travel-bg-black-v1-opacity-0_8 g-pa-10">
 							<div class="g-flex-middle-item--top">
 								<div class="landing-block-node-card-price g-font-weight-700 u-ribbon-v1 text-uppercase g-top-20 g-left-20 g-color-white g-theme-travel-bg-black-v1 g-pa-5"
 										href="#">From
@@ -132,13 +132,13 @@
 
 			<div class="landing-block-node-card js-animation fadeInUp col-lg-4 col-md-6 g-mb-30">
 				<!-- Article -->
-				<div class="u-bg-overlay h-100 g-bg-black-opacity-0_3--after g-parent g-text-underline--none--hover"
+				<div class="landing-block-node-card-container u-bg-overlay g-pointer-events-before-after-none h-100 g-bg-black-opacity-0_3--after g-parent g-text-underline--none--hover"
 				   href="#">
 					<img class="landing-block-node-card-bgimg h-100 w-100 g-object-fit-cover img-fluid" src="https://cdn.bitrix24.site/bitrix/images/landing/business/740x480/img5.jpg" alt="">
 
 					<!-- Article Content -->
-					<div class="u-bg-overlay__inner g-pos-abs g-top-0 g-left-0 w-100 h-100 g-pa-10">
-						<div class="landing-block-node-card-bg-hover g-flex-middle h-100 g-theme-travel-bg-black-v1-opacity-0_8--hover g-pa-10 g-transition-0_2 g-transition--ease-in">
+					<div class="u-bg-overlay__inner g-pointer-events-none--public-mode opacity-0 g-opacity-1--parent-hover g-pos-abs g-top-0 g-left-0 w-100 h-100 g-pa-10 g-transition-0_2 g-transition--ease-in">
+						<div class="landing-block-node-card-bg-hover g-flex-middle h-100 g-theme-travel-bg-black-v1-opacity-0_8 g-pa-10">
 							<div class="g-flex-middle-item--top">
 								<div class="landing-block-node-card-price g-font-weight-700 u-ribbon-v1 text-uppercase g-top-20 g-left-20 g-color-white g-theme-travel-bg-black-v1 g-pa-5"
 										href="#">From
@@ -164,13 +164,13 @@
 
 			<div class="landing-block-node-card js-animation fadeInUp col-lg-4 col-md-6 g-mb-30">
 				<!-- Article -->
-				<div class="u-bg-overlay h-100 g-bg-black-opacity-0_3--after g-parent g-text-underline--none--hover"
+				<div class="landing-block-node-card-container u-bg-overlay g-pointer-events-before-after-none h-100 g-bg-black-opacity-0_3--after g-parent g-text-underline--none--hover"
 				   href="#">
 					<img class="landing-block-node-card-bgimg h-100 w-100 g-object-fit-cover img-fluid" src="https://cdn.bitrix24.site/bitrix/images/landing/business/740x480/img6.jpg" alt="">
 
 					<!-- Article Content -->
-					<div class="u-bg-overlay__inner g-pos-abs g-top-0 g-left-0 w-100 h-100 g-pa-10">
-						<div class="landing-block-node-card-bg-hover g-flex-middle h-100 g-theme-travel-bg-black-v1-opacity-0_8--hover g-pa-10 g-transition-0_2 g-transition--ease-in">
+					<div class="u-bg-overlay__inner g-pointer-events-none--public-mode opacity-0 g-opacity-1--parent-hover g-pos-abs g-top-0 g-left-0 w-100 h-100 g-pa-10 g-transition-0_2 g-transition--ease-in">
+						<div class="landing-block-node-card-bg-hover g-flex-middle h-100 g-theme-travel-bg-black-v1-opacity-0_8 g-pa-10">
 							<div class="g-flex-middle-item--top">
 								<div class="landing-block-node-card-price g-font-weight-700 u-ribbon-v1 text-uppercase g-top-20 g-left-20 g-color-white g-theme-travel-bg-black-v1 g-pa-5"
 										href="#">From

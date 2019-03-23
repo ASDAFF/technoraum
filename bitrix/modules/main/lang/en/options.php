@@ -1,4 +1,6 @@
 <?
+$MESS["MAIN_OPTIONS_MAX_SIZE_FOR_VIDEO_TRANSFORMATION"] = "Maximum size of video source file to create MP4 and JPG files from (MB)";
+$MESS["MAIN_OPTIONS_MAX_SIZE_FOR_DOCUMENT_TRANSFORMATION"] = "Maximum size of source document to create PDF and JPG from (MB)";
 $MESS["MAIN_OPTIONS_IMAGE_EDITOR"] = "Image editor";
 $MESS["MAIN_OPTION_IMAGE_EDITOR_PROXY_ENABLED"] = "Allow editing images received from external sites: ";
 $MESS["MAIN_OPTION_IMAGE_EDITOR_PROXY_ENABLED_NO"] = "No";

@@ -96,9 +96,12 @@ class Landing extends \CModule
 		}
 		elseif ($step == 2)
 		{
-			$this->uninstallDB(array(
-				'savedata' => isset($_GET['savedata']) && $_GET['savedata'] == 'Y'
-			));
+			$params = [];
+			if (isset($_GET['savedata']))
+			{
+				$params['savedata'] = $_GET['savedata'] == 'Y';
+			}
+			$this->uninstallDB($params);
 			$this->uninstallFiles();
 			$APPLICATION->includeAdminFile(
 				Loc::getMessage('LANDING_UNINSTALL_TITLE'),
@@ -144,13 +147,6 @@ class Landing extends \CModule
 			$this->MODULE_ID,
 			'\Bitrix\Landing\Publicaction',
 			'restApplicationDelete'
-		);
-		$eventManager->registerEventHandler(
-			'main',
-			'OnPanelCreate',
-			$this->MODULE_ID,
-			'\Bitrix\Landing\Manager',
-			'addPanelButtons'
 		);
 		$eventManager->registerEventHandler(
 			'main',
@@ -527,8 +523,6 @@ class Landing extends \CModule
 
 		$errors = false;
 
-		$this->removeData();
-
 		// delete DB
 		if (isset($arParams['savedata']) && !$arParams['savedata'])
 		{
@@ -560,13 +554,6 @@ class Landing extends \CModule
 			$this->MODULE_ID, 
 			'\Bitrix\Landing\Publicaction', 
 			'restApplicationDelete'
-		);
-		$eventManager->unregisterEventHandler(
-			'main',
-			'OnPanelCreate',
-			$this->MODULE_ID,
-			'\Bitrix\Landing\Manager',
-			'addPanelButtons'
 		);
 		$eventManager->unregisterEventHandler(
 			'main',

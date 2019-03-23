@@ -14,8 +14,10 @@ class Manager
 {
 	/**
 	 * Publication default path.
+	 * @see Manager::getPublicationPathConst()
 	 */
 	const PUBLICATION_PATH = '/pub/site/';
+	const PUBLICATION_PATH_SITEMAN = '/lp/';
 
 	/**
 	 * Path of master for create / edit a landings.
@@ -245,7 +247,7 @@ class Manager
 					'SORT' => 0,
 					'SITE_ID' => $siteId,
 					'CONDITION' => 'CSite::inDir(\'' . $subDirSite . $basePathOriginal . '\')',
-					'TEMPLATE' => Manager::getOption('site_template_id')
+					'TEMPLATE' => self::getTemplateId($siteId)
 				);
 				$check = \Bitrix\Main\SiteTemplateTable::getList(array(
 					 'filter' => array(
@@ -300,6 +302,17 @@ class Manager
 	}
 
 	/**
+	 * Get constantly publication path.
+	 * @return string
+	 */
+	public static function getPublicationPathConst()
+	{
+		return self::isB24()
+				? self::PUBLICATION_PATH
+				: self::PUBLICATION_PATH_SITEMAN;
+	}
+
+	/**
 	 * Get path for publication sites.
 	 * @param string|int $siteCode Site id or site code.
 	 * @param string $siteId Main site id.
@@ -309,8 +322,8 @@ class Manager
 	public static function getPublicationPath($siteCode = null, $siteId = null, $createPubPath = false)
 	{
 		$basePath = self::getOption(
-			'pub_path_' . (!isset($siteId) ? (defined('SMN_SITE_ID') ? SMN_SITE_ID : SITE_ID) : $siteId),
-			self::PUBLICATION_PATH
+			'pub_path_' . (!isset($siteId) ? (self::getMainSiteId()) : $siteId),
+			self::getPublicationPathConst()
 		);
 		$subDir = self::getSmnSiteDir($siteId);
 		if ($siteCode === null)
@@ -365,10 +378,10 @@ class Manager
 		if ($content)
 		{
 			$application = self::getApplication();
-			$existClass = $application->getPageProperty($marker);
+			$existContent = $application->getPageProperty($marker);
 			$application->setPageProperty(
 				$marker,
-				$existClass . ($existClass != '' ? ' ' : '') . $content
+				$existContent . ($existContent != '' ? ' ' : '') . $content
 			);
 		}
 	}
@@ -394,7 +407,10 @@ class Manager
 		$themes = array();
 		
 		$path = self::getDocRoot() . getLocalPath('templates/' . $tplId) . '/'.$entityType.'/';
-		if (($handle = opendir($path)))
+		if (
+			file_exists($path) &&
+			($handle = opendir($path))
+		)
 		{
 			while ((($entry = readdir($handle)) !== false))
 			{
@@ -429,19 +445,46 @@ class Manager
 	}
 
 	/**
-	 * Get site template id for landing view.
+	 * Gets site template id.
+	 * @param string $siteId Site id (siteman).
 	 * @return string
 	 */
-	public static function getTemplateId()
+	public static function getTemplateId($siteId = null)
 	{
-		static $tplId = null;
+		static $tplId = [];
 
-		if ($tplId === null)
+		if (!isset($tplId[$siteId]))
 		{
-			$tplId = self::getOption('site_template_id', 'landing24');
+			if ($siteId)
+			{
+				$tplId[$siteId] = self::getOption('site_template_id_' . $siteId);
+			}
+			if (!$tplId[$siteId])
+			{
+				$tplId[$siteId] = self::getOption('site_template_id', 'landing24');
+			}
 		}
 
-		return $tplId;
+		return $tplId[$siteId];
+	}
+
+	/**
+	 * Gets true, if this template id is system.
+	 * @param string $templateId Site template id.
+	 * @return bool
+	 */
+	public static function isTemplateIdSystem($templateId)
+	{
+		return $templateId === 'landing24';
+	}
+
+	/**
+	 * Gets site id from main module.
+	 * @return string
+	 */
+	public static function getMainSiteId()
+	{
+		return defined('SMN_SITE_ID') ? SMN_SITE_ID : SITE_ID;
 	}
 
 	/**
@@ -479,7 +522,7 @@ class Manager
 	 */
 	public static function setTheme()
 	{
-		$tplId = self::getTemplateId();
+		$tplId = self::getTemplateId(SITE_ID);
 		$themes = Manager::getThemes($tplId);
 		$themesTypo = Manager::getThemesTypo($tplId);
 		$request = Application::getInstance()->getContext()->getRequest();
@@ -634,7 +677,11 @@ class Manager
 			}
 			// save
 			$module = 'landing';
-			$file['name'] = preg_replace('/[\s]+/s', '_', $file['name']);
+			$file['name'] = preg_replace(
+				'/[\(\)\s]+/s',
+				'_',
+				$file['name']
+			);
 			$file['MODULE_ID'] = $module;
 			$file = \CFile::saveFile($file, $module);
 			if ($file)
@@ -771,7 +818,11 @@ class Manager
 			{
 				return true;
 			}
-			return \CBitrix24::isLicensePaid();
+			return in_array(
+				\CBitrix24::getLicenseType(),
+				['team', 'company', 'tf', 'retail', 'crm'],
+				true
+			);
 		}
 		// old feature for compatibility
 		elseif ($feature == self::FEATURE_CUSTOM_DOMAIN)
@@ -803,6 +854,33 @@ class Manager
 		}
 
 		return $zone;
+	}
+
+	/**
+	 * Check if something is available in current country.
+	 * @param string $zone Zone code.
+	 * @return bool
+	 */
+	public static function availableOnlyForZone($zone)
+	{
+		static $available = null;
+
+		if ($available !== null)
+		{
+			return $available;
+		}
+
+		$available = true;
+
+		if ($zone == 'ru')
+		{
+			if (!in_array(Manager::getZone(), array('ru', 'by', 'kz')))
+			{
+				$available = false;
+			}
+		}
+
+		return $available;
 	}
 
 	/**
@@ -916,8 +994,8 @@ class Manager
 			return $staticPath;
 		}
 
-		$path = 'https://repo.bitrix24.site/rest/1/w1uqy3swvyp50bso/';
-//		$path = 'https://repo-dev.bitrix24.site/rest/1/w1uqy3swvyp50bso/';
+		//$path = 'https://repo.bitrix24.site/rest/1/w1uqy3swvyp50bso/';
+		$path = 'https://repo-dev.bitrix24.site/rest/1/w1uqy3swvyp50bso/';
 
 		if (
 			!defined('LANDING_DISABLE_CLOUD') ||
@@ -1022,6 +1100,11 @@ class Manager
 			{
 				$bad = true;
 				$value = $sanitizer->getFilteredValue();
+				$value = str_replace(
+					' bxstyle="',
+					' style="',
+					$value
+				);
 			}
 		}
 
@@ -1040,43 +1123,32 @@ class Manager
 	}
 
 	/**
-	 * Add buttons of module to the admin panel.
-	 * @return void
+	 * Return site controller class, or pseudo.
+	 * @return string
 	 */
-	public static function addPanelButtons()
+	public static function getExternalSiteController()
 	{
-		return;
-		/**
-		 * RIGHT!!!
-		 */
-		$app = self::getApplication();
-		$dir = urlencode($app->getCurDir());
-		$page = urlencode($app->getCurPage());
-		// base action link
-		$urlPopup = 'javascript:' . $app->getPopupLink(array(
-			'URL' => self::PATH_ADMIN_PANEL . '?' .
-			'path=' . $dir .
-			'&page=' . $page .
-			'&site=' . SITE_ID,
-			'PARAMS' => array(
-				'width' => 500,
-				'height' => 200
+		static $class = '';
+
+		if (!$class)
+		{
+			if (class_exists('\LandingSiteController'))
+			{
+				$class = '\LandingSiteController';
+			}
+			else if (
+				Loader::includeModule('bitrix24') &&
+				class_exists('\Bitrix\Bitrix24\SiteController')
 			)
-		));
-		// add button
-		$app->addPanelButton(array(
-			'TEXT' => Loc::getMessage('LANDING_PANEL_MASTER_TITLE'),
-			'HREF' => $urlPopup,
-			'TYPE' => 'BIG',
-			'ID' => 'landing_master',
-			'ICON' => 'bx-panel-create-page-icon',
-			'MAIN_SORT' => 220,
-			'SORT' => 20,
-			'MENU' => [],
-			'HINT' => array(
-				'TITLE' => Loc::getMessage('LANDING_PANEL_MASTER_HINT'),
- 				'TEXT' => Loc::getMessage('LANDING_PANEL_MASTER_HINT_TITLE')
-			)
-		));
+			{
+				$class = '\Bitrix\Bitrix24\SiteController';
+			}
+			else if (class_exists('\Bitrix\Landing\External\Site24'))
+			{
+				$class = '\Bitrix\Landing\External\Site24';
+			}
+		}
+
+		return $class;
 	}
 }

@@ -713,6 +713,32 @@
 								onClick: this.onPlacementButtonClick.bind(this, placementsList)
 							})
 						);
+
+						if (typeof top.BX.rest !== "undefined" &&
+							typeof top.BX.rest.AppLayout !== "undefined")
+						{
+							var codes = ["*", this.manifest.code];
+							for (var i = 0, c = codes.length; i < c; i++)
+							{
+								var MessageInterface = top.BX.rest.AppLayout.initializePlacement(
+									"LANDING_BLOCK_" + codes[i]
+								);
+								if (MessageInterface)
+								{
+									MessageInterface.prototype.refreshBlock = function(params, cb) {
+										var block = top.BX.Landing.Block.storage.get(params.id);
+
+										if (block)
+										{
+											block
+												.reload()
+												.then(cb);
+										}
+									};
+								}
+
+							}
+						}
 					}
 
 					addClass(contentPanel.buttons.get("style").layout, "landing-ui-no-rounded");
@@ -1755,6 +1781,11 @@
 		 */
 		initNodes: function()
 		{
+			if (this.access < ACCESS_W)
+			{
+				return;
+			}
+
 			var nodes = [];
 
 			this.forEachNodeElements(function(element, selector, index) {
@@ -2055,6 +2086,7 @@
 					var field = styleFactory.createField({
 						selector: !isBlock ? this.makeRelativeSelector(selector) : selector,
 						property: typeSettings.property,
+						multiple: typeSettings.multiple === true,
 						style: type,
 						pseudoElement: typeSettings["pseudo-element"],
 						pseudoClass: typeSettings["pseudo-class"],
@@ -2158,6 +2190,11 @@
 
 		initStyles: function()
 		{
+			if (this.access < ACCESS_V)
+			{
+				return;
+			}
+
 			this.styles.clear();
 			var node = new BX.Landing.UI.Style({
 				id: this.selector,
@@ -2460,27 +2497,14 @@
 
 			this.appendAttrFieldValue(this.requestData, field);
 
-			if (this.containsPseudoSelector(this.requestData) && !this.attributeChangeLoader)
-			{
-				this.attributeChangeLoader = new BX.Loader({target: this.node, color: "rgba(255, 255, 255, .8)"});
-				this.attributeChangeLoader.layout.style.position = "fixed";
-				this.attributeChangeLoader.layout.style.zIndex = "999";
-				this.attributeChangeLoader.show();
-				BX.Landing.Main.getInstance().showOverlay();
-			}
-
-			this.attributeChangeTimeout = setTimeout(function() {
-				Promise.resolve(this.requestData)
-					.then(this.applyAttributeChanges.bind(this))
-					.then(this.saveChanges.bind(this))
-					// Reload only blocks with component
-					.then(this.reload.bind(this))
-					.then(function() {
-						this.requestData = null;
-						this.attributeChangeLoader = null;
-						BX.Landing.Main.getInstance().hideOverlay();
-					}.bind(this));
-			}.bind(this), 800);
+			Promise.resolve(this.requestData)
+				.then(this.applyAttributeChanges.bind(this))
+				.then(this.saveChanges.bind(this))
+				// Reload only blocks with component
+				.then(this.reload.bind(this))
+				.then(function() {
+					this.requestData = null;
+				}.bind(this));
 		},
 
 
@@ -3230,10 +3254,17 @@
 		 */
 		reload: function(data)
 		{
-			if (!this.containsPseudoSelector(data))
+			if (BX.type.isPlainObject(data) &&
+				!this.containsPseudoSelector(data))
 			{
 				return Promise.resolve(data);
 			}
+
+			var loader = new BX.Loader({target: this.parent, color: "rgba(255, 255, 255, .8)"});
+			loader.layout.style.position = "fixed";
+			loader.layout.style.zIndex = "999";
+			loader.show();
+			BX.Landing.Main.getInstance().showOverlay();
 
 			var self = this;
 			return BX.Landing.Backend.getInstance()
@@ -3252,6 +3283,15 @@
 					self.node = block;
 					return Promise.resolve(data);
 				})
+				.then(function(data) {
+					return new Promise(function(resolve) {
+						setTimeout(function() {
+							resolve(data);
+							loader.hide();
+							BX.Landing.Main.getInstance().hideOverlay();
+						}, 800);
+					});
+				});
 		},
 
 
@@ -3367,7 +3407,10 @@
 				});
 
 				sortedBlockNodes.forEach(function(node) {
-					blockForm.addField(node.getField());
+					if (node.manifest.allowFormEdit !== false)
+					{
+						blockForm.addField(node.getField());
+					}
 				});
 
 				forms.add(blockForm);
@@ -3476,7 +3519,10 @@
 								}, this);
 
 								sortedCardNodes.forEach(function(node) {
-									cardForm.addField(node.getField());
+									if (node.manifest.allowFormEdit !== false)
+									{
+										cardForm.addField(node.getField());
+									}
 								});
 
 								var additional = this.manifest.cards[currentCardSelector].additional;

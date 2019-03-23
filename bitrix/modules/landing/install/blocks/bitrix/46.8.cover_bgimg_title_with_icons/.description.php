@@ -50,7 +50,7 @@ return array(
 	),
 	'style' => array(
 		'block' => array(
-			'type' => array('block-default-wo-background'),
+			'type' => array('display'),
 		),
 		'nodes' => array(
 			'.landing-block-node-text-container' =>

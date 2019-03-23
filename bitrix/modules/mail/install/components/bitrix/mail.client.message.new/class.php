@@ -59,6 +59,8 @@ class CMailClientMessageNewComponent extends CBitrixComponent
 				$message = array(
 					'MAILBOX_ID' => $mailbox['ID'],
 					'MAILBOX_EMAIL' => $mailbox['EMAIL'],
+					'MAILBOX_NAME' => 'MAILBOX.NAME',
+					'MAILBOX_LOGIN' => 'MAILBOX.LOGIN',
 				);
 			}
 		}
@@ -111,222 +113,20 @@ class CMailClientMessageNewComponent extends CBitrixComponent
 
 			$message['__type'] = $messageType;
 			$message['__parent'] = $messageId;
-
-			Mail\Helper\Message::prepare($message);
 		}
+
+		if (!empty($_REQUEST['email']))
+		{
+			$message['FIELD_RCPT'] = $_REQUEST['email'];
+		}
+
+		Mail\Helper\Message::prepare($message);
 
 		$this->arResult['MESSAGE'] = $message;
-		$this->arResult['LAST_RCPT'] = $this->loadLastRcpt($this->request->getPost('email'));
-		$this->arResult['SELECTED_EMAIL_CODE'] = ($emailTo = $this->request->getPost('email')) ? $this->buildUniqueEmailCode($emailTo) : null;
+		$this->arResult['LAST_RCPT'] = Mail\Helper\Recipient::loadLastRcpt();
 
-		$this->arResult['EMAILS'] = $this->loadMailContacts();
-		$this->arResult['CRM_EMAILS'] = $this->loadCrmMailContacts();
+		$this->arResult['EMAILS'] = array();//Mail\Helper\Recipient::loadMailContacts();
 
 		$this->includeComponentTemplate();
-	}
-
-	/**
-	 * Load last used Rcpt
-	 *
-	 * @param string $emailTo
-	 * @return array
-	 *
-	 * @throws Main\ArgumentException
-	 * @throws Main\ObjectPropertyException
-	 * @throws Main\SystemException
-	 */
-	private function loadLastRcpt($emailTo = null)
-	{
-		global $APPLICATION;
-
-		$result = array();
-
-		$currentUser = \Bitrix\Main\Engine\CurrentUser::get();
-
-		$lastRcptResult = \Bitrix\Main\FinderDestTable::getList(array(
-			'filter' => array(
-				'=USER_ID' => $currentUser->getId(),
-				'=CONTEXT' => 'MAIL_LAST_RCPT',
-			),
-			'select' => array('CODE'),
-			'order' => array('LAST_USE_DATE' => 'DESC'),
-			'limit' => 10,
-		));
-
-		$emailUsersIds = array();
-		while ($item = $lastRcptResult->fetch())
-		{
-			$emailUsersIds[] = (int) str_replace('MC', '', $item['CODE']);
-		}
-		$filter = [];
-
-		if ($emailTo)
-		{
-			$filter = array_merge($filter, [
-				'=EMAIL' => $emailTo
-			]);
-		}
-		if (count($emailUsersIds) > 0)
-		{
-			$filter = array_merge($filter, [
-				'@ID' => $emailUsersIds
-			]);
-		}
-		if (!empty($filter))
-		{
-			$mailContacts = \Bitrix\Mail\Internals\MailContactTable::getList([
-				'filter' => array_merge(
-					[
-						'LOGIC' => 'AND',
-					],
-					[
-						[
-							'=USER_ID' => $currentUser->getId(),
-						],
-						array_merge($filter, [
-							'LOGIC' => 'OR',
-						]),
-					]
-				),
-				'select' => ['ID', 'NAME', 'EMAIL', 'ICON'],
-				'limit' => 10,
-			])->fetchAll();
-
-			$contactAvatars = $resultsMailContacts = [];
-			foreach ($mailContacts as $mailContact)
-			{
-				$resultsMailContacts[$mailContact['EMAIL']] = $mailContact;
-			}
-			foreach ($resultsMailContacts as $mailContact)
-			{
-				$email = $mailContact['EMAIL'];
-				if ($contactAvatars[$email] === null)
-				{
-					ob_start();
-					$APPLICATION->IncludeComponent('bitrix:mail.contact.avatar', '', array(
-							'mailContact' => $mailContact,
-					));
-					$contactAvatars[$email] = ob_get_clean();
-				}
-				$id = $this->buildUniqueEmailCode($email);
-				$result[$id] = [
-					'id' => $id,
-					'entityType' => 'email',
-					'entityId' => $mailContact['ID'],
-					'name' => htmlspecialcharsbx($mailContact['NAME']),
-					'iconCustom' => $contactAvatars[$email],
-					'email' => htmlspecialcharsbx($mailContact['EMAIL']),
-					'desc' => htmlspecialcharsbx($mailContact['EMAIL']),
-					'isEmail' => 'Y',
-				];
-			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Load mail contacts from the address book.
-	 *
-	 * @return array
-	 *
-	 * @throws Main\SystemException
-	 */
-	private function loadMailContacts()
-	{
-		global $APPLICATION;
-
-		$result = array();
-		return $result;
-
-		$currentUser = \Bitrix\Main\Engine\CurrentUser::get();
-
-		$mailContacts = \Bitrix\Mail\Internals\MailContactTable::getList([
-			'order' => [
-				'NAME' => 'ASC',
-				'EMAIL' => 'ASC',
-			],
-			'filter' => [
-				'=USER_ID', $currentUser->getId()
-			],
-			'select' => ['ID', 'NAME', 'EMAIL', 'ICON'],
-			'limit' => 20,
-		])->fetchAll();
-
-		$contactAvatars = $resultsMailContacts = [];
-		foreach ($mailContacts as $mailContact)
-		{
-			$resultsMailContacts[$mailContact['EMAIL']] = $mailContact;
-		}
-		foreach ($resultsMailContacts as $mailContact)
-		{
-			$email = $mailContact['EMAIL'];
-			if ($contactAvatars[$email] === null)
-			{
-				ob_start();
-				$APPLICATION->IncludeComponent('bitrix:mail.contact.avatar', '',
-					[
-						'mailContact' => $mailContact,
-					]);
-				$contactAvatars[$email] = ob_get_clean();
-			}
-			$id = $this->buildUniqueEmailCode($email);
-			$result[$id] = [
-				'id' => $id,
-				'entityType' => 'mailContacts',
-				'entityId' => $mailContact['ID'],
-				'name' => htmlspecialcharsbx($mailContact['NAME']),
-				'iconCustom' => $contactAvatars[$email],
-				'email' => htmlspecialcharsbx($mailContact['EMAIL']),
-				'desc' => htmlspecialcharsbx($mailContact['EMAIL']),
-				'isEmail' => 'Y',
-			];
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Load mail contacts from CRM.
-	 *
-	 * @return array
-	 *
-	 * @throws Main\SystemException
-	 */
-	private function loadCrmMailContacts()
-	{
-		$result = array();
-		return $result;
-
-		if ($this->isCrmEnable)
-		{
-			$crmCommunications = \CSocNetLogDestination::SearchCrmEntities(array(
-				'SEARCH' => '%',
-				'ONLY_WITH_EMAIL' => true,
-			));
-			foreach ($crmCommunications as $communication)
-			{
-				$email = $communication['email'];
-				if (empty($email))
-				{
-					continue;
-				}
-				$id = $this->buildUniqueEmailCode($email);
-				$communication['id'] = $id;
-				$result[$id] = $communication;
-			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * @param $email
-	 *
-	 * @return string
-	 */
-	private function buildUniqueEmailCode($email)
-	{
-		return 'U' . md5($email);
 	}
 }

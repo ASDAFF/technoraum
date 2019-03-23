@@ -36,7 +36,7 @@ $formParams = Array(
 			: ""
 		),
 	),
-	"BUTTONS_HTML" => Array("VideoMessage" => '<span class="feed-add-post-form-but-cnt feed-add-videomessage" onclick="BX.VideoRecorder.start(\''.$formID.'\');">'.GetMessage('BLOG_VIDEO_RECORD_BUTTON').'</span>'),
+	"BUTTONS_HTML" => Array("VideoMessage" => '<span class="feed-add-post-form-but-cnt feed-add-videomessage" onclick="BX.VideoRecorder.start(\''.$formID.'\', \'comment\');">'.GetMessage('BLOG_VIDEO_RECORD_BUTTON').'</span>'),
 	"TEXT" => Array(
 		"NAME" => "comment",
 		"VALUE" => "",

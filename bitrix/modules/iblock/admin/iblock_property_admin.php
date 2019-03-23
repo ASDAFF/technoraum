@@ -104,7 +104,7 @@ $filterFields = array(
 		"id" => "PROPERTY_TYPE",
 		"name" => GetMessage("IBP_ADM_PROPERTY_TYPE"),
 		"type" => "list",
-		"items" => $arUserTypeList,
+		"items" => $arPropType,
 		"filterable" => "="
 	),
 );
@@ -393,9 +393,11 @@ $lAdmin->setContextSettings(array("pagePath" => $selfFolderUrl."iblock_property_
 $lAdmin->AddAdminContextMenu($aContext);
 
 $lAdmin->AddGroupActionTable(array(
+	"edit" => GetMessage("MAIN_ADMIN_LIST_EDIT"),
 	"delete"=>GetMessage("MAIN_ADMIN_LIST_DELETE"),
 	"activate"=>GetMessage("MAIN_ADMIN_LIST_ACTIVATE"),
 	"deactivate"=>GetMessage("MAIN_ADMIN_LIST_DEACTIVATE"),
+	"for_all" => true
 ));
 
 $lAdmin->CheckListMode();

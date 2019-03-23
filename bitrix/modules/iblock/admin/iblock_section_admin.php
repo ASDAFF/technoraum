@@ -406,9 +406,9 @@ $arRows = array();
 
 while ($arRes = $rsData->NavNext(false))
 {
-	$el_list_url = htmlspecialcharsbx($selfFolderUrl.CIBlock::GetAdminElementListLink($IBLOCK_ID, array(
+	$el_list_url = $selfFolderUrl.CIBlock::GetAdminElementListLink($IBLOCK_ID, array(
 		'find_section_section' => $arRes["ID"]
-	)));
+	));
 	$el_add_url = htmlspecialcharsbx($selfFolderUrl.CIBlock::GetAdminElementEditLink($IBLOCK_ID, 0, array(
 		'find_section_section' => $arRes["ID"],
 		'IBLOCK_SECTION_ID' => $arRes["ID"],
@@ -514,6 +514,8 @@ foreach ($arRows as $id => $row)
 			"TEXT" => htmlspecialcharsex($arIBlock["ELEMENTS_NAME"]),
 			"ACTION" => $lAdmin->ActionRedirect(CIBlock::GetAdminElementListLink($IBLOCK_ID, array(
 				'find_section_section' => $id,
+				'SECTION_ID' => $id,
+				'apply_filter' => 'y',
 				'tree' => $_GET["tree"] == "Y"? 'Y' : null,
 				'find_el_subsections' => 'N',
 			))),
@@ -622,7 +624,9 @@ if (!defined("CATALOG_PRODUCT"))
 	$aContext[] = array(
 		"TEXT" => htmlspecialcharsbx($arIBlock["ELEMENTS_NAME"]),
 		"LINK" => CIBlock::GetAdminElementListLink($IBLOCK_ID, array(
-			'find_section_section' => $find_section_section
+			'find_section_section' => $find_section_section,
+			'SECTION_ID' => $find_section_section,
+			'apply_filter' => 'y',
 		)),
 		"TITLE" => GetMessage("IBSEC_A_LISTEL_TITLE")
 	);

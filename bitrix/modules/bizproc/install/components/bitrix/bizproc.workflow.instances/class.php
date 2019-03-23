@@ -355,7 +355,12 @@ class BizprocWorkflowInstances extends \CBitrixComponent
 						true)." [".$row['WS_STARTED_BY']."]";
 			}
 			$row['DOCUMENT_URL'] = $row['WS_DOCUMENT_NAME'] = '';
-			if (!empty($row['WS_MODULE_ID']))
+			if (
+				!empty($row['WS_MODULE_ID'])
+				&&
+				!empty($row['WS_ENTITY'])
+				&&
+				!empty($row['WS_DOCUMENT_ID']))
 			{
 				$row['DOCUMENT_URL'] = CBPDocument::GetDocumentAdminPage(array(
 					$row['WS_MODULE_ID'],

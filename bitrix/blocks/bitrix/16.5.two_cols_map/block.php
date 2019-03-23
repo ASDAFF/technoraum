@@ -2,11 +2,11 @@
 	<div class="container-fluid g-font-size-16">
 		<div class="row">
 			<div class="landing-block-node-map-col col-md-6 order-2 order-md-1 px-0">
-				<div class="landing-block-node-map g-pos-rel h-100 g-min-height-430 g-min-height-680--lg" data-map>
+				<div class="landing-block-node-map js-animation slideInLeft g-pos-rel h-100 g-min-height-430 g-min-height-680--lg" data-map>
 				</div>
 			</div>
 
-			<div class="landing-block-node-address-col col-md-6 order-1 order-md-2 d-flex g-bg-primary text-center g-pa-40">
+			<div class="landing-block-node-address-col js-animation slideInRight col-md-6 order-1 order-md-2 d-flex g-bg-primary text-center g-pa-40">
 				<div class="landing-block-node-address-container align-self-center w-100">
 					<div class="landing-block-node-address-title-container g-mb-40">
 						<h6 class="landing-block-node-address-subtitle d-inline-block g-theme-travel-bg-black-v1 g-font-weight-700 g-color-white g-px-15 g-py-10 g-mb-20">

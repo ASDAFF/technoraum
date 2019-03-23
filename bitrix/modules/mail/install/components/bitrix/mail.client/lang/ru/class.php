@@ -64,6 +64,7 @@ $MESS["MAIL_MESSAGE_CREATE_CRM_EXCLUDE_BTN"] = "Исключить из CRM";
 
 $MESS["MAIL_MESSAGE_TASK_TITLE"] = "Письмо: #SUBJECT#";
 
+$MESS["MAIL_MESSAGE_SYNC_BTN_HINT"] = "Синхронизация";
 $MESS["MAIL_MESSAGE_NEW_BTN"] = "Написать";
 
 $MESS["MAIL_MESSAGE_EMPTY_SENDER"] = "Укажите отправителя";
@@ -72,6 +73,16 @@ $MESS["MAIL_MESSAGE_EMPTY_RCPT"] = "Укажите получателей";
 
 $MESS["MAIL_MESSAGE_SEND_ERROR"] = "Не удалось отправить письмо";
 $MESS['MAIL_MESSAGE_SEND_SUCCESS'] = "Сообщение отправлено";
+
+$MESS['MAIL_MESSAGE_EMPTY_SUBJECT_PLACEHOLDER'] = "(без темы)";
+
+$MESS['MAIL_MESSAGE_EXT_BLOCK_LINK'] = "Ещё";
+$MESS['MAIL_MESSAGE_EXT_BLOCK_TITLE'] = "Дополнительно";
+
+$MESS['MAIL_MESSAGE_EXT_BIND_CRM_TITLE'] = "CRM";
+$MESS['MAIL_MESSAGE_EXT_BIND_CRM_EMPTY_TITLE'] = "Элемент";
+$MESS['MAIL_MESSAGE_EXT_BIND_TASKS_TITLE'] = "Задачи";
+$MESS['MAIL_MESSAGE_EXT_BIND_TASKS_EMPTY_TITLE'] = "Задача";
 
 $MESS["MAIL_MESSAGE_LIST_COLUMN_FROM"] = "От кого";
 $MESS["MAIL_MESSAGE_LIST_COLUMN_SUBJECT"] = "Тема";
@@ -125,6 +136,8 @@ $MESS['MAIL_MESSAGE_LIST_NOTIFY_ADDED_TO_CRM'] = "Письмо сохранено в CRM";
 $MESS['MAIL_MESSAGE_LIST_NOTIFY_NOT_ADDED_TO_CRM'] = "Письмо не соответствует правилам CRM";
 $MESS['MAIL_MESSAGE_LIST_NOTIFY_EXCLUDED_FROM_CRM'] = "Письмо исключено из CRM";
 $MESS['MAIL_MESSAGE_LIST_NOTIFY_SUCCESS'] = "Успешно";
+
+$MESS['MAIL_MESSAGE_LIST_ATTACH_ICON_HINT'] = "Письмо с вложениями";
 
 $MESS["MAIL_MAILBOX_LICENSE_CONNECTED_MAILBOXES_LIMIT_TITLE"] = "Подключение почтовых ящиков в Битрикс24";
 $MESS["MAIL_MAILBOX_LICENSE_CONNECTED_MAILBOXES_LIMIT_BODY"] = "Количество почтовых ящиков на сотрудника зависит от тарифного плана Битрикс24.

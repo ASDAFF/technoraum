@@ -18,7 +18,10 @@ BX.CommentAux =
 		'PHOTO_ALBUM',
 		'PHOTO_PHOTO',
 		'WIKI',
-		'LISTS_NEW_ELEMENT'
+		'LISTS_NEW_ELEMENT',
+		'CALENDAR_EVENT',
+		'INTRANET_NEW_USER',
+		'BITRIX24_NEW_USER'
 	],
 	commentEventTypeList: [
 		'BLOG_COMMENT',
@@ -26,6 +29,8 @@ BX.CommentAux =
 		'LOG_COMMENT'
 	]
 };
+
+BX.onCustomEvent('BX.CommentAux.initialize', []);
 
 BX.CommentAux.init = function(params)
 {

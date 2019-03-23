@@ -4,14 +4,13 @@
 		 data-infinite="true"
 		 data-fade="true"
 		 data-speed="5000">
-		<div class="js-slide u-bg-overlay g-bg-black-opacity-0_2--after landing-block-node-card landing-block-node-card-bgimg g-bg-img-hero g-height-100vh g-min-height-600"
+		<div class="js-slide u-bg-overlay g-bg-black-opacity-0_2--after landing-block-node-card landing-block-node-card-bgimg g-bg-img-hero g-min-height-100vh"
 			 style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1600x927/img1.jpg);"></div>
-
-		<div class="js-slide u-bg-overlay g-bg-black-opacity-0_2--after landing-block-node-card landing-block-node-card-bgimg g-bg-img-hero g-height-100vh g-min-height-600"
+		<div class="js-slide u-bg-overlay g-bg-black-opacity-0_2--after landing-block-node-card landing-block-node-card-bgimg g-bg-img-hero g-min-height-100vh"
 			 style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/1600x927/img2.jpg);"></div>
 	</div>
 
-	<div class="u-bg-overlay__inner g-absolute-centered w-100">
+	<div class="u-bg-overlay__inner g-absolute-centered w-100 g-width-80x--md">
 		<div class="landing-block-node-text-container js-animation fadeIn container text-center g-color-white">
 			<h2 class="landing-block-node-subtitle text-uppercase u-heading-v3__title g-letter-spacing-1 g-font-weight-700 g-font-size-18 g-brd-3 g-brd-primary g-pb-5 g-mb-20">
 				Fitness program for all</h2>

@@ -294,7 +294,7 @@ if (
 
 		$highBlockID = $result->getId();
 		$_POST["PROPERTY_USER_TYPE_SETTINGS"]["TABLE_NAME"] = $data['TABLE_NAME'];
-		$arFieldsName = $_POST['PROPERTY_DIRECTORY_VALUES'][0];
+		$arFieldsName = reset($_POST['PROPERTY_DIRECTORY_VALUES']);
 		$arFieldsName['UF_DEF'] = '';
 		$arFieldsName['UF_FILE'] = '';
 		$obUserField = new CUserTypeEntity();
@@ -373,14 +373,17 @@ if (
 
 	foreach($_POST['PROPERTY_DIRECTORY_VALUES'] as $dirKey => $arDirValue)
 	{
+		$existRow = isset($arDirValue["ID"]) && (int)$arDirValue["ID"] > 0;
 		if(isset($arDirValue["UF_DELETE"]))
 		{
 			if($arDirValue["UF_DELETE"] === 'Y')
-				if(isset($arDirValue["ID"]) && intval($arDirValue["ID"]) > 0)
+			{
+				if ($existRow)
 				{
 					$entityDataClass::delete($arDirValue["ID"]);
 					continue;
 				}
+			}
 			unset($arDirValue["UF_DELETE"]);
 		}
 		if(!is_array($arDirValue) || !isset($arDirValue['UF_NAME']) || '' == trim($arDirValue['UF_NAME']))
@@ -401,7 +404,7 @@ if (
 		}
 		else
 		{
-			if (isset($arDirValue["ID"]) && $arDirValue["ID"] > 0)
+			if ($existRow)
 			{
 				$rsData = $entityDataClass::getList(array());
 				while($arData = $rsData->fetch())
@@ -1619,7 +1622,6 @@ elseif($message)
 						array('separator' => true, 'compact' => false, 'sort' => 200),
 						array('id' => 'InsertLink', 'compact' => true, 'sort' => 210),
 						array('id' => 'InsertImage', 'compact' => false, 'sort' => 220),
-						array('id' => 'InsertVideo', 'compact' => true, 'sort' => 230),
 						array('id' => 'InsertTable', 'compact' => false, 'sort' => 250),
 						array('separator' => true, 'compact' => false, 'sort' => 290),
 						array('id' => 'Fullscreen', 'compact' => false, 'sort' => 310),

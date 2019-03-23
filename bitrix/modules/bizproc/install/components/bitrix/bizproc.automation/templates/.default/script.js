@@ -293,6 +293,13 @@
 		},
 		saveAutomation: function(callback)
 		{
+			if (this.savingAutomation)
+			{
+				return;
+			}
+
+			this.savingAutomation = true;
+
 			var me = this, data = {
 				ajax_action: 'save_automation',
 				document_signed: this.documentSigned,
@@ -307,6 +314,7 @@
 				data: data,
 				onsuccess: function(response)
 				{
+					me.savingAutomation = null;
 					if (response.SUCCESS)
 					{
 						me.reInitTemplateManager(response.DATA.templates);
@@ -318,7 +326,9 @@
 						}
 					}
 					else
+					{
 						alert(response.ERRORS[0]);
+					}
 				}
 			});
 		},
@@ -1494,7 +1504,7 @@
 		},
 		serialize: function()
 		{
-			var data = this.data;
+			var data = BX.clone(this.data);
 			data['IS_EXTERNAL_MODIFIED'] = this.isExternalModified() ? 1 : 0;
 			data['ROBOTS'] = [];
 
@@ -1560,6 +1570,11 @@
 		},
 		getProperty: function(name)
 		{
+			if (!this.data || !this.data.Properties)
+			{
+				return null;
+			}
+
 			return this.data.Properties[name] || null;
 		},
 		setProperty: function(name, value)
@@ -1583,8 +1598,10 @@
 			{
 				//If delay was executed, we can set Running status to parent robot.
 				log = this.tracker.getRobotLog(this.data.DelayName);
-				if (log && parseInt(log['STATUS']) > Component.LogStatus.Waiting)
+				if (log && parseInt(log['STATUS']) === Component.LogStatus.Running)
+				{
 					status = Component.LogStatus.Running;
+				}
 			}
 
 			return status;
@@ -2175,6 +2192,7 @@
 		{
 			var fields = [];
 			var description = this.templateManager.getRobotDescription(this.data['Type']);
+
 			if (description && description['RETURN'])
 			{
 				for (var fieldId in description['RETURN'])
@@ -2188,8 +2206,70 @@
 							Type: field['TYPE'],
 							Expression: '{{~'+this.getId()+':'+fieldId+' # '+this.getTitle()+': '+field['NAME']+'}}'
 						});
+
+						//generate printable version
+						if (
+							field['TYPE'] === 'user'
+							||
+							field['TYPE'] === 'bool'
+							||
+							field['TYPE'] === 'file'
+						)
+						{
+							var printableTag = (field['TYPE'] === 'user') ? 'friendly' : 'printable';
+							fields.push({
+								Id: fieldId + '_printable',
+								Name: field['NAME'] + ' ' + BX.message('BIZPROC_AUTOMATION_CMP_MOD_PRINTABLE_PREFIX'),
+								Type: 'string',
+								Expression: '{{~'+this.getId()+':'+fieldId+' > '
+									+printableTag+' # '+this.getTitle()+': '+field['NAME']+'}}'
+							});
+						}
 					}
 				}
+			}
+			if (description && BX.type.isArray(description['ADDITIONAL_RESULT']))
+			{
+				var props = this.data['Properties'];
+
+				description['ADDITIONAL_RESULT'].forEach(function(addProperty)
+				{
+					if (props[addProperty])
+					{
+						for (var fieldId in props[addProperty])
+						{
+							if (props[addProperty].hasOwnProperty(fieldId))
+							{
+								var field = props[addProperty][fieldId];
+								fields.push({
+									Id: fieldId,
+									Name: field['Name'],
+									Type: field['Type'],
+									Expression: '{{~'+this.getId()+':'+fieldId+' # '+this.getTitle()+': '+field['Name']+'}}'
+								});
+
+								//generate printable version
+								if (
+									field['Type'] === 'user'
+									||
+									field['Type'] === 'bool'
+									||
+									field['Type'] === 'file'
+								)
+								{
+									var printableTag = (field['Type'] === 'user') ? 'friendly' : 'printable';
+									fields.push({
+										Id: fieldId + '_printable',
+										Name: field['Name'] + ' ' + BX.message('BIZPROC_AUTOMATION_CMP_MOD_PRINTABLE_PREFIX'),
+										Type: 'string',
+										Expression: '{{~'+this.getId()+':'+fieldId+' > '
+											+printableTag+' # '+this.getTitle()+': '+field['Name']+'}}'
+									});
+								}
+							}
+						}
+					}
+				}, this);
 			}
 			return fields;
 		}
@@ -2466,6 +2546,11 @@
 		},
 		openTriggerSettingsDialog: function(trigger)
 		{
+			if (Designer.getTriggerSettingsDialog())
+			{
+				return;
+			}
+
 			var me = this, formName = 'bizproc_automation_trigger_dialog';
 
 			var form = BX.create('form', {
@@ -2788,6 +2873,13 @@
 			BX.addClass(this.component.node, 'automation-base-blocked');
 
 			Designer.component = this.component;
+
+			Designer.setTriggerSettingsDialog({
+				component: this.component,
+				trigger: trigger,
+				form: form
+			});
+
 			var popup = new BX.PopupWindow(Component.generateUniqueId(), null, {
 				titleBar: title,
 				content: form,
@@ -2801,6 +2893,8 @@
 				events: {
 					onPopupClose: function(popup)
 					{
+						Designer.setTriggerSettingsDialog(null);
+						me.destroySettingsDialogControls();
 						popup.destroy();
 						BX.removeClass(me.component.node, 'automation-base-blocked');
 					}
@@ -2977,6 +3071,47 @@
 					}
 				});
 			}, 1500);
+		},
+
+		initSettingsDialogControls: function(node)
+		{
+			if (!BX.type.isArray(this.settingsDialogControls))
+			{
+				this.settingsDialogControls = [];
+			}
+
+			var controlNodes = node.querySelectorAll('[data-role]');
+			for (var i = 0; i < controlNodes.length; ++i)
+			{
+				var control = null;
+				var role = controlNodes[i].getAttribute('data-role');
+
+				if (role === 'user-selector')
+				{
+					control = BX.Bizproc.UserSelector.decorateNode(controlNodes[i]);
+				}
+
+				BX.UI.Hint.init(controlNodes[i]);
+
+				if (control)
+				{
+					this.settingsDialogControls.push(control);
+				}
+			}
+		},
+		destroySettingsDialogControls: function()
+		{
+			if (BX.type.isArray(this.settingsDialogControls))
+			{
+				for (var i = 0; i < this.settingsDialogControls.length; ++i)
+				{
+					if (BX.type.isFunction(this.settingsDialogControls[i].destroy))
+					{
+						this.settingsDialogControls[i].destroy();
+					}
+				}
+			}
+			this.settingsDialogControls = null;
 		}
 	};
 
@@ -3840,13 +3975,15 @@
 		});
 		this.targetInput.setAttribute('autocomplete', 'off');
 
-		var fieldType = this.targetInput.getAttribute('data-selector-type');
-		if (fieldType === 'date' || fieldType === 'datetime')
+		this.fieldType = this.targetInput.getAttribute('data-selector-type');
+		if (this.fieldType === 'date' || this.fieldType === 'datetime')
 		{
-			this.initDateTimeControl(fieldType);
+			this.initDateTimeControl();
 		}
-
-		this.replaceOnWrite = (this.targetInput.getAttribute('data-selector-write-mode') === 'replace');
+		else if (this.fieldType === 'file')
+		{
+			this.initFileControl();
+		}
 	};
 	InlineSelector.prototype =
 	{
@@ -3877,14 +4014,25 @@
 			{
 				field = fields[i];
 
-				var groupKey = field['Id'].indexOf('.') < 0 ? 'ROOT' : field['Id'].split('.')[0];
+				var names, groupKey = field['Id'].indexOf('.') < 0 ? 'ROOT' : field['Id'].split('.')[0];
 				var fieldName = field['Name'];
 				var groupName = '';
 				if (fieldName && fieldName.indexOf(': ') >= 0)
 				{
-					var names = fieldName.split(': ');
+					names = fieldName.split(': ');
 					groupName = names.shift();
 					fieldName = names.join(': ');
+				}
+
+				if (field['Id'].indexOf('ASSIGNED_BY_') === 0
+					&& field['Id'] !== 'ASSIGNED_BY_ID'
+					&& field['Id'] !== 'ASSIGNED_BY_PRINTABLE'
+				)
+				{
+					groupKey = 'ASSIGNED_BY';
+					names = fieldName.split(' ');
+					groupName = names.shift();
+					fieldName = names.join(' ').replace('(', '').replace(')', '');
 				}
 
 				if (!menuGroups[groupKey])
@@ -3937,19 +4085,33 @@
 
 			if (Object.keys(menuGroups).length < 2)
 			{
-				menuItems = menuGroups['ROOT']['items'];
+				if (menuGroups['ROOT']['items'].length > 0)
+				{
+					menuItems = menuGroups['ROOT']['items'];
+				}
 			}
 			else
 			{
-				menuItems.push(menuGroups['ROOT']);
+				if (menuGroups['ROOT']['items'].length > 0)
+				{
+					menuItems.push(menuGroups['ROOT']);
+				}
 				delete menuGroups['ROOT'];
 				for (groupKey in menuGroups)
 				{
-					if (menuGroups.hasOwnProperty(groupKey))
+					if (menuGroups.hasOwnProperty(groupKey) && menuGroups[groupKey]['items'].length > 0)
 					{
 						menuItems.push(menuGroups[groupKey])
 					}
 				}
+			}
+
+			if (!menuItems.length)
+			{
+				menuItems.push({
+					text: BX.message('BIZPROC_AUTOMATION_NO_FIELDS'),
+					disabled: true
+				});
 			}
 
 			var menuId = this.menuButton.getAttribute('data-selector-id');
@@ -3998,7 +4160,7 @@
 			if (this.menu)
 				this.menu.popupWindow.close();
 		},
-		initDateTimeControl: function(fieldType)
+		initDateTimeControl: function()
 		{
 			var basisFields = [];
 			if (BX.type.isArray(this.component.data['DOCUMENT_FIELDS']))
@@ -4007,7 +4169,7 @@
 				for (i = 0; i < this.component.data['DOCUMENT_FIELDS'].length; ++i)
 				{
 					field = this.component.data['DOCUMENT_FIELDS'][i];
-					if (field['Type'] == 'date' || field['Type'] == 'datetime')
+					if (field['Type'] === 'date' || field['Type'] === 'datetime')
 					{
 						basisFields.push(field);
 					}
@@ -4015,6 +4177,7 @@
 			}
 
 			this.documentFields = basisFields;
+			this.replaceOnWrite = true;
 
 			var delayIntervalSelector = new DelayIntervalSelector({
 				labelNode: this.targetInput,
@@ -4028,6 +4191,25 @@
 
 			delayIntervalSelector.init(DelayInterval.fromString(this.targetInput.value, basisFields));
 		},
+		initFileControl: function()
+		{
+			var basisFields = [];
+			if (BX.type.isArray(this.component.data['DOCUMENT_FIELDS']))
+			{
+				var i, field;
+				for (i = 0; i < this.component.data['DOCUMENT_FIELDS'].length; ++i)
+				{
+					field = this.component.data['DOCUMENT_FIELDS'][i];
+					if (field['Type'] === 'file')
+					{
+						basisFields.push(field);
+					}
+				}
+			}
+
+			this.documentFields = basisFields;
+			this.replaceOnWrite = true;
+		},
 		getFields: function()
 		{
 			var printablePrefix = BX.message('BIZPROC_AUTOMATION_CMP_MOD_PRINTABLE_PREFIX');
@@ -4038,8 +4220,8 @@
 			});
 
 			var namesStr = names.join('\n');
-
 			var fields = [];
+			var fieldType = this.fieldType;
 
 			this.documentFields.forEach(function(field)
 			{
@@ -4050,6 +4232,13 @@
 					fields.push(field);
 				}
 
+				if (fieldType === 'file')
+				{
+					//don`t need printable version, break this iteration
+					return;
+				}
+
+				//generate printable version
 				if (
 					field['Type'] === 'user'
 					||
@@ -4174,7 +4363,7 @@
 
 	InlineSelectorHtml.prototype.onFieldSelect = function(field)
 	{
-		var insertText = '{{' + field['Name'] + '}}';
+		var insertText = field['Expression'];
 		var editor = this.getEditor();
 		if (editor && editor.InsertHtml)
 		{
@@ -5040,6 +5229,15 @@
 		getRobotSettingsDialog: function()
 		{
 			return this.robotSettingsDialog;
+		},
+		setTriggerSettingsDialog: function(dialog)
+		{
+			this.triggerSettingsDialog = dialog;
+			this.component = dialog ? dialog.component : null;
+		},
+		getTriggerSettingsDialog: function()
+		{
+			return this.triggerSettingsDialog;
 		}
 	};
 

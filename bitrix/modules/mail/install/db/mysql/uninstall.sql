@@ -16,3 +16,5 @@ drop table if exists b_mail_message_access;
 drop table if exists b_mail_message_upload_queue;
 drop table if exists b_mail_oauth;
 drop table if exists b_mail_user_signature;
+drop table if exists b_mail_user_message;
+drop table if exists b_mail_message_closure;

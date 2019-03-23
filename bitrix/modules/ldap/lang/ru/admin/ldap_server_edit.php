@@ -79,4 +79,8 @@ $MESS["LDAP_EDIT_MAX_PAGE_SIZE"] = "Максимальное количество объектов, возвращаем
 $MESS["LDAP_EDIT_SYNC_USER_ADD"] = "Создавать несуществующих пользователей";
 $MESS["LDAP_EDIT_CONNECTION_TYPE"] = "Тип подключения:";
 $MESS["LDAP_EDIT_NO_CRYPT"] = "Без шифрования";
+$MESS["LDAP_EDIT_SET_DEPARTMENT_HEAD"] = "Назначать руководителей подразделений";
+$MESS["LDAP_EDIT_LDAP_OPT_TIMELIMIT"] = "Количество секунд для ожидания результатов поиска [LDAP_OPT_TIMELIMIT]";
+$MESS["LDAP_EDIT_LDAP_OPT_TIMEOUT"] = "Таймаут для синхронных вызовов API для OpenLDAP [LDAP_OPT_TIMEOUT]";
+$MESS["LDAP_EDIT_LDAP_OPT_NETWORK_TIMEOUT"] = "Сетевой таймаут [LDAP_OPT_NETWORK_TIMEOUT]";
 ?>

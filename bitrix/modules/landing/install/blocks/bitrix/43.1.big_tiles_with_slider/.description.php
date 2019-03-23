@@ -11,6 +11,7 @@ return array(
 		array(
 			'name' => Loc::getMessage('LANDING_BLOCK_43.1.BIG_TILES_WITH_SLIDER_NAME'),
 			'section' => array('image'),
+//			'subtype' => 'carousel',
 		),
 	'cards' =>
 		array(

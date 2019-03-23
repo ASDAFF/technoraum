@@ -5,7 +5,6 @@ function socialnetworkBlogPostCommentMobile(
 	array $arResult,
 	SocialnetworkBlogPostComment $component)
 {
-	global $APPLICATION;
 	$arParams["AVATAR_SIZE"] = (intval($arParams["AVATAR_SIZE"]) ?: 58);
 	$arAvatarSizes = array(
 		"AVATAR_SIZE" => intval(array_key_exists("AVATAR_SIZE_COMMON", $arParams) ? $arParams["AVATAR_SIZE_COMMON"] : $arParams["AVATAR_SIZE"]),

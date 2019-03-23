@@ -3,10 +3,10 @@
 		<div class="u-header__section g-transition-0_3 g-py-25"
 		 data-header-fix-moment-exclude="g-py-25"
 		 data-header-fix-moment-classes="g-py-20">
-		<nav class="navbar navbar-expand-lg py-0">
+		<nav class="navbar navbar-expand-lg py-0 g-px-10">
 			<div class="container">
 				<!-- Logo -->
-				<a href="#" class="navbar-brand landing-block-node-menu-logo-link u-header__logo">
+				<a href="#system_mainpage" class="navbar-brand landing-block-node-menu-logo-link u-header__logo">
 					<img class="landing-block-node-menu-logo u-header__logo-img u-header__logo-img--main g-max-width-180"
 						 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/business-logo.png" alt="">
 				</a>

@@ -44,7 +44,7 @@
 	// reinit slider after add new element in DOM
 	BX.addCustomEvent("BX.Landing.Block:Cards:update", function (event)
 	{
-		BX.Landing.SliderHelper.init(event);
+		BX.Landing.SliderHelper.init(event, 'update');
 	});
 
 
@@ -54,6 +54,35 @@
 	{
 		BX.Landing.SliderHelper.destroy(event);
 	});
+
+
+	/**
+	 * Rebuild slider after style change.
+	 * Need if style may change width or height of cards and Slick will be incorrectly slide them
+	 */
+	BX.addCustomEvent("BX.Landing.Block:updateStyle", function (event)
+	{
+		// Now need rebuild only verticals sliders, i think.
+		var relativeSelector = BX.Landing.SliderHelper.makeCarouselRelativeSelector(event);
+		if($(relativeSelector).slick('slickGetOption', 'vertical'))
+		{
+			BX.Landing.SliderHelper.init(event, 'update');
+		}
+	});
+
+
+	/**
+	 * Rebuild slider after attributes change.
+	 * Need if style may change width or height of cards and Slick will be incorrectly slide them
+	 */
+	// dbg new method, not testet yet
+	// BX.addCustomEvent("BX.Landing.Block:Node:updateAttr", function (event)
+	// {
+	// 	console.log("BX.Landing.Block:Node:updateAttr");
+	// 	// Now need rebuild only verticals sliders, i think.
+	// 	BX.Landing.SliderHelper.init(event, 'update');
+	// 	BX.Landing.SliderHelper.initAttrs(event);
+	// });
 
 
 	// reinit slider after remove new element in DOM

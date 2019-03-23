@@ -98,6 +98,10 @@ class BaseTable
 			}
 		}
 
+		if (isset($fields['ID']))
+		{
+			unset($fields['ID']);
+		}
 		if (!isset($fields['MODIFIED_BY_ID']))
 		{
 			$fields['MODIFIED_BY_ID'] = $uid;

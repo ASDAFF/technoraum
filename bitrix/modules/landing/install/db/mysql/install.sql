@@ -42,7 +42,7 @@ create table if not exists b_landing_block
     PUBLIC char(1) not null default 'Y',
     DELETED char(1) not null default 'N',
     ACCESS char(1) not null default 'X',
-    CONTENT text not null,
+    CONTENT mediumtext not null,
     CREATED_BY_ID int(18) not null,
     MODIFIED_BY_ID int(18) not null,
     DATE_CREATE timestamp null,
@@ -71,6 +71,7 @@ create table if not exists b_landing_site
     LANDING_ID_INDEX int(18) default null,
     LANDING_ID_404 int(18) default null,
     LANDING_ID_503 int(18) default null,
+    LANG char(2) default null,
     CREATED_BY_ID int(18) not null,
     MODIFIED_BY_ID int(18) not null,
     DATE_CREATE timestamp null,
@@ -136,6 +137,7 @@ create table if not exists b_landing_repo
     NAME varchar(255) not null,
     DESCRIPTION varchar(255) default null,
     SECTIONS varchar(255) default null,
+    SITE_TEMPLATE_ID varchar(255) default null,
     PREVIEW varchar(255) default null,
     MANIFEST text default null,
     CONTENT text not null,
@@ -146,7 +148,8 @@ create table if not exists b_landing_repo
     PRIMARY KEY(ID),
     INDEX IX_B_REPO_ACTIVE (ACTIVE),
     INDEX IX_B_REPO_XML_ID (XML_ID),
-    INDEX IX_B_REPO_APP_CODE (APP_CODE)
+    INDEX IX_B_REPO_APP_CODE (APP_CODE),
+    INDEX IX_B_REPO_TEMPLATE_ID (SITE_TEMPLATE_ID)
 );
 
 create table if not exists b_landing_hook_data
@@ -199,6 +202,8 @@ create table if not exists b_landing_demo
     PREVIEW2X varchar(255) default null,
     PREVIEW3X varchar(255) default null,
     MANIFEST mediumtext default null,
+    LANG text default null,
+    SITE_TEMPLATE_ID varchar(255) default null,
     CREATED_BY_ID int(18) not null,
     MODIFIED_BY_ID int(18) not null,
     DATE_CREATE timestamp null,
@@ -207,7 +212,8 @@ create table if not exists b_landing_demo
     INDEX IX_B_DEMO_ACTIVE (ACTIVE),
     INDEX IX_B_DEMO_SHOW_IN_LIST (SHOW_IN_LIST),
     INDEX IX_B_DEMO_XML_ID (XML_ID),
-    INDEX IX_B_DEMO_APP_CODE (APP_CODE)
+    INDEX IX_B_DEMO_APP_CODE (APP_CODE),
+    INDEX IX_B_DEMO_TEMPLATE_ID (SITE_TEMPLATE_ID)
 );
 
 create table if not exists b_landing_manifest
@@ -224,16 +230,46 @@ create table if not exists b_landing_manifest
     UNIQUE IX_B_MANIFEST_CODE (CODE)
 );
 
-CREATE TABLE IF NOT EXISTS b_landing_placement
+create table if not exists b_landing_placement
 (
-    ID INT(18) NOT NULL AUTO_INCREMENT,
-    APP_ID INT(18) NULL,
-    PLACEMENT VARCHAR(255) NOT NULL,
-    PLACEMENT_HANDLER VARCHAR(255) NOT NULL,
-    TITLE VARCHAR(255) NULL DEFAULT '',
+    ID int(18) not null auto_increment,
+    APP_ID int(18) null,
+    PLACEMENT varchar(255) not null,
+    PLACEMENT_HANDLER varchar(255) not null,
+    TITLE varchar(255) null default '',
     CREATED_BY_ID int(18) not null,
     MODIFIED_BY_ID int(18) not null,
     DATE_CREATE timestamp null,
     DATE_MODIFY timestamp not null,
     PRIMARY KEY (ID)
+);
+
+create table if not exists b_landing_update_block
+(
+    ID int(18) not null auto_increment,
+    CODE varchar(255) not null,
+    LAST_BLOCK_ID int(18) default 0,
+    PARAMS text default null,
+    CREATED_BY_ID int(18) not null,
+    MODIFIED_BY_ID int(18) not null,
+    DATE_CREATE timestamp null,
+    DATE_MODIFY timestamp not null,
+    PRIMARY KEY(ID),
+    INDEX IX_CODE (CODE)
+);
+
+create table if not exists b_landing_urlrewrite
+(
+    ID int(18) not null auto_increment,
+    SITE_ID int(18) not null,
+    RULE varchar(255) not null,
+    LANDING_ID int(18) not null,
+    CREATED_BY_ID int(18) not null,
+    MODIFIED_BY_ID int(18) not null,
+    DATE_CREATE timestamp null,
+    DATE_MODIFY timestamp not null,
+    PRIMARY KEY(ID),
+    INDEX IX_SITE_RULE (SITE_ID, RULE),
+    INDEX IX_SITE_ID (SITE_ID),
+    INDEX IX_LANDING_ID (LANDING_ID)
 );

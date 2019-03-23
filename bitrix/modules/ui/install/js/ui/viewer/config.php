@@ -11,6 +11,9 @@ return array(
 		"/bitrix/js/ui/viewer/ui.viewer.js",
 	),
 	'rel' => [
+		'ajax',
+		'loader',
+		'main.polyfill.find',
 		'ui.actionpanel',
 		'ui.buttons',
 		'ui.buttons.icons',

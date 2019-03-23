@@ -1,4 +1,5 @@
 <?
+$MESS["main_user_check_max_pass"] = "Maximum password length exceeded (max. 50 characters).";
 $MESS["STATUS_ACTIVE"] = "active";
 $MESS["STATUS_BLOCKED"] = "blocked";
 $MESS["LOGIN_BLOCK"] = "Your login is blocked";

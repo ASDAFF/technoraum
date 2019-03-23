@@ -4377,11 +4377,6 @@ if ($bCatalog)
 	$tabControl->BeginNextTab();
 	?>
 	<script type="text/javascript">
-	BX.message({
-		'IB_E_CAT_CONFIRM': '<? echo CUtil::JSEscape(GetMessage('IB_E_CAT_CONFIRM'));?>'
-	});
-	</script>
-	<script type="text/javascript">
 	var obOFProps = new JCIBlockProperty({
 		'PREFIX': '<? echo $strPREFIX_OF_PROPERTY ?>',
 		'FORM_ID': 'frm',
@@ -4402,7 +4397,7 @@ if ($bCatalog)
 		<td  width="40%"><label for="IS_CATALOG_Y"><?echo GetMessage("IB_E_IS_CATALOG")?></label></td>
 		<td width="60%">
 			<input type="hidden" name="IS_CATALOG" id="IS_CATALOG_N" value="N">
-			<input type="checkbox" name="IS_CATALOG" id="IS_CATALOG_Y" value="Y"<?if('Y' == $str_IS_CATALOG)echo " checked"?><? if ('O' == $str_CATALOG_TYPE) echo ' disabled="disabled"'; ?> onclick="ib_checkFldActivity(0,'<? echo $str_IS_CATALOG; ?>');">
+			<input type="checkbox" name="IS_CATALOG" id="IS_CATALOG_Y" value="Y"<?if('Y' == $str_IS_CATALOG)echo " checked"?><? if ('O' == $str_CATALOG_TYPE) echo ' disabled="disabled"'; ?> onclick="ib_checkFldActivity(0);">
 		</td>
 	</tr><?
 	if (CBXFeatures::IsFeatureEnabled('SaleRecurring'))
@@ -4411,7 +4406,7 @@ if ($bCatalog)
 		<td  width="40%"><label for="IS_CONTENT_Y"><?echo GetMessage("IB_E_IS_CONTENT")?></label></td>
 		<td width="60%">
 			<input type="hidden" id="IS_CONTENT_N" name="SUBSCRIPTION" value="N">
-			<input type="checkbox" id="IS_CONTENT_Y" name="SUBSCRIPTION" value="Y"<?if('Y' == $str_SUBSCRIPTION)echo " checked"?> onclick="ib_checkFldActivity(1,'<? echo $str_IS_CATALOG; ?>')">
+			<input type="checkbox" id="IS_CONTENT_Y" name="SUBSCRIPTION" value="Y"<?if('Y' == $str_SUBSCRIPTION)echo " checked"?> onclick="ib_checkFldActivity(1);">
 		</td>
 	</tr><?
 	}
@@ -4609,7 +4604,6 @@ if ($bCatalog)
 		is_yand = BX('YANDEX_EXPORT_Y'),
 		vat_id = BX('VAT_ID'),
 		cat_type =  BX('CATALOG_TYPE'),
-		use_sku = BX('USED_SKU_Y'),
 		ob_sku_settings = BX('SKU-SETTINGS'),
 		ob_offers_add = BX('offers_add_info'),
 		ob_of_iblock_type_id = BX('OF_IBLOCK_TYPE_ID'),
@@ -4617,44 +4611,44 @@ if ($bCatalog)
 
 	//var ob_sku_rights = BX('offers_rights');
 
-	function ib_checkFldActivity(flag,catalog)
+	function ib_checkFldActivity(flag)
 	{
-		catalog = (catalog == 'Y' ? 'Y' : 'N');
-		if (0 == flag)
+		if (
+			!BX.type.isElementNode(is_cat)
+			|| !BX.type.isElementNode(is_yand)
+			|| !BX.type.isElementNode(vat_id)
+		)
+			return;
+		if (flag === 0)
 		{
-			if (undefined != cat_type)
+			if (BX.type.isElementNode(cat_type))
 			{
-				if ('O' == cat_type.value)
+				if (cat_type.value === 'O')
 					is_cat.checked = true;
-			}
-			if (catalog == 'Y' && !is_cat.checked)
-			{
-				is_cat.checked = !confirm(BX.message('IB_E_CAT_CONFIRM'));
 			}
 			if (!is_cat.checked)
 			{
-				if (!!is_cont)
+				if (BX.type.isElementNode(is_cont))
 					is_cont.checked = false;
 				is_yand.checked = false;
 			}
 		}
-		if (1 == flag)
+		if (flag === 1)
 		{
-			if (!!is_cont && is_cont.checked)
+			if (!BX.type.isElementNode(is_cont))
+				return;
+			if (is_cont.checked)
 				is_cat.checked = true;
 		}
 
-		var bActive = is_cat.checked;
-		is_yand.disabled = !bActive;
-		vat_id.disabled = !bActive;
+		is_yand.disabled = !is_cat.checked;
+		vat_id.disabled = !is_cat.checked;
 	}
 	function ib_skumaster(obj)
 	{
-		if (undefined != ob_sku_settings)
-		{
-			var bActive = obj.checked;
-			ob_sku_settings.style.display = (true == bActive ? 'block' : 'none');
-		}
+		if (!BX.type.isElementNode(ob_sku_settings))
+			return;
+		ob_sku_settings.style.display = (obj.checked ? 'block' : 'none');
 	}
 
 	function show_add_offers(obj)
@@ -4679,18 +4673,21 @@ if ($bCatalog)
 	function change_offers_ibtype(obj)
 	{
 		var value = obj.value;
-		if ('Y' == value)
+		if (value !== 'Y' && value !== 'N')
+			return;
+		if (value === 'Y')
 		{
 			ob_of_iblock_type_id.disabled = true;
 			ob_of_new_iblock_type_id.disabled = false;
 		}
-		else if ('N' == value)
+		else
 		{
 			ob_of_iblock_type_id.disabled = false;
 			ob_of_new_iblock_type_id.disabled = true;
 		}
 	}
-</script>	<?
+</script>
+<?
 }
 
 if(CIBlockRights::UserHasRightTo($ID, $ID, "iblock_rights_edit"))

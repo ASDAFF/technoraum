@@ -756,14 +756,13 @@ a.sonet-invitation-dash-link:hover{ color: #696969; border-color: #696969; text-
 
 .social-group-create-form-field .social-group-create-form-field-controls {
 	position: relative;
-	display: inline-block;
+	display: flex;
+	flex-wrap: wrap;
 	min-width: 200px;
-	height: 30px;
 	vertical-align: middle;
 	white-space: nowrap;
 	line-height: 30px;
 	overflow: hidden;
-	margin: 0 5px 5px 0;
 }
 
 .social-group-create-form-field .social-group-create-form-field-loading {

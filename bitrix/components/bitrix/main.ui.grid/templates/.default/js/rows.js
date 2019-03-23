@@ -146,9 +146,13 @@
 
 		isAllSelected: function()
 		{
-			return !this.getBodyChild().some(function(current) {
-				return !current.isSelected();
-			});
+			return !this.getBodyChild()
+				.filter(function(current) {
+					return !!current.getCheckbox();
+				})
+				.some(function(current) {
+					return !current.isSelected();
+				});
 		},
 
 		getParent: function()
@@ -507,6 +511,12 @@
 		{
 			return this.getSourceRows().filter(function(current) {
 				return BX.Grid.Utils.closestParent(current).nodeName === 'TFOOT';
+			});
+		},
+
+		hasEditable: function() {
+			return this.getBodyChild().some(function(current) {
+				return current.isEdit();
 			});
 		}
 	};

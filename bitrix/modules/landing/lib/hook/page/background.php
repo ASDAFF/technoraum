@@ -76,7 +76,9 @@ class Background extends \Bitrix\Landing\Hook\Page
 		{
 			if ($picture > 0)
 			{
-				$picture = \htmlspecialcharsbx(\CFile::getPath($picture));
+				$picture = \htmlspecialcharsbx(
+					\Bitrix\Landing\File::getFilePath($picture)
+				);
 			}
 		}
 

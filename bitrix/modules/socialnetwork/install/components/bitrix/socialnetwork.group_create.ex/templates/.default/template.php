@@ -43,7 +43,7 @@ else
 		$APPLICATION->SetPageProperty("BodyClass", ($bodyClass ? $bodyClass." " : "")."social-group-create-body");
 
 		if (
-			$arResult["IS_IFRAME"] 
+			$arResult["IS_IFRAME"]
 			&& $arResult["CALLBACK"] == "REFRESH"
 		)
 		{
@@ -147,7 +147,17 @@ else
 			}
 		}
 
-		?><form method="post" name="sonet_group_create_popup_form" id="sonet_group_create_popup_form" action="<?=POST_FORM_ACTION_URI?>" enctype="multipart/form-data"><?
+		$uri = new Bitrix\Main\Web\Uri(POST_FORM_ACTION_URI);
+		if (!empty($arResult["typeCode"]))
+		{
+			$uri->deleteParams(array("b24statAction", "b24statType"));
+			$uri->addParams(array(
+				"b24statType" => $arResult["typeCode"]
+			));
+		}
+		$actionUrl = $uri->getUri();
+
+		?><form method="post" name="sonet_group_create_popup_form" id="sonet_group_create_popup_form" action="<?=$actionUrl?>" enctype="multipart/form-data"><?
 			?><input type="hidden" name="ajax_request" value="Y"><?
 			?><input type="hidden" name="save" value="Y"><?
 			?><?=bitrix_sessid_post()?><?

@@ -41,10 +41,10 @@
 
 						<div class="landing-block-node-card-buttons2 js-animation slideInUp">
 							<a href="#"
-							   class="landing-block-node-card-link btn btn-xxl text-uppercase u-btn-primary g-font-weight-700 g-font-size-11 g-color-gray-dark-v1 g-color-gray-dark-v1--hover rounded-0 g-py-10 g-py-20--md g-px-15 g-px-25--md g-mr-10">
+							   class="landing-block-node-card-link landing-block-node-card-link1 btn btn-xxl text-uppercase u-btn-primary g-font-weight-700 g-font-size-11 g-color-gray-dark-v1 g-color-gray-dark-v1--hover rounded-0 g-py-10 g-py-20--md g-px-15 g-px-25--md g-mr-10">
 								Donate now</a>
 							<a href="#"
-							   class="landing-block-node-card-link btn btn-xxl text-uppercase u-btn-primary g-font-weight-700 g-font-size-11 g-color-gray-dark-v1 g-color-gray-dark-v1--hover rounded-0 g-py-10 g-py-20--md g-px-15 g-px-25--md">Learn
+							   class="landing-block-node-card-link landing-block-node-card-link2 btn btn-xxl text-uppercase u-btn-primary g-font-weight-700 g-font-size-11 g-color-gray-dark-v1 g-color-gray-dark-v1--hover rounded-0 g-py-10 g-py-20--md g-px-15 g-px-25--md">Learn
 								more</a>
 						</div>
 					</div>
@@ -89,10 +89,10 @@
 
 						<div class="landing-block-node-card-buttons2 js-animation slideInUp">
 							<a href="#"
-							   class="landing-block-node-card-link btn btn-xxl text-uppercase u-btn-primary g-font-weight-700 g-font-size-11 g-color-gray-dark-v1 g-color-gray-dark-v1--hover rounded-0 g-py-20 g-px-25 g-mr-10">
+							   class="landing-block-node-card-link landing-block-node-card-link1 btn btn-xxl text-uppercase u-btn-primary g-font-weight-700 g-font-size-11 g-color-gray-dark-v1 g-color-gray-dark-v1--hover rounded-0 g-py-20 g-px-25 g-mr-10">
 								Donate now</a>
 							<a href="#"
-							   class="landing-block-node-card-link btn btn-xxl text-uppercase u-btn-primary g-font-weight-700 g-font-size-11 g-color-gray-dark-v1 g-color-gray-dark-v1--hover rounded-0 g-py-20 g-px-25">Learn
+							   class="landing-block-node-card-link landing-block-node-card-link2 btn btn-xxl text-uppercase u-btn-primary g-font-weight-700 g-font-size-11 g-color-gray-dark-v1 g-color-gray-dark-v1--hover rounded-0 g-py-20 g-px-25">Learn
 								more</a>
 						</div>
 					</div>

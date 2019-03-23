@@ -382,6 +382,11 @@ textarea.landing-options-input {
 	position: relative;
 }
 
+.landing-form-site-name-block a {
+	color: #2067b0;
+	text-decoration: none;
+}
+
 .landing-form-site-name-label {
 	display: inline-block;
 	color: #525c69;
@@ -757,9 +762,6 @@ textarea.landing-options-input {
 	height: 248px;
 	margin: 0;
 }
-#landing-form-social-img .landing-ui-field-image-action-button-clear {
-	display: none;
-}
 
 #landing-form-social-img .landing-ui-field-image-preview {
 	height: 248px;
@@ -843,8 +845,7 @@ textarea.landing-options-input {
 	color: #000;
 	font-weight: 600;
 	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+	word-wrap: break-word;
 	max-width: 200px;
 }
 

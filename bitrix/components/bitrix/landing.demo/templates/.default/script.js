@@ -20,8 +20,8 @@
 		this.bindTitle();
 
 		// event on app install
-		BX.addCustomEvent(
-			window,
+		top.BX.addCustomEvent(
+			top,
 			'Rest:AppLayout:ApplicationInstall',
 			BX.delegate(this.appInstall, this)
 		);

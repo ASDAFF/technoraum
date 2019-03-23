@@ -281,16 +281,24 @@ abstract class SqlHelper
 	 * Builds the strings for the SQL INSERT command for the given table.
 	 *
 	 * @param string $tableName A table name.
-	 * @param array $fields Array("column" => $value)[].
+	 * @param array  $fields    Array("column" => $value)[].
+	 *
+	 * @param bool   $returnAsArray
 	 *
 	 * @return array (columnList, valueList, binds)
+	 * @throws Main\ArgumentTypeException
+	 * @throws SqlQueryException
 	 */
-	public function prepareInsert($tableName, array $fields)
+	public function prepareInsert($tableName, array $fields, $returnAsArray = false)
 	{
 		$columns = array();
 		$values = array();
 
 		$tableFields = $this->connection->getTableFields($tableName);
+
+		// one registry
+		$tableFields = array_change_key_case($tableFields, CASE_UPPER);
+		$fields = array_change_key_case($fields, CASE_UPPER);
 
 		foreach ($fields as $columnName => $value)
 		{
@@ -308,8 +316,8 @@ abstract class SqlHelper
 		$binds = $this->prepareBinds($tableFields, $fields);
 
 		return array(
-			implode(", ", $columns),
-			implode(", ", $values),
+			$returnAsArray ? $columns : implode(", ", $columns),
+			$returnAsArray ? $values : implode(", ", $values),
 			$binds
 		);
 	}
@@ -327,6 +335,10 @@ abstract class SqlHelper
 		$update = array();
 
 		$tableFields = $this->connection->getTableFields($tableName);
+
+		// one registry
+		$tableFields = array_change_key_case($tableFields, CASE_UPPER);
+		$fields = array_change_key_case($fields, CASE_UPPER);
 
 		foreach ($fields as $columnName => $value)
 		{

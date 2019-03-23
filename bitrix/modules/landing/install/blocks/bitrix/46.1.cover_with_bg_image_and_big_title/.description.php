@@ -35,7 +35,7 @@ return array(
 				array(
 					'name' => Loc::getMessage('LANDING_BLOCK_46.1.COVER_WITH_BG_IMAGE_AND_BIG_TITLE_NODES_LANDINGBLOCKNODEBGIMG'),
 					'type' => 'img',
-					'dimensions' => array('width' => 1600, 'height' => 1068),
+					'dimensions' => array('width' => 1920, 'height' => 1080),
 				),
 		),
 	'style' =>

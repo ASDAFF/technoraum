@@ -17,12 +17,14 @@ return array(
 	'preview_url' => '',
 	'show_in_list' => 'Y',
 	'type' => 'page',
-	'sort' => -130,
+	'sort' => \LandingSiteDemoComponent::checkActivePeriod(11,01,11,30) ? 31 : -171,
 	'version' => 2,
 	'fields' => array(
 		'TITLE' => Loc::getMessage('LANDING_DEMO_BLACKFRIDAY-TITLE'),
 		'RULE' => null,
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'photography',
+			'THEME_CODE_TYPO' => 'photography',
 			'VIEW_USE' => 'N',
 			'VIEW_TYPE' => 'no',
 			'SETTINGS_HIDE_NOT_AVAILABLE' => 'L',
@@ -113,7 +115,7 @@ return array(
 					0 => 'landing-block-node-card-button btn btn-md text-uppercase g-font-weight-700 g-font-size-12 g-py-10 g-px-25 g-color-white-opacity-0_9 u-btn-outline-red g-brd-3 g-rounded-3',
 				),
 				'.landing-block-node-card-bgimg' => array(
-					0 => 'js-slide landing-block-node-card-bgimg landing-block-node-card g-bg-img-hero u-bg-overlay g-min-height-600 g-bg-black-opacity-0_4--after landing-card slick-slide slick-current slick-active',
+					0 => 'landing-block-node-card-bgimg g-bg-img-hero u-bg-overlay g-bg-black-opacity-0_4--after d-flex align-items-center justify-content-center w-100 h-100 g-min-height-100vh',
 				),
 				'.landing-block-node-card-container' => array(
 					0 => 'landing-block-node-card-container js-animation fadeIn container g-mx-0',
@@ -248,9 +250,9 @@ return array(
 			),
 			'style' => array(
 				'.landing-block-node-card' => array(
-					0 => 'landing-block-node-card js-animation fadeInUp col-md-6 g-mb-40 landing-card col-lg-4',
-					1 => 'landing-block-node-card js-animation fadeInUp col-md-6 g-mb-40 landing-card col-lg-4',
-					2 => 'landing-block-node-card js-animation fadeInUp col-md-6 g-mb-40 landing-card col-lg-4',
+					0 => 'landing-block-node-card js-animation fadeInUp col-md-6 g-mb-40 col-lg-4',
+					1 => 'landing-block-node-card js-animation fadeInUp col-md-6 g-mb-40 col-lg-4',
+					2 => 'landing-block-node-card js-animation fadeInUp col-md-6 g-mb-40 col-lg-4',
 				),
 				'.landing-block-node-card-text' => array(
 					0 => 'landing-block-node-card-text g-font-size-default mb-0 g-color-gray-light-v2',

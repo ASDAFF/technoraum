@@ -78,7 +78,7 @@
 	function getBackgroundUrl(node)
 	{
 		var style = node.node.getAttribute('style');
-		var res = style.split(";")[0].match(/url\((.*)\)/);
+		var res = style.split(";")[0].match(/url\((.*?)\)/);
 
 		if (res && res[1])
 		{
@@ -221,17 +221,27 @@
 		}
 		else
 		{
-			node.node.style.backgroundImage = "url(\""+value.src+"\")";
-
-			if (value.src2x)
+			if (value.src)
 			{
-				var style = [
-					"background-image: url(\""+value.src+"\");",
-					"background-image: -webkit-image-set(url(\""+value.src+"\") 1x, url(\""+value.src2x+"\") 2x);",
-					"background-image: image-set(url(\""+value.src+"\") 1x, url(\""+value.src2x+"\") 2x);"
-				].join(' ');
+				node.node.style.backgroundImage = "url(\""+value.src+"\")";
 
-				node.node.setAttribute("style", style);
+				if (value.src2x)
+				{
+					var style = [
+						"background-image: url(\""+value.src+"\");",
+						"background-image: -webkit-image-set(url(\""+value.src+"\") 1x, url(\""+value.src2x+"\") 2x);",
+						"background-image: image-set(url(\""+value.src+"\") 1x, url(\""+value.src2x+"\") 2x);"
+					].join(' ');
+
+					node.node.setAttribute("style", style);
+				}
+			}
+			else
+			{
+				if (node.node.style)
+				{
+					node.node.style.removeProperty("background-image");
+				}
 			}
 
 			node.node.dataset.fileid = value.id || -1;
@@ -296,7 +306,6 @@
 				this.editPanel.appendForm(form);
 				this.editPanel.show();
 				BX.Landing.UI.Panel.EditorPanel.getInstance().hide();
-				BX.Landing.UI.Panel.SmallEditorPanel.getInstance().hide();
 			}
 		},
 

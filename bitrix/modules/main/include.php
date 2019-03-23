@@ -98,7 +98,7 @@ if(!defined("BX_COMP_MANAGED_CACHE") && COption::GetOptionString("main", "compon
 require_once($_SERVER["DOCUMENT_ROOT"].BX_ROOT."/modules/main/filter_tools.php");
 require_once($_SERVER["DOCUMENT_ROOT"].BX_ROOT."/modules/main/ajax_tools.php");
 
-/*ZDUyZmZMjFkM2M0ZjcxYzA3M2QwM2Y2ODQ3Yzk4NDgyYzY3MDM=*/$GLOBALS['____1616206501']= array(base64_decode('ZGVm'.'aW'.'5'.'l'));if(!function_exists(__NAMESPACE__.'\\___1885581825')){function ___1885581825($_1370953560){static $_839776417= false; if($_839776417 == false) $_839776417=array('RU'.'5DT0RF','WQ==');return base64_decode($_839776417[$_1370953560]);}};class CBXFeatures{ public static function IsFeatureEnabled($_1542945987){ return true;} public static function IsFeatureEditable($_1542945987){ return true;} public static function SetFeatureEnabled($_1542945987, $_1245291292= true){} public static function SaveFeaturesSettings($_2143724293, $_516691746){} public static function GetFeaturesList(){ return array();} public static function InitiateEditionsSettings($_1238796575){} public static function ModifyFeaturesSettings($_1238796575, $_142019834){} public static function IsFeatureInstalled($_1542945987){ return true;}} $GLOBALS['____1616206501'][0](___1885581825(0), ___1885581825(1));/**/			//Do not remove this
+/*ZDUyZmZODY2ZWJjMDRmN2MyM2NlMzhhOWFiOTQ3NzJlNGQ2OTg=*/$GLOBALS['____699063379']= array(base64_decode('ZG'.'Vm'.'aW5'.'l'));if(!function_exists(__NAMESPACE__.'\\___477461487')){function ___477461487($_1605075054){static $_1667875701= false; if($_1667875701 == false) $_1667875701=array('RU5DT0RF','WQ==');return base64_decode($_1667875701[$_1605075054]);}};class CBXFeatures{ public static function IsFeatureEnabled($_1297551885){ return true;} public static function IsFeatureEditable($_1297551885){ return true;} public static function SetFeatureEnabled($_1297551885, $_842872177= true){} public static function SaveFeaturesSettings($_728780240, $_2069704184){} public static function GetFeaturesList(){ return array();} public static function InitiateEditionsSettings($_545272100){} public static function ModifyFeaturesSettings($_545272100, $_1267917911){} public static function IsFeatureInstalled($_1297551885){ return true;}} $GLOBALS['____699063379'][0](___477461487(0), ___477461487(1));/**/			//Do not remove this
 
 //component 2.0 template engines
 $GLOBALS["arCustomTemplateEngines"] = array();
@@ -460,6 +460,10 @@ if(!defined("NOT_CHECK_PERMISSIONS") || NOT_CHECK_PERMISSIONS!==true)
 					//store cookies for next hit (see CMain::GetSpreadCookieHTML())
 					$GLOBALS["APPLICATION"]->StoreCookies();
 					$_SESSION['BX_ADMIN_LOAD_AUTH'] = true;
+
+					//logout or re-authorize the user if something importand has changed
+					$GLOBALS["USER"]->CheckAuthActions();
+
 					CMain::FinalActions('<script type="text/javascript">window.onload=function(){top.BX.AUTHAGENT.setAuthResult(false);};</script>');
 					die();
 				}

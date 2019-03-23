@@ -34,7 +34,7 @@ $this->addExternalJs($this->GetFolder() . '/template.js');
 	<div id="left-panel"><? $APPLICATION->ShowViewContent("left-panel"); ?></div>
 	<div class="pagetitle-wrap" style="<?=($arParams['PLAIN_VIEW'] ? 'display: none;' : '')?>">
 		<div class="pagetitle-inner-container">
-			<div class="pagetitle-menu" id="pagetitle-menu">
+			<div class="pagetitle-menu pagetitle-last-item-in-a-row" id="pagetitle-menu">
 				<? $APPLICATION->ShowViewContent("pagetitle"); ?>
 			</div>
 			<div class="pagetitle">

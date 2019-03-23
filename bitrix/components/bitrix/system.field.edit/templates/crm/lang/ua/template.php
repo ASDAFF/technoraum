@@ -18,4 +18,5 @@ $MESS["CRM_CES_CREATE_LEAD"] = "Лід";
 $MESS["CRM_CES_CREATE_CONTACT"] = "Контакт";
 $MESS["CRM_CES_CREATE_COMPANY"] = "Компанію";
 $MESS["CRM_CES_CREATE_DEAL"] = "Угоду";
+$MESS["CRM_SFE_PERMISSION_DENIED"] = "Доступ заборонено";
 ?>

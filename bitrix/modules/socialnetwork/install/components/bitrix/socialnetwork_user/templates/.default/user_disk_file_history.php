@@ -23,6 +23,10 @@ include("util_profile.php");
 <?php
 
 $file = \Bitrix\Disk\File::loadById($arResult['VARIABLES']['FILE_ID']);
+if (!$file)
+{
+	return;
+}
 
 $componentParameters = array_merge(
 	$arResult,

@@ -11,14 +11,15 @@ use Bitrix\Main\Localization\Loc;
 
 \Bitrix\Main\Page\Asset::getInstance()->addJs("/bitrix/components/bitrix/main.post.list/templates/.default/script.js");
 \Bitrix\Main\Page\Asset::getInstance()->addJs($templateFolder."/script.js");
-\Bitrix\Main\Page\Asset::getInstance()->addString('<link href="'.CUtil::GetAdditionalFileURL('/bitrix/js/ui/icons/ui.icons.css').'" type="text/css" rel="stylesheet" />');
+\Bitrix\Main\Page\Asset::getInstance()->addString('<link href="'.CUtil::GetAdditionalFileURL('/bitrix/js/ui/icons/base/ui.icons.base.css').'" type="text/css" rel="stylesheet" />');
+\Bitrix\Main\Page\Asset::getInstance()->addString('<link href="'.CUtil::GetAdditionalFileURL('/bitrix/js/ui/icons/b24/ui.icons.b24.css').'" type="text/css" rel="stylesheet" />');
 
 CUtil::InitJSCore(array("uploader", "date", "fx", "ls")); // does not work
 ob_start();
 ?>
 <!--RCRD_#FULL_ID#-->
 <a id="com#ID#" name="com#ID#" bx-mpl-full-id="#FULL_ID#"></a>
-<div id="record-#FULL_ID#" class="post-comment-block post-comment-block-#NEW# post-comment-block-#APPROVED#" <?=($arResult["ajax_comment"] == $comment["ID"] ? ' data-send="Y"' : '')?> <?
+<div id="record-#FULL_ID#" class="post-comment-block post-comment-block-#NEW# post-comment-block-#APPROVED# #RATING_NONEMPTY_CLASS#" <?=($arResult["ajax_comment"] == $comment["ID"] ? ' data-send="Y"' : '')?> <?
 	?>bx-mpl-id="#FULL_ID#" <?
 	?>bx-mpl-reply-show="#SHOW_POST_FORM#" <?
 	?>bx-mpl-view-url="#VIEW_URL###ID#" bx-mpl-view-show="#VIEW_SHOW#" <?
@@ -46,6 +47,7 @@ ob_start();
 			<div class="post-comment-cont">
 				<a href="#AUTHOR_URL#" class="post-comment-author #AUTHOR_EXTRANET_STYLE#" id="record-#FULL_ID#-author" bx-mpl-author-id="#AUTHOR_ID#">#AUTHOR_NAME#</a>
 				<div class="post-comment-time">#DATE#</div>
+				#LIKE_REACT#
 			</div>
 			<!--/noindex-->
 			#AFTER_HEADER#
@@ -75,7 +77,6 @@ ob_start();
 			?>
 		</div>
 	</div>
-	#LIKE_REACT#
 	#AFTER_RECORD#
 </div><? // post-comment-block
 $template = preg_replace("/[\t\n]/", "", ob_get_clean());

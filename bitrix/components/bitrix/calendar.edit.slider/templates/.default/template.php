@@ -53,53 +53,6 @@ if (empty($event['UF_WEBDAV_CAL_EVENT']['VALUE']))
 
 $userId = CCalendar::GetCurUserId();
 
-$arHost = CCalendar::GetUser($userId, true);
-$arHost['AVATAR_SRC'] = CCalendar::GetUserAvatarSrc($arHost);
-$arHost['URL'] = CCalendar::GetUserUrl($event['MEETING_HOST'], $arParams["PATH_TO_USER"]);
-$arHost['DISPLAY_NAME'] = CCalendar::GetUserName($arHost);
-$arParams['host'] = $arHost;
-
-if ($event['IS_MEETING'])
-{
-	$attendees = array(
-		'y' => array(
-			'users' => array(),
-			'count' => 4,
-			'countMax' => 8,
-			'title' => GetMessage('EC_ATT_Y'),
-			'id' => "bxview-att-cont-y-".$event['ID']
-		),
-		'n' => array(
-			'users' => array(),
-			'count' => 2,
-			'countMax' => 3,
-			'title' => GetMessage('EC_ATT_N'),
-			'id' => "bxview-att-cont-n-".$event['ID']
-		),
-		'q' => array(
-			'users' => array(),
-			'count' => 2,
-			'countMax' => 3,
-			'title' => GetMessage('EC_ATT_Q'),
-			'id' => "bxview-att-cont-q-".$event['ID']
-		)
-	);
-
-	$userIds = array();
-	if (is_array($event['~ATTENDEES']) && count($event['~ATTENDEES']) > 0)
-	{
-		foreach ($event['~ATTENDEES'] as $i => $att)
-		{
-			$userIds[] = $att["USER_ID"];
-			if ($userId == $att["USER_ID"])
-				$curUserStatus = $att['STATUS'];
-			$att['AVATAR_SRC'] = CCalendar::GetUserAvatarSrc($att);
-			$att['URL'] = CCalendar::GetUserUrl($att["USER_ID"], $arParams["PATH_TO_USER"]);
-			$attendees[strtolower($att['STATUS'])]['users'][] = $att;
-		}
-	}
-}
-
 if ($event['IS_MEETING'] && empty($event['ATTENDEES_CODES']))
 {
 	$event['ATTENDEES_CODES'] = CCalendarEvent::CheckEndUpdateAttendeesCodes($event);

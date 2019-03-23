@@ -1,4 +1,5 @@
 <?
+$MESS["LANDING_BLOCK_16_6_TWO_COLS_MAP--MAP"] = "Map";
 $MESS["LANDING_BLOCK_16_6_TWO_COLS_MAP--NAME"] = "Google Maps with contact details and social media on the left";
 $MESS["LANDING_BLOCK_16_6_TWO_COLS_MAP--COL"] = "Column";
 $MESS["LANDING_BLOCK_16_6_TWO_COLS_MAP--SUBTITLE"] = "Subtitle";

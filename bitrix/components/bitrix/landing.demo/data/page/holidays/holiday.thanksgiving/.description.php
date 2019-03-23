@@ -14,7 +14,7 @@ Send your Thanksgiving wishes with special Bitrix24 Thanksgiving Template. Your 
 	'preview_url' => '',
 	'show_in_list' => 'Y',
 	'type' => 'page',
-	'sort' => 99,
+	'sort' => \LandingSiteDemoComponent::checkActivePeriod(11,01,11,30) ? 41 : -181,
 	'version' => 2,
 	'active' => \LandingSiteDemoComponent::checkActive(array(
 		'ONLY_IN' => array('en'),
@@ -23,6 +23,8 @@ Send your Thanksgiving wishes with special Bitrix24 Thanksgiving Template. Your 
 		'TITLE' => 'Thanksgiving day',
 		'RULE' => null,
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'real-estate',
+			'THEME_CODE_TYPO' => 'real-estate',
 			'VIEW_USE' => 'N',
 			'VIEW_TYPE' => 'no',
 			'SETTINGS_HIDE_NOT_AVAILABLE' => 'L',
@@ -106,7 +108,7 @@ Send your Thanksgiving wishes with special Bitrix24 Thanksgiving Template. Your 
 					0 => 'landing-block-node-button btn btn-xl u-btn-primary text-uppercase g-font-weight-700 g-font-size-12 g-rounded-50 g-py-15 g-px-40',
 				),
 				'#wrapper' => array(
-					0 => 'landing-block landing-block-node-img u-bg-overlay g-flex-centered g-height-100vh g-bg-img-hero g-bg-black-opacity-0_5--after g-pt-80 g-pb-80',
+					0 => 'landing-block landing-block-node-img u-bg-overlay g-flex-centered g-min-height-100vh g-bg-img-hero g-bg-black-opacity-0_5--after g-pt-80 g-pb-80',
 				),
 			),
 		),
@@ -561,7 +563,7 @@ Send your Thanksgiving wishes with special Bitrix24 Thanksgiving Template. Your 
 					0 => 'landing-block-node-button btn btn-xl u-btn-primary text-uppercase g-font-weight-700 g-font-size-12 g-rounded-50 g-py-15 g-px-40',
 				),
 				'#wrapper' => array(
-					0 => 'landing-block landing-block-node-img u-bg-overlay g-flex-centered g-height-100vh g-bg-img-hero g-bg-black-opacity-0_5--after g-pt-80 g-pb-80',
+					0 => 'landing-block landing-block-node-img u-bg-overlay g-flex-centered g-min-height-100vh g-bg-img-hero g-bg-black-opacity-0_5--after g-pt-80 g-pb-80',
 				),
 			),
 		),

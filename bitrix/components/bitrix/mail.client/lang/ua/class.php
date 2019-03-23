@@ -1,4 +1,13 @@
 <?
+$MESS["MAIL_MESSAGE_SYNC_BTN_HINT"] = "Синхронізація";
+$MESS["MAIL_MESSAGE_EMPTY_SUBJECT_PLACEHOLDER"] = "(без теми)";
+$MESS["MAIL_MESSAGE_EXT_BLOCK_LINK"] = "Ще";
+$MESS["MAIL_MESSAGE_EXT_BLOCK_TITLE"] = "Додатково";
+$MESS["MAIL_MESSAGE_EXT_BIND_CRM_TITLE"] = "CRM";
+$MESS["MAIL_MESSAGE_EXT_BIND_CRM_EMPTY_TITLE"] = "Елемент";
+$MESS["MAIL_MESSAGE_EXT_BIND_TASKS_TITLE"] = "Завдання";
+$MESS["MAIL_MESSAGE_EXT_BIND_TASKS_EMPTY_TITLE"] = "Завдання";
+$MESS["MAIL_MESSAGE_LIST_ATTACH_ICON_HINT"] = "Лист із вкладеннями";
 $MESS["MAIL_CLIENT_MAILBOX_INDEX_BAR"] = "Індексація";
 $MESS["MAIL_MESSAGE_DELETE_CONFIRM"] = "Ви дійсно хочете видалити цей лист?";
 $MESS["MAIL_MESSAGE_SPAM_CONFIRM"] = "Ви дійсно хочете видалити цей лист і додати відправника в чорний список?";

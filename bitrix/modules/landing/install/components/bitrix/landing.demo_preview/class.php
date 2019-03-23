@@ -21,7 +21,6 @@ class LandingSiteDemoPreviewComponent extends LandingSiteDemoComponent
 			$this->checkParam('SITE_ID', 0);
 			$this->checkParam('CODE', '');
 			$this->checkParam('TYPE', '');
-			$this->checkParam('PAGE_URL_BACK', '');
 			$this->checkParam('SITE_WORK_MODE', 'N');
 
 			$code = $this->arParams['CODE'];
@@ -37,10 +36,11 @@ class LandingSiteDemoPreviewComponent extends LandingSiteDemoComponent
 				$this->arResult['COLORS'] = \Bitrix\Landing\Hook\Page\Theme::getColorCodes();
 				$this->arResult['TEMPLATE'] = $demo[$code];
 				$this->arResult['TEMPLATE']['URL_PREVIEW'] = $this->getUrlPreview($code);
-//				first color by default
+				// first color by default
 				$this->arResult['THEME_CURRENT'] = array_shift(array_keys($this->arResult['COLORS']));
-
-//				new page in EXIST SITE - use site theme always. Find parent site hook
+				
+				
+				// for NEW PAGE IN EXIST SITE - add option for inherit color
 				if ($this->arParams['SITE_ID'])
 				{
 					$classFull = $this->getValidClass('Site');
@@ -58,46 +58,27 @@ class LandingSiteDemoPreviewComponent extends LandingSiteDemoComponent
 					{
 						$this->arResult['THEME_SITE'] = $this->arResult['THEME_CURRENT'];
 					}
-					unset($this->arResult['THEME_CURRENT']);
 
-//					add color to PALLETE
-					if (isset($this->arResult['COLORS'][$this->arResult['THEME_SITE']]))
+					$this->checkColorExists($this->arResult['THEME_SITE']);
+					$this->addColorToPallete($this->arResult['THEME_SITE']);
+
+					// use color from template or use_site_theme
+					$this->arResult['THEME_CURRENT'] =
+						(isset($this->arResult['TEMPLATE']['DATA']['fields']['ADDITIONAL_FIELDS']['THEME_CODE']))
+							? $this->arResult['TEMPLATE']['DATA']['fields']['ADDITIONAL_FIELDS']['THEME_CODE']
+							: 'USE_SITE';
+				}
+				// NEW SITE - get theme from template (or default)
+				else
+				{
+					if (isset($this->arResult['TEMPLATE']['DATA']['fields']['ADDITIONAL_FIELDS']['THEME_CODE']))
 					{
-						$this->arResult['COLORS'][$this->arResult['THEME_SITE']]['base'] = true;
+						$this->arResult['THEME_CURRENT'] = $this->arResult['TEMPLATE']['DATA']['fields']['ADDITIONAL_FIELDS']['THEME_CODE'];
 					}
 				}
 				
-//				NEW SITE - match
-				else
-				{
-					$themeCurr = $this->arResult['THEME_CURRENT'];
-//					form SITE
-					if (!isset($this->arResult['TEMPLATE']['DATA']['fields']['ADDITIONAL_FIELDS']['THEME_CODE']))
-					{
-//						find PARENT site for multipages, or site with equal ID
-						$siteCode = (isset($demo[$code]['DATA']['parent']) && $demo[$code]['DATA']['parent'])
-							? $demo[$code]['DATA']['parent']
-							: $demo[$code]['ID'];
-						$demoSite = $this->getDemoSite()[$siteCode];
-						if ($demoSite['DATA']['fields']['ADDITIONAL_FIELDS']['THEME_CODE'])
-						{
-							$themeCurr = $demoSite['DATA']['fields']['ADDITIONAL_FIELDS']['THEME_CODE'];
-						}
-					}
-//					if note set site theme - get from parent PAGE
-					else
-					{
-						$themeCurr = $this->arResult['TEMPLATE']['DATA']['fields']['ADDITIONAL_FIELDS']['THEME_CODE'];
-					}
-					
-//					add to PALLETE
-					if (isset($this->arResult['COLORS'][$themeCurr]))
-					{
-						$this->arResult['COLORS'][$themeCurr]['base'] = true;
-					}
-					
-					$this->arResult['THEME_CURRENT'] = $themeCurr;
-				}
+				$this->checkColorExists($this->arResult['THEME_CURRENT']);
+				$this->addColorToPallete($this->arResult['THEME_CURRENT']);
 			}
 			else
 			{
@@ -107,5 +88,30 @@ class LandingSiteDemoPreviewComponent extends LandingSiteDemoComponent
 		}
 
 		parent::executeComponent();
+	}
+
+	/**
+	 * Mark some color for default set.
+	 * @param string $color Color code.
+	 * @return void
+	 */
+	private function addColorToPallete($color)
+	{
+		if (isset($this->arResult['COLORS'][$color]))
+		{
+			$this->arResult['COLORS'][$color]['base'] = true;
+		}
+	}
+	
+	/**
+	 * If try to using unknown color - set default from pallete
+	 * @param $color
+	 */
+	private function checkColorExists(&$color)
+	{
+		if (!isset($this->arResult['COLORS'][$color]))
+		{
+			$color = array_shift(array_keys($this->arResult['COLORS']));
+		}
 	}
 }

@@ -64,7 +64,4 @@ return array(
 			'type' => 'border-color',
 		),
 	),
-	'assets' => array(
-		'ext' => array('landing_carousel'),
-	),
 );

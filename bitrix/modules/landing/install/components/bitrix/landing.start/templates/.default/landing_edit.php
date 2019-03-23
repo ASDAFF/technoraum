@@ -17,6 +17,12 @@ $arParams['PAGE_URL_LANDING_VIEW'] = str_replace(
 	$arResult['VARS']['site_show'],
 	$arParams['PAGE_URL_LANDING_VIEW']
 );
+
+$arParams['PAGE_URL_SITE_EDIT'] = str_replace(
+	'#site_edit#',
+	$arResult['VARS']['site_show'],
+	$arParams['PAGE_URL_SITE_EDIT']
+);
 ?>
 
 <?if ($arResult['VARS']['landing_edit']):?>
@@ -28,7 +34,8 @@ $arParams['PAGE_URL_LANDING_VIEW'] = str_replace(
 			'SITE_ID' => $arResult['VARS']['site_show'],
 			'LANDING_ID' => $arResult['VARS']['landing_edit'],
 			'PAGE_URL_LANDINGS' => $arParams['PAGE_URL_SITE_SHOW'],
-			'PAGE_URL_LANDING_VIEW' => $arParams['PAGE_URL_LANDING_VIEW']
+			'PAGE_URL_LANDING_VIEW' => $arParams['PAGE_URL_LANDING_VIEW'],
+			'PAGE_URL_SITE_EDIT' => $arParams['PAGE_URL_SITE_EDIT']
 		),
 		$component
 	);?>

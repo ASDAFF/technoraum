@@ -33,16 +33,16 @@ return array(
 	),
 	'style' => array(
 		'block' => array(
-			'type' => array('block-default-wo-background', 'height-vh'),
+			'type' => array('display'),
 		),
 		'nodes' => array(
 			'.landing-block-node-inner-container-left' => array(
 				'name' => Loc::getMessage('LANDING_BLOCK_1_TWO_COL_WITH_TITLES_NODES_LANDINGBLOCKNODE_INNER_CONTAINER'),
-				'type' => array('animation'),
+				'type' => array('padding-top', 'padding-bottom', 'animation'),
 			),
 			'.landing-block-node-inner-container-right' => array(
 				'name' => Loc::getMessage('LANDING_BLOCK_1_TWO_COL_WITH_TITLES_NODES_LANDINGBLOCKNODE_INNER_CONTAINER'),
-				'type' => array('animation'),
+				'type' => array('padding-top', 'padding-bottom', 'animation'),
 			),
 			'.landing-block-node-small-title' => array(
 				'name' => Loc::getMessage('LANDING_BLOCK_1_TWO_COL_WITH_TITLES_NODES_LANDINGBLOCKNODESMALLTITLE'),
@@ -62,7 +62,7 @@ return array(
 			),
 			'.landing-block-node-img' => array(
 				'name' => Loc::getMessage('LANDING_BLOCK_1_TWO_COL_WITH_TITLES_NODES_LANDINGBLOCKNODEIMG'),
-				'type' => 'background-overlay',
+				'type' => ['background-overlay', 'height-vh'],
 			),
 			'.landing-block-node-button-container' => array(
 				'name' => Loc::getMessage('LANDING_BLOCK_1_TWO_COL_WITH_TITLES_NODES_LANDINGBLOCKNODEBUTTON'),

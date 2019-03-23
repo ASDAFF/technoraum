@@ -18,11 +18,13 @@ return array(
 	'show_in_list' => 'Y',
 	'type' => 'page',
 	'version' => 2,
-	'sort' => -131,
+	'sort' => \LandingSiteDemoComponent::checkActivePeriod(10,10,10,31) ? 51 : -161,
 	'fields' => array(
 		'TITLE' => Loc::getMessage("LANDING_DEMO___HALLOWEEN-TITLE"),
 		'RULE' => null,
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'shipping',
+			'THEME_CODE_TYPO' => 'shipping',
 			'VIEW_USE' => 'N',
 			'VIEW_TYPE' => 'no',
 			'SETTINGS_HIDE_NOT_AVAILABLE' => 'L',
@@ -103,7 +105,7 @@ return array(
 					0 => 'landing-block-node-button btn btn-xl u-btn-primary text-uppercase g-font-weight-700 g-font-size-12 g-rounded-50 g-py-15 g-px-40',
 				),
 				'#wrapper' => array(
-					0 => 'landing-block landing-block-node-img u-bg-overlay g-flex-centered g-height-100vh g-bg-img-hero g-bg-black-opacity-0_5--after g-pt-80 g-pb-80 g-bg-attachment-scroll',
+					0 => 'landing-block landing-block-node-img u-bg-overlay g-flex-centered g-min-height-100vh g-bg-img-hero g-bg-black-opacity-0_5--after g-pt-80 g-pb-80 g-bg-attachment-scroll',
 				),
 			),
 		),
@@ -170,9 +172,9 @@ return array(
 			),
 			'style' => array(
 				'.landing-block-card' => array(
-					0 => 'landing-block-card js-animation fadeIn landing-block-node-block col-md-4 g-mb-30 g-mb-0--md g-pt-10 landing-card',
-					1 => 'landing-block-card js-animation fadeIn landing-block-node-block col-md-4 g-mb-30 g-mb-0--md g-pt-10 landing-card',
-					2 => 'landing-block-card js-animation fadeIn landing-block-node-block col-md-4 g-mb-30 g-mb-0--md g-pt-10 landing-card',
+					0 => 'landing-block-card js-animation fadeIn landing-block-node-block col-md-4 g-mb-30 g-mb-0--md g-pt-10 g-min-height-$1vh',
+					1 => 'landing-block-card js-animation fadeIn landing-block-node-block col-md-4 g-mb-30 g-mb-0--md g-pt-10 g-min-height-$1vh',
+					2 => 'landing-block-card js-animation fadeIn landing-block-node-block col-md-4 g-mb-30 g-mb-0--md g-pt-10 g-min-height-$1vh',
 				),
 				'.landing-block-node-title' => array(
 					0 => 'landing-block-node-title text-uppercase g-font-weight-700 g-font-size-18 g-color-black g-mb-20 g-font-roboto-slab',
@@ -214,7 +216,7 @@ return array(
 					0 => 'landing-block-inner-container row no-gutters align-items-start',
 				),
 				'.landing-block-card' => array(
-					0 => 'landing-block-card js-animation fadeIn col-md-12 col-lg-12 g-flex-centered landing-card',
+					0 => 'landing-block-card js-animation fadeIn col-md-12 col-lg-12 g-flex-centered g-min-height-$1vh',
 				),
 				'.landing-block-node-subtitle' => array(
 					0 => 'landing-block-node-subtitle h6 g-font-weight-800 g-font-size-12 g-letter-spacing-1 g-mb-20 g-color-white',
@@ -278,7 +280,7 @@ return array(
 					0 => 'landing-block-node-button btn btn-xl u-btn-primary text-uppercase g-font-weight-700 g-font-size-12 g-rounded-50 g-py-15 g-px-40',
 				),
 				'#wrapper' => array(
-					0 => 'landing-block landing-block-node-img u-bg-overlay g-flex-centered g-height-100vh g-bg-img-hero g-bg-black-opacity-0_5--after g-pt-80 g-pb-80 g-bg-attachment-fixed',
+					0 => 'landing-block landing-block-node-img u-bg-overlay g-flex-centered g-min-height-100vh g-bg-img-hero g-bg-black-opacity-0_5--after g-pt-80 g-pb-80 g-bg-attachment-fixed',
 				),
 			),
 		),

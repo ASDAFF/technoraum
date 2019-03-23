@@ -1392,6 +1392,8 @@ BX.TreeMultiCondCtrlDialog = function(parentContainer, state, arParams)
 			this.popup_url += (this.popup_url.indexOf('?') !== -1 ? "&" : "?") + data;
 		}
 		this.dialog = null;
+
+		BX.addClass(parentContainer, 'condition-multi');
 	}
 
 	return this.boolResult;

@@ -25,6 +25,8 @@ class UiTileListComponent extends CBitrixComponent
 	protected function initParams()
 	{
 		$this->arParams['ID'] = isset($this->arParams['ID']) ? $this->arParams['ID'] : '';
+		$this->arParams['SHOW_BUTTON_ADD'] = isset($this->arParams['SHOW_BUTTON_ADD']) ? (bool) $this->arParams['SHOW_BUTTON_ADD'] : false;
+		$this->arParams['BUTTON_ADD_CAPTION'] = isset($this->arParams['BUTTON_ADD_CAPTION']) ? $this->arParams['BUTTON_ADD_CAPTION'] : '';
 		$this->arParams['LIST'] = (isset($this->arParams['LIST']) && is_array($this->arParams['LIST']))
 			? $this->arParams['LIST']
 			: [];
@@ -51,10 +53,14 @@ class UiTileListComponent extends CBitrixComponent
 
 			$this->arResult['LIST'][] = array(
 				'name' => $item['name'],
-				'data' => $item['data'],
+				'data' => isset($item['data']) ? $item['data'] : [],
 				'id' => $id,
+				'iconClass' => isset($item['iconClass']) ? $item['iconClass'] : null,
+				'iconColor' => isset($item['iconColor']) ? $item['iconColor'] : null,
+				'selected' => isset($item['selected']) ? (bool) $item['selected'] : false,
 				'bgcolor' => isset($item['bgcolor']) ? $item['bgcolor'] : null,
 				'color' => isset($item['color']) ? $item['color'] : null,
+				'comingSoon' => isset($item['comingSoon']) && $item['comingSoon'] === true,
 			);
 		}
 

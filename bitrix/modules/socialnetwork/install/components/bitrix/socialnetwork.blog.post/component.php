@@ -684,7 +684,21 @@ if(
 			/* end share */
 			if(!$arResult["bFromList"])
 			{
-				$strTitle = ($arPost["MICRO"] != "Y" ? $arPost["TITLE"] : htmlspecialcharsback(TruncateText(blogTextParser::killAllTags($arPost["DETAIL_TEXT"]), 100)));
+				if ($arPost["MICRO"] != "Y")
+				{
+					$strTitle = $arPost["TITLE"];
+				}
+				else
+				{
+					$strTitle = blogTextParser::killAllTags($arPost["DETAIL_TEXT"]);
+
+					$parser = new \CTextParser();
+					$parser->allow = array('CLEAR_SMILES' => 'Y');
+					$strTitle = preg_replace("/&nbsp;/is".BX_UTF_PCRE_MODIFIER, "", $parser->convertText($strTitle));
+
+					$strTitle = htmlspecialcharsback(TruncateText($strTitle, 100));
+				}
+
 				if ($arResult["bIntranetInstalled"])
 				{
 					$APPLICATION->SetPageProperty("title", $strTitle);

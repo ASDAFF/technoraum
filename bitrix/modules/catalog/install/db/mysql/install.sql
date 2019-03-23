@@ -516,6 +516,7 @@ create table if not exists b_catalog_subscribe (
 	ITEM_ID int unsigned not null,
 	NEED_SENDING char(1) not null default 'N',
 	SITE_ID char(2) not null,
+	LANDING_SITE_ID int(18) null,
 	primary key (ID),
 	INDEX IX_CAT_SUB_USER_CONTACT (USER_CONTACT),
 	INDEX IX_CAT_SUB_USER_ID (USER_ID),

@@ -14,6 +14,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_CONSTRUCTION_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'construction',
+			'THEME_CODE_TYPO' => 'construction',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/construction/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_CONSTRUCTION_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_CONSTRUCTION_DESCRIPTION'),
@@ -29,7 +31,7 @@ return array(
 				'CONTENT' => '
 <header class="landing-block landing-block-menu g-bg-white u-header u-header--floating u-header--floating-relative g-z-index-9999">
 	<div class="u-header__section u-header__section--light g-transition-0_3 g-py-12 g-py-20--md" data-header-fix-moment-exclude="g-py-20--md" data-header-fix-moment-classes="u-shadow-v27 g-py-15--md">
-		<nav class="navbar navbar-expand-lg g-py-0">
+		<nav class="navbar navbar-expand-lg g-py-0 g-px-10">
 			<div class="container">
 				<!-- Logo -->
 				<a href="#" class="landing-block-node-menu-logo-link navbar-brand u-header__logo p-0">
@@ -92,10 +94,10 @@ return array(
 				'CONTENT' => '<section class="landing-block">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="landing-block-node-img col-md-6 u-bg-overlay g-bg-img-hero g-bg-black-opacity-0_7--after"
+			<div class="landing-block-node-img col-md-6 u-bg-overlay d-flex align-items-center g-bg-img-hero g-bg-black-opacity-0_7--after"
 				 style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/700x800/img1.jpg);">
-				<div class="landing-block-node-inner-container g-flex-centered g-height-100vh--md g-min-height-300 g-py-40 g-pr-50--md text-md-right">
-					<div class="landing-block-node-inner-container-left js-animation fadeInLeft w-100 u-bg-overlay__inner g-py-100">
+				<div class="landing-block-node-inner-container g-flex-centered w-100 g-py-40 g-pr-50--md text-md-right">
+					<div class="landing-block-node-inner-container-left js-animation fadeInLeft w-100 u-bg-overlay__inner g-pt-100 g-pb-100">
 						<h3 class="landing-block-node-small-title landing-block-node-small-title-left h4 g-font-weight-700 g-color-primary g-mb-20">We professionally do</h3>
 	
 						<div class="landing-block-node-title-container g-brd-left g-brd-left-none--md g-brd-right--md g-brd-7 g-brd-primary g-color-white g-pl-30 g-pr-30 g-pl-0--lg g-mb-30">
@@ -109,10 +111,10 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-node-img col-md-6 u-bg-overlay g-bg-img-hero g-bg-black-opacity-0_7--after"
+			<div class="landing-block-node-img col-md-6 u-bg-overlay d-flex align-items-center g-bg-img-hero g-bg-black-opacity-0_7--after"
 				 style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/700x800/img2.jpg);">
-				<div class="landing-block-node-inner-container g-flex-centered g-height-100vh--md g-min-height-300 g-py-40 g-pl-50--md">
-					<div class="landing-block-node-inner-container-right js-animation fadeInRight w-100 u-bg-overlay__inner g-py-100">
+				<div class="landing-block-node-inner-container g-flex-centered w-100 g-py-40 g-pl-50--md">
+					<div class="landing-block-node-inner-container-right js-animation fadeInRight w-100 u-bg-overlay__inner g-pt-100 g-pb-100">
 						<h3 class="landing-block-node-small-title landing-block-node-small-title-right h4 g-font-weight-700 g-color-primary g-mb-20">We professionally do</h3>
 						
 						<div class="landing-block-node-title-container g-brd-left g-brd-7 g-brd-primary g-color-white g-pl-30 g-mb-30">
@@ -177,7 +179,7 @@ return array(
 
                 <div class="col-md-7">
                     <div aria-multiselectable="true">
-                        <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated landing-card">
+                        <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated g-min-height-$1vh">
                             <div class="card-header u-accordion__header g-bg-transparent g-brd-none rounded-0 p-0">
 								<div class="landing-block-card-accordeon-element-title-link d-block text-uppercase g-pos-rel g-font-weight-700 g-font-size-12 g-brd-bottom g-brd-primary g-brd-2 g-py-15">
                                     <span class="landing-block-node-accordeon-element-img-container g-color-primary">
@@ -197,7 +199,7 @@ return array(
                             </div>
                         </div>
 
-                        <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated landing-card">
+                        <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated g-min-height-$1vh">
                             <div class="card-header u-accordion__header g-bg-transparent g-brd-none rounded-0 p-0">
                                 <div class="landing-block-card-accordeon-element-title-link d-block text-uppercase g-pos-rel g-font-weight-700 g-font-size-12 g-brd-bottom g-brd-primary g-brd-2 g-py-15">
                                     <span class="landing-block-node-accordeon-element-img-container g-color-primary">
@@ -217,7 +219,7 @@ return array(
                             </div>
                         </div>
 
-                        <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated landing-card">
+                        <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated g-min-height-$1vh">
                             <div class="card-header u-accordion__header g-bg-transparent g-brd-none rounded-0 p-0">
                                 <div class="landing-block-card-accordeon-element-title-link d-block text-uppercase g-pos-rel g-font-weight-700 g-font-size-12 g-brd-bottom g-brd-primary g-brd-2 g-py-15">
                                     <span class="landing-block-node-accordeon-element-img-container g-color-primary">
@@ -237,7 +239,7 @@ return array(
                             </div>
                         </div>
 
-                        <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated landing-card">
+                        <div class="landing-block-card-accordeon-element card g-brd-none js-animation fadeInUp animated g-min-height-$1vh">
                             <div class="card-header u-accordion__header g-bg-transparent g-brd-none rounded-0 p-0">
                                 <div class="landing-block-card-accordeon-element-title-link d-block text-uppercase g-pos-rel g-font-weight-700 g-font-size-12 g-brd-bottom g-brd-primary g-brd-2 g-py-15">
                                     <span class="landing-block-node-accordeon-element-img-container g-color-primary">
@@ -269,8 +271,7 @@ return array(
 				'SORT' => '2000',
 				'CONTENT' => '<section class="landing-block container-fluid px-0">
         <div class="row no-gutters g-overflow-hidden">
-				<div class="landing-block-card col-lg-6 landing-block-node-img g-min-height-500 g-bg-black-opacity-0_6--after g-bg-img-hero row no-gutters align-items-center
-				justify-content-center u-bg-overlay g-transition--ease-in g-transition-0_2 g-transform-scale-1_03--hover"
+				<div class="landing-block-card col-lg-6 landing-block-node-img g-min-height-500 g-bg-black-opacity-0_6--after g-bg-img-hero row no-gutters align-items-center justify-content-center u-bg-overlay g-transition--ease-in g-transition-0_2 g-transform-scale-1_03--hover js-animation animation-none"
 					 style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/900x506/img1.jpg);">
 					<div class="text-center u-bg-overlay__inner g-pa-40">
 						<h3 class="landing-block-node-title js-animation fadeIn text-uppercase g-font-weight-700 g-font-size-18 g-color-white g-mb-20">Building</h3>
@@ -284,8 +285,7 @@ return array(
 						</div>
 					</div>
 				</div>
-				<div class="landing-block-card col-lg-6 landing-block-node-img g-min-height-500 g-bg-img-hero row no-gutters align-items-center
-					justify-content-center g-bg-black-opacity-0_6--after u-bg-overlay g-transition--ease-in g-transition-0_2 g-transform-scale-1_03--hover"
+				<div class="landing-block-card col-lg-6 landing-block-node-img g-min-height-500 g-bg-img-hero row no-gutters align-items-center justify-content-center g-bg-black-opacity-0_6--after u-bg-overlay g-transition--ease-in g-transition-0_2 g-transform-scale-1_03--hover js-animation animation-none"
 					 style="background-image: url(https://cdn.bitrix24.site/bitrix/images/landing/business/900x506/img2.jpg);">
 					<div class="text-center u-bg-overlay__inner g-pa-40">
 						<h3 class="landing-block-node-title js-animation fadeIn text-uppercase g-font-weight-700 g-font-size-18 g-color-white g-mb-20">Plumbing works</h3>
@@ -309,8 +309,7 @@ return array(
 				'SORT' => '2500',
 				'CONTENT' => '<section class="landing-block container-fluid px-0">
         <div class="row no-gutters g-overflow-hidden">
-				<div class="landing-block-card col-lg-6 landing-block-node-img g-min-height-500 g-bg-black-opacity-0_6--after g-bg-img-hero row no-gutters align-items-center
-				justify-content-center u-bg-overlay g-transition--ease-in g-transition-0_2 g-transform-scale-1_03--hover" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/900x506/img3.jpg\');" data-fileid="-1">
+				<div class="landing-block-card col-lg-6 landing-block-node-img g-min-height-500 g-bg-black-opacity-0_6--after g-bg-img-hero row no-gutters align-items-center justify-content-center u-bg-overlay g-transition--ease-in g-transition-0_2 g-transform-scale-1_03--hover js-animation animation-none" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/900x506/img3.jpg\');" data-fileid="-1">
 					<div class="text-center u-bg-overlay__inner g-pa-40">
 						<h3 class="landing-block-node-title js-animation fadeIn text-uppercase g-font-weight-700 g-font-size-18 g-color-white g-mb-20">PAINTING</h3>
 						<div class="landing-block-node-text js-animation fadeIn g-color-white-opacity-0_7">
@@ -323,8 +322,7 @@ return array(
 						</div>
 					</div>
 				</div>
-				<div class="landing-block-card col-lg-6 landing-block-node-img g-min-height-500 g-bg-img-hero row no-gutters align-items-center
-					justify-content-center g-bg-black-opacity-0_6--after u-bg-overlay g-transition--ease-in g-transition-0_2 g-transform-scale-1_03--hover" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/900x506/img4.jpg\');" data-fileid="-1">
+				<div class="landing-block-card col-lg-6 landing-block-node-img g-min-height-500 g-bg-img-hero row no-gutters align-items-center justify-content-center g-bg-black-opacity-0_6--after u-bg-overlay g-transition--ease-in g-transition-0_2 g-transform-scale-1_03--hover js-animation animation-none" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/900x506/img4.jpg\');" data-fileid="-1">
 					<div class="text-center u-bg-overlay__inner g-pa-40">
 						<h3 class="landing-block-node-title js-animation fadeIn text-uppercase g-font-weight-700 g-font-size-18 g-color-white g-mb-20">RECONSTRUCTION</h3>
 						<div class="landing-block-node-text js-animation fadeIn g-color-white-opacity-0_7">
@@ -425,7 +423,7 @@ return array(
         <div class="container u-bg-overlay__inner">
             <div class="row">
 
-                <div class="landing-block-card d-flex flex-column col-md-4 g-mb-20 g-mb-0--md js-animation fadeIn animated landing-card">
+                <div class="landing-block-card d-flex flex-column col-md-4 g-mb-20 g-mb-0--md js-animation fadeIn animated g-min-height-$1vh">
                     <div class="u-heading-v8-1 g-mb-20">
                         <h2 class="landing-block-node-subtitle h6 text-uppercase u-heading-v8__title g-font-weight-700 g-color-white mb-0 g-font-size-11 g-color-white-opacity-0_8 p-0 g-mb-7">
                             Building
@@ -434,7 +432,7 @@ return array(
                             Excepteur sint occaecat cupidatat
 						</h2>
                     </div>
-                    <img class="landing-block-node-img img-fluid g-mb-20" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1000x565/img1.jpg" alt="" />
+                    <img class="landing-block-node-img img-fluid g-mb-20 flex-shrink-0" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1000x565/img1.jpg" alt="" />
                     <div class="landing-block-node-text g-line-height-1_8 g-font-size-default g-color-white-opacity-0_8 g-mb-40 g-font-size-14">
 						<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sunt in culpa qui officia deserunt mollit
 							anim id est laborum.</p>
@@ -446,7 +444,7 @@ return array(
 					</div>
                 </div>
 
-                <div class="landing-block-card d-flex flex-column col-md-4 g-mb-20 g-mb-0--md js-animation fadeIn animated landing-card">
+                <div class="landing-block-card d-flex flex-column col-md-4 g-mb-20 g-mb-0--md js-animation fadeIn animated g-min-height-$1vh">
                     <div class="u-heading-v8-1 g-mb-20">
                         <h2 class="landing-block-node-subtitle h6 text-uppercase u-heading-v8__title g-font-weight-700 g-color-white mb-0 g-font-size-11 g-color-white-opacity-0_8 p-0 g-mb-7">
                             Building
@@ -455,7 +453,7 @@ return array(
                             Excepteur sint occaecat cupidatat
 						</h2>
                     </div>
-                    <img class="landing-block-node-img img-fluid g-mb-20" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1000x565/img2.jpg" alt="" />
+                    <img class="landing-block-node-img img-fluid g-mb-20 flex-shrink-0" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1000x565/img2.jpg" alt="" />
                     <div class="landing-block-node-text g-line-height-1_8 g-font-size-default g-color-white-opacity-0_8 g-mb-40 g-font-size-14">
 						<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sunt in culpa qui officia deserunt mollit
 							anim id est laborum.</p>
@@ -467,7 +465,7 @@ return array(
 					</div>
                 </div>
 
-                <div class="landing-block-card d-flex flex-column col-md-4 g-mb-20 g-mb-0--md js-animation fadeIn animated landing-card">
+                <div class="landing-block-card d-flex flex-column col-md-4 g-mb-20 g-mb-0--md js-animation fadeIn animated g-min-height-$1vh">
                     <div class="u-heading-v8-1 g-mb-20">
                         <h2 class="landing-block-node-subtitle h6 text-uppercase u-heading-v8__title g-font-weight-700 g-color-white mb-0 g-font-size-11 g-color-white-opacity-0_8 p-0 g-mb-7">
                             Building
@@ -476,7 +474,7 @@ return array(
                             Excepteur sint occaecat cupidatat
 						</h2>
                     </div>
-                    <img class="landing-block-node-img img-fluid g-mb-20" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1000x565/img3.jpg" alt="" />
+                    <img class="landing-block-node-img img-fluid g-mb-20 flex-shrink-0" src="https://cdn.bitrix24.site/bitrix/images/landing/business/1000x565/img3.jpg" alt="" />
                     <div class="landing-block-node-text g-line-height-1_8 g-font-size-default g-color-white-opacity-0_8 g-mb-40 g-font-size-14">
 						<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sunt in culpa qui officia deserunt mollit
 							anim id est laborum.</p>
@@ -1105,7 +1103,37 @@ return array(
 
 				<div class="col-md-4 col-lg-5 g-flex-centered">
 					<div class="w-100">
-						<!--						social will be here-->
+												<ul class="list-inline float-md-right mb-0">
+							<li class="landing-block-card-social list-inline-item g-mr-10"
+								data-card-preset="facebook">
+								<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-white g-color-white--hover g-bg-primary--hover g-brd-white g-brd-primary--hover g-rounded-50x"
+								   href="https://facebook.com">
+									<i class="landing-block-card-social-icon fa fa-facebook"></i>
+								</a>
+							</li>
+
+							<li class="landing-block-card-social list-inline-item g-mr-10"
+								data-card-preset="instagram">
+								<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-white g-color-white--hover g-bg-primary--hover g-brd-white g-brd-primary--hover g-rounded-50x"
+								   href="https://instagram.com">
+									<i class="landing-block-card-social-icon fa fa-instagram"></i>
+								</a>
+							</li>
+							<li class="landing-block-card-social list-inline-item g-mr-10"
+								data-card-preset="twitter">
+								<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-white g-color-white--hover g-bg-primary--hover g-brd-white g-brd-primary--hover g-rounded-50x"
+								   href="https://twitter.com">
+									<i class="landing-block-card-social-icon fa fa-twitter"></i>
+								</a>
+							</li>
+							<li class="landing-block-card-social list-inline-item g-mr-10"
+								data-card-preset="youtube">
+								<a class="landing-block-card-social-icon-link u-icon-v2 g-width-35 g-height-35 g-font-size-16 g-color-white g-color-white--hover g-bg-primary--hover g-brd-white g-brd-primary--hover g-rounded-50x"
+								   href="https://youtube.com">
+									<i class="landing-block-card-social-icon fa fa-youtube"></i>
+								</a>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>

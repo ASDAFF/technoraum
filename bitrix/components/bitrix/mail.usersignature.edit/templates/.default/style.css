@@ -171,19 +171,6 @@
 	background: #fff !important;
 	color: #bbb;
 }
-#signature-editor-container .bxhtmled-button-bbcode {
-	min-width: 24px;
-	width: auto;
-	text-align: center;
-}
-#signature-editor-container .bxhtmled-button-bbcode i {
-	background: none;
-}
-#signature-editor-container .bxhtmled-button-bbcode:before {
-	content: 'html';
-	font-size: 10px;
-	color: rgb(51, 66, 75);
-}
 
 .mail-signature-edit-wrap {
 	background: #fff;

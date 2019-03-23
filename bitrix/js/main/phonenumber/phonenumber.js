@@ -540,12 +540,22 @@
 
 		if(number.isInternational())
 		{
-			return (number.hasPlus() ? '+' : '') + number.getCountryCode() + ' ' + formattedNationalNumber;
+			var formattedNumber = (number.hasPlus() ? '+' : '') + number.getCountryCode() + ' ' + formattedNationalNumber;
 		}
 		else
 		{
-			return formattedNationalNumber;
+			formattedNumber = formattedNationalNumber;
 		}
+
+		// If no digit was inserted/removed/altered in a process of formatting, return the formatted number;
+		var normalizedFormattedNumber = _stripLetters(formattedNumber);
+		var normalizedRawInput = _stripLetters(number.getRawNumber());
+		if (normalizedFormattedNumber !== normalizedRawInput)
+		{
+			formattedNumber = number.getRawNumber();
+		}
+
+		return formattedNumber;
 	};
 
 	BX.PhoneNumberFormatter.selectFormatForNumber = function(nationalNumber, isInternational, countryMetadata)
@@ -642,8 +652,8 @@
 		var patternRegex =  new RegExp(format['pattern']);
 		var nationalNumber = number.getNationalNumber();
 		var countryMetadata = _getCountryMetadata(number.getCountry());
-		var nationalPrefix = number.getNationalPrefix() || '';
-		var hasNationalPrefix = nationalPrefix !== '';
+		var nationalPrefix = _getNationalPrefix(countryMetadata, true);
+		var hasNationalPrefix = _numberContainsNationalPrefix(number.getRawNumber(), nationalPrefix, countryMetadata);
 
 		if(!isInternational && hasNationalPrefix)
 		{
@@ -850,7 +860,8 @@
 				return false;
 			}
 			this.hasNationalPrefix = true;
-			this.nationalPrefix = this.nationalNumber.substr(0, this.nationalNumber.length - possibleNationalNumber.length);
+			//this.nationalPrefix = this.nationalNumber.substr(0, this.nationalNumber.length - possibleNationalNumber.length);
+			this.nationalPrefix = this.countryMetadata['nationalPrefix'];
 			this.nationalNumber = possibleNationalNumber;
 			return true;
 		}
@@ -903,12 +914,22 @@
 
 			if(this.isInternational)
 			{
-				return (this.hasPlusChar ? plusChar : '') + this.countryCode + ' ' + this.formattedNumber;
+				var formattedNumber = (this.hasPlusChar ? plusChar : '') + this.countryCode + ' ' + this.formattedNumber;
 			}
 			else
 			{
-				return this.formattedNumber;
+				formattedNumber = this.formattedNumber;
 			}
+
+			// If no digit was inserted/removed/altered in a process of formatting, return the formatted number;
+			var normalizedFormattedNumber = _stripLetters(formattedNumber);
+			var normalizedRawInput = _stripLetters(this.rawInput);
+			if (normalizedFormattedNumber !== normalizedRawInput)
+			{
+				formattedNumber = this.rawInput;
+			}
+
+			return formattedNumber;
 		}
 	};
 
@@ -1944,6 +1965,21 @@
 
 	};
 
+	var _getNationalPrefix = function(countryMetadata, stripNonDigits)
+	{
+		if(!countryMetadata.hasOwnProperty('nationalPrefix'))
+		{
+			return '';
+		}
+
+		var nationalPrefix = countryMetadata['nationalPrefix'];
+		if (stripNonDigits)
+		{
+			nationalPrefix = _stripLetters(nationalPrefix);
+		}
+		return nationalPrefix;
+	};
+
 	var _getNationalPrefixFormattingRule = function (format, countryMetadata)
 	{
 		if(format.hasOwnProperty('nationalPrefixFormattingRule'))
@@ -1958,6 +1994,23 @@
 			var mainCountryMetadata = _getCountryMetadata(mainCountry);
 
 			return mainCountryMetadata['nationalPrefixFormattingRule'] || '';
+		}
+	};
+
+	var _numberContainsNationalPrefix = function(phoneNumber, nationalPrefix, countryMetadata)
+	{
+		if (phoneNumber.indexOf(nationalPrefix) === 0)
+		{
+			// Some Japanese numbers (e.g. 00777123) might be mistaken to contain the national prefix
+			// when written without it (e.g. 0777123) if we just do prefix matching. To tackle that, we
+			// check the validity of the number if the assumed national prefix is removed (777123 won't
+			// be valid in Japan).
+			var numberWithoutPrefix = phoneNumber.substr(nationalPrefix.length);
+			return BX.PhoneNumberParser.getInstance()._realParse(numberWithoutPrefix, countryMetadata['id']).isValid();
+		}
+		else
+		{
+			return false;
 		}
 	};
 

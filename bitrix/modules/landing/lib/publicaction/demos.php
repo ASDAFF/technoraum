@@ -106,10 +106,11 @@ class Demos
 	/**
 	 * Register new demo template (site [and pages]).
 	 * @param array $data Full data from \Bitrix\Landing\Site::fullExport.
+	 * @param array $params Additional params.
 	 * @see \Bitrix\Landing\Site::fullExport
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function register($data = array())
+	public static function register(array $data = array(), array $params = array())
 	{
 		$result = new PublicActionResult();
 		$error = new \Bitrix\Landing\Error;
@@ -211,8 +212,17 @@ class Demos
 			$fields = array(
 				'XML_ID' => null,
 				'APP_CODE' => $appCode,
-				'TPL_TYPE' => DemoCore::TPL_TYPE_PAGE
+				'TPL_TYPE' => DemoCore::TPL_TYPE_PAGE,
+				'LANG' => []
 			);
+			if (isset($params['site_template_id']))
+			{
+				$fields['SITE_TEMPLATE_ID'] = $params['site_template_id'];
+			}
+			else
+			{
+				$fields['SITE_TEMPLATE_ID'] = '';
+			}
 			if (isset($item['code']))
 			{
 				$fields['XML_ID'] = trim($item['code']);
@@ -220,6 +230,14 @@ class Demos
 			if (isset($item['name']))
 			{
 				$fields['TITLE'] = $item['name'];
+			}
+			if (isset($params['lang']))
+			{
+				$fields['LANG']['lang'] = $params['lang'];
+			}
+			if (isset($params['lang_original']))
+			{
+				$fields['LANG']['lang_original'] = $params['lang_original'];
 			}
 			foreach ($fieldCode as $code)
 			{
@@ -230,6 +248,10 @@ class Demos
 				}
 			}
 			$fields['MANIFEST'] = serialize((array)$item);
+			if ($fields['LANG'])
+			{
+				$fields['LANG'] = serialize((array)$fields['LANG']);
+			}
 			\Bitrix\Landing\Manager::sanitize(
 				$fields['MANIFEST'],
 				$bad
@@ -355,7 +377,7 @@ class Demos
 	 * @param array $params Params ORM array.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function getList($params = array())
+	public static function getList(array $params = array())
 	{
 		$result = new PublicActionResult();
 
@@ -384,6 +406,14 @@ class Demos
 		$res = DemoCore::getList($params);
 		while ($row = $res->fetch())
 		{
+			if (isset($row['DATE_CREATE']))
+			{
+				$row['DATE_CREATE'] = (string) $row['DATE_CREATE'];
+			}
+			if (isset($row['DATE_MODIFY']))
+			{
+				$row['DATE_MODIFY'] = (string) $row['DATE_MODIFY'];
+			}
 			$row['MANIFEST'] = unserialize($row['MANIFEST']);
 			$data[] = $row;
 		}

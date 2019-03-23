@@ -169,7 +169,10 @@ if (!function_exists('__SLEGetLogRecord'))
 			$arCacheVars = $cache->GetVars();
 			$arEvent["FIELDS_FORMATTED"] = $arCacheVars["FIELDS_FORMATTED"];
 
-			if (array_key_exists("CACHED_CSS_PATH", $arEvent["FIELDS_FORMATTED"]))
+			if (
+				is_array($arEvent["FIELDS_FORMATTED"])
+				&& array_key_exists("CACHED_CSS_PATH", $arEvent["FIELDS_FORMATTED"])
+			)
 			{
 				if (
 					!is_array($arEvent["FIELDS_FORMATTED"]["CACHED_CSS_PATH"])
@@ -187,7 +190,10 @@ if (!function_exists('__SLEGetLogRecord'))
 				}
 			}
 
-			if (array_key_exists("CACHED_JS_PATH", $arEvent["FIELDS_FORMATTED"]))
+			if (
+				is_array($arEvent["FIELDS_FORMATTED"])
+				&& array_key_exists("CACHED_JS_PATH", $arEvent["FIELDS_FORMATTED"])
+			)
 			{
 				if (
 					!is_array($arEvent["FIELDS_FORMATTED"]["CACHED_JS_PATH"])

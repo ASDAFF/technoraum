@@ -147,6 +147,14 @@ $arResult['firstPage'] = (
 	!isset($_REQUEST["last_comment_id"]) // web
 	&& empty($_REQUEST["FILTER"]) // mobile
 	&& $commentUrlID <= 0
+/*
+	&& (
+		empty($arParams['LOG_CONTENT_ITEM_TYPE'])
+		|| $arParams['LOG_CONTENT_ITEM_TYPE'] != \Bitrix\Socialnetwork\LogIndexTable::ITEM_TYPE_COMMENT
+		|| empty($arParams['LOG_CONTENT_ITEM_ID'])
+		|| intval($arParams['LOG_CONTENT_ITEM_ID']) <= 0
+	)
+*/
 );
 
 $arParams["DATE_TIME_FORMAT_S"] = $arParams["DATE_TIME_FORMAT"];

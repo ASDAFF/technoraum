@@ -12,6 +12,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_COURSES_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'courses',
+			'THEME_CODE_TYPO' => 'courses',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/courses/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_COURSES_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_COURSES_DESCRIPTION'),
@@ -27,7 +29,7 @@ return array(
 				'CONTENT' => '
 <header class="landing-block landing-block-menu g-bg-white u-header u-header--floating g-z-index-9999" >
 	<div class="u-header__section u-header__section--light u-shadow-v27 g-transition-0_3 g-py-17" data-header-fix-moment-exclude="g-py-17" data-header-fix-moment-classes="g-py-12">
-		<nav class="navbar navbar-expand-lg g-py-0">
+		<nav class="navbar navbar-expand-lg g-py-0 g-px-10">
 			<div class="container">
 				<!-- Logo -->
 				<a href="#" class="landing-block-node-menu-logo-link navbar-brand u-header__logo p-0">
@@ -68,6 +70,29 @@ return array(
 						</li>
 						<li class="landing-block-node-menu-list-item nav-item g-ml-3--lg">
 							<a href="#block@block[04.1.one_col_fix_with_title@4]" class="landing-block-node-menu-list-item-link nav-link" target="_self">CONTACTS</a>
+						</li>
+					</ul>
+					<ul class="list-inline mb-0 landing-block-node-menu-list-social">
+						<li class="list-inline-item landing-block-card-social g-mr-10"
+							data-card-preset="facebook">
+							<a class="landing-block-card-social-icon-link d-block u-icon-v3 u-icon-size--sm g-rounded-50x g-bg-gray-light-v4 g-color-gray-light-v1 g-bg-primary--hover g-color-white--hover g-font-size-14"
+							   href="https://facebook.com">
+								<i class="landing-block-card-social-icon fa fa-facebook"></i>
+							</a>
+						</li>
+						<li class="landing-block-card-social list-inline-item g-mr-10"
+							data-card-preset="instagram">
+							<a class="landing-block-card-social-icon-link d-block u-icon-v3 u-icon-size--sm g-rounded-50x g-bg-gray-light-v4 g-color-gray-light-v1 g-bg-primary--hover g-color-white--hover g-font-size-14"
+							   href="https://instagram.com">
+								<i class="landing-block-card-social-icon fa fa-instagram"></i>
+							</a>
+						</li>
+						<li class="landing-block-card-social list-inline-item g-mr-10"
+							data-card-preset="twitter">
+							<a class="landing-block-card-social-icon-link d-block u-icon-v3 u-icon-size--sm g-rounded-50x g-bg-gray-light-v4 g-color-gray-light-v1 g-bg-primary--hover g-color-white--hover g-font-size-14"
+							   href="https://twitter.com">
+								<i class="landing-block-card-social-icon fa fa-twitter"></i>
+							</a>
 						</li>
 					</ul>
 
@@ -327,28 +352,28 @@ return array(
 	<div class="container">
 		<div class="row">
 
-			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation animated landing-card fadeIn">
+			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation animated g-min-height-$1vh fadeIn">
 				<img class="landing-block-node-img img-fluid g-mb-30" src="https://cdn.bitrix24.site/bitrix/images/landing/business/642x818/img4.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
 				<h3 class="landing-block-node-title text-uppercase g-font-weight-700 g-color-black g-mb-20 g-font-size-18">BALLET LESSONS</h3>
 				<div class="landing-block-node-text g-font-size-14"><p><span style="font-weight: bold;color: rgb(97, 97, 97);">FROM $150 PER COURSE</span><br /><br />This is where we really begin to visualize your napkin sketches and make them into beautiful pixels.<br /><br /><span style="font-weight: bold;color: rgb(97, 97, 97);">DURATION: 6 MONTHS<br />DEGREE LEVEL: ADVANCED</span></p></div>
 			</div>
 
-			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation animated landing-card fadeIn">
+			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation animated g-min-height-$1vh fadeIn">
 				<img class="landing-block-node-img img-fluid g-mb-30" src="https://cdn.bitrix24.site/bitrix/images/landing/business/642x818/img3.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
 				<h3 class="landing-block-node-title text-uppercase g-font-weight-700 g-color-black g-mb-20 g-font-size-18">MUSIC LESSONS</h3>
 				<div class="landing-block-node-text g-font-size-14"><p><span style="font-weight: bold;color: rgb(97, 97, 97);">FROM $150 PER COURSE</span><br /><br /><span style="">This is where we really begin to visualize your napkin sketches and make them into beautiful pixels.<br /><br /></span><span style="font-weight: bold;color: rgb(97, 97, 97);"><span style="">DURATION: 6 MONTHS<br /></span><span style="">DEGREE LEVEL: ADVANCED</span></span></p></div>
 			</div>
 
-			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation animated landing-card fadeIn">
+			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation animated g-min-height-$1vh fadeIn">
 				<img class="landing-block-node-img img-fluid g-mb-30" src="https://cdn.bitrix24.site/bitrix/images/landing/business/642x818/img2.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
 				<h3 class="landing-block-node-title text-uppercase g-font-weight-700 g-color-black g-mb-20 g-font-size-18">GUITAR FOR BEGGINERS</h3>
 				<div class="landing-block-node-text g-font-size-14"><p><span style="font-weight: bold;color: rgb(97, 97, 97);">FROM $150 PER COURSE</span><br /><br /><span style="">This is where we really begin to visualize your napkin sketches and make them into beautiful pixels.<br /><br /></span><span style="font-weight: bold;color: rgb(97, 97, 97);"><span style="">DURATION: 6 MONTHS<br /></span><span style="">DEGREE LEVEL: ADVANCED</span></span></p></div>
 			</div>
 
-			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation animated landing-card fadeIn">
+			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation animated g-min-height-$1vh fadeIn">
 				<img class="landing-block-node-img img-fluid g-mb-30" src="https://cdn.bitrix24.site/bitrix/images/landing/business/642x818/img1.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
 				<h3 class="landing-block-node-title text-uppercase g-font-weight-700 g-color-black g-mb-20 g-font-size-18">CREATIVE PHOTOGRAPHS</h3>
@@ -595,7 +620,7 @@ return array(
 	<div class="container">
 		<!-- Team Block -->
 		<div class="row">
-			<div class="landing-block-card-employee js-animation col-md-6 col-lg-3 g-mb-30 g-mb-0--lg fadeIn animated landing-card">
+			<div class="landing-block-card-employee js-animation col-md-6 col-lg-3 g-mb-30 g-mb-0--lg fadeIn animated g-min-height-$1vh">
 				<div class="text-center">
 					<!-- Figure -->
 					<figure class="g-pos-rel g-parent g-mb-30">
@@ -619,7 +644,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-card-employee js-animation col-md-6 col-lg-3 g-mb-30 g-mb-0--lg fadeIn animated landing-card">
+			<div class="landing-block-card-employee js-animation col-md-6 col-lg-3 g-mb-30 g-mb-0--lg fadeIn animated g-min-height-$1vh">
 				<div class="text-center">
 					<!-- Figure -->
 					<figure class="g-pos-rel g-parent g-mb-30">
@@ -644,7 +669,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-card-employee js-animation col-md-6 col-lg-3 g-mb-30 g-mb-0--lg fadeIn animated landing-card">
+			<div class="landing-block-card-employee js-animation col-md-6 col-lg-3 g-mb-30 g-mb-0--lg fadeIn animated g-min-height-$1vh">
 				<div class="text-center">
 					<!-- Figure -->
 					<figure class="g-pos-rel g-parent g-mb-30">
@@ -668,7 +693,7 @@ return array(
 				</div>
 			</div>
 
-			<div class="landing-block-card-employee js-animation col-md-6 col-lg-3 g-mb-30 g-mb-0--lg fadeIn animated landing-card">
+			<div class="landing-block-card-employee js-animation col-md-6 col-lg-3 g-mb-30 g-mb-0--lg fadeIn animated g-min-height-$1vh">
 				<div class="text-center">
 					<!-- Figure -->
 					<figure class="g-pos-rel g-parent g-mb-30">
@@ -718,7 +743,7 @@ return array(
 
             <div class="row no-gutters">
 
-                <div class="landing-block-card js-animation col-md-4 g-mb-30 g-mb-0--md fadeInUp animated landing-card">
+                <div class="landing-block-card js-animation col-md-4 g-mb-30 g-mb-0--md fadeInUp animated g-min-height-$1vh">
                     <article class="text-center g-brd-around g-color-gray g-brd-gray-light-v5 g-pa-10">
                         <div class="g-bg-gray-light-v5 g-pa-30">
                             <h4 class="landing-block-node-title text-uppercase h5 g-color-gray-dark-v3 g-font-weight-500 g-mb-10">FOR PHOTOGRAPHERS</h4>
@@ -743,7 +768,7 @@ return array(
 
                 
 
-                <div class="landing-block-card js-animation col-md-4 g-mb-30 g-mb-0--md fadeInUp animated landing-card">
+                <div class="landing-block-card js-animation col-md-4 g-mb-30 g-mb-0--md fadeInUp animated g-min-height-$1vh">
                     <article class="text-center g-brd-around g-color-gray g-brd-gray-light-v5 g-pa-10">
                         <div class="g-bg-gray-light-v5 g-pa-30">
                             <h4 class="landing-block-node-title text-uppercase h5 g-color-gray-dark-v3 g-font-weight-500 g-mb-10">COOKING</h4>
@@ -767,7 +792,7 @@ return array(
                     </article>
                 </div>
 
-            <div class="landing-block-card js-animation col-md-4 g-mb-30 g-mb-0--md fadeInUp animated landing-card">
+            <div class="landing-block-card js-animation col-md-4 g-mb-30 g-mb-0--md fadeInUp animated g-min-height-$1vh">
                     <article class="text-center g-brd-around g-color-gray g-brd-gray-light-v5 g-pa-10">
                         <div class="g-bg-gray-light-v5 g-pa-30">
                             <h4 class="landing-block-node-title text-uppercase h5 g-color-gray-dark-v3 g-font-weight-500 g-mb-10">Professional DESIGN</h4>

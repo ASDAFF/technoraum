@@ -66,6 +66,7 @@ if (!empty($mailbox))
 		: array();
 }
 
+// @TODO: split by types
 $accessList = array();
 $accessLast = array();
 $accessSelected = array();
@@ -73,7 +74,11 @@ foreach ($arParams['ACCESS_LIST'] as $type => $list)
 {
 	foreach ($list as $id => $item)
 	{
-		$accessList[$id] = $item;
+		if ('users' == $type)
+		{
+			$accessList[$id] = $item;
+		}
+
 		$accessLast[$id] = $id;
 		$accessSelected[$id] = $type;
 	}
@@ -131,15 +136,25 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 			<div class="mail-connect-section-block">
 				<div class="mail-connect-mailbox-block">
 					<div class="mail-connect-mailbox-name"><?=htmlspecialcharsbx($mailbox['EMAIL'] ?: sprintf('#%u', $mailbox['ID'])) ?></div>
-					<div class="mail-connect-last-sync-wrapper">
-						<span class="mail-connect-last-sync-title">
-							<?= Loc::getMessage('MAIL_CLIENT_CONFIG_LAST_MAIL_CHECK_TITLE', ['#TIME_AGO#' => $arResult['LAST_MAIL_CHECK_DATE']]); ?>
-						</span>
-						<? $isSuccessSyncStatus = $arResult['LAST_MAIL_CHECK_STATUS']; ?>
-						<span class="mail-connect-last-sync-status mail-connect-last-sync-<?= $isSuccessSyncStatus ? 'success' : 'error'; ?>">
-							<?= Loc::getMessage('MAIL_CLIENT_CONFIG_LAST_MAIL_CHECK_' . ($isSuccessSyncStatus ? 'SUCCESS' : 'ERROR')); ?>
-						</span>
-					</div>
+					<? if ($arResult['LAST_MAIL_CHECK_DATE'] > 0): ?>
+						<div class="mail-connect-last-sync-wrapper">
+							<span class="mail-connect-last-sync-title">
+								<?=Loc::getMessage(
+									'MAIL_CLIENT_CONFIG_LAST_MAIL_CHECK_TITLE',
+									array(
+										'#TIME_AGO#' => formatDate(
+											array('s' => 'sago', 'i' => 'iago', 'H' => 'Hago', 'd' => 'dago', 'm' => 'mago', 'Y' => 'Yago'),
+											(int) $arResult['LAST_MAIL_CHECK_DATE']
+										)
+									)
+								) ?>
+							</span>
+							<? $isSuccessSyncStatus = $arResult['LAST_MAIL_CHECK_STATUS']; ?>
+							<span class="mail-connect-last-sync-status mail-connect-last-sync-<?= $isSuccessSyncStatus ? 'success' : 'error'; ?>">
+								<?= Loc::getMessage('MAIL_CLIENT_CONFIG_LAST_MAIL_CHECK_' . ($isSuccessSyncStatus ? 'SUCCESS' : 'ERROR')); ?>
+							</span>
+						</div>
+					<? endif ?>
 				</div>
 			</div>
 		<? endif ?>
@@ -243,12 +258,12 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 					<input type="checkbox" class="mail-connect-form-input mail-connect-form-input-check" name="fields[mail_connect_import_messages]" value="Y" id="mail_connect_mb_import_messages" checked>
 					<? list($label1, $label2) = explode('#AGE#', Loc::getMessage('MAIL_CLIENT_CONFIG_IMAP_AGE'), 2); ?>
 					<label class="mail_connect_mb_import_messages_label" for="mail_connect_mb_import_messages"><?=$label1 ?></label>
-					<? $maxAgeDefault = $maxAgeLimit > 0 && $maxAgeLimit < 7 ? 1 : 7; ?>
+					<? $maxAgeDefault = $maxAgeLimit > 0 && $maxAgeLimit < 7 ? ($maxAgeLimit < 3 ? 1 : 3) : 7; ?>
 					<label class="mail-set-singleselect mail-set-singleselect-line" data-checked="mail_connect_mb_max_age_field_<?=$maxAgeDefault ?>">
 						<input id="mail_connect_mb_max_age_field_0" type="radio" name="fields[msg_max_age]" value="0">
 						<label for="mail_connect_mb_max_age_field_0"><?=Loc::getMessage('MAIL_CLIENT_CONFIG_IMAP_AGE_<?=$maxAgeDefault ?>') ?></label>
 						<div class="mail-set-singleselect-wrapper">
-							<? foreach ($maxAgeDefault < 7 ? array(1, 7, 30) : array(7, 30) as $value): ?>
+							<? foreach ($maxAgeDefault < 3 ? array(1, 3, 7, 30) : array(3, 7, 30) as $value): ?>
 								<? $disabled = $maxAgeLimit >= 0 && $value > $maxAgeLimit; ?>
 								<input type="radio" name="fields[msg_max_age]" value="<?=$value ?>"
 									id="mail_connect_mb_max_age_field_<?=$value ?>"
@@ -587,6 +602,15 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 
 <script type="text/javascript">
 
+	if (window === window.top)
+	{
+		BX.ready(function ()
+		{
+			var footerPanel = BX.findChildByClassName(BX('mail_connect_form'), 'mail-connect-footer', true);
+			footerPanel && document.body.appendChild(footerPanel);
+		});
+	}
+
 	BX.message({
 		'MAIL_CLIENT_CONFIG_IMAP_DIRS_TITLE': '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_CLIENT_CONFIG_IMAP_DIRS_TITLE')) ?>',
 		'MAIL_CLIENT_CONFIG_IMAP_DIRS_SYNC': '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_CLIENT_CONFIG_IMAP_DIRS_SYNC')) ?>',
@@ -602,23 +626,23 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 	});
 
 	BX.SocNetLogDestination.init({
-		name : 'mail_connect_mb_access_selector',
-		searchInput : BX('mail_connect_mb_access_input'),
-		departmentSelectDisable : true,
-		extranetUser :  false,
+		name: 'mail_connect_mb_access_selector',
+		searchInput: BX('mail_connect_mb_access_input'),
+		departmentSelectDisable: false,
+		extranetUser:  false,
 		allowAddSocNetGroup: false,
-		bindMainPopup : {
-			node : BX('mail_connect_mb_access_container'),
-			offsetTop : '5px',
+		bindMainPopup: {
+			node: BX('mail_connect_mb_access_container'),
+			offsetTop: '5px',
 			offsetLeft: '15px'
 		},
-		bindSearchPopup : {
-			node : BX('mail_connect_mb_access_container'),
-			offsetTop : '5px',
+		bindSearchPopup: {
+			node: BX('mail_connect_mb_access_container'),
+			offsetTop: '5px',
 			offsetLeft: '15px'
 		},
-		callback : {
-			select : function(item, type, search, undeleted)
+		callback: {
+			select: function(item, type, search, undeleted)
 			{
 				BX.SocNetLogDestination.BXfpSelectCallback({
 					item: item,
@@ -633,7 +657,7 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 					tagLink2: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_CLIENT_CONFIG_ACCESS_ADD')) ?>'
 				});
 			},
-			unSelect : BX.delegate(BX.SocNetLogDestination.BXfpUnSelectCallback, {
+			unSelect: BX.delegate(BX.SocNetLogDestination.BXfpUnSelectCallback, {
 				formName: 'mail_connect_mb_access_selector',
 				inputContainerName: 'mail_connect_mb_access_item',
 				inputName: 'mail_connect_mb_access_input',
@@ -642,34 +666,34 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 				tagLink2: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_CLIENT_CONFIG_ACCESS_ADD')) ?>',
 				undeleteClassName: 'feed-add-post-destination-undelete'
 			}),
-			openDialog : BX.delegate(BX.SocNetLogDestination.BXfpOpenDialogCallback, {
+			openDialog: BX.delegate(BX.SocNetLogDestination.BXfpOpenDialogCallback, {
 				inputBoxName: 'mail_connect_mb_access_input_box',
 				inputName: 'mail_connect_mb_access_input',
 				tagInputName: 'mail_connect_mb_access_tag'
 			}),
-			closeDialog : BX.delegate(BX.SocNetLogDestination.BXfpCloseDialogCallback, {
+			closeDialog: BX.delegate(BX.SocNetLogDestination.BXfpCloseDialogCallback, {
 				inputBoxName: 'mail_connect_mb_access_input_box',
 				inputName: 'mail_connect_mb_access_input',
 				tagInputName: 'mail_connect_mb_access_tag'
 			}),
-			openSearch : BX.delegate(BX.SocNetLogDestination.BXfpOpenDialogCallback, {
+			openSearch: BX.delegate(BX.SocNetLogDestination.BXfpOpenDialogCallback, {
 				inputBoxName: 'mail_connect_mb_access_input_box',
 				inputName: 'mail_connect_mb_access_input',
 				tagInputName: 'mail_connect_mb_access_tag'
 			})
 		},
-		items : {
-			users : <?=CUtil::phpToJSObject($accessList) ?>,
-			groups : {},
-			sonetgroups : {},
-			department : <?=CUtil::phpToJSObject($arParams['COMPANY_STRUCTURE']['department']) ?>,
-			departmentRelation : <?=CUtil::phpToJSObject($arParams['COMPANY_STRUCTURE']['department_relation']) ?>
+		items: {
+			users: <?=CUtil::phpToJSObject($accessList) ?>,
+			groups: {},
+			sonetgroups: {},
+			department: <?=CUtil::phpToJSObject($arParams['COMPANY_STRUCTURE']['department']) ?>,
+			departmentRelation: <?=CUtil::phpToJSObject($arParams['COMPANY_STRUCTURE']['department_relation']) ?>
 		},
-		itemsLast : {
-			users : <?=CUtil::phpToJSObject($accessLast) ?>,
-			sonetgroups : {},
-			department : {},
-			groups : {}
+		itemsLast: {
+			users: <?=CUtil::phpToJSObject($accessLast) ?>,
+			sonetgroups: {},
+			department: <?=CUtil::phpToJSObject($accessLast) ?>,
+			groups: {}
 		},
 		itemsSelected: <?=CUtil::phpToJSObject($accessSelected) ?>,
 		itemsSelectedUndeleted: <?=\CUtil::phpToJsObject(array(sprintf('U%u', empty($mailbox) ? $USER->getId() : $mailbox['USER_ID']))) ?>,
@@ -755,23 +779,23 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 	);
 
 	BX.SocNetLogDestination.init({
-		name : 'mail_connect_mb_crm_queue_selector',
-		searchInput : BX('mail_connect_mb_crm_queue_input'),
-		departmentSelectDisable : true,
-		extranetUser :  false,
+		name: 'mail_connect_mb_crm_queue_selector',
+		searchInput: BX('mail_connect_mb_crm_queue_input'),
+		departmentSelectDisable: true,
+		extranetUser:  false,
 		allowAddSocNetGroup: false,
-		bindMainPopup : {
-			node : BX('mail_connect_mb_crm_queue_container'),
-			offsetTop : '5px',
+		bindMainPopup: {
+			node: BX('mail_connect_mb_crm_queue_container'),
+			offsetTop: '5px',
 			offsetLeft: '15px'
 		},
-		bindSearchPopup : {
-			node : BX('mail_connect_mb_crm_queue_container'),
-			offsetTop : '5px',
+		bindSearchPopup: {
+			node: BX('mail_connect_mb_crm_queue_container'),
+			offsetTop: '5px',
 			offsetLeft: '15px'
 		},
-		callback : {
-			select : function(item, type, search)
+		callback: {
+			select: function(item, type, search)
 			{
 				BX.SocNetLogDestination.BXfpSelectCallback({
 					item: item,
@@ -786,7 +810,7 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 					tagLink2: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_CLIENT_CONFIG_CRM_QUEUE_ADD')) ?>'
 				});
 			},
-			unSelect : BX.delegate(BX.SocNetLogDestination.BXfpUnSelectCallback, {
+			unSelect: BX.delegate(BX.SocNetLogDestination.BXfpUnSelectCallback, {
 				formName: 'mail_connect_mb_crm_queue_selector',
 				inputContainerName: 'mail_connect_mb_crm_queue_item',
 				inputName: 'mail_connect_mb_crm_queue_input',
@@ -794,34 +818,34 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 				tagLink1: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_CLIENT_CONFIG_CRM_QUEUE_ADD')) ?>',
 				tagLink2: '<?=\CUtil::jsEscape(Loc::getMessage('MAIL_CLIENT_CONFIG_CRM_QUEUE_ADD')) ?>'
 			}),
-			openDialog : BX.delegate(BX.SocNetLogDestination.BXfpOpenDialogCallback, {
+			openDialog: BX.delegate(BX.SocNetLogDestination.BXfpOpenDialogCallback, {
 				inputBoxName: 'mail_connect_mb_crm_queue_input_box',
 				inputName: 'mail_connect_mb_crm_queue_input',
 				tagInputName: 'mail_connect_mb_crm_queue_tag'
 			}),
-			closeDialog : BX.delegate(BX.SocNetLogDestination.BXfpCloseDialogCallback, {
+			closeDialog: BX.delegate(BX.SocNetLogDestination.BXfpCloseDialogCallback, {
 				inputBoxName: 'mail_connect_mb_crm_queue_input_box',
 				inputName: 'mail_connect_mb_crm_queue_input',
 				tagInputName: 'mail_connect_mb_crm_queue_tag'
 			}),
-			openSearch : BX.delegate(BX.SocNetLogDestination.BXfpOpenDialogCallback, {
+			openSearch: BX.delegate(BX.SocNetLogDestination.BXfpOpenDialogCallback, {
 				inputBoxName: 'mail_connect_mb_crm_queue_input_box',
 				inputName: 'mail_connect_mb_crm_queue_input',
 				tagInputName: 'mail_connect_mb_crm_queue_tag'
 			})
 		},
-		items : {
-			users : <?=CUtil::phpToJSObject($crmQueueList) ?>,
-			groups : {},
-			sonetgroups : {},
-			department : <?=CUtil::phpToJSObject($arParams['COMPANY_STRUCTURE']['department']) ?>,
-			departmentRelation : <?=CUtil::phpToJSObject($arParams['COMPANY_STRUCTURE']['department_relation']) ?>
+		items: {
+			users: <?=CUtil::phpToJSObject($crmQueueList) ?>,
+			groups: {},
+			sonetgroups: {},
+			department: <?=CUtil::phpToJSObject($arParams['COMPANY_STRUCTURE']['department']) ?>,
+			departmentRelation: <?=CUtil::phpToJSObject($arParams['COMPANY_STRUCTURE']['department_relation']) ?>
 		},
-		itemsLast : {
-			users : <?=CUtil::phpToJSObject($crmQueueLast) ?>,
-			sonetgroups : {},
-			department : {},
-			groups : {}
+		itemsLast: {
+			users: <?=CUtil::phpToJSObject($crmQueueLast) ?>,
+			sonetgroups: {},
+			department: {},
+			groups: {}
 		},
 		itemsSelected: <?=CUtil::phpToJSObject($crmQueueSelected) ?>,
 		destSort: {}
@@ -1404,9 +1428,25 @@ $APPLICATION->includeComponent('bitrix:main.mail.confirm', '', array());
 			BX.addClass(button, 'ui-btn-wait');
 			button.disabled = true;
 
+			var formField = function (name)
+			{
+				return form.elements['fields[' + name + ']'] || {};
+			}
+
 			BX.ajax.submitAjax(
 				form,
 				{
+					url: BX.util.add_url_param(
+						form.getAttribute('action'),
+						{
+							is_new: '<?=(empty($mailbox) ? 'Y' : 'N') ?>',
+							use_crm: formField('use_crm').checked ? 'Y' : 'N',
+							use_smtp: formField('use_smtp').checked ? 'Y' : 'N',
+							msg_age: formField('mail_connect_import_messages').checked ? formField('msg_max_age').value : 0,
+							crm_age: formField('use_crm').checked && formField('crm_sync_old').checked ? formField('crm_max_age').value : 0,
+							mail_serv: '<?=\CUtil::jsEscape($settings['name']) ?>'
+						}
+					),
 					method: 'POST',
 					data: form.__extData,
 					dataType: 'json',

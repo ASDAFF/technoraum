@@ -95,7 +95,9 @@ class MetaOg extends \Bitrix\Landing\Hook\Page
 		{
 			if ($key == 'image' && intval($val) > 0)
 			{
-				$val = \Cfile::getFileArray($val);
+				$val = \Bitrix\Landing\File::getFileArray(
+					$val
+				);
 			}
 			if ($val)
 			{

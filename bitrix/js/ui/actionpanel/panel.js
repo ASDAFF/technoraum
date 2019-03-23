@@ -15,6 +15,7 @@ BX.UI.ActionPanel = function(options)
 		totalSelected: null,
 		totalSelectedItem: null
 	};
+	this.zIndex = options.zIndex;
 	this.itemContainer = null;
 	this.renderTo = options.renderTo;
 	this.darkMode = options.darkMode;

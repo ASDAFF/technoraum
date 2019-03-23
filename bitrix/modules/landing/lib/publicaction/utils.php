@@ -177,7 +177,7 @@ class Utils
 	 * @param array $chain Chain array.
 	 * @return void
 	 */
-	protected static function makeCatalogEntityNavChain($sectionId, &$chain)
+	protected static function makeCatalogEntityNavChain($sectionId, array &$chain)
 	{
 		if ($sectionId !== null)
 		{

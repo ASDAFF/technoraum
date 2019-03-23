@@ -15,6 +15,11 @@ Loader::includeModule('iblock');
 
 $selfFolderUrl = $adminPage->getSelfFolderUrl();
 
+if (defined("BX_PUBLIC_MODE") && BX_PUBLIC_MODE == 1)
+{
+	$adminSidePanelHelper->setSkipResponse(true);
+}
+
 $io = CBXVirtualIo::GetInstance();
 
 /*Change any language identifiers carefully*/
@@ -2024,6 +2029,50 @@ $tabControl->BeginNextFormTab();
 		$pr = array();
 	}
 
+if ($ID > 0 && !$bCopy)
+{
+	if (Loader::includeModule('crm'))
+	{
+		$importProduct = \Bitrix\Crm\Order\Import\Internals\ProductTable::getRow([
+			'select' => ['SETTINGS'],
+			'filter' => [
+				'=PRODUCT_ID' => CIBlockElement::GetRealElement($ID),
+			],
+		]);
+
+		if (!empty($importProduct))
+		{
+			$accountName = !empty($importProduct['SETTINGS']['account_name']) ? $importProduct['SETTINGS']['account_name'] : '';
+			$linkToProduct = !empty($importProduct['SETTINGS']['permalink']) ? $importProduct['SETTINGS']['permalink'] : '';
+
+			$tabControl->BeginCustomField('IMPORTED_FROM', GetMessage('IBLOCK_IMPORT_FROM').':');
+			?>
+			<tr>
+				<td width="40%"><?=$tabControl->GetCustomLabelHTML()?></td>
+				<td width="60%">
+					<style>
+						.adm-crm-order-instagram-icon {
+							width: 20px;
+							height: 20px;
+							display: inline-block;
+							vertical-align: middle;
+							margin-right: 5px;
+							background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%0A%20%20%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M10%2020c5.523%200%2010-4.477%2010-10S15.523%200%2010%200%200%204.477%200%2010s4.477%2010%2010%2010z%22%20fill%3D%22%23E85998%22/%3E%0A%20%20%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M12.027%206.628a.584.584%200%201%201%201.168%200%20.584.584%200%200%201-1.168%200zM7.355%204h4.672a3.219%203.219%200%200%201%203.213%203.213v1.392h-1.168V7.213a2.028%202.028%200%200%200-2.045-2.045H7.355a2.028%202.028%200%200%200-2.044%202.045v4.672c0%201.143.902%202.045%202.044%202.045h3.87v1.168h-3.87a3.22%203.22%200%200%201-3.212-3.213V7.213A3.219%203.219%200%200%201%207.355%204zm-.73%205.549a3.076%203.076%200%200%201%203.066-3.067c1.43%200%202.635.992%202.971%202.32-.45.195-.826.526-1.082.94a1.89%201.89%200%200%200-1.889-2.09%201.89%201.89%200%200%200-1.898%201.897%201.89%201.89%200%200%200%201.898%201.898c.653%200%201.221-.322%201.563-.816-.018.115-.03.232-.03.352v1.215a3.03%203.03%200%200%201-1.533.418%203.076%203.076%200%200%201-3.066-3.067zm6.104%202.696h.607v-.83c0-.152-.03-1.167%201.281-1.167h.924v1.056h-.68c-.134%200-.271.14-.271.243v.694h.951c-.039.532-.117%201.02-.117%201.02h-.838v3.015h-1.25V13.26h-.607v-1.015z%22%20fill%3D%22white%22/%3E%0A%3C/svg%3E%0A);
+							margin-top: -3px;
+							background-repeat: no-repeat;
+						}
+					</style>
+					<span class="adm-crm-order-instagram-icon"></span>
+					<?=$accountName?>
+					<?=($linkToProduct ? "<a href=\"{$linkToProduct}\" target=\"_blank\">".GetMessage('IBLOCK_LINK_TO_MEDIA')."</a>" : '')?>
+				</td>
+			</tr>
+			<?
+			$tabControl->EndCustomField('IMPORTED_FROM', '');
+		}
+	}
+}
+	
 $tabControl->BeginCustomField("ID", "ID:");
 if ($ID > 0 && !$bCopy)
 {
@@ -2309,7 +2358,15 @@ if(!empty($PROP)):
 				if ($elements_name == '')
 					$elements_name = GetMessage("IBLOCK_ELEMENT_EDIT_ELEMENTS");
 			?><tr id="tr_LINKED_PROP<?echo $arLinkedProp["ID"]?>">
-				<td colspan="2"><a title="<?=$linkedTitle; ?>" href="<?=$selfFolderUrl.htmlspecialcharsbx(CIBlock::GetAdminElementListLink($arLinkedProp["IBLOCK_ID"], array('apply_filter'=>'Y', 'find_el_property_'.$arLinkedProp["ID"]=>$ID, 'find_section_section' => -1)))?>"><?=htmlspecialcharsbx(CIBlock::GetArrayByID($arLinkedProp["IBLOCK_ID"], "NAME").": ".$elements_name); ?></a></td>
+				<?
+				$href = $selfFolderUrl.htmlspecialcharsbx(CIBlock::GetAdminElementListLink($arLinkedProp["IBLOCK_ID"],
+					array('apply_filter'=>'Y', 'PROPERTY_'.$arLinkedProp["ID"]=>$ID, 'find_section_section' => -1)));
+				?>
+				<td colspan="2">
+					<a title="<?=$linkedTitle; ?>" href="<?=$href?>">
+						<?=htmlspecialcharsbx(CIBlock::GetArrayByID($arLinkedProp["IBLOCK_ID"], "NAME").": ".$elements_name);?>
+					</a>
+				</td>
 			</tr><?
 			}
 			while ($arLinkedProp = $rsLinkedProps->GetNext());
@@ -3341,7 +3398,7 @@ if ($arShowTabs['bizproc']):
 		<?if (strlen($arDocumentState["STATE_NAME"]) > 0):?>
 		<tr>
 			<td width="40%"><?echo GetMessage("IBEL_BIZPROC_STATE")?></td>
-			<td width="60%"><?if (strlen($arDocumentState["ID"]) > 0):?><a href=<?=$selfFolderUrl?>"bizproc_log.php?ID=<?= $arDocumentState["ID"] ?>&back_url=<?= urlencode($APPLICATION->GetCurPageParam("", array())) ?>"><?endif;?><?= strlen($arDocumentState["STATE_TITLE"]) > 0 ? $arDocumentState["STATE_TITLE"] : $arDocumentState["STATE_NAME"] ?><?if (strlen($arDocumentState["ID"]) > 0):?></a><?endif;?></td>
+			<td width="60%"><?if (strlen($arDocumentState["ID"]) > 0):?><a href="<?=$selfFolderUrl?>bizproc_log.php?ID=<?= $arDocumentState["ID"] ?>&back_url=<?= urlencode($APPLICATION->GetCurPageParam("", array())) ?>"><?endif;?><?= strlen($arDocumentState["STATE_TITLE"]) > 0 ? $arDocumentState["STATE_TITLE"] : $arDocumentState["STATE_NAME"] ?><?if (strlen($arDocumentState["ID"]) > 0):?></a><?endif;?></td>
 		</tr>
 		<?endif;?>
 		<?

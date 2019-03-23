@@ -23,6 +23,9 @@
 	{
 		this.closeButton = document.querySelector(".landing-template-preview-close");
 		this.createButton = document.querySelector(".landing-template-preview-create");
+		this.createByImportButton = document.querySelector(".landing-template-preview-create-by-import");
+		this.title = document.querySelector(".landing-template-preview-input-title");
+		this.description = document.querySelector(".landing-template-preview-input-description");
 		this.palette = document.querySelector(".landing-template-preview-palette");
 		this.paletteSiteColor = document.querySelector(".landing-template-preview-palette-sitecolor");
 		this.imageContainer = document.querySelector(".preview-desktop-body-image");
@@ -45,6 +48,8 @@
 		this.onFrameLoad = proxy(this.onFrameLoad, this);
 
 		this.init();
+
+		return this;
 	};
 
 	/**
@@ -80,6 +85,10 @@
 		},
 
 		onFrameLoad: function() {
+			if (this.createStore)
+			{
+				new BX.Landing.SaveBtn(document.querySelector(".landing-template-preview-create"));
+			}
 			this.IsLoadedFrame = true;
 		},
 
@@ -89,6 +98,11 @@
 			if(!active && this.paletteSiteColor)
 			{
 				active = this.paletteSiteColor.querySelector(".active");
+			}
+			// by default - first
+			if(!active)
+			{
+				active = this.palette.firstElementChild;
 			}
 
 			return active;
@@ -220,6 +234,8 @@
 				result[data(this.paletteSiteColor, "data-name")] = 'Y';
 			}
 			result[data(this.palette, "data-name")] = data(this.getActiveColorNode(), "data-value");
+			result[data(this.title, "data-name")] = this.title.value;
+			result[data(this.description, "data-name")] = this.description.value;
 
 			return result;
 		},
@@ -263,14 +279,16 @@
 
 				this.loaderContainer.appendChild(this.loaderText);
 				this.loaderContainer.appendChild(this.progressBar.getContainer());
-
 			}
 
 			if (this.isStore())
 			{
-				this.showLoader();
-				this.initCatalogParams();
-				this.createCatalog();
+				if (this.IsLoadedFrame)
+				{
+					this.showLoader();
+					this.initCatalogParams();
+					this.createCatalog();
+				}
 			}
 			else
 			{
@@ -346,6 +364,22 @@
 				removeClass(this.getActiveColorNode(), "active");
 				addClass(event.currentTarget, "active");
 				this.showPreview(data(this.getActiveColorNode(), "data-src"));
+			}
+
+			if (BX.type.isDomNode(this.createByImportButton))
+			{
+				this.createByImportButton.setAttribute(
+					'href',
+					addQueryParams(
+						this.createByImportButton.getAttribute('href'),
+						{
+							"create_url": BX.util.urlencode(addQueryParams(
+								this.createByImportButton.getAttribute("data-create-url"),
+								this.getValue()
+							))
+						}
+					)
+				);
 			}
 		},
 

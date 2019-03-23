@@ -109,7 +109,13 @@ if($arParams['PLACEMENT'] === \Bitrix\Rest\PlacementTable::PLACEMENT_DEFAULT && 
 	$requestOptions = $_GET;
 	if($arParams['POPUP'])
 	{
-		$requestOptions = array_merge($requestOptions, $_REQUEST['param']);
+		if (
+			isset($_REQUEST['param'])
+			&& is_array($_REQUEST['param'])
+		)
+		{
+			$requestOptions = array_merge($requestOptions, $_REQUEST['param']);
+		}
 		$arParams['PARENT_SID'] = $_REQUEST['parentsid'];
 	}
 

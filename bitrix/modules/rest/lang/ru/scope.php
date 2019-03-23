@@ -8,6 +8,7 @@ $MESS["REST_SCOPE_TASK"] = "Задачи";
 $MESS["REST_SCOPE_USER"] = "Пользователи";
 $MESS["REST_SCOPE_USERCONSENT"] = "Соглашения";
 $MESS["REST_SCOPE_DEPARTMENT"] = "Структура компании";
+$MESS["REST_SCOPE_CONTACT_CENTER"] = "Контакт-центр";
 $MESS["REST_SCOPE_LOG"] = "Живая лента";
 $MESS["REST_SCOPE_CALENDAR"] = "Календарь";
 $MESS["REST_SCOPE_SONET_GROUP"] = "Рабочие группы";

@@ -17,7 +17,9 @@ class Component
 	 */
 	public static function prepareManifest(array $manifest, \Bitrix\Landing\Block $block = null, array $params = array())
 	{
-		$settings = \Bitrix\Landing\Hook\Page\Settings::getDataForSite();
+		$settings = \Bitrix\Landing\Hook\Page\Settings::getDataForSite(
+			$block->getSiteId()
+		);
 
 		// set predefined
 		\Bitrix\Landing\Node\Component::setPredefineForDynamicProps(array(

@@ -493,7 +493,7 @@ $tabControl->BeginNextTab();
 
 	<?
 	$str_show_ext = '';
-	$show_ext = ($str_CC!='' || $str_BCC!='' || $str_REPLY_TO!='' || $str_IN_REPLY_TO!='' || $str_PRIORITY!='' || count($str_ADDITIONAL_FIELD)>0);
+	$show_ext = ($str_CC!='' || $str_BCC!='' || $str_REPLY_TO!='' || $str_IN_REPLY_TO!='' || $str_PRIORITY!='' || !empty($str_ADDITIONAL_FIELD));
 	if(!$show_ext):
 		$str_show_ext = 'style="display:none;"';
 		?>

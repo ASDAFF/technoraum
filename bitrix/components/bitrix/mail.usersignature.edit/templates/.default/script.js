@@ -66,7 +66,7 @@
 	{
 		closeAfter = closeAfter === true;
 		var signatureId = BX('mail-signature-signature-id').value;
-		var signature = BX('bxed_signatureeditorid').value;
+		var signature = BXHtmlEditor.Get('signatureeditorid').GetContent();
 		var sender = '', list;
 		if(BX('sender_bind_checkbox').checked)
 		{

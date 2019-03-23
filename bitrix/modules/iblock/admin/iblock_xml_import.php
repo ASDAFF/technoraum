@@ -298,7 +298,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_REQUEST["Import"]=="Y")
 				"BUTTONS" => array(
 					array(
 						"VALUE" => GetMessage("IBLOCK_CML2_ELEMENTS_LIST"),
-						"ONCLICK" => "window.location = '".CUtil::JSEscape(CIBlock::GetAdminElementListLink($NS["IBLOCK_ID"] , array('find_el_y'=>'Y')))."';",
+						"ONCLICK" => "window.location = '".CUtil::JSEscape(CIBlock::GetAdminElementListLink(
+							$NS["IBLOCK_ID"] , array('find_el_y'=>'Y', 'clear_filter'=>'Y', 'apply_filter'=>'Y')))."';",
 					),
 				),
 			));

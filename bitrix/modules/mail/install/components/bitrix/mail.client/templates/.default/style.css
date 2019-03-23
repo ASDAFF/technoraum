@@ -183,6 +183,16 @@
 	background-position: 0 0;
 }
 
+.mail-msg-list-attach-icon {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 5px;
+	width: 9px;
+	height: 15px;
+	background: url(images/task-list-sprite.svg);
+	background-position: -115px -183px;
+}
+
 .mail-msg-show-animation {
 	-webkit-animation: mailShowAnimation .2s linear forwards !important;
 	animation: mailShowAnimation .2s linear forwards !important;
@@ -274,4 +284,49 @@
 		-webkit-transform: translateY(-5px);
 		transform: translateY(-5px);
 	}
+}
+
+.mail-msg-header-control-item {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	padding: 0 14px;
+	font: 13px/24px "Helvetica Neue", Arial, Helvetica, sans-serif;
+	color: #525C69;
+}
+
+.mail-msg-header-control-select {
+	cursor: pointer;
+}
+
+.mail-msg-header-control-text {
+	display: inline-block;
+	margin: 0 5px 0 0;
+	max-width: 250px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.mail-msg-header-control-triangle {
+	display: inline-block;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 4px 4px 0 4px;
+	border-color: rgba(103,111,122,.5) transparent transparent transparent;
+	vertical-align: middle;
+	-webkit-transition: border-color .3s;
+	transition: border-color .3s;
+}
+
+.mail-msg-header-control-select:hover {
+	color: #3e434e;
+}
+
+.mail-msg-header-control-select:hover .mail-msg-header-control-triangle {
+	border-color: #3e434e transparent transparent transparent;
 }

@@ -19,7 +19,34 @@ class UiButtonPanel extends CBitrixComponent
 	const TYPE_CLOSE = 'close';
 	const TYPE_BUTTON = 'button';
 	const TYPE_CHECKBOX = 'checkbox';
+	const TYPE_REMOVE = 'remove';
 	const TYPE_CUSTOM = 'custom';
+
+	const ALIGN_AUTO = 'auto';
+	const ALIGN_LEFT = 'left';
+	const ALIGN_RIGHT = 'right';
+	const ALIGN_CENTER = 'center';
+
+	protected function initParams()
+	{
+		$this->arParams['FRAME'] = isset($this->arParams['FRAME'])
+			?
+			(bool) $this->arParams['FRAME']
+			:
+			$this->isPageSliderContext();
+
+		if (!isset($this->arParams['~BUTTONS']) || !is_array($this->arParams['~BUTTONS']))
+		{
+			$this->arParams['~BUTTONS'] = [];
+		}
+
+		$aligns = [self::ALIGN_AUTO, self::ALIGN_LEFT, self::ALIGN_RIGHT, self::ALIGN_CENTER];
+		$this->arParams['ALIGN'] = (isset($this->arParams['ALIGN']) && in_array($this->arParams['ALIGN'], $aligns))
+			?
+			$this->arParams['ALIGN']
+			:
+			self::ALIGN_AUTO;
+	}
 
 	/**
 	 * Is page slider context.
@@ -43,7 +70,7 @@ class UiButtonPanel extends CBitrixComponent
 			$item['NAME'] = $item['TYPE'];
 		}
 
-		$commonTypes = [self::TYPE_SAVE, self::TYPE_APPLY, self::TYPE_CANCEL, self::TYPE_CLOSE];
+		$commonTypes = [self::TYPE_SAVE, self::TYPE_APPLY, self::TYPE_CANCEL, self::TYPE_CLOSE, self::TYPE_REMOVE];
 		if (in_array($item['TYPE'], $commonTypes))
 		{
 			if (empty($item['ONCLICK']))
@@ -94,7 +121,7 @@ class UiButtonPanel extends CBitrixComponent
 		if ($item['TYPE'] === self::TYPE_CHECKBOX)
 		{
 			$item['HINT'] = empty($item['HINT']) ? '' : $item['HINT'];
-			$item['CHECKED'] = empty($item['CHECKED']) ? false : (bool) $item['HINT'];
+			$item['CHECKED'] = empty($item['CHECKED']) ? false : (bool) $item['CHECKED'];
 		}
 
 		if ($item['TYPE'] === self::TYPE_CANCEL)
@@ -119,10 +146,6 @@ class UiButtonPanel extends CBitrixComponent
 	{
 		$this->arResult['HAS_HINTS'] = false;
 		$this->arResult['LIST'] = [];
-		if (!isset($this->arParams['~BUTTONS']) || !is_array($this->arParams['~BUTTONS']))
-		{
-			$this->arParams['~BUTTONS'] = [];
-		}
 
 		foreach ($this->arParams['~BUTTONS'] as $key => $item)
 		{
@@ -167,13 +190,7 @@ class UiButtonPanel extends CBitrixComponent
 	 */
 	public function executeComponent()
 	{
-		$this->arParams['FRAME'] = isset($this->arParams['FRAME'])
-			?
-			(bool) $this->arParams['FRAME']
-			:
-			$this->isPageSliderContext();
-
-
+		$this->initParams();
 		$this->prepareResult();
 		$this->includeComponentTemplate();
 	}

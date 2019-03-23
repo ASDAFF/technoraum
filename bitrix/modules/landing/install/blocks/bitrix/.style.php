@@ -19,7 +19,8 @@ return array(
 			'items' => array(
 				array('name' => '<span class="landing-ui-align landing-ui-align-left"><em></em></span>', 'value' => 'text-left'),
 				array('name' => '<span class="landing-ui-align landing-ui-align-center"><em></em></span>', 'value' => 'text-center'),
-				array('name' => '<span class="landing-ui-align landing-ui-align-right"><em></em></span>', 'value' => 'text-right')
+				array('name' => '<span class="landing-ui-align landing-ui-align-right"><em></em></span>', 'value' => 'text-right'),
+				array('name' => '<span class="landing-ui-align landing-ui-align-justify"><em></em></span>', 'value' => 'text-justify'),
 			)
 		),
 		'font-size' => array(
@@ -93,16 +94,44 @@ return array(
 				array('name' => 'Menlo', 'value' => 'g-font-code'),
 			)
 		),
+
+		'text-decoration' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_STYLE_TEXT_DECORATION'),
+			'property' => 'text-transform',
+			'type' => 'buttons',
+			'multiple' => true,
+			'items' => array(
+				array(
+					'name' => '<span class="landing-ui-icon-editor-bold"></span>',
+					'value' => 'font-weight-bold',
+					'title' => Loc::getMessage('LANDING_STYLE_WEIGHT_BOLD'),
+				),
+				array(
+					'name' => '<span class="landing-ui-icon-editor-italic"></span>',
+					'value' => 'font-italic',
+					'title' => Loc::getMessage('LANDING_STYLE_ITALIC'),
+				),
+				array(
+					'name' => '<span class="landing-ui-icon-editor-underline"></span>',
+					'value' => 'g-text-underline',
+					'title' => Loc::getMessage('LANDING_STYLE_UNDERLINE2')
+				),
+				array(
+					'name' => '<span class="landing-ui-icon-editor-strike"></span>',
+					'value' => 'g-text-strike',
+					'title' => Loc::getMessage('LANDING_STYLE_STRIKE2')
+				)
+			),
+		),
 		'text-transform' => array(
-			'name' => Loc::getMessage('LANDING_BLOCK_STYLE_TEXT_TRANSFORM'),
+			'name' => Loc::getMessage('LANDING_BLOCK_STYLE_TEXT_TRANSFORM2'),
 			'property' => 'text-transform',
 			'type' => 'list',
 			'items' => array(
 				array('name' => Loc::getMessage('LANDING_STYLE_DEFAULT'), 'value' => 'g-text-transform-none'),
 				array('name' => Loc::getMessage('LANDING_STYLE_UPPERCASE'), 'value' => 'text-uppercase'),
 				array('name' => Loc::getMessage('LANDING_STYLE_LOWERCASE'), 'value' => 'text-lowercase'),
-				array('name' => Loc::getMessage('LANDING_STYLE_UNDERLINE'), 'value' => 'g-text-underline'),
-				array('name' => Loc::getMessage('LANDING_STYLE_STRIKE'), 'value' => 'g-text-strike')
+				array('name' => Loc::getMessage('LANDING_STYLE_CAPITALIZE'), 'value' => 'text-capitalize'),
 			)
 		),
 		'line-height' => array(
@@ -293,10 +322,8 @@ return array(
 			'type' => 'palette',
 			'exclude' => 'background-gradient',
 			'items' => array(
+				array('name' => 'g-bg-transparent', 'value' => 'g-bg-transparent'),
 				array('name' => 'g-bg-primary', 'value' => 'g-bg-primary'),
-				array('name' => 'g-bg-primary-dark-v1', 'value' => 'g-bg-primary-dark-v1'),
-				array('name' => 'g-bg-primary-dark-v2', 'value' => 'g-bg-primary-dark-v2'),
-				array('name' => 'g-bg-primary-dark-v3', 'value' => 'g-bg-primary-dark-v3'),
 				array('name' => 'g-bg-primary-opacity-0_1', 'value' => 'g-bg-primary-opacity-0_1'),
 				array('name' => 'g-bg-primary-opacity-0_2', 'value' => 'g-bg-primary-opacity-0_2'),
 				array('name' => 'g-bg-primary-opacity-0_3', 'value' => 'g-bg-primary-opacity-0_3'),
@@ -304,10 +331,12 @@ return array(
 				array('name' => 'g-bg-primary-opacity-0_6', 'value' => 'g-bg-primary-opacity-0_6'),
 				array('name' => 'g-bg-primary-opacity-0_8', 'value' => 'g-bg-primary-opacity-0_8'),
 				array('name' => 'g-bg-primary-opacity-0_9', 'value' => 'g-bg-primary-opacity-0_9'),
-				array('name' => 'g-bg-black', 'value' => 'g-bg-black'),
+				array('name' => 'g-bg-primary-dark-v1', 'value' => 'g-bg-primary-dark-v1'),
+				array('name' => 'g-bg-primary-dark-v2', 'value' => 'g-bg-primary-dark-v2'),
+				array('name' => 'g-bg-primary-dark-v3', 'value' => 'g-bg-primary-dark-v3'),
 				array('name' => 'g-bg-main', 'value' => 'g-bg-main'),
 				array('name' => 'g-bg-secondary', 'value' => 'g-bg-secondary'),
-				array('name' => 'g-bg-transparent', 'value' => 'g-bg-transparent'),
+				array('name' => 'g-bg-black', 'value' => 'g-bg-black'),
 				array('name' => 'g-bg-black-opacity-0_1', 'value' => 'g-bg-black-opacity-0_1'),
 				array('name' => 'g-bg-black-opacity-0_2', 'value' => 'g-bg-black-opacity-0_2'),
 				array('name' => 'g-bg-black-opacity-0_3', 'value' => 'g-bg-black-opacity-0_3'),
@@ -520,6 +549,15 @@ return array(
 			'items' => array(
 				array('name' => Loc::getMessage('LANDING_BLOCK_STYLE_BACKGROUND_ATTACHMENT_SCROLL'), 'value' => 'g-bg-attachment-scroll'),
 				array('name' => Loc::getMessage('LANDING_BLOCK_STYLE_BACKGROUND_ATTACHMENT_FIXED'), 'value' => 'g-bg-attachment-fixed'),
+			),
+		),
+		'background-size' => array(
+			'name' => Loc::getMessage('LANDING_BLOCK_STYLE_BACKGROUND_SIZE'),
+			'property' => 'background-size',
+			'type' => 'list',
+			'items' => array(
+				array('name' => Loc::getMessage('LANDING_BLOCK_STYLE_BACKGROUND_SIZE_COVER'), 'value' => 'g-bg-size-cover'),
+				array('name' => Loc::getMessage('LANDING_BLOCK_STYLE_BACKGROUND_SIZE_CONTAIN'), 'value' => 'g-bg-size-contain-no-repeat'),
 			),
 		),
 		'background-overlay' => array(
@@ -1075,7 +1113,7 @@ return array(
 				array('name' => '0', 'value' => 'g-pb-0'),
 				array('name' => '2', 'value' => 'g-pb-2'),
 				array('name' => '3', 'value' => 'g-pb-3'),
-				array('name' => '4', 'value' => 'g-pb-5'),
+				array('name' => '5', 'value' => 'g-pb-5'),
 				array('name' => '7', 'value' => 'g-pb-7'),
 				array('name' => '10', 'value' => 'g-pb-10'),
 				array('name' => '15', 'value' => 'g-pb-15'),
@@ -1313,17 +1351,18 @@ return array(
 			'property' => 'height',
 			'type' => 'slider',
 			'items' => array(
-				array('name' => '25%', 'value' => 'g-height-25vh'),
-				array('name' => '33%', 'value' => 'g-height-33vh'),
-				array('name' => '40%', 'value' => 'g-height-40vh'),
-				array('name' => '50%', 'value' => 'g-height-50vh'),
-				array('name' => '60%', 'value' => 'g-height-60vh'),
-				array('name' => '70%', 'value' => 'g-height-70vh'),
-				array('name' => '75%', 'value' => 'g-height-75vh'),
-				array('name' => '80%', 'value' => 'g-height-80vh'),
-				array('name' => '90%', 'value' => 'g-height-90vh'),
-				array('name' => '95%', 'value' => 'g-height-95vh'),
-				array('name' => '100%', 'value' => 'g-height-100vh'),
+				array('name' => Loc::getMessage('LANDING_STYLE_AUTO'), 'value' => 'g-height-auto'),
+				array('name' => '25%', 'value' => 'g-min-height-25vh'),
+				array('name' => '33%', 'value' => 'g-min-height-33vh'),
+				array('name' => '40%', 'value' => 'g-min-height-40vh'),
+				array('name' => '50%', 'value' => 'g-min-height-50vh'),
+				array('name' => '60%', 'value' => 'g-min-height-60vh'),
+				array('name' => '70%', 'value' => 'g-min-height-70vh'),
+				array('name' => '75%', 'value' => 'g-min-height-75vh'),
+				array('name' => '80%', 'value' => 'g-min-height-80vh'),
+				array('name' => '90%', 'value' => 'g-min-height-90vh'),
+				array('name' => '95%', 'value' => 'g-min-height-95vh'),
+				array('name' => '100%', 'value' => 'g-min-height-100vh'),
 			)
 		),
 		'columns' => array(
@@ -1467,6 +1506,7 @@ return array(
 			'display', 'padding-top', 'padding-bottom', 'padding-left', 'padding-right', 'margin-top',
 			'background-color', 'background-gradient'
 		),
+		'paddings' => ['padding-top', 'padding-bottom', 'padding-left', 'padding-right'],
 		'block-default-background-overlay' => array(
 			'display', 'background-attachment',
 			'padding-top', 'padding-bottom', 'padding-left', 'padding-right', 'margin-top',  'background-overlay'
@@ -1481,6 +1521,9 @@ return array(
 		'block-default-wo-background' => array(
 			'display', 'padding-top', 'padding-bottom', 'padding-left', 'padding-right', 'margin-top'
 		),
+		'block-default-wo-background-height-vh' => array(
+			'display', 'height-vh', 'padding-top', 'padding-bottom', 'padding-left', 'padding-right', 'margin-top'
+		),
 		'block-default-wo-paddings' => array(
 			'display', 'background-color', 'background-gradient'
 		),
@@ -1490,14 +1533,14 @@ return array(
 		),
 		'typo' => array(
 			'text-align', 'color', 'font-size', 'font-family',
-			'text-transform', 'line-height', 'letter-spacing', 'text-shadow'
+			'text-decoration', 'text-transform', 'line-height', 'letter-spacing', 'text-shadow'
 		),
 		'typo-simple' => array(
-			'font-size', 'font-family',	'text-transform', 'line-height', 'letter-spacing'
+			'font-size', 'font-family', 'text-decoration', 'text-transform', 'line-height', 'letter-spacing'
 		),
-		'typo-a' => array(
+		'typo-link' => array(
 			'color', 'color-hover', 'font-size', 'font-family',
-			'text-transform', 'letter-spacing', 'text-shadow'
+			'text-decoration', 'text-transform', 'letter-spacing', 'text-shadow'
 		),
 		'box' => array(
 			'background-color', 'background-gradient', 'box-shadow', 'opacity', 'padding-top', 'padding-bottom'
@@ -1507,10 +1550,7 @@ return array(
 		),
 		'button' => array(
 			'button-color', 'button-outline-color', 'border-width', 'border-radius',
-			'color', 'font-family', 'text-transform',
-		),
-		'link' => array(
-			'text-align', 'font-size', 'font-family', 'letter-spacing', 'color', 'color-hover'
+			'color', 'font-family', 'text-decoration', 'text-transform',
 		),
 		'navbar' => array('navbar-align', 'navbar-color', 'navbar-color-hover'),
 		'navbar-full' => array(

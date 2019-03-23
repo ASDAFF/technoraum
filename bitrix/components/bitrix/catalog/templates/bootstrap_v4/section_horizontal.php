@@ -109,7 +109,7 @@ else
 							}
 
 							CBitrixComponent::includeComponentClass('bitrix:sale.products.gift.section');
-							$APPLICATION->IncludeComponent('bitrix:sale.products.gift.section', 'bootdtrap_v4', array(
+							$APPLICATION->IncludeComponent('bitrix:sale.products.gift.section', 'bootstrap_v4', array(
 									'IBLOCK_TYPE' => $arParams['IBLOCK_TYPE'],
 									'IBLOCK_ID' => $arParams['IBLOCK_ID'],
 

@@ -20,7 +20,7 @@ return array(
 	'preview_url' => '',
 	'show_in_list' => 'Y',
 	'version' => 2,
-	'sort' => 10,
+	'sort' => \LandingSiteDemoComponent::checkActivePeriod(12,8,12,31) ? 11 : -201,
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
 			'VIEW_USE' => 'N',

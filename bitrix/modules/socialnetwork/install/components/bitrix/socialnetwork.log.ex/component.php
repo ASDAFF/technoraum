@@ -85,6 +85,8 @@ if(isset($arParams["DISPLAY"]))
 	$arParams["USE_FOLLOW"] = "N";
 }
 
+$arResult["SHOW_FOLLOW_CONTROL"] = $arParams["USE_FOLLOW"];
+
 if(!IsModuleInstalled("crm"))
 {
 	$arParams["IS_CRM"] = "N";
@@ -746,6 +748,8 @@ $arResult["FILTER_ID"] = "LIVEFEED".(!empty($arParams["GROUP_ID"]) ? '_SG'.$arPa
 
 CSocNetTools::InitGlobalExtranetArrays();
 
+$arListParams = array();
+
 if (
 	$USER->IsAuthorized()
 	|| $arParams["AUTH"] == "Y" 
@@ -816,7 +820,6 @@ if (
 			$arResult["IS_FILTERED"] = true;
 			$arParams["SET_LOG_COUNTER"] = $arParams["SET_LOG_PAGE_CACHE"] = "N";
 			$arResult["SHOW_UNREAD"] = $arParams["SHOW_UNREAD"] = "N";
-			$arParams["USE_FOLLOW"] = "N";
 		}
 		elseif($arParams["DISPLAY"] === "mine")
 		{
@@ -824,7 +827,6 @@ if (
 			$arResult["IS_FILTERED"] = true;
 			$arParams["SET_LOG_COUNTER"] = $arParams["SET_LOG_PAGE_CACHE"] = "N";
 			$arResult["SHOW_UNREAD"] = $arParams["SHOW_UNREAD"] = "N";
-			$arParams["USE_FOLLOW"] = "N";
 		}
 		elseif($arParams["DISPLAY"] === "my")
 		{
@@ -838,7 +840,6 @@ if (
 			}
 			$arFilter["LOG_RIGHTS"] = $arAccessCodes;
 			$arParams["SET_LOG_PAGE_CACHE"] = "N";
-			$arParams["USE_FOLLOW"] = "N";
 		}
 		elseif($arParams["DISPLAY"] > 0)
 		{
@@ -846,7 +847,6 @@ if (
 			$arResult["IS_FILTERED"] = true;
 			$arParams["SET_LOG_COUNTER"] = $arParams["SET_LOG_PAGE_CACHE"] = "N";
 			$arResult["SHOW_UNREAD"] = $arParams["SHOW_UNREAD"] = "N";
-			$arParams["USE_FOLLOW"] = "N";
 		}
 	}
 
@@ -881,6 +881,7 @@ if (
 		}
 		$arParams["SET_LOG_PAGE_CACHE"] = "Y";
 		$arParams["USE_FOLLOW"] = "N";
+		$arResult["SHOW_FOLLOW_CONTROL"] = "N";
 		$arParams["SET_LOG_COUNTER"] = "N";
 		$arResult["SHOW_UNREAD"] = $arParams["SHOW_UNREAD"] = "N";
 	}
@@ -890,6 +891,7 @@ if (
 		$arFilter["!USER_ID"] = $arParams["TO_USER_ID"];
 		$arParams["SET_LOG_PAGE_CACHE"] = "N";
 		$arParams["USE_FOLLOW"] = "N";
+		$arResult["SHOW_FOLLOW_CONTROL"] = "N";
 
 		$rsUsers = CUser::GetList(
 			($by="ID"),
@@ -924,16 +926,23 @@ if (
 		$arParams["SET_LOG_COUNTER"] = $arParams["SET_LOG_PAGE_CACHE"] = "N";
 		$arResult["SHOW_UNREAD"] = $arParams["SHOW_UNREAD"] = "N";
 		$arParams["USE_FOLLOW"] = "N";
+		$arResult["SHOW_FOLLOW_CONTROL"] = "N";
 		$arResult["IS_FILTERED"] = true;
 	}
 	elseif (strlen($arParams["FIND"]) > 0)
 	{
 		$operation = \Bitrix\Socialnetwork\LogIndexTable::getEntity()->fullTextIndexEnabled("CONTENT") ? '*' : '*%';
 		$arFilter[$operation."CONTENT"] = \Bitrix\Socialnetwork\Item\LogIndex::prepareToken($arParams["FIND"]);
+/*
+		$arListParams["FILTER_BY_CONTENT"] = array(
+			$operation."CONTENT" => \Bitrix\Socialnetwork\Item\LogIndex::prepareToken($arParams["FIND"])
+		);
+*/
 
 		$arParams["SET_LOG_COUNTER"] = $arParams["SET_LOG_PAGE_CACHE"] = "N";
 		$arResult["SHOW_UNREAD"] = $arParams["SHOW_UNREAD"] = "N";
 		$arParams["USE_FOLLOW"] = "N";
+		$arResult["SHOW_FOLLOW_CONTROL"] = "N";
 		$arResult["IS_FILTERED"] = true;
 	}
 	else
@@ -949,6 +958,7 @@ if (
 		$arParams["SET_LOG_COUNTER"] = $arParams["SET_LOG_PAGE_CACHE"] = "N";
 		$arResult["SHOW_UNREAD"] = $arParams["SHOW_UNREAD"] = "N";
 		$arParams["USE_FOLLOW"] = "N";
+		$arResult["SHOW_FOLLOW_CONTROL"] = "N";
 	}
 	if (isset($arParams["EXACT_EVENT_ID"]))
 	{
@@ -957,6 +967,7 @@ if (
 		$arParams["SET_LOG_COUNTER"] = $arParams["SET_LOG_PAGE_CACHE"] = "N";
 		$arResult["SHOW_UNREAD"] = $arParams["SHOW_UNREAD"] = "N";
 		$arParams["USE_FOLLOW"] = "N";
+		$arResult["SHOW_FOLLOW_CONTROL"] = "N";
 	}
 	elseif (is_array($arParams["EVENT_ID"]))
 	{
@@ -971,6 +982,7 @@ if (
 			$arParams["SET_LOG_COUNTER"] = $arParams["SET_LOG_PAGE_CACHE"] = "N";
 			$arResult["SHOW_UNREAD"] = $arParams["SHOW_UNREAD"] = "N";
 			$arParams["USE_FOLLOW"] = "N";
+			$arResult["SHOW_FOLLOW_CONTROL"] = "N";
 		}
 	}
 	elseif ($arParams["EVENT_ID"])
@@ -980,6 +992,7 @@ if (
 		$arParams["SET_LOG_COUNTER"] = $arParams["SET_LOG_PAGE_CACHE"] = "N";
 		$arResult["SHOW_UNREAD"] = $arParams["SHOW_UNREAD"] = "N";
 		$arParams["USE_FOLLOW"] = "N";
+		$arResult["SHOW_FOLLOW_CONTROL"] = "N";
 	}
 	elseif ($preset_filter_id == "extranet")
 	{
@@ -987,6 +1000,7 @@ if (
 		$arParams["SET_LOG_COUNTER"] = $arParams["SET_LOG_PAGE_CACHE"] = "N";
 		$arResult["SHOW_UNREAD"] = $arParams["SHOW_UNREAD"] = "N";
 		$arParams["USE_FOLLOW"] = "N";
+		$arResult["SHOW_FOLLOW_CONTROL"] = "N";
 	}
 
 	if (IntVal($arParams["CREATED_BY_ID"]) > 0)
@@ -1004,6 +1018,7 @@ if (
 		$arParams["SET_LOG_COUNTER"] = $arParams["SET_LOG_PAGE_CACHE"] = "N";
 		$arResult["SHOW_UNREAD"] = $arParams["SHOW_UNREAD"] = "N";
 		$arParams["USE_FOLLOW"] = "N";
+		$arResult["SHOW_FOLLOW_CONTROL"] = "N";
 		unset($arFilter["!USER_ID"]);
 	}
 
@@ -1046,6 +1061,7 @@ if (
 		$arParams["SET_LOG_COUNTER"] = $arParams["SET_LOG_PAGE_CACHE"] = "N";
 		$arResult["SHOW_UNREAD"] = $arParams["SHOW_UNREAD"] = "N";
 		$arParams["USE_FOLLOW"] = "N";
+		$arResult["SHOW_FOLLOW_CONTROL"] = "N";
 		$arResult["IS_FILTERED"] = true;
 	}
 	else
@@ -1063,6 +1079,7 @@ if (
 		$arParams["SET_LOG_COUNTER"] = $arParams["SET_LOG_PAGE_CACHE"] = "N";
 		$arResult["SHOW_UNREAD"] = $arParams["SHOW_UNREAD"] = "N";
 		$arParams["USE_FOLLOW"] = "N";
+		$arResult["SHOW_FOLLOW_CONTROL"] = "N";
 		$arResult["IS_FILTERED"] = true;
 	}
 	else
@@ -1190,6 +1207,11 @@ if (
 
 			$operation = \Bitrix\Socialnetwork\LogIndexTable::getEntity()->fullTextIndexEnabled("CONTENT") ? '*' : '*%';
 			$arFilter[$operation."CONTENT"] = \Bitrix\Socialnetwork\Item\LogIndex::prepareToken($filterContent);
+/*
+			$arListParams["FILTER_BY_CONTENT"] = array(
+				$operation."CONTENT" => \Bitrix\Socialnetwork\Item\LogIndex::prepareToken($filterContent)
+			);
+*/
 		}
 
 		if (
@@ -1203,12 +1225,14 @@ if (
 			$arFilter["!EVENT_ID"] = array("lists_new_element", "tasks", "timeman_entry", "report", "crm_activity_add");
 		}
 
+//		$arListParams["FILTER_BY_CONTENT_DATE"] = array();
 		if (!empty($filterData["DATE_CREATE_from"]))
 		{
 			$filtered = true;
 			if (!empty($filterContent))
 			{
 				$arFilter[">=CONTENT_DATE_CREATE"] = $filterData["DATE_CREATE_from"];
+//				$arListParams["FILTER_BY_CONTENT_DATE"][">=DATE_CREATE"] = $filterData["DATE_CREATE_from"];
 			}
 			else
 			{
@@ -1224,6 +1248,7 @@ if (
 			if (!empty($filterContent))
 			{
 				$arFilter["<=CONTENT_DATE_CREATE"] = $dateCreateToValue;
+//				$arListParams["FILTER_BY_CONTENT_DATE"]["<=DATE_CREATE"] = $dateCreateToValue;
 			}
 			else
 			{
@@ -1305,6 +1330,7 @@ if (
 	if ($bGetComments)
 	{
 		$arOrder = (!empty($filterContent) ? array("CONTENT_LOG_UPDATE" => "DESC") : array("LOG_UPDATE" => "DESC"));
+//		$arOrder = (!empty($filterContent) ? array() : array("LOG_UPDATE" => "DESC"));
 	}
 	elseif ($arParams["USE_FOLLOW"] == "Y")
 	{
@@ -1313,6 +1339,7 @@ if (
 	elseif ($arParams["USE_COMMENTS"] == "Y")
 	{
 		$arOrder = (!empty($filterContent) ? array("CONTENT_LOG_UPDATE" => "DESC") : array("LOG_UPDATE" => "DESC"));
+//		$arOrder = (!empty($filterContent) ? array() : array("LOG_UPDATE" => "DESC"));
 	}
 	else
 	{
@@ -1398,10 +1425,10 @@ if (
 
 	if ($arParams["IS_CRM"] == "Y")
 	{
-		$arListParams = array(
+		$arListParams = array_merge($arListParams, array(
 			"IS_CRM" => "Y",
 			"CHECK_CRM_RIGHTS" => "Y"
-		);
+		));
 
 		$filterParams = array(
 			"ENTITY_TYPE" => $arParams["CRM_ENTITY_TYPE"],
@@ -1444,9 +1471,9 @@ if (
 			);
 		}
 
-		$arListParams = array(
+		$arListParams = array_merge($arListParams, array(
 			"CHECK_RIGHTS" => "Y"
-		);
+		));
 
 		if (
 			$arParams["LOG_ID"] <= 0
@@ -1733,8 +1760,8 @@ if (
 	}
 	elseif (
 		$dbEventsID
-		&& $dbEventsID->NavContinue()
-		&& $arEvents = $dbEventsID->GetNext()
+		&& $dbEventsID->navContinue()
+		&& $arEvents = $dbEventsID->getNext()
 	)
 	{
 		$next_page_date = ($arParams["USE_FOLLOW"] == "Y" ? $arEvents["DATE_FOLLOW"] : $arEvents["LOG_UPDATE"]);

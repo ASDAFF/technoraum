@@ -7,6 +7,7 @@ use Bitrix\Main\Loader;
 
 use Bitrix\Sender\Transport;
 use Bitrix\Sender\Security;
+use Bitrix\Sender\Integration;
 
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 {
@@ -22,7 +23,7 @@ class SenderConfigLimitsComponent extends CBitrixComponent
 
 	protected function checkRequiredParams()
 	{
-		return true;
+		return Integration\Bitrix24\Service::isAvailable();
 	}
 
 	protected function initParams()

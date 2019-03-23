@@ -186,7 +186,7 @@ class SenderContactRecipientComponent extends CBitrixComponent
 			$item['MESSAGE_CODE'] = $message ? $message->getName() : $item['MESSAGE_CODE'];
 
 			$item['URLS'] = [
-				'LETTER_EDIT' => in_array($message->getCode(), Message\Factory::getMailingMessageCodes())
+				'LETTER_EDIT' => in_array($item['MESSAGE_CODE'], Message\Factory::getMailingMessageCodes())
 					?
 					str_replace('#id#', $item['LETTER_ID'], $this->arParams['PATH_TO_LETTER_EDIT'])
 					:

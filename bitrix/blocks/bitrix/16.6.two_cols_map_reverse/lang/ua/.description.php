@@ -1,4 +1,5 @@
 <?
+$MESS["LANDING_BLOCK_16_6_TWO_COLS_MAP--MAP"] = "Карта";
 $MESS["LANDING_BLOCK_16_6_TWO_COLS_MAP--NAME"] = "Карта Google з контактними даними та соцмережами ліворуч";
 $MESS["LANDING_BLOCK_16_6_TWO_COLS_MAP--COL"] = "Колонка";
 $MESS["LANDING_BLOCK_16_6_TWO_COLS_MAP--SUBTITLE"] = "Підзаголовок";

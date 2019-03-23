@@ -18,6 +18,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_B24SYD_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'BACKGROUND_USE' => 'Y',
+			'BACKGROUND_COLOR' => '#000000',
 			'THEME_CODE' => '3corporate',
 			'THEME_CODE_TYPO' => 'app',
 			'B24BUTTON_CODE' => $buttons[0],

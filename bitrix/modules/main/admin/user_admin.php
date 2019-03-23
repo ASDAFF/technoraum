@@ -40,6 +40,7 @@ if($_REQUEST["action"] == "authorize" && check_bitrix_sessid() && $USER->CanDoOp
 {
 	$USER->Logout();
 	$USER->Authorize(intval($_REQUEST["ID"]));
+	$USER->CheckAuthActions();
 	LocalRedirect("user_admin.php?lang=".LANGUAGE_ID);
 }
 

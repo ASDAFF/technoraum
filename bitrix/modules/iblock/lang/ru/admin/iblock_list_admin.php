@@ -145,4 +145,5 @@ $MESS["IBLIST_A_CATALOG_LENGTH"] = "Длина (мм)";
 $MESS["IBLIST_A_CATALOG_HEIGHT"] = "Высота (мм)";
 $MESS["IBLIST_A_CATALOG_EXTRA_DESCRIPTION"] = "Наценка #VALUE# к базовой цене";
 $MESS["IBLIST_A_ERR_PRODUCT_LIMIT"] = "Превышено ограничение на количество товаров, используемых в лендингах. В каталоге найдено #COUNT# таких товаров (лимит - #LIMIT#).";
+$MESS["IBLIST_PRODUCTS_INSTAGRAM"] = "Товары Instagram";
 ?>

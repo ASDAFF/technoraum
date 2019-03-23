@@ -23,7 +23,7 @@ return array(
 	),
 	'items' => array (
 	),
-	'sort' => -112,
+	'sort' => \LandingSiteDemoComponent::checkActivePeriod(2,2,2,23) ? 103 : -113,
 	'available' => true,
 	'active' => \LandingSiteDemoComponent::checkActive(array(
 		'ONLY_IN' => array('ru', 'kz', 'by'),

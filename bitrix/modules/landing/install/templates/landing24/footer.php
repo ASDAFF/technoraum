@@ -3,21 +3,25 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true)
 {
 	die();
 }
-?>
 
-<?php
-if (\Bitrix\Main\Loader::includeModule('landing'))
+if (!\Bitrix\Main\Loader::includeModule('landing'))
 {
-	\Bitrix\Landing\Manager::setTheme();
+	return;
 }
+
+\Bitrix\Landing\Manager::setTheme();
+\Bitrix\Main\Page\Asset::getInstance()->addJS(
+	SITE_TEMPLATE_PATH . '/assets/vendor/vendors_base.js'
+);
 ?>
 
 <?$APPLICATION->ShowProperty('FooterJS');?>
 
-
-<script>
+<script type="text/javascript">
 	BX.ready(function() {
-		var elements = [].slice.call(document.querySelectorAll("h1, h2, h3, h4, h5"));
+		var elements = [].slice.call(
+			document.querySelectorAll("h1, h2, h3, h4, h5")
+		);
 		new BX.Landing.UI.Tool.autoFontScale(elements);
 	});
 </script>

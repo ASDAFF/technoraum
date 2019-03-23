@@ -12,6 +12,8 @@ return array(
 	'description' => Loc::getMessage('LANDING_DEMO_SPA_DESCRIPTION'),
 	'fields' => array(
 		'ADDITIONAL_FIELDS' => array(
+			'THEME_CODE' => 'spa',
+			'THEME_CODE_TYPO' => 'spa',
 			'METAOG_IMAGE' => 'https://cdn.bitrix24.site/bitrix/images/demo/page/spa/preview.jpg',
 			'METAOG_TITLE' => Loc::getMessage('LANDING_DEMO_SPA_TITLE'),
 			'METAOG_DESCRIPTION' => Loc::getMessage('LANDING_DEMO_SPA_DESCRIPTION'),
@@ -28,7 +30,7 @@ return array(
 	<div class="u-header__section g-bg-black-opacity-0_5 g-bg-transparent--lg g-transition-0_3 g-py-6 g-py-14--md"
 		 data-header-fix-moment-exclude="g-bg-black-opacity-0_5 g-bg-transparent--lg g-py-14--md"
 		 data-header-fix-moment-classes="u-header__section--light u-shadow-v27 g-bg-white g-py-11--md">
-		<nav class="navbar navbar-expand-lg g-py-0">
+		<nav class="navbar navbar-expand-lg g-py-0 g-px-10">
 			<div class="container">
 				<!-- Logo -->
 				<a href="#" class="navbar-brand landing-block-node-menu-logo-link u-header__logo p-0">
@@ -88,7 +90,7 @@ return array(
 			array (
 				'CODE' => '01.big_with_text_3',
 				'SORT' => '500',
-				'CONTENT' => '<section class="landing-block landing-block-node-img u-bg-overlay g-flex-centered g-height-100vh g-height-70vh g-bg-img-hero g-bg-black-opacity-0_5--after g-py-80" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/2100x1416/img1.jpg\');" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb">
+				'CONTENT' => '<section class="landing-block landing-block-node-img u-bg-overlay g-flex-centered g-min-height-70vh g-bg-img-hero g-bg-black-opacity-0_5--after g-py-80" style="background-image: url(\'https://cdn.bitrix24.site/bitrix/images/landing/business/2100x1416/img1.jpg\');" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb">
 	<div class="container g-max-width-800 text-center u-bg-overlay__inner g-mx-1 js-animation landing-block-node-container fadeInDown animated">
 		<h2 class="landing-block-node-title g-line-height-1 g-font-weight-700 g-color-white g-mb-20 g-text-transform-none g-font-size-60">Relaxing Massage</h2>
 
@@ -275,14 +277,14 @@ return array(
         <div class="container">
             <div class="row">
 
-                <div class="landing-block-card landing-block-node-block col-md-6 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeIn animated landing-card">
+                <div class="landing-block-card landing-block-node-block col-md-6 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeIn animated g-min-height-$1vh">
                     <img class="landing-block-node-img img-fluid g-mb-30" src="https://cdn.bitrix24.site/bitrix/images/landing/business/800x350/img1.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
                     <h3 class="landing-block-node-title text-uppercase g-font-weight-700 g-color-black g-mb-20 text-center g-font-size-14">WINE FUSCE DOLOR LIBERO, EFFICITUR ET LOBORTIS AT, <p>FAUCIBUS NEC NUNC</p></h3>
                     <div class="landing-block-node-text text-center g-font-size-14 g-color-gray-dark-v5"><p>Cras sit amet varius velit. Maecenas porta condimentum<br /><span style="font-weight: bold;color: rgb(175, 180, 43);">$25</span></p></div>
                 </div>
 
-                <div class="landing-block-card landing-block-node-block col-md-6 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeIn animated landing-card">
+                <div class="landing-block-card landing-block-node-block col-md-6 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeIn animated g-min-height-$1vh">
                     <img class="landing-block-node-img img-fluid g-mb-30" src="https://cdn.bitrix24.site/bitrix/images/landing/business/800x350/img2.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
                     <h3 class="landing-block-node-title text-uppercase g-font-weight-700 g-color-black g-mb-20 text-center g-font-size-14">WINE FUSCE DOLOR LIBERO, EFFICITUR ET LOBORTIS AT, <p>FAUCIBUS NEC NUNC</p></h3>
@@ -301,28 +303,28 @@ return array(
 	<div class="container">
 		<div class="row">
 
-			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeInUp animated landing-card">
+			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeInUp animated g-min-height-$1vh">
 				<img class="landing-block-node-img img-fluid g-mb-30" src="https://cdn.bitrix24.site/bitrix/images/landing/business/800x652/img1.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
 				<h3 class="landing-block-node-title text-uppercase g-font-weight-700 g-color-black g-mb-20 g-font-size-14 text-center">VESTIBULUM SEMPER, URNAEU <p>VULPUTATE EGESTAS</p></h3>
 				<div class="landing-block-node-text g-font-size-14 g-color-gray-dark-v5 text-center"><p>Proin sollicitudin turpis in massa<br /><span style="font-weight: bold;">$70</span></p></div>
 			</div>
 
-			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeInUp animated landing-card">
+			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeInUp animated g-min-height-$1vh">
 				<img class="landing-block-node-img img-fluid g-mb-30" src="https://cdn.bitrix24.site/bitrix/images/landing/business/800x652/img2.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
 				<h3 class="landing-block-node-title text-uppercase g-font-weight-700 g-color-black g-mb-20 g-font-size-14 text-center">VESTIBULUM SEMPER, URNAEU <p>VULPUTATE EGESTAS</p></h3>
 				<div class="landing-block-node-text g-font-size-14 g-color-gray-dark-v5 text-center"><p>Proin sollicitudin turpis in massa<br /><span style="font-weight: bold;">$70</span></p></div>
 			</div>
 
-			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeInUp animated landing-card">
+			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeInUp animated g-min-height-$1vh">
 				<img class="landing-block-node-img img-fluid g-mb-30" src="https://cdn.bitrix24.site/bitrix/images/landing/business/800x652/img3.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
 				<h3 class="landing-block-node-title text-uppercase g-font-weight-700 g-color-black g-mb-20 g-font-size-14 text-center">VESTIBULUM SEMPER, URNAEU <p>VULPUTATE EGESTAS</p></h3>
 				<div class="landing-block-node-text g-font-size-14 g-color-gray-dark-v5 text-center"><p>Proin sollicitudin turpis in massa<br /><span style="font-weight: bold;">$70</span></p></div>
 			</div>
 
-			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeInUp animated landing-card">
+			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeInUp animated g-min-height-$1vh">
 				<img class="landing-block-node-img img-fluid g-mb-30" src="https://cdn.bitrix24.site/bitrix/images/landing/business/800x652/img4.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
 				<h3 class="landing-block-node-title text-uppercase g-font-weight-700 g-color-black g-mb-20 g-font-size-14 text-center">VESTIBULUM SEMPER, URNAEU <p>VULPUTATE EGESTAS</p></h3>
@@ -434,28 +436,28 @@ return array(
 	<div class="container">
 		<div class="row">
 
-			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeInUp animated landing-card g-bg-main">
+			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeInUp animated g-min-height-$1vh g-bg-main">
 				<img class="landing-block-node-img img-fluid g-mb-30" src="https://cdn.bitrix24.site/bitrix/images/landing/business/600x333/img1.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
 				<h3 class="landing-block-node-title text-uppercase g-font-weight-700 g-mb-20 g-font-size-14 text-center g-color-black">FACE CARE</h3>
 				<div class="landing-block-node-text g-font-size-14 text-center g-color-gray-dark-v5"><p>Morbi ex urna, porttitor vel consequat non, rhoncus nec nibh efficitur est ut justo viverra dapibus aliquet iaculis</p></div>
 			</div>
 
-			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeInUp animated landing-card g-bg-main">
+			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeInUp animated g-min-height-$1vh g-bg-main">
 				<img class="landing-block-node-img img-fluid g-mb-30" src="https://cdn.bitrix24.site/bitrix/images/landing/business/600x333/img2.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
 				<h3 class="landing-block-node-title text-uppercase g-font-weight-700 g-mb-20 g-font-size-14 text-center g-color-black">FOOT CARE</h3>
 				<div class="landing-block-node-text g-font-size-14 text-center g-color-gray-dark-v5"><p>Morbi ex urna, porttitor vel consequat non, rhoncus nec nibh efficitur est ut justo viverra dapibus aliquet iaculis</p></div>
 			</div>
 
-			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeInUp animated landing-card g-bg-main">
+			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeInUp animated g-min-height-$1vh g-bg-main">
 				<img class="landing-block-node-img img-fluid g-mb-30" src="https://cdn.bitrix24.site/bitrix/images/landing/business/600x333/img3.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
 				<h3 class="landing-block-node-title text-uppercase g-font-weight-700 g-mb-20 g-font-size-14 text-center g-color-black">HANDS CARE</h3>
 				<div class="landing-block-node-text g-font-size-14 text-center g-color-gray-dark-v5"><p>Morbi ex urna, porttitor vel consequat non, rhoncus nec nibh efficitur est ut justo viverra dapibus aliquet iaculis</p></div>
 			</div>
 
-			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeInUp animated landing-card g-bg-main">
+			<div class="landing-block-card landing-block-node-block col-md-3 g-mb-30 g-mb-0--md g-pt-10 js-animation fadeInUp animated g-min-height-$1vh g-bg-main">
 				<img class="landing-block-node-img img-fluid g-mb-30" src="https://cdn.bitrix24.site/bitrix/images/landing/business/600x333/img4.jpg" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
 
 				<h3 class="landing-block-node-title text-uppercase g-font-weight-700 g-mb-20 g-font-size-14 text-center g-color-black">BODY CARE</h3>
@@ -590,7 +592,7 @@ return array(
 			<div class="tab-pane fade show active">
 				<!-- Products Block -->
 				<div class="row">
-					<div class="landing-block-node-card js-animation col-md-6 g-mb-50 fadeInUp animated landing-card">
+					<div class="landing-block-node-card js-animation col-md-6 g-mb-50 fadeInUp animated g-min-height-$1vh">
 						<!-- Article -->
 						<article class="media">
 							<img class="landing-block-node-card-photo g-width-100 img-fluid g-rounded-50x" src="https://cdn.bitrix24.site/bitrix/images/landing/business/180x288/img1.png" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
@@ -612,7 +614,7 @@ return array(
 						<!-- End Article -->
 					</div>
 
-					<div class="landing-block-node-card js-animation col-md-6 g-mb-50 fadeInUp animated landing-card">
+					<div class="landing-block-node-card js-animation col-md-6 g-mb-50 fadeInUp animated g-min-height-$1vh">
 						<!-- Article -->
 						<article class="media">
 							<img class="landing-block-node-card-photo g-width-100 img-fluid g-rounded-50x" src="https://cdn.bitrix24.site/bitrix/images/landing/business/180x288/img2.png" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
@@ -634,7 +636,7 @@ return array(
 						<!-- End Article -->
 					</div>
 				
-					<div class="landing-block-node-card js-animation col-md-6 g-mb-50 fadeInUp animated landing-card">
+					<div class="landing-block-node-card js-animation col-md-6 g-mb-50 fadeInUp animated g-min-height-$1vh">
 						<!-- Article -->
 						<article class="media">
 							<img class="landing-block-node-card-photo g-width-100 img-fluid g-rounded-50x" src="https://cdn.bitrix24.site/bitrix/images/landing/business/180x288/img3.png" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />
@@ -656,7 +658,7 @@ return array(
 						<!-- End Article -->
 					</div>
 
-					<div class="landing-block-node-card js-animation col-md-6 g-mb-50 fadeInUp animated landing-card">
+					<div class="landing-block-node-card js-animation col-md-6 g-mb-50 fadeInUp animated g-min-height-$1vh">
 						<!-- Article -->
 						<article class="media">
 							<img class="landing-block-node-card-photo g-width-100 img-fluid g-rounded-50x" src="https://cdn.bitrix24.site/bitrix/images/landing/business/180x288/img4.png" alt="" data-fileid="-1" data-filehash="9eef207add73028ae50f74a9033c20cb" />

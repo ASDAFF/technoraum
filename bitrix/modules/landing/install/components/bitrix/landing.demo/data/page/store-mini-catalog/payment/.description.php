@@ -15,6 +15,8 @@ return array(
 	'fields' =>array(
 			'RULE' => NULL,
 			'ADDITIONAL_FIELDS' =>array(
+					'THEME_CODE' => 'event',
+					'THEME_CODE_TYPO' => 'event',
 					'VIEW_USE' => 'N',
 					'VIEW_TYPE' => 'no',
 				),

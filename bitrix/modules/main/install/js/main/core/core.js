@@ -516,7 +516,7 @@ BX.adjust = function(elem, data)
 				elem.appendChild(data.children[j]);
 		}
 	}
-	else if (data.text)
+	else if (typeof data.text !== 'undefined')
 	{
 		BX.cleanNode(elem);
 		elem.appendChild((elem.ownerDocument || document).createTextNode(data.text));
@@ -559,6 +559,28 @@ BX.cleanNode = function(node, bSuicide)
 	}
 
 	return node;
+};
+
+/**
+ * Creates document fragment with child nodes.
+ *
+ * @param {Node[]} nodes
+ * @return {DocumentFragment}
+ */
+BX.createFragment = function(nodes)
+{
+	var fragment = document.createDocumentFragment();
+
+	if(!BX.type.isArray(nodes))
+	{
+		return fragment;
+	}
+	for(var i = 0; i < nodes.length; i++)
+	{
+		fragment.appendChild(nodes[i]);
+	}
+
+	return fragment;
 };
 
 BX.html = function(node, html, parameters)
@@ -5416,7 +5438,7 @@ function _checkNode(obj, params)
 					{
 						for (j = 0, len = params[i].length; j < len; j++)
 						{
-							if (params[i] && !obj.getAttribute(params[i]))
+							if (params[i][j] && !obj.getAttribute(params[i][j]))
 								return false;
 						}
 					}
@@ -5457,7 +5479,7 @@ function _checkNode(obj, params)
 					{
 						for (j = 0, len = params[i].length; j < len; j++)
 						{
-							if (params[i] && !obj[params[i]])
+							if (params[i][j] && !obj[params[i][j]])
 								return false;
 						}
 					}

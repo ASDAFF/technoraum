@@ -1084,7 +1084,7 @@ else
 				$APPLICATION->IncludeComponent(
 					"bitrix:socialnetwork.blog.post.comment",
 					"",
-					Array(
+					array(
 						"bPublicPage" => $arResult["bPublicPage"],
 						"SEF" => $arParams["SEF"],
 						"BLOG_VAR" => $arResult["ALIASES"]["blog"],
@@ -1115,7 +1115,7 @@ else
 						"PATH_TO_CONPANY_DEPARTMENT" => $arParams["PATH_TO_CONPANY_DEPARTMENT"],
 						"PATH_TO_VIDEO_CALL" => $arParams["PATH_TO_VIDEO_CALL"],
 						"SHOW_RATING" => $arParams["SHOW_RATING"],
-						"RATING_TYPE" => ($arParams["RATING_TYPE"] == "like" ? "like_react" : $arParams["RATING_TYPE"]),
+						"RATING_TYPE" => ($arResult["bIntranetInstalled"] || $arParams["RATING_TYPE"] == "like" ? "like_react" : $arParams["RATING_TYPE"]),
 						"IMAGE_MAX_WIDTH" => $arParams["IMAGE_MAX_WIDTH"],
 						"IMAGE_MAX_HEIGHT" => $arParams["IMAGE_MAX_HEIGHT"],
 						"ALLOW_VIDEO" => $arParams["ALLOW_VIDEO"],
@@ -1136,6 +1136,8 @@ else
 						"AVATAR_SIZE_COMMENT" => $arParams["AVATAR_SIZE_COMMENT"],
 						"FOLLOW" => $arParams["FOLLOW"],
 						"LOG_ID" => intval($arParams["LOG_ID"]),
+						"LOG_CONTENT_ITEM_TYPE" => (!empty($arParams['LOG_CONTENT_ITEM_ID']) ? $arParams['LOG_CONTENT_ITEM_TYPE'] : ''),
+						"LOG_CONTENT_ITEM_ID" => (!empty($arParams['LOG_CONTENT_ITEM_ID']) ? intval($arParams['LOG_CONTENT_ITEM_ID']) : 0),
 						"CREATED_BY_ID" => $arParams["CREATED_BY_ID"],
 						"MOBILE" => $arParams["MOBILE"],
 						"LAZYLOAD" => $arParams["LAZYLOAD"],

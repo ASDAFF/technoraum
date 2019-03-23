@@ -16,7 +16,7 @@ class catalog extends CModule
 	var $MODULE_CSS;
 	var $MODULE_GROUP_RIGHTS = "Y";
 
-	function catalog()
+	function __construct()
 	{
 		$arModuleVersion = array();
 

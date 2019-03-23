@@ -18,15 +18,14 @@
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
-	-ms-flex-align: stretch;
+	flex-direction: column;
+	/*-ms-flex-align: stretch;*/
 	box-sizing: border-box;
 	max-width: 100%;
 	width: 320px;
-	height: var(--ui-field-size-md);
 	vertical-align: middle;
-	/*-webkit-box-align: stretch;*/
-	/*align-items: stretch;*/
-	align-items: center;
+	align-items: flex-start;
+	justify-content: center;
 }
 
 .ui-ctl-element {
@@ -44,6 +43,7 @@
 	color: #535c69;
 	vertical-align: middle;
 	text-align: left;
+	height: var(--ui-field-size-md);
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	font: 400 15px/calc(var(--ui-field-size-md) - 2px) "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -195,24 +195,24 @@ div.ui-ctl-element { line-height: calc(var(--ui-field-size-md) - 2px); }
 /*region Size*/
 /*region Height*/
 
-.ui-ctl-md { height: var(--ui-field-size-md) !important; }
+/*.ui-ctl-md { height: var(--ui-field-size-md) !important; }
 
 .ui-ctl-lg { height: var(--ui-field-size-lg) !important; }
 
 .ui-ctl-sm { height: var(--ui-field-size-sm) !important; }
 
-.ui-ctl-xs { height: var(--ui-field-size-xs) !important; }
+.ui-ctl-xs { height: var(--ui-field-size-xs) !important; }*/
 
-.ui-ctl-md div.ui-ctl-element,
+.ui-ctl-md .ui-ctl-element,
 .ui-ctl-md.ui-ctl-filebox .ui-ctl-label-text { line-height: calc(var(--ui-field-size-md) - 2px) !important; }
 
-.ui-ctl-lg div.ui-ctl-element,
+.ui-ctl-lg .ui-ctl-element,
 .ui-ctl-lg.ui-ctl-filebox .ui-ctl-label-text { line-height: calc(var(--ui-field-size-lg) - 2px) !important; }
 
-.ui-ctl-sm div.ui-ctl-element,
+.ui-ctl-sm .ui-ctl-element,
 .ui-ctl-sm.ui-ctl-filebox .ui-ctl-label-text { line-height: calc(var(--ui-field-size-sm) - 2px) !important; }
 
-.ui-ctl-xs div.ui-ctl-element,
+.ui-ctl-xs .ui-ctl-element,
 .ui-ctl-xs.ui-ctl-filebox .ui-ctl-label-text { line-height: calc(var(--ui-field-size-xs) - 2px) !important; }
 
 /*region Fix for IE*/
@@ -521,6 +521,12 @@ button.ui-ctl-after {
 /*search*/
 .ui-ctl-icon-search { background-image: url(/bitrix/js/ui/forms/images/search.svg); }
 
+/*phone*/
+.ui-ctl-icon-phone { background-image: url(/bitrix/js/ui/forms/images/phone.svg); }
+
+/*mail*/
+.ui-ctl-icon-mail { background-image: url(/bitrix/js/ui/forms/images/mail.svg); }
+
 /*Loader*/
 .ui-ctl-icon-loader { background-image: url(/bitrix/js/ui/forms/images/loader.svg); }
 
@@ -599,7 +605,25 @@ button.ui-ctl-after {
 /*endregion*/
 
 /*region Types*/
-.ui-ctl-label-text { margin-left: 10px; }
+
+.ui-ctl-row {
+	flex-direction: row;
+	align-items: center;
+}
+
+.ui-ctl-column {
+	flex-direction: column;
+	align-content: flex-start;
+}
+
+.ui-ctl-label-text {
+	padding: 10px 0;
+	color: rgba(82, 92, 105, 0.5);
+	font: 13px/22px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.ui-ctl-row  .ui-ctl-label-text {
+	padding: 0 10px;
+}
 
 /*region Type Dropdown*/
 .ui-ctl-dropdown .ui-ctl-element { }

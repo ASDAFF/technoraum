@@ -3,10 +3,15 @@
  * (c) 2014-2018 Evan You
  * Released under the MIT License.
  */
+(function(window) {
+	if (window.Vue) {return;}
+
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
 	(global.Vue = factory());
+	/* declare a global variable for bitrix framework */
+	if (!global.Vue) {global.Vue = factory()}
 }(this, (function () { 'use strict';
 
 /*  */
@@ -10945,3 +10950,5 @@ Vue.compile = compileToFunctions;
 return Vue;
 
 })));
+
+})(window);

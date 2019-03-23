@@ -167,6 +167,13 @@
 			megapixels = options.megapixels;
 		}
 
+		var defaultControl = "";
+
+		if (BX.type.isString(options.defaultControl))
+		{
+			defaultControl = options.defaultControl;
+		}
+
 
 		return new PhotoEditorSDK.UI.DesktopUI({
 			container: options.container,
@@ -187,7 +194,8 @@
 				displayCloseButton: true,
 				image: image,
 				"export": exportParams,
-				controlsOptions: controlsOptions
+				controlsOptions: controlsOptions,
+				defaultControl: defaultControl
 			},
 			extensions: {
 				languages: {

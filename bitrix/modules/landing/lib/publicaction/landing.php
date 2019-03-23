@@ -19,7 +19,7 @@ class Landing
 	 * @param array $fields
 	 * @return array
 	 */
-	protected static function clearDisallowFields($fields)
+	protected static function clearDisallowFields(array $fields)
 	{
 		$disallow = array('RULE', 'TPL_CODE', 'ACTIVE');
 
@@ -158,7 +158,7 @@ class Landing
 	 * @param array $fields Data array of block.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function addBlock($lid, $fields)
+	public static function addBlock($lid, array $fields)
 	{
 		LandingCore::setEditMode();
 
@@ -381,7 +381,7 @@ class Landing
 	 * @param array $params Params array.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	private static function changeParentOfBlock($lid, $block, $params)
+	private static function changeParentOfBlock($lid, $block, array $params)
 	{
 		$result = new PublicActionResult();
 		$landing = LandingCore::createInstance($lid);
@@ -423,7 +423,7 @@ class Landing
 	 * @param array $params Params array.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function copyBlock($lid, $block, $params = array())
+	public static function copyBlock($lid, $block, array $params = array())
 	{
 		if (!is_array($params))
 		{
@@ -441,7 +441,7 @@ class Landing
 	 * @param array $params Params array.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function moveBlock($lid, $block, $params = array())
+	public static function moveBlock($lid, $block, array $params = array())
 	{
 		if (!is_array($params))
 		{
@@ -458,7 +458,7 @@ class Landing
 	 * @param array $data Data for remove.
 	 * @return PublicActionResult
 	 */
-	public static function removeEntities($lid, $data)
+	public static function removeEntities($lid, array $data)
 	{
 		$result = new PublicActionResult();
 
@@ -499,37 +499,36 @@ class Landing
 	 * @param array $params Params ORM array.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function getList($params = array())
+	public static function getList(array $params = array())
 	{
 		$result = new PublicActionResult();
+		$preview = false;
+		$checkArea = false;
 
 		if (isset($params['get_preview']))
 		{
 			$preview = !!$params['get_preview'];
 			unset($params['get_preview']);
 		}
-		else
-		{
-			$preview = false;
-		}
-
-		$params['select'] = ['*'];
-		$params['check_area'] = true;
 
 		if (isset($params['check_area']))
 		{
 			$checkArea = !!$params['check_area'];
 			unset($params['check_area']);
 		}
-		else
-		{
-			$checkArea = false;
-		}
 
 		$data = array();
 		$res = LandingCore::getList($params);
 		while ($row = $res->fetch())
 		{
+			if (isset($row['DATE_CREATE']))
+			{
+				$row['DATE_CREATE'] = (string) $row['DATE_CREATE'];
+			}
+			if (isset($row['DATE_MODIFY']))
+			{
+				$row['DATE_MODIFY'] = (string) $row['DATE_MODIFY'];
+			}
 			if ($preview && isset($row['ID']))
 			{
 				$landing = LandingCore::createInstance($row['ID']);
@@ -568,7 +567,7 @@ class Landing
 	 * @param array $fields Landing data.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function add($fields)
+	public static function add(array $fields)
 	{
 		$result = new PublicActionResult();
 		$error = new \Bitrix\Landing\Error;
@@ -597,7 +596,7 @@ class Landing
 	 * @param array $fields Landing new data.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function update($lid, $fields)
+	public static function update($lid, array $fields)
 	{
 		$result = new PublicActionResult();
 		$error = new \Bitrix\Landing\Error;
@@ -677,6 +676,7 @@ class Landing
 				'PUBLIC' => $landingRow['PUBLIC'],
 				'TITLE' => $landingRow['TITLE'],
 				'XML_ID' => $landingRow['XML_ID'],
+				'TPL_CODE' => $landingRow['TPL_CODE'],
 				'DESCRIPTION' => $landingRow['DESCRIPTION'],
 				'TPL_ID' => $landingRow['TPL_ID'],
 				'SITE_ID' => $toSiteId,
@@ -769,9 +769,10 @@ class Landing
 	 * @param array $params Some file params.
 	 * @return \Bitrix\Landing\PublicActionResult
 	 */
-	public static function uploadFile($lid, $picture, $ext = false, $params = array())
+	public static function uploadFile($lid, $picture, $ext = false, array $params = array())
 	{
 		static $internal = true;
+		static $mixedParams = ['picture'];
 
 		$result = new PublicActionResult();
 		$error = new \Bitrix\Landing\Error;

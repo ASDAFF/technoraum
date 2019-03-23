@@ -72,15 +72,14 @@ if (!$arResult['SLIDER'])
 				"url"     => $appUrl,
 			);
 			$itemName = $app["NAME"] ? $app["NAME"] : $app["MENU_NAME"];
-
 			?>
 			<div class="rest-mp-installed-item">
 				<?//additional info
 				if ($app["ACTIVE"] == "N" && $app["PUBLIC"] == "N")
 				{
 					?>
-					<div class="rest-mp-installed-item-info rest-mp-installed-item-info-yellow">
-						<?=GetMessage("MARKETPLACE_APP_INSTALL_PARTNER")?>
+					<div class="ui-alert ui-alert-xs ui-alert-warning">
+						<span class="ui-alert-message"><?=GetMessage("MARKETPLACE_APP_INSTALL_PARTNER")?></span>
 					</div>
 					<?
 				}
@@ -91,8 +90,10 @@ if (!$arResult['SLIDER'])
 						$app['APP_STATUS']['MESSAGE_SUFFIX'] .= '_A';
 					}
 					?>
-					<div class="rest-mp-installed-item-info rest-mp-installed-item-info-yellow">
-						<?=GetMessage('PAYMENT_MESSAGE'.$app['APP_STATUS']['MESSAGE_SUFFIX'], $app['APP_STATUS']['MESSAGE_REPLACE']);?>
+					<div class="ui-alert ui-alert-xs ui-alert-warning">
+						<span class="ui-alert-message">
+							<?=GetMessage('PAYMENT_MESSAGE'.$app['APP_STATUS']['MESSAGE_SUFFIX'], $app['APP_STATUS']['MESSAGE_REPLACE']);?>
+						</span>
 					</div>
 					<?
 				}

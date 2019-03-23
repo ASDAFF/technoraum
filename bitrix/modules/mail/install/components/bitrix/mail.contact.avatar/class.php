@@ -40,7 +40,8 @@ class CMailContactAvatarComponent extends \CBitrixComponent
 		}
 		else
 		{
-			$this->arResult['initialsFontSize'] = intval($this->arResult['avatarSize'] / 2);
+			$s = $this->arResult['avatarSize'];
+			$this->arResult['initialsFontSize'] = floor($s / 2) - abs($s % 2 - floor($s / 2) % 2);
 			if ($email && $name && $color)
 			{
 				$page = 'icon';

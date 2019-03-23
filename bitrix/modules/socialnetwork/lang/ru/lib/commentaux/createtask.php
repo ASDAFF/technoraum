@@ -10,6 +10,8 @@ $MESS["SONET_COMMENTAUX_CREATETASK_POST_PHOTO_ALBUM"] = "Создана задача \"#TASK_
 $MESS["SONET_COMMENTAUX_CREATETASK_POST_PHOTO_PHOTO"] = "Создана задача \"#TASK_NAME#\" на основании фотографии альбома.";
 $MESS["SONET_COMMENTAUX_CREATETASK_POST_WIKI"] = "Создана задача \"#TASK_NAME#\" на основании статьи Wiki.";
 $MESS["SONET_COMMENTAUX_CREATETASK_POST_LISTS_NEW_ELEMENT"] = "Создана задача \"#TASK_NAME#\" на основании записи о запущенном бизнес-процессе.";
+$MESS["SONET_COMMENTAUX_CREATETASK_POST_INTRANET_NEW_USER"] = "Создана задача \"#TASK_NAME#\" на основании записи о приеме на работу нового сотрудника.";
+$MESS["SONET_COMMENTAUX_CREATETASK_POST_BITRIX24_NEW_USER"] = "Создана задача \"#TASK_NAME#\" на основании записи о приеме на работу нового сотрудника.";
 $MESS["SONET_COMMENTAUX_CREATETASK_COMMENT_BLOG_COMMENT"] = "Создана задача \"#TASK_NAME#\" на основании #A_BEGIN#комментария к сообщению Живой ленты#A_END#.";
 $MESS["SONET_COMMENTAUX_CREATETASK_COMMENT_FORUM_POST_TASK"] = "Создана задача \"#TASK_NAME#\" на основании #A_BEGIN#комментария к задаче#A_END#.";
 $MESS["SONET_COMMENTAUX_CREATETASK_COMMENT_FORUM_POST_CALENDAR"] = "Создана задача \"#TASK_NAME#\" на основании #A_BEGIN#комментария к событию календаря#A_END#.";
@@ -20,5 +22,7 @@ $MESS["SONET_COMMENTAUX_CREATETASK_COMMENT_FORUM_POST_PHOTO_PHOTO"] = "Создана з
 $MESS["SONET_COMMENTAUX_CREATETASK_COMMENT_FORUM_POST_WIKI"] = "Создана задача \"#TASK_NAME#\" на основании #A_BEGIN#комментария к статье Wiki#A_END#.";
 $MESS["SONET_COMMENTAUX_CREATETASK_COMMENT_FORUM_POST_LISTS_NEW_ELEMENT"] = "Создана задача \"#TASK_NAME#\" на основании #A_BEGIN#комментария к записи о запущенном бизнес-процессе#A_END#.";
 $MESS["SONET_COMMENTAUX_CREATETASK_COMMENT_LOG_COMMENT"] = "Создана задача \"#TASK_NAME#\" на основании #A_BEGIN#комментария к записи Живой ленты#A_END#.";
+$MESS["SONET_COMMENTAUX_CREATETASK_COMMENT_LOG_COMMENT_INTRANET_NEW_USER"] = "Создана задача \"#TASK_NAME#\" на основании #A_BEGIN#комментария к записи о приеме на работу нового сотрудника#A_END#.";
+$MESS["SONET_COMMENTAUX_CREATETASK_COMMENT_LOG_COMMENT_BITRIX24_NEW_USER"] = "Создана задача \"#TASK_NAME#\" на основании #A_BEGIN#комментария к записи о приеме на работу нового сотрудника#A_END#.";
 $MESS["SONET_COMMENTAUX_CREATETASK_NOT_FOUND"] = "&lt;задача не найдена&gt;";
 ?>

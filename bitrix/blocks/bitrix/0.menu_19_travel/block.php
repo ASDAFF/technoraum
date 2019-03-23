@@ -2,10 +2,10 @@
 	<div class="u-header__section g-bg-black-opacity-0_5 g-bg-transparent--lg g-transition-0_3 g-py-12"
 		 data-header-fix-moment-exclude="g-bg-black-opacity-0_5 g-bg-transparent--lg g-py-12"
 		 data-header-fix-moment-classes="g-theme-travel-bg-black-v1-opacity-0_8 g-py-7">
-		<nav class="navbar navbar-expand-lg g-py-0">
+		<nav class="navbar navbar-expand-lg g-py-0 g-px-10">
 			<div class="container">
 				<!-- Logo -->
-				<a href="#" class="navbar-brand landing-block-node-menu-logo-link u-header__logo p-0">
+				<a href="#system_mainpage" class="navbar-brand landing-block-node-menu-logo-link u-header__logo p-0">
 					<img class="landing-block-node-menu-logo u-header__logo-img u-header__logo-img--main g-max-width-180"
 						 src="https://cdn.bitrix24.site/bitrix/images/landing/logos/travel-logo.png" alt="">
 				</a>

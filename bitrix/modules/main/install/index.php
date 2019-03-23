@@ -85,7 +85,7 @@ class main extends CModule
 			$errors = $DB->RunSQLBatch($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/install/".$DBType."/install_ft.sql");
 			if ($errors === false)
 			{
-				$entity = \Bitrix\Main\UserTable::getEntity();
+				$entity = \Bitrix\Main\UserIndexTable::getEntity();
 				$entity->enableFullTextIndex("SEARCH_USER_CONTENT");
 				$entity->enableFullTextIndex("SEARCH_DEPARTMENT_CONTENT");
 				$entity->enableFullTextIndex("SEARCH_ADMIN_CONTENT");
@@ -382,6 +382,8 @@ class main extends CModule
 
 		RegisterModuleDependences("main", "OnBeforeEndBufferContent", "main", "\\Bitrix\\Main\\Analytics\\Counter", "onBeforeEndBufferContent");
 		RegisterModuleDependences("main", "OnBeforeRestartBuffer", "main", "\\Bitrix\\Main\\Analytics\\Counter", "onBeforeRestartBuffer");
+
+		RegisterModuleDependences("main", "OnFileDelete", "main", "\\Bitrix\\Main\\UI\\Viewer\\FilePreviewTable", "onFileDelete");
 
 		RegisterModuleDependences("disk", "onAfterAjaxActionCreateFolderWithSharing", "main", "\\Bitrix\\Main\\FinderDestTable", "onAfterDiskAjaxAction");
 		RegisterModuleDependences("disk", "onAfterAjaxActionAppendSharing", "main", "\\Bitrix\\Main\\FinderDestTable", "onAfterDiskAjaxAction");

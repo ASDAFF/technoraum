@@ -283,6 +283,13 @@ class Form
 					$attrsToSet = array('data-b24form' => $forms[0]['value']);
 					$attrsToSet['data-b24form-original-domain'] = self::getOriginalFormDomain();
 					
+//					When create preview sites on repo need set demo portal
+					if((defined('LANDING_IS_REPO') && LANDING_IS_REPO === true))
+					{
+						$attrsToSet["data-b24form"] = "1|n3j8e2";
+						$attrsToSet["data-b24form-original-domain"] = "https://landing.bitrix24.ru";
+					}
+					
 					$block->setAttributes(array(
 						'.bitrix24forms' => $attrsToSet,
 					));
