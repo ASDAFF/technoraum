@@ -274,3 +274,8 @@
 [23-Mar-2019 09:20:05 UTC] PHP Fatal error:  require_once(): Failed opening required '/home/t/technoraum/technoraum.ru/public_html/bitrix/php_interface/dbconn.php' (include_path='.:/usr/local/php/cgi/7.1/share/pear') in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/include/urlrewrite.php on line 34
 [23-Mar-2019 09:20:07 UTC] PHP Fatal error:  require_once(): Failed opening required '/home/t/technoraum/technoraum.ru/public_html/bitrix/php_interface/dbconn.php' (include_path='.:/usr/local/php/cgi/7.1/share/pear') in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/include/urlrewrite.php on line 34
 [23-Mar-2019 09:20:19 UTC] PHP Fatal error:  require_once(): Failed opening required '/home/t/technoraum/technoraum.ru/public_html/bitrix/php_interface/dbconn.php' (include_path='.:/usr/local/php/cgi/7.1/share/pear') in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/include/urlrewrite.php on line 34
+[23-Mar-2019 13:37:54 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[23-Mar-2019 13:38:31 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[23-Mar-2019 13:38:41 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[25-Mar-2019 18:00:05 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[25-Mar-2019 19:55:13 Europe/Moscow] PHP Fatal error:  ob_end_flush(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/classes/general/main.php on line 3413
