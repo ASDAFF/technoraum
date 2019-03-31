@@ -93,7 +93,7 @@ $APPLICATION->SetTitle("Каталог товаров");
 		"HIDE_NOT_AVAILABLE_OFFERS" => "Y",
 		"IBLOCK_ID" => "8",
 		"IBLOCK_TYPE" => "catalog",
-		"INCLUDE_SUBSECTIONS" => "Y",
+		"INCLUDE_SUBSECTIONS" => "N",
 		"INCLUDE_IBLOCK_INTO_CHAIN" => "Y",
 		"LINE_ELEMENT_COUNT" => "3",
 		"LINK_ELEMENTS_URL" => "link.php?PARENT_ELEMENT_ID=#ELEMENT_ID#",

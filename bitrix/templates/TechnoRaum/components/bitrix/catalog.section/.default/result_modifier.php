@@ -44,3 +44,22 @@ foreach($arResult["ITEMS"] as &$item){
         }
     }
 }
+
+
+global $APPLICATION;
+$cp = $this->__component; // объект компонента
+
+if (is_object($cp))
+{
+    $cp->arResult['META_TITLE'] = $arResult["UF_META_TITLE"];
+    $cp->arResult['META_KEYWORDS'] = $arResult["UF_META_KEYWORDS"];
+    $cp->arResult['META_DESCRIPTION'] = $arResult["UF_META_DESCRIPTION"];
+
+    $cp->SetResultCacheKeys(array('META_TITLE','META_KEYWORDS','META_DESCRIPTION'));
+    // сохраним их в копии arResult, с которой работает шаблон
+    $arResult['META_TITLE'] = $cp->arResult['META_TITLE'];
+    $arResult['META_KEYWORDS'] = $cp->arResult['META_KEYWORDS'];
+    $arResult['META_DESCRIPTION'] = $cp->arResult['META_DESCRIPTION'];
+
+}
+

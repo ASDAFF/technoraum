@@ -55,3 +55,35 @@ if ($request->isAjaxRequest() && ($request->get('action') === 'showMore' || $req
 		'pagination' => $paginationContainer
 	));
 }
+
+$meta_array = function($arMeta){
+	$arMetas = array();
+	foreach($arMeta as $meta){
+		$metas = explode(";",$meta);
+		$arMetas[$metas[0]] = $metas[1];
+	}
+	return $arMetas;
+};
+
+$arTitle = $meta_array($arResult["META_TITLE"]);
+if (isset($arTitle[SITE_ID])) {
+	$APPLICATION->SetTitle($arTitle[SITE_ID]);
+	$APPLICATION->SetPageProperty('title', $arTitle[SITE_ID]);
+}else{
+	$APPLICATION->SetTitle($arResult["IPROPERTY_VALUES"]["SECTION_META_TITLE"]);
+	$APPLICATION->SetPageProperty('title', $arResult["IPROPERTY_VALUES"]["SECTION_META_TITLE"]);
+}
+
+$arKeywords = $meta_array($arResult["META_KEYWORDS"]);
+if (isset($arKeywords[SITE_ID])) {
+	$APPLICATION->SetPageProperty('keywords', $arKeywords[SITE_ID]);
+}else{
+	$APPLICATION->SetPageProperty('keywords', $arResult["IPROPERTY_VALUES"]["SECTION_META_KEYWORDS"]);
+}
+
+$arDescription = $meta_array($arResult["META_DESCRIPTION"]);
+if (isset($arDescription[SITE_ID])) {
+	$APPLICATION->SetPageProperty('description', $arDescription[SITE_ID]);
+}else{
+	$APPLICATION->SetPageProperty('description', $arResult["IPROPERTY_VALUES"]["SECTION_META_DESCRIPTION"]);
+}

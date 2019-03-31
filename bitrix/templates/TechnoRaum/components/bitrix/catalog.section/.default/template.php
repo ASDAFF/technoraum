@@ -14,17 +14,12 @@ use \Bitrix\Main\Localization\Loc;
 
 $this->setFrameMode(true);
 $this->addExternalCss('/bitrix/css/main/bootstrap.css');
+
+if(count($arResult["ITEMS"]) > 0):
 ?>
-
-
-
 <div class="glav_cat_wrap glav_cat_wrap_mark2">
 	<?
-		if(count($arResult["ITEMS"]) == 0)
-		{
-			?><p>“овары в данном разделе отсутствуют</p><?
-		}
-		foreach($arResult["ITEMS"] as $item)
+	foreach($arResult["ITEMS"] as $item)
 		{
 			$img = CFile::ResizeImageGet($item["PREVIEW_PICTURE"]["ID"], array('width'=>180, 'height'=>180), BX_RESIZE_IMAGE_PROPORTIONAL, true); 
 			?>
@@ -179,5 +174,20 @@ if($arParams["DISPLAY_BOTTOM_PAGER"])
 
 <?}?>
 
+<? endif; ?>
+
 <div class="clear"></div>
-<div><?=$GLOBALS["SECTION_DESCRIPTION"]?></div>
+<div>
+	<?
+	$arDescs = array();
+	foreach($arResult['~UF_DESCRIPTION'] as $desc){
+		$descs = explode(";",$desc);
+		$arDescs[$descs[0]] = $descs[1];
+	}
+	if (isset($arDescs[SITE_ID])) {
+		echo $arDescs[SITE_ID];
+	}else{
+		echo $GLOBALS["SECTION_DESCRIPTION"];
+	}
+	?>
+</div>

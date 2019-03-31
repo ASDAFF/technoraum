@@ -110,7 +110,4 @@ foreach($arResult['SECTIONS'] as $key => $arSection){
 		}
 	}
 }
-
-
-
 ?>

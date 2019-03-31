@@ -59,5 +59,28 @@ foreach($arResult["PROPERTIES"]["GIFT"]["VALUE"] as $key => $gifts)
 	}
 }
 
+global $APPLICATION;
+$cp = $this->__component; // объект компонента
+
+if (is_object($cp))
+{
+	$cp->arResult['META_TITLE'] = $arResult['PROPERTIES']['META_TITLE'];
+	$cp->arResult['META_KEYWORDS'] = $arResult['PROPERTIES']['META_KEYWORDS'];
+	$cp->arResult['META_DESCRIPTION'] = $arResult['PROPERTIES']['META_DESCRIPTION'];
+
+	$cp->SetResultCacheKeys(array('META_TITLE','META_KEYWORDS','META_DESCRIPTION'));
+	// сохраним их в копии arResult, с которой работает шаблон
+	$arResult['META_TITLE'] = $cp->arResult['META_TITLE'];
+	$arResult['META_KEYWORDS'] = $cp->arResult['META_KEYWORDS'];
+	$arResult['META_DESCRIPTION'] = $cp->arResult['META_DESCRIPTION'];
+}
+
+$arDesc  = array();
+foreach($arResult['PROPERTIES']['DESCRIPTION']['~VALUE'] as $desc => $meta){
+	$arDesc[$arResult['PROPERTIES']['DESCRIPTION']['DESCRIPTION'][$desc]] = $meta;
+}
+if (isset($arDesc[SITE_ID])) {
+	$arResult["DETAIL_TEXT"] = $arDesc[SITE_ID];
+}
 
 ?>

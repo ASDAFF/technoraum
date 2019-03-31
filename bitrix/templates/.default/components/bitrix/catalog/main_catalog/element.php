@@ -25,6 +25,9 @@ else
 	"bitrix:catalog.element",
 	"",
 	array(
+		"SET_BROWSER_TITLE" => "N",
+		"SET_META_KEYWORDS" => "N",
+		"SET_META_DESCRIPTION" => "N",
 		"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
 		"IBLOCK_ID" => $arParams["IBLOCK_ID"],
 		"PROPERTY_CODE" => $arParams["DETAIL_PROPERTY_CODE"],

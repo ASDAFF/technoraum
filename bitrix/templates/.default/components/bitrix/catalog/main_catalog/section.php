@@ -18,7 +18,8 @@ $this->setFrameMode(true);
 		"CACHE_GROUPS" => $arParams["CACHE_GROUPS"],
 		"COUNT_ELEMENTS" => $arParams["SECTION_COUNT_ELEMENTS"],
 		"SECTION_URL" => $arResult["FOLDER"].$arResult["URL_TEMPLATES"]["section"],
-		"SHOW_PARENT_NAME" => $arParams["SECTION_SHOW_PARENT_NAME"]
+		"SHOW_PARENT_NAME" => $arParams["SECTION_SHOW_PARENT_NAME"],
+		"SECTION_USER_FIELDS" => array('UF_*'),
 	),
 	$component
 );?>
@@ -115,8 +116,8 @@ if($_REQUEST["PAGE_ELEMENT_COUNT"]){
 }
 ?>
 <div class="the_content_right_column">
-
-	<? $APPLICATION->IncludeComponent(
+	<?
+	$APPLICATION->IncludeComponent(
 		"bitrix:catalog.section",
 		"",
 		Array(
@@ -133,6 +134,9 @@ if($_REQUEST["PAGE_ELEMENT_COUNT"]){
 		"ACTION_VARIABLE" => $arParams["ACTION_VARIABLE"],
 		"PRODUCT_ID_VARIABLE" => $arParams["PRODUCT_ID_VARIABLE"],
 		"SECTION_ID_VARIABLE" => $arParams["SECTION_ID_VARIABLE"],
+		"SET_BROWSER_TITLE" => "N",
+		"SET_META_KEYWORDS" => "N",
+		"SET_META_DESCRIPTION" => "N",
 		"FILTER_NAME" => "arrFilter",
 		"DISPLAY_PANEL" => $arParams["DISPLAY_PANEL"],
 		"CACHE_TYPE" => $arParams["CACHE_TYPE"],
@@ -163,6 +167,7 @@ if($_REQUEST["PAGE_ELEMENT_COUNT"]){
 		"SECTION_CODE" => $arResult["VARIABLES"]["SECTION_CODE"],
 		"SECTION_URL" => $arResult["FOLDER"].$arResult["URL_TEMPLATES"]["section"],
 		"DETAIL_URL" => $arResult["FOLDER"].$arResult["URL_TEMPLATES"]["element"],
+		"SECTION_USER_FIELDS" => array('UF_*'),
 	),
 	$component
 );

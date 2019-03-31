@@ -104,6 +104,8 @@ if($url[1] != "personal" && $url[2] != "order" && $url[3] != "make")
 						(
 						"ROOT_MENU_TYPE" => "top",
 						"MAX_LEVEL" => "3",
+						"IBLOCK_TYPE" => "company",
+						"IBLOCK_ID" => "8",
 						"CHILD_MENU_TYPE" => "left",
 						"USE_EXT" => "Y",
 						"MENU_CACHE_TYPE" => "A",
