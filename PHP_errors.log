@@ -279,3 +279,27 @@
 [23-Mar-2019 13:38:41 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
 [25-Mar-2019 18:00:05 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
 [25-Mar-2019 19:55:13 Europe/Moscow] PHP Fatal error:  ob_end_flush(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/classes/general/main.php on line 3413
+[26-Mar-2019 14:00:15 Europe/Moscow] PHP Fatal error:  ob_end_flush(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/classes/general/main.php on line 3413
+[26-Mar-2019 15:21:00 Europe/Moscow] PHP Fatal error:  ob_end_flush(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/classes/general/main.php on line 3413
+[26-Mar-2019 16:19:43 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[26-Mar-2019 16:19:53 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[26-Mar-2019 16:20:00 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[26-Mar-2019 20:22:01 Europe/Moscow] PHP Fatal error:  ob_end_flush(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/classes/general/main.php on line 3413
+[27-Mar-2019 10:45:51 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[27-Mar-2019 10:46:39 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[27-Mar-2019 19:56:27 Europe/Moscow] PHP Fatal error:  ob_end_flush(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/classes/general/main.php on line 3413
+[28-Mar-2019 10:52:40 Europe/Moscow] PHP Fatal error:  Unknown: Cannot use output buffering in output buffering display handlers in Unknown on line 0
+[28-Mar-2019 19:58:23 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[29-Mar-2019 10:15:16 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[29-Mar-2019 10:15:16 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[29-Mar-2019 10:52:40 Europe/Moscow] PHP Fatal error:  Unknown: Cannot use output buffering in output buffering display handlers in Unknown on line 0
+[29-Mar-2019 10:52:40 Europe/Moscow] PHP Fatal error:  Unknown: Cannot use output buffering in output buffering display handlers in Unknown on line 0
+[29-Mar-2019 11:42:26 Europe/Moscow] PHP Fatal error:  ob_end_flush(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/classes/general/main.php on line 3413
+[29-Mar-2019 14:12:28 Europe/Moscow] PHP Fatal error:  ob_end_flush(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/classes/general/main.php on line 3413
+[29-Mar-2019 15:27:52 Europe/Moscow] PHP Fatal error:  Uncaught Error: Call to undefined function tplvar() in /home/t/technoraum/technoraum.ru/public_html/bitrix/templates/TechnoRaum/include/header_phone.php:1
+Stack trace:
+#0 {main}
+  thrown in /home/t/technoraum/technoraum.ru/public_html/bitrix/templates/TechnoRaum/include/header_phone.php on line 1
+[29-Mar-2019 15:40:32 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[29-Mar-2019 15:40:32 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[30-Mar-2019 09:28:28 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
