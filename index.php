@@ -37,32 +37,28 @@ $APPLICATION->SetTitle("Купить технику Karcher в Краснодаре на официальном сайте
 	</div>
 
 	<div class="inner_section">
-		<div class="icons_wrap">
-			<div class="icons_div">
-				<div class="img">
-					 <img src="/bitrix/templates/TechnoRaum/img/i1.png" alt="">
-				</div>
-				<div class="text">
-					 <? $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH."/include/adv1.php",Array(),Array("MODE"=>"html")); ?>
-				</div>
-			</div>
-			<div class="icons_div">
-				<div class="img">
-					<img src="/bitrix/templates/TechnoRaum/img/i2.png" alt="">
-				</div>
-				<div class="text">
-					 <? $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH."/include/adv2.php",Array(),Array("MODE"=>"html")); ?>
-				</div>
-			</div>
-			<div class="icons_div">
-				<div class="img">
-					<img src="/bitrix/templates/TechnoRaum/img/i3.png" alt="">
-				</div>
-				<div class="text">
-					 <? $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH."/include/adv3.php",Array(),Array("MODE"=>"html")); ?>
-				</div>
-			</div>
-		</div>
+		<?$APPLICATION->IncludeComponent("nbrains:news.line", "service.home", Array(
+			"ACTIVE_DATE_FORMAT" => "d.m.Y",	// Формат показа даты
+			"CACHE_GROUPS" => "Y",	// Учитывать права доступа
+			"CACHE_TIME" => "300",	// Время кеширования (сек.)
+			"CACHE_TYPE" => "A",	// Тип кеширования
+			"DETAIL_URL" => "",	// URL, ведущий на страницу с содержимым элемента раздела
+			"FIELD_CODE" => array(	// Поля
+				0 => "DETAIL_TEXT",
+				1 => "PREVIEW_PICTURE",
+			),
+			"IBLOCKS" => array(	// Код информационного блока
+				0 => "13",
+			),
+			"IBLOCK_TYPE" => "materials",	// Тип информационного блока
+			"NEWS_COUNT" => "3",	// Количество новостей на странице
+			"SORT_BY1" => "ACTIVE_FROM",	// Поле для первой сортировки новостей
+			"SORT_BY2" => "SORT",	// Поле для второй сортировки новостей
+			"SORT_ORDER1" => "DESC",	// Направление для первой сортировки новостей
+			"SORT_ORDER2" => "ASC",	// Направление для второй сортировки новостей
+		),
+			false
+		);?>
 	</div>
 
  </section>
