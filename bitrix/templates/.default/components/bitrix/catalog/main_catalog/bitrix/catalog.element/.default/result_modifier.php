@@ -59,6 +59,8 @@ foreach($arResult["PROPERTIES"]["GIFT"]["VALUE"] as $key => $gifts)
 	}
 }
 
+
+
 global $APPLICATION;
 $cp = $this->__component; // объект компонента
 
@@ -68,11 +70,29 @@ if (is_object($cp))
 	$cp->arResult['META_KEYWORDS'] = $arResult['PROPERTIES']['META_KEYWORDS'];
 	$cp->arResult['META_DESCRIPTION'] = $arResult['PROPERTIES']['META_DESCRIPTION'];
 
-	$cp->SetResultCacheKeys(array('META_TITLE','META_KEYWORDS','META_DESCRIPTION'));
+	$arFilter = Array('IBLOCK_ID' => $arResult['SECTION']['IBLOCK_ID'], 'ID' => $arResult['SECTION']['ID'], 'ACTIVE'=>'Y');
+	$db_list = CIBlockSection::GetList(Array(), $arFilter, true, array("NAME","UF_*"));
+	if($ar_result = $db_list->GetNext())
+	{
+		$cp->arResult['META_TITLE_SECTION'] = $ar_result['UF_META_TITLE_EL'];
+		$cp->arResult['META_DESCRIPTION_SECTION'] = $ar_result['UF_META_DESC_SE'];
+	}
+
+	$cp->SetResultCacheKeys(
+		array(
+			'META_TITLE',
+			'META_TITLE_SECTION',
+			'META_KEYWORDS',
+			'META_DESCRIPTION',
+			'META_DESCRIPTION_SECTION'
+		)
+	);
 	// сохраним их в копии arResult, с которой работает шаблон
 	$arResult['META_TITLE'] = $cp->arResult['META_TITLE'];
+	$arResult['META_TITLE_SECTION'] = $cp->arResult['META_TITLE_SECTION'];
 	$arResult['META_KEYWORDS'] = $cp->arResult['META_KEYWORDS'];
 	$arResult['META_DESCRIPTION'] = $cp->arResult['META_DESCRIPTION'];
+	$arResult['META_DESCRIPTION_SECTION'] = $cp->arResult['META_DESCRIPTION_SECTION'];
 }
 
 $arDesc  = array();
