@@ -14,7 +14,7 @@ $APPLICATION->SetTitle("Контакты");
  <a style="color:#000;text-decoration:none;" href="tel: <?=tplvar('phone');?>"><?= tplvar('phone');?></a>
 		</p>
 		<p>
-			 <!--Бесплатный звонок по РФ--><br>
+			Бесплатный звонок по РФ<br>
 			<a href="mailto:zakaz@technoraum.ru">zakaz@technoraum.ru</a>
 		</p>
 	</div>
