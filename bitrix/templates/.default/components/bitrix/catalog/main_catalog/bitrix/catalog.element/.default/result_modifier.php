@@ -59,13 +59,13 @@ foreach($arResult["PROPERTIES"]["GIFT"]["VALUE"] as $key => $gifts)
 	}
 }
 
-
-
 global $APPLICATION;
 $cp = $this->__component; // объект компонента
 
 if (is_object($cp))
 {
+	$cp->arResult['PRICE'] = $arResult["PRICES"]["price"]["PRINT_VALUE"];
+
 	$cp->arResult['META_TITLE'] = $arResult['PROPERTIES']['META_TITLE'];
 	$cp->arResult['META_KEYWORDS'] = $arResult['PROPERTIES']['META_KEYWORDS'];
 	$cp->arResult['META_DESCRIPTION'] = $arResult['PROPERTIES']['META_DESCRIPTION'];
@@ -80,6 +80,7 @@ if (is_object($cp))
 
 	$cp->SetResultCacheKeys(
 		array(
+			'PRICE',
 			'META_TITLE',
 			'META_TITLE_SECTION',
 			'META_KEYWORDS',
@@ -88,6 +89,7 @@ if (is_object($cp))
 		)
 	);
 	// сохраним их в копии arResult, с которой работает шаблон
+	$arResult['PRICE'] = $cp->arResult['PRICE'];
 	$arResult['META_TITLE'] = $cp->arResult['META_TITLE'];
 	$arResult['META_TITLE_SECTION'] = $cp->arResult['META_TITLE_SECTION'];
 	$arResult['META_KEYWORDS'] = $cp->arResult['META_KEYWORDS'];
