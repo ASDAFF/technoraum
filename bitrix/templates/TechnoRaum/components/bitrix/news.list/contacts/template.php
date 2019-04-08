@@ -12,7 +12,7 @@
 /** @var CBitrixComponent $component */
 $this->setFrameMode(true);
 ?>
-<script src="http://api-maps.yandex.ru/2.1/?load=package.full&mode=release&lang=ru-RU&wizard=bitrix" type="text/javascript"></script>
+<script src="https://api-maps.yandex.ru/2.1/?load=package.full&mode=release&lang=ru-RU&wizard=bitrix" type="text/javascript"></script>
 
 <div id="map-data" data-items="<?=$arResult["ITEMS_JS"]?>"></div>
 
