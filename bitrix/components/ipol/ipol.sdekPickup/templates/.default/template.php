@@ -418,15 +418,6 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 						</div>
 					</div>
 				</div>
-				<div class='SDEK_mark'>
-					<div class='SDEK_courierInfo'><strong><?=GetMessage("IPOLSDEK_COURIER")?></strong><br><?=GetMessage("IPOLSDEK_DELTERM")?></div>
-					<div class='SDEK_courierInfo'>
-						<span id='SDEK_cPrice'><?=($arResult['DELIVERY']['courier']!='no')?$arResult['DELIVERY']['courier']:""?></span>
-						<br>
-						<span id='SDEK_cDate'><?=($arResult['DELIVERY']['courier']!='no')?GetMessage("IPOLSDEK_DAY"):GetMessage("IPOLSDEK_NO_DELIV")?></span>
-					</div>
-					<div style='clear: both;'></div>
-				</div>
 				<div style='float:none;clear:both'></div>
 			</div>
 			<div id='SDEK_map'></div>
