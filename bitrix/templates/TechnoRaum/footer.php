@@ -380,6 +380,11 @@ if($_SERVER["REQUEST_URI"] != "/")
             //jquery.maskinput
             $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.maskinput.js");
 
+            //combobox
+			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/combobox.js");
+
+			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/contact-tabs.js");
+
             //custom script
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/script.js");
 
