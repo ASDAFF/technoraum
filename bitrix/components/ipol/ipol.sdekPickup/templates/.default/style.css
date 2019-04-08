@@ -54,7 +54,7 @@
 #SDEK_map{
 	float: left;
 	height: 500px;
-	width: 900px;
+	width: 100%;
 }
 #SDEK_info{
 	float:left;
@@ -214,7 +214,7 @@
 #SDEK_title{
 	padding-bottom: 12px;
 	border-bottom: 1px solid #e5e5e5;
-	width: 898px;
+	width: 100%;
 }
 #SDEK_title > div,#SDEK_cityPicker > div{
 	font-size: 12px;
