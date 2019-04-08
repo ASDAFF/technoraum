@@ -11,6 +11,10 @@
 /** @var string $componentPath */
 /** @var CBitrixComponent $component */
 $this->setFrameMode(true);
+
+//combobox
+$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/combobox.js");
+$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/contact-tabs.js");
 ?>
 <script src="https://api-maps.yandex.ru/2.1/?load=package.full&mode=release&lang=ru-RU&wizard=bitrix" type="text/javascript"></script>
 
