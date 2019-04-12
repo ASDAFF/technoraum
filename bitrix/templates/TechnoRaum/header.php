@@ -20,7 +20,7 @@ if($url[1] != "personal" && $url[2] != "order" && $url[3] != "make")
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
 	<head>
-		<meta name="yandex-verification" content="b786f5411360f6e5" />
+		<meta name="yandex-verification" content="dd3124205879e327" />
 		<?$APPLICATION->ShowHead();?>
 		<title><?$APPLICATION->ShowTitle()?></title>
 		<meta name="viewport" content="width=device-width">
