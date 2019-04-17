@@ -181,7 +181,7 @@ if($arParams["DISPLAY_BOTTOM_PAGER"])
 	<?
 	$arDescs = array();
 	foreach($arResult['~UF_DESCRIPTION'] as $desc){
-		$descs = explode(";",$desc);
+		$descs = explode(";",$desc,2);
 		$arDescs[$descs[0]] = $descs[1];
 	}
 	if (isset($arDescs[SITE_ID])) {
