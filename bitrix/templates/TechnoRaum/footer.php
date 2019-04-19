@@ -109,6 +109,7 @@ if($_SERVER["REQUEST_URI"] != "/")
                     <option value="9211625">г. Краснодар, Уральская ул 87</option>
                     <option value="347347013">г. Славянск-на-Кубани, Батарейная ул, 262</option>
                     <option value="347346613">г. Усть-Лабинск, Красная ул, 110</option>
+                    <option value="347347433">г. Ростов-на-Дону, проспект Шолохова, 62</option>
                 </select>
                 <label>
                     <input required type="checkbox" name="check" id="rule" checked="checked">
