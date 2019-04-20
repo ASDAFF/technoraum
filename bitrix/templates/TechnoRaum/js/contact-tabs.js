@@ -33,17 +33,17 @@ function showCity(items, current_city){
 
         if(value.PROPERTIES.CITY.VALUE_XML_ID == current_city){
 
-            item_shop += renderTemplate('item-temp', {
-                pid: value.ID,
-                cord: value.PROPERTIES.PLACEMARK.VALUE,
-                name: value.NAME,
-                phone: value.PROPERTIES.PHONE.VALUE,
-                mode: value.PROPERTIES.MODE.VALUE,
-            });
+            if(in_array('SHOP',value.PROPERTIES.TYPE.VALUE_XML_ID)){
+                item_shop += renderTemplate('item-temp', {
+                    pid: value.ID,
+                    cord: value.PROPERTIES.PLACEMARK.VALUE,
+                    name: value.NAME,
+                    phone: value.PROPERTIES.PHONE.VALUE,
+                    mode: value.PROPERTIES.MODE.VALUE,
+                });
+            }
 
-            //еще и сервис
-            if(value.PROPERTIES.SERVICE.VALUE == "Y"){
-
+            if(in_array('SERVICE',value.PROPERTIES.TYPE.VALUE_XML_ID)){
                 item_service += renderTemplate('item-temp', {
                     pid: value.ID,
                     cord: value.PROPERTIES.PLACEMARK.VALUE,
@@ -108,6 +108,20 @@ function initMap() {
         });
 
 }
+
+function in_array(needle, haystack, strict) {
+
+    var found = false, key, strict = !!strict;
+
+    for (key in haystack) {
+        if ((strict && haystack[key] === needle) || (!strict && haystack[key] == needle)) {
+            found = true;
+            break;
+        }
+    }
+    return found;
+}
+
 
 function renderTemplate(name, data) {
     var template = document.getElementById(name).innerHTML;
