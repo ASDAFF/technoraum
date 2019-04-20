@@ -42,11 +42,11 @@ $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/contact-tabs.js");
 
 		<div class="region-shop">
 
-			<div class="shop-map">
-				<div id="shop_map"></div>
-			</div>
-
 			<ul class="shop-list"></ul>
+
+            <div class="shop-map">
+                <div id="shop_map"></div>
+            </div>
 
 			<div class="clear"></div>
 		</div>
@@ -56,11 +56,11 @@ $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/contact-tabs.js");
 
 		<div class="region-shop">
 
-			<div class="shop-map">
-				<div id="service_map"></div>
-			</div>
-
 			<ul class="shop-list"></ul>
+
+            <div class="shop-map">
+                <div id="service_map"></div>
+            </div>
 
 			<div class="clear"></div>
 		</div>

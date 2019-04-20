@@ -29,7 +29,7 @@ html, body, #service_map
     margin-left: 1%;
     padding-right: 10px;
     height: 500px;
-    float: right;
+    float: left;
     overflow-y: auto;
 }
 
@@ -55,7 +55,7 @@ html, body, #service_map
 .region-shop > .shop-map {
     width: 80%;
     height: 500px;
-    float: left;
+    float: right;
 }
 
 .shop-name {
