@@ -86,7 +86,7 @@ function initMap() {
             var center = $( this ).attr('data-cord').split(',');
             var content = $(this).html();
 
-            var placemark = new ymaps.Placemark(center, { balloonContent: content },{preset: 'islands#blueCircleDotIconWithCaption', iconColor: '#337ab7'});
+            var placemark = new ymaps.Placemark(center, { balloonContent: content },{preset: 'islands#nightDotIcon'});
             var dataPid = $( this ).attr('data-pid');
             arPlaceMark[dataPid] = placemark;
             // Добавляем метку в коллекцию.
