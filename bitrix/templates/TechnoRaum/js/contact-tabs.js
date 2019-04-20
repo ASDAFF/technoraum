@@ -87,9 +87,15 @@ function initMap() {
             var content = $(this).html();
 
             var placemark = new ymaps.Placemark(center, { balloonContent: content },{preset: 'islands#blueCircleDotIconWithCaption', iconColor: '#337ab7'});
-            arPlaceMark[$( this ).attr('data-pid')] = placemark;
+            var dataPid = $( this ).attr('data-pid');
+            arPlaceMark[dataPid] = placemark;
             // Добавляем метку в коллекцию.
             collection.add(placemark);
+
+            placemark.events.add('click', function () {
+                $('.shop').removeClass('active');
+                $('.shop[data-pid="'+ dataPid +'"]').addClass('active');
+            });
 
             if(!key){
                 placemark.balloon.open();
@@ -106,6 +112,8 @@ function initMap() {
 
             return false;
         });
+
+
 
 }
 
