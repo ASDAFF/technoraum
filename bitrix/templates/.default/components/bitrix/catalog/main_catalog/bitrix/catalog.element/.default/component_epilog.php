@@ -20,7 +20,7 @@ $meta_array = function($arMeta){
 $meta_section_array = function($arMeta){
     $arMetas = array();
     foreach($arMeta as $meta){
-        $metas = explode(";",$meta);
+        $metas = explode(";",$meta,2);
         $arMetas[$metas[0]] = $metas[1];
     }
     return $arMetas;

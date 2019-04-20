@@ -64,6 +64,7 @@ $cp = $this->__component; // объект компонента
 
 if (is_object($cp))
 {
+    $cp->arResult['ARTICLE'] = $arResult['PROPERTIES']['ARTICLE']['VALUE'];
 	$cp->arResult['PRICE'] = $arResult["PRICES"]["price"]["PRINT_VALUE"];
 
 	$cp->arResult['META_TITLE'] = $arResult['PROPERTIES']['META_TITLE'];
@@ -80,6 +81,7 @@ if (is_object($cp))
 
 	$cp->SetResultCacheKeys(
 		array(
+			'ARTICLE',
 			'PRICE',
 			'META_TITLE',
 			'META_TITLE_SECTION',
@@ -89,6 +91,7 @@ if (is_object($cp))
 		)
 	);
 	// сохраним их в копии arResult, с которой работает шаблон
+	$arResult['ARTICLE'] = $cp->arResult['ARTICLE'];
 	$arResult['PRICE'] = $cp->arResult['PRICE'];
 	$arResult['META_TITLE'] = $cp->arResult['META_TITLE'];
 	$arResult['META_TITLE_SECTION'] = $cp->arResult['META_TITLE_SECTION'];
