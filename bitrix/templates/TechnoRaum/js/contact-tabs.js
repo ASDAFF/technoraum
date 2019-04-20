@@ -74,7 +74,7 @@ function initMap() {
 
         var myMap = new ymaps.Map(id_map, {
             center: first_cord,
-            zoom: 13
+            zoom: 11
         }, {
             searchControlProvider: 'yandex#search'
         });
