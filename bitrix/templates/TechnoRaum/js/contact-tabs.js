@@ -74,7 +74,7 @@ function initMap() {
 
         var myMap = new ymaps.Map(id_map, {
             center: first_cord,
-            zoom: 17
+            zoom: 13
         }, {
             searchControlProvider: 'yandex#search'
         });
@@ -97,10 +97,6 @@ function initMap() {
                 $('.shop[data-pid="'+ dataPid +'"]').addClass('active');
             });
 
-            if(!key){
-                placemark.balloon.open();
-                $(this).addClass('active');
-            }
         });
 
         $('#'+ id_block +' .shop').bind('click', function () {
