@@ -5,6 +5,10 @@ $APPLICATION->SetPageProperty("keywords", "Контакты ТехноРаум");
 $APPLICATION->SetPageProperty("title", "Где купить Керхер в Краснодаре");
 $APPLICATION->SetTitle("Контакты");
 ?>
+<div>
+	<p><b>Телефон горячей линии:</b> 8 800 777 57 01<br>
+	<b>e-mail:</b> info@technoraum.ru</p>
+</div>
 
 <?$APPLICATION->IncludeComponent("bitrix:news.list", "contacts", Array(
 	"ACTIVE_DATE_FORMAT" => "d.m.Y",	// Формат показа даты
