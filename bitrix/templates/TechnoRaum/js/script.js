@@ -148,7 +148,7 @@ $( function() {
             width: 500,
             modal: true,
             buttons: {
-                "Отправить": addUser,
+                "Далее": addUser,
             },
             close: function() {
                 form[ 0 ].reset();
