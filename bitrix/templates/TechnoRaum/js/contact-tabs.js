@@ -99,14 +99,14 @@ function initMap() {
 
         });
 
-        $('#'+ id_block +' .shop').bind('click', function () {
+        $('#'+ id_block +' .shop').bind('click', function (event) {
             $('.shop').removeClass('active');
             $(this).addClass('active');
             var id_mark = $(this).attr('data-pid');
             if (!arPlaceMark[id_mark].balloon.isOpen())
                 arPlaceMark[id_mark].balloon.open();
 
-            return false;
+            return $(event.target).is("A");
         });
 
 

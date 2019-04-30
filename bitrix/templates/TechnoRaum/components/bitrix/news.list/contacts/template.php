@@ -91,7 +91,7 @@ $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/contact-tabs.js");
 	<li class="shop" data-pid="{pid}" data-cord="{cord}">
 		<div class="shop-name">{name}</div>
 		<div class="shop-body">
-			<span><i class="fa fa-phone" aria-hidden="true"></i> <a href="tel:79183257002">{phone}</a></span>
+			<span><i class="fa fa-phone" aria-hidden="true"></i> {phone}</span>
 			<span><i class="fa fa-clock-o" aria-hidden="true"></i> {mode}</span>
 			<span><i class="fa fa-exclamation-circle" aria-hidden="true"></i> ≈жедневно без перерывов и выходных</span>
 		</div>
