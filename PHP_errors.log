@@ -330,3 +330,35 @@ Stack trace:
 [08-Apr-2019 14:21:51 Europe/Moscow] PHP Fatal error:  ob_end_flush(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/classes/general/main.php on line 3413
 [08-Apr-2019 16:02:17 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
 [11-Apr-2019 11:54:41 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[30-Apr-2019 13:21:56 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[30-Apr-2019 13:33:59 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[30-Apr-2019 14:37:26 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[30-Apr-2019 14:37:26 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[30-Apr-2019 14:37:27 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[30-Apr-2019 16:42:36 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[08-May-2019 17:17:26 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[10-May-2019 20:34:17 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[11-May-2019 14:43:23 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[11-May-2019 14:43:40 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 17
+[13-May-2019 10:31:18 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[13-May-2019 10:31:31 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[13-May-2019 18:05:21 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[13-May-2019 18:06:22 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[14-May-2019 13:31:23 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[14-May-2019 13:50:17 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[14-May-2019 13:50:36 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[14-May-2019 13:50:42 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[15-May-2019 14:40:10 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[17-May-2019 09:35:03 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[17-May-2019 09:36:04 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[17-May-2019 09:37:05 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[17-May-2019 09:38:06 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[17-May-2019 14:12:43 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[18-May-2019 00:20:30 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[20-May-2019 15:25:20 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[22-May-2019 18:00:45 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[22-May-2019 18:00:51 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[22-May-2019 18:01:08 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[22-May-2019 18:01:14 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[22-May-2019 18:01:46 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[22-May-2019 18:01:52 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
