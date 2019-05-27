@@ -88,6 +88,14 @@ $arUrlRewrite=array (
     'PATH' => '/brands/index.php',
     'SORT' => 100,
   ),
+  145 => 
+  array (
+    'CONDITION' => '#^/spares/#',
+    'RULE' => '',
+    'ID' => 'bitrix:catalog',
+    'PATH' => '/spares/index.php',
+    'SORT' => 100,
+  ),
   136 => 
   array (
     'CONDITION' => '#^/rest/#',

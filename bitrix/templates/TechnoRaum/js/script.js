@@ -187,6 +187,11 @@ $( function() {
     });
 
 
+    $(".dTree-menu").dTree({
+        closeSameLevel: true, // close same level nodes
+        useCookie: false, // enable cookie support
+    });
+
 });
 
 function DCCheckStatus(result){

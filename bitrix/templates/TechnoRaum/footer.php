@@ -251,9 +251,7 @@ if($_SERVER["REQUEST_URI"] != "/")
 
 
 <!-- BEGIN JIVOSITE CODE {literal} -->
-<script type='text/javascript'>
-(function(){ var widget_id = '3Kdh1V3ZKW';var d=document;var w=window;function l(){var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true;s.src = '//code.jivosite.com/script/widget/'+widget_id; var ss = document.getElementsByTagName('script')[0]; ss.parentNode.insertBefore(s, ss);}if(d.readyState=='complete'){l();}else{if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
-</script>
+
 <!-- {/literal} END JIVOSITE CODE -->
 
 		<script>new WOW().init();</script>
@@ -351,6 +349,10 @@ if($_SERVER["REQUEST_URI"] != "/")
 			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/jquery.custom-scrollbar.css");
 			$APPLICATION->SetAdditionalCss('/bitrix/css/main/bootstrap.min.css');
 			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/css/style.css?ver=1.01");
+			//tree menu
+			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/js/tree-menu/css/dtree.css");
+
+
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery-1.11.0.min.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery.fancybox.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery.flexslider-min.js");
@@ -380,6 +382,9 @@ if($_SERVER["REQUEST_URI"] != "/")
 
             //jquery.maskinput
             $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.maskinput.js");
+
+            //tree menu
+            $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/tree-menu/js/dtree.js");
 
             //custom script
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/script.js");
