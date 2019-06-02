@@ -4,7 +4,7 @@
 
 <div class="dTree-menu">
 <ul>
-    <li><a href="#">Site</a></li>
+    <li><a href="/spares/">Каталог запчастей</a></li>
 <?
 $previousLevel = 0;
 foreach($arResult as $arItem):

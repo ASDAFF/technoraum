@@ -4,6 +4,12 @@
  * 2014-08-21
  */
 
+.dTree-menu{
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-bottom: 100px;
+}
+
 
 .dTree-menu ul, .dTree-menu li
 {
@@ -35,7 +41,8 @@
 {
     height: 18px;
     display: block;
-    width: 300px;
+    width: 100%;
+    white-space: nowrap;
     line-height: 20px;
 }
 
