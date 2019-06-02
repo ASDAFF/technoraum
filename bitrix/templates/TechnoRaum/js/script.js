@@ -192,8 +192,53 @@ $( function() {
         useCookie: false, // enable cookie support
     });
 
+    if ( $.cookie('popover') == null ) {
+        $('.table-striped').popover('show');
+    }
+
+    $('.popover').click(function () {
+        $.cookie('popover', true, { expires: 1, path: window.location.pathname });
+        $('.table-striped').popover('hide');
+    });
+
+    $("#zoom_dt").elevateZoom({
+        zoomType : "lens",
+        scrollZoom : true
+    });
+
+
 });
 
 function DCCheckStatus(result){
     console.log(result);
+}
+
+
+function replaseBasketTop() {
+    $.ajax({
+        url: '/ajax/basket.php',
+        type: 'get',
+        success: function (data) {
+            $('.header_cart').replaceWith(data);
+        }
+    });
+}
+function addToBasket2(idel, quantity, el) {
+    $href = "/ajax/add.php?id="+idel;
+    var _result = true;
+    $.ajax({
+        url: $href + '&quantity=' + quantity,
+        type: 'get',
+        success: function (data) {
+            if (data == 'Товар успешно добавлен в корзину') {
+                replaseBasketTop();
+                alertify.success(data);
+            } else {
+                alertify.error(data);
+                _result = false;
+            }
+        }
+    });
+
+    return false;
 }

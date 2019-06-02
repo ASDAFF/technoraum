@@ -205,7 +205,7 @@ if($url[1] != "personal" && $url[2] != "order" && $url[3] != "make")
 				<div class="breadcrumbs inner_section">
 					<?$APPLICATION->IncludeComponent("bitrix:breadcrumb", "", array("START_FROM" => "0","PATH" => "","SITE_ID" => "-"),false,Array('HIDE_ICONS' => 'Y'));?>
 				</div>
-				<section class="section the_content_section padd_bottom0">	
+				<section class="section <?if(!CSite::InDir('/spares/')):?>the_content_section<?endif;?> padd_bottom0">
 					<div class="inner_section clearfix">
 						<div class="main_title">
 							<h1><?$APPLICATION->ShowTitle(false)?></h1>

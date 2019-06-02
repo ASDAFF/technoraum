@@ -17,14 +17,13 @@ $this->setFrameMode(true);
 
     <? foreach ($arResult['SECTIONS'] as &$arSection): ?>
 
-    <div class="col-md-6">
-        <div class="item-sections">
-
-           <img class="sections-img" src="<? echo $arSection['PICTURE']['SRC']; ?>" width="100">
-           <a class="section-title" href="<? echo $arSection['SECTION_PAGE_URL']; ?>"><? echo $arSection['NAME']; ?></a>
-
+        <div class="col-md-6">
+            <div class="item-sections">
+               <img class="sections-img" src="<? echo $arSection['PICTURE']['SRC']; ?>" width="100">
+               <a class="section-title" href="<? echo $arSection['SECTION_PAGE_URL']; ?>"><? echo $arSection['NAME']; ?></a>
+            </div>
         </div>
-    </div>
+
     <?endforeach; ?>
 
 </div>

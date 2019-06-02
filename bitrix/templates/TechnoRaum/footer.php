@@ -352,8 +352,13 @@ if($_SERVER["REQUEST_URI"] != "/")
 			//tree menu
 			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/js/tree-menu/css/dtree.css");
 
+			//alertifyjs
+			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/js/alertifyjs/css/alertify.min.css");
+			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/js/alertifyjs/css/themes/default.min.css");
+
 
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery-1.11.0.min.js");
+			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/bootstrap.min.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery.fancybox.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery.flexslider-min.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery.validate.js");
@@ -385,6 +390,15 @@ if($_SERVER["REQUEST_URI"] != "/")
 
             //tree menu
             $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/tree-menu/js/dtree.js");
+
+            //cookie
+            $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.cookie.js");
+
+            //jQuery elevateZoom 3.0.8
+            $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.elevatezoom.js");
+
+            //alertify js
+            $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/alertifyjs/alertify.min.js");
 
             //custom script
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/script.js");
