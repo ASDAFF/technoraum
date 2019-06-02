@@ -1,5 +1,4 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-<?
+<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?><?
 IncludeTemplateLangFile(__FILE__);
 
 $url = $_SERVER["REQUEST_URI"];
@@ -29,6 +28,7 @@ if($url[1] != "personal" && $url[2] != "order" && $url[3] != "make")
     <!-- End Google Tag Manager -->
 
 		<meta name="yandex-verification" content="dd3124205879e327" />
+<meta name="google-site-verification" content="ccjrPE4dXLJ5OSnSmsPlY3D2BFpidw66j04twxL5M5M" />
 		<?$APPLICATION->ShowHead();?>
 		<title><?$APPLICATION->ShowTitle()?></title>
 		<meta name="viewport" content="width=device-width">

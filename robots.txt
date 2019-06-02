@@ -1,9 +1,7 @@
-User-agent: *
+User-Agent: *
 Disallow: /*index.php$
-Disallow: /bitrix/
 Disallow: /auth/
 Disallow: /personal/
-Disallow: /upload/
 Disallow: /search/
 Disallow: /*/search/
 Disallow: /*/slide_show/
@@ -46,6 +44,5 @@ Disallow: /*PAGE_NAME=detail_slide_show
 Disallow: /*SHOWALL
 Disallow: /*show_all=
 Disallow: /*filter
-
 Host: https://technoraum.ru/
 Sitemap: https://technoraum.ru/sitemap.xml

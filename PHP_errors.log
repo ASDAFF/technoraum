@@ -362,3 +362,27 @@ Stack trace:
 [22-May-2019 18:01:14 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
 [22-May-2019 18:01:46 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
 [22-May-2019 18:01:52 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[24-May-2019 07:58:16 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[24-May-2019 09:44:23 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[24-May-2019 10:00:10 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
+[24-May-2019 11:54:06 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[24-May-2019 11:54:06 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[27-May-2019 17:23:54 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[27-May-2019 17:23:57 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[27-May-2019 17:23:59 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[27-May-2019 17:24:05 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[27-May-2019 17:24:06 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[27-May-2019 17:24:08 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[27-May-2019 17:24:14 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[27-May-2019 17:24:17 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[27-May-2019 17:24:20 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[27-May-2019 17:24:21 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[27-May-2019 17:24:23 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[27-May-2019 17:24:28 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[28-May-2019 12:28:21 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[28-May-2019 12:28:24 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[28-May-2019 12:29:10 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[28-May-2019 12:39:49 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
+[28-May-2019 15:32:31 Europe/Moscow] PHP Warning:  Unknown: POST data can't be buffered; all data discarded in Unknown on line 0
+[30-May-2019 14:23:48 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[31-May-2019 10:39:31 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
