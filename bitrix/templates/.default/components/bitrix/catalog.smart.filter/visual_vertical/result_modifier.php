@@ -33,3 +33,6 @@ else
 	$arParams["TEMPLATE_THEME"] = "blue";
 }
 $arParams["POPUP_POSITION"] = (isset($arParams["POPUP_POSITION"]) && in_array($arParams["POPUP_POSITION"], array("left", "right"))) ? $arParams["POPUP_POSITION"] : "left";
+
+global $sotbitFilterResult;
+$sotbitFilterResult = $arResult;

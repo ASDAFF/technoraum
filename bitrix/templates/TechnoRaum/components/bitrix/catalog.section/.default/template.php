@@ -179,15 +179,21 @@ if($arParams["DISPLAY_BOTTOM_PAGER"])
 <div class="clear"></div>
 <div>
 	<?
-	$arDescs = array();
-	foreach($arResult['~UF_DESCRIPTION'] as $desc){
-		$descs = explode(";",$desc,2);
-		$arDescs[$descs[0]] = $descs[1];
-	}
-	if (isset($arDescs[SITE_ID])) {
-		echo $arDescs[SITE_ID];
-	}else{
-		echo $GLOBALS["SECTION_DESCRIPTION"];
-	}
+    global $sotbitSeoMetaBottomDesc;//для установки нижнего описания
+
+    if($sotbitSeoMetaBottomDesc){
+        echo $sotbitSeoMetaBottomDesc;//вывод нижнего описания
+    }else{
+        $arDescs = array();
+        foreach($arResult['~UF_DESCRIPTION'] as $desc){
+            $descs = explode(";",$desc,2);
+            $arDescs[$descs[0]] = $descs[1];
+        }
+        if (isset($arDescs[SITE_ID])) {
+            echo $arDescs[SITE_ID];
+        }else{
+            echo $GLOBALS["SECTION_DESCRIPTION"];
+        }
+    }
 	?>
 </div>

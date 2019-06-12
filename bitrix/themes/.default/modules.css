@@ -7098,6 +7098,9 @@ a.product-unavailable:hover{
 .adm-workarea-sender {
     padding: 6px 20px 0 20px;
 }
+.seometa_menu_icon{
+    background: url("icons/sotbit.seometa/icon.png") no-repeat center;
+}
 .subscribe_border {border:1px solid #BDC6E0; padding:4px;}
 
 /*Menu icon*/
