@@ -412,3 +412,7 @@ Stack trace:
 [11-Jun-2019 22:26:14 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
 [11-Jun-2019 22:26:15 Europe/Moscow] PHP Notice:  Undefined variable: temp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 19
 [12-Jun-2019 11:10:35 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[13-Jun-2019 10:38:47 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[14-Jun-2019 10:19:08 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[17-Jun-2019 12:19:57 Europe/Moscow] PHP Notice:  Undefined index: comp in /home/t/technoraum/technoraum.ru/public_html/system.php on line 5
+[18-Jun-2019 15:55:56 Europe/Moscow] PHP Fatal error:  ob_start(): Cannot use output buffering in output buffering display handlers in /home/t/technoraum/technoraum.ru/public_html/bitrix/modules/main/lib/data/cache.php on line 346
