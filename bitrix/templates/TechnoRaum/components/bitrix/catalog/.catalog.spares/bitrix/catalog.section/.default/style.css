@@ -30,13 +30,17 @@
     border-top: 1px solid #ddd;
 }
 
-.table.section-element>thead>tr>th{
+.table.section-element>thead>tr>th,
+.table.table-stock>thead>tr>th
+{
     vertical-align: middle;
     font-size: 12px;
     text-align: center;
 }
 
-.table.section-element>tbody>tr>td{
+.table.section-element>tbody>tr>td,
+.table.table-stock>tbody>tr>td
+{
     color: #455560;
     font-weight: 200;
     font-size: 11px;
@@ -44,7 +48,7 @@
     vertical-align: middle;
 }
 
-.table.section-element>tbody>tr>td input{
+.table.section-element>tbody>tr>td input {
     text-align: center;
 }
 
@@ -55,4 +59,23 @@
 
 .table.section-element>tbody>tr>td.spares-cart:hover{
     background: #feee35;
+}
+
+.table.section-element .request-stock{
+    cursor: pointer;
+}
+
+#in-stock-request{
+    background: white;
+    height: 100%;
+}
+.fancybox-close-stock{
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: white;
+    padding: 0px 5px;
+    border-radius: 20px;
+    color: black;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }

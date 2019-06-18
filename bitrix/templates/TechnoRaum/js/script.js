@@ -207,6 +207,34 @@ $( function() {
     });
 
 
+
+    $('.section-element .request-stock').click(function () {
+       $stock_list = {};
+       $arIds = [];
+       $('.table-striped.section-element input[type="checkbox"]:checked').each(function (li,el) {
+           $arIds[li] = $(el).val();
+           $stock_list.ib = $(el).attr('data-ib');
+       });
+       if($stock_list.ib){
+               $stock_list.id = $arIds;
+
+               $.post("/ajax/in-stock-request.php", $stock_list, function (data) {
+                    $.fancybox({
+                        content : data,
+                        tpl:{
+                            closeBtn : '<a title="Close" class="fancybox-close-stock" href="javascript:;"><i class="fa fa-times"></i></a>'
+                        }
+                    });
+               }
+           );
+
+       }else{
+           alertify.error("change");
+       }
+    });
+
+
+
 });
 
 function DCCheckStatus(result){

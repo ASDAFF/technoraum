@@ -82,7 +82,16 @@ $this->setFrameMode(true);
                         <td><?=$arItem['PROPERTIES']['COUNT_COMPLECT']['VALUE']?></td>
                         <td><?=$arItem['PRICES']['price']['PRINT_DISCOUNT_VALUE']?></td>
                         <td id="spares_count_<?=$arItem['ID']?>"><input type="text" value="1" size="1"></td>
-                        <td>@mdo</td>
+                        <td>
+                            <div class="vertic">
+                                <div class="zaprosc1">
+                                    <input type="checkbox" value="<?=$arItem['ID']?>" data-ib="<?=$arItem['IBLOCK_ID']?>">
+                                    <div class="zaprosbott">
+                                        <div class="request-stock">Запрос наличия</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
                         <td class="spares-cart">
                             <a href="javascript:void(0)" onclick="addToBasket2(<?=$arItem['ID']?>, $('#spares_count_<?=$arItem['ID']?> input').val(),this);">
                                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
@@ -91,7 +100,6 @@ $this->setFrameMode(true);
                         </td>
                     </tr>
                 <?endforeach;?>
-
                 </tbody>
             </table>
 
