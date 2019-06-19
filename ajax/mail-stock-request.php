@@ -8,7 +8,7 @@ if(!$_REQUEST['email'])
 
 $arFields = array(
     "EMAIL" => $_REQUEST['email'],
-    "TABLE" => $_REQUEST['table']
+    "TABLE" => iconv("UTF-8","CP1251",trim($_REQUEST['table']))
 );
 
 if(CEvent::Send("MAIL_STOCK_LIST", SITE_ID, $arFields)):
