@@ -69,6 +69,45 @@
     background: white;
     height: 100%;
 }
+#in-stock-request .form-stock{
+    text-align: center;
+    margin-top: 50px;
+}
+#in-stock-request .form-stock .mail-stock{
+    margin-bottom: 15px;
+}
+#in-stock-request .form-stock .mail-stock input{
+    height: 40px;
+    max-width: 100%;
+    border: 2px solid #eee;
+    box-sizing: border-box;
+    padding: 0 10px;
+    text-align: center;
+}
+#in-stock-request .form-stock .btn-stock {
+    margin-bottom: 10px;
+}
+#in-stock-request .form-stock .btn-stock a{
+    border-color: #feee35;
+    font-size: 14px;
+    color: #111;
+    padding: 10px 15px;
+    background: #feee35;
+    display: inline-block;
+}
+#in-stock-request .form-stock .btn-stock a:hover{
+    text-decoration: none;
+}
+
+#in-stock-request .stock-msg-send{
+    text-align: center;
+    padding: 25px 10px;
+}
+#in-stock-request .stock-msg-send h1{
+    font-size: 25px;
+    margin-top: 10px;
+}
+
 .fancybox-close-stock{
     position: absolute;
     top: -10px;

@@ -225,12 +225,38 @@ $( function() {
                             closeBtn : '<a title="Close" class="fancybox-close-stock" href="javascript:;"><i class="fa fa-times"></i></a>'
                         }
                     });
-               }
-           );
+               });
 
        }else{
-           alertify.error("change");
+           alertify.error("Выберите запчасть");
        }
+    });
+
+    $('body').on('click','#in-stock-request .send-mail-stock',function () {
+       $table = $(this).closest('#in-stock-request').find('.table-stock').html();
+       $email = $(this).closest('#in-stock-request').find('.mail-stock input').val();
+       if($email){
+
+           $.post("/ajax/mail-stock-request.php", {email : $email, table : $table}, function (data) {
+               if(data){
+                   $.fancybox({
+                       content : data,
+                       tpl:{
+                           closeBtn : '<a title="Close" class="fancybox-close-stock" href="javascript:;"><i class="fa fa-times"></i></a>'
+                       }
+                   });
+               }else{
+                   alertify.error("Введите email");
+               }
+           });
+       }else{
+           alertify.error("Введите email");
+       }
+    });
+
+    $('body').on('click','#in-stock-request .delete-stock-item',function () {
+        $(this).closest('tr').remove();
+        return false;
     });
 
 

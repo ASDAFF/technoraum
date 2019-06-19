@@ -37,11 +37,21 @@ if(CModule::IncludeModule( 'catalog' ) && count($ID) > 0):?>
                     <td><?=$arProps['COUNT_COMPLECT']['VALUE']?></td>
                     <td><?=CCurrencyLang::CurrencyFormat($arFields['CATALOG_PRICE_1'],$arFields['CATALOG_CURRENCY_1'])?></td>
                     <td>Запрос наличие</td>
-                    <td><a href="javascript:void(0)" class="delete-stock-item"><i class="fa fa-times"></i></a></td>
+                    <td><a href="#" class="delete-stock-item"><i class="fa fa-times"></i></a></td>
                 </tr>
             <?endwhile;?>
             </tbody>
         </table>
+
+        <div class="form-stock">
+            <div class="mail-stock">
+                <input type="email" placeholder="введите свой e-mail" required>
+            </div>
+            <div class="btn-stock">
+                <a href="javascript:void(0)" onclick="$.fancybox.close( true )" class="close-stock">Добавить деталь</a>
+                <a href="javascript:void(0)" class="send-mail-stock">Отправить запрос</a>
+            </div>
+        </div>
 
     </div>
 
