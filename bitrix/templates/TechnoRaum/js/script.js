@@ -233,12 +233,15 @@ $( function() {
     });
 
     $('body').on('click','#in-stock-request .send-mail-stock',function () {
-       $table = $(this).closest('#in-stock-request').find('.table-stock').html();
+       $table = $(this).closest('#in-stock-request').find('table').html();
        $email = $(this).closest('#in-stock-request').find('.mail-stock input').val();
+
        if($email){
 
            $.post("/ajax/mail-stock-request.php", {email : $email, table : $table}, function (data) {
                if(data){
+                   //console.log(data);
+                   //return false;
                    $.fancybox({
                        content : data,
                        tpl:{
