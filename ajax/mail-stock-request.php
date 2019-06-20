@@ -9,8 +9,8 @@ if(!$_REQUEST['email'])
 $result = \Bitrix\Main\Text\Encoding::convertEncoding($_REQUEST,"UTF-8", "windows-1251");
 
 $arFields = array(
-    "EMAIL" => $result['email'],
-    "TABLE" => htmlspecialchars_decode($result['table'])
+    "EMAIL" => $_REQUEST['email'],
+    "TABLE" => $_REQUEST['table']
 );
 
 if(CEvent::Send("MAIL_STOCK_LIST", SITE_ID, $arFields)):
