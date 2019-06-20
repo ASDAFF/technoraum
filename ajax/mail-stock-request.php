@@ -2,14 +2,15 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 define("STOP_STATISTICS", true);
 CModule::IncludeModule( 'catalog' );
-global $APPLICATION;
 
 if(!$_REQUEST['email'])
     die;
 
+$result = \Bitrix\Main\Text\Encoding::convertEncoding($_REQUEST,"UTF-8", "windows-1251");
+
 $arFields = array(
-    "EMAIL" => $_REQUEST['email'],
-    "TABLE" => $APPLICATION->ConvertCharset($_REQUEST['table'], "UTF-8", "windows-1251")
+    "EMAIL" => $result['email'],
+    "TABLE" => $result['table']
 );
 
 if(CEvent::Send("MAIL_STOCK_LIST", SITE_ID, $arFields)):
