@@ -10,7 +10,7 @@ $result = \Bitrix\Main\Text\Encoding::convertEncoding($_REQUEST,"UTF-8", "window
 
 $arFields = array(
     "EMAIL" => $result['email'],
-    "TABLE" => '<table>'.$result['table'].'</table>'
+    "TABLE" => '<table align="center" cellspacing="0" border="1" cellpadding="0" width="100%">'.$result['table'].'</table>'
 );
 
 if(CEvent::Send("MAIL_STOCK_LIST", SITE_ID, $arFields)):

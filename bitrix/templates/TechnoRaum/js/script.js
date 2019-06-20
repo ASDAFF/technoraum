@@ -240,8 +240,6 @@ $( function() {
 
            $.post("/ajax/mail-stock-request.php", {email : $email, table : $table}, function (data) {
                if(data){
-                   //console.log(data);
-                   //return false;
                    $.fancybox({
                        content : data,
                        tpl:{
