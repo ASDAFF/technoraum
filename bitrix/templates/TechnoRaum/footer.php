@@ -367,6 +367,9 @@ if($_SERVER["REQUEST_URI"] != "/")
 			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/js/alertifyjs/css/alertify.min.css");
 			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/js/alertifyjs/css/themes/default.min.css");
 
+            //imgNotes
+			$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH."/js/imgNotes/imgNotes.min.css");
+
 
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/jquery-1.11.0.min.js");
 			$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/css/bootstrap.min.js");
@@ -405,8 +408,12 @@ if($_SERVER["REQUEST_URI"] != "/")
             //cookie
             $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.cookie.js");
 
-            //jQuery elevateZoom 3.0.8
-            $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/jquery.elevatezoom.js");
+            //jQuery imgNotes
+            $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/imgNotes/jquery.mousewheel.js");
+            $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/imgNotes/hammer.min.js");
+            $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/imgNotes/jquery.hammer.js");
+            $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/imgNotes/imgViewer.min.js");
+            $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/imgNotes/imgNotes.min.js");
 
             //alertify js
             $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/alertifyjs/alertify.min.js");

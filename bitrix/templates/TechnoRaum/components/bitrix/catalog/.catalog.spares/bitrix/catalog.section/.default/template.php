@@ -18,7 +18,7 @@ $this->setFrameMode(true);
     <? if($arResult['UF_DETAIL_SPARES']): ?>
     <div class="row">
         <div class="col-md-12">
-            <img src="<?=CFile::GetPath($arResult['UF_DETAIL_SPARES']);?>" data-zoom-image="<?=CFile::GetPath($arResult['UF_DETAIL_SPARES']);?>" id="zoom_dt">
+            <img src="<?=CFile::GetPath($arResult['UF_DETAIL_SPARES']);?>" id="zoom_dt" width="100%">
         </div>
     </div>
     <?endif;?>

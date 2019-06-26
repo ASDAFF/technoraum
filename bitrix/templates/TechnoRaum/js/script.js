@@ -210,10 +210,22 @@ $( function() {
         $('.table-striped').popover('hide');
     });
 
-    $("#zoom_dt").elevateZoom({
-        zoomType : "lens",
-        scrollZoom : true
+    //Деталировка spares
+
+    var default_notes = [
+            {x: "0.56", y:"0.100", note:"1"},
+            {x: "0.322", y:"0.269", note: '2'},
+            {x: "0.824", y: "0.593", note: "3"}
+        ];
+
+    var $imgd = $("#zoom_dt").imgNotes({
+        onReady: function() {
+            this.import(default_notes);
+        }
     });
+
+
+
 
 
 
