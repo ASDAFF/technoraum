@@ -186,7 +186,19 @@ $APPLICATION->SetTitle("Каталог запчастей");
 		)
 	),
 	false
-);?>
+);
+
+?>
 <!--end content page-->
+
+
+    <!--imgNotes-->
+    <link rel="stylesheet" href="<?=SITE_TEMPLATE_PATH."/js/imgNotes/imgNotes.min.css"?>" media="screen">
+    <script src="<?=SITE_TEMPLATE_PATH."/js/imgNotes/jquery.mousewheel.js"?>"></script>
+
+    <script src="<?=SITE_TEMPLATE_PATH."/js/imgNotes/hammer.min.js"?>"></script>
+    <script src="<?=SITE_TEMPLATE_PATH."/js/imgNotes/jquery.hammer.js"?>"></script>
+    <script src="<?=SITE_TEMPLATE_PATH."/js/imgNotes/imgViewer.min.js"?>"></script>
+    <script src="<?=SITE_TEMPLATE_PATH."/js/imgNotes/imgNotes.min.js"?>"></script>
 
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
