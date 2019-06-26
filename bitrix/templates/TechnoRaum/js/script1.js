@@ -67,10 +67,6 @@ $( function() {
             locationCredit = $( "#locationCredit" ),
             sectionProd = $( "#sectionProd" ),
             rule = $( "#rule" ),
-			price = $('input[name=price]').val(),
-			namep = $('input[name=product_name]').val(),
-			sku = $('.card_article span').text(),
-			location = window.location.href,
 
             allFields = $( [] ).add( name ).add( phoneCredit ),
             tips = $( ".validateTips" );
@@ -128,11 +124,6 @@ $( function() {
                     firstName: fioCredit.val(),
                     phone: phoneCredit.val().replace(/\D+/g,"").slice(1),
                     shop: locationCredit.find('option:selected').text(),
-					price: price,
-					namep: namep,
-					form: 'form_credit',
-					sku: sku,
-					location: location,
                 },function(data){});
 
                 dialog.dialog( "close" );
