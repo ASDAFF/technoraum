@@ -210,25 +210,6 @@ $( function() {
         $('.table-striped').popover('hide');
     });
 
-    //Деталировка spares
-
-    var default_notes = [
-            {x: "0.0750", y:"0.1", note:"Один"},
-            {x: "0.322", y:"0.269", note: 'Два'},
-            {x: "0.824", y: "0.593", note: "Три"}
-        ];
-
-    var $imgd = $("#zoom_dt").imgNotes({
-        onReady: function() {
-            this.import(default_notes);
-        }
-    });
-
-
-
-
-
-
     $('.section-element .request-stock').click(function () {
        $stock_list = {};
        $arIds = [];
