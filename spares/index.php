@@ -202,21 +202,18 @@ $APPLICATION->SetTitle("Каталог запчастей");
     <script src="<?=SITE_TEMPLATE_PATH."/js/imgNotes/imgNotes.min.js"?>"></script>
 
     <script>
-        $(document).ready(function(){
         //Деталировка spares
-            var default_notes = [
-                {x: "0.0750", y:"0.1", note:"Один"},
-                {x: "0.322", y:"0.269", note: 'Два'},
-                {x: "0.824", y: "0.593", note: "Три"}
-            ];
+        var default_notes = [
+            {x: "0.0750", y:"0.1", note:"Один"},
+            {x: "0.322", y:"0.269", note: 'Два'},
+            {x: "0.824", y: "0.593", note: "Три"}
+        ];
 
-            var $imgd = $("#zoom_dt").imgNotes({
-                onReady: function() {
-                    this.import(default_notes);
-                }
-            });
-
-        })(jQuery);
+        var $imgd = $("#zoom_dt").imgNotes({
+            onReady: function() {
+                this.import(default_notes);
+            }
+        });
     </script>
 
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
