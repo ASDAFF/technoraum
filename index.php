@@ -474,9 +474,9 @@ $APPLICATION->SetTitle("Купить технику Karcher в Краснодаре на официальном сайте
 
 <section class="section seo_section">
 <div class="inner_section the_content_section clearfix">
-	<? $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH."/include/seo_h2.php",Array(),Array("MODE"=>"html")); ?>
+	<? $APPLICATION->IncludeFile("/include/seo_h2.php",Array(),Array("MODE"=>"html")); ?>
 	<div>
-		<? $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH."/include/seo_text.php",Array(),Array("MODE"=>"html")); ?>
+		<? $APPLICATION->IncludeFile("/include/seo_text.php",Array(),Array("MODE"=>"html")); ?>
 	</div>
 </div>
  </section><!--/seo_section-->
